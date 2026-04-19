@@ -1,4 +1,6 @@
 
+import json
+
 from pathlib import Path
 from novel_pipeline.stages.translate import format_glossary_subset, parse_literal_pairs
 from novel_pipeline.artifacts import batch_glossary_scan_artifact_path
@@ -912,6 +914,161 @@ def test_status_run_fetched_only_pre_batch():
             summary = result["chapter_summary"][chapter_id]
             assert summary["pending_blocks"] == []
             assert summary.get("batch_pending_stage") == "glossary_scanned"
+
+
+def test_status_run_reports_effective_failure_fields():
+    """status_run exposes historical and effective failure fields."""
+    from novel_pipeline.pipeline import status_run
+    from novel_pipeline.ledger import ResumeState
+    from novel_pipeline.types import AppConfig, RunRecord
+    from unittest.mock import Mock, patch
+    import tempfile
+    from pathlib import Path
+
+    rid = "batch-ch004-ch005-v1"
+    completed = RunRecord.new(
+        run_id=rid,
+        block_id="ch004-block-001",
+        stage="translating",
+        status="completed",
+        provider="gemini",
+    )
+    failed = RunRecord.new(
+        run_id=rid,
+        block_id="ch004-block-001",
+        stage="qa",
+        status="failed",
+        provider="gemini",
+    )
+    hard_fail = RunRecord.new(
+        run_id=rid,
+        block_id="ch005-block-001",
+        stage="qa",
+        status="hard_fail",
+        provider="local",
+    )
+    state = ResumeState(
+        run_id=rid,
+        records=(completed, failed, hard_fail),
+        latest_by_block={
+            "ch004-block-001": failed,
+            "ch005-block-001": hard_fail,
+        },
+        latest_by_stage={
+            ("ch004-block-001", "translating"): completed,
+            ("ch004-block-001", "qa"): failed,
+            ("ch005-block-001", "qa"): hard_fail,
+        },
+        records_by_block={
+            "ch004-block-001": [completed, failed],
+            "ch005-block-001": [hard_fail],
+        },
+    )
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        work_dir = base / "04_Work"
+        raw_dir = base / "03_Raw"
+        output_dir = base / "05_Output"
+        work_dir.mkdir()
+        raw_dir.mkdir()
+        output_dir.mkdir()
+
+        config = Mock(spec=AppConfig)
+        config.workspace.work = work_dir
+        config.workspace.raw = raw_dir
+        config.workspace.output = output_dir
+        config.ledger_path = base / "06_Logs" / "ledger.jsonl"
+        config.source_language = "zh"
+        config.chunking.chinese_character_limit = 600
+        config.chunking.non_chinese_word_limit = 300
+        config.novel_id = "test"
+
+        mock_ledger = Mock()
+        mock_ledger.path.exists.return_value = True
+        mock_ledger.load_state.return_value = state
+
+        with patch("novel_pipeline.pipeline.RunLedger", return_value=mock_ledger):
+            with patch("novel_pipeline.pipeline._get_batch_chapter_ids", return_value=None):
+                with patch("novel_pipeline.pipeline._load_chapter_source_and_blocks", side_effect=Exception("source missing")):
+                    result = status_run(config=config, run_id=rid)
+
+    assert result["historical_failed_records"] == 2
+    assert result["current_failed_blocks"] == ("ch004-block-001", "ch005-block-001")
+    assert result["next_effective_action"] == result["manual_actions"][0]
+    assert result["next_effective_action"].startswith("inspect failed blocks")
+
+
+def test_validate_formatted_text_detects_problem_markers():
+    """validate_formatted_text catches provider/meta text, Han text, and quote-only lines."""
+    from novel_pipeline.pipeline import validate_formatted_text
+
+    issues = validate_formatted_text('Gemini stdout\n你好\n"\n')
+    assert any("provider/meta marker: gemini" == issue for issue in issues)
+    assert any("provider/meta marker: stdout" == issue for issue in issues)
+    assert "Han Chinese characters present" in issues
+    assert "quote-only line 3" in issues
+
+
+def test_qa_escalation_stop_raises_without_input():
+    """Manual-action stop mode raises without prompting for input."""
+    from novel_pipeline.pipeline import ManualActionRequired, _qa_escalation_prompt
+    from novel_pipeline.types import QAFinding, QAReport
+    from unittest.mock import patch
+
+    report = QAReport(
+        block_id="ch019-block-003",
+        chapter_id="ch019",
+        passed=False,
+        findings=(QAFinding(severity="high", code="omission", message="Missing sentence"),),
+        feedback="Missing content",
+    )
+    with patch("builtins.input") as mock_input:
+        try:
+            _qa_escalation_prompt(
+                report,
+                block_id="ch019-block-003",
+                stage="qa",
+                manual_action_mode="stop",
+            )
+            assert False, "Expected ManualActionRequired"
+        except ManualActionRequired as exc:
+            assert "ch019-block-003" in str(exc)
+            assert "qa" in str(exc)
+    mock_input.assert_not_called()
+
+
+def test_format_command_rejects_invalid_formatted_text():
+    """format_command refuses to commit a formatted artifact when validation fails."""
+    from novel_pipeline.pipeline import format_command
+    from unittest.mock import Mock, patch
+
+    config = Mock()
+    config.ledger_path = Mock()
+    config.workspace = Mock()
+    config.workspace.output = Mock()
+
+    mock_ledger = Mock()
+    mock_ledger.has_committed.return_value = False
+
+    with patch("novel_pipeline.pipeline.RunLedger", return_value=mock_ledger), \
+         patch("novel_pipeline.pipeline._read_block_artifact", return_value={"refined_text": "raw"}), \
+         patch("novel_pipeline.pipeline.format_block_text", return_value="Gemini stdout"), \
+         patch("novel_pipeline.pipeline._write_block_artifact") as mock_write, \
+         patch("novel_pipeline.pipeline._commit_stage") as mock_commit:
+        try:
+            format_command(
+                config=config,
+                chapter_id="ch019",
+                block_id="ch019-block-003",
+                run_id="batch-ch019-ch023-v1",
+            )
+            assert False, "Expected ValueError"
+        except ValueError as exc:
+            assert "validation failed" in str(exc).lower()
+
+    mock_write.assert_not_called()
+    assert any(call.args[4] == "failed" for call in mock_commit.call_args_list)
 def test_stage_routing_parses_scan_budget_fields():
     """StageRouting.from_mapping parses max_calls_per_scan and max_failures_per_scan."""
     from novel_pipeline.types import StageRouting
@@ -1138,6 +1295,451 @@ def test_cli_parser_accepts_stop_after_flag():
     assert args.run_id == "batch-ch004-ch008-v2"
     assert args.stop_after == "glossary-scan"
     print("✓ CLI parser accepts batch stop flag")
+
+
+def test_cli_parser_accepts_resume_manual_action_mode_stop():
+    """CLI parser accepts resume --manual-action-mode stop."""
+    from novel_pipeline.cli import build_parser
+    parser = build_parser()
+    args = parser.parse_args([
+        "--config", "dummy.yaml",
+        "resume",
+        "--run-id", "batch-ch019-ch023-v1",
+        "--manual-action-mode", "stop",
+    ])
+    assert args.command == "resume"
+    assert args.run_id == "batch-ch019-ch023-v1"
+    assert args.manual_action_mode == "stop"
+
+
+def test_cli_parser_accepts_resume_bounded_flags():
+    """CLI parser accepts resume bounded flags."""
+    from novel_pipeline.cli import build_parser
+    parser = build_parser()
+    args = parser.parse_args([
+        "--config", "dummy.yaml",
+        "resume",
+        "--run-id", "batch-ch019-ch023-v1",
+        "--until-chapter", "ch020",
+        "--until-block", "ch019-block-006",
+    ])
+    assert args.command == "resume"
+    assert args.until_chapter == "ch020"
+    assert args.until_block == "ch019-block-006"
+
+
+def test_cli_parser_accepts_inspect_block():
+    """CLI parser accepts inspect-block."""
+    from novel_pipeline.cli import build_parser
+    parser = build_parser()
+    args = parser.parse_args([
+        "--config", "dummy.yaml",
+        "inspect-block",
+        "--run-id", "batch-ch019-ch023-v1",
+        "--block-id", "ch019-block-003",
+    ])
+    assert args.command == "inspect-block"
+    assert args.run_id == "batch-ch019-ch023-v1"
+    assert args.block_id == "ch019-block-003"
+
+
+def test_cmd_resume_returns_two_on_manual_action_required():
+    """cmd_resume returns 2 when manual action is required."""
+    from novel_pipeline.cli import cmd_resume
+    from novel_pipeline.pipeline import ManualActionRequired
+    from unittest.mock import Mock, patch
+    from io import StringIO
+    import sys
+
+    config = Mock()
+    config.ledger_path = Mock()
+
+    args = Mock(
+        run_id="batch-ch019-ch023-v1",
+        force=False,
+        manual_action_mode="stop",
+        until_chapter=None,
+        until_block=None,
+    )
+
+    stderr = StringIO()
+    original_stderr = sys.stderr
+    try:
+        sys.stderr = stderr
+        with patch("novel_pipeline.cli.resume_pipeline", side_effect=ManualActionRequired("Manual action required for block ch019-block-003 at stage 'qa'.")) as mock_resume:
+            result = cmd_resume(args, config)
+            mock_resume.assert_called_once_with(
+                config=config,
+                run_id="batch-ch019-ch023-v1",
+                force=False,
+                manual_action_mode="stop",
+                until_chapter=None,
+                until_block=None,
+            )
+    finally:
+        sys.stderr = original_stderr
+
+    assert result == 2
+    assert "[MANUAL ACTION REQUIRED]" in stderr.getvalue()
+
+
+def test_resume_pipeline_stops_before_chapter_after_until_chapter():
+    """resume_pipeline batch mode stops before chapters after until_chapter."""
+    from novel_pipeline.pipeline import resume_pipeline
+    from novel_pipeline.ledger import ResumeState
+    from novel_pipeline.types import RunRecord
+    from unittest.mock import Mock, patch
+
+    config = Mock()
+    config.ledger_path = Mock()
+    config.workspace.logs_dir = Mock()
+    config.workspace.prompts = Mock()
+    config.workspace.raw = Mock()
+    config.workspace.output = Mock()
+    config.workspace.glossary_dir = Mock()
+
+    state = ResumeState(
+        run_id="batch-ch019-ch023-v1",
+        records=(
+            RunRecord.new(
+                run_id="batch-ch019-ch023-v1",
+                block_id="ch019",
+                stage="fetched",
+                status="completed",
+                provider="local",
+            ),
+        ),
+        latest_by_block={
+            "ch019": RunRecord.new(
+                run_id="batch-ch019-ch023-v1",
+                block_id="ch019",
+                stage="fetched",
+                status="completed",
+                provider="local",
+            ),
+        },
+        latest_by_stage={
+            ("ch019", "fetched"): RunRecord.new(
+                run_id="batch-ch019-ch023-v1",
+                block_id="ch019",
+                stage="fetched",
+                status="completed",
+                provider="local",
+            ),
+        },
+        records_by_block={
+            "ch019": [
+                RunRecord.new(
+                    run_id="batch-ch019-ch023-v1",
+                    block_id="ch019",
+                    stage="fetched",
+                    status="completed",
+                    provider="local",
+                )
+            ],
+        },
+    )
+
+    mock_ledger = Mock()
+    mock_ledger.load_state.return_value = state
+
+    with patch("novel_pipeline.pipeline.RunLedger", return_value=mock_ledger), \
+         patch("novel_pipeline.pipeline.PromptStore"), \
+         patch("novel_pipeline.pipeline._load_or_create_glossary_index", return_value={}), \
+         patch("novel_pipeline.pipeline._get_batch_chapter_ids", return_value=["ch019", "ch020", "ch021"]), \
+         patch("novel_pipeline.pipeline._resume_chapter", return_value=False) as mock_resume:
+        resume_pipeline(
+            config=config,
+            run_id="batch-ch019-ch023-v1",
+            until_chapter="ch020",
+        )
+
+    chapters = [call.kwargs["chapter_id"] for call in mock_resume.call_args_list]
+    assert chapters == ["ch019", "ch020"]
+
+
+def test_resume_chapter_stops_after_until_block():
+    """_resume_chapter stops before blocks after until_block."""
+    from novel_pipeline.pipeline import _resume_chapter
+    from novel_pipeline.ledger import ResumeState
+    from novel_pipeline.types import TextBlock
+    from unittest.mock import Mock, patch
+    import tempfile
+    from pathlib import Path
+
+    chapter_id = "ch019"
+    until_block = "ch019-block-002"
+    block1 = TextBlock(block_id="ch019-block-001", chapter_id=chapter_id, source_text="a", source_language="zh")
+    block2 = TextBlock(block_id="ch019-block-002", chapter_id=chapter_id, source_text="b", source_language="zh")
+    block3 = TextBlock(block_id="ch019-block-003", chapter_id=chapter_id, source_text="c", source_language="zh")
+    state = ResumeState(run_id="batch-ch019-ch023-v1")
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        config = Mock()
+        config.ledger_path = base / "06_Logs" / "ledger.jsonl"
+        config.workspace.raw = base / "03_Raw"
+        config.workspace.prompts = base / "prompts"
+        config.workspace.templates_dir = base / "00_Templates"
+        config.workspace.glossary_dir = base / "01_Glossary"
+        config.workspace.output = base / "05_Output"
+        config.default_style_profile = "default"
+        config.source_language = "zh"
+        config.chunking.chinese_character_limit = 600
+        config.chunking.non_chinese_word_limit = 300
+        config.novel_id = "test"
+
+        source_payload = json.dumps({
+            "novel_id": "test",
+            "chapter_id": chapter_id,
+            "title": "Chapter",
+            "source_language": "zh",
+            "raw_text": "dummy",
+        })
+
+        mock_ledger = Mock()
+        mock_ledger.has_committed.side_effect = lambda **kwargs: kwargs.get("stage") in {"glossary_scanned", "glossary_approved"}
+
+        with patch("novel_pipeline.pipeline.read_text_if_exists", return_value=source_payload), \
+             patch("novel_pipeline.pipeline.PromptStore"), \
+             patch("novel_pipeline.pipeline.split_blocks", return_value=[block1, block2, block3]), \
+             patch("novel_pipeline.pipeline._load_or_create_glossary_index", return_value={}), \
+             patch("novel_pipeline.pipeline._process_block", side_effect=lambda ctx, block, style_key, force=False, force_from_stage=None, manual_action_mode="interactive": f"formatted-{block.block_id}") as mock_process, \
+             patch("novel_pipeline.pipeline._write_chapter_output") as mock_write:
+            stopped = _resume_chapter(
+                config=config,
+                ledger=mock_ledger,
+                run_id="batch-ch019-ch023-v1",
+                chapter_id=chapter_id,
+                glossary_index={},
+                state=state,
+                until_block=until_block,
+            )
+
+        assert stopped is True
+        assert [call.args[1].block_id for call in mock_process.call_args_list] == ["ch019-block-001", "ch019-block-002"]
+        mock_write.assert_called_once()
+
+
+def test_resume_chapter_stops_after_completed_until_block():
+    """_resume_chapter treats an already-complete until_block as found and stops after it."""
+    from novel_pipeline.pipeline import _resume_chapter
+    from novel_pipeline.ledger import ResumeState
+    from novel_pipeline.types import RunRecord, TextBlock
+    from unittest.mock import Mock, patch
+    import json
+    import tempfile
+    from pathlib import Path
+
+    run_id = "batch-ch019-ch023-v1"
+    chapter_id = "ch019"
+    until_block = "ch019-block-002"
+    block1 = TextBlock(block_id="ch019-block-001", chapter_id=chapter_id, source_text="a", source_language="zh")
+    block2 = TextBlock(block_id=until_block, chapter_id=chapter_id, source_text="b", source_language="zh")
+    block3 = TextBlock(block_id="ch019-block-003", chapter_id=chapter_id, source_text="c", source_language="zh")
+    stage_order = ["translating", "refining", "qa", "formatting", "completed"]
+    records = tuple(
+        RunRecord.new(run_id=run_id, block_id=block.block_id, stage=stage, status="completed", provider="local")
+        for block in (block1, block2)
+        for stage in stage_order
+    )
+    state = ResumeState(
+        run_id=run_id,
+        records=records,
+        latest_by_stage={
+            (record.block_id, record.stage): record
+            for record in records
+        },
+        records_by_block={
+            block.block_id: [record for record in records if record.block_id == block.block_id]
+            for block in (block1, block2)
+        },
+    )
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        config = Mock()
+        config.ledger_path = base / "06_Logs" / "ledger.jsonl"
+        config.workspace.raw = base / "03_Raw"
+        config.workspace.prompts = base / "prompts"
+        config.workspace.templates_dir = base / "00_Templates"
+        config.workspace.glossary_dir = base / "01_Glossary"
+        config.workspace.output = base / "05_Output"
+        config.default_style_profile = "default"
+        config.source_language = "zh"
+        config.chunking.chinese_character_limit = 600
+        config.chunking.non_chinese_word_limit = 300
+        config.novel_id = "test"
+
+        source_payload = json.dumps({
+            "novel_id": "test",
+            "chapter_id": chapter_id,
+            "title": "Chapter",
+            "source_language": "zh",
+            "raw_text": "dummy",
+        })
+
+        mock_ledger = Mock()
+        mock_ledger.has_committed.side_effect = (
+            lambda **kwargs: kwargs.get("stage") in {"glossary_scanned", "glossary_approved"}
+        )
+
+        def fake_read_artifact(config, chapter_id, block_id, stage):
+            if stage == "formatted":
+                return {"text": f"formatted-{block_id}"}
+            return None
+
+        with patch("novel_pipeline.pipeline.read_text_if_exists", return_value=source_payload), \
+             patch("novel_pipeline.pipeline.PromptStore"), \
+             patch("novel_pipeline.pipeline.split_blocks", return_value=[block1, block2, block3]), \
+             patch("novel_pipeline.pipeline._process_block") as mock_process, \
+             patch("novel_pipeline.pipeline._read_block_artifact", side_effect=fake_read_artifact), \
+             patch("novel_pipeline.pipeline._write_chapter_output") as mock_write:
+            stopped = _resume_chapter(
+                config=config,
+                ledger=mock_ledger,
+                run_id=run_id,
+                chapter_id=chapter_id,
+                glossary_index={},
+                state=state,
+                until_block=until_block,
+            )
+
+    assert stopped is True
+    mock_process.assert_not_called()
+    mock_write.assert_called_once()
+
+
+def test_resume_chapter_force_stops_after_until_block_and_uses_stop_mode():
+    """Forced bounded resume still stops after until_block and forwards manual_action_mode."""
+    from novel_pipeline.pipeline import _resume_chapter
+    from novel_pipeline.ledger import ResumeState
+    from novel_pipeline.types import TextBlock
+    from unittest.mock import Mock, patch
+    import json
+    import tempfile
+    from pathlib import Path
+
+    run_id = "batch-ch019-ch023-v1"
+    chapter_id = "ch019"
+    until_block = "ch019-block-002"
+    block1 = TextBlock(block_id="ch019-block-001", chapter_id=chapter_id, source_text="a", source_language="zh")
+    block2 = TextBlock(block_id=until_block, chapter_id=chapter_id, source_text="b", source_language="zh")
+    block3 = TextBlock(block_id="ch019-block-003", chapter_id=chapter_id, source_text="c", source_language="zh")
+    state = ResumeState(run_id=run_id)
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        config = Mock()
+        config.ledger_path = base / "06_Logs" / "ledger.jsonl"
+        config.workspace.raw = base / "03_Raw"
+        config.workspace.prompts = base / "prompts"
+        config.workspace.templates_dir = base / "00_Templates"
+        config.workspace.glossary_dir = base / "01_Glossary"
+        config.workspace.output = base / "05_Output"
+        config.default_style_profile = "default"
+        config.source_language = "zh"
+        config.chunking.chinese_character_limit = 600
+        config.chunking.non_chinese_word_limit = 300
+        config.novel_id = "test"
+
+        source_payload = json.dumps({
+            "novel_id": "test",
+            "chapter_id": chapter_id,
+            "title": "Chapter",
+            "source_language": "zh",
+            "raw_text": "dummy",
+        })
+
+        mock_ledger = Mock()
+        mock_ledger.has_committed.side_effect = (
+            lambda **kwargs: kwargs.get("stage") in {"glossary_scanned", "glossary_approved"}
+        )
+
+        with patch("novel_pipeline.pipeline.read_text_if_exists", return_value=source_payload), \
+             patch("novel_pipeline.pipeline.PromptStore"), \
+             patch("novel_pipeline.pipeline.split_blocks", return_value=[block1, block2, block3]), \
+             patch("novel_pipeline.pipeline._process_block", return_value="formatted") as mock_process, \
+             patch("novel_pipeline.pipeline._write_chapter_output"):
+            stopped = _resume_chapter(
+                config=config,
+                ledger=mock_ledger,
+                run_id=run_id,
+                chapter_id=chapter_id,
+                glossary_index={},
+                state=state,
+                force=True,
+                manual_action_mode="stop",
+                until_block=until_block,
+            )
+
+    assert stopped is True
+    assert [call.args[1].block_id for call in mock_process.call_args_list] == [block1.block_id, block2.block_id]
+    assert all(call.kwargs["manual_action_mode"] == "stop" for call in mock_process.call_args_list)
+
+
+def test_inspect_block_command_reports_artifacts_and_validation():
+    """inspect-block reports artifact state, ledger records, and validation issues."""
+    from novel_pipeline.pipeline import inspect_block_command, _write_block_artifact
+    from novel_pipeline.ledger import ResumeState
+    from novel_pipeline.types import AppConfig, RunRecord
+    from unittest.mock import Mock, patch
+    import tempfile
+    from pathlib import Path
+
+    run_id = "batch-ch019-ch023-v1"
+    block_id = "ch019-block-003"
+    chapter_id = "ch019"
+
+    translating = RunRecord.new(run_id=run_id, block_id=block_id, stage="translating", status="completed", provider="gemini")
+    refining = RunRecord.new(run_id=run_id, block_id=block_id, stage="refining", status="completed", provider="claude")
+    qa_failed = RunRecord.new(run_id=run_id, block_id=block_id, stage="qa", status="failed", provider="gemini")
+    state = ResumeState(
+        run_id=run_id,
+        records=(translating, refining, qa_failed),
+        latest_by_block={block_id: qa_failed},
+        latest_by_stage={
+            (block_id, "translating"): translating,
+            (block_id, "refining"): refining,
+            (block_id, "qa"): qa_failed,
+        },
+        records_by_block={block_id: [translating, refining, qa_failed]},
+    )
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        work_dir = base / "04_Work"
+        raw_dir = base / "03_Raw"
+        output_dir = base / "05_Output"
+        work_dir.mkdir()
+        raw_dir.mkdir()
+        output_dir.mkdir()
+
+        config = Mock(spec=AppConfig)
+        config.workspace.work = work_dir
+        config.workspace.raw = raw_dir
+        config.workspace.output = output_dir
+        config.ledger_path = base / "06_Logs" / "ledger.jsonl"
+
+        _write_block_artifact(config, chapter_id, block_id, "literal", {"text": "literal"})
+        _write_block_artifact(config, chapter_id, block_id, "refined", {"refined_text": "refined"})
+        _write_block_artifact(config, chapter_id, block_id, "qa", {"passed": False})
+        _write_block_artifact(config, chapter_id, block_id, "formatted", {"text": "Gemini stdout\n你好\n\""})
+
+        mock_ledger = Mock()
+        mock_ledger.load_state.return_value = state
+
+        with patch("novel_pipeline.pipeline.RunLedger", return_value=mock_ledger):
+            result = inspect_block_command(config=config, run_id=run_id, block_id=block_id)
+
+    assert result["chapter_id"] == chapter_id
+    assert result["artifact_exists"] == {"literal": True, "refined": True, "qa": True, "formatted": True}
+    assert len(result["records"]) == 3
+    assert result["next_pending_stage"] == "qa"
+    assert "provider/meta marker: gemini" in result["formatted_validation_issues"]
+    assert "provider/meta marker: stdout" in result["formatted_validation_issues"]
+    assert "Han Chinese characters present" in result["formatted_validation_issues"]
+    assert "quote-only line 3" in result["formatted_validation_issues"]
 
 
 def test_cli_rejects_stop_after_without_range():
@@ -1544,12 +2146,25 @@ if __name__ == "__main__":
     test_provider_timeout_fallback()
     test_batch_artifact_write()
     test_status_run_fetched_only_pre_batch()
+    test_status_run_reports_effective_failure_fields()
+    test_validate_formatted_text_detects_problem_markers()
+    test_qa_escalation_stop_raises_without_input()
+    test_format_command_rejects_invalid_formatted_text()
     # New tests for scan-level circuit breaker
     test_stage_routing_parses_scan_budget_fields()
     test_scan_level_failure_circuit_breaker()
     test_scan_level_max_call_cap()
     test_provider_meta_quota_output_rejected()
     test_cli_parser_accepts_stop_after_flag()
+    test_cli_parser_accepts_resume_manual_action_mode_stop()
+    test_cli_parser_accepts_resume_bounded_flags()
+    test_cli_parser_accepts_inspect_block()
+    test_cmd_resume_returns_two_on_manual_action_required()
+    test_resume_pipeline_stops_before_chapter_after_until_chapter()
+    test_resume_chapter_stops_after_until_block()
+    test_resume_chapter_stops_after_completed_until_block()
+    test_resume_chapter_force_stops_after_until_block_and_uses_stop_mode()
+    test_inspect_block_command_reports_artifacts_and_validation()
     test_cli_rejects_stop_after_without_range()
     test_run_batch_pipeline_stop_after_glossary_scan()
     test_classify_command_too_long()

@@ -72,6 +72,10 @@ BLOCK_STAGE_ORDER = [
 
 QA_MAX_RETRIES = 2
 
+
+class ManualActionRequired(RuntimeError):
+    """Raised when execution must stop for operator action."""
+
 BLOCK_STAGE_ALIASES = {
     "literal": "translating",
     "translate": "translating",
@@ -100,6 +104,69 @@ class PipelineContext:
 
 def _sha256(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+_FORMATTING_PROVIDER_META_MARKERS = (
+    "quota",
+    "rate limit",
+    "429",
+    "capacity",
+    "provider",
+    "traceback",
+    "exception",
+    "stderr",
+    "stdout",
+    "gemini",
+    "claude",
+    "qwen",
+)
+_FORMATTING_HAN_RE = re.compile(r"[\u4e00-\u9fff]")
+_CHAPTER_ID_RE = re.compile(r"^ch(\d+)$")
+
+
+def validate_formatted_text(text: str) -> list[str]:
+    issues: list[str] = []
+    lowered = text.lower()
+    for marker in _FORMATTING_PROVIDER_META_MARKERS:
+        if marker in lowered:
+            issues.append(f"provider/meta marker: {marker}")
+    if _FORMATTING_HAN_RE.search(text):
+        issues.append("Han Chinese characters present")
+    for line_number, line in enumerate(text.splitlines(), start=1):
+        if line.strip() in {'"', "“", "”"}:
+            issues.append(f"quote-only line {line_number}")
+    return issues
+
+
+def _chapter_sort_key(chapter_id: str) -> tuple[int, str]:
+    match = _CHAPTER_ID_RE.fullmatch(chapter_id)
+    if match is not None:
+        return int(match.group(1)), chapter_id
+    return 10**9, chapter_id
+
+
+def _split_block_id(block_id: str) -> tuple[str, int]:
+    if "-block-" not in block_id:
+        raise ValueError(f"Invalid block ID '{block_id}'. Expected format like ch019-block-006.")
+    chapter_id, block_suffix = block_id.rsplit("-block-", 1)
+    if not chapter_id or not block_suffix:
+        raise ValueError(f"Invalid block ID '{block_id}'. Expected format like ch019-block-006.")
+    try:
+        block_index = int(block_suffix)
+    except ValueError as exc:
+        raise ValueError(f"Invalid block ID '{block_id}'. Block index must be numeric.") from exc
+    return chapter_id, block_index
+
+
+def _block_sort_key(block_id: str) -> tuple[int, int, str]:
+    chapter_id, block_index = _split_block_id(block_id)
+    chapter_index, _ = _chapter_sort_key(chapter_id)
+    return chapter_index, block_index, block_id
+
+
+def _block_chapter_id(block_id: str) -> str:
+    chapter_id, _ = _split_block_id(block_id)
+    return chapter_id
 
 
 def _provider_runner_for_stage(config: AppConfig, stage: str) -> ProviderRunner:
@@ -500,6 +567,7 @@ def run_pipeline(
     run_id: str | None = None,
     force: bool = False,
     adapter_name: str = "",
+    manual_action_mode: str = "interactive",
 ) -> PipelineContext:
     if config is None:
         config = load_app_config()
@@ -639,7 +707,13 @@ def run_pipeline(
     formatted_blocks: list[str] = []
     for block in blocks:
         print(f"[{run_id}] Block: {block.block_id}")
-        formatted_text = _process_block(ctx, block, style_key, force=force)
+        formatted_text = _process_block(
+            ctx,
+            block,
+            style_key,
+            force=force,
+            manual_action_mode=manual_action_mode,
+        )
         if formatted_text is not None:
             formatted_blocks.append(formatted_text)
 
@@ -657,6 +731,7 @@ def _process_block(
     style_key: str,
     force: bool = False,
     force_from_stage: str | None = None,
+    manual_action_mode: str = "interactive",
 ) -> str | None:
     config = ctx.config
     ledger = ctx.ledger
@@ -770,7 +845,18 @@ def _process_block(
                 refined_draft=refined_draft,
                 glossary_subset=glossary_subset,
                 style_key=style_key,
+                manual_action_mode=manual_action_mode,
             )
+        except ManualActionRequired:
+            _commit_stage(
+                ledger,
+                run_id,
+                block_id,
+                "qa",
+                "hard_fail",
+                provider="local",
+            )
+            raise
         except Exception as exc:
             provider_name = config.stage_provider_name("qa_judge")
             _commit_stage(
@@ -800,6 +886,20 @@ def _process_block(
     force_format = _should_force_block_stage("formatting", force=force, force_from_stage=force_from_stage)
     if not ledger.has_committed(run_id=run_id, block_id=block_id, stage="formatting") or force_format:
         formatted_text = format_block_text(refined_draft.refined_text)
+        validation_issues = validate_formatted_text(formatted_text)
+        if validation_issues:
+            _commit_stage(
+                ledger,
+                run_id,
+                block_id,
+                "formatting",
+                "failed",
+                provider="local",
+                metadata={"validation_issues": validation_issues},
+            )
+            raise ValueError(
+                f"Formatted text validation failed for {block_id}: {'; '.join(validation_issues)}"
+            )
         oh = _sha256(formatted_text)
         _write_block_artifact(config, block.chapter_id, block_id, "formatted", {"text": formatted_text})
         _commit_stage(ledger, run_id, block_id, "formatting", "completed",
@@ -809,6 +909,20 @@ def _process_block(
         cached = _read_block_artifact(config, block.chapter_id, block_id, "formatted")
         if cached is not None:
             formatted_text = cached.get("text", refined_draft.refined_text)
+        validation_issues = validate_formatted_text(formatted_text or "")
+        if validation_issues:
+            _commit_stage(
+                ledger,
+                run_id,
+                block_id,
+                "formatting",
+                "failed",
+                provider="local",
+                metadata={"validation_issues": validation_issues},
+            )
+            raise ValueError(
+                f"Formatted text validation failed for {block_id}: {'; '.join(validation_issues)}"
+            )
 
     # Mark block completed
     if not ledger.has_committed(run_id=run_id, block_id=block_id, stage="completed") or force or force_from_stage:
@@ -827,6 +941,7 @@ def _run_qa_with_retries(
     refined_draft: RefinedDraft,
     glossary_subset: list[GlossaryEntry],
     style_key: str,
+    manual_action_mode: str = "interactive",
 ) -> bool:
     config = ctx.config
     ledger = ctx.ledger
@@ -890,7 +1005,12 @@ def _run_qa_with_retries(
         if retry_count > QA_MAX_RETRIES:
             # Hard fail - offer escalation
             print(f"[{run_id}]     QA hard-fail after {QA_MAX_RETRIES} retries.")
-            choice = _qa_escalation_prompt(qa_report)
+            choice = _qa_escalation_prompt(
+                qa_report,
+                block_id=block_id,
+                stage="qa",
+                manual_action_mode=manual_action_mode,
+            )
             if choice == "force-accept":
                 ledger.append_stage(
                     run_id=run_id, block_id=block_id, stage="qa", status="force_accepted",
@@ -939,12 +1059,21 @@ def _run_qa_with_retries(
     return False
 
 
-def _qa_escalation_prompt(qa_report: QAReport) -> str:
+def _qa_escalation_prompt(
+    qa_report: QAReport,
+    *,
+    block_id: str | None = None,
+    stage: str = "qa",
+    manual_action_mode: str = "interactive",
+) -> str:
     print()
     print("  === QA Hard Fail Escalation ===")
     print(f"  Findings: {len(qa_report.findings)}")
     for f in qa_report.findings:
         print(f"    - [{f.severity}] {f.code}: {f.message}")
+    if manual_action_mode == "stop":
+        scope = f"block {block_id}" if block_id else "the current block"
+        raise ManualActionRequired(f"Manual action required for {scope} at stage '{stage}'.")
     print()
     print("  Options:")
     print("  1. force-accept  (accept the current refined text)")
@@ -961,11 +1090,21 @@ def _qa_escalation_prompt(qa_report: QAReport) -> str:
         print("  Invalid choice. Please enter 1, 2, or 3.")
 
 
+def _effective_resume_stop_chapter(until_chapter: str | None, until_block: str | None) -> str | None:
+    candidates = [chapter for chapter in (until_chapter, _block_chapter_id(until_block) if until_block else None) if chapter]
+    if not candidates:
+        return None
+    return min(candidates, key=_chapter_sort_key)
+
+
 def resume_pipeline(
     *,
     config: AppConfig | None = None,
     run_id: str,
     force: bool = False,
+    manual_action_mode: str = "interactive",
+    until_chapter: str | None = None,
+    until_block: str | None = None,
 ) -> PipelineContext:
     if config is None:
         config = load_app_config()
@@ -993,8 +1132,14 @@ def resume_pipeline(
     if batch_chapter_ids is not None:
         # Batch resume
         glossary_index = _load_or_create_glossary_index(config)
+        stop_chapter = _effective_resume_stop_chapter(until_chapter, until_block)
+        until_block_chapter = _block_chapter_id(until_block) if until_block else None
         for chapter_id in batch_chapter_ids:
-            _resume_chapter(
+            if stop_chapter is not None and _chapter_sort_key(chapter_id) > _chapter_sort_key(stop_chapter):
+                print(f"[{run_id}] Bounded resume stopping before chapter {chapter_id}; limit is {stop_chapter}.")
+                break
+            chapter_until_block = until_block if until_block_chapter == chapter_id else None
+            stopped_early = _resume_chapter(
                 config=config,
                 ledger=ledger,
                 run_id=run_id,
@@ -1002,7 +1147,14 @@ def resume_pipeline(
                 glossary_index=glossary_index,
                 state=state,
                 force=force,
+                manual_action_mode=manual_action_mode,
+                until_block=chapter_until_block,
             )
+            if stopped_early:
+                break
+            if stop_chapter is not None and chapter_id == stop_chapter:
+                print(f"[{run_id}] Bounded resume stopped after chapter {chapter_id}.")
+                break
         # Return a dummy context (last chapter's context would be lost, but fine)
         return PipelineContext(
             config=config,
@@ -1014,6 +1166,14 @@ def resume_pipeline(
 
     # Single-chapter resume (original logic)
     chapter_id = _extract_chapter_id(state)
+    if until_chapter is not None and until_chapter != chapter_id:
+        raise ValueError(
+            f"Single-chapter resume for chapter '{chapter_id}' cannot use --until-chapter '{until_chapter}'."
+        )
+    if until_block is not None and _block_chapter_id(until_block) != chapter_id:
+        raise ValueError(
+            f"Single-chapter resume for chapter '{chapter_id}' cannot use --until-block '{until_block}'."
+        )
     source_path = config.workspace.raw / chapter_id / "source.json"
     raw_text = read_text_if_exists(source_path)
     if raw_text is None:
@@ -1038,6 +1198,7 @@ def resume_pipeline(
 
     # Reload glossary index
     ctx.glossary_index = _load_or_create_glossary_index(config)
+    stop_block_key = _block_sort_key(until_block) if until_block else None
 
     # Resume chapter-level stages if not yet committed
     if not ledger.has_committed(run_id=run_id, block_id=chapter_id, stage="glossary_scanned"):
@@ -1095,25 +1256,62 @@ def resume_pipeline(
         _commit_stage(ledger, run_id, chapter_id, "glossary_approved", "completed", provider="local")
 
     formatted_blocks: list[str] = []
+    stopped_early = False
+    found_stop_block = False
     for block in blocks:
+        if stop_block_key is not None and _block_sort_key(block.block_id) > stop_block_key:
+            print(f"[{run_id}] Bounded resume stopping before block {block.block_id}; limit is {until_block}.")
+            stopped_early = True
+            break
+        is_bound_block = until_block is not None and block.block_id == until_block
         next_stage = state.next_pending_stage(block.block_id, BLOCK_STAGE_ORDER)
         if force:
             print(f"[{run_id}] Block {block.block_id}: force rerun requested.")
-            formatted_text = _process_block(ctx, block, config.default_style_profile, force=True)
+            formatted_text = _process_block(
+                ctx,
+                block,
+                config.default_style_profile,
+                force=True,
+                manual_action_mode=manual_action_mode,
+            )
             if formatted_text is not None:
                 formatted_blocks.append(formatted_text)
+            if is_bound_block:
+                print(f"[{run_id}] Bounded resume stopped after block {until_block}.")
+                stopped_early = True
+                found_stop_block = True
+                break
             continue
         if next_stage is None:
             print(f"[{run_id}] Block {block.block_id}: all stages completed, loading cached output.")
             cached = _read_block_artifact(config, chapter_id, block.block_id, "formatted")
             if cached is not None:
                 formatted_blocks.append(cached.get("text", ""))
+            if is_bound_block:
+                print(f"[{run_id}] Bounded resume stopped after block {until_block}.")
+                stopped_early = True
+                found_stop_block = True
+                break
             continue
 
         print(f"[{run_id}] Block {block.block_id}: resuming from stage '{next_stage}'.")
-        formatted_text = _process_block(ctx, block, config.default_style_profile, force=force)
+        formatted_text = _process_block(
+            ctx,
+            block,
+            config.default_style_profile,
+            force=force,
+            manual_action_mode=manual_action_mode,
+        )
         if formatted_text is not None:
             formatted_blocks.append(formatted_text)
+        if is_bound_block:
+            print(f"[{run_id}] Bounded resume stopped after block {until_block}.")
+            stopped_early = True
+            found_stop_block = True
+            break
+
+    if until_block is not None and not found_stop_block:
+        raise ValueError(f"Bounded block '{until_block}' was not found in chapter '{chapter_id}'.")
 
     if formatted_blocks:
         _write_chapter_output(config, chapter_id, formatted_blocks, ctx.chapter_source)
@@ -1399,10 +1597,39 @@ def format_command(
         raise ValueError(f"Missing refined artifact for {block_id}. Run refine first.")
     ledger = RunLedger(config.ledger_path)
     if run_id and ledger.has_committed(run_id=run_id, block_id=block_id, stage="formatting") and not force:
+        cached = _read_block_artifact(config, chapter_id, block_id, "formatted")
+        if cached is None:
+            raise ValueError(f"Missing formatted artifact for {block_id}.")
+        cached_text = str(cached.get("text", ""))
+        validation_issues = validate_formatted_text(cached_text)
+        if validation_issues:
+            _commit_stage(
+                ledger,
+                run_id,
+                block_id,
+                "formatting",
+                "failed",
+                provider="local",
+                metadata={"validation_issues": validation_issues},
+            )
+            raise ValueError(f"Formatted text validation failed for {block_id}: {'; '.join(validation_issues)}")
         print(f"[{run_id}] {block_id} formatting already committed, skipping. Use --force to rerun.")
         return _artifact_block_path(config, chapter_id, block_id, "formatted")
     refined_draft = _reconstruct_refined_draft(refined_cached, block_id, chapter_id)
     formatted_text = format_block_text(refined_draft.refined_text)
+    validation_issues = validate_formatted_text(formatted_text)
+    if validation_issues:
+        if run_id:
+            _commit_stage(
+                ledger,
+                run_id,
+                block_id,
+                "formatting",
+                "failed",
+                provider="local",
+                metadata={"validation_issues": validation_issues},
+            )
+        raise ValueError(f"Formatted text validation failed for {block_id}: {'; '.join(validation_issues)}")
     path = _write_block_artifact(config, chapter_id, block_id, "formatted", {"text": formatted_text})
     if run_id:
         _commit_stage(ledger, run_id, block_id, "formatting", "completed", provider="local", output_hash=_sha256(formatted_text))
@@ -1585,11 +1812,18 @@ def status_run(
         if not manual_actions:
             manual_actions.append("none")
 
+        historical_failed_records = sum(1 for record in state.records if record.status in {"failed", "hard_fail"})
+        current_failed_blocks = state.failed_blocks()
+        next_effective_action = "none" if manual_actions == ["none"] else manual_actions[0]
+
         result = {
             "run_id": run_id,
             "total_records": len(state.records),
             "completed_blocks": state.completed_blocks(),
-            "failed_blocks": state.failed_blocks(),
+            "failed_blocks": current_failed_blocks,
+            "current_failed_blocks": current_failed_blocks,
+            "historical_failed_records": historical_failed_records,
+            "next_effective_action": next_effective_action,
             "block_stage_status": block_stage_status,
             "latest_by_block": {
                 bid: rec.to_dict() for bid, rec in state.latest_by_block.items()
@@ -1602,7 +1836,10 @@ def status_run(
         print(f"Run {run_id}:")
         print(f"  Records: {len(state.records)}")
         print(f"  Completed blocks: {', '.join(state.completed_blocks()) or 'none'}")
-        print(f"  Failed blocks: {', '.join(state.failed_blocks()) or 'none'}")
+        print(f"  Current failed blocks: {', '.join(current_failed_blocks) or 'none'}")
+        print(f"  Failed blocks: {', '.join(current_failed_blocks) or 'none'}")
+        print(f"  Historical failed records: {historical_failed_records}")
+        print(f"  Next effective action: {next_effective_action}")
 
         # Chapter summary
         if chapter_ids:
@@ -1666,6 +1903,74 @@ def status_run(
     return result
 
 
+def inspect_block_command(
+    *,
+    config: AppConfig,
+    run_id: str,
+    block_id: str,
+) -> dict[str, Any]:
+    ledger = RunLedger(config.ledger_path)
+    state = ledger.load_state(run_id)
+    chapter_id = _block_chapter_id(block_id)
+    records = [record.to_dict() for record in state.records_for_block(block_id)]
+    latest_by_stage = {
+        stage: record.to_dict()
+        for (record_block_id, stage), record in state.latest_by_stage.items()
+        if record_block_id == block_id
+    }
+    artifact_paths = {
+        stage: str(_artifact_block_path(config, chapter_id, block_id, stage))
+        for stage in ("literal", "refined", "qa", "formatted")
+    }
+    artifact_exists = {stage: Path(path).exists() for stage, path in artifact_paths.items()}
+
+    formatted_validation_issues: list[str] = []
+    if artifact_exists["formatted"]:
+        formatted_raw = read_text_if_exists(Path(artifact_paths["formatted"]))
+        if formatted_raw is None:
+            formatted_validation_issues.append("formatted artifact exists but could not be read")
+        else:
+            try:
+                formatted_data = json.loads(formatted_raw)
+            except json.JSONDecodeError as exc:
+                formatted_validation_issues.append(f"formatted artifact JSON decode error: {exc}")
+            else:
+                if isinstance(formatted_data, dict):
+                    formatted_text = formatted_data.get("text", "")
+                    if isinstance(formatted_text, str):
+                        formatted_validation_issues.extend(validate_formatted_text(formatted_text))
+                    else:
+                        formatted_validation_issues.append("formatted artifact missing text field")
+                else:
+                    formatted_validation_issues.append("formatted artifact is not a JSON object")
+
+    next_pending_stage = state.next_pending_stage(block_id, BLOCK_STAGE_ORDER)
+    result = {
+        "run_id": run_id,
+        "block_id": block_id,
+        "chapter_id": chapter_id,
+        "artifact_paths": artifact_paths,
+        "artifact_exists": artifact_exists,
+        "records": records,
+        "latest_by_stage": latest_by_stage,
+        "next_pending_stage": next_pending_stage,
+        "formatted_validation_issues": formatted_validation_issues,
+    }
+
+    print(f"Inspect block {block_id} in run {run_id}:")
+    print(f"  Chapter: {chapter_id}")
+    for stage in ("literal", "refined", "qa", "formatted"):
+        exists = "exists" if artifact_exists[stage] else "missing"
+        print(f"  {stage}: {artifact_paths[stage]} ({exists})")
+    print(f"  Next pending stage: {next_pending_stage or 'none'}")
+    if formatted_validation_issues:
+        print(f"  Formatted validation issues: {'; '.join(formatted_validation_issues)}")
+    else:
+        print("  Formatted validation issues: none")
+    print(f"  Ledger records: {len(records)}")
+    return result
+
+
 def run_batch_pipeline(
     *,
     config: AppConfig,
@@ -1676,6 +1981,7 @@ def run_batch_pipeline(
     run_id: str | None = None,
     force: bool = False,
     stop_after: str | None = None,
+    manual_action_mode: str = "interactive",
 ) -> list[PipelineContext]:
     """Run the pipeline across multiple chapters with batch glossary approval. If stop_after is 'glossary-scan', stops after glossary pre-scan and returns empty list."""
     if run_id is None:
@@ -1851,7 +2157,13 @@ def run_batch_pipeline(
         chapter_failed = False
         for block in blocks:
             print(f"[{run_id}]   Block: {block.block_id}")
-            formatted_text = _process_block(ctx, block, style_key, force=force)
+            formatted_text = _process_block(
+                ctx,
+                block,
+                style_key,
+                force=force,
+                manual_action_mode=manual_action_mode,
+            )
             if formatted_text is not None:
                 formatted_blocks.append(formatted_text)
             else:
@@ -1864,7 +2176,11 @@ def run_batch_pipeline(
 
         if chapter_failed:
             print(f"[{run_id}]   Chapter {chapter_id} had a block failure.")
-            choice = _batch_chapter_failure_prompt(chapter_id)
+            if manual_action_mode == "stop":
+                raise ManualActionRequired(
+                    f"Manual action required for chapter {chapter_id} during batch processing."
+                )
+            choice = _batch_chapter_failure_prompt(chapter_id, manual_action_mode=manual_action_mode)
             if choice == "stop":
                 print(f"[{run_id}] Batch stopped by user at chapter {chapter_id}.")
                 break
@@ -1878,7 +2194,9 @@ def run_batch_pipeline(
     return results
 
 
-def _batch_chapter_failure_prompt(chapter_id: str) -> str:
+def _batch_chapter_failure_prompt(chapter_id: str, *, manual_action_mode: str = "interactive") -> str:
+    if manual_action_mode == "stop":
+        raise ManualActionRequired(f"Manual action required for chapter {chapter_id} during batch processing.")
     print()
     print(f"  === Chapter {chapter_id} Failed ===")
     print("  Options:")
@@ -1954,8 +2272,12 @@ def _resume_chapter(
     glossary_index: dict[str, GlossaryEntry],
     state: ResumeState,
     force: bool = False,
-) -> None:
+    manual_action_mode: str = "interactive",
+    until_block: str | None = None,
+) -> bool:
     """Resume processing for a single chapter within a batch."""
+    if until_block is not None and _block_chapter_id(until_block) != chapter_id:
+        raise ValueError(f"Bounded block '{until_block}' does not belong to chapter '{chapter_id}'.")
     print(f"[{run_id}] Chapter: {chapter_id}")
     # Load source and blocks
     source_path = config.workspace.raw / chapter_id / "source.json"
@@ -2042,26 +2364,64 @@ def _resume_chapter(
         _commit_stage(ledger, run_id, chapter_id, "glossary_approved", "completed", provider="local")
     # Process blocks
     formatted_blocks: list[str] = []
+    stop_block_key = _block_sort_key(until_block) if until_block else None
+    stopped_early = False
+    found_bound_block = False
     for block in blocks:
+        if stop_block_key is not None and _block_sort_key(block.block_id) > stop_block_key:
+            print(f"[{run_id}] Bounded resume stopping before block {block.block_id}; limit is {until_block}.")
+            stopped_early = True
+            break
+        is_bound_block = until_block is not None and block.block_id == until_block
         next_stage = state.next_pending_stage(block.block_id, BLOCK_STAGE_ORDER)
         if force:
             print(f"[{run_id}] Block {block.block_id}: force rerun requested.")
-            formatted_text = _process_block(ctx, block, config.default_style_profile, force=True)
+            formatted_text = _process_block(
+                ctx,
+                block,
+                config.default_style_profile,
+                force=True,
+                manual_action_mode=manual_action_mode,
+            )
             if formatted_text is not None:
                 formatted_blocks.append(formatted_text)
+            if is_bound_block:
+                print(f"[{run_id}] Bounded resume stopped after block {until_block}.")
+                found_bound_block = True
+                stopped_early = True
+                break
             continue
         if next_stage is None:
             print(f"[{run_id}] Block {block.block_id}: all stages completed, loading cached output.")
             cached = _read_block_artifact(config, chapter_id, block.block_id, "formatted")
             if cached is not None:
                 formatted_blocks.append(cached.get("text", ""))
+            if is_bound_block:
+                print(f"[{run_id}] Bounded resume stopped after block {until_block}.")
+                found_bound_block = True
+                stopped_early = True
+                break
             continue
         print(f"[{run_id}] Block {block.block_id}: resuming from stage '{next_stage}'.")
-        formatted_text = _process_block(ctx, block, config.default_style_profile, force=force)
+        formatted_text = _process_block(
+            ctx,
+            block,
+            config.default_style_profile,
+            force=force,
+            manual_action_mode=manual_action_mode,
+        )
         if formatted_text is not None:
             formatted_blocks.append(formatted_text)
+        if is_bound_block:
+            print(f"[{run_id}] Bounded resume stopped after block {until_block}.")
+            found_bound_block = True
+            stopped_early = True
+            break
+    if until_block is not None and not found_bound_block:
+        raise ValueError(f"Bounded block '{until_block}' was not found in chapter '{chapter_id}'.")
     if formatted_blocks:
         _write_chapter_output(config, chapter_id, formatted_blocks, ctx.chapter_source)
+    return stopped_early
 
 
 
@@ -2138,7 +2498,10 @@ __all__ = [
     "BLOCK_STAGE_ORDER",
     "QA_MAX_RETRIES",
     "STAGE_ORDER",
+    "ManualActionRequired",
+    "inspect_block_command",
     "PipelineContext",
+    "validate_formatted_text",
     "resume_pipeline",
     "run_batch_pipeline",
     "run_pipeline",

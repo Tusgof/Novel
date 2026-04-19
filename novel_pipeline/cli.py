@@ -8,7 +8,9 @@ from novel_pipeline.config import load_app_config
 from novel_pipeline.logging import configure_logging
 from novel_pipeline.pipeline import (
     approve_terms_command,
+    ManualActionRequired,
     format_command,
+    inspect_block_command,
     qa_command,
     refine_command,
     rerun_block_pipeline,
@@ -68,10 +70,23 @@ def build_parser() -> argparse.ArgumentParser:
     resume_p.add_argument("--run-id", default=argparse.SUPPRESS, help="Run ID to resume.")
     resume_p.add_argument("--force", action="store_true", default=argparse.SUPPRESS, help="Force re-run of already-committed block stages.")
     resume_p.add_argument("--style-profile", default=None, help="Style profile key to use.")
+    resume_p.add_argument("--until-chapter", default=None, help="Resume only until and including this chapter ID.")
+    resume_p.add_argument("--until-block", default=None, help="Resume only until and including this block ID.")
+    resume_p.add_argument(
+        "--manual-action-mode",
+        choices=["interactive", "stop"],
+        default="interactive",
+        help="How to handle manual prompts during resume.",
+    )
 
     # status command
     status_p = subparsers.add_parser("status", help="Show status of runs.")
     status_p.add_argument("--run-id", default=argparse.SUPPRESS, help="Run ID to inspect.")
+
+    # inspect-block command
+    inspect_p = subparsers.add_parser("inspect-block", help="Inspect one block without modifying artifacts.")
+    inspect_p.add_argument("--run-id", required=True, help="Run ID that owns the block artifacts.")
+    inspect_p.add_argument("--block-id", required=True, help="Block ID to inspect, e.g. ch001-block-004.")
 
     # rerun-block command
     rerun_p = subparsers.add_parser("rerun-block", help="Rerun one block from a selected stage.")
@@ -221,9 +236,19 @@ def cmd_resume(args: argparse.Namespace, config) -> int:
         print(f"Using latest run_id: {run_id}")
 
     try:
-        ctx = resume_pipeline(config=config, run_id=run_id, force=args.force)
+        ctx = resume_pipeline(
+            config=config,
+            run_id=run_id,
+            force=args.force,
+            manual_action_mode=getattr(args, "manual_action_mode", "interactive"),
+            until_chapter=getattr(args, "until_chapter", None),
+            until_block=getattr(args, "until_block", None),
+        )
         print(f"[{ctx.run_id}] Resume complete.")
         return 0
+    except ManualActionRequired as exc:
+        print(f"[MANUAL ACTION REQUIRED] {exc}", file=sys.stderr)
+        return 2
     except Exception as exc:
         print(f"[ERROR] Resume failed: {exc}", file=sys.stderr)
         return 1
@@ -232,6 +257,15 @@ def cmd_resume(args: argparse.Namespace, config) -> int:
 def cmd_status(args: argparse.Namespace, config) -> int:
     result = status_run(config=config, run_id=args.run_id)
     return 0
+
+
+def cmd_inspect_block(args: argparse.Namespace, config) -> int:
+    try:
+        inspect_block_command(config=config, run_id=args.run_id, block_id=args.block_id)
+        return 0
+    except Exception as exc:
+        print(f"[ERROR] inspect-block failed: {exc}", file=sys.stderr)
+        return 1
 
 
 def cmd_rerun_block(args: argparse.Namespace, config) -> int:
@@ -388,6 +422,7 @@ COMMAND_HANDLERS = {
     "run": cmd_run,
     "resume": cmd_resume,
     "status": cmd_status,
+    "inspect-block": cmd_inspect_block,
     "rerun-block": cmd_rerun_block,
     "fetch": cmd_fetch,
     "scan-terms": cmd_scan_terms,

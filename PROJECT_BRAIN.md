@@ -92,6 +92,27 @@ State model:
 - Worker reports are claims until disk state proves them.
 - Multi-novel and multi-genre support must be designed in, not bolted on after the first novel.
 
+## Improvement Backlog Scoring
+
+Use two axes for prioritization:
+
+- Ease: `0` hard, `1` medium, `2` easy.
+- Importance: `0` low, `1` medium, `2` high.
+
+Score = Ease + Importance. Items with score below `2` are deferred.
+
+| Issue | Ease | Importance | Score | Tranche |
+| --- | --- | --- | --- | --- |
+| Manual-action stop mode | 2 | 2 | 4 | 1 |
+| Effective status visibility | 2 | 2 | 4 | 1 |
+| Basic post-format validation | 1 | 2 | 3 | 1 |
+| Provider usage/cost report | 1 | 1 | 2 | later |
+| Bounded resume until chapter/block | 0 | 2 | 2 | 2 |
+| Inspect-block command | 1 | 1 | 2 | 2 |
+| Multi-novel config/profile | 0 | 2 | 2 | later |
+| Operator UI/window | 0 | 2 | 2 | later |
+| Cosmetic UI polish | 1 | 0 | 1 | deferred |
+
 ## Current Verified State
 
 Completed:
