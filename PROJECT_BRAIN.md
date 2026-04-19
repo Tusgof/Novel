@@ -1,80 +1,338 @@
 # Project Brain: Deep Sea Embers Translation Pipeline
 
-Last restored: 2026-04-19
+Last updated: 2026-04-20
+Last verified: 2026-04-19 from ledger/status reports and Codex disk checks after V3.9 `ch019-block-002` recovery
 
-This file is the project memory layer. It should preserve operational truth, current state, provider policy, recovery lessons, and next milestones. Do not shorten it into a tiny summary.
+This file is the project constitution, architecture map, and current operational memory. It should preserve the project goal, design principles, verified state, safety rules, recovery lessons, and pointers to detailed documents. Keep reports, long logs, and implementation detail in their dedicated files.
 
-## Operating Model
+## Project Definition
 
-- Codex is the architect, reviewer, orchestrator, and memory layer.
-- Qwen/GPT workers are bounded implementers/operators. They must receive exact prompts with file scope, allowed changes, forbidden actions, validation, and final report format.
-- Codex must verify disk state after every worker report. A worker report is not proof.
-- Use Thai with the user. Use English for worker prompts, commands, code, and report templates when clearer.
-- Do not run providers, resume, rerun-block, or modify ledger/artifacts unless the user explicitly approves that stage.
+Purpose: build a semi-automated Chinese-to-Thai novel translation production system that can preserve meaning, keep terminology consistent, recover from provider failures, and let one operator run controlled chapter batches without fragile manual memory.
+
+Primary operator: the user, assisted by Codex as architect/reviewer and bounded worker models for implementation or execution.
+
+Current novel: Deep Sea Embers.
+
+Long-term product scope: support multiple novels and multiple genres through per-novel configuration, source adapters, style profiles, isolated artifacts, and an operator UI/window.
+
+Out of scope for now:
+
+- fully automatic publishing without human review
+- silent force-accept of semantic QA failures
+- unbounded background translation runs with no checkpoints
+- using unreliable free models for state-changing work
+- polishing UI aesthetics before the workflow is reliable
+
+## Success Criteria
+
+The current pipeline is useful when:
+
+- a chapter range can be fetched, scanned, glossary-approved, translated, refined, QA-checked, formatted, and assembled with auditable artifacts
+- every stage can be resumed or rerun without corrupting prior work
+- final outputs are clean Thai Markdown with no provider/meta text, no unintended Chinese body text, no wrong glossary variants, and no quote-only lines
+- semantic omissions and meaning drift are caught before final assembly or explicitly reviewed by the user
+- provider crashes, quota limits, command-length errors, and manual QA prompts have safe recovery paths
+
+The broader product is complete enough for real use when:
+
+- a new novel can be configured without code edits
+- novel/genre profiles can guide style and terminology
+- the user can run scan, approval, translation, recovery, and reports from a practical local operator interface
+- documentation and reports update without ad hoc manual rewriting
+- worker models cannot silently damage source-of-truth state
+
+## Architecture Overview
+
+The system is a staged, auditable pipeline:
+
+```text
+source adapter
+  -> source validation
+  -> block splitting
+  -> glossary scan
+  -> glossary approval
+  -> literal translation
+  -> literary refinement
+  -> QA judgment
+  -> formatting
+  -> chapter assembly
+  -> reports and documentation sync
+```
+
+Core components:
+
+- `novel_pipeline/`: Python package and CLI.
+- `novel_pipeline/pipeline.py`: main orchestration, resume, status, rerun behavior.
+- `novel_pipeline/stages/`: fetch, glossary, translation, refinement, QA, formatting.
+- `.system/`: pipeline config, provider routing, retry/timeout policy, style profiles.
+- `01_Glossary/`: approved/deprecated terminology notes.
+- `03_Raw/`: fetched source cache.
+- `04_Work/`: per-block and batch artifacts.
+- `05_Output/`: final chapter Markdown.
+- `06_Logs/run_ledger.jsonl`: append-only execution ledger.
+- `07_Reports/`: scan, classification, approval, checkpoint, benchmark, and spot-check reports.
+
+State model:
+
+- artifacts record stage outputs
+- ledger records stage commitments
+- status should be inferred from latest valid state, not naive failed-record counts
+- historical failed records remain because the ledger is append-only
+
+## Design Principles
+
+- Correctness before speed.
+- Human approval before glossary or semantic-risk decisions.
+- Append-only audit trail over destructive edits.
+- Deterministic validation before trusting provider judgment.
+- Bounded checkpoints over long blind runs.
+- Recoverability over one-shot automation.
+- Glossary and meaning consistency over model creativity.
+- Codex owns architecture and verification; workers execute bounded instructions.
+- Worker reports are claims until disk state proves them.
+- Multi-novel and multi-genre support must be designed in, not bolted on after the first novel.
+
+## Current Verified State
+
+Completed:
+
+- ch001-ch003: earlier baseline outputs exist.
+- V3.7 complete: `batch-ch004-ch008-v2`
+  - 28/28 blocks complete.
+  - ch004-ch008 outputs exist.
+  - deterministic checks and spot-check passed.
+- V3.8 complete: `batch-ch009-ch018-v1`
+  - 53/53 blocks complete.
+  - ch009-ch018 outputs exist.
+  - current failed blocks: none.
+  - historical failed ledger records are expected.
+
+Active:
+
+- V3.9 in progress: `batch-ch019-ch023-v1`
+- glossary scan-only gate: complete
+- glossary approval gate: complete
+- approved terms:
+  - `实太阳神` -> `สุริยเทพที่แท้จริง`
+  - `面具神` -> `เทพหน้ากาก`
+- correct `glossary_approved` ledger records exist with block IDs `ch019`, `ch020`, `ch021`, `ch022`, `ch023`
+- `ch019-block-001`: complete
+- `ch019-block-002`: complete after deterministic refined-text repair and post-format quote repair
+- next pending block: `ch019-block-003` at `translating`
+- ch020-ch023: glossary-approved, translation not started
+- ch024+: must remain unprocessed
+- final outputs for ch019-ch023: none expected yet
+
+## Next Safe Action
+
+Continue V3.9 in a bounded checkpoint:
+
+1. Verify `ch019-block-002` remains complete and clean.
+2. Resume from `ch019-block-003`.
+3. Stop immediately on QA hard-fail/manual prompt, provider failure, command-length error, or any ch024+ activity.
+4. Do not force-accept QA failures.
+5. After ch019 completes, verify `05_Output/ch019/ch019.md` before continuing to ch020-ch023.
+
+## Invariants And Guardrails
+
+Never:
+
+- process ch024+ during `batch-ch019-ch023-v1`
+- edit fetched source after fetch unless explicitly repairing a proven corrupted fetch artifact
+- delete or rewrite ledger history
+- create glossary notes for rejected terms
+- force-accept QA hard-fails without explicit user/Codex approval
+- commit provider quota/error/meta output as successful content
+- trust worker reports without checking artifacts and ledger
+- let Elephant or Nemotron perform state-changing operations
+
+Always:
+
+- use UTF-8 for commands and file reads/writes
+- keep `06_Logs/run_ledger.jsonl` append-only
+- inspect latest block state instead of counting historical failures naively
+- verify final outputs for provider/meta leakage, Chinese body text, wrong glossary variants, quote-only lines, and formatting drift
+- keep runtime artifacts and source cache out of git unless deliberately changing repository policy
+
+Requires explicit user approval:
+
+- starting a new production batch
+- force-accepting a QA hard-fail
+- changing provider routing
+- modifying source artifacts or final outputs manually
+- running state-changing work with a new/untested model
+
+## Operating Commands
+
+Run from project root:
+
+```powershell
+cd "D:\Fogust\Workspace\Novel\Deep Sea Embers"
+$env:PYTHONIOENCODING='utf-8'
+```
+
+Deterministic checks:
+
+```powershell
+python -m compileall novel_pipeline
+python test_translation.py
+```
+
+Current status:
+
+```powershell
+novel-pipeline --config ".system/config.yaml" status --run-id batch-ch019-ch023-v1
+```
+
+Resume current batch only when approved:
+
+```powershell
+novel-pipeline --config ".system/config.yaml" resume --run-id batch-ch019-ch023-v1
+```
+
+Targeted block recovery:
+
+```powershell
+novel-pipeline --config ".system/config.yaml" rerun-block --run-id batch-ch019-ch023-v1 --block-id <block-id> --from-stage <stage>
+```
+
+Scan-only gate for a new range:
+
+```powershell
+novel-pipeline --config ".system/config.yaml" run --range chXXX-chYYY --run-id <run-id> --stop-after glossary-scan
+```
+
+## Provider Policy
+
+Current routing:
+
+- Gemini: term extraction and literal translation.
+- Claude: term suggestions and primary refinement.
+- GPT-5.4 via Codex: first refinement fallback after Claude failure.
+- Qwen: second refinement fallback and QA judge.
+- Gemini: QA fallback only on provider failure.
+- Local Python: formatting, ledger/status/bookkeeping.
+
+Hard rules:
+
+- Do not use Claude for literal translation or QA.
+- If Gemini literal translation hits quota/capacity, wait/resume. Do not silently fallback to Claude.
+- GPT-5.4 fallback outputs require deterministic validation and Qwen QA before commit.
+- Provider quota/error/meta output must never be committed as successful output.
+- Gemini has Windows argv command-length preflight protection.
+- If QA hard-fail escalates to a manual prompt in noninteractive execution, stop and report.
+
+Worker model restrictions:
+
+- Elephant: banned for state-changing work.
+- Nemotron: banned for state-changing work.
+- Reason: both produced false completion reports during V3.9 glossary approval attempts.
+- They may only be used for read-only drafts/checklists where false completion cannot modify state, and Codex must still verify results.
+
+## Known Risks
+
+- Ledger confusion: append-only history contains old failures even after recovery.
+- Claude crash: Windows return code `3221225786`, often empty stderr/stdout.
+- Gemini command length: argv transport can hit `command_too_long`, especially as QA fallback.
+- QA hard-fail: noninteractive workers can abort with EOF at manual prompt.
+- Formatting drift: formatting can remove dialogue quote marks after QA passes.
+- Mojibake/encoding errors: reports or artifacts can display corrupted Chinese/Thai if encoding is mishandled.
+- Worker false completion: unreliable free models may claim state changes that did not occur.
+- Documentation overwrite: memory docs were previously shortened/damaged by worker edits before git backup existed.
+
+## Recovery Playbooks
+
+### QA hard-fail
+
+1. Stop the run.
+2. Read source, literal, refined, formatted if present, and `*.qa.json`.
+3. Identify the exact omission or meaning drift.
+4. Repair the narrowest artifact only if deterministic repair is justified.
+5. Rerun from the failed stage, usually `qa`.
+6. Verify QA, formatting, ledger, and cleanliness.
+
+### Noninteractive EOF
+
+1. Treat as a manual QA prompt.
+2. Do not resume blindly.
+3. Inspect the QA artifact and decide repair/retry/skip with Codex/user review.
+
+### Claude crash
+
+1. Retry once if the surrounding state is clean.
+2. If repeated, allow GPT-5.4 refinement fallback.
+3. Validate GPT output deterministically and through Qwen QA.
+
+### Gemini `command_too_long`
+
+1. Do not change literal translation routing to Claude.
+2. Try bounded QA-stage rerun if Qwen primary can succeed.
+3. If repeated, stop and report before config changes.
+
+### Formatter quote drift
+
+1. Compare refined and formatted artifacts.
+2. Restore only lost punctuation if wording is otherwise correct.
+3. Do not change Thai prose unless QA/review requires it.
+4. Re-run or re-check cleanliness after repair.
+
+### Damaged memory docs
+
+1. Stop worker activity.
+2. Check git status and recent commits.
+3. Restore tracked docs from git when possible.
+4. Reconstruct only missing current state from reports/ledger.
+5. Commit and push the repaired memory docs.
+
+## Decision Log
+
+- 2026-04-17: V3.7 accepted after ch004-ch008 production dry run and spot-check.
+- 2026-04-18: GPT-5.4 via Codex approved as first refinement fallback after benchmark and bounded recovery results.
+- 2026-04-18: V3.8 accepted after ch009-ch018 completion and deterministic checks.
+- 2026-04-19: Elephant and Nemotron banned from state-changing work after false completion reports.
+- 2026-04-19: GitHub backup repository established at `https://github.com/Tusgof/Novel` to protect memory docs and source.
+- 2026-04-20: `PROJECT_BRAIN.md` restructured as project constitution, architecture map, current state, guardrails, and recovery memory.
+
+## Document Map
+
+- `PROJECT_BRAIN.md`: project definition, architecture map, current verified state, guardrails, recovery memory.
+- `Implement_PLAN.md`: milestone plan, future productization work, V4/V5 direction.
+- `OPERATOR_MANUAL.md`: practical runbook and command guide.
+- `AGENTS.md`: worker/agent behavior rules.
+- `07_Reports/`: detailed historical reports and checkpoint evidence.
+- `.system/config.yaml`: pipeline configuration entry point.
+- `.system/providers.yaml`: provider routing and retry/timeout configuration.
+
+## Roles
+
+- User: product owner, glossary/semantic decision maker, approval authority for risky actions.
+- Codex: architect, orchestrator, reviewer, project memory owner, prompt writer, disk-state verifier.
+- Worker models: bounded implementers/operators only.
+- Providers: translation/refinement/QA engines, never source-of-truth authorities.
 
 ## Git Backup
 
 - GitHub repo: `https://github.com/Tusgof/Novel`
 - Local repo root: `D:\Fogust\Workspace\Novel\Deep Sea Embers`
 - Branch: `main`
-- Initial safety snapshot commit: `f665df2 Initial novel pipeline safety snapshot`
+- Known pushed commits:
+  - `f665df2 Initial novel pipeline safety snapshot`
+  - `9a0997b Document GitHub backup repository`
 - Runtime/production artifact directories are intentionally ignored:
   - `03_Raw/`
   - `04_Work/`
   - `05_Output/`
   - `06_Logs/`
-- Source-of-truth files tracked in git include:
-  - project memory docs
-  - pipeline code
-  - prompts/config/style profiles
-  - glossary notes
-  - reports/scripts/skills/tests
-- If a worker damages memory docs again, recover from git before reconstructing manually.
-
-## Current Execution State
-
-### Completed
-
-- ch001-ch003: completed earlier baseline outputs exist.
-- V3.7 complete: `batch-ch004-ch008-v2`
-  - ch004-ch008 translated, QA-passed, formatted, assembled.
-  - 28/28 blocks complete.
-  - Outputs exist under `05_Output/ch004` through `05_Output/ch008`.
-  - Spot-check verdict: acceptable for next larger batch.
-- V3.8 complete: `batch-ch009-ch018-v1`
-  - ch009-ch018 translated, QA-passed/recovered, formatted, assembled.
-  - 53/53 blocks complete.
-  - Outputs exist under `05_Output/ch009` through `05_Output/ch018`.
-  - Current failed blocks: none.
-  - Historical failed ledger records remain because `06_Logs/run_ledger.jsonl` is append-only.
-
-### Current Batch
-
-- V3.9 in progress: `batch-ch019-ch023-v1`
-- Glossary scan-only gate: complete.
-- Glossary approval gate: complete.
-  - Approved:
-    - `实太阳神` -> `สุริยเทพที่แท้จริง`
-    - `面具神` -> `เทพหน้ากาก`
-  - Rejected all other candidates from the scan.
-  - Correct `glossary_approved` ledger records exist with block IDs `ch019`, `ch020`, `ch021`, `ch022`, `ch023`.
-- Translation status:
-  - `ch019-block-001`: complete.
-  - `ch019-block-002`: complete after deterministic refined-text repair and post-format quote repair.
-  - Next pending block: `ch019-block-003` at `translating`.
-  - ch020-ch023: glossary-approved, translation not started.
-  - ch024+: no processing should exist.
-- Final outputs for ch019-ch023:
-  - None expected yet. `05_Output/ch019/ch019.md` should not exist until all ch019 blocks complete.
+- Tracked source-of-truth includes docs, pipeline code, prompts/config/style profiles, glossary notes, reports/scripts/skills/tests.
 
 ## Important Reports
 
-### V3.7
+V3.7:
 
 - `07_Reports/production_dry_run_batch_ch004_ch008_v2.md`
 - `07_Reports/spot_check_batch_ch004_ch008_v2.md`
 
-### V3.8
+V3.8:
 
 - `07_Reports/glossary_scan_batch-ch009-ch018-v1.md`
 - `07_Reports/glossary_classification_batch-ch009-ch018-v1.md`
@@ -85,114 +343,8 @@ This file is the project memory layer. It should preserve operational truth, cur
 - `07_Reports/v3_8_phase4_ch014_ch018_checkpoint.md`
 - `07_Reports/spot_check_batch_ch014_ch018_v1.md`
 
-### V3.9
+V3.9:
 
 - `07_Reports/glossary_scan_batch-ch019-ch023-v1.md`
 - `07_Reports/glossary_classification_batch-ch019-ch023-v1.md`
 - `07_Reports/glossary_approval_decisions_batch-ch019-ch023-v1.md`
-
-## Provider Routing Policy
-
-- Gemini:
-  - term extraction
-  - literal translation
-  - QA fallback only on provider failure
-- Claude:
-  - term suggestions
-  - primary refinement
-- GPT-5.4 via Codex:
-  - first refinement fallback after Claude failure
-  - must pass deterministic validation and Qwen QA before commit
-- Qwen:
-  - second refinement fallback
-  - QA judge
-- Local Python:
-  - formatting
-  - ledger/status/bookkeeping
-
-Hard rules:
-
-- Do not use Claude for literal translation or QA.
-- If Gemini literal translation hits quota/capacity, wait/resume. Do not silently fallback to Claude for translation.
-- Provider quota/error/meta text must never be committed as successful output.
-- Windows argv command-length preflight exists for Gemini.
-- If QA hard-fail escalates to a manual prompt in a noninteractive worker, stop and report. Do not force-accept automatically.
-
-## Worker Model Policy
-
-- Allowed for state-changing implementation:
-  - Codex/GPT workers with exact bounded prompts.
-  - Qwen DeepSeek Chat/Reasoner when available and explicitly scoped.
-- Disallowed for state-changing work:
-  - Elephant
-  - Nemotron
-
-Reason: during V3.9 glossary approval, Elephant and Nemotron both reported successful ledger appends while disk verification showed missing or incorrect state. They are not reliable for ledger/artifact/code/config operations.
-
-If used at all, Elephant/Nemotron may only do read-only drafting/checklists/reports, and Codex must verify real files afterward.
-
-## Glossary Policy
-
-- Human-in-the-loop approval is mandatory for new glossary terms.
-- Use longest-match, non-overlapping term retrieval.
-- Reject substrings/fragments/noisy candidates unless explicitly approved.
-- Approved notes live in `01_Glossary/`.
-- Quarantined/deprecated false positives remain in `01_Glossary/quarantine/`.
-- Never create glossary notes for rejected candidates.
-- `glossary_approved` ledger records must use chapter IDs exactly, e.g. `ch019`, not `ch019-glossary-approved`.
-
-## Recovery Lessons
-
-- The ledger is append-only. Historical failed records may exist even when current status is clean.
-- Always inspect latest stage state per block rather than counting failed records naively.
-- `command_too_long` in Gemini QA fallback can often be recovered with bounded QA-stage rerun if Qwen primary succeeds later.
-- Claude can crash on Windows with return code `3221225786`; retry may succeed. If not, GPT-5.4 fallback is valid for refinement.
-- QA hard-fails are usually real semantic issues. Inspect `*.qa.json`, compare literal/refined/source, repair only the necessary artifact, then rerun from the failed stage.
-- Formatting can introduce punctuation drift after QA. For repaired blocks, inspect `*.formatted.json` for lost dialogue quotes.
-- Do not trust worker summaries without checking:
-  - artifact existence
-  - JSON content
-  - ledger latest records
-  - no `ch024+` records when the range is ch019-ch023
-  - no forbidden file changes
-
-## V4 Product Direction
-
-The project is not just one novel script. It should become a practical operator tool for translating multiple novels and genres.
-
-Required product capabilities:
-
-- Multi-novel support:
-  - per-novel config/profile
-  - separate source/output/work/glossary namespaces
-  - source adapter selection per site/source
-- Multi-genre support:
-  - per-genre style profiles
-  - per-novel translation brief
-  - glossary and tone guidance can differ by genre
-- Novel research profile:
-  - gather synopsis/style/review context from reliable external sources when setting up a novel
-  - store concise profile so the user does not need to paste large context
-- Operator UI/window:
-  - run scan-only gate
-  - view glossary candidates
-  - approve/reject/select one of several Thai term options
-  - resume bounded translation
-  - inspect current blockers
-  - generate reports
-- Better automation:
-  - bounded resume until chapter/range
-  - chapter checkpoint command
-  - automatic report generation
-  - provider usage/cost report
-  - richer glossary conflict detector
-
-## Next Immediate Step
-
-Continue V3.9 from `batch-ch019-ch023-v1`:
-
-1. Verify `ch019-block-002` remains complete and clean.
-2. Resume bounded checkpoint from `ch019-block-003`.
-3. Stop immediately on QA hard-fail/manual prompt.
-4. Do not process ch024+.
-5. After ch019 completes, run output cleanliness checks before continuing wider.
