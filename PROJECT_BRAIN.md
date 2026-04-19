@@ -1,7 +1,7 @@
 # Project Brain: Deep Sea Embers Translation Pipeline
 
 Last updated: 2026-04-20
-Last verified: 2026-04-19 from ledger/status reports and Codex disk checks after V3.9 `ch019-block-002` recovery
+Last verified: 2026-04-20 after runtime safety controls were implemented and pushed in commit `f2143f6`; verified with `python -m compileall novel_pipeline`, `python test_translation.py`, `status --run-id batch-ch019-ch023-v1`, and `inspect-block --block-id ch019-block-002`
 
 This file is the project constitution, architecture map, and current operational memory. It should preserve the project goal, design principles, verified state, safety rules, recovery lessons, and pointers to detailed documents. Keep reports, long logs, and implementation detail in their dedicated files.
 
@@ -101,17 +101,25 @@ Use two axes for prioritization:
 
 Score = Ease + Importance. Items with score below `2` are deferred.
 
-| Issue | Ease | Importance | Score | Tranche |
+| Issue | Ease | Importance | Score | Status |
 | --- | --- | --- | --- | --- |
-| Manual-action stop mode | 2 | 2 | 4 | 1 |
-| Effective status visibility | 2 | 2 | 4 | 1 |
-| Basic post-format validation | 1 | 2 | 3 | 1 |
+| Manual-action stop mode | 2 | 2 | 4 | implemented 2026-04-20 |
+| Effective status visibility | 2 | 2 | 4 | implemented 2026-04-20 |
+| Basic post-format validation | 1 | 2 | 3 | implemented 2026-04-20 |
 | Provider usage/cost report | 1 | 1 | 2 | later |
-| Bounded resume until chapter/block | 0 | 2 | 2 | 2 |
-| Inspect-block command | 1 | 1 | 2 | 2 |
+| Bounded resume until chapter/block | 0 | 2 | 2 | implemented 2026-04-20 |
+| Inspect-block command | 1 | 1 | 2 | implemented 2026-04-20 |
 | Multi-novel config/profile | 0 | 2 | 2 | later |
 | Operator UI/window | 0 | 2 | 2 | later |
 | Cosmetic UI polish | 1 | 0 | 1 | deferred |
+
+Implemented runtime safety controls:
+
+- `resume --manual-action-mode stop` prevents noninteractive EOF by exiting with manual-action status instead of prompting.
+- `resume --until-chapter <chapter_id>` and `resume --until-block <block_id>` allow bounded production checkpoints.
+- `inspect-block --run-id <run_id> --block-id <block_id>` is a read-only block inspection tool.
+- `status` now prints current failed blocks, historical failed records, and next effective action.
+- formatting now rejects provider/meta leakage, Han Chinese text, and quote-only lines before committing successful formatted artifacts.
 
 ## Current Verified State
 
@@ -148,9 +156,11 @@ Active:
 
 Continue V3.9 in a bounded checkpoint:
 
-1. Verify `ch019-block-002` remains complete and clean.
-2. Resume from `ch019-block-003`.
-3. Stop immediately on QA hard-fail/manual prompt, provider failure, command-length error, or any ch024+ activity.
+1. Inspect `ch019-block-002` if needed:
+   `novel-pipeline --config ".system/config.yaml" inspect-block --run-id batch-ch019-ch023-v1 --block-id ch019-block-002`
+2. Resume only through ch019, with noninteractive manual-action stop:
+   `novel-pipeline --config ".system/config.yaml" resume --run-id batch-ch019-ch023-v1 --until-chapter ch019 --manual-action-mode stop`
+3. Stop immediately if the command exits with manual action required, provider failure, command-length error, formatting validation failure, or any ch024+ activity.
 4. Do not force-accept QA failures.
 5. After ch019 completes, verify `05_Output/ch019/ch019.md` before continuing to ch020-ch023.
 
@@ -208,7 +218,25 @@ novel-pipeline --config ".system/config.yaml" status --run-id batch-ch019-ch023-
 Resume current batch only when approved:
 
 ```powershell
-novel-pipeline --config ".system/config.yaml" resume --run-id batch-ch019-ch023-v1
+novel-pipeline --config ".system/config.yaml" resume --run-id batch-ch019-ch023-v1 --manual-action-mode stop
+```
+
+Bounded chapter checkpoint:
+
+```powershell
+novel-pipeline --config ".system/config.yaml" resume --run-id batch-ch019-ch023-v1 --until-chapter ch019 --manual-action-mode stop
+```
+
+Bounded block checkpoint:
+
+```powershell
+novel-pipeline --config ".system/config.yaml" resume --run-id batch-ch019-ch023-v1 --until-block ch019-block-005 --manual-action-mode stop
+```
+
+Read-only block inspection:
+
+```powershell
+novel-pipeline --config ".system/config.yaml" inspect-block --run-id batch-ch019-ch023-v1 --block-id ch019-block-002
 ```
 
 Targeted block recovery:
@@ -313,6 +341,7 @@ Worker model restrictions:
 - 2026-04-19: Elephant and Nemotron banned from state-changing work after false completion reports.
 - 2026-04-19: GitHub backup repository established at `https://github.com/Tusgof/Novel` to protect memory docs and source.
 - 2026-04-20: `PROJECT_BRAIN.md` restructured as project constitution, architecture map, current state, guardrails, and recovery memory.
+- 2026-04-20: Runtime safety controls implemented in `f2143f6`: manual-action stop mode, bounded resume, read-only inspect-block, effective status fields, and basic post-format validation.
 
 ## Document Map
 
@@ -339,6 +368,8 @@ Worker model restrictions:
 - Known pushed commits:
   - `f665df2 Initial novel pipeline safety snapshot`
   - `9a0997b Document GitHub backup repository`
+  - `eeec25b Restructure project brain memory`
+  - `f2143f6 Add bounded resume safety controls`
 - Runtime/production artifact directories are intentionally ignored:
   - `03_Raw/`
   - `04_Work/`
