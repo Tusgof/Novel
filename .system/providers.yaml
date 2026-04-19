@@ -1,0 +1,105 @@
+term_extraction:
+  provider: gemini
+  model: pro
+  timeout_seconds: 15
+  max_calls_per_scan: 0
+  max_failures_per_scan: 1
+  retry:
+    max_attempts: 1
+    initial_delay_seconds: 0
+    backoff_multiplier: 1.0
+    failure_kinds:
+      - quota
+      - timeout
+      - nonzero_exit
+      - empty_stdout
+term_suggestion:
+  provider: claude
+  model: sonnet
+literal_translation:
+  provider: gemini
+  model: pro
+refinement:
+  provider: claude
+  model: sonnet
+  fallback_provider: codex
+  fallback_model: gpt-5.4
+  fallbacks:
+    - provider: codex
+      model: gpt-5.4
+    - provider: qwen
+      model: deepseek-reasoner
+qa_judge:
+  provider: qwen
+  model: deepseek-reasoner
+  fallback_provider: gemini
+  fallback_model: pro
+formatting:
+  provider: qwen
+  model: deepseek-reasoner
+
+providers:
+  gemini:
+    executable: C:\Users\ASUS\AppData\Roaming\npm\gemini.cmd
+    default_model: pro
+    timeout_seconds: 300
+    max_command_chars: 24000
+    retry:
+      max_attempts: 2
+      initial_delay_seconds: 60
+      backoff_multiplier: 2.0
+      failure_kinds:
+        - quota
+        - timeout
+  claude:
+    executable: C:\Users\ASUS\AppData\Roaming\npm\claude.cmd
+    default_model: sonnet
+    prompt_transport: stdin
+    retry:
+      max_attempts: 1
+      initial_delay_seconds: 0
+      backoff_multiplier: 1.0
+      failure_kinds:
+        - quota
+        - timeout
+  qwen:
+    executable: C:\Users\ASUS\AppData\Roaming\npm\qwen.cmd
+    prompt_flag:
+    prompt_position: positional
+    prompt_transport: stdin
+    model_flag: -m
+    model_position: before_prompt
+    default_model: deepseek-reasoner
+    timeout_seconds: 300
+    retry:
+      max_attempts: 1
+      initial_delay_seconds: 0
+      backoff_multiplier: 1.0
+      failure_kinds:
+        - quota
+        - timeout
+  codex:
+    executable:
+      - C:\Users\ASUS\AppData\Roaming\npm\codex.cmd
+      - exec
+    prompt_flag: "-"
+    prompt_position: positional
+    prompt_transport: stdin
+    model_flag: -m
+    model_position: before_prompt
+    timeout_seconds: 300
+    extra_args:
+      - --skip-git-repo-check
+      - --cd
+      - D:\Fogust\Workspace\Novel\Deep Sea Embers
+      - --sandbox
+      - read-only
+    retry:
+      max_attempts: 1
+      initial_delay_seconds: 0
+      backoff_multiplier: 1.0
+      failure_kinds:
+        - quota
+        - timeout
+        - nonzero_exit
+        - empty_stdout

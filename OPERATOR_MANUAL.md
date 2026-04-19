@@ -1,0 +1,218 @@
+# Operator Manual
+
+Last restored: 2026-04-19
+
+This is the practical runbook. It should help the operator proceed without guessing.
+
+## Current Status
+
+- V3.7 complete: ch004-ch008.
+- V3.8 complete: ch009-ch018.
+- ch001-ch018 outputs exist.
+- V3.9 in progress: `batch-ch019-ch023-v1`.
+- Current V3.9 state:
+  - fetched: ch019-ch023 complete.
+  - glossary_scanned: ch019-ch023 complete.
+  - glossary_approved: ch019-ch023 complete.
+  - `ch019-block-001`: complete.
+  - `ch019-block-002`: complete after repair.
+  - next pending: `ch019-block-003` at translating.
+  - ch020-ch023: not translated.
+  - ch024+: must remain untouched.
+
+## Standard Preflight
+
+Run from:
+
+```powershell
+cd "D:\Fogust\Workspace\Novel\Deep Sea Embers"
+$env:PYTHONIOENCODING='utf-8'
+```
+
+Compile/test:
+
+```powershell
+python -m compileall novel_pipeline
+python test_translation.py
+```
+
+Status:
+
+```powershell
+novel-pipeline --config ".system/config.yaml" status --run-id batch-ch019-ch023-v1
+```
+
+If CLI is unavailable, inspect:
+
+```text
+06_Logs/run_ledger.jsonl
+04_Work/
+05_Output/
+```
+
+## Scan-Only Glossary Gate
+
+Use for new chapter ranges before translation:
+
+```powershell
+novel-pipeline --config ".system/config.yaml" run --range ch019-ch023 --run-id batch-ch019-ch023-v1 --stop-after glossary-scan
+```
+
+Expected:
+
+- fetch records appended
+- glossary_scanned records appended
+- batch artifact exists under `04_Work/_batch/<run_id>/glossary_scan.json`
+- no glossary_approved records yet
+- no translation/refinement/QA/formatting records
+- no final outputs
+
+## Glossary Approval Gate
+
+Before translation:
+
+1. Review `07_Reports/glossary_classification_<run_id>.md`.
+2. Ask user for ambiguous term decisions.
+3. Create/update only approved glossary notes.
+4. Append `glossary_approved` records with exact chapter block IDs:
+   - `ch019`, `ch020`, etc.
+5. Verify no translation records were created.
+
+Current V3.9 approved terms:
+
+- `实太阳神` -> `สุริยเทพที่แท้จริง`
+- `面具神` -> `เทพหน้ากาก`
+
+## Bounded Resume
+
+Do not run long blind resumes with noninteractive workers. Use bounded checkpoints.
+
+Recommended V3.9 next step:
+
+- Continue from `ch019-block-003`.
+- Stop on manual QA hard-fail prompt.
+- Do not force-accept.
+- Verify after each checkpoint.
+
+General command:
+
+```powershell
+novel-pipeline --config ".system/config.yaml" resume --run-id batch-ch019-ch023-v1
+```
+
+If recovering a single block:
+
+```powershell
+novel-pipeline --config ".system/config.yaml" rerun-block --run-id batch-ch019-ch023-v1 --block-id <block-id> --from-stage <stage>
+```
+
+## Validation After A Block Completes
+
+Inspect:
+
+- `04_Work/<chapter>/<block>.literal.json`
+- `04_Work/<chapter>/<block>.refined.json`
+- `04_Work/<chapter>/<block>.qa.json`
+- `04_Work/<chapter>/<block>.formatted.json`
+- `06_Logs/run_ledger.jsonl`
+
+Check:
+
+- QA passed
+- formatting completed
+- completed record exists
+- no provider/meta/error text
+- no Han Chinese in Thai body
+- no wrong glossary variants
+- no quote-only lines
+- dialogue quote marks are not lost after formatting
+
+## Handling QA Hard-Fail
+
+If QA reports semantic omission or meaning drift:
+
+1. Stop.
+2. Read source, literal, refined, QA.
+3. Decide whether deterministic artifact repair is enough.
+4. If repair is made, modify the narrowest artifact only.
+5. Rerun from QA or the failed stage.
+6. Verify formatted output afterward.
+
+Do not force-accept without explicit user/Codex decision.
+
+## Handling Noninteractive EOF
+
+If a worker reports `EOF when reading a line`, it likely hit a manual QA prompt.
+
+Action:
+
+- Stop the batch.
+- Inspect the QA artifact.
+- Do not resume blindly until a repair/decision is made.
+
+## Handling Claude Crash
+
+Known error:
+
+- return code `3221225786`
+- empty stderr/stdout
+
+Action:
+
+- retry may succeed
+- if repeated, allow GPT-5.4 fallback for refinement
+- GPT output must pass deterministic checks and Qwen QA
+
+## Handling Gemini command_too_long
+
+Known risk:
+
+- Gemini argv transport can hit command-line length limits, especially as QA fallback.
+- Preflight exists, but fallback incidents can still occur.
+
+Action:
+
+- use bounded QA-stage rerun if Qwen primary can succeed
+- do not switch literal translation to Claude
+- if repeated, stop and report
+
+## Worker Restrictions
+
+Do not use Elephant or Nemotron for state-changing operations.
+
+Forbidden:
+
+- ledger append
+- glossary approval
+- artifact modification
+- code/config edits
+- resume/rerun
+- translation checkpoints
+- force-accept decisions
+
+Reason: both produced false completion reports in V3.9.
+
+## What Not To Do
+
+- Do not process ch024+ during `batch-ch019-ch023-v1`.
+- Do not create final output before all chapter blocks complete.
+- Do not edit ledger except append-only deliberate records.
+- Do not delete historical failed records.
+- Do not trust provider/worker reports without disk verification.
+- Do not compress project docs into short summaries.
+
+## End-Of-Batch Gate
+
+For ch019-ch023 completion:
+
+- all expected blocks complete
+- outputs exist for ch019-ch023
+- current failed blocks none
+- no ch024+ processing
+- all cleanliness checks pass
+- spot-check report exists
+- docs updated:
+  - `PROJECT_BRAIN.md`
+  - `Implement_PLAN.md`
+  - `OPERATOR_MANUAL.md`
+  - `AGENTS.md`

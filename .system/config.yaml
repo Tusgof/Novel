@@ -1,0 +1,16 @@
+novel_id: deep-sea-embers
+vault_root: .
+source_language: zh
+default_batch_size: 10
+chapter_unit: chapters
+default_style_profile: deep_sea_embers
+
+chunking:
+  chinese_character_limit: 600
+  non_chinese_word_limit: 5000
+
+source:
+  adapter: piaotia
+  toc_url: https://www.piaotia.com/html/15/15218/
+  delay_seconds: 1.0
+  encoding: gbk

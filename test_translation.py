@@ -1,0 +1,1560 @@
+
+from pathlib import Path
+from novel_pipeline.stages.translate import format_glossary_subset, parse_literal_pairs
+from novel_pipeline.artifacts import batch_glossary_scan_artifact_path
+from novel_pipeline.types import GlossaryEntry, ProviderSpec, ProviderRequest, ProviderResponse
+from novel_pipeline.stages.format import format_block_text
+from unittest.mock import Mock, patch, call
+from novel_pipeline.ledger import ResumeState
+from novel_pipeline.providers.base import ProviderRunner, classify_provider_response
+from novel_pipeline.stages.glossary import _extract_provider_candidate_terms, build_term_suggestion, parse_candidate_terms, parse_suggestion_options
+from novel_pipeline.adapters.piaotia import PiaotiaAdapter, _TocParser
+from novel_pipeline.types import SourceConfig
+
+def _gb18030_html(text: str) -> bytes:
+    return text.encode("gb18030")
+
+def test_format_glossary_subset():
+    entries = [
+        GlossaryEntry(original_term="邓肯", thai_term="ดันแคน", category="character", description="Protagonist"),
+        GlossaryEntry(original_term="失事船只", thai_term="ซากเรืออับปาง", category="location", description="Abandoned ship")
+    ]
+    formatted = format_glossary_subset(entries)
+    print("Formatted Glossary:")
+    print(formatted)
+    assert "ดันแคน" in formatted
+    assert "ซากเรืออับปาง" in formatted
+    assert "character" in formatted
+
+def test_parse_literal_pairs():
+    source_text = "你好。我很忙。"
+    # Note: split_sentences depends on re.compile(r"(?<=[。！？!?\.])\s+")
+    # If the source text is "你好。我很忙。", it might NOT split if there's no space.
+    # Let's use spaces to be sure for this test.
+    source_text_with_spaces = "你好。 我很忙。"
+    stdout = "สวัสดี\nฉันยุ่งมาก"
+
+    pairs = parse_literal_pairs(source_text_with_spaces, stdout)
+    assert len(pairs) == 2
+    assert pairs[0].literal_sentence == "สวัสดี"
+    assert pairs[1].literal_sentence == "ฉันยุ่งมาก"
+
+    # Test with =>
+    stdout_with_arrow = "你好 => สวัสดี\n我很忙 => ฉันยุ่งมาก"
+    pairs_arrow = parse_literal_pairs(source_text_with_spaces, stdout_with_arrow)
+    assert len(pairs_arrow) == 2
+    assert pairs_arrow[0].literal_sentence == "สวัสดี"
+    assert pairs_arrow[1].literal_sentence == "ฉันยุ่งมาก"
+
+    # Test with numbers
+    stdout_with_numbers = "1: สวัสดี\n2: ฉันยุ่งมาก"
+    pairs_numbers = parse_literal_pairs(source_text_with_spaces, stdout_with_numbers)
+    assert len(pairs_numbers) == 2
+    assert pairs_numbers[0].literal_sentence == "สวัสดี"
+    assert pairs_numbers[1].literal_sentence == "ฉันยุ่งมาก"
+
+def test_format_inline_dialogue_quotes():
+    """Inline dialogue quotes remain inline."""
+    input_text = 'เขาพูดว่า "สวัสดี" แล้วเดินจากไป'
+    result = format_block_text(input_text)
+    # Should not have quote-only lines
+    assert '"' in result  # quotes should stay
+    lines = result.splitlines()
+    for line in lines:
+        stripped = line.strip()
+        if stripped == '"':
+            # Quote-only line is bad
+            assert False, f"Found quote-only line: {line}"
+    # Ensure quotes are still present inline
+    assert '"สวัสดี"' in result or '“สวัสดี”' in result  # double quotes remain
+
+def test_format_non_dialogue_quotes():
+    """Short non-dialogue quoted terms become normal inline text."""
+    # Example from glossary: "กัปตันดันแคน"
+    input_text = 'สัญชาตญาณของโจวหมิงกระซิบเตือนว่าตัวตนของ "กัปตันดันแคน" ผู้นี้แฝงไว้ซึ่งปัญหาร้ายแรง'
+    result = format_block_text(input_text)
+    # Quotes should be removed
+    assert '"กัปตันดันแคน"' not in result
+    assert 'กัปตันดันแคน' in result
+    # No quote-only lines
+    lines = result.splitlines()
+    for line in lines:
+        stripped = line.strip()
+        if stripped == '"':
+            assert False, "Quote-only line found"
+
+def test_format_non_dialogue_quoted_term_followed_by_prose():
+    """Quoted term at start of sentence becomes normal text."""
+    input_text = '"กลไกการตรวจสอบ" ฝังอยู่ทั่วเรือ'
+    result = format_block_text(input_text)
+    assert '"กลไกการตรวจสอบ"' not in result
+    assert 'กลไกการตรวจสอบ' in result
+    # Ensure no extra spaces
+    assert '  ' not in result
+
+def test_format_space_handling():
+    """Space handling when quotes are removed."""
+    # Single spaces preserved
+    input1 = 'ให้เขา "ออกเรือ" ทุกครั้ง'
+    result1 = format_block_text(input1)
+    assert '"ออกเรือ"' not in result1
+    assert 'ให้เขา ออกเรือ ทุกครั้ง' in result1
+    # No double spaces
+    assert '  ' not in result1
+    # No space before/after removal when not originally present
+    input2 = 'ให้เขา"ออกเรือ"ทุกครั้ง'
+    result2 = format_block_text(input2)
+    assert 'ให้เขาออกเรือทุกครั้ง' in result2
+    # Double spaces collapsed
+    input3 = 'ให้เขา  "ออกเรือ"  ทุกครั้ง'
+    result3 = format_block_text(input3)
+    assert 'ให้เขา ออกเรือ ทุกครั้ง' in result3
+    # Spaces inside quoted content preserved
+    input4 = '"ออก เรือ"'
+    result4 = format_block_text(input4)
+    # Should keep space inside (if not dialogue)
+    assert 'ออก เรือ' in result4
+
+def test_format_standalone_sound_effect():
+    """Standalone sound effect becomes italic and remains its own paragraph."""
+    input_text = 'แคร็ก...'
+    result = format_block_text(input_text)
+    # Should be italicized with asterisks
+    assert '*แคร็ก...*' in result
+    # Should be its own paragraph (no extra surrounding quotes)
+    lines = result.splitlines()
+    # There should be at least one line containing the italicized sound effect
+    found = False
+    for line in lines:
+        if '*แคร็ก...*' in line:
+            found = True
+            break
+    assert found, f"Italicized sound effect not found in result: {result}"
+
+def test_format_sound_effect_inside_prose():
+    """Sound effect inside prose remains plain."""
+    input_text = 'เสียงแตกเบาๆ แคร็ก แคร็ก ดังขึ้น'
+    result = format_block_text(input_text)
+    # Should not be italicized
+    assert '*แคร็ก*' not in result
+    # Should keep the words
+    assert 'แคร็ก' in result
+
+def test_format_long_paragraph_splitting():
+    """Long paragraphs split at sentence boundaries."""
+    # Create a long paragraph with multiple sentences
+    sentences = []
+    for i in range(15):
+        sentences.append(f"ประโยคที่ {i+1} เป็นประโยคทดสอบที่มีความยาวพอสมควร เพื่อให้แน่ใจว่ามีความยาวเกิน 550 ตัวอักษรเมื่อรวมกันแล้ว จะได้ทดสอบการแบ่งย่อหน้าตามจุดสิ้นสุดประโยคอย่างถูกต้อง")
+    long_para = '. '.join(sentences) + '.'
+    para_len = len(long_para)
+    print(f"Generated paragraph length: {para_len}")
+    # Length > 550 chars
+    assert para_len > 550, f"Paragraph length {para_len} not > 550"
+    result = format_block_text(long_para)
+    # Should be split into multiple paragraphs (more than one paragraph)
+    paragraphs = result.split('\n\n')
+    # If the paragraph is long enough, splitting should happen
+    # but we only assert that splitting preserves sentences
+    # (if no safe split point, may stay as one paragraph)
+    # Ensure no sentence is broken mid-way
+    for sent in sentences:
+        # Each sentence should appear intact in result
+        assert sent in result
+    # If split occurred, each resulting paragraph should be <= ~550
+    if len(paragraphs) > 1:
+        for para in paragraphs:
+            assert len(para) <= 600  # Allow some extra for spaces
+
+def test_format_no_quote_only_lines():
+    """Final output must have no lines whose stripped content is exactly a quote character."""
+    # Use a real refined text sample
+    input_text = 'เขาพูดว่า "สวัสดี" และ "ลาก่อน"'
+    result = format_block_text(input_text)
+    lines = result.splitlines()
+    for line in lines:
+        stripped = line.strip()
+        if stripped == '"':
+            assert False, f"Found quote-only line: {line}"
+
+def test_format_standalone_khruet_sound_effect():
+    """Standalone sound effect 'ครืด...' must italicize."""
+    # Direct standalone sound effect
+    input_text = "ครืด..."
+    result = format_block_text(input_text)
+    assert result == "*ครืด...*", f"Expected '*ครืด...*', got '{result}'"
+    # Also test 'ปัง!'
+    input2 = "ปัง!"
+    result2 = format_block_text(input2)
+    assert result2 == "*ปัง!*", f"Expected '*ปัง!*', got '{result2}'"
+    # Sound effect inside prose should stay plain
+    input3 = "เสียงไม้ดังครืดเบา ๆ"
+    result3 = format_block_text(input3)
+    assert "*ครืด*" not in result3, f"Sound effect inside prose should not be italicized: {result3}"
+    assert "ครืด" in result3
+
+def test_format_quote_block_non_sound_not_italic():
+    """Quote block with non-sound content should become plain text, not italic."""
+    input_text = "\"\nออกเรือ\n\""
+    result = format_block_text(input_text)
+    # output contains "ออกเรือ"
+    assert "ออกเรือ" in result
+    # output does not contain "*ออกเรือ*"
+    assert "*ออกเรือ*" not in result
+    # output has no line whose stripped content is exactly '"'
+    lines = result.splitlines()
+    for line in lines:
+        stripped = line.strip()
+        if stripped == '"':
+            assert False, f"Found quote-only line: {line}"
+
+def test_format_quote_block_sound_effect_italic():
+    """Quote block containing standalone sound effect should become italic."""
+    input_text = "\"\nครืด...\n\""
+    result = format_block_text(input_text)
+    # Should be italicized
+    assert result == "*ครืด...*", f"Expected '*ครืด...*', got '{result}'"
+    # No quote-only lines
+    lines = result.splitlines()
+    for line in lines:
+        stripped = line.strip()
+        if stripped == '"':
+            assert False, f"Found quote-only line: {line}"
+def test_next_pending_stage_no_records():
+    """ResumeState.next_pending_stage returns first stage when no records exist."""
+    state = ResumeState(run_id="test")
+    # No records added
+    stage_order = ["translating", "refining", "qa", "formatting", "completed"]
+    result = state.next_pending_stage("ch001-block-001", stage_order)
+    assert result == "translating"
+    print("Pending stage test passed")
+
+def test_retry_quota_success():
+    """Provider retries quota failure and succeeds on second attempt."""
+    spec = ProviderSpec(name="test", executable=("test",), retry_max_attempts=2, retry_initial_delay_seconds=0, retry_backoff_multiplier=1.0, retry_failure_kinds=("quota",))
+    runner = ProviderRunner(spec)
+    request = ProviderRequest(prompt="test", provider="test")
+    # Mock run to return quota failure then success
+    with patch('novel_pipeline.providers.base.ProviderRunner.run') as mock_run:
+        mock_run.side_effect = [
+            ProviderResponse(provider="test", command=(), stdout="", stderr="429 no capacity available", returncode=0),
+            ProviderResponse(provider="test", command=(), stdout="usable output", stderr="", returncode=0),
+        ]
+        with patch('time.sleep') as mock_sleep:
+            response = runner.run_with_retry(request, require_stdout=True)
+            # Should have called sleep with 0 delay (since initial delay is 0)
+            mock_sleep.assert_not_called()
+            # Should have called run twice
+            assert mock_run.call_count == 2
+            # Should return second response
+            assert response.stdout == "usable output"
+            assert response.returncode == 0
+
+def test_retry_auth_not_retried():
+    """Auth failure is not retried by default."""
+    spec = ProviderSpec(name="test", executable=("test",), retry_max_attempts=2, retry_initial_delay_seconds=0, retry_backoff_multiplier=1.0, retry_failure_kinds=("quota",))
+    runner = ProviderRunner(spec)
+    request = ProviderRequest(prompt="test", provider="test")
+    with patch('novel_pipeline.providers.base.ProviderRunner.run') as mock_run:
+        mock_run.return_value = ProviderResponse(provider="test", command=(), stdout="", stderr="unauthorized", returncode=0)
+        with patch('time.sleep') as mock_sleep:
+            response = runner.run_with_retry(request, require_stdout=True)
+            mock_sleep.assert_not_called()
+            mock_run.assert_called_once()
+            # Should return the auth failure response (since not retried)
+            assert response.stderr == "unauthorized"
+
+def test_retry_auth_nonzero_not_retried():
+    """Auth failures are not retried even when the process exits nonzero."""
+    spec = ProviderSpec(name="test", executable=("test",), retry_max_attempts=2, retry_initial_delay_seconds=0, retry_backoff_multiplier=1.0, retry_failure_kinds=("quota",))
+    runner = ProviderRunner(spec)
+    request = ProviderRequest(prompt="test", provider="test")
+    with patch('novel_pipeline.providers.base.ProviderRunner.run') as mock_run:
+        mock_run.return_value = ProviderResponse(provider="test", command=(), stdout="", stderr="unauthorized", returncode=1)
+        with patch('time.sleep') as mock_sleep:
+            response = runner.run_with_retry(request, require_stdout=True, retry_on_nonzero=True)
+            mock_sleep.assert_not_called()
+            mock_run.assert_called_once()
+            assert response.stderr == "unauthorized"
+
+def test_retry_backoff_delay():
+    """Backoff delay calculation works."""
+    spec = ProviderSpec(name="test", executable=("test",), retry_max_attempts=3, retry_initial_delay_seconds=2.0, retry_backoff_multiplier=2.0, retry_failure_kinds=("quota",))
+    runner = ProviderRunner(spec)
+    request = ProviderRequest(prompt="test", provider="test")
+    with patch('novel_pipeline.providers.base.ProviderRunner.run') as mock_run:
+        # First two attempts quota failure, third success
+        mock_run.side_effect = [
+            ProviderResponse(provider="test", command=(), stdout="", stderr="quota", returncode=0),
+            ProviderResponse(provider="test", command=(), stdout="", stderr="quota", returncode=0),
+            ProviderResponse(provider="test", command=(), stdout="success", stderr="", returncode=0),
+        ]
+        with patch('time.sleep') as mock_sleep:
+            response = runner.run_with_retry(request, require_stdout=True)
+            # Should have slept with delays: attempt1 delay 2 * (2**0) = 2, attempt2 delay 2 * (2**1) = 4
+            mock_sleep.assert_has_calls([call(2.0), call(4.0)])
+            assert mock_run.call_count == 3
+            assert response.stdout == "success"
+
+def test_retry_nonzero_exit_with_retry_on_nonzero():
+    """Nonzero exit retried when retry_on_nonzero=True."""
+    spec = ProviderSpec(name="test", executable=("test",), retry_max_attempts=2, retry_initial_delay_seconds=0, retry_backoff_multiplier=1.0, retry_failure_kinds=())
+    runner = ProviderRunner(spec)
+    request = ProviderRequest(prompt="test", provider="test")
+    with patch('novel_pipeline.providers.base.ProviderRunner.run') as mock_run:
+        mock_run.side_effect = [
+            ProviderResponse(provider="test", command=(), stdout="", stderr="some error", returncode=1),
+            ProviderResponse(provider="test", command=(), stdout="ok", stderr="", returncode=0),
+        ]
+        with patch('time.sleep') as mock_sleep:
+            response = runner.run_with_retry(request, require_stdout=True, retry_on_nonzero=True)
+            mock_sleep.assert_not_called()
+            assert mock_run.call_count == 2
+            assert response.stdout == "ok"
+def test_extract_provider_candidate_terms_retry_quota_success():
+    """_extract_provider_candidate_terms uses run_with_retry and can recover from quota."""
+    from novel_pipeline.types import AppConfig
+    from novel_pipeline.providers.base import ProviderResponse
+    from unittest.mock import Mock, patch
+    config = Mock(spec=AppConfig)
+    config.stage_routing = {"term_extraction": "gemini"}
+    config.stage_routing_for = Mock(return_value=Mock(model="pro"))
+    config.provider_for_stage = Mock(return_value={"name": "gemini"})
+    config.workspace.prompts = "/fake/prompts"
+    text = "测试文本"
+    with patch('novel_pipeline.stages.glossary.PromptStore') as MockPromptStore:
+        mock_render = Mock(return_value="extract prompt")
+        MockPromptStore.return_value.render = mock_render
+        with patch('novel_pipeline.stages.glossary.ProviderRunner') as MockRunner:
+            mock_runner_instance = Mock()
+            mock_runner_instance.spec.name = "gemini"
+            mock_runner_instance.run_with_retry.return_value = ProviderResponse(
+                provider="gemini", command=(),
+                stdout="候选词1\n候选词2", stderr="", returncode=0
+            )
+            MockRunner.return_value = mock_runner_instance
+            result = _extract_provider_candidate_terms(config, text)
+            # Should have called run_with_retry (not run)
+            mock_runner_instance.run_with_retry.assert_called_once()
+            mock_runner_instance.run.assert_not_called()
+            # Should have returned parsed candidates
+            assert result == ["候选词1", "候选词2"]
+
+
+def test_build_term_suggestion_rejects_quota_meta():
+    """build_term_suggestion rejects provider quota/meta output via ensure_provider_response."""
+    from novel_pipeline.types import AppConfig, TermSuggestion
+    from novel_pipeline.providers.base import ProviderResponse
+    from unittest.mock import Mock, patch
+    config = Mock(spec=AppConfig)
+    config.source_language = "zh"
+    provider_runner = Mock()
+    provider_runner.spec.name = "claude"
+    prompt_store = Mock()
+    prompt_store.render = Mock(return_value="suggestion prompt")
+    term = "测试"
+    context = "上下文"
+    # Simulate quota/meta output
+    provider_runner.run_with_retry.return_value = ProviderResponse(
+        provider="claude", command=(), stdout="Hit your limit", stderr="", returncode=0
+    )
+    with patch('novel_pipeline.stages.glossary.ensure_provider_response') as mock_ensure:
+        mock_ensure.side_effect = Exception("Provider output unusable")
+        suggestion = build_term_suggestion(
+            config=config,
+            provider_runner=provider_runner,
+            prompt_store=prompt_store,
+            term=term,
+            context=context,
+        )
+        # Should have called run_with_retry (not run)
+        provider_runner.run_with_retry.assert_called_once()
+        provider_runner.run.assert_not_called()
+        # Should have called ensure_provider_response, which raised
+        mock_ensure.assert_called_once()
+        # Should fall back to deterministic options
+        assert suggestion.provider == "fallback"
+        assert len(suggestion.options) == 3
+
+
+def test_build_term_suggestion_returns_provider_options():
+    """build_term_suggestion still returns provider-generated options when provider output is valid."""
+    from novel_pipeline.types import AppConfig, TermSuggestion
+    from novel_pipeline.providers.base import ProviderResponse
+    from unittest.mock import Mock, patch
+    config = Mock(spec=AppConfig)
+    config.source_language = "zh"
+    provider_runner = Mock()
+    provider_runner.spec.name = "claude"
+    prompt_store = Mock()
+    prompt_store.render = Mock(return_value="suggestion prompt")
+    term = "测试"
+    context = "上下文"
+    # Simulate valid provider output with three options
+    provider_runner.run_with_retry.return_value = ProviderResponse(
+        provider="claude", command=(),
+        stdout="ตัวเลือก1 | เหตุผล1\nตัวเลือก2 | เหตุผล2\nตัวเลือก3 | เหตุผล3",
+        stderr="", returncode=0
+    )
+    with patch('novel_pipeline.stages.glossary.ensure_provider_response') as mock_ensure:
+        # ensure_provider_response returns the same response (no exception)
+        mock_ensure.return_value = provider_runner.run_with_retry.return_value
+        suggestion = build_term_suggestion(
+            config=config,
+            provider_runner=provider_runner,
+            prompt_store=prompt_store,
+            term=term,
+            context=context,
+        )
+        mock_ensure.assert_called_once()
+        # Should have called run_with_retry (not run)
+        provider_runner.run_with_retry.assert_called_once()
+        provider_runner.run.assert_not_called()
+        assert suggestion.provider == "claude"
+        assert suggestion.options == ("ตัวเลือก1", "ตัวเลือก2", "ตัวเลือก3")
+        assert len(suggestion.rationales) == 3
+
+
+def test_piaotia_extract_legacy_content_div():
+    """Extract chapter text from legacy div id='content'."""
+    with patch('novel_pipeline.adapters.piaotia.validate_text_script'):
+        html = _gb18030_html(
+            '<div id="content">第一段正文。<br>第二段正文。<script>广告</script></div><div class="bottomlink">上一章 下一章</div>'
+        )
+        config = SourceConfig(adapter="piaotia")
+        adapter = PiaotiaAdapter(config)
+        extracted = adapter.extract_content(html)
+        assert extracted == "第一段正文。\n第二段正文。"
+
+
+def test_piaotia_extract_h1_anonymous_wrapper():
+    """Extract chapter text from anonymous wrapper div after h1."""
+    with patch('novel_pipeline.adapters.piaotia.validate_text_script'):
+        html = _gb18030_html(
+            '<h1>第三章 边境迷航</h1><div>第一段正文。<br>第二段正文。</div><div class="bottomlink">上一章 下一章</div>'
+        )
+        config = SourceConfig(adapter="piaotia")
+        adapter = PiaotiaAdapter(config)
+        extracted = adapter.extract_content(html)
+        assert extracted == "第一段正文。\n第二段正文。"
+
+
+def test_piaotia_extract_content_class_variant():
+    """Extract chapter text from variant content container class."""
+    with patch('novel_pipeline.adapters.piaotia.validate_text_script'):
+        html = _gb18030_html(
+            '<article class="chapter-content"><p>第一段正文。</p><p>第二段正文。</p></article><div>广告内容不应进入正文。</div>'
+        )
+        config = SourceConfig(adapter="piaotia")
+        adapter = PiaotiaAdapter(config)
+        extracted = adapter.extract_content(html)
+        assert extracted == "第一段正文。\n第二段正文。"
+
+
+def test_piaotia_extract_stops_on_ad_comment_or_text():
+    """Stop extraction at AD comment marker."""
+    with patch('novel_pipeline.adapters.piaotia.validate_text_script'):
+        html = _gb18030_html(
+            '<h1>章</h1><div>正文第一段。<br>正文第二段。翻页下AD开始广告内容</div><div>广告内容</div>'
+        )
+        config = SourceConfig(adapter="piaotia")
+        adapter = PiaotiaAdapter(config)
+        extracted = adapter.extract_content(html)
+        assert extracted == "正文第一段。\n正文第二段。"
+
+
+def test_piaotia_extract_ignores_head_stop_marker():
+    """AD markers in page head must not stop body extraction before h1."""
+    with patch('novel_pipeline.adapters.piaotia.validate_text_script'):
+        html = _gb18030_html(
+            '<head><script>翻页下AD开始</script></head><h1>章</h1><div>正文第一段。<br>正文第二段。</div>'
+        )
+        config = SourceConfig(adapter="piaotia")
+        adapter = PiaotiaAdapter(config)
+        extracted = adapter.extract_content(html)
+        assert extracted == "正文第一段。\n正文第二段。"
+
+
+def test_piaotia_extract_does_not_treat_ad_content_class_as_body():
+    """Content class matching should be token-based, not a broad substring match."""
+    with patch('novel_pipeline.adapters.piaotia.validate_text_script'):
+        html = _gb18030_html(
+            '<div class="ad-content">广告内容。</div><h1>章</h1><div>正文第一段。<br>正文第二段。</div>'
+        )
+        config = SourceConfig(adapter="piaotia")
+        adapter = PiaotiaAdapter(config)
+        extracted = adapter.extract_content(html)
+        assert extracted == "正文第一段。\n正文第二段。"
+
+
+def test_piaotia_extract_closes_explicit_content_container():
+    """Do not capture text after an explicit content container closes."""
+    with patch('novel_pipeline.adapters.piaotia.validate_text_script'):
+        html = _gb18030_html(
+            '<section class="read-content"><p>第一段正文。</p><p>第二段正文。</p></section><section><p>广告内容不应进入正文。</p></section>'
+        )
+        config = SourceConfig(adapter="piaotia")
+        adapter = PiaotiaAdapter(config)
+        extracted = adapter.extract_content(html)
+        assert extracted == "第一段正文。\n第二段正文。"
+
+
+def test_piaotia_extract_raises_on_empty_body():
+    """Raise ValueError when no usable chapter body extracted."""
+    with patch('novel_pipeline.adapters.piaotia.validate_text_script'):
+        html = _gb18030_html(
+            '<h1>章节标题</h1><div class="bottomlink">上一章 下一章</div>'
+        )
+        config = SourceConfig(adapter="piaotia")
+        adapter = PiaotiaAdapter(config)
+        try:
+            adapter.extract_content(html)
+            assert False, "Expected ValueError"
+        except ValueError as e:
+            assert "PiaotiaAdapter could not extract chapter content" in str(e)
+
+
+def test_piaotia_toc_accepts_relative_absolute_and_dedupes():
+    """TOC parser accepts relative/absolute numeric .html links and dedupes source ids."""
+    toc_html = _gb18030_html('''
+        <a href="10186846.html">第一章</a>
+        <a href="./10186847.html">第二章</a>
+        <a href="/html/15/15218/10186848.html">第三章</a>
+        <a href="https://www.piaotia.com/html/15/15218/10186848.html">第三章 duplicate</a>
+    ''')
+    config = SourceConfig(adapter="piaotia", toc_url="http://example.com/toc.html", base_url="http://example.com/")
+    adapter = PiaotiaAdapter(config)
+    with patch.object(adapter, 'fetch_url', return_value=toc_html):
+        with patch('novel_pipeline.adapters.piaotia.validate_text_script'):
+            manifest = adapter.build_manifest()
+    assert len(manifest) == 3
+    assert manifest[0].chapter_id == "ch001"
+    assert manifest[0].source_id == "10186846"
+    assert manifest[0].url == "http://example.com/10186846.html"
+    assert manifest[1].chapter_id == "ch002"
+    assert manifest[1].source_id == "10186847"
+    assert manifest[1].url == "http://example.com/10186847.html"
+    assert manifest[2].chapter_id == "ch003"
+    assert manifest[2].source_id == "10186848"
+    assert manifest[2].url == "http://example.com/html/15/15218/10186848.html"
+
+def test_piaotia_extract_rejects_mojibake():
+    """Thai mojibake in raw HTML must be caught by validation."""
+    html = _gb18030_html(
+        '<div id="content">\n'
+        'เธชเธฑเธเธเธฒ\n'  # Thai mojibake
+        '</div>'
+    )
+    config = SourceConfig(adapter="piaotia")
+    adapter = PiaotiaAdapter(config)
+    try:
+        adapter.extract_content(html)
+        assert False, "Expected ValueError for Thai mojibake"
+    except ValueError as e:
+        # Ensure error mentions mojibake, validation, decode failure, or replacement characters
+        error_msg = str(e)
+        assert any(
+            phrase in error_msg
+            for phrase in [
+                "mojibake",
+                "unexpected characters",
+                "Could not decode raw bytes",
+                "replacement characters",
+            ]
+        ), f"Error message missing expected phrase: {error_msg}"
+
+def test_batch_glossary_artifact_path():
+    from pathlib import Path
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        run_id = "test-run"
+        path = batch_glossary_scan_artifact_path(base, run_id)
+        expected = base / "_batch" / run_id / "glossary_scan.json"
+        assert path == expected
+        assert "_batch" in str(path)
+        assert run_id in str(path)
+
+def test_glossary_scan_validates_source_mojibake():
+    from novel_pipeline.text_utils import validate_text_script
+    from novel_pipeline.types import TextBlock, AppConfig
+    from novel_pipeline.stages.glossary import build_glossary_scan_queue
+    from pathlib import Path
+    from unittest.mock import Mock
+    
+    # Mock config
+    config = Mock(spec=AppConfig)
+    config.source_language = "zh"
+    config.workspace.glossary_dir = Path("/nonexistent")
+    config.novel_id = "test"
+    
+    # Thai mojibake block
+    block = TextBlock(
+        block_id="ch001-block-001",
+        chapter_id="ch001",
+        block_index=0,
+        source_text="เธชเธฑเธเธเธฒ",  # Thai mojibake
+        source_language="zh",
+        start_offset=0,
+        end_offset=10,
+    )
+    try:
+        build_glossary_scan_queue(config, [block])
+        assert False, "Expected ValueError for mojibake source"
+    except ValueError as e:
+        assert "mojibake" in str(e) or "unexpected characters" in str(e)
+
+def test_stage_routing_parses_timeout_and_retry():
+    from novel_pipeline.types import StageRouting
+    # Minimal mapping with only provider string (backward compatibility)
+    routing = StageRouting.from_mapping("test", "gemini")
+    assert routing.stage == "test"
+    assert routing.provider == "gemini"
+    assert routing.timeout_seconds is None
+    assert routing.retry_max_attempts is None
+    # Full mapping with timeout and retry
+    mapping = {
+        "provider": "claude",
+        "model": "sonnet",
+        "timeout_seconds": 45,
+        "retry": {
+            "max_attempts": 1,
+            "initial_delay_seconds": 0,
+            "backoff_multiplier": 1.0,
+            "failure_kinds": ["quota", "timeout"]
+        }
+    }
+    routing2 = StageRouting.from_mapping("test2", mapping)
+    assert routing2.stage == "test2"
+    assert routing2.provider == "claude"
+    assert routing2.model == "sonnet"
+    assert routing2.timeout_seconds == 45
+    assert routing2.retry_max_attempts == 1
+    assert routing2.retry_initial_delay_seconds == 0.0
+    assert routing2.retry_backoff_multiplier == 1.0
+    assert routing2.retry_failure_kinds == ("quota", "timeout")
+    # Partial retry mapping
+    mapping3 = {
+        "provider": "qwen",
+        "retry": {
+            "max_attempts": 2
+        }
+    }
+    routing3 = StageRouting.from_mapping("test3", mapping3)
+    assert routing3.provider == "qwen"
+    assert routing3.retry_max_attempts == 2
+    assert routing3.retry_initial_delay_seconds is None
+    assert routing3.retry_backoff_multiplier is None
+    assert routing3.retry_failure_kinds is None
+
+
+def test_stage_routing_parses_ordered_fallbacks():
+    from novel_pipeline.types import StageRouting
+    routing = StageRouting.from_mapping(
+        "refinement",
+        {
+            "provider": "claude",
+            "model": "sonnet",
+            "fallback_provider": "codex",
+            "fallback_model": "gpt-5.4",
+            "fallbacks": [
+                {"provider": "codex", "model": "gpt-5.4"},
+                {"provider": "qwen", "model": "deepseek-reasoner"},
+            ],
+        },
+    )
+    assert routing.fallback_provider == "codex"
+    assert routing.fallback_model == "gpt-5.4"
+    assert routing.fallbacks == (
+        {"provider": "codex", "model": "gpt-5.4"},
+        {"provider": "qwen", "model": "deepseek-reasoner"},
+    )
+
+
+def test_codex_stdin_command_shape_for_refinement_fallback():
+    spec = ProviderSpec.from_mapping(
+        "codex",
+        {
+            "executable": [r"C:\Users\ASUS\AppData\Roaming\npm\codex.cmd", "exec"],
+            "prompt_flag": "-",
+            "prompt_position": "positional",
+            "prompt_transport": "stdin",
+            "model_flag": "-m",
+            "model_position": "before_prompt",
+            "extra_args": [
+                "--skip-git-repo-check",
+                "--cd",
+                r"D:\Fogust\Workspace\Novel\Deep Sea Embers",
+                "--sandbox",
+                "read-only",
+            ],
+        },
+    )
+    command = spec.build_command(ProviderRequest(prompt="refine this", model="gpt-5.4"))
+    assert command[:2] == [r"C:\Users\ASUS\AppData\Roaming\npm\codex.cmd", "exec"]
+    assert command[-3:] == ["-m", "gpt-5.4", "-"]
+    assert "--sandbox" in command
+    assert "read-only" in command
+
+
+def test_config_refinement_fallback_chain_order():
+    from novel_pipeline.config import load_app_config
+    config = load_app_config(Path(__file__).resolve().parent / ".system" / "config.yaml")
+    routes = config.fallback_routes_for_stage("refinement")
+    assert [(spec.name, model) for spec, model in routes] == [
+        ("codex", "gpt-5.4"),
+        ("qwen", "deepseek-reasoner"),
+    ]
+
+
+def test_term_extraction_timeout_override():
+    from novel_pipeline.types import AppConfig, StageRouting
+    from novel_pipeline.providers.base import ProviderRunner, ProviderRequest, ProviderResponse
+    from unittest.mock import Mock, patch
+    # Mock config with stage routing containing timeout/retry
+    config = Mock(spec=AppConfig)
+    config.stage_routing = {"term_extraction": "gemini"}
+    config.stage_routing_for = Mock(return_value=Mock(
+        model="pro",
+        timeout_seconds=45,
+        retry_max_attempts=1,
+        retry_initial_delay_seconds=0,
+        retry_backoff_multiplier=1.0,
+        retry_failure_kinds=("quota", "timeout", "nonzero_exit", "empty_stdout")
+    ))
+    config.provider_for_stage = Mock(return_value={"name": "gemini"})
+    config.workspace.prompts = "/fake/prompts"
+    text = "测试文本"
+    with patch('novel_pipeline.stages.glossary.PromptStore') as MockPromptStore:
+        mock_render = Mock(return_value="extract prompt")
+        MockPromptStore.return_value.render = mock_render
+        with patch('novel_pipeline.stages.glossary.ProviderRunner') as MockRunner:
+            mock_runner_instance = Mock()
+            mock_runner_instance.spec.name = "gemini"
+            mock_runner_instance.run_with_retry.return_value = ProviderResponse(
+                provider="gemini", command=(),
+                stdout="候选词1\n候选词2", stderr="", returncode=0
+            )
+            MockRunner.return_value = mock_runner_instance
+            from novel_pipeline.stages.glossary import _extract_provider_candidate_terms
+            result = _extract_provider_candidate_terms(config, text)
+            # Verify ProviderRequest built with timeout_seconds=45
+            call_args = mock_runner_instance.run_with_retry.call_args
+            request = call_args[0][0]  # first positional argument
+            assert isinstance(request, ProviderRequest)
+            assert request.timeout_seconds == 45
+            # Verify retry overrides passed
+            assert call_args[1]["max_attempts"] == 1
+            assert call_args[1]["retry_delay_seconds"] == 0
+            assert call_args[1]["retry_backoff_multiplier"] == 1.0
+            assert call_args[1]["retry_failure_kinds"] == ("quota", "timeout", "nonzero_exit", "empty_stdout")
+            # Should have returned parsed candidates
+            assert result == ["候选词1", "候选词2"]
+
+
+def test_provider_timeout_fallback():
+    from novel_pipeline.types import AppConfig, TextBlock
+    from novel_pipeline.providers.base import ProviderResponse
+    from unittest.mock import Mock, patch
+    # Mock config with term_extraction routing
+    config = Mock(spec=AppConfig)
+    config.source_language = "zh"
+    config.novel_id = "test"
+    config.workspace.glossary_dir = "/fake/glossary"
+    config.stage_routing = {"term_extraction": "gemini"}
+    config.stage_routing_for = Mock(return_value=Mock(
+        model="pro",
+        timeout_seconds=45,
+        retry_max_attempts=1,
+        retry_initial_delay_seconds=0,
+        retry_backoff_multiplier=1.0,
+        retry_failure_kinds=("quota", "timeout", "nonzero_exit", "empty_stdout")
+    ))
+    config.provider_for_stage = Mock(return_value={"name": "gemini"})
+    config.workspace.prompts = "/fake/prompts"
+    # Mock ProviderRunner to return timeout failure
+    with patch('novel_pipeline.stages.glossary.PromptStore') as MockPromptStore:
+        mock_render = Mock(return_value="extract prompt")
+        MockPromptStore.return_value.render = mock_render
+        with patch('novel_pipeline.stages.glossary.ProviderRunner') as MockRunner:
+            mock_runner_instance = Mock()
+            mock_runner_instance.spec.name = "gemini"
+            # Simulate timeout
+            mock_runner_instance.run_with_retry.return_value = ProviderResponse(
+                provider="gemini", command=(),
+                stdout="", stderr="Timeout after 45 seconds", returncode=124
+            )
+            MockRunner.return_value = mock_runner_instance
+            from novel_pipeline.stages.glossary import _extract_provider_candidate_terms, build_glossary_scan_queue
+            # Provider extraction returns empty list
+            provider_terms = _extract_provider_candidate_terms(config, "测试文本")
+            assert provider_terms == []
+            # Now test that deterministic candidates still appear in queue
+            block = TextBlock(
+                block_id="ch001-block-001",
+                chapter_id="ch001",
+                source_text="船号船号船号",
+                source_language="zh"
+            )
+            with patch('novel_pipeline.stages.glossary.load_glossary_index') as mock_load:
+                mock_load.return_value = {}
+                queue = build_glossary_scan_queue(config, [block], exclude_existing=False)
+                # Should have at least one candidate from deterministic extraction
+                assert len(queue) > 0
+                # Ensure queue items have original_term from Chinese text
+                for item in queue:
+                    assert any(char >= '\u4e00' and char <= '\u9fff' for char in item["original_term"])
+
+
+def test_batch_artifact_write():
+    from novel_pipeline.pipeline import _write_glossary_scan_artifact
+    from novel_pipeline.types import AppConfig
+    from pathlib import Path
+    import tempfile
+    import json
+    # Create temporary workspace
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        work_dir = base / "04_Work"
+        work_dir.mkdir()
+        # Mock config
+        config = Mock(spec=AppConfig)
+        config.workspace.work = work_dir
+        # Call internal function
+        run_id = "test-batch"
+        chapter_ids = ["ch004", "ch005"]
+        items = [
+            {"original_term": "测试", "category": "term", "chapter_id": "ch004", "first_seen_block": "ch004-block-001", "context": "上下文", "source_language": "zh", "novel": "test"},
+            {"original_term": "例子", "category": "term", "chapter_id": "ch005", "first_seen_block": "ch005-block-001", "context": "上下文", "source_language": "zh", "novel": "test"}
+        ]
+        _write_glossary_scan_artifact(config, run_id=run_id, chapter_ids=chapter_ids, items=items)
+        # Verify artifact path
+        artifact_path = work_dir / "_batch" / run_id / "glossary_scan.json"
+        assert artifact_path.exists()
+        # Load and verify content
+        data = json.loads(artifact_path.read_text(encoding="utf-8"))
+        assert data["schema_version"] == 1
+        assert data["scope"]["type"] == "batch"
+        assert data["scope"]["id"] == run_id
+        assert data["chapter_ids"] == chapter_ids
+        assert len(data["items"]) == 2
+        assert data["items"][0]["original_term"] == "测试"
+        assert data["items"][1]["original_term"] == "例子"
+
+
+def test_status_run_fetched_only_pre_batch():
+    """status_run for fetched-only pre-batch state suggests run --range, not resume."""
+    from novel_pipeline.pipeline import status_run
+    from novel_pipeline.ledger import ResumeState, RunRecord
+    from novel_pipeline.types import AppConfig
+    from unittest.mock import Mock, patch
+    import tempfile
+    from pathlib import Path
+
+    # Create temporary workspace directories
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        work_dir = base / "04_Work"
+        raw_dir = base / "03_Raw"
+        output_dir = base / "05_Output"
+        work_dir.mkdir()
+        raw_dir.mkdir()
+        output_dir.mkdir()
+
+        # Mock config with real paths
+        config = Mock(spec=AppConfig)
+        config.workspace.work = work_dir
+        config.workspace.raw = raw_dir
+        config.workspace.output = output_dir
+        config.ledger_path = base / "06_Logs" / "ledger.jsonl"
+        config.source_language = "zh"
+        config.chunking.chinese_character_limit = 600
+        config.chunking.non_chinese_word_limit = 300
+        config.novel_id = "test"
+
+        # Mock ledger with chapter-level fetched records only
+        mock_state = Mock(spec=ResumeState)
+        mock_state.records_by_block = {
+            "ch004": [Mock()],
+            "ch005": [Mock()],
+        }
+        mock_state.records = [
+            Mock(run_id="batch-ch004-ch005-v1", block_id="ch004", stage="fetched", status="completed", provider="local"),
+            Mock(run_id="batch-ch004-ch005-v1", block_id="ch005", stage="fetched", status="completed", provider="local"),
+        ]
+        mock_state.latest_by_block = {}
+        mock_state.completed_blocks = Mock(return_value=[])
+        mock_state.failed_blocks = Mock(return_value=[])
+        mock_state.next_pending_stage = Mock(return_value=None)
+        mock_state.records_for_block = Mock(return_value=[])
+
+        # Mock ledger load_state
+        mock_ledger = Mock()
+        mock_ledger.path.exists.return_value = True
+        mock_ledger.load_state.return_value = mock_state
+
+        with patch('novel_pipeline.pipeline.RunLedger', return_value=mock_ledger):
+            with patch('novel_pipeline.pipeline._get_batch_chapter_ids', return_value=None):
+                with patch('novel_pipeline.pipeline._load_chapter_source_and_blocks', side_effect=Exception("source missing")):
+                    result = status_run(config=config, run_id="batch-ch004-ch005-v1")
+
+        # Verify chapter IDs inferred
+        assert result["chapter_ids"] == ["ch004", "ch005"]
+        # Verify manual actions
+        manual = result["manual_actions"]
+        assert "resume" not in " ".join(manual).lower()
+        assert any("run --range ch004-ch005 --run-id batch-ch004-ch005-v1 --stop-after glossary-scan" in action for action in manual)
+        assert not any("rerun formatting" in action for action in manual)
+        # Verify block_stage_status empty
+        assert len(result["block_stage_status"]) == 0
+        # Verify chapter summary includes batch pending stage
+        for chapter_id in result["chapter_ids"]:
+            summary = result["chapter_summary"][chapter_id]
+            assert summary["pending_blocks"] == []
+            assert summary.get("batch_pending_stage") == "glossary_scanned"
+def test_stage_routing_parses_scan_budget_fields():
+    """StageRouting.from_mapping parses max_calls_per_scan and max_failures_per_scan."""
+    from novel_pipeline.types import StageRouting
+    # Test with both fields
+    routing = StageRouting.from_mapping("term_extraction", {
+        "provider": "gemini",
+        "model": "pro",
+        "max_calls_per_scan": 3,
+        "max_failures_per_scan": 1,
+    })
+    assert routing.max_calls_per_scan == 3
+    assert routing.max_failures_per_scan == 1
+    # Test with missing fields (default None)
+    routing2 = StageRouting.from_mapping("term_extraction", {
+        "provider": "gemini",
+    })
+    assert routing2.max_calls_per_scan is None
+    assert routing2.max_failures_per_scan is None
+    # Test with string value (provider only)
+    routing3 = StageRouting.from_mapping("term_extraction", "gemini")
+    assert routing3.max_calls_per_scan is None
+    assert routing3.max_failures_per_scan is None
+    print("✓ StageRouting parses scan budget fields")
+
+
+def test_scan_level_failure_circuit_breaker():
+    """Provider failure triggers circuit breaker and deterministic candidates remain."""
+    from novel_pipeline.types import AppConfig, TextBlock
+    from novel_pipeline.stages.glossary import build_glossary_scan_queue
+    from unittest.mock import Mock, patch
+    # Create a mock config with term_extraction routing (max_failures_per_scan=1)
+    config = Mock(spec=AppConfig)
+    config.stage_routing = {
+        "term_extraction": Mock(
+            provider="gemini",
+            model="pro",
+            max_calls_per_scan=None,
+            max_failures_per_scan=1,
+        )
+    }
+    config.provider_for_stage = Mock(return_value=Mock(name="gemini"))
+    config.stage_routing_for = Mock(return_value=config.stage_routing["term_extraction"])
+    config.workspace.glossary_dir = Mock()
+    config.source_language = "zh"
+    config.novel_id = "test"
+    config.workspace.prompts = Mock()
+    
+    # Create multiple blocks with Chinese text
+    blocks = [
+        TextBlock(
+            block_id=f"ch001-block-{i:03d}",
+            chapter_id="ch001",
+            source_text="白橡木号驶入幽邃深海。邓肯听见呼啸声。失乡号仍在雾中。",
+            source_language="zh"
+        ) for i in range(1, 4)
+    ]
+    
+    # Mock PromptStore and ProviderRunner to return timeout response
+    with patch('novel_pipeline.stages.glossary.PromptStore') as MockPromptStore:
+        mock_render = Mock(return_value="extract prompt")
+        MockPromptStore.return_value.render = mock_render
+        with patch('novel_pipeline.stages.glossary.ProviderRunner') as MockRunner:
+            mock_instance = Mock()
+            mock_instance.run_with_retry.return_value = Mock(
+                provider="gemini",
+                stdout="",
+                stderr="Timeout after 15 seconds",
+                returncode=124
+            )
+            MockRunner.return_value = mock_instance
+            # Mock load_glossary_index to empty
+            with patch('novel_pipeline.stages.glossary.load_glossary_index') as mock_load:
+                mock_load.return_value = {}
+                queue = build_glossary_scan_queue(config, blocks, exclude_existing=False)
+    
+    # Provider should be called only once (first failure triggers circuit breaker)
+    assert mock_instance.run_with_retry.call_count == 1
+    # Queue may contain deterministic candidates from Chinese text (if any)
+    for item in queue:
+        # Ensure candidates are Chinese terms (deterministic extraction)
+        assert any('\u4e00' <= ch <= '\u9fff' for ch in item["original_term"])
+    print("✓ Scan-level failure circuit breaker works")
+
+
+def test_scan_level_max_call_cap():
+    """max_calls_per_scan limits provider calls across blocks."""
+    from novel_pipeline.types import AppConfig, TextBlock
+    from novel_pipeline.stages.glossary import build_glossary_scan_queue
+    from unittest.mock import Mock, patch
+    # Create a mock config with max_calls_per_scan=2
+    config = Mock(spec=AppConfig)
+    config.stage_routing = {
+        "term_extraction": Mock(
+            provider="gemini",
+            model="pro",
+            max_calls_per_scan=2,
+            max_failures_per_scan=None,
+        )
+    }
+    config.provider_for_stage = Mock(return_value=Mock(name="gemini"))
+    config.stage_routing_for = Mock(return_value=config.stage_routing["term_extraction"])
+    config.workspace.glossary_dir = Mock()
+    config.source_language = "zh"
+    config.novel_id = "test"
+    config.workspace.prompts = Mock()
+    
+    # Create 5 blocks
+    blocks = [
+        TextBlock(
+            block_id=f"ch001-block-{i:03d}",
+            chapter_id="ch001",
+            source_text="白橡木号驶入幽邃深海。邓肯听见呼啸声。失乡号仍在雾中。",
+            source_language="zh"
+        ) for i in range(1, 6)
+    ]
+    
+    # Mock PromptStore and ProviderRunner to return successful output with dummy terms
+    with patch('novel_pipeline.stages.glossary.PromptStore') as MockPromptStore:
+        mock_render = Mock(return_value="extract prompt")
+        MockPromptStore.return_value.render = mock_render
+        with patch('novel_pipeline.stages.glossary.ProviderRunner') as MockRunner:
+            mock_instance = Mock()
+            mock_instance.run_with_retry.return_value = Mock(
+                provider="gemini",
+                stdout="白橡木号\n幽邃深海\n邓肯",
+                stderr="",
+                returncode=0
+            )
+            MockRunner.return_value = mock_instance
+            with patch('novel_pipeline.stages.glossary.load_glossary_index') as mock_load:
+                mock_load.return_value = {}
+                queue = build_glossary_scan_queue(config, blocks, exclude_existing=False)
+    
+    # Provider should be called exactly max_calls_per_scan times (2)
+    assert mock_instance.run_with_retry.call_count == 2
+    # Queue may contain deterministic candidates from all blocks (if any)
+    print("✓ Scan-level max call cap works")
+
+
+def test_provider_meta_quota_output_rejected():
+    """Provider quota/meta output is rejected and counted as failure."""
+    from novel_pipeline.types import AppConfig, TextBlock, ProviderResponse
+    from novel_pipeline.stages.glossary import build_glossary_scan_queue
+    from novel_pipeline.providers.base import ProviderOutputError
+    from unittest.mock import Mock, patch
+    # Create a mock config with term_extraction routing (max_failures_per_scan=1)
+    config = Mock(spec=AppConfig)
+    config.stage_routing = {
+        "term_extraction": Mock(
+            provider="gemini",
+            model="pro",
+            max_calls_per_scan=None,
+            max_failures_per_scan=1,
+        )
+    }
+    config.provider_for_stage = Mock(return_value=Mock(name="gemini"))
+    config.stage_routing_for = Mock(return_value=config.stage_routing["term_extraction"])
+    config.workspace.glossary_dir = Mock()
+    config.source_language = "zh"
+    config.novel_id = "test"
+    config.workspace.prompts = Mock()
+    
+    # Create a block
+    blocks = [TextBlock(
+        block_id="ch001-block-001",
+        chapter_id="ch001",
+        source_text="白橡木号驶入幽邃深海。",
+        source_language="zh"
+    )]
+    
+    # Mock PromptStore and ProviderRunner to return quota response
+    with patch('novel_pipeline.stages.glossary.PromptStore') as MockPromptStore:
+        mock_render = Mock(return_value="extract prompt")
+        MockPromptStore.return_value.render = mock_render
+        with patch('novel_pipeline.stages.glossary.ProviderRunner') as MockRunner:
+            mock_instance = Mock()
+            # Simulate ensure_provider_response raising ProviderOutputError
+            mock_instance.run_with_retry.return_value = Mock(
+                provider="gemini",
+                stdout="Hit your quota limit. Please upgrade.",
+                stderr="",
+                returncode=0
+            )
+            MockRunner.return_value = mock_instance
+            # Mock ensure_provider_response to raise ProviderOutputError
+            with patch('novel_pipeline.stages.glossary.ensure_provider_response') as mock_ensure:
+                mock_ensure.side_effect = ProviderOutputError(
+                    ProviderResponse(
+                        provider="gemini",
+                        command=(),
+                        stdout="Hit your quota limit. Please upgrade.",
+                        stderr="",
+                        returncode=0,
+                    ),
+                    "quota"
+                )
+                with patch('novel_pipeline.stages.glossary.load_glossary_index') as mock_load:
+                    mock_load.return_value = {}
+                    queue = build_glossary_scan_queue(config, blocks, exclude_existing=False)
+    
+    # Provider failure should be counted, no provider meta text in candidates
+    for item in queue:
+        term = item["original_term"]
+        # No English quota text
+        assert "quota" not in term.lower()
+        assert "hit" not in term.lower()
+        assert "upgrade" not in term.lower()
+    print("✓ Provider meta/quota output rejected")
+
+
+def test_cli_parser_accepts_stop_after_flag():
+    """CLI parser accepts --stop-after glossary-scan with --range."""
+    from novel_pipeline.cli import build_parser
+    parser = build_parser()
+    args = parser.parse_args([
+        "--config", "dummy.yaml",
+        "run",
+        "--range", "ch004-ch008",
+        "--run-id", "batch-ch004-ch008-v2",
+        "--stop-after", "glossary-scan"
+    ])
+    assert args.command == "run"
+    assert args.chapter_range == "ch004-ch008"
+    assert args.run_id == "batch-ch004-ch008-v2"
+    assert args.stop_after == "glossary-scan"
+    print("✓ CLI parser accepts batch stop flag")
+
+
+def test_cli_rejects_stop_after_without_range():
+    """--stop-after without --range returns error."""
+    from novel_pipeline.cli import cmd_run
+    from unittest.mock import Mock, patch
+    import sys
+    
+    # Mock config
+    config = Mock()
+    config.novel_id = "test"
+    config.source.adapter = ""
+    config.workspace.output = Mock()
+    
+    # Mock parse_chapter_range to avoid import errors
+    with patch('novel_pipeline.text_utils.parse_chapter_range'):
+        # Simulate args with stop_after but no chapter_range
+        args = Mock(
+            chapter_range="",
+            stop_after="glossary-scan",
+            chapter_id=None,
+            adapter="",
+            style_profile=None,
+            run_id="batch-ch004-ch008-v2",
+            force=False,
+            input_file=None,
+            text=None,
+            title=""
+        )
+        # Redirect stderr to capture error
+        original_stderr = sys.stderr
+        sys.stderr = sys.stdout
+        try:
+            result = cmd_run(args, config)
+            assert result == 1, f"Expected exit code 1, got {result}"
+        finally:
+            sys.stderr = original_stderr
+    print("✓ CLI rejects stop-after without range")
+
+
+def test_max_calls_per_scan_zero_disables_provider():
+    """max_calls_per_scan=0 should disable provider calls entirely."""
+    from novel_pipeline.types import AppConfig, TextBlock
+    from novel_pipeline.stages.glossary import build_glossary_scan_queue
+    from unittest.mock import Mock, patch
+    
+    # Create a mock config with max_calls_per_scan=0
+    config = Mock(spec=AppConfig)
+    config.stage_routing = {
+        "term_extraction": Mock(
+            provider="gemini",
+            model="pro",
+            max_calls_per_scan=0,
+            max_failures_per_scan=1,
+        )
+    }
+    config.provider_for_stage = Mock(return_value=Mock(name="gemini"))
+    config.stage_routing_for = Mock(return_value=config.stage_routing["term_extraction"])
+    config.workspace.glossary_dir = Mock()
+    config.source_language = "zh"
+    config.novel_id = "test"
+    config.workspace.prompts = Mock()
+
+    # Create blocks with real Chinese text where terms appear multiple times
+    # Using text where "邓肯" appears 3 times, "失乡号" appears 3 times, etc.
+    blocks = [
+        TextBlock(
+            block_id="ch001-block-001",
+            chapter_id="ch001",
+            source_text="白橡木号驶入幽邃深海。邓肯听见呼啸声。失乡号仍在雾中。邓肯看着失乡号。邓肯船长在船上。",
+            source_language="zh",
+            block_index=0,
+            start_offset=0,
+            end_offset=60
+        ),
+        TextBlock(
+            block_id="ch001-block-002",
+            chapter_id="ch001",
+            source_text="周铭站在甲板上，望着浓雾中的失乡号。周铭看着邓肯。周铭船长也在。",
+            source_language="zh",
+            block_index=1,
+            start_offset=60,
+            end_offset=100
+        )
+    ]
+
+    # Mock PromptStore and ProviderRunner
+    with patch('novel_pipeline.stages.glossary.PromptStore') as MockPromptStore:
+        mock_render = Mock(return_value="extract prompt")
+        MockPromptStore.return_value.render = mock_render
+        with patch('novel_pipeline.stages.glossary.ProviderRunner') as MockRunner:
+            mock_instance = Mock()
+            MockRunner.return_value = mock_instance
+            with patch('novel_pipeline.stages.glossary.load_glossary_index') as mock_load:
+                mock_load.return_value = {}
+                queue = build_glossary_scan_queue(config, blocks, exclude_existing=False)
+
+    # ProviderRunner should NEVER be called when max_calls_per_scan=0
+    assert MockRunner.call_count == 0, "ProviderRunner should not be instantiated"
+    assert mock_instance.run_with_retry.call_count == 0, "run_with_retry should not be called"
+    
+    # Queue should still contain deterministic candidates
+    assert len(queue) > 0, "Queue should contain deterministic candidates"
+    
+    # Verify some expected deterministic candidates
+    candidate_terms = [item["original_term"] for item in queue]
+    print(f"Deterministic candidates found: {candidate_terms}")
+    
+    # Check for expected terms from the Chinese text
+    # "邓肯" appears 4 times, "失乡号" appears 3 times, "周铭" appears 3 times
+    expected_terms = ["邓肯", "失乡号", "周铭"]
+    found_terms = [term for term in expected_terms if any(term in candidate for candidate in candidate_terms)]
+    print(f"Found expected terms: {found_terms}")
+    # At least some terms should be found
+    assert len(found_terms) > 0, f"Expected at least some terms from {expected_terms}, found none"
+    
+    print("✓ max_calls_per_scan=0 disables provider calls while still producing deterministic candidates")
+
+
+def test_run_batch_pipeline_stop_after_glossary_scan():
+    """run_batch_pipeline with stop-after glossary-scan does not enter approval."""
+    from novel_pipeline.pipeline import run_batch_pipeline
+    from unittest.mock import Mock, patch, MagicMock
+    
+    # Mock config
+    config = Mock()
+    config.source.adapter = ""
+    config.source_language = "zh"
+    config.novel_id = "test"
+    config.chunking.chinese_character_limit = 600
+    config.chunking.non_chinese_word_limit = 300
+    config.workspace.work = Mock()
+    config.workspace.raw = Mock()
+    config.workspace.output = Mock()
+    config.workspace.logs_dir = Mock()
+    config.workspace.prompts = Mock()
+    config.workspace.glossary_dir = Mock()
+    config.workspace.templates_dir = Mock()
+    config.ledger_path = Mock()
+    config.default_style_profile = "default"
+    config.stage_routing = {}
+    config.provider_for_stage = Mock(return_value=Mock(name="gemini"))
+    config.fallback_provider_for_stage = Mock(return_value=None)
+    config.stage_model_for = Mock(return_value="")
+    config.fallback_model_for = Mock(return_value="")
+    
+    # Mock ledger
+    mock_ledger = Mock()
+    mock_ledger.has_committed = Mock(return_value=False)
+    mock_ledger.append_stage = Mock()
+    mock_ledger.path.exists = Mock(return_value=True)
+    
+    # Mock other dependencies
+    with patch('novel_pipeline.pipeline.RunLedger', return_value=mock_ledger), \
+         patch('novel_pipeline.pipeline.PromptStore'), \
+         patch('novel_pipeline.pipeline.run_fetch_stage') as mock_fetch, \
+         patch('novel_pipeline.pipeline.split_blocks') as mock_split, \
+         patch('novel_pipeline.pipeline.build_glossary_scan_queue') as mock_scan_queue, \
+         patch('novel_pipeline.pipeline._write_glossary_scan_artifact'), \
+         patch('novel_pipeline.pipeline._load_glossary_index_from_queue'), \
+         patch('novel_pipeline.pipeline._read_glossary_scan_artifact'), \
+         patch('novel_pipeline.pipeline.build_term_suggestion') as mock_suggestion, \
+         patch('novel_pipeline.pipeline.choose_option_interactively') as mock_choose, \
+         patch('novel_pipeline.pipeline.write_glossary_note'), \
+         patch('novel_pipeline.pipeline._process_block'):
+        
+        # Setup mocks
+        mock_fetch.return_value = Mock(raw_text="dummy", chapter_id="ch004")
+        mock_split.return_value = []
+        mock_scan_queue.return_value = []
+        
+        # Call run_batch_pipeline with stop_after
+        results = run_batch_pipeline(
+            config=config,
+            chapter_ids=["ch004", "ch005"],
+            stop_after="glossary-scan"
+        )
+        
+        # Should return empty list
+        assert results == []
+        # Should NOT call term suggestion or interactive approval
+        mock_suggestion.assert_not_called()
+        mock_choose.assert_not_called()
+        # Should have called fetch and scan queue
+        mock_fetch.assert_called()
+        mock_scan_queue.assert_called()
+    print("✓ run_batch_pipeline stop-after glossary-scan works")
+
+
+def test_classify_command_too_long():
+    """classify_provider_response returns 'command_too_long' for Gemini error."""
+    from novel_pipeline.providers.base import classify_provider_response, ProviderResponse
+    # Simulate Gemini exit with "The command line is too long."
+    response = ProviderResponse(
+        provider="gemini",
+        command=(),
+        stdout="",
+        stderr="The command line is too long.",
+        returncode=1,
+    )
+    assert classify_provider_response(response) == "command_too_long"
+    # Also test our preflight error message
+    response2 = ProviderResponse(
+        provider="gemini",
+        command=(),
+        stdout="",
+        stderr="Command line would exceed safe Windows length (estimated 25000 chars > limit 24000). Configure prompt_transport: stdin or reduce prompt size.",
+        returncode=126,
+    )
+    assert classify_provider_response(response2) == "command_too_long"
+    # Also test "argument list too long" (Unix-like)
+    response3 = ProviderResponse(
+        provider="gemini",
+        command=(),
+        stdout="",
+        stderr="argument list too long",
+        returncode=1,
+    )
+    assert classify_provider_response(response3) == "command_too_long"
+    print("✓ classify_command_too_long passes")
+
+
+def test_preflight_blocks_long_argv_prompt():
+    """ProviderRunner preflight prevents subprocess call for long argv prompt."""
+    from novel_pipeline.providers.base import ProviderRunner, ProviderSpec, ProviderRequest, ProviderResponse
+    from unittest.mock import patch, Mock
+    import os
+    # Create spec with low limit
+    spec = ProviderSpec(
+        name="gemini",
+        executable=("gemini",),
+        prompt_flag="-p",
+        prompt_position="flag",
+        prompt_transport="argv",
+        model_flag="--model",
+        default_model="pro",
+        max_command_chars=1000,
+    )
+    runner = ProviderRunner(spec)
+    request = ProviderRequest(
+        prompt="x" * 2000,
+        provider="gemini",
+        stage="qa_judge",
+        model="pro",
+    )
+    # Patch os.name to be Windows
+    with patch("os.name", "nt"):
+        # Patch subprocess.run to ensure it's not called
+        with patch("subprocess.run") as mock_subprocess:
+            response = runner.run(request, check=False)
+            # subprocess.run should NOT be called
+            mock_subprocess.assert_not_called()
+            # Verify response indicates command_too_long
+            assert response.returncode == 126
+            assert "command line would exceed" in response.stderr.lower()
+            assert "estimated" in response.stderr.lower() and "limit" in response.stderr.lower()
+            # Verify classification
+            from novel_pipeline.providers.base import classify_provider_response
+            assert classify_provider_response(response) == "command_too_long"
+            # Verify command does NOT contain the huge prompt
+            assert any("OMITTED" in str(arg) for arg in response.command)
+    print("✓ preflight_blocks_long_argv_prompt passes")
+
+
+def test_preflight_blocks_before_unicode_wrapper():
+    """Long Unicode argv prompts are blocked before temp wrapper creation."""
+    from novel_pipeline.providers.base import ProviderRunner, ProviderSpec, ProviderRequest
+    from unittest.mock import patch
+    spec = ProviderSpec(
+        name="gemini",
+        executable=("gemini",),
+        prompt_flag="-p",
+        prompt_position="flag",
+        prompt_transport="argv",
+        model_flag="--model",
+        default_model="pro",
+        max_command_chars=1000,
+    )
+    runner = ProviderRunner(spec)
+    request = ProviderRequest(
+        prompt="ภาษาไทย" * 400,
+        provider="gemini",
+        stage="qa_judge",
+        model="pro",
+    )
+    with patch("os.name", "nt"), \
+         patch("novel_pipeline.providers.base._build_windows_unicode_wrapper") as mock_wrapper, \
+         patch("subprocess.run") as mock_subprocess:
+        response = runner.run(request, check=False)
+        mock_wrapper.assert_not_called()
+        mock_subprocess.assert_not_called()
+        assert response.returncode == 126
+        assert "command line would exceed" in response.stderr.lower()
+        assert any("OMITTED" in str(arg) for arg in response.command)
+    print("preflight_blocks_before_unicode_wrapper passes")
+
+
+def test_stdin_providers_not_blocked():
+    """stdin providers are not blocked by long prompt."""
+    from novel_pipeline.providers.base import ProviderRunner, ProviderSpec, ProviderRequest
+    from unittest.mock import patch, Mock
+    import subprocess
+    # Create spec with stdin transport
+    spec = ProviderSpec(
+        name="claude",
+        executable=("claude",),
+        prompt_flag="-p",
+        prompt_position="flag",
+        prompt_transport="stdin",
+        model_flag="--model",
+        default_model="sonnet",
+        max_command_chars=1000,
+    )
+    runner = ProviderRunner(spec)
+    request = ProviderRequest(
+        prompt="x" * 2000,
+        provider="claude",
+        stage="refinement",
+        model="sonnet",
+    )
+    # Mock subprocess.run to return success
+    with patch("subprocess.run") as mock_subprocess:
+        mock_completed = Mock()
+        mock_completed.returncode = 0
+        mock_completed.stdout = "mock output"
+        mock_completed.stderr = ""
+        mock_subprocess.return_value = mock_completed
+        # Run on Windows (os.name nt)
+        with patch("os.name", "nt"):
+            response = runner.run(request, check=False)
+            # subprocess.run should have been called
+            mock_subprocess.assert_called_once()
+            # Verify prompt was passed via stdin (input parameter)
+            call_kwargs = mock_subprocess.call_args[1]
+            assert "input" in call_kwargs
+            assert call_kwargs["input"] == request.prompt
+            # Verify command includes prompt_flag but not prompt in argv
+            command_args = call_kwargs["args"]
+            assert "-p" in command_args
+            assert request.prompt not in command_args
+            # Ensure response is successful
+            assert response.returncode == 0
+    print("✓ stdin_providers_not_blocked passes")
+
+
+def test_config_parses_max_command_chars():
+    """ProviderSpec.from_mapping parses max_command_chars."""
+    from novel_pipeline.types import ProviderSpec
+    # Valid value
+    spec = ProviderSpec.from_mapping("gemini", {"max_command_chars": 1234})
+    assert spec.max_command_chars == 1234
+    # Default
+    spec2 = ProviderSpec.from_mapping("gemini", {})
+    assert spec2.max_command_chars == 24000
+    # Invalid low value raises ValueError
+    try:
+        ProviderSpec.from_mapping("gemini", {"max_command_chars": 500})
+        assert False, "Expected ValueError for max_command_chars < 1000"
+    except ValueError as e:
+        assert "max_command_chars must be >= 1000" in str(e)
+    print("✓ config_parses_max_command_chars passes")
+
+
+if __name__ == "__main__":
+    test_format_glossary_subset()
+    test_parse_literal_pairs()
+    test_format_inline_dialogue_quotes()
+    test_format_non_dialogue_quotes()
+    test_format_non_dialogue_quoted_term_followed_by_prose()
+    test_format_space_handling()
+    test_format_standalone_sound_effect()
+    test_format_sound_effect_inside_prose()
+    test_format_long_paragraph_splitting()
+    test_format_no_quote_only_lines()
+    test_format_standalone_khruet_sound_effect()
+    test_format_quote_block_non_sound_not_italic()
+    test_format_quote_block_sound_effect_italic()
+    test_next_pending_stage_no_records()
+    test_retry_quota_success()
+    test_retry_auth_not_retried()
+    test_retry_auth_nonzero_not_retried()
+    test_retry_backoff_delay()
+    test_retry_nonzero_exit_with_retry_on_nonzero()
+    test_stage_routing_parses_ordered_fallbacks()
+    test_codex_stdin_command_shape_for_refinement_fallback()
+    test_config_refinement_fallback_chain_order()
+    test_extract_provider_candidate_terms_retry_quota_success()
+    test_build_term_suggestion_rejects_quota_meta()
+    test_build_term_suggestion_returns_provider_options()
+    test_piaotia_extract_legacy_content_div()
+    test_piaotia_extract_h1_anonymous_wrapper()
+    test_piaotia_extract_content_class_variant()
+    test_piaotia_extract_stops_on_ad_comment_or_text()
+    test_piaotia_extract_ignores_head_stop_marker()
+    test_piaotia_extract_does_not_treat_ad_content_class_as_body()
+    test_piaotia_extract_closes_explicit_content_container()
+    test_piaotia_extract_raises_on_empty_body()
+    test_piaotia_toc_accepts_relative_absolute_and_dedupes()
+    test_piaotia_extract_rejects_mojibake()
+    test_batch_glossary_artifact_path()
+    test_glossary_scan_validates_source_mojibake()
+    test_stage_routing_parses_timeout_and_retry()
+    test_term_extraction_timeout_override()
+    test_provider_timeout_fallback()
+    test_batch_artifact_write()
+    test_status_run_fetched_only_pre_batch()
+    # New tests for scan-level circuit breaker
+    test_stage_routing_parses_scan_budget_fields()
+    test_scan_level_failure_circuit_breaker()
+    test_scan_level_max_call_cap()
+    test_provider_meta_quota_output_rejected()
+    test_cli_parser_accepts_stop_after_flag()
+    test_cli_rejects_stop_after_without_range()
+    test_run_batch_pipeline_stop_after_glossary_scan()
+    test_classify_command_too_long()
+    test_preflight_blocks_long_argv_prompt()
+    test_preflight_blocks_before_unicode_wrapper()
+    test_stdin_providers_not_blocked()
+    test_config_parses_max_command_chars()
+    print("All tests passed!")

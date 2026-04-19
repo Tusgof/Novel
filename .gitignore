@@ -1,0 +1,32 @@
+# Runtime / generated artifacts
+03_Raw/
+04_Work/
+05_Output/
+06_Logs/
+__pycache__/
+*.pyc
+
+# Local editor/app state
+.obsidian/
+.obsidian/workspace*
+.obsidian/cache/
+.obsidian/plugins/
+
+# Temporary operator files
+input.txt
+temp_*.py
+tmp_*.py
+worker_report_*.md
+translation_evaluation.json
+glossary_report_*.txt
+*.log
+
+# Local validation scratch files
+test_edge.py
+test_new_scan.py
+validate_fixes.py
+validation_mojibake.py
+
+# OS noise
+Thumbs.db
+.DS_Store

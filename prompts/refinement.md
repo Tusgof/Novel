@@ -1,0 +1,1 @@
+Refine this Thai literal draft into smooth Thai prose for Deep Sea Embers. Output Thai prose only, no notes, no explanation, no markdown. Keep all meaning. Do not add or remove facts. Use glossary exactly: {{glossary_subset}} Style: nautical dark fantasy, restrained, eerie, no wuxia/xianxia/cultivation diction. Retry feedback: {{retry_feedback}} Literal draft: {{literal_draft}}

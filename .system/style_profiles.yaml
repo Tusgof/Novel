@@ -1,0 +1,38 @@
+default:
+  name: standard-thai-novel
+  description: Neutral polished Thai prose that preserves source meaning.
+
+xianxia:
+  name: xianxia-thai
+  description: Elevated Thai prose suitable for cultivation or xianxia fiction.
+
+deep_sea_embers:
+  name: deep-sea-embers-thai
+  description: >
+    Nautical dark fantasy style for Deep Sea Embers.
+    Eerie, maritime, post-collapse atmosphere with ghost-ship and fog motifs.
+    Thai prose is controlled, slightly ominous, and readable.
+    Preserves dry/deadpan humor when present in source.
+    Avoids wuxia/xianxia/cultivation diction entirely.
+  prose_guidelines:
+    tone: eerie, mysterious, atmospheric, subtly ominous
+    setting_emphasis: maritime, sea-going, ruined-world, supernatural, gothic
+    register: restrained and immersive; avoid overwrought or florid language
+    humor: preserve dry, understated, deadpan humor when source contains it
+    pacing: allow tension to build naturally; do not rush or compress suspense
+  diction_rules:
+    avoid:
+      - martial-arts terminology (e.g., 武功, 内功, 剑气)
+      - cultivation language (e.g., 修炼, 境界, 灵力, 丹药)
+      - sect/realm-heavy vocabulary
+    prefer:
+      - nautical/seafaring terms (ship, helm, anchor, deck, tide, fog)
+      - supernatural/horror vocabulary (ghost, specter, ruin, mist, decay)
+      - atmospheric descriptors (gloom, haze, salt air, creaking wood, cold water)
+    pronouns: use natural Thai pronouns fitting the character's role and era
+    transliteration: keep consistent with glossary; no Thai-ification of ship names or places
+  qa_bias_checks:
+    flag_if_detects:
+      - cultivation terminology injected by refiner
+      - wuxia-style combat language not present in source
+      - over-embellishment that dilutes eerie atmosphere
