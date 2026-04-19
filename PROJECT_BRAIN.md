@@ -12,6 +12,25 @@ This file is the project memory layer. It should preserve operational truth, cur
 - Use Thai with the user. Use English for worker prompts, commands, code, and report templates when clearer.
 - Do not run providers, resume, rerun-block, or modify ledger/artifacts unless the user explicitly approves that stage.
 
+## Git Backup
+
+- GitHub repo: `https://github.com/Tusgof/Novel`
+- Local repo root: `D:\Fogust\Workspace\Novel\Deep Sea Embers`
+- Branch: `main`
+- Initial safety snapshot commit: `f665df2 Initial novel pipeline safety snapshot`
+- Runtime/production artifact directories are intentionally ignored:
+  - `03_Raw/`
+  - `04_Work/`
+  - `05_Output/`
+  - `06_Logs/`
+- Source-of-truth files tracked in git include:
+  - project memory docs
+  - pipeline code
+  - prompts/config/style profiles
+  - glossary notes
+  - reports/scripts/skills/tests
+- If a worker damages memory docs again, recover from git before reconstructing manually.
+
 ## Current Execution State
 
 ### Completed
