@@ -1,6 +1,6 @@
 # Operator Manual
 
-Last restored: 2026-04-19
+Last updated: 2026-04-24
 
 This is the practical runbook. It should help the operator proceed without guessing.
 
@@ -8,17 +8,24 @@ This is the practical runbook. It should help the operator proceed without guess
 
 - V3.7 complete: ch004-ch008.
 - V3.8 complete: ch009-ch018.
-- ch001-ch018 outputs exist.
-- V3.9 in progress: `batch-ch019-ch023-v1`.
-- Current V3.9 state:
+- V3.9 complete: `batch-ch019-ch023-v1`.
+- ch001-ch023 outputs exist.
+- V3.10 protocol artifacts exist:
+  - `00_Templates/Batch-Rollout-Checklist.md`
+  - `00_Templates/Worker-Bounded-Batch-Prompt.md`
+  - `07_Reports/v3_10_repeatable_rollout_protocol.md`
+- V3.10 complete: repeatable rollout protocol package is ready.
+- Current V3.9 final state:
   - fetched: ch019-ch023 complete.
   - glossary_scanned: ch019-ch023 complete.
   - glossary_approved: ch019-ch023 complete.
-  - `ch019-block-001`: complete.
-  - `ch019-block-002`: complete after repair.
-  - next pending: `ch019-block-003` at translating.
-  - ch020-ch023: not translated.
-  - ch024+: must remain untouched.
+  - translating/refining/qa/formatting/completed: all expected ch019-ch023 blocks complete.
+  - current failed blocks: none.
+  - manual actions needed: none.
+  - outputs exist for `ch019` through `ch023`.
+- ch024+: untouched.
+- Next planned milestone: V3.11 report and verification automation, not a new translation batch.
+- Next safe action: use the reusable V3.10 protocol package to start the next bounded batch only after new source exists.
 
 ## Standard Preflight
 
@@ -67,6 +74,8 @@ Expected:
 - no translation/refinement/QA/formatting records
 - no final outputs
 
+The reusable operator checklist for this gate is `00_Templates/Batch-Rollout-Checklist.md`.
+
 ## Glossary Approval Gate
 
 Before translation:
@@ -83,16 +92,17 @@ Current V3.9 approved terms:
 - `实太阳神` -> `สุริยเทพที่แท้จริง`
 - `面具神` -> `เทพหน้ากาก`
 
+Use `00_Templates/Worker-Bounded-Batch-Prompt.md` for the worker handoff after this gate is closed.
+
 ## Bounded Resume
 
 Do not run long blind resumes with noninteractive workers. Use bounded checkpoints.
 
-Recommended V3.9 next step:
+Recommended next step after V3.9:
 
-- Continue from `ch019-block-003`.
-- Stop on manual QA hard-fail prompt.
-- Do not force-accept.
-- Verify after each checkpoint.
+- Do not start a new Deep Sea Embers translation range until new source exists beyond `ch023`.
+- Use the completed V3.9 run as the reference case for protocol extraction and operator checklist design.
+- Use `07_Reports/v3_10_repeatable_rollout_protocol.md` as the repeatable rollout reference.
 
 General command:
 
@@ -115,6 +125,7 @@ Inspect:
 - `04_Work/<chapter>/<block>.qa.json`
 - `04_Work/<chapter>/<block>.formatted.json`
 - `06_Logs/run_ledger.jsonl`
+- `07_Reports/v3_10_repeatable_rollout_protocol.md` if the run changes operator procedure or recovery rules
 
 Check:
 
@@ -201,6 +212,18 @@ Reason: both produced false completion reports in V3.9.
 - Do not trust provider/worker reports without disk verification.
 - Do not compress project docs into short summaries.
 
+## How To Start The Next Bounded Batch
+
+Use this generic sequence for any future range once source exists and the range has been approved:
+
+1. Confirm the verified source boundary for the range.
+2. Choose the batch size using `00_Templates/Batch-Rollout-Checklist.md`.
+3. Run the scan-only gate for the exact range.
+4. Review the scan/classification report and complete glossary approval.
+5. Hand the worker `00_Templates/Worker-Bounded-Batch-Prompt.md` with the exact run ID, range, and allowed write set filled in.
+6. Stop the worker on any listed stop condition.
+7. Verify final outputs and ledger evidence before signoff.
+
 ## End-Of-Batch Gate
 
 For ch019-ch023 completion:
@@ -213,6 +236,9 @@ For ch019-ch023 completion:
 - spot-check report exists
 - docs updated:
   - `PROJECT_BRAIN.md`
-  - `Implement_PLAN.md`
+  - `IMPLEMENT_PLAN.md`
   - `OPERATOR_MANUAL.md`
-  - `AGENTS.md`
+  - `00_Templates/Batch-Rollout-Checklist.md`
+  - `00_Templates/Worker-Bounded-Batch-Prompt.md`
+  - `07_Reports/v3_10_repeatable_rollout_protocol.md`
+  - root `D:\Fogust\Workspace\Novel\AGENTS.md` remains the active general agent policy

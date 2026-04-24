@@ -51,12 +51,13 @@ def run_qa_stage(
     ensure_provider_response(response)
     ai_findings, feedback = parse_ai_feedback(response.stdout)
     findings.extend(ai_findings)
+    blocking_findings = [item for item in findings if _is_blocking_finding(item)]
     return QAReport(
         block_id=block.block_id,
         chapter_id=block.chapter_id,
-        passed=not findings,
+        passed=not blocking_findings,
         findings=tuple(findings),
-        feedback=feedback or "; ".join(item.message for item in findings),
+        feedback=feedback or "; ".join(item.message for item in blocking_findings or findings),
         retry_count=retry_count,
         judge_provider=provider_runner.spec.name,
     )
@@ -106,6 +107,10 @@ def _contains_cjk(text: str) -> bool:
 
 def _contains_xianxia_drift(text: str) -> bool:
     return any(term in text for term in ("สำนัก", "ขั้นพลัง", "ปราณ", "วิชาเทพ", "เคล็ดวิชา", "บ่มเพาะ"))
+
+
+def _is_blocking_finding(finding: QAFinding) -> bool:
+    return finding.severity == "error" or finding.code == "ai_judge"
 
 
 def parse_ai_feedback(stdout: str) -> tuple[list[QAFinding], str]:

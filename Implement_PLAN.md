@@ -1,221 +1,226 @@
 # Implement Plan
 
-Last restored: 2026-04-19
+This document is the practical roadmap from the current verified state to a product-complete operator workflow. It is intentionally operational, not historical.
 
-This plan defines what remains before the project is genuinely usable. Keep it practical and operational.
+## Project Finish Line
 
-## Current State Snapshot
+The project is finished when the user can operate a new novel end to end without Codex acting as manual command memory:
 
-- ch001-ch018 outputs exist.
-- V3.7 complete: `batch-ch004-ch008-v2`
-  - 28/28 blocks complete.
-  - Production dry-run passed deterministic checks and spot-check.
-- V3.8 complete: `batch-ch009-ch018-v1`
-  - 53/53 blocks complete.
-  - ch009-ch018 outputs exist.
-  - current failed blocks: none.
-  - historical failed ledger records exist and are expected.
-- V3.9 in progress: `batch-ch019-ch023-v1`
-  - fetched: ch019-ch023 complete.
-  - glossary_scanned: ch019-ch023 complete.
-  - glossary_approved: ch019-ch023 complete.
-  - approved glossary terms:
-    - `实太阳神` -> `สุริยเทพที่แท้จริง`
-    - `面具神` -> `เทพหน้ากาก`
-  - translated/completed so far:
-    - `ch019-block-001`
-    - `ch019-block-002`
-  - next pending stage: `ch019-block-003` at translating.
-  - ch020-ch023 not translated yet.
-  - no ch024+ processing allowed.
+- create or configure a novel project
+- search and save a concise research profile
+- scan glossary candidates
+- approve or reject terms safely
+- translate bounded batches
+- recover failed blocks and checkpoints
+- generate and verify reports
+- review final outputs from a practical local operator workflow
 
-## Milestone V3.9: ch019-ch023 Controlled Batch
+Finish also requires that worker models cannot silently mutate source-of-truth docs or artifacts, and that Codex remains the architect, reviewer, and verifier rather than the memory layer for routine operations.
 
-Goal: complete ch019-ch023 with the same safety level as V3.8, but with tighter bounded checkpoints because noninteractive workers can hit manual QA prompts.
+## Current Verified State
 
-### Stage 1: Preflight
+- V3.7 complete: `ch004-ch008`
+- V3.8 complete: `ch009-ch018`
+- V3.9 complete: `batch-ch019-ch023-v1`
+- `ch019`: 5/5 blocks complete, `05_Output/ch019/ch019.md` exists
+- `ch020`: 5/5 blocks complete, `05_Output/ch020/ch020.md` exists
+- `ch021`: 6/6 blocks complete, `05_Output/ch021/ch021.md` exists
+- `ch022`: 5/5 blocks complete, `05_Output/ch022/ch022.md` exists
+- `ch023`: 5/5 blocks complete, `05_Output/ch023/ch023.md` exists
+- current active translation batch: none
+- V3.10 complete: repeatable rollout protocol artifacts created
+- next milestone: `V3.11`
+- current failed blocks: none
+- historical failed records exist because the ledger is append-only
+- source currently exists only through `ch023` in workspace, so future Deep Sea Embers ranges require fetch/scan decisions first
+- approved terms:
+  - `实太阳神` -> `สุริยเทพที่แท้จริง`
+  - `面具神` -> `เทพหน้ากาก`
 
-- Read:
-  - `PROJECT_BRAIN.md`
-  - `AGENTS.md`
-  - `OPERATOR_MANUAL.md`
-  - `06_Logs/run_ledger.jsonl`
-- Verify:
-  - glossary approvals exist for `ch019` through `ch023`
-  - no translation/refinement/QA/formatting records for ch020-ch023 before starting
-  - no ch024+ records for this run
-  - glossary notes exist:
-    - `01_Glossary/实太阳神.md`
-    - `01_Glossary/面具神.md`
+## Working Model
 
-### Stage 2: Bounded ch019 Completion
+- Codex plans each milestone and writes the worker prompt.
+- `GPT-5.4-mini` medium implements only the assigned bounded scope.
+- Codex verifies disk state, tests, reports, and `git diff`.
+- Codex loops feedback until acceptance criteria pass.
+- Worker reports are claims until verified against real files and deterministic output.
 
-- Continue from `ch019-block-003`.
-- Preferred worker mode:
-  - process one block or a small bounded chapter segment
-  - stop on QA hard-fail/manual prompt
-  - stop on provider command_too_long if normal rerun does not clear it
-- Do not force-accept QA failures without user/Codex review.
-- After ch019 all blocks complete:
-  - verify `05_Output/ch019/ch019.md` exists
-  - run cleanliness checks:
-    - no provider/meta text
-    - no Chinese body text except title if expected
-    - no wrong glossary variants
-    - no quote-only lines
-    - no obvious formatting drift around dialogue quotes
+## Milestone Roadmap
 
-### Stage 3: ch020-ch023 Translation
+### V3.9: Finish `ch019-ch023` Safely
 
-- Proceed in bounded checkpoints.
-- Recommended split:
-  - ch020-ch021
-  - ch022-ch023
-- Stop conditions:
-  - QA hard-fail
-  - provider auth/quota/capacity failure
-  - repeated command_too_long
-  - unexpected ch024+ activity
-  - final output cleanliness failure
+Goal: complete the current batch without losing control of the run or processing outside the intended range.
 
-### Stage 4: V3.9 Final Gate
+- V3.9A: bounded `ch019` completion from `ch019-block-003` - done
+- V3.9B: `ch019` output gate - done
+- V3.9C: bounded `ch020-ch023` translation - done
+- V3.9D: final deterministic checks, spot-check report, doc sync - done
 
-- Verify:
-  - all expected blocks complete
-  - outputs exist for ch019-ch023
-  - current failed blocks none
-  - no ch024+ processing
-  - glossary notes unchanged except approved terms
-  - no provider/meta leakage
-- Create:
-  - V3.9 checkpoint report
-  - spot-check report for ch019-ch023
-- Update:
-  - `PROJECT_BRAIN.md`
-  - `Implement_PLAN.md`
-  - `OPERATOR_MANUAL.md`
-  - `AGENTS.md`
+Stop on any of the following:
 
-## Milestone V3.10: Larger Stable Rollout
+- manual QA prompt
+- provider failure
+- `command_too_long`
+- format validation failure
+- any `ch024+` activity
 
-Goal: prove the pipeline can repeat reliably over larger ranges without manual chaos.
+Done when:
 
-Candidate range: decide after V3.9, likely 5-10 chapters depending on provider stability.
+- outputs `ch019-ch023` exist
+- no current failed blocks remain
+- no `ch024+` records exist for the run
+- reports are created
 
-Requirements:
+Completion evidence:
 
-- scan-only glossary gate
-- human glossary approval
-- bounded translation checkpoints
-- automatic final-output checks
-- spot-check report
-- documentation sync
-- no unverified worker claims
+```powershell
+novel-pipeline --config ".system/config.yaml" status --run-id batch-ch019-ch023-v1
+```
 
-## Milestone V4.0: Practical Operator Product
+Expected verified state:
 
-Goal: make the system usable by the user without relying on Codex memory for every step.
+- `26/26` blocks complete
+- `05_Output/ch019` through `05_Output/ch023` exist
+- current failed blocks: none
+- manual actions needed: none
+- spot-check report exists at `07_Reports/spot_check_batch_ch019_ch023_v1.md`
 
-### V4.0A: Local Operator Window
+### V3.10: Repeatable Rollout Protocol
 
-Must support:
+Goal: make bounded batch handoff repeatable without rewriting the process each time.
 
-- select project/novel
-- run scan-only gate
-- view glossary candidate table
-- approve/reject terms
-- select one Thai term from 2-3 suggestions
-- run/resume bounded translation
-- show current run status and blocker
-- open relevant artifact/report paths
+Deliverables:
 
-Priority is usability and correctness, not visual polish.
+- `00_Templates/Batch-Rollout-Checklist.md`
+- `00_Templates/Worker-Bounded-Batch-Prompt.md`
+- `07_Reports/v3_10_repeatable_rollout_protocol.md`
 
-### V4.0B: Multi-Novel Support
+Status: done on 2026-04-24 because the reusable checklist, worker prompt template, and practical protocol now exist and define the bounded handoff process.
 
-Required:
+Acceptance: Codex can hand one bounded batch prompt to a worker using the reusable artifacts without rewriting the process. No new translation batch is required for this milestone.
+
+### V3.11: Report and Verification Automation
+
+Goal: turn recurring verification work into generated artifacts instead of manual prose reconstruction.
+
+- automatic checkpoint report generator
+- final-output cleanliness report
+- provider usage/failure report
+- glossary decision report template
+
+Done when reports are generated by commands or scripts, not manual reconstruction.
+
+### V3.12: Glossary and Terminology Hardening
+
+Goal: reduce glossary risk before it reaches translation and QA.
+
+- richer glossary conflict detector
+- substring, quarantine, and approved-overlap detection
+- rejected-term guard
+- per-chapter glossary usage audit
+
+Done when glossary approval is less dependent on manual ad hoc review.
+
+### V4.0: Practical Local Operator Product
+
+Goal: give the user a local operator window that supports the real workflow without adding cosmetic noise.
+
+- local operator window focused on function, not beauty
+- show run status, current blocker, next safe command, block inspection, glossary candidates
+- approve/reject UI
+- select one Thai term from 2-3 options
+- support bounded resume, rerun-block, report generation, artifact opening
+
+Done when the user can run normal work without asking Codex for every command.
+
+### V4.1: Multi-Novel Foundation
+
+Goal: let the pipeline support a second novel without code edits.
 
 - per-novel project profile
-- per-novel folder layout
-- per-novel glossary namespace
-- per-novel source adapter config
-- per-novel style brief
-- output paths isolated by novel
+- isolated vault, artifact, and output paths
+- glossary namespace per novel
+- source adapter config per novel
+- run IDs and reports scoped by novel
 
-The user specifically wants this to support many novels and genres, not just Deep Sea Embers.
+Done when a second novel can be configured without code edits.
 
-### V4.0C: Multi-Genre Style Profiles
+### V4.2: Multi-Genre Style Profiles
 
-Required:
+Goal: make style selection explicit and reusable across genres.
 
-- genre style presets
-  - dark nautical fantasy
-  - xianxia/wuxia
-  - modern urban
-  - sci-fi
-  - horror
-  - romance/drama
-- translation instructions per genre
-- glossary category preferences per genre
-- QA criteria per genre
+- genre presets: dark fantasy, xianxia/wuxia, modern urban, sci-fi, horror, romance/drama
+- controls for tone, naming, narration density, glossary categories, QA criteria
 
-### V4.0D: Novel Research Profile
+Done when a new project can choose or create a genre profile and prompts use it consistently.
 
-When setting up a new novel, do not infer genre/style from one chapter only.
+### V4.3: Novel Research Profile
 
-Preferred workflow:
+Goal: reduce dependence on one chapter as style evidence.
 
-- search web for novel title, synopsis, reviews, tags, and style discussion
-- summarize:
-  - premise
-  - genre
-  - tone
-  - narration style
-  - recurring terminology
-  - reader expectations
-- save concise profile in project config/report
-- use this profile in translation/refinement prompts
+- setup workflow searches web for synopsis, tags, reviews, style discussion, reader expectations
+- save concise research profile
+- profile feeds translation, refinement, and QA prompts
 
-### V4.0E: Automation Improvements
+Done when new novel setup does not rely on one chapter as style evidence.
 
-- `resume --until chXXX` or equivalent bounded command.
-- `status --chapter chXXX`.
-- automatic checkpoint report generator.
-- provider usage/cost report.
-- glossary conflict detector:
-  - substring conflicts
-  - quarantine conflicts
-  - existing approved term overlap
-  - noisy candidate detection
-- post-format dialogue punctuation check.
+### V4.4: Packaging and Operator Reliability
 
-## V4 Done Criteria
+Goal: make the tool restorable and movable without tribal knowledge.
 
-The project is product-ready when:
+- install/setup validation
+- environment checks for provider CLIs
+- config validation
+- backup and git guardrails
 
-- A new novel can be configured without code edits.
-- A genre/profile can be selected or generated.
-- The user can run scan-only, glossary approval, translation, recovery, and report generation from a local operator interface.
-- Glossary decisions can be made in a UI/window.
-- Each stage has deterministic validation.
-- Failed blocks can be recovered without ad hoc instructions.
-- Reports and documentation update with minimal manual writing.
-- Provider routing and fallbacks are visible to the operator.
-- Worker models with false-completion risk are blocked from state-changing tasks.
+Done when the tool can be restored or moved without rebuilding tribal knowledge.
 
-## Worker Model Restrictions
+### V5.0: Product Complete Gate
 
-- Elephant: do not use for state-changing tasks.
-- Nemotron: do not use for state-changing tasks.
-- Allowed only for read-only draft/report/checklist tasks with Codex disk verification.
-- Reason: both gave false completion reports during V3.9 glossary approval attempts.
+Goal: make the workflow self-sufficient for normal novel production.
 
-## Immediate Next Step
+- user can create a new novel project, research it, scan glossary, approve terms, translate bounded batches, recover failures, generate reports, and review final outputs from operator workflow
+- worker models cannot silently mutate source-of-truth docs or artifacts
+- Codex remains architect/reviewer, not manual command memory layer
 
-Resume V3.9 carefully:
+Done when the workflow can operate end to end with bounded human decision points and safe recovery.
 
-1. Create a bounded worker prompt for `ch019-block-003` onward.
-2. Do not allow force-accept.
-3. Stop on manual QA prompt.
-4. Verify artifacts and ledger after each checkpoint.
-5. Continue to ch020-ch023 only after ch019 output gate passes.
+## Acceptance Gates
+
+This document rewrite is accepted only when:
+
+- `IMPLEMENT_PLAN.md` is updated together with the three V3.10 protocol artifacts and the related operator memory docs
+- the file is valid UTF-8
+- the required exact terms are present
+- the new structure matches this roadmap, not the old plan
+- no provider calls were made during the rewrite
+- no pipeline run, resume, or rerun-block was executed during the rewrite
+
+Future work gates:
+
+- each milestone must have a clear stop condition
+- each worker task must be bounded to a specific range or artifact set
+- every claimed completion must be verified against disk state, report files, and `git diff`
+- no milestone can be marked done from a worker report alone
+- deterministic QA warnings may remain visible without blocking a Qwen `PASS`; deterministic errors and AI judge failure findings still block
+
+## Deferred / Not Now
+
+- UI polish beyond functional clarity
+- speculative API/interface claims
+- rewriting `PROJECT_BRAIN.md` inside this task
+- editing source, config, glossary, reports, ledger, or artifacts as part of this documentation rewrite
+- claiming any chapter beyond `ch023` is complete
+- adding support for unverified future ranges before fetch/scan decisions are made
+
+## Operating Rules For Future Work
+
+- Do not run provider calls during documentation edits.
+- Do not run `resume`, `run`, or `rerun-block` as part of a plan rewrite.
+- Treat this file as roadmap only; it does not authorize execution.
+- Keep future milestones bounded and explicit.
+- Verify output files and ledger state before accepting any worker claim.
+- Do not silently fall back to a different provider when a required provider path is part of the active policy.
+- Do not expand scope from the current verified range without an explicit fetch/scan decision.
+- Keep future operator tools practical first: status, blocker, next safe command, bounded recovery, and report generation.
+- If a QA artifact has Qwen `PASS` plus warning-only deterministic findings, keep the warning auditable and continue; if there is any AI judge failure or deterministic error, stop for repair or review.

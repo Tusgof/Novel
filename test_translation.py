@@ -1038,6 +1038,103 @@ def test_qa_escalation_stop_raises_without_input():
     mock_input.assert_not_called()
 
 
+def test_qa_rule_warning_does_not_block_ai_pass():
+    """Rule warnings remain visible but do not fail a Qwen PASS."""
+    from novel_pipeline.stages.qa import run_qa_stage
+    from novel_pipeline.types import LiteralDraft, LiteralSentencePair, RefinedDraft, TextBlock
+
+    config = Mock()
+    config.workspace.prompts = Path("prompts")
+    block = TextBlock(block_id="ch021-block-002", chapter_id="ch021", source_text="source")
+    literal = LiteralDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        sentence_pairs=(
+            LiteralSentencePair(source_sentence="s1", literal_sentence="l1"),
+            LiteralSentencePair(source_sentence="s2", literal_sentence="l2"),
+            LiteralSentencePair(source_sentence="s3", literal_sentence="l3"),
+            LiteralSentencePair(source_sentence="s4", literal_sentence="l4"),
+        ),
+    )
+    refined = RefinedDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        refined_text="ดันแคนยืนมองพิธีกรรมด้วยสีหน้าเย็นชาและกล่าวว่าทุกอย่างกำลังผิดพลาด",
+    )
+    runner = Mock()
+    runner.spec.name = "qwen"
+    runner.run_with_retry.return_value = ProviderResponse(
+        provider="qwen",
+        command=("qwen",),
+        stdout="PASS: faithful translation with no omissions.",
+        returncode=0,
+    )
+
+    with patch("novel_pipeline.stages.qa.PromptStore.render", return_value="qa prompt"):
+        report = run_qa_stage(
+            config=config,
+            block=block,
+            literal_draft=literal,
+            refined_draft=refined,
+            glossary_subset=[],
+            provider_runner=runner,
+            model="deepseek-reasoner",
+            retry_count=2,
+        )
+
+    assert report.passed is True
+    assert any(finding.code == "sentence_drop" for finding in report.findings)
+    assert report.feedback.startswith("PASS")
+
+
+def test_qa_ai_judge_finding_still_blocks():
+    """AI judge fail lines still block even when rule findings are warnings."""
+    from novel_pipeline.stages.qa import run_qa_stage
+    from novel_pipeline.types import LiteralDraft, LiteralSentencePair, RefinedDraft, TextBlock
+
+    config = Mock()
+    config.workspace.prompts = Path("prompts")
+    block = TextBlock(block_id="ch021-block-002", chapter_id="ch021", source_text="source")
+    literal = LiteralDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        sentence_pairs=(
+            LiteralSentencePair(source_sentence="s1", literal_sentence="l1"),
+            LiteralSentencePair(source_sentence="s2", literal_sentence="l2"),
+            LiteralSentencePair(source_sentence="s3", literal_sentence="l3"),
+            LiteralSentencePair(source_sentence="s4", literal_sentence="l4"),
+        ),
+    )
+    refined = RefinedDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        refined_text="ดันแคนยืนมองพิธีกรรมด้วยสีหน้าเย็นชาและกล่าวว่าทุกอย่างกำลังผิดพลาด",
+    )
+    runner = Mock()
+    runner.spec.name = "qwen"
+    runner.run_with_retry.return_value = ProviderResponse(
+        provider="qwen",
+        command=("qwen",),
+        stdout="FAIL: omitted the final line.",
+        returncode=0,
+    )
+
+    with patch("novel_pipeline.stages.qa.PromptStore.render", return_value="qa prompt"):
+        report = run_qa_stage(
+            config=config,
+            block=block,
+            literal_draft=literal,
+            refined_draft=refined,
+            glossary_subset=[],
+            provider_runner=runner,
+            model="deepseek-reasoner",
+            retry_count=0,
+        )
+
+    assert report.passed is False
+    assert any(finding.code == "ai_judge" for finding in report.findings)
+
+
 def test_format_command_rejects_invalid_formatted_text():
     """format_command refuses to commit a formatted artifact when validation fails."""
     from novel_pipeline.pipeline import format_command
@@ -2149,6 +2246,8 @@ if __name__ == "__main__":
     test_status_run_reports_effective_failure_fields()
     test_validate_formatted_text_detects_problem_markers()
     test_qa_escalation_stop_raises_without_input()
+    test_qa_rule_warning_does_not_block_ai_pass()
+    test_qa_ai_judge_finding_still_blocks()
     test_format_command_rejects_invalid_formatted_text()
     # New tests for scan-level circuit breaker
     test_stage_routing_parses_scan_budget_fields()

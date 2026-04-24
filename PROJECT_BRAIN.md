@@ -1,7 +1,7 @@
 # Project Brain: Deep Sea Embers Translation Pipeline
 
-Last updated: 2026-04-20
-Last verified: 2026-04-20 after runtime safety controls were implemented and pushed in commit `f2143f6`; verified with `python -m compileall novel_pipeline`, `python test_translation.py`, `status --run-id batch-ch019-ch023-v1`, and `inspect-block --block-id ch019-block-002`
+Last updated: 2026-04-24
+Last verified: 2026-04-24 after V3.10 protocol artifacts were created; V3.9 completion through ch023 remains the latest translation evidence and was previously verified with `python -m compileall novel_pipeline`, `python test_translation.py`, `status --run-id batch-ch019-ch023-v1`, output cleanliness checks for ch019-ch023, and spot-check report creation.
 
 This file is the project constitution, architecture map, and current operational memory. It should preserve the project goal, design principles, verified state, safety rules, recovery lessons, and pointers to detailed documents. Keep reports, long logs, and implementation detail in their dedicated files.
 
@@ -109,6 +109,7 @@ Score = Ease + Importance. Items with score below `2` are deferred.
 | Provider usage/cost report | 1 | 1 | 2 | later |
 | Bounded resume until chapter/block | 0 | 2 | 2 | implemented 2026-04-20 |
 | Inspect-block command | 1 | 1 | 2 | implemented 2026-04-20 |
+| QA warning pass/fail semantics | 2 | 2 | 4 | implemented 2026-04-23 |
 | Multi-novel config/profile | 0 | 2 | 2 | later |
 | Operator UI/window | 0 | 2 | 2 | later |
 | Cosmetic UI polish | 1 | 0 | 1 | deferred |
@@ -120,6 +121,7 @@ Implemented runtime safety controls:
 - `inspect-block --run-id <run_id> --block-id <block_id>` is a read-only block inspection tool.
 - `status` now prints current failed blocks, historical failed records, and next effective action.
 - formatting now rejects provider/meta leakage, Han Chinese text, and quote-only lines before committing successful formatted artifacts.
+- QA reports now allow deterministic warning findings such as `sentence_drop` to remain visible without blocking a Qwen `PASS`; deterministic `error` findings and AI judge failure findings still block.
 
 ## Current Verified State
 
@@ -138,31 +140,43 @@ Completed:
 
 Active:
 
-- V3.9 in progress: `batch-ch019-ch023-v1`
+- V3.9 complete: `batch-ch019-ch023-v1`
 - glossary scan-only gate: complete
 - glossary approval gate: complete
 - approved terms:
   - `实太阳神` -> `สุริยเทพที่แท้จริง`
   - `面具神` -> `เทพหน้ากาก`
 - correct `glossary_approved` ledger records exist with block IDs `ch019`, `ch020`, `ch021`, `ch022`, `ch023`
-- `ch019-block-001`: complete
-- `ch019-block-002`: complete after deterministic refined-text repair and post-format quote repair
-- next pending block: `ch019-block-003` at `translating`
-- ch020-ch023: glossary-approved, translation not started
+- ch019: 5/5 complete, output exists
+- ch020: 5/5 complete, output exists
+- ch021: 6/6 complete, output exists
+- ch022: 5/5 complete, output exists
+- ch023: 5/5 complete, output exists
+- current failed blocks: none
+- manual actions needed: none
+- V3.10 complete: repeatable rollout protocol artifacts exist
+- next milestone: `V3.11` report and verification automation
 - ch024+: must remain unprocessed
-- final outputs for ch019-ch023: none expected yet
+- final outputs for ch019-ch023 exist
+- V3.10 protocol artifacts now exist:
+  - `00_Templates/Batch-Rollout-Checklist.md`
+  - `00_Templates/Worker-Bounded-Batch-Prompt.md`
+  - `07_Reports/v3_10_repeatable_rollout_protocol.md`
 
 ## Next Safe Action
 
-Continue V3.9 in a bounded checkpoint:
+Do not start a new Deep Sea Embers translation batch yet. Source currently exists only through `ch023`.
 
-1. Inspect `ch019-block-002` if needed:
-   `novel-pipeline --config ".system/config.yaml" inspect-block --run-id batch-ch019-ch023-v1 --block-id ch019-block-002`
-2. Resume only through ch019, with noninteractive manual-action stop:
-   `novel-pipeline --config ".system/config.yaml" resume --run-id batch-ch019-ch023-v1 --until-chapter ch019 --manual-action-mode stop`
-3. Stop immediately if the command exits with manual action required, provider failure, command-length error, formatting validation failure, or any ch024+ activity.
-4. Do not force-accept QA failures.
-5. After ch019 completes, verify `05_Output/ch019/ch019.md` before continuing to ch020-ch023.
+Proceed with protocol/product work:
+
+1. Freeze V3.9 completion evidence:
+   `novel-pipeline --config ".system/config.yaml" status --run-id batch-ch019-ch023-v1`
+2. Use the new V3.10 artifacts as the reusable handoff package:
+   - `00_Templates/Batch-Rollout-Checklist.md`
+   - `00_Templates/Worker-Bounded-Batch-Prompt.md`
+   - `07_Reports/v3_10_repeatable_rollout_protocol.md`
+3. Start `V3.11` by turning repeated manual reports and verification steps into generated artifacts.
+4. Do not plan `ch024+` translation until new source is available and a fresh fetch/scan decision is made.
 
 ## Invariants And Guardrails
 
@@ -284,6 +298,7 @@ Worker model restrictions:
 - Claude crash: Windows return code `3221225786`, often empty stderr/stdout.
 - Gemini command length: argv transport can hit `command_too_long`, especially as QA fallback.
 - QA hard-fail: noninteractive workers can abort with EOF at manual prompt.
+- QA warning semantics: deterministic warnings should stay auditable but must not override a Qwen `PASS`; regression tests now cover this.
 - Formatting drift: formatting can remove dialogue quote marks after QA passes.
 - Mojibake/encoding errors: reports or artifacts can display corrupted Chinese/Thai if encoding is mishandled.
 - Worker false completion: unreliable free models may claim state changes that did not occur.
@@ -296,9 +311,10 @@ Worker model restrictions:
 1. Stop the run.
 2. Read source, literal, refined, formatted if present, and `*.qa.json`.
 3. Identify the exact omission or meaning drift.
-4. Repair the narrowest artifact only if deterministic repair is justified.
-5. Rerun from the failed stage, usually `qa`.
-6. Verify QA, formatting, ledger, and cleanliness.
+4. If Qwen says `PASS` and the only findings are deterministic warnings, treat it as a QA rule semantics issue, not a semantic translation failure.
+5. Repair code only when the rule semantics are wrong; otherwise repair the narrowest artifact only if deterministic repair is justified.
+6. Rerun from the failed stage, usually `qa`.
+7. Verify QA, formatting, ledger, and cleanliness.
 
 ### Noninteractive EOF
 
@@ -342,13 +358,19 @@ Worker model restrictions:
 - 2026-04-19: GitHub backup repository established at `https://github.com/Tusgof/Novel` to protect memory docs and source.
 - 2026-04-20: `PROJECT_BRAIN.md` restructured as project constitution, architecture map, current state, guardrails, and recovery memory.
 - 2026-04-20: Runtime safety controls implemented in `f2143f6`: manual-action stop mode, bounded resume, read-only inspect-block, effective status fields, and basic post-format validation.
+- 2026-04-23: V3.9 progressed through ch021. Fixed QA warning semantics so deterministic warnings such as `sentence_drop` remain visible but do not block a Qwen `PASS`; ch019-ch021 outputs now exist and pass deterministic cleanliness checks.
+- 2026-04-24: V3.9 completed through ch023. A `command_too_long` failure on `ch022-block-004` was recovered by bounded QA-stage rerun; final outputs for ch019-ch023 now exist, deterministic checks pass, and spot-check report was created.
+- 2026-04-24: V3.10 accepted. Reusable bounded-batch protocol artifacts were added: checklist template, worker prompt template, and rollout protocol report.
 
 ## Document Map
 
 - `PROJECT_BRAIN.md`: project definition, architecture map, current verified state, guardrails, recovery memory.
-- `Implement_PLAN.md`: milestone plan, future productization work, V4/V5 direction.
-- `OPERATOR_MANUAL.md`: practical runbook and command guide.
-- `AGENTS.md`: worker/agent behavior rules.
+- `IMPLEMENT_PLAN.md`: milestone plan, V3.10 protocol deliverables, future productization work, V4/V5 direction.
+- `OPERATOR_MANUAL.md`: practical runbook, bounded batch start steps, and command guide.
+- `00_Templates/Batch-Rollout-Checklist.md`: reusable operator checklist for bounded batches.
+- `00_Templates/Worker-Bounded-Batch-Prompt.md`: reusable worker prompt template for bounded batches.
+- `07_Reports/v3_10_repeatable_rollout_protocol.md`: repeatable rollout protocol and current V3.10 acceptance baseline.
+- `D:\Fogust\Workspace\Novel\AGENTS.md`: global worker/agent behavior rules.
 - `07_Reports/`: detailed historical reports and checkpoint evidence.
 - `.system/config.yaml`: pipeline configuration entry point.
 - `.system/providers.yaml`: provider routing and retry/timeout configuration.
@@ -400,3 +422,4 @@ V3.9:
 - `07_Reports/glossary_scan_batch-ch019-ch023-v1.md`
 - `07_Reports/glossary_classification_batch-ch019-ch023-v1.md`
 - `07_Reports/glossary_approval_decisions_batch-ch019-ch023-v1.md`
+- `07_Reports/spot_check_batch_ch019_ch023_v1.md`
