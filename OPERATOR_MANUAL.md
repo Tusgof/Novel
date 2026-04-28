@@ -25,17 +25,18 @@ This is the practical runbook. It should help the operator proceed without guess
 - outputs exist for `ch019` through `ch023`.
 - ch024+: untouched.
 - V3.11 complete: report automation command family now exists.
-- V3.12 in progress: glossary hardening report layer, scan-time guards, historical rejected-term guard, narrow QA glossary gate, and per-run guard verification now exist.
+- V3.12 complete: glossary hardening report layer, scan-time guards, approval-stage queue revalidation, historical rejected-term guard, narrow QA glossary gate, and per-run guard verification now exist.
 - V3.12 QA-stage glossary gate now blocks the narrow case where literal translation already used an approved Thai term and refinement removes it.
 - Current scan-time guard behavior:
   - exact quarantine/rejected/deprecated terms are filtered before queue entry
   - exact historical rejected terms from prior glossary approvals are filtered before queue entry
   - narrow approved-term noise such as `是失乡号` is filtered
   - substring fragments that never occur standalone in a block are filtered
+- Current approval-stage guard behavior:
+  - older glossary scan artifacts are revalidated against the current deterministic queue before prompting or writing notes
 - Current V3.12 verification artifact:
   - `07_Reports/glossary_guard_batch-ch019-ch023-v1.md`
-- Next planned V3.12 slice: decide whether any further deterministic pruning or broader approval/translation-stage glossary enforcement is actually needed beyond the current scan-time guard and narrow QA gate.
-- Next safe action: use the reusable V3.10 protocol package to start the next bounded batch only after new source exists.
+- Next safe action: start V4.0 operator-product work from the current stable guard baseline, not a new translation batch.
 
 ## Standard Preflight
 

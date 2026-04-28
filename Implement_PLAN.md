@@ -30,7 +30,7 @@ Finish also requires that worker models cannot silently mutate source-of-truth d
 - current active translation batch: none
 - V3.10 complete: repeatable rollout protocol artifacts created
 - V3.11 complete: report automation command family created
-- V3.12 in progress: glossary hardening report layer, runtime scan guards, historical rejected-term guard, narrow QA glossary enforcement, and per-run guard verification implemented
+- V3.12 complete: glossary hardening report layer, runtime scan guards, approval-stage queue revalidation, historical rejected-term guard, narrow QA glossary enforcement, and per-run guard verification implemented
 - current failed blocks: none
 - historical failed records exist because the ledger is append-only
 - source currently exists only through `ch023` in workspace, so future Deep Sea Embers ranges require fetch/scan decisions first
@@ -134,11 +134,14 @@ Goal: reduce glossary risk before it reaches translation and QA.
 - rejected-term guard
 - per-chapter glossary usage audit
 
-Current slice complete on 2026-04-28:
+Status: complete on 2026-04-28.
+
+Implemented:
 
 - `novel-pipeline report glossary-conflicts [--run-id <run_id>]`
 - `novel-pipeline report glossary-audit --run-id <run_id>`
 - `novel-pipeline report glossary-guard --run-id <run_id> [--output <path>]`
+- approval-stage queue revalidation now filters stale/noisy terms from older glossary scan artifacts before prompting or writing glossary notes
 - QA-stage glossary gate now blocks only when an approved source-side glossary surface survives in refined output without its Thai term
 - deterministic scan-time guard now filters:
   - exact quarantine/rejected/deprecated terms and aliases
@@ -149,13 +152,6 @@ Current slice complete on 2026-04-28:
   - `07_Reports/glossary_conflicts_batch-ch019-ch023-v1.md`
   - `07_Reports/glossary_audit_batch-ch019-ch023-v1.md`
   - `07_Reports/glossary_guard_batch-ch019-ch023-v1.md`
-
-Next slice:
-
-- convert remaining report findings into stronger deterministic guardrails without over-pruning legitimate terms
-- QA-stage glossary enforcement now blocks the narrow case where literal translation already used an approved Thai term and refinement removes it
-- decide whether any broader approval-stage or translation-stage glossary enforcement is needed beyond scan-time filtering and the narrow QA gate
-- review whether the now-empty scan queues on some chapters are the desired steady-state behavior when historical rejections are present
 
 Done when glossary approval is less dependent on manual ad hoc review.
 

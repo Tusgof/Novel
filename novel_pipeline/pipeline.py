@@ -399,6 +399,37 @@ def _queue_item_index(queue_items: list[dict[str, Any]]) -> dict[str, dict[str, 
     return index
 
 
+def _revalidate_glossary_queue_items(
+    config: AppConfig,
+    blocks: list[TextBlock],
+    queue_items: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], list[str]]:
+    """Remove stale/noisy queue terms using the current deterministic scan guard.
+
+    Approval may shrink an older queue artifact, but it must not silently add new terms
+    that were absent from that artifact.
+    """
+    allowed_items = build_glossary_scan_queue(config, blocks, exclude_existing=False)
+    allowed_terms = {
+        str(item.get("original_term", "")).strip()
+        for item in allowed_items
+        if str(item.get("original_term", "")).strip()
+    }
+    filtered_items: list[dict[str, Any]] = []
+    removed_terms: list[str] = []
+    seen: set[str] = set()
+    for item in queue_items:
+        term = str(item.get("original_term", "")).strip()
+        if not term or term in seen:
+            continue
+        seen.add(term)
+        if term in allowed_terms:
+            filtered_items.append(item)
+        else:
+            removed_terms.append(term)
+    return filtered_items, removed_terms
+
+
 def _load_glossary_index_from_queue(
     config: AppConfig,
     queue_items: list[dict[str, Any]],
@@ -657,6 +688,10 @@ def run_pipeline(
             _write_glossary_scan_artifact(config, chapter_id=chapter_id, items=queue_items)
         else:
             queue_items = _read_glossary_scan_items(config, chapter_id=chapter_id)
+        queue_items, removed_terms = _revalidate_glossary_queue_items(config, blocks, queue_items)
+        if removed_terms:
+            _write_glossary_scan_artifact(config, chapter_id=chapter_id, items=queue_items)
+            print(f"[{run_id}]   glossary approval revalidated queue; removed {len(removed_terms)} stale/noisy terms.")
         glossary_index = _load_glossary_index_from_queue(config, queue_items)
         ctx.glossary_index = glossary_index
 
@@ -1216,6 +1251,10 @@ def resume_pipeline(
             _write_glossary_scan_artifact(config, chapter_id=chapter_id, items=queue_items)
         else:
             queue_items = _read_glossary_scan_items(config, chapter_id=chapter_id)
+        queue_items, removed_terms = _revalidate_glossary_queue_items(config, blocks, queue_items)
+        if removed_terms:
+            _write_glossary_scan_artifact(config, chapter_id=chapter_id, items=queue_items)
+            print(f"[{run_id}]   glossary approval revalidated queue; removed {len(removed_terms)} stale/noisy terms.")
         ctx.glossary_index = _load_glossary_index_from_queue(config, queue_items)
 
         template_text = read_text_if_exists(config.workspace.templates_dir / "Term-Template.md")
@@ -1433,6 +1472,12 @@ def approve_terms_command(
         _, blocks = _load_chapter_source_and_blocks(config, chapter_id)
         queue_items = build_glossary_scan_queue(config, blocks)
         _write_glossary_scan_artifact(config, chapter_id=chapter_id, items=queue_items)
+    else:
+        _, blocks = _load_chapter_source_and_blocks(config, chapter_id)
+    queue_items, removed_terms = _revalidate_glossary_queue_items(config, blocks, queue_items)
+    if removed_terms:
+        _write_glossary_scan_artifact(config, chapter_id=chapter_id, items=queue_items)
+        print(f"[{run_id}] glossary approval revalidated queue; removed {len(removed_terms)} stale/noisy terms.")
     glossary_index = _load_glossary_index_from_queue(config, queue_items)
     pending_terms = _pending_terms_from_queue(glossary_index, queue_items)
     template_text = read_text_if_exists(config.workspace.templates_dir / "Term-Template.md") or _default_term_template()
@@ -2089,6 +2134,15 @@ def run_batch_pipeline(
         )
     else:
         queue_items = _read_glossary_scan_items(config, run_id=run_id)
+    queue_items, removed_terms = _revalidate_glossary_queue_items(config, all_blocks, queue_items)
+    if removed_terms:
+        _write_glossary_scan_artifact(
+            config,
+            run_id=run_id,
+            items=queue_items,
+            chapter_ids=chapter_ids,
+        )
+        print(f"[{run_id}]   glossary approval revalidated queue; removed {len(removed_terms)} stale/noisy terms.")
     glossary_index = _load_glossary_index_from_queue(config, queue_items)
 
     template_text = read_text_if_exists(config.workspace.templates_dir / "Term-Template.md")
@@ -2325,6 +2379,10 @@ def _resume_chapter(
             _write_glossary_scan_artifact(config, chapter_id=chapter_id, items=queue_items)
         else:
             queue_items = _read_glossary_scan_items(config, chapter_id=chapter_id)
+        queue_items, removed_terms = _revalidate_glossary_queue_items(config, blocks, queue_items)
+        if removed_terms:
+            _write_glossary_scan_artifact(config, chapter_id=chapter_id, items=queue_items)
+            print(f"[{run_id}]   glossary approval revalidated queue; removed {len(removed_terms)} stale/noisy terms.")
         ctx.glossary_index = _load_glossary_index_from_queue(config, queue_items)
         template_text = read_text_if_exists(config.workspace.templates_dir / "Term-Template.md")
         if template_text is None:

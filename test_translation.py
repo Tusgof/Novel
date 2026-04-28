@@ -864,6 +864,112 @@ def test_build_glossary_scan_queue_prunes_substring_fragments_only_when_never_st
 
         assert [item["original_term"] for item in queue] == ["面具神", "黑曜石", "黑袍人", "袍人"]
 
+def test_revalidate_glossary_queue_items_only_removes_stale_terms():
+    from novel_pipeline.pipeline import _revalidate_glossary_queue_items
+    from novel_pipeline.types import AppConfig, TextBlock
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        config = Mock(spec=AppConfig)
+        config.workspace = Mock()
+        config.workspace.glossary_dir = base / "01_Glossary"
+        config.workspace.prompts = base / "prompts"
+        config.source_language = "zh"
+        config.novel_id = "test"
+        config.stage_routing = {}
+        config.stage_routing_for = Mock(side_effect=KeyError("term_extraction"))
+
+        blocks = [
+            TextBlock(
+                block_id="ch001-block-001",
+                chapter_id="ch001",
+                block_index=0,
+                source_text="失乡号与阳神",
+                source_language="zh",
+                start_offset=0,
+                end_offset=6,
+            )
+        ]
+        original_queue = [
+            {"original_term": "邓肯船", "chapter_id": "ch001"},
+            {"original_term": "失乡号", "chapter_id": "ch001"},
+        ]
+        with patch(
+            "novel_pipeline.pipeline.build_glossary_scan_queue",
+            return_value=[
+                {"original_term": "失乡号", "chapter_id": "ch001"},
+                {"original_term": "阳神", "chapter_id": "ch001"},
+            ],
+        ):
+            filtered, removed = _revalidate_glossary_queue_items(config, blocks, original_queue)
+
+        assert [item["original_term"] for item in filtered] == ["失乡号"]
+        assert removed == ["邓肯船"]
+
+
+def test_approve_terms_command_revalidates_existing_queue_before_prompting():
+    from types import SimpleNamespace
+    from novel_pipeline.pipeline import approve_terms_command
+    from novel_pipeline.types import AppConfig, TextBlock
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        config = Mock(spec=AppConfig)
+        config.workspace = Mock()
+        config.workspace.glossary_dir = base / "01_Glossary"
+        config.workspace.templates_dir = base / "templates"
+        config.workspace.prompts = base / "prompts"
+        config.ledger_path = base / "06_Logs" / "run_ledger.jsonl"
+        config.source_language = "zh"
+        config.novel_id = "test"
+
+        blocks = [
+            TextBlock(
+                block_id="ch001-block-001",
+                chapter_id="ch001",
+                block_index=0,
+                source_text="失乡号出现了",
+                source_language="zh",
+                start_offset=0,
+                end_offset=6,
+            )
+        ]
+        existing_queue = [
+            {"original_term": "邓肯船", "chapter_id": "ch001", "first_seen_block": "ch001-block-001", "context": "ctx-a"},
+            {"original_term": "失乡号", "chapter_id": "ch001", "first_seen_block": "ch001-block-001", "context": "ctx-b"},
+        ]
+        fresh_allowed_queue = [
+            {"original_term": "失乡号", "chapter_id": "ch001", "first_seen_block": "ch001-block-001", "context": "ctx-b"},
+            {"original_term": "阳神", "chapter_id": "ch001", "first_seen_block": "ch001-block-001", "context": "ctx-c"},
+        ]
+        suggestion = SimpleNamespace(category="vessel", rationale="ok")
+
+        with patch("novel_pipeline.pipeline.RunLedger") as MockLedger, \
+             patch("novel_pipeline.pipeline._read_glossary_scan_items", return_value=existing_queue), \
+             patch("novel_pipeline.pipeline._load_chapter_source_and_blocks", return_value=(None, blocks)), \
+             patch("novel_pipeline.pipeline.build_glossary_scan_queue", return_value=fresh_allowed_queue), \
+             patch("novel_pipeline.pipeline._write_glossary_scan_artifact") as mock_write_queue, \
+             patch("novel_pipeline.pipeline.build_term_suggestion", return_value=suggestion) as mock_suggest, \
+             patch("novel_pipeline.pipeline.choose_option_interactively", return_value="เรือผู้ไร้บ้าน") as mock_choose, \
+             patch("novel_pipeline.pipeline.write_glossary_note") as mock_write_note, \
+             patch("novel_pipeline.pipeline._commit_stage") as mock_commit:
+            ledger = Mock()
+            ledger.has_committed.return_value = False
+            MockLedger.return_value = ledger
+
+            count = approve_terms_command(config=config, chapter_id="ch001", run_id="batch-test")
+
+        assert count == 1
+        mock_suggest.assert_called_once()
+        assert mock_suggest.call_args.kwargs["term"] == "失乡号"
+        mock_choose.assert_called_once()
+        mock_write_note.assert_called_once()
+        mock_commit.assert_called_once()
+        rewritten_items = mock_write_queue.call_args.kwargs["items"]
+        assert [item["original_term"] for item in rewritten_items] == ["失乡号"]
+
 def test_stage_routing_parses_timeout_and_retry():
     from novel_pipeline.types import StageRouting
     # Minimal mapping with only provider string (backward compatibility)

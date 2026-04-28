@@ -1,7 +1,7 @@
 # Project Brain: Deep Sea Embers Translation Pipeline
 
 Last updated: 2026-04-28
-Last verified: 2026-04-28 after V3.12 glossary hardening reports and guards were verified with `python -m compileall novel_pipeline`, `python test_translation.py`, `report glossary-conflicts --run-id batch-ch019-ch023-v1`, `report glossary-audit --run-id batch-ch019-ch023-v1`, and `report glossary-guard --run-id batch-ch019-ch023-v1`.
+Last verified: 2026-04-28 after V3.12 glossary hardening was completed and verified with `python -m compileall novel_pipeline`, `python test_translation.py`, `report glossary-conflicts --run-id batch-ch019-ch023-v1`, `report glossary-audit --run-id batch-ch019-ch023-v1`, and `report glossary-guard --run-id batch-ch019-ch023-v1`.
 
 This file is the project constitution, architecture map, and current operational memory. It should preserve the project goal, design principles, verified state, safety rules, recovery lessons, and pointers to detailed documents. Keep reports, long logs, and implementation detail in their dedicated files.
 
@@ -156,12 +156,13 @@ Active:
 - manual actions needed: none
 - V3.10 complete: repeatable rollout protocol artifacts exist
 - V3.11 complete: report automation command family now exists
-- V3.12 in progress: glossary and terminology hardening
+- V3.12 complete: glossary and terminology hardening
 - V3.12 read-only tooling now exists:
   - `report glossary-conflicts [--run-id <run_id>]`
   - `report glossary-audit --run-id <run_id>`
 - V3.12 per-run guard verification now exists:
   - `report glossary-guard --run-id <run_id>`
+- V3.12 approval-stage queue revalidation now strips stale/noisy terms from existing glossary scan artifacts before prompting or writing notes
 - V3.12 QA-stage glossary gate now blocks the narrow case where literal translation already used an approved Thai term and refinement removes it
 - V3.12 first runtime guard slice now exists in glossary scan:
   - exact quarantine/rejected/deprecated terms are filtered before queue entry
@@ -171,7 +172,7 @@ Active:
 - `glossary-audit` verified clean for `batch-ch019-ch023-v1`
 - `glossary-conflicts` intentionally returns actionable findings for current glossary conflicts/noise and is meant to surface cleanup or guardrail work
 - `glossary-guard` now proves the current scan-time guard reduces noisy candidates on real chapters for `batch-ch019-ch023-v1`
-- next slice: stronger deterministic guardrails for any remaining noisy candidates and a decision on whether broader approval/translation-stage glossary enforcement is needed beyond the narrow QA gate
+- broader approval/translation-stage enforcement is not planned right now; the current scan -> approval -> QA guard chain is the accepted V3.12 baseline
 - ch024+: must remain unprocessed
 - final outputs for ch019-ch023 exist
 - V3.10 protocol artifacts now exist:
@@ -196,7 +197,7 @@ Proceed with protocol/product work:
    - `00_Templates/Batch-Rollout-Checklist.md`
    - `00_Templates/Worker-Bounded-Batch-Prompt.md`
    - `07_Reports/v3_10_repeatable_rollout_protocol.md`
-3. Continue `V3.12` from the current guard baseline: use conflict/audit/guard reports to decide whether any further deterministic pruning or approval-stage enforcement is justified before planning any new Deep Sea Embers source range.
+3. Start `V4.0` product work from the stabilized V3.12 baseline. Focus on a practical local operator window, not another Deep Sea Embers translation run.
 4. Do not plan `ch024+` translation until new source is available and a fresh fetch/scan decision is made.
 
 ## Invariants And Guardrails
