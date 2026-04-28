@@ -40,6 +40,12 @@ body
         encoding="utf-8",
     )
 
+
+def _write_run_ledger_jsonl(path: Path, records: list[dict[str, object]]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join(json.dumps(record, ensure_ascii=False) for record in records) + "\n", encoding="utf-8")
+
+
 def test_format_glossary_subset():
     entries = [
         GlossaryEntry(original_term="邓肯", thai_term="ดันแคน", category="character", description="Protagonist"),
@@ -725,6 +731,101 @@ def test_build_glossary_scan_queue_filters_noisy_prefix_suffix_around_approved_t
             queue = build_glossary_scan_queue(config, [block], exclude_existing=False)
 
         assert [item["original_term"] for item in queue] == ["失乡号", "无关词"]
+
+
+def test_build_glossary_scan_queue_filters_historical_rejected_terms_from_ledger():
+    from novel_pipeline.ledger import RunRecord
+    from novel_pipeline.stages.glossary import build_glossary_scan_queue
+    from novel_pipeline.types import AppConfig, TextBlock
+    import tempfile
+
+    rejected_terms = ["人影", "些黑袍人", "黑袍人", "高台", "好像", "船长室门", "区域", "阳神", "黑曜石", "鸽子", "罗盘"]
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        glossary_dir = base / "01_Glossary"
+        ledger_path = base / "06_Logs" / "run_ledger.jsonl"
+        _write_run_ledger_jsonl(
+            ledger_path,
+            [
+                RunRecord.new(
+                    run_id="batch-test",
+                    block_id="ch001",
+                    stage="glossary_approved",
+                    status="completed",
+                    metadata={"rejected_terms": rejected_terms},
+                ).to_dict()
+            ],
+        )
+
+        config = Mock(spec=AppConfig)
+        config.workspace = Mock()
+        config.workspace.glossary_dir = glossary_dir
+        config.workspace.prompts = base / "prompts"
+        config.ledger_path = ledger_path
+        config.source_language = "zh"
+        config.novel_id = "test"
+        config.stage_routing = {}
+        config.stage_routing_for = Mock(side_effect=KeyError("term_extraction"))
+
+        block = TextBlock(
+            block_id="ch001-block-001",
+            chapter_id="ch001",
+            block_index=0,
+            source_text="人影和無關詞",
+            source_language="zh",
+            start_offset=0,
+            end_offset=6,
+        )
+
+        with patch(
+            "novel_pipeline.stages.glossary.extract_candidate_terms",
+            return_value=["人影", "黑袍人", "無關詞"],
+        ):
+            queue = build_glossary_scan_queue(config, [block], exclude_existing=False)
+
+        assert [item["original_term"] for item in queue] == ["無關詞"]
+
+
+def test_build_glossary_scan_queue_fails_safe_when_ledger_path_is_non_path_like():
+    from novel_pipeline.stages.glossary import build_glossary_scan_queue
+    from novel_pipeline.types import AppConfig, TextBlock
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        glossary_dir = base / "01_Glossary"
+
+        config = Mock(spec=AppConfig)
+        config.workspace = Mock()
+        config.workspace.glossary_dir = glossary_dir
+        config.workspace.prompts = base / "prompts"
+        config.ledger_path = Mock()
+        config.source_language = "zh"
+        config.novel_id = "test"
+        config.stage_routing = {}
+        config.stage_routing_for = Mock(side_effect=KeyError("term_extraction"))
+
+        block = TextBlock(
+            block_id="ch001-block-001",
+            chapter_id="ch001",
+            block_index=0,
+            source_text="人影和無關詞",
+            source_language="zh",
+            start_offset=0,
+            end_offset=6,
+        )
+
+        with patch(
+            "novel_pipeline.stages.glossary.extract_candidate_terms",
+            return_value=["人影", "無關詞"],
+        ), patch(
+            "novel_pipeline.stages.glossary.RunLedger",
+            side_effect=AssertionError("RunLedger should not be constructed for non-path-like ledger_path"),
+        ):
+            queue = build_glossary_scan_queue(config, [block], exclude_existing=False)
+
+        assert [item["original_term"] for item in queue] == ["人影", "無關詞"]
 
 
 def test_build_glossary_scan_queue_prunes_substring_fragments_only_when_never_standalone():

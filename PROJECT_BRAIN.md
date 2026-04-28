@@ -162,11 +162,12 @@ Active:
   - `report glossary-audit --run-id <run_id>`
 - V3.12 first runtime guard slice now exists in glossary scan:
   - exact quarantine/rejected/deprecated terms are filtered before queue entry
+  - exact historical rejected terms from prior glossary approvals are filtered before queue entry
   - narrow approved-term noise like `是失乡号` is filtered
   - substring fragments that never occur standalone in a block are filtered
 - `glossary-audit` verified clean for `batch-ch019-ch023-v1`
 - `glossary-conflicts` intentionally returns actionable findings for current glossary conflicts/noise and is meant to surface cleanup or guardrail work
-- next slice: stronger deterministic guardrails for the remaining noisy candidates and explicit verification evidence that scan noise drops on real chapters
+- next slice: stronger deterministic guardrails for any remaining noisy candidates, plus a decision on whether approval/QA-stage glossary enforcement is needed beyond scan-time filtering
 - ch024+: must remain unprocessed
 - final outputs for ch019-ch023 exist
 - V3.10 protocol artifacts now exist:

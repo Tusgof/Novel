@@ -9,6 +9,7 @@ from typing import Any
 
 from novel_pipeline.artifacts import glossary_scan_artifact_path
 from novel_pipeline.files import atomic_write_json, read_text_if_exists
+from novel_pipeline.ledger import RunLedger
 from novel_pipeline.glossary_support import (
     choose_option_interactively,
     load_glossary_index,
@@ -79,6 +80,24 @@ def _blocked_exact_terms(records: list[dict[str, Any]]) -> set[str]:
         for alias in note.get("aliases") or []:
             blocked.add(str(alias).strip())
     return {term for term in blocked if term}
+
+
+def _historical_rejected_terms(config: AppConfig) -> set[str]:
+    ledger_path = getattr(config, "ledger_path", None)
+    if not isinstance(ledger_path, (str, Path, PathLike)):
+        return set()
+    try:
+        ledger = RunLedger(Path(ledger_path))
+    except (TypeError, ValueError):
+        return set()
+    rejected_terms: set[str] = set()
+    for record in ledger.iter_records(stage="glossary_approved", status="completed"):
+        metadata = record.metadata if isinstance(record.metadata, dict) else {}
+        for term in metadata.get("rejected_terms") or []:
+            text = str(term)
+            if text:
+                rejected_terms.add(text)
+    return rejected_terms
 
 
 def _noise_anchor_terms(records: list[dict[str, Any]]) -> set[str]:
@@ -177,6 +196,7 @@ def build_glossary_scan_queue(
     glossary_index = load_glossary_index(config.workspace.glossary_dir) if exclude_existing else {}
     note_records = _load_glossary_note_records(config.workspace.glossary_dir)
     blocked_exact_terms = _blocked_exact_terms(note_records)
+    blocked_exact_terms.update(_historical_rejected_terms(config))
     approved_terms = _noise_anchor_terms(note_records)
     quarantine_terms = {
         str(note.get("original_term") or "").strip()

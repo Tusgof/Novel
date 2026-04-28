@@ -140,6 +140,7 @@ Current slice complete on 2026-04-28:
 - `novel-pipeline report glossary-audit --run-id <run_id>`
 - deterministic scan-time guard now filters:
   - exact quarantine/rejected/deprecated terms and aliases
+  - exact historical rejected terms from prior completed glossary approvals
   - narrow noisy prefix/suffix wrappers around approved terms such as `是失乡号`
   - substring fragments that never occur standalone within the block text
 - verified against `batch-ch019-ch023-v1`:
@@ -151,6 +152,7 @@ Next slice:
 - convert remaining report findings into stronger deterministic guardrails without over-pruning legitimate terms
 - add explicit per-run or per-artifact verification showing the runtime guard actually reduces noisy glossary candidates on real chapters
 - decide whether any approval-stage or QA-stage glossary enforcement should be added beyond scan-time filtering
+- review whether the now-empty scan queues on some chapters are the desired steady-state behavior when historical rejections are present
 
 Done when glossary approval is less dependent on manual ad hoc review.
 
