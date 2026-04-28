@@ -28,6 +28,7 @@ A new project folder with:
 - `.system/providers.yaml`
 - `.system/style_profiles.yaml`
 - `NOVEL_PROFILE.yaml`
+- `RESEARCH_PROFILE.yaml`
 - copied `prompts/`
 - copied `00_Templates/`
 - empty isolated state folders:
@@ -107,6 +108,7 @@ Expected result:
 Open and confirm:
 
 - `NOVEL_PROFILE.yaml`
+- `RESEARCH_PROFILE.yaml`
 - `.system/config.yaml`
 
 Required checks:
@@ -172,7 +174,8 @@ Ready for glossary scan only when all of these are true:
 - manifest builds
 - sample chapter fetches
 - source text is readable and clean enough to split
-- profile file is complete enough for later research work
+- `RESEARCH_PROFILE.yaml` exists and is ready for the first manual research pass
+- operator follows `RESEARCH_PROFILE_PLAYBOOK.md` before relying on one chapter as style evidence
 
 If not, do not start translation. Fix the adapter or source assumptions first.
 

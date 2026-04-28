@@ -25,6 +25,7 @@ def run_literal_translation_stage(
         source_block=source_for_prompt,
         glossary_subset=formatted_glossary,
         source_language=block.source_language,
+        research_context=config.research_context_text(),
     )
     response = provider_runner.run_with_retry(
         ProviderRequest(

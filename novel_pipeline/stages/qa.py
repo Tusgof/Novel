@@ -41,6 +41,7 @@ def run_qa_stage(
         refined_draft=refined_draft.to_dict(),
         glossary_subset=[entry.to_dict() for entry in glossary_subset],
         style_instructions=style_profile.instruction_text(),
+        research_context=config.research_context_text(),
     )
     feedback = ""
     response = provider_runner.run_with_retry(

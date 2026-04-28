@@ -31,6 +31,7 @@ def run_refine_stage(
         glossary_subset=formatted_glossary,
         style_instructions=style_profile.instruction_text(),
         retry_feedback=retry_feedback or "none",
+        research_context=config.research_context_text(),
     )
     response = provider_runner.run_with_retry(
         ProviderRequest(

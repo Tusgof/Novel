@@ -543,6 +543,100 @@ class SourceConfig(JsonSerializable):
 
 
 @dataclass(slots=True)
+class ResearchProfile(JsonSerializable):
+    title: str
+    source_url: str
+    aliases: tuple[str, ...] = ()
+    synopsis: str = ""
+    tags: tuple[str, ...] = ()
+    style_notes: str = ""
+    reader_expectations: str = ""
+    review_summary: str = ""
+    terminology: tuple[str, ...] = ()
+    reference_links: tuple[str, ...] = ()
+    notes: str = ""
+    status: str = "pending"
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+    @classmethod
+    def from_mapping(cls, data: Mapping[str, Any] | None) -> ResearchProfile:
+        payload = dict(data or {})
+        source_payload = payload.get("source")
+        if isinstance(source_payload, Mapping):
+            payload.setdefault("title", source_payload.get("title", ""))
+            payload.setdefault("source_url", source_payload.get("url", source_payload.get("source_url", "")))
+        if "synopsis" not in payload and payload.get("summary"):
+            payload["synopsis"] = payload.get("summary")
+        return cls(
+            title=str(payload.get("title", "")).strip(),
+            aliases=as_string_tuple(payload.get("aliases")),
+            source_url=str(payload.get("source_url", "")).strip(),
+            synopsis=str(payload.get("synopsis", "")).strip(),
+            tags=as_string_tuple(payload.get("tags")),
+            style_notes=str(payload.get("style_notes", "")).strip(),
+            reader_expectations=str(payload.get("reader_expectations", "")).strip(),
+            review_summary=str(payload.get("review_summary", "")).strip(),
+            terminology=as_string_tuple(payload.get("terminology")),
+            reference_links=as_string_tuple(payload.get("reference_links")),
+            notes=str(payload.get("notes", "")).strip(),
+            status=str(payload.get("status", "pending")).strip() or "pending",
+            metadata={
+                str(k): v
+                for k, v in payload.items()
+                if k not in {
+                    "title",
+                    "aliases",
+                    "source_url",
+                    "source",
+                    "summary",
+                    "synopsis",
+                    "tags",
+                    "style_notes",
+                    "reader_expectations",
+                    "review_summary",
+                    "terminology",
+                    "reference_links",
+                    "notes",
+                    "status",
+                }
+            },
+        )
+
+    def context_text(self) -> str:
+        lines: list[str] = []
+        title = self.title.strip()
+        source_url = self.source_url.strip()
+        synopsis = self.synopsis.strip()
+        style_notes = self.style_notes.strip()
+        reader_expectations = self.reader_expectations.strip()
+        review_summary = self.review_summary.strip()
+        notes = self.notes.strip()
+        if title:
+            lines.append(f"Title: {title}")
+        if self.aliases:
+            lines.append("Aliases: " + ", ".join(self.aliases))
+        if source_url:
+            lines.append(f"Source URL: {source_url}")
+        if synopsis:
+            lines.append(f"Synopsis: {synopsis}")
+        if self.tags:
+            lines.append("Tags: " + ", ".join(self.tags))
+        if style_notes:
+            lines.append(f"Style notes: {style_notes}")
+        if reader_expectations:
+            lines.append(f"Reader expectations: {reader_expectations}")
+        if review_summary:
+            lines.append(f"Review summary: {review_summary}")
+        if self.terminology:
+            lines.append("Terminology: " + ", ".join(self.terminology))
+        if notes:
+            lines.append(f"Notes: {notes}")
+        if lines:
+            return "\n".join(lines)
+        return "none"
+
+
+@dataclass(slots=True)
 class NovelProfile(JsonSerializable):
     novel_id: str
     title: str
@@ -689,6 +783,7 @@ class AppConfig(JsonSerializable):
     default_style_profile: str
     batch: BatchDefaults
     chunking: ChunkingPolicy
+    research_profile: ResearchProfile | None = None
     source: SourceConfig = field(default_factory=SourceConfig)
     providers: dict[str, ProviderSpec] = field(default_factory=dict)
     stage_routing: dict[str, StageRouting] = field(default_factory=dict)
@@ -770,6 +865,11 @@ class AppConfig(JsonSerializable):
         except KeyError as exc:
             raise KeyError(f"Style profile '{profile_name}' is not configured.") from exc
 
+    def research_context_text(self) -> str:
+        if self.research_profile is None:
+            return "none"
+        return self.research_profile.context_text()
+
 
 AppPaths = WorkspacePaths
 
@@ -792,6 +892,7 @@ __all__ = [
     "QAFinding",
     "RefinedDraft",
     "RunRecord",
+    "ResearchProfile",
     "SourceConfig",
     "StageRouting",
     "StyleProfile",

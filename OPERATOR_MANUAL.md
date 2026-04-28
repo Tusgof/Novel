@@ -57,7 +57,8 @@ This is the practical runbook. It should help the operator proceed without guess
   - broader state-changing control beyond glossary approval plus bounded resume/rerun-block is still intentionally absent
 - V4.1 complete: multi-novel foundation now includes per-project scaffold and setup/fetch playbooks.
 - V4.2 complete: multi-genre style profiles now provide structured preset guidance for refinement and QA.
-- Next milestone after V4.2: `V4.3` novel research profile.
+- V4.3 complete: research-profile workflow now uses `RESEARCH_PROFILE.yaml`, a manual web-research playbook, and prompt context wiring for translation/refinement/QA.
+- Next milestone after V4.3: `V4.4` packaging and operator reliability.
 
 ## Standard Preflight
 
@@ -106,8 +107,10 @@ Current generated artifacts:
 V4.1 setup artifacts:
 
 - `00_Templates/Novel-Profile.yaml`
+- `00_Templates/Research-Profile.yaml`
 - `NOVEL_SETUP_PLAYBOOK.md`
 - `FETCH_ADAPTER_PLAYBOOK.md`
+- `RESEARCH_PROFILE_PLAYBOOK.md`
 
 V4.2 style profile artifacts:
 
@@ -128,6 +131,13 @@ V4.2 style profile artifacts:
   - `horror`
   - `romance_drama`
   - `deep_sea_embers`
+
+V4.3 research artifacts:
+
+- `RESEARCH_PROFILE.yaml` at the project root
+- `00_Templates/Research-Profile.yaml`
+- `RESEARCH_PROFILE_PLAYBOOK.md`
+- current prompt wiring uses `research_context` in literal translation, refinement, and QA
 
 If CLI is unavailable, inspect:
 
@@ -202,7 +212,8 @@ Expected result:
 Then follow:
 
 1. `NOVEL_SETUP_PLAYBOOK.md`
-2. `FETCH_ADAPTER_PLAYBOOK.md`
+2. `RESEARCH_PROFILE_PLAYBOOK.md`
+3. `FETCH_ADAPTER_PLAYBOOK.md`
 
 ## Glossary Approval Gate
 

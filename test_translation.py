@@ -2011,6 +2011,91 @@ def test_style_profile_from_mapping_parses_structured_fields_and_legacy_descript
     assert legacy.instruction_text() == "Legacy prose only."
 
 
+def test_research_profile_from_config_and_context_text():
+    """Research profile YAML loads from the workspace root and renders concise context text."""
+    import tempfile
+    from novel_pipeline.config import load_app_config
+
+    base = Path(tempfile.mkdtemp(prefix="novel-research-"))
+    workspace_root = base / "workspace"
+    system_root = workspace_root / ".system"
+    system_root.mkdir(parents=True)
+    (system_root / "config.yaml").write_text(
+        """novel_id: research-novel
+vault_root: .
+source_language: zh
+default_batch_size: 10
+chapter_unit: chapters
+default_style_profile: default
+chunking:
+  chinese_character_limit: 600
+  non_chinese_word_limit: 5000
+source:
+  adapter: piaotia
+  toc_url: https://example.com/toc
+""",
+        encoding="utf-8",
+    )
+    (system_root / "style_profiles.yaml").write_text(
+        """default:
+  name: default
+  description: default style
+""",
+        encoding="utf-8",
+    )
+    (system_root / "providers.yaml").write_text(
+        """literal_translation:
+  provider: gemini
+providers:
+  gemini:
+    executable: gemini
+""",
+        encoding="utf-8",
+    )
+    (workspace_root / "RESEARCH_PROFILE.yaml").write_text(
+        """schema_version: 1
+title: Deep Sea Embers
+aliases:
+  - 深海余烬
+source_url: https://example.com/original
+status: active
+synopsis: Nautical dark fantasy with a slow-burn mystery.
+tags:
+  - nautical dark fantasy
+  - mystery
+style_notes: Blend eerie maritime atmosphere with grounded reactions.
+reader_expectations: Expect slow-burn reveals and practical protagonist logic.
+review_summary: Reviews emphasize atmosphere, mystery, and immersive worldbuilding.
+terminology:
+  - ember
+  - abyss
+reference_links:
+  - https://example.com/review
+notes: Preserve ship names and source-linked canon.
+""",
+        encoding="utf-8",
+    )
+
+    config = load_app_config(system_root / "config.yaml")
+    assert config.research_profile is not None
+    assert config.research_profile.title == "Deep Sea Embers"
+    assert config.research_profile.aliases == ("深海余烬",)
+    assert config.research_profile.source_url == "https://example.com/original"
+    assert config.research_profile.status == "active"
+    assert config.research_context_text() == (
+        "Title: Deep Sea Embers\n"
+        "Aliases: 深海余烬\n"
+        "Source URL: https://example.com/original\n"
+        "Synopsis: Nautical dark fantasy with a slow-burn mystery.\n"
+        "Tags: nautical dark fantasy, mystery\n"
+        "Style notes: Blend eerie maritime atmosphere with grounded reactions.\n"
+        "Reader expectations: Expect slow-burn reveals and practical protagonist logic.\n"
+        "Review summary: Reviews emphasize atmosphere, mystery, and immersive worldbuilding.\n"
+        "Terminology: ember, abyss\n"
+        "Notes: Preserve ship names and source-linked canon."
+    )
+
+
 def test_initialize_novel_project_scaffolds_expected_files_and_rewrites_codex_cd():
     """init-novel scaffold creates an isolated project without code edits."""
     import tempfile
@@ -2025,6 +2110,24 @@ def test_initialize_novel_project_scaffolds_expected_files_and_rewrites_codex_cd
     (source_root / "00_Templates").mkdir()
     (source_root / "prompts" / "literal_translation.md").write_text("prompt", encoding="utf-8")
     (source_root / "00_Templates" / "Term-Template.md").write_text("template", encoding="utf-8")
+    (source_root / "00_Templates" / "Research-Profile.yaml").write_text(
+        """schema_version: 1
+title: Your Novel Title
+aliases:
+  - Alternate Title
+source_url: https://example.com/original-source
+status: pending
+synopsis: ""
+tags: []
+style_notes: ""
+reader_expectations: ""
+review_summary: ""
+terminology: []
+reference_links: []
+notes: ""
+""",
+        encoding="utf-8",
+    )
     (source_root / ".system" / "config.yaml").write_text(
         """novel_id: template-workspace
 vault_root: .
@@ -2094,16 +2197,25 @@ providers:
 
     assert result["project_root"] == target_root.resolve()
     assert (target_root / "NOVEL_PROFILE.yaml").exists()
+    assert (target_root / "RESEARCH_PROFILE.yaml").exists()
     assert (target_root / ".system" / "config.yaml").exists()
     assert (target_root / ".system" / "providers.yaml").exists()
     assert (target_root / "prompts" / "literal_translation.md").exists()
     assert (target_root / "00_Templates" / "Term-Template.md").exists()
+    assert (target_root / "00_Templates" / "Research-Profile.yaml").exists()
 
     profile_payload = yaml.safe_load((target_root / "NOVEL_PROFILE.yaml").read_text(encoding="utf-8"))
     assert profile_payload["novel_id"] == "second-novel"
     assert profile_payload["title"] == "Second Novel"
     assert profile_payload["aliases"] == ["Second Alt"]
     assert profile_payload["source"]["toc_url"] == "https://example.com/second/toc"
+    assert profile_payload["research"]["profile_path"] == "RESEARCH_PROFILE.yaml"
+
+    research_payload = yaml.safe_load((target_root / "RESEARCH_PROFILE.yaml").read_text(encoding="utf-8"))
+    assert research_payload["title"] == "Second Novel"
+    assert research_payload["aliases"] == ["Second Alt"]
+    assert research_payload["source_url"] == "https://example.com/second/toc"
+    assert research_payload["status"] == "pending"
 
     providers_payload = yaml.safe_load((target_root / ".system" / "providers.yaml").read_text(encoding="utf-8"))
     extra_args = providers_payload["providers"]["codex"]["extra_args"]
@@ -2241,18 +2353,18 @@ def test_refine_stage_uses_structured_style_instructions():
     config = Mock()
     config.workspace.prompts = Path("prompts")
     config.style_profile_for_name = Mock(return_value=profile)
-    block = TextBlock(block_id="ch001-block-001", chapter_id="ch001", source_text="原文")
+    block = TextBlock(block_id="ch001-block-001", chapter_id="ch001", source_text="原文。")
     literal_draft = LiteralDraft(
         block_id=block.block_id,
         chapter_id=block.chapter_id,
-        sentence_pairs=(LiteralSentencePair(source_sentence="原文", literal_sentence="ข้อความไทย"),),
+        sentence_pairs=(LiteralSentencePair(source_sentence="原文。", literal_sentence="สวัสดีครับ"),),
     )
     provider_runner = Mock()
     provider_runner.spec.name = "claude"
     provider_runner.run_with_retry.return_value = ProviderResponse(
         provider="claude",
         command=("claude",),
-        stdout="ข้อความไทยที่ปรับแล้ว",
+        stdout="สวัสดีครับ",
         returncode=0,
     )
 
@@ -2291,16 +2403,16 @@ def test_qa_stage_uses_structured_style_instructions():
     config = Mock()
     config.workspace.prompts = Path("prompts")
     config.style_profile_for_name = Mock(return_value=profile)
-    block = TextBlock(block_id="ch001-block-001", chapter_id="ch001", source_text="原文")
+    block = TextBlock(block_id="ch001-block-001", chapter_id="ch001", source_text="原文。")
     literal_draft = LiteralDraft(
         block_id=block.block_id,
         chapter_id=block.chapter_id,
-        sentence_pairs=(LiteralSentencePair(source_sentence="原文", literal_sentence="ข้อความไทย"),),
+        sentence_pairs=(LiteralSentencePair(source_sentence="原文。", literal_sentence="สวัสดีครับ"),),
     )
     refined_draft = RefinedDraft(
         block_id=block.block_id,
         chapter_id=block.chapter_id,
-        refined_text="ข้อความไทยที่ปรับแล้ว",
+        refined_text="สวัสดีครับ",
     )
     provider_runner = Mock()
     provider_runner.spec.name = "claude"
@@ -2327,6 +2439,147 @@ def test_qa_stage_uses_structured_style_instructions():
     assert report.passed is True
     config.style_profile_for_name.assert_called_once_with("deep_sea_embers")
     assert mock_render.call_args.kwargs["style_instructions"] == profile.instruction_text()
+
+
+def test_literal_translation_stage_uses_research_context():
+    """Literal translation prompt wiring passes research context through to the template."""
+    from novel_pipeline.stages.translate import run_literal_translation_stage
+    from novel_pipeline.types import GlossaryEntry, TextBlock
+
+    research_context = "Title: Deep Sea Embers\nSource URL: https://example.com/original"
+    config = Mock()
+    config.workspace.prompts = Path("prompts")
+    config.research_context_text = Mock(return_value=research_context)
+    block = TextBlock(block_id="ch001-block-001", chapter_id="ch001", source_text="原文。", source_language="zh")
+    provider_runner = Mock()
+    provider_runner.spec.name = "gemini"
+    provider_runner.run_with_retry.return_value = ProviderResponse(
+        provider="gemini",
+        command=("gemini",),
+        stdout="สวัสดี",
+        returncode=0,
+    )
+
+    with patch("novel_pipeline.stages.translate.PromptStore.render", return_value="literal prompt") as mock_render:
+        result = run_literal_translation_stage(
+            config=config,
+            block=block,
+            glossary_subset=[GlossaryEntry(original_term="原文", thai_term="ต้นฉบับ", category="term")],
+            provider_runner=provider_runner,
+        )
+
+    assert result.provider == "gemini"
+    assert mock_render.call_args.kwargs["research_context"] == research_context
+
+
+def test_refine_stage_uses_research_context():
+    """Refinement prompt wiring passes research context through to the template."""
+    from novel_pipeline.stages.refine import run_refine_stage
+    from novel_pipeline.types import LiteralDraft, LiteralSentencePair, StyleProfile, TextBlock
+
+    profile = StyleProfile.from_mapping(
+        "deep_sea_embers",
+        {
+            "name": "deep-sea-embers-thai",
+            "genre_label": "dark fantasy",
+            "tone": "eerie, mysterious, atmospheric",
+            "naming_notes": "Keep ship and place names stable.",
+            "narration_density": "moderate",
+            "glossary_categories": ["character", "ship"],
+            "qa_criteria": ["Preserve maritime dread", "Avoid cultivation diction"],
+        },
+    )
+    research_context = "Title: Deep Sea Embers\nSource URL: https://example.com/original"
+    config = Mock()
+    config.workspace.prompts = Path("prompts")
+    config.style_profile_for_name = Mock(return_value=profile)
+    config.research_context_text = Mock(return_value=research_context)
+    block = TextBlock(block_id="ch001-block-001", chapter_id="ch001", source_text="原文。")
+    literal_draft = LiteralDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        sentence_pairs=(LiteralSentencePair(source_sentence="原文。", literal_sentence="สวัสดีครับ"),),
+    )
+    provider_runner = Mock()
+    provider_runner.spec.name = "claude"
+    provider_runner.run_with_retry.return_value = ProviderResponse(
+        provider="claude",
+        command=("claude",),
+        stdout="สวัสดีครับ",
+        returncode=0,
+    )
+
+    with patch("novel_pipeline.stages.refine.PromptStore.render", return_value="refine prompt") as mock_render:
+        result = run_refine_stage(
+            config=config,
+            block=block,
+            literal_draft=literal_draft,
+            glossary_subset=[],
+            style_profile_key="deep_sea_embers",
+            provider_runner=provider_runner,
+        )
+
+    assert result.style_profile == "deep_sea_embers"
+    assert mock_render.call_args.kwargs["research_context"] == research_context
+
+
+def test_qa_stage_uses_research_context():
+    """QA prompt wiring passes research context through to the template."""
+    from novel_pipeline.stages.qa import run_qa_stage
+    from novel_pipeline.types import LiteralDraft, LiteralSentencePair, RefinedDraft, StyleProfile, TextBlock
+
+    profile = StyleProfile.from_mapping(
+        "deep_sea_embers",
+        {
+            "name": "deep-sea-embers-thai",
+            "genre_label": "dark fantasy",
+            "tone": "eerie, mysterious, atmospheric",
+            "naming_notes": "Keep ship and place names stable.",
+            "narration_density": "moderate",
+            "glossary_categories": ["character", "ship"],
+            "qa_criteria": ["Preserve maritime dread", "Avoid cultivation diction"],
+        },
+    )
+    research_context = "Title: Deep Sea Embers\nSource URL: https://example.com/original"
+    config = Mock()
+    config.workspace.prompts = Path("prompts")
+    config.style_profile_for_name = Mock(return_value=profile)
+    config.research_context_text = Mock(return_value=research_context)
+    block = TextBlock(block_id="ch001-block-001", chapter_id="ch001", source_text="原文。")
+    literal_draft = LiteralDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        sentence_pairs=(LiteralSentencePair(source_sentence="原文。", literal_sentence="สวัสดีครับ"),),
+    )
+    refined_draft = RefinedDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        refined_text="สวัสดีครับ",
+    )
+    provider_runner = Mock()
+    provider_runner.spec.name = "claude"
+    provider_runner.run_with_retry.return_value = ProviderResponse(
+        provider="claude",
+        command=("claude",),
+        stdout="PASS: faithful translation with no omissions.",
+        returncode=0,
+    )
+
+    with patch("novel_pipeline.stages.qa.PromptStore.render", return_value="qa prompt") as mock_render:
+        report = run_qa_stage(
+            config=config,
+            block=block,
+            literal_draft=literal_draft,
+            refined_draft=refined_draft,
+            glossary_subset=[],
+            provider_runner=provider_runner,
+            model="",
+            retry_count=0,
+            style_profile_key="deep_sea_embers",
+        )
+
+    assert report.passed is True
+    assert mock_render.call_args.kwargs["research_context"] == research_context
 
 
 def test_cmd_resume_returns_two_on_manual_action_required():
@@ -3917,6 +4170,10 @@ if __name__ == "__main__":
     test_style_profile_from_mapping_parses_structured_fields_and_legacy_description()
     test_initialize_novel_project_scaffolds_expected_files_and_rewrites_codex_cd()
     test_initialize_novel_project_selects_style_profile_from_genre_or_default()
+    test_research_profile_from_config_and_context_text()
+    test_literal_translation_stage_uses_research_context()
+    test_refine_stage_uses_research_context()
+    test_qa_stage_uses_research_context()
     test_refine_stage_uses_structured_style_instructions()
     test_qa_stage_uses_structured_style_instructions()
     test_cmd_resume_returns_two_on_manual_action_required()

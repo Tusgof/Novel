@@ -3,3 +3,5 @@ Style instructions:
 {{style_instructions}}
 Retry feedback: {{retry_feedback}}
 Literal draft: {{literal_draft}}
+Research context:
+{{research_context}}

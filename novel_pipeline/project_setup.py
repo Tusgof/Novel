@@ -8,7 +8,7 @@ from typing import Any
 import yaml
 
 from novel_pipeline.files import atomic_write_text
-from novel_pipeline.types import AppConfig, NovelProfile, utc_now_iso
+from novel_pipeline.types import AppConfig, NovelProfile, ResearchProfile, utc_now_iso
 
 
 def slugify_novel_id(value: str) -> str:
@@ -92,6 +92,20 @@ def build_novel_profile(
     )
 
 
+def build_research_profile(
+    *,
+    title: str,
+    source_url: str,
+    aliases: list[str] | tuple[str, ...] | None = None,
+) -> ResearchProfile:
+    return ResearchProfile(
+        title=title.strip(),
+        source_url=source_url.strip(),
+        aliases=tuple(alias.strip() for alias in (aliases or []) if alias.strip()),
+        status="pending",
+    )
+
+
 def render_novel_profile_yaml(profile: NovelProfile) -> str:
     payload: dict[str, Any] = {
         "schema_version": int(profile.metadata.get("schema_version", 1)),
@@ -110,16 +124,33 @@ def render_novel_profile_yaml(profile: NovelProfile) -> str:
         },
         "research": {
             "status": str(profile.metadata.get("research_profile_status", "pending")),
-            "synopsis": "",
-            "tags": [],
-            "style_notes": "",
-            "reader_expectations": "",
-            "review_summary": "",
+            "profile_path": "RESEARCH_PROFILE.yaml",
+            "title": profile.title,
+            "source_url": profile.source_toc_url,
         },
         "setup": {
             "created_at": str(profile.metadata.get("created_at", "")),
             "created_from_workspace": str(profile.metadata.get("created_from_workspace", "")),
         },
+        "notes": profile.notes,
+    }
+    return yaml.safe_dump(payload, allow_unicode=True, sort_keys=False)
+
+
+def render_research_profile_yaml(profile: ResearchProfile) -> str:
+    payload: dict[str, Any] = {
+        "schema_version": 1,
+        "title": profile.title,
+        "aliases": list(profile.aliases),
+        "source_url": profile.source_url,
+        "status": profile.status,
+        "synopsis": profile.synopsis,
+        "tags": list(profile.tags),
+        "style_notes": profile.style_notes,
+        "reader_expectations": profile.reader_expectations,
+        "review_summary": profile.review_summary,
+        "terminology": list(profile.terminology),
+        "reference_links": list(profile.reference_links),
         "notes": profile.notes,
     }
     return yaml.safe_dump(payload, allow_unicode=True, sort_keys=False)
@@ -265,16 +296,26 @@ def initialize_novel_project(
     )
     atomic_write_text(target_root / "NOVEL_PROFILE.yaml", render_novel_profile_yaml(profile))
 
+    research_profile = build_research_profile(
+        title=title,
+        source_url=source_url,
+        aliases=aliases,
+    )
+    atomic_write_text(target_root / "RESEARCH_PROFILE.yaml", render_research_profile_yaml(research_profile))
+
     return {
         "project_root": target_root,
         "config_path": target_system / "config.yaml",
         "profile_path": target_root / "NOVEL_PROFILE.yaml",
+        "research_profile_path": target_root / "RESEARCH_PROFILE.yaml",
     }
 
 
 __all__ = [
     "build_novel_profile",
+    "build_research_profile",
     "initialize_novel_project",
     "render_novel_profile_yaml",
+    "render_research_profile_yaml",
     "slugify_novel_id",
 ]

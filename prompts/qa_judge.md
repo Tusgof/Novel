@@ -2,6 +2,8 @@ Judge this Thai refined translation against the source and literal draft. Output
 Glossary: {{glossary_subset}}
 Style instructions:
 {{style_instructions}}
+Research context:
+{{research_context}}
 Source: {{source_block}}
 Literal: {{literal_draft}}
 Refined: {{refined_draft}}

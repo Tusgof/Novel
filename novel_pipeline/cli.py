@@ -409,6 +409,8 @@ def cmd_init_novel(args: argparse.Namespace, config) -> int:
     print(f"project_root: {result['project_root']}")
     print(f"config_path: {result['config_path']}")
     print(f"profile_path: {result['profile_path']}")
+    if "research_profile_path" in result:
+        print(f"research_profile_path: {result['research_profile_path']}")
     return 0
 
 

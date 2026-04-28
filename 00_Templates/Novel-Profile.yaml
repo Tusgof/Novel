@@ -13,11 +13,9 @@ source:
   toc_url: https://example.com/table-of-contents
 research:
   status: pending
-  synopsis: ""
-  tags: []
-  style_notes: ""
-  reader_expectations: ""
-  review_summary: ""
+  profile_path: RESEARCH_PROFILE.yaml
+  title: Your Novel Title
+  source_url: https://example.com/table-of-contents
 setup:
   created_at: ""
   created_from_workspace: ""

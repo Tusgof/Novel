@@ -1,7 +1,7 @@
 # Project Brain: Deep Sea Embers Translation Pipeline
 
 Last updated: 2026-04-29
-Last verified: 2026-04-29 after V4.2 was completed and verified with `python -m compileall novel_pipeline` and `python test_translation.py`.
+Last verified: 2026-04-29 after V4.3 was completed and verified with `python -m compileall novel_pipeline` and `python test_translation.py`.
 
 This file is the project constitution, architecture map, and current operational memory. It should preserve the project goal, design principles, verified state, safety rules, recovery lessons, and pointers to detailed documents. Keep reports, long logs, and implementation detail in their dedicated files.
 
@@ -160,6 +160,7 @@ Active:
 - V4.0 complete: practical local operator product for the current single-novel workflow
 - V4.1 complete: multi-novel foundation now exists through per-project scaffolding and setup/fetch playbooks
 - V4.2 complete: structured multi-genre style profiles now exist and are wired into refinement/QA prompts
+- V4.3 complete: research-profile workflow now uses `RESEARCH_PROFILE.yaml`, a manual web-research playbook, and prompt context wiring for translation/refinement/QA
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, and artifact viewing
@@ -179,6 +180,11 @@ Active:
   - `StyleProfile` now carries structured fields for tone, naming notes, narration density, glossary categories, and QA criteria
   - refinement and QA prompts now consume structured `style_instructions` instead of hardcoded Deep Sea Embers wording
   - `init-novel` now resolves style selection by explicit `--style-profile`, then normalized `--genre`, then template default
+- V4.3 research-profile baseline now exists:
+  - per-project `RESEARCH_PROFILE.yaml` is scaffolded by `init-novel`
+  - `RESEARCH_PROFILE_PLAYBOOK.md` defines the manual web research workflow anchored to title plus source URL
+  - literal translation, refinement, and QA now receive `research_context` from the saved profile
+  - the active Deep Sea Embers workspace now has a tracked `RESEARCH_PROFILE.yaml`
 - V4.1 playbooks now exist:
   - `NOVEL_SETUP_PLAYBOOK.md`
   - `FETCH_ADAPTER_PLAYBOOK.md`
@@ -222,7 +228,7 @@ Proceed with protocol/product work:
    - `00_Templates/Batch-Rollout-Checklist.md`
    - `00_Templates/Worker-Bounded-Batch-Prompt.md`
    - `07_Reports/v3_10_repeatable_rollout_protocol.md`
-3. Start `V4.3` from this stable multi-novel and multi-genre baseline: research profile setup that uses title plus source URL instead of relying on one chapter as style evidence.
+3. Start `V4.4` from this stable multi-novel, multi-genre, research-profile baseline: package reliability, environment checks, config validation, and backup/git guardrails.
 4. Do not plan `ch024+` translation until new source is available and a fresh fetch/scan decision is made.
 
 ## Invariants And Guardrails
@@ -410,6 +416,7 @@ Worker model restrictions:
 - 2026-04-24: V3.10 accepted. Reusable bounded-batch protocol artifacts were added: checklist template, worker prompt template, and rollout protocol report.
 - 2026-04-28: V4.0 accepted. The local operator window now covers status, glossary decision flow, bounded resume, rerun-block, reports, and artifact viewing for the practical single-novel workflow.
 - 2026-04-29: V4.2 accepted. Structured multi-genre style profiles now exist, `init-novel` can resolve genre presets to style profile keys, and refinement/QA prompts now consume consistent style instructions without hardcoded Deep Sea Embers wording.
+- 2026-04-29: V4.3 accepted. Research is now stored in `RESEARCH_PROFILE.yaml`, collected through a practical web-research playbook, and passed into translation/refinement/QA prompts as concise context.
 
 ## Document Map
 
@@ -424,7 +431,9 @@ Worker model restrictions:
 - `07_Reports/glossary_guard_batch-ch019-ch023-v1.md`: per-run evidence that current glossary guards reduce noisy deterministic scan candidates.
 - `NOVEL_SETUP_PLAYBOOK.md`: step-by-step operator setup flow for a new novel project.
 - `FETCH_ADAPTER_PLAYBOOK.md`: fetch adapter implementation and validation checklist.
+- `RESEARCH_PROFILE_PLAYBOOK.md`: step-by-step research workflow using title plus source URL and external synopsis/review sources.
 - `00_Templates/Novel-Profile.yaml`: canonical per-novel profile shape.
+- `00_Templates/Research-Profile.yaml`: canonical research-profile scaffold.
 - `D:\Fogust\Workspace\Novel\AGENTS.md`: global worker/agent behavior rules.
 - `07_Reports/`: detailed historical reports and checkpoint evidence.
 - `.system/config.yaml`: pipeline configuration entry point.

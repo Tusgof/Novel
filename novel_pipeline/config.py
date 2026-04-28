@@ -11,6 +11,7 @@ from novel_pipeline.types import (
     BatchDefaults,
     ChunkingPolicy,
     ProviderSpec,
+    ResearchProfile,
     SourceConfig,
     StageRouting,
     StyleProfile,
@@ -98,6 +99,13 @@ def _parse_style_profiles(data: Mapping[str, Any]) -> dict[str, StyleProfile]:
     return profiles
 
 
+def _parse_research_profile(path: Path) -> ResearchProfile | None:
+    if not path.exists():
+        return None
+    payload = load_yaml_mapping(path)
+    return ResearchProfile.from_mapping(payload)
+
+
 def load_app_config(config_path: Path | str = Path(".system/config.yaml")) -> AppConfig:
     target = Path(config_path).expanduser().resolve()
     if not target.exists():
@@ -110,6 +118,7 @@ def load_app_config(config_path: Path | str = Path(".system/config.yaml")) -> Ap
     system_root = target.parent
     providers_doc = load_yaml_mapping(system_root / "providers.yaml")
     styles_doc = load_yaml_mapping(system_root / "style_profiles.yaml")
+    research_profile = _parse_research_profile(workspace_root / "RESEARCH_PROFILE.yaml")
 
     novel_id = str(config_doc.get("novel_id", workspace_root.name)).strip() or workspace_root.name
     vault_root = _resolve_relative(workspace_root, config_doc.get("vault_root", "."))
@@ -165,6 +174,7 @@ def load_app_config(config_path: Path | str = Path(".system/config.yaml")) -> Ap
         default_style_profile=default_style_profile,
         batch=batch,
         chunking=chunking,
+        research_profile=research_profile,
         source=source_cfg,
         providers=providers,
         stage_routing=stage_routing,

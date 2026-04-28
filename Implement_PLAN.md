@@ -33,6 +33,8 @@ Finish also requires that worker models cannot silently mutate source-of-truth d
 - V3.12 complete: glossary hardening report layer, runtime scan guards, approval-stage queue revalidation, historical rejected-term guard, narrow QA glossary enforcement, and per-run guard verification implemented
 - V4.0 complete: local operator window now covers status, glossary decisions, bounded recovery controls, reports, and artifact viewing
 - V4.1 complete: multi-novel foundation now includes `init-novel` scaffolding, `NOVEL_PROFILE.yaml`, and setup/fetch playbooks
+- V4.2 complete: multi-genre style profiles now exist and are wired into refinement/QA prompts
+- V4.3 complete: research-profile workflow now uses `RESEARCH_PROFILE.yaml`, a manual web-research playbook, and prompt context wiring for translation/refinement/QA
 - current failed blocks: none
 - historical failed records exist because the ledger is append-only
 - source currently exists only through `ch023` in workspace, so future Deep Sea Embers ranges require fetch/scan decisions first
@@ -278,7 +280,28 @@ Goal: reduce dependence on one chapter as style evidence.
 - save concise research profile
 - profile feeds translation, refinement, and QA prompts
 
-Done when new novel setup does not rely on one chapter as style evidence.
+Status: complete on 2026-04-29.
+
+Implemented:
+
+- per-project `RESEARCH_PROFILE.yaml` is now a first-class scaffold artifact created by `init-novel`
+- `00_Templates/Research-Profile.yaml` now defines a concise schema for:
+  - title and aliases
+  - source URL
+  - synopsis
+  - tags
+  - style notes
+  - reader expectations
+  - review summary
+  - terminology
+  - reference links
+- `RESEARCH_PROFILE_PLAYBOOK.md` now defines the step-by-step web research workflow using title plus source URL as the setup anchor
+- the active Deep Sea Embers workspace now has a verified `RESEARCH_PROFILE.yaml`
+- `AppConfig` now loads optional research context from `RESEARCH_PROFILE.yaml`
+- literal translation, refinement, and QA prompts now receive `research_context`
+- `NOVEL_PROFILE.yaml` now points to `RESEARCH_PROFILE.yaml` instead of carrying a stale inline research blob
+
+Done because new novel setup no longer depends on one chapter as style evidence alone: it now has a dedicated research artifact, a practical web-research workflow, and prompt wiring that consumes the saved profile.
 
 ### V4.4: Packaging and Operator Reliability
 
