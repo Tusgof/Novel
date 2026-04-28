@@ -1,0 +1,24 @@
+schema_version: 1
+novel_id: your-novel-id
+title: Your Novel Title
+aliases:
+  - Alternate Title
+languages:
+  source: zh
+  target: th
+genre: dark fantasy
+style_profile: default
+source:
+  adapter: piaotia
+  toc_url: https://example.com/table-of-contents
+research:
+  status: pending
+  synopsis: ""
+  tags: []
+  style_notes: ""
+  reader_expectations: ""
+  review_summary: ""
+setup:
+  created_at: ""
+  created_from_workspace: ""
+notes: ""

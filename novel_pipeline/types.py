@@ -495,6 +495,21 @@ class SourceConfig(JsonSerializable):
 
 
 @dataclass(slots=True)
+class NovelProfile(JsonSerializable):
+    novel_id: str
+    title: str
+    aliases: tuple[str, ...] = ()
+    source_language: str = ""
+    target_language: str = ""
+    genre: str = ""
+    style_profile: str = ""
+    source_adapter: str = ""
+    source_toc_url: str = ""
+    notes: str = ""
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass(slots=True)
 class TextBlock(JsonSerializable):
     block_id: str
     chapter_id: str
@@ -721,6 +736,7 @@ __all__ = [
     "JsonSerializable",
     "LiteralDraft",
     "LiteralSentencePair",
+    "NovelProfile",
     "ProviderRequest",
     "ProviderResponse",
     "ProviderSpec",

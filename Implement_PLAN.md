@@ -32,6 +32,7 @@ Finish also requires that worker models cannot silently mutate source-of-truth d
 - V3.11 complete: report automation command family created
 - V3.12 complete: glossary hardening report layer, runtime scan guards, approval-stage queue revalidation, historical rejected-term guard, narrow QA glossary enforcement, and per-run guard verification implemented
 - V4.0 complete: local operator window now covers status, glossary decisions, bounded recovery controls, reports, and artifact viewing
+- V4.1 complete: multi-novel foundation now includes `init-novel` scaffolding, `NOVEL_PROFILE.yaml`, and setup/fetch playbooks
 - current failed blocks: none
 - historical failed records exist because the ledger is append-only
 - source currently exists only through `ch023` in workspace, so future Deep Sea Embers ranges require fetch/scan decisions first
@@ -210,7 +211,29 @@ Goal: let the pipeline support a second novel without code edits.
 - source adapter config per novel
 - run IDs and reports scoped by novel
 
-Done when a second novel can be configured without code edits.
+Status: complete on 2026-04-29.
+
+Implemented:
+
+- `novel-pipeline init-novel --project-root <path> --title <title> --source-url <toc_url> ...`
+- per-novel `NOVEL_PROFILE.yaml` scaffold with:
+  - title
+  - aliases
+  - source/target languages
+  - genre
+  - style profile
+  - source adapter
+  - source TOC URL
+  - research placeholder fields
+- project scaffolding copies the working `.system/providers.yaml`, `.system/style_profiles.yaml`, `prompts/`, and `00_Templates/`
+- codex provider `--cd` path is rewritten to the new project root during scaffold so fallback runs stay project-scoped
+- isolated per-project folders are created for glossary, raw, work, output, logs, reports, and skills
+- setup artifacts added:
+  - `00_Templates/Novel-Profile.yaml`
+  - `NOVEL_SETUP_PLAYBOOK.md`
+  - `FETCH_ADAPTER_PLAYBOOK.md`
+
+Done because a second novel can now be configured from the current workspace without code edits, and the setup/fetch path is documented as a repeatable operator playbook.
 
 ### V4.2: Multi-Genre Style Profiles
 

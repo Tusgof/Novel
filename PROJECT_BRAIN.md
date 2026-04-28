@@ -158,6 +158,7 @@ Active:
 - V3.11 complete: report automation command family now exists
 - V3.12 complete: glossary and terminology hardening
 - V4.0 complete: practical local operator product for the current single-novel workflow
+- V4.1 complete: multi-novel foundation now exists through per-project scaffolding and setup/fetch playbooks
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, and artifact viewing
@@ -166,6 +167,15 @@ Active:
   - glossary approve/reject actions with 2-3 Thai term options now exist
   - glossary approval commits automatically when the queue is cleared
   - broader state-changing controls are still intentionally limited to bounded recovery and glossary approval
+- V4.1 scaffolding now exists:
+  - `novel-pipeline init-novel --project-root <path> --title <title> --source-url <toc_url> ...`
+  - per-project `NOVEL_PROFILE.yaml`
+  - copied `.system/`, `prompts/`, and `00_Templates/` baseline for a new project
+  - isolated per-project `01_Glossary/`, `03_Raw/`, `04_Work/`, `05_Output/`, `06_Logs/`, and `07_Reports/`
+  - codex fallback `--cd` is rewritten to the new project root during scaffold
+- V4.1 playbooks now exist:
+  - `NOVEL_SETUP_PLAYBOOK.md`
+  - `FETCH_ADAPTER_PLAYBOOK.md`
 - V3.12 read-only tooling now exists:
   - `report glossary-conflicts [--run-id <run_id>]`
   - `report glossary-audit --run-id <run_id>`
@@ -206,7 +216,7 @@ Proceed with protocol/product work:
    - `00_Templates/Batch-Rollout-Checklist.md`
    - `00_Templates/Worker-Bounded-Batch-Prompt.md`
    - `07_Reports/v3_10_repeatable_rollout_protocol.md`
-3. Start `V4.1` from this stable operator baseline: multi-novel foundation, isolated project profile/state, and report scoping.
+3. Start `V4.2` from this stable multi-novel baseline: explicit genre/style profiles that can sit on top of `NOVEL_PROFILE.yaml`.
 4. Do not plan `ch024+` translation until new source is available and a fresh fetch/scan decision is made.
 
 ## Invariants And Guardrails
@@ -405,6 +415,9 @@ Worker model restrictions:
 - `07_Reports/glossary_conflicts_batch-ch019-ch023-v1.md`: current glossary conflict surface for V3.12.
 - `07_Reports/glossary_audit_batch-ch019-ch023-v1.md`: per-chapter approved glossary usage audit for V3.12.
 - `07_Reports/glossary_guard_batch-ch019-ch023-v1.md`: per-run evidence that current glossary guards reduce noisy deterministic scan candidates.
+- `NOVEL_SETUP_PLAYBOOK.md`: step-by-step operator setup flow for a new novel project.
+- `FETCH_ADAPTER_PLAYBOOK.md`: fetch adapter implementation and validation checklist.
+- `00_Templates/Novel-Profile.yaml`: canonical per-novel profile shape.
 - `D:\Fogust\Workspace\Novel\AGENTS.md`: global worker/agent behavior rules.
 - `07_Reports/`: detailed historical reports and checkpoint evidence.
 - `.system/config.yaml`: pipeline configuration entry point.

@@ -55,7 +55,8 @@ This is the practical runbook. It should help the operator proceed without guess
   - resume always uses `manual_action_mode=stop`
   - glossary approval is limited to current queue terms only
   - broader state-changing control beyond glossary approval plus bounded resume/rerun-block is still intentionally absent
-- Next milestone after V4.0: `V4.1` multi-novel foundation.
+- V4.1 complete: multi-novel foundation now includes per-project scaffold and setup/fetch playbooks.
+- Next milestone after V4.1: `V4.2` multi-genre style profiles.
 
 ## Standard Preflight
 
@@ -101,6 +102,12 @@ Current generated artifacts:
 - `07_Reports/glossary_audit_batch-ch019-ch023-v1.md`
 - `07_Reports/glossary_guard_batch-ch019-ch023-v1.md`
 
+V4.1 setup artifacts:
+
+- `00_Templates/Novel-Profile.yaml`
+- `NOVEL_SETUP_PLAYBOOK.md`
+- `FETCH_ADAPTER_PLAYBOOK.md`
+
 If CLI is unavailable, inspect:
 
 ```text
@@ -127,6 +134,48 @@ Expected:
 - no final outputs
 
 The reusable operator checklist for this gate is `00_Templates/Batch-Rollout-Checklist.md`.
+
+## Create A New Novel Project
+
+Use this only when you are setting up a different novel, not when continuing Deep Sea Embers.
+
+Required inputs:
+
+- title
+- source TOC/index URL
+- source language
+- target language
+- genre
+- adapter choice
+
+Command:
+
+```powershell
+novel-pipeline --config ".system/config.yaml" init-novel `
+  --project-root "D:\Fogust\Workspace\Novel\<New Project Folder>" `
+  --title "<Primary Title>" `
+  --source-url "<TOC URL>" `
+  --novel-id "<novel-id>" `
+  --alias "<Alt Title>" `
+  --source-language zh `
+  --target-language th `
+  --genre "<genre>" `
+  --adapter "<adapter>" `
+  --style-profile "<style_profile>"
+```
+
+Expected result:
+
+- new project folder exists
+- `NOVEL_PROFILE.yaml` exists
+- `.system/config.yaml` exists
+- copied `prompts/` and `00_Templates/` exist
+- isolated state folders exist
+
+Then follow:
+
+1. `NOVEL_SETUP_PLAYBOOK.md`
+2. `FETCH_ADAPTER_PLAYBOOK.md`
 
 ## Glossary Approval Gate
 

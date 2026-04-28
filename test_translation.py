@@ -1945,6 +1945,134 @@ def test_cli_parser_accepts_report_subcommands():
     assert operator_args.port == 8877
 
 
+def test_cli_parser_accepts_init_novel():
+    """CLI parser accepts init-novel scaffold arguments."""
+    from novel_pipeline.cli import build_parser
+    parser = build_parser()
+    args = parser.parse_args([
+        "--config", "dummy.yaml",
+        "init-novel",
+        "--project-root", r"D:\Temp\Example Novel",
+        "--title", "Example Novel",
+        "--source-url", "https://example.com/toc",
+        "--novel-id", "example-novel",
+        "--alias", "Example Alt",
+        "--source-language", "zh",
+        "--target-language", "th",
+        "--genre", "horror",
+        "--adapter", "piaotia",
+        "--style-profile", "default",
+    ])
+    assert args.command == "init-novel"
+    assert args.project_root == Path(r"D:\Temp\Example Novel")
+    assert args.title == "Example Novel"
+    assert args.source_url == "https://example.com/toc"
+    assert args.novel_id == "example-novel"
+    assert args.alias == ["Example Alt"]
+
+
+def test_initialize_novel_project_scaffolds_expected_files_and_rewrites_codex_cd():
+    """init-novel scaffold creates an isolated project without code edits."""
+    import tempfile
+    import yaml
+    from novel_pipeline.config import load_app_config
+    from novel_pipeline.project_setup import initialize_novel_project
+
+    base = Path(tempfile.mkdtemp(prefix="novel-init-"))
+    source_root = base / "source-workspace"
+    (source_root / ".system").mkdir(parents=True)
+    (source_root / "prompts").mkdir()
+    (source_root / "00_Templates").mkdir()
+    (source_root / "prompts" / "literal_translation.md").write_text("prompt", encoding="utf-8")
+    (source_root / "00_Templates" / "Term-Template.md").write_text("template", encoding="utf-8")
+    (source_root / ".system" / "config.yaml").write_text(
+        """novel_id: template-workspace
+vault_root: .
+source_language: zh
+default_batch_size: 10
+chapter_unit: chapters
+default_style_profile: default
+chunking:
+  chinese_character_limit: 600
+  non_chinese_word_limit: 5000
+source:
+  adapter: piaotia
+  toc_url: https://example.com/template
+  delay_seconds: 1.0
+  encoding: gbk
+""",
+        encoding="utf-8",
+    )
+    (source_root / ".system" / "style_profiles.yaml").write_text(
+        """default:
+  name: default
+  description: default style
+""",
+        encoding="utf-8",
+    )
+    (source_root / ".system" / "providers.yaml").write_text(
+        f"""literal_translation:
+  provider: gemini
+  model: pro
+providers:
+  gemini:
+    executable: gemini
+  codex:
+    executable:
+      - codex
+      - exec
+    prompt_flag: "-"
+    prompt_position: positional
+    prompt_transport: stdin
+    model_flag: -m
+    model_position: before_prompt
+    extra_args:
+      - --skip-git-repo-check
+      - --cd
+      - {source_root}
+      - --sandbox
+      - read-only
+""",
+        encoding="utf-8",
+    )
+
+    config = load_app_config(source_root / ".system" / "config.yaml")
+    target_root = base / "target-workspace"
+    result = initialize_novel_project(
+        template_config=config,
+        project_root=target_root,
+        title="Second Novel",
+        source_url="https://example.com/second/toc",
+        novel_id="second-novel",
+        aliases=["Second Alt"],
+        source_language="zh",
+        target_language="th",
+        genre="dark fantasy",
+        adapter="piaotia",
+        style_profile="default",
+    )
+
+    assert result["project_root"] == target_root.resolve()
+    assert (target_root / "NOVEL_PROFILE.yaml").exists()
+    assert (target_root / ".system" / "config.yaml").exists()
+    assert (target_root / ".system" / "providers.yaml").exists()
+    assert (target_root / "prompts" / "literal_translation.md").exists()
+    assert (target_root / "00_Templates" / "Term-Template.md").exists()
+
+    profile_payload = yaml.safe_load((target_root / "NOVEL_PROFILE.yaml").read_text(encoding="utf-8"))
+    assert profile_payload["novel_id"] == "second-novel"
+    assert profile_payload["title"] == "Second Novel"
+    assert profile_payload["aliases"] == ["Second Alt"]
+    assert profile_payload["source"]["toc_url"] == "https://example.com/second/toc"
+
+    providers_payload = yaml.safe_load((target_root / ".system" / "providers.yaml").read_text(encoding="utf-8"))
+    extra_args = providers_payload["providers"]["codex"]["extra_args"]
+    assert str(target_root.resolve()) in extra_args
+    assert str(source_root.resolve()) not in extra_args
+
+    generated_config = load_app_config(target_root / ".system" / "config.yaml")
+    assert generated_config.novel_id == "second-novel"
+    assert generated_config.workspace.root == target_root.resolve()
 def test_cmd_resume_returns_two_on_manual_action_required():
     """cmd_resume returns 2 when manual action is required."""
     from novel_pipeline.cli import cmd_resume
@@ -3529,6 +3657,8 @@ if __name__ == "__main__":
     test_cli_parser_accepts_resume_bounded_flags()
     test_cli_parser_accepts_inspect_block()
     test_cli_parser_accepts_report_subcommands()
+    test_cli_parser_accepts_init_novel()
+    test_initialize_novel_project_scaffolds_expected_files_and_rewrites_codex_cd()
     test_cmd_resume_returns_two_on_manual_action_required()
     test_resume_pipeline_stops_before_chapter_after_until_chapter()
     test_resume_chapter_stops_after_until_block()

@@ -7,6 +7,7 @@ from pathlib import Path
 from novel_pipeline.config import load_app_config
 from novel_pipeline.logging import configure_logging
 from novel_pipeline.operator_ui import serve_operator_ui
+from novel_pipeline.project_setup import initialize_novel_project
 from novel_pipeline.reports import (
     build_checkpoint_report,
     build_cleanliness_report,
@@ -141,6 +142,18 @@ def build_parser() -> argparse.ArgumentParser:
     operator_p.add_argument("--host", default="127.0.0.1", help="Host to bind the operator window server.")
     operator_p.add_argument("--port", type=int, default=8765, help="Port to bind the operator window server.")
     operator_p.add_argument("--open-browser", action="store_true", default=False, help="Open the operator window in a browser.")
+
+    init_novel_p = subparsers.add_parser("init-novel", help="Scaffold a new novel project from the current workspace.")
+    init_novel_p.add_argument("--project-root", type=Path, required=True, help="Target directory for the new novel project.")
+    init_novel_p.add_argument("--title", required=True, help="Primary novel title.")
+    init_novel_p.add_argument("--source-url", required=True, help="Primary source TOC/index URL used for fetch.")
+    init_novel_p.add_argument("--novel-id", default="", help="Novel ID override. Defaults to a slug from title.")
+    init_novel_p.add_argument("--alias", action="append", default=[], help="Alternate title. May be repeated.")
+    init_novel_p.add_argument("--source-language", default="zh", help="Source language code.")
+    init_novel_p.add_argument("--target-language", default="th", help="Target language code.")
+    init_novel_p.add_argument("--genre", default="", help="Initial genre label.")
+    init_novel_p.add_argument("--adapter", default="", help="Fetch adapter name. Defaults to the current config adapter.")
+    init_novel_p.add_argument("--style-profile", default="", help="Default style profile key. Defaults to current config.")
 
     # rerun-block command
     rerun_p = subparsers.add_parser("rerun-block", help="Rerun one block from a selected stage.")
@@ -374,6 +387,31 @@ def cmd_operator(args: argparse.Namespace, config) -> int:
     return 0
 
 
+def cmd_init_novel(args: argparse.Namespace, config) -> int:
+    try:
+        result = initialize_novel_project(
+            template_config=config,
+            project_root=args.project_root,
+            title=args.title,
+            source_url=args.source_url,
+            novel_id=args.novel_id or None,
+            aliases=args.alias,
+            source_language=args.source_language,
+            target_language=args.target_language,
+            genre=args.genre,
+            adapter=args.adapter,
+            style_profile=args.style_profile,
+        )
+    except Exception as exc:
+        print(f"[ERROR] init-novel failed: {exc}", file=sys.stderr)
+        return 1
+
+    print(f"project_root: {result['project_root']}")
+    print(f"config_path: {result['config_path']}")
+    print(f"profile_path: {result['profile_path']}")
+    return 0
+
+
 def cmd_rerun_block(args: argparse.Namespace, config) -> int:
     if not args.run_id:
         print("[ERROR] rerun-block requires --run-id.", file=sys.stderr)
@@ -531,6 +569,7 @@ COMMAND_HANDLERS = {
     "report": cmd_report,
     "inspect-block": cmd_inspect_block,
     "operator": cmd_operator,
+    "init-novel": cmd_init_novel,
     "rerun-block": cmd_rerun_block,
     "fetch": cmd_fetch,
     "scan-terms": cmd_scan_terms,
