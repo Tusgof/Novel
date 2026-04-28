@@ -160,6 +160,7 @@ Active:
 - V3.12 read-only tooling now exists:
   - `report glossary-conflicts [--run-id <run_id>]`
   - `report glossary-audit --run-id <run_id>`
+- V3.12 QA-stage glossary gate now blocks the narrow case where literal translation already used an approved Thai term and refinement removes it
 - V3.12 first runtime guard slice now exists in glossary scan:
   - exact quarantine/rejected/deprecated terms are filtered before queue entry
   - exact historical rejected terms from prior glossary approvals are filtered before queue entry
@@ -167,7 +168,7 @@ Active:
   - substring fragments that never occur standalone in a block are filtered
 - `glossary-audit` verified clean for `batch-ch019-ch023-v1`
 - `glossary-conflicts` intentionally returns actionable findings for current glossary conflicts/noise and is meant to surface cleanup or guardrail work
-- next slice: stronger deterministic guardrails for any remaining noisy candidates, plus a decision on whether approval/QA-stage glossary enforcement is needed beyond scan-time filtering
+- next slice: stronger deterministic guardrails for any remaining noisy candidates and a decision on whether broader approval/translation-stage glossary enforcement is needed beyond the narrow QA gate
 - ch024+: must remain unprocessed
 - final outputs for ch019-ch023 exist
 - V3.10 protocol artifacts now exist:

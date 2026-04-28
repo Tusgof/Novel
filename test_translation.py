@@ -1299,7 +1299,7 @@ def test_qa_escalation_stop_raises_without_input():
 def test_qa_rule_warning_does_not_block_ai_pass():
     """Rule warnings remain visible but do not fail a Qwen PASS."""
     from novel_pipeline.stages.qa import run_qa_stage
-    from novel_pipeline.types import LiteralDraft, LiteralSentencePair, RefinedDraft, TextBlock
+    from novel_pipeline.types import GlossaryEntry, LiteralDraft, LiteralSentencePair, RefinedDraft, TextBlock
 
     config = Mock()
     config.workspace.prompts = Path("prompts")
@@ -1317,7 +1317,7 @@ def test_qa_rule_warning_does_not_block_ai_pass():
     refined = RefinedDraft(
         block_id=block.block_id,
         chapter_id=block.chapter_id,
-        refined_text="ดันแคนยืนมองพิธีกรรมด้วยสีหน้าเย็นชาและกล่าวว่าทุกอย่างกำลังผิดพลาด",
+        refined_text="เด็กหนุ่มยืนมองทะเลอย่างเงียบงัน",
     )
     runner = Mock()
     runner.spec.name = "qwen"
@@ -1334,15 +1334,72 @@ def test_qa_rule_warning_does_not_block_ai_pass():
             block=block,
             literal_draft=literal,
             refined_draft=refined,
-            glossary_subset=[],
+            glossary_subset=[
+                GlossaryEntry(
+                    original_term="Duncan",
+                    thai_term="GLOSSARY_TERM",
+                    category="character",
+                    aliases=("Dunkan",),
+                    status="approved",
+                )
+            ],
             provider_runner=runner,
             model="deepseek-reasoner",
             retry_count=2,
         )
 
     assert report.passed is True
-    assert any(finding.code == "sentence_drop" for finding in report.findings)
+    assert any(finding.code == "glossary_inconsistency" for finding in report.findings)
+    assert not any(finding.code == "glossary_required_term_missing" for finding in report.findings)
     assert report.feedback.startswith("PASS")
+
+
+def test_qa_glossary_missing_term_blocks_when_refinement_removed_literal_term():
+    """Approved glossary terms block when literal draft had the term and refinement removed it."""
+    from novel_pipeline.stages.qa import run_qa_stage
+    from novel_pipeline.types import GlossaryEntry, LiteralDraft, LiteralSentencePair, RefinedDraft, TextBlock
+
+    config = Mock()
+    config.workspace.prompts = Path("prompts")
+    block = TextBlock(block_id="ch021-block-003", chapter_id="ch021", source_text="source")
+    literal = LiteralDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        sentence_pairs=(
+            LiteralSentencePair(source_sentence="s1", literal_sentence="GLOSSARY_TERM remains in the fog"),
+        ),
+    )
+    refined = RefinedDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        refined_text="เรือลำนั้นยังคงอยู่ในหมอก",
+    )
+    runner = Mock()
+    runner.spec.name = "qwen"
+    report = run_qa_stage(
+        config=config,
+        block=block,
+        literal_draft=literal,
+        refined_draft=refined,
+        glossary_subset=[
+            GlossaryEntry(
+                original_term="SHIP",
+                thai_term="GLOSSARY_TERM",
+                category="vessel",
+                status="approved",
+            )
+        ],
+        provider_runner=runner,
+        model="deepseek-reasoner",
+        retry_count=0,
+    )
+
+    assert report.passed is False
+    assert report.judge_provider == "rules"
+    assert any(finding.code == "glossary_required_term_missing" for finding in report.findings)
+    assert any(finding.code == "glossary_inconsistency" for finding in report.findings)
+    assert "SHIP -> GLOSSARY_TERM" in report.feedback
+    runner.run_with_retry.assert_not_called()
 
 
 def test_qa_ai_judge_finding_still_blocks():
@@ -2964,6 +3021,7 @@ if __name__ == "__main__":
     test_validate_formatted_text_detects_problem_markers()
     test_qa_escalation_stop_raises_without_input()
     test_qa_rule_warning_does_not_block_ai_pass()
+    test_qa_glossary_missing_term_blocks_when_refinement_removed_literal_term()
     test_qa_ai_judge_finding_still_blocks()
     test_format_command_rejects_invalid_formatted_text()
     # New tests for scan-level circuit breaker

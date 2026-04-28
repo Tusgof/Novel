@@ -86,9 +86,16 @@ def run_rule_checks(*, literal_draft: LiteralDraft, refined_draft: RefinedDraft,
     elif literal_sentence_count and refined_sentence_count < max(1, literal_sentence_count // 2):
         findings.append(QAFinding(severity="warning", code="sentence_drop", message="Refined output may have dropped too many sentence boundaries."))
     for entry in glossary_subset:
-        expected_terms = [entry.thai_term, *entry.aliases]
-        if entry.thai_term and not any(term and term in refined_text for term in expected_terms):
+        if entry.thai_term and entry.thai_term not in refined_text:
             findings.append(QAFinding(severity="warning", code="glossary_inconsistency", message=f"Expected term not found: {entry.thai_term}"))
+            if _should_block_glossary_inconsistency(literal_draft, refined_text, entry):
+                findings.append(
+                    QAFinding(
+                        severity="error",
+                        code="glossary_required_term_missing",
+                        message=f"Approved glossary term was removed during refinement: {entry.original_term} -> {entry.thai_term}",
+                    )
+                )
     return findings
 
 
@@ -107,6 +114,18 @@ def _contains_cjk(text: str) -> bool:
 
 def _contains_xianxia_drift(text: str) -> bool:
     return any(term in text for term in ("สำนัก", "ขั้นพลัง", "ปราณ", "วิชาเทพ", "เคล็ดวิชา", "บ่มเพาะ"))
+
+
+def _should_block_glossary_inconsistency(
+    literal_draft: LiteralDraft,
+    refined_text: str,
+    entry: GlossaryEntry,
+) -> bool:
+    if not entry.thai_term:
+        return False
+    if entry.thai_term in refined_text:
+        return False
+    return any(entry.thai_term in pair.literal_sentence for pair in literal_draft.sentence_pairs)
 
 
 def _is_blocking_finding(finding: QAFinding) -> bool:

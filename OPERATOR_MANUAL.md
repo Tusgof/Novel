@@ -26,12 +26,13 @@ This is the practical runbook. It should help the operator proceed without guess
 - ch024+: untouched.
 - V3.11 complete: report automation command family now exists.
 - V3.12 in progress: glossary hardening report layer and first scan-time guard slice now exist.
+- V3.12 QA-stage glossary gate now blocks the narrow case where literal translation already used an approved Thai term and refinement removes it.
 - Current scan-time guard behavior:
   - exact quarantine/rejected/deprecated terms are filtered before queue entry
   - exact historical rejected terms from prior glossary approvals are filtered before queue entry
   - narrow approved-term noise such as `是失乡号` is filtered
   - substring fragments that never occur standalone in a block are filtered
-- Next planned V3.12 slice: decide whether any approval/QA-stage glossary enforcement is needed beyond scan-time filtering, not a new translation batch.
+- Next planned V3.12 slice: continue deterministic guardrails and decide whether any broader approval/translation-stage glossary enforcement is needed beyond the narrow QA gate, not a new translation batch.
 - Next safe action: use the reusable V3.10 protocol package to start the next bounded batch only after new source exists.
 
 ## Standard Preflight
