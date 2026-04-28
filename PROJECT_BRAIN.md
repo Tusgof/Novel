@@ -1,7 +1,7 @@
 # Project Brain: Deep Sea Embers Translation Pipeline
 
 Last updated: 2026-04-28
-Last verified: 2026-04-28 after V4.0 slice 2 was added and verified with `python -m compileall novel_pipeline`, `python test_translation.py`, and live operator endpoint checks.
+Last verified: 2026-04-28 after V4.0 was completed and verified with `python -m compileall novel_pipeline`, `python test_translation.py`, and live operator endpoint checks for the local UI backend.
 
 This file is the project constitution, architecture map, and current operational memory. It should preserve the project goal, design principles, verified state, safety rules, recovery lessons, and pointers to detailed documents. Keep reports, long logs, and implementation detail in their dedicated files.
 
@@ -157,13 +157,15 @@ Active:
 - V3.10 complete: repeatable rollout protocol artifacts exist
 - V3.11 complete: report automation command family now exists
 - V3.12 complete: glossary and terminology hardening
-- V4.0 in progress: practical local operator product
-- V4.0 slices 1-2 now exist:
+- V4.0 complete: practical local operator product for the current single-novel workflow
+- V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
-  - local operator window for status, blocker, next safe action, block inspection, glossary queue view, report generation, and artifact viewing
+  - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, and artifact viewing
   - bounded resume action that requires `until_chapter` or `until_block` and always uses `manual_action_mode=stop`
   - rerun-block action for targeted recovery
-  - glossary approval actions and term selection UI are still not implemented
+  - glossary approve/reject actions with 2-3 Thai term options now exist
+  - glossary approval commits automatically when the queue is cleared
+  - broader state-changing controls are still intentionally limited to bounded recovery and glossary approval
 - V3.12 read-only tooling now exists:
   - `report glossary-conflicts [--run-id <run_id>]`
   - `report glossary-audit --run-id <run_id>`
@@ -204,7 +206,7 @@ Proceed with protocol/product work:
    - `00_Templates/Batch-Rollout-Checklist.md`
    - `00_Templates/Worker-Bounded-Batch-Prompt.md`
    - `07_Reports/v3_10_repeatable_rollout_protocol.md`
-3. Continue `V4.0` from the current operator baseline: next add glossary approval and term-decision controls, not broader unsafe actions.
+3. Start `V4.1` from this stable operator baseline: multi-novel foundation, isolated project profile/state, and report scoping.
 4. Do not plan `ch024+` translation until new source is available and a fresh fetch/scan decision is made.
 
 ## Invariants And Guardrails
@@ -390,6 +392,7 @@ Worker model restrictions:
 - 2026-04-23: V3.9 progressed through ch021. Fixed QA warning semantics so deterministic warnings such as `sentence_drop` remain visible but do not block a Qwen `PASS`; ch019-ch021 outputs now exist and pass deterministic cleanliness checks.
 - 2026-04-24: V3.9 completed through ch023. A `command_too_long` failure on `ch022-block-004` was recovered by bounded QA-stage rerun; final outputs for ch019-ch023 now exist, deterministic checks pass, and spot-check report was created.
 - 2026-04-24: V3.10 accepted. Reusable bounded-batch protocol artifacts were added: checklist template, worker prompt template, and rollout protocol report.
+- 2026-04-28: V4.0 accepted. The local operator window now covers status, glossary decision flow, bounded resume, rerun-block, reports, and artifact viewing for the practical single-novel workflow.
 
 ## Document Map
 

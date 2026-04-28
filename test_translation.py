@@ -2954,6 +2954,160 @@ def test_execute_operator_action_rerun_block_dispatches_expected_args():
     assert result["snapshot"] == snapshot
 
 
+def test_build_glossary_suggestion_snapshot_returns_provider_options():
+    from novel_pipeline.operator_ui import build_glossary_suggestion_snapshot
+    from novel_pipeline.types import TermSuggestion
+
+    config = Mock()
+    config.workspace = Mock()
+    config.workspace.prompts = Path("prompts")
+    config.provider_for_stage.return_value = Mock()
+    with patch("novel_pipeline.operator_ui.build_glossary_queue_snapshot", return_value={
+        "items": [{
+            "original_term": "实太阳神",
+            "chapter_id": "ch020",
+            "first_seen_block": "ch020-block-004",
+            "category": "title",
+            "context": "ctx",
+        }]
+    }), patch("novel_pipeline.operator_ui.build_term_suggestion", return_value=TermSuggestion(
+        original_term="实太阳神",
+        category="title",
+        context=("ctx",),
+        options=("สุริยเทพที่แท้จริง", "สุริยเทพแท้", "เทพสุริยะองค์จริง"),
+        rationales=("a", "b", "c"),
+        rationale="summary",
+        provider="claude",
+    )):
+        snapshot = build_glossary_suggestion_snapshot(config, "batch-1", "实太阳神")
+
+    assert snapshot["term"] == "实太阳神"
+    assert snapshot["options"][0] == "สุริยเทพที่แท้จริง"
+    assert snapshot["provider"] == "claude"
+
+
+def test_execute_glossary_decision_approve_commits_when_queue_is_empty():
+    from novel_pipeline.operator_ui import execute_glossary_decision
+    from novel_pipeline.types import TextBlock
+
+    config = Mock()
+    config.workspace = Mock()
+    config.workspace.glossary_dir = Path("01_Glossary")
+    config.workspace.templates_dir = Path("templates")
+    config.workspace.work = Path("04_Work")
+    config.ledger_path = Path("06_Logs/run_ledger.jsonl")
+    config.source_language = "zh"
+    config.novel_id = "deep-sea-embers"
+
+    artifact = {"schema_version": 1, "scope": {"type": "batch", "id": "batch-1"}, "chapter_ids": ["ch020"], "items": []}
+    initial_queue = {"items": [{
+        "original_term": "实太阳神",
+        "chapter_id": "ch020",
+        "first_seen_block": "ch020-block-004",
+        "category": "title",
+        "source_language": "zh",
+        "novel": "deep-sea-embers",
+    }]}
+    refreshed_queue = {"items": [{
+        "original_term": "实太阳神",
+        "chapter_id": "ch020",
+        "first_seen_block": "ch020-block-004",
+        "category": "title",
+        "source_language": "zh",
+        "novel": "deep-sea-embers",
+    }]}
+    final_queue = {"run_id": "batch-1", "chapter_ids": ["ch020"], "items": [], "removed_terms": []}
+    blocks = [TextBlock(block_id="ch020-block-004", chapter_id="ch020", block_index=4, source_text="...", text="...")]
+
+    with patch("novel_pipeline.operator_ui._read_batch_glossary_artifact", return_value=artifact), \
+         patch("novel_pipeline.operator_ui.build_glossary_queue_snapshot", side_effect=[initial_queue, refreshed_queue, final_queue]), \
+         patch("novel_pipeline.operator_ui._load_chapter_source_and_blocks", return_value=(None, blocks)), \
+         patch("novel_pipeline.operator_ui._revalidate_glossary_queue_items", return_value=([], [])), \
+         patch("novel_pipeline.operator_ui._write_batch_glossary_artifact") as write_artifact, \
+         patch("novel_pipeline.operator_ui.write_glossary_note") as write_note, \
+         patch("novel_pipeline.operator_ui._load_term_template", return_value="template"), \
+         patch("novel_pipeline.operator_ui.build_operator_snapshot", return_value={"run_id": "batch-1"}), \
+         patch("novel_pipeline.operator_ui.RunLedger") as MockLedger, \
+         patch("novel_pipeline.operator_ui._commit_stage") as commit_stage:
+        ledger = Mock()
+        ledger.has_committed.return_value = False
+        MockLedger.return_value = ledger
+        result = execute_glossary_decision(
+            config=config,
+            run_id="batch-1",
+            term="实太阳神",
+            decision="approve",
+            thai_term="สุริยเทพที่แท้จริง",
+            note="operator note",
+        )
+
+    write_note.assert_called_once()
+    written_entry = write_note.call_args.kwargs["entry"]
+    assert written_entry.status == "approved"
+    assert written_entry.thai_term == "สุริยเทพที่แท้จริง"
+    write_artifact.assert_called_once()
+    commit_stage.assert_called_once()
+    assert result["committed"] is True
+
+
+def test_execute_glossary_decision_reject_updates_queue_without_commit():
+    from novel_pipeline.operator_ui import execute_glossary_decision
+    from novel_pipeline.types import TextBlock
+
+    config = Mock()
+    config.workspace = Mock()
+    config.workspace.glossary_dir = Path("01_Glossary")
+    config.workspace.templates_dir = Path("templates")
+    config.workspace.work = Path("04_Work")
+    config.ledger_path = Path("06_Logs/run_ledger.jsonl")
+    config.source_language = "zh"
+    config.novel_id = "deep-sea-embers"
+
+    artifact = {"schema_version": 1, "scope": {"type": "batch", "id": "batch-1"}, "chapter_ids": ["ch020"], "items": []}
+    initial_queue = {"items": [{
+        "original_term": "面具神",
+        "chapter_id": "ch020",
+        "first_seen_block": "ch020-block-004",
+        "category": "entity",
+        "source_language": "zh",
+        "novel": "deep-sea-embers",
+    }]}
+    refreshed_queue = {"items": [{
+        "original_term": "面具神",
+        "chapter_id": "ch020",
+        "first_seen_block": "ch020-block-004",
+        "category": "entity",
+        "source_language": "zh",
+        "novel": "deep-sea-embers",
+    }]}
+    final_queue = {"run_id": "batch-1", "chapter_ids": ["ch020"], "items": [{"original_term": "实太阳神"}], "removed_terms": ["面具神"]}
+    blocks = [TextBlock(block_id="ch020-block-004", chapter_id="ch020", block_index=4, source_text="...", text="...")]
+
+    with patch("novel_pipeline.operator_ui._read_batch_glossary_artifact", return_value=artifact), \
+         patch("novel_pipeline.operator_ui.build_glossary_queue_snapshot", side_effect=[initial_queue, refreshed_queue, final_queue]), \
+         patch("novel_pipeline.operator_ui._load_chapter_source_and_blocks", return_value=(None, blocks)), \
+         patch("novel_pipeline.operator_ui._revalidate_glossary_queue_items", return_value=([{"original_term": "实太阳神"}], ["面具神"])), \
+         patch("novel_pipeline.operator_ui._write_batch_glossary_artifact") as write_artifact, \
+         patch("novel_pipeline.operator_ui.write_glossary_note") as write_note, \
+         patch("novel_pipeline.operator_ui._load_term_template", return_value="template"), \
+         patch("novel_pipeline.operator_ui.build_operator_snapshot", return_value={"run_id": "batch-1"}), \
+         patch("novel_pipeline.operator_ui._commit_stage") as commit_stage:
+        result = execute_glossary_decision(
+            config=config,
+            run_id="batch-1",
+            term="面具神",
+            decision="reject",
+            note="generic term",
+        )
+
+    written_entry = write_note.call_args.kwargs["entry"]
+    assert written_entry.status == "rejected"
+    assert written_entry.thai_term == ""
+    write_artifact.assert_called_once()
+    commit_stage.assert_not_called()
+    assert result["committed"] is False
+
+
 def test_cli_rejects_stop_after_without_range():
     """--stop-after without --range returns error."""
     from novel_pipeline.cli import cmd_run
@@ -3392,6 +3546,9 @@ if __name__ == "__main__":
     test_execute_operator_action_requires_bounded_resume()
     test_execute_operator_action_resume_uses_stop_mode_and_returns_snapshot()
     test_execute_operator_action_rerun_block_dispatches_expected_args()
+    test_build_glossary_suggestion_snapshot_returns_provider_options()
+    test_execute_glossary_decision_approve_commits_when_queue_is_empty()
+    test_execute_glossary_decision_reject_updates_queue_without_commit()
     test_cli_rejects_stop_after_without_range()
     test_run_batch_pipeline_stop_after_glossary_scan()
     test_classify_command_too_long()

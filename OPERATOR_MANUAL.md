@@ -26,7 +26,7 @@ This is the practical runbook. It should help the operator proceed without guess
 - ch024+: untouched.
 - V3.11 complete: report automation command family now exists.
 - V3.12 complete: glossary hardening report layer, scan-time guards, approval-stage queue revalidation, historical rejected-term guard, narrow QA glossary gate, and per-run guard verification now exist.
-- V4.0 in progress: local operator window slices 1-2 now exist.
+- V4.0 complete: local operator window now covers the practical single-novel workflow.
 - V3.12 QA-stage glossary gate now blocks the narrow case where literal translation already used an approved Thai term and refinement removes it.
 - Current scan-time guard behavior:
   - exact quarantine/rejected/deprecated terms are filtered before queue entry
@@ -44,15 +44,18 @@ This is the practical runbook. It should help the operator proceed without guess
   - next safe action
   - block inspection
   - glossary candidate queue view
+  - glossary suggestion loading with 2-3 Thai options
+  - approve/reject glossary decisions
   - report generation
   - artifact viewing
   - bounded resume control with required `until_chapter` or `until_block`
   - rerun-block control
-- Not yet in operator window:
-  - glossary approval actions
-  - 2-3 option Thai term selection
-  - broader state-changing control beyond bounded resume/rerun-block
-- Next safe action: add glossary approval and term-decision controls without weakening the current guardrails.
+- Operator guardrails:
+  - resume requires `until_chapter` or `until_block`
+  - resume always uses `manual_action_mode=stop`
+  - glossary approval is limited to current queue terms only
+  - broader state-changing control beyond glossary approval plus bounded resume/rerun-block is still intentionally absent
+- Next milestone after V4.0: `V4.1` multi-novel foundation.
 
 ## Standard Preflight
 

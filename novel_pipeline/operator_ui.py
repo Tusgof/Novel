@@ -11,9 +11,13 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, quote, unquote, urlparse
 
+from novel_pipeline.files import atomic_write_json, read_text_if_exists
+from novel_pipeline.glossary_support import write_glossary_note
 from novel_pipeline.ledger import RunLedger
 from novel_pipeline.pipeline import (
     ManualActionRequired,
+    _commit_stage,
+    _default_term_template,
     _load_chapter_source_and_blocks,
     _read_glossary_scan_artifact,
     _read_glossary_scan_items,
@@ -23,6 +27,8 @@ from novel_pipeline.pipeline import (
     resume_pipeline,
     status_run,
 )
+from novel_pipeline.prompts import PromptStore
+from novel_pipeline.stages.glossary import build_term_suggestion
 from novel_pipeline.reports import (
     build_checkpoint_report,
     build_cleanliness_report,
@@ -32,7 +38,7 @@ from novel_pipeline.reports import (
     build_glossary_guard_report,
     build_provider_usage_report,
 )
-from novel_pipeline.types import AppConfig
+from novel_pipeline.types import AppConfig, GlossaryEntry, TermSuggestion
 
 
 def _latest_run_id(config: AppConfig) -> str | None:
@@ -138,6 +144,180 @@ def build_glossary_queue_snapshot(config: AppConfig, run_id: str) -> dict[str, A
         "chapter_ids": chapter_ids,
         "items": filtered_items,
         "removed_terms": removed_terms,
+    }
+
+
+def _read_batch_glossary_artifact(config: AppConfig, run_id: str) -> dict[str, Any]:
+    artifact = _read_glossary_scan_artifact(config, run_id=run_id)
+    if artifact is None:
+        raise ValueError(f"No batch glossary scan artifact found for run {run_id}.")
+    return artifact
+
+
+def _write_batch_glossary_artifact(config: AppConfig, run_id: str, payload: dict[str, Any]) -> None:
+    path = config.workspace.work / "_batch" / run_id / "glossary_scan.json"
+    atomic_write_json(path, payload)
+
+
+def _artifact_decisions(artifact: dict[str, Any]) -> list[dict[str, Any]]:
+    decisions = artifact.get("decisions")
+    if not isinstance(decisions, list):
+        return []
+    return [item for item in decisions if isinstance(item, dict)]
+
+
+def build_glossary_suggestion_snapshot(config: AppConfig, run_id: str, term: str) -> dict[str, Any]:
+    queue_snapshot = build_glossary_queue_snapshot(config, run_id)
+    queue_item = next((item for item in queue_snapshot["items"] if item.get("original_term") == term), None)
+    if queue_item is None:
+        raise ValueError(f"Term '{term}' is not in the current glossary queue.")
+    prompt_store = PromptStore(config.workspace.prompts)
+    provider_runner = config.provider_for_stage("term_suggestion")
+    from novel_pipeline.providers.base import ProviderRunner
+    suggestion = build_term_suggestion(
+        config=config,
+        provider_runner=ProviderRunner(provider_runner),
+        prompt_store=prompt_store,
+        term=term,
+        context=str(queue_item.get("context", "")),
+    )
+    return {
+        "run_id": run_id,
+        "term": term,
+        "chapter_id": queue_item.get("chapter_id", ""),
+        "first_seen_block": queue_item.get("first_seen_block", ""),
+        "category": suggestion.category,
+        "context": list(suggestion.context),
+        "options": list(suggestion.options),
+        "rationales": list(suggestion.rationales),
+        "rationale": suggestion.rationale,
+        "provider": suggestion.provider,
+    }
+
+
+def _load_term_template(config: AppConfig) -> str:
+    template_path = config.workspace.templates_dir / "Term-Template.md"
+    template_text = read_text_if_exists(template_path)
+    if template_text is None:
+        return _default_term_template()
+    return template_text
+
+
+def _decision_metadata(artifact: dict[str, Any]) -> tuple[list[str], list[str]]:
+    approved_terms: list[str] = []
+    rejected_terms: list[str] = []
+    for item in _artifact_decisions(artifact):
+        term = str(item.get("original_term") or "").strip()
+        decision = str(item.get("decision") or "").strip().lower()
+        if not term:
+            continue
+        if decision == "approve":
+            approved_terms.append(term)
+        elif decision == "reject":
+            rejected_terms.append(term)
+    return approved_terms, rejected_terms
+
+
+def execute_glossary_decision(
+    *,
+    config: AppConfig,
+    run_id: str,
+    term: str,
+    decision: str,
+    thai_term: str = "",
+    note: str = "",
+) -> dict[str, Any]:
+    artifact = _read_batch_glossary_artifact(config, run_id)
+    chapter_ids = list(artifact.get("chapter_ids", []))
+    queue_snapshot = build_glossary_queue_snapshot(config, run_id)
+    queue_item = next((item for item in queue_snapshot["items"] if item.get("original_term") == term), None)
+    if queue_item is None:
+        raise ValueError(f"Term '{term}' is not in the current glossary queue.")
+
+    normalized_decision = decision.strip().lower()
+    if normalized_decision not in {"approve", "reject"}:
+        raise ValueError("decision must be 'approve' or 'reject'.")
+    if normalized_decision == "approve" and not thai_term.strip():
+        raise ValueError("approve requires a selected thai_term.")
+
+    entry = GlossaryEntry(
+        original_term=term,
+        thai_term=thai_term.strip(),
+        category=str(queue_item.get("category", "")) or "term",
+        status="approved" if normalized_decision == "approve" else "rejected",
+        source_language=str(queue_item.get("source_language", config.source_language)),
+        novel=str(queue_item.get("novel", config.novel_id)),
+        description=note.strip(),
+    )
+    write_glossary_note(
+        template_text=_load_term_template(config),
+        glossary_dir=config.workspace.glossary_dir,
+        entry=entry,
+        first_seen_chapter=str(queue_item.get("chapter_id", "")),
+        first_seen_block=str(queue_item.get("first_seen_block", "block-001")),
+    )
+
+    decisions = [item for item in _artifact_decisions(artifact) if str(item.get("original_term") or "").strip() != term]
+    decisions.append(
+        {
+            "original_term": term,
+            "decision": normalized_decision,
+            "thai_term": entry.thai_term,
+            "category": entry.category,
+            "chapter_id": str(queue_item.get("chapter_id", "")),
+            "first_seen_block": str(queue_item.get("first_seen_block", "")),
+            "note": note.strip(),
+        }
+    )
+    refreshed_queue = build_glossary_queue_snapshot(config, run_id)
+    filtered_items = [item for item in refreshed_queue["items"] if item.get("original_term") != term]
+    # Re-run revalidation against current note state to remove rejected terms and preserve ordering.
+    blocks = []
+    for chapter_id in chapter_ids:
+        _, chapter_blocks = _load_chapter_source_and_blocks(config, chapter_id)
+        blocks.extend(chapter_blocks)
+    filtered_items, removed_terms = _revalidate_glossary_queue_items(config, blocks, filtered_items)
+    updated_artifact = {
+        "schema_version": artifact.get("schema_version", 1),
+        "scope": artifact.get("scope", {"type": "batch", "id": run_id}),
+        "chapter_ids": chapter_ids,
+        "items": filtered_items,
+        "decisions": decisions,
+    }
+    _write_batch_glossary_artifact(config, run_id, updated_artifact)
+
+    committed = False
+    if not filtered_items:
+        ledger = RunLedger(config.ledger_path)
+        approved_terms, rejected_terms = _decision_metadata(updated_artifact)
+        metadata = {
+            "approval_mode": "operator_ui",
+            "approved_terms_count": len(approved_terms),
+            "rejected_terms_count": len(rejected_terms),
+            "approved_terms": approved_terms,
+            "rejected_terms": rejected_terms,
+        }
+        for chapter_id in chapter_ids:
+            if not ledger.has_committed(run_id=run_id, block_id=chapter_id, stage="glossary_approved"):
+                _commit_stage(
+                    ledger,
+                    run_id,
+                    chapter_id,
+                    "glossary_approved",
+                    "completed",
+                    provider="local",
+                    metadata=metadata,
+                )
+        committed = True
+
+    return {
+        "run_id": run_id,
+        "term": term,
+        "decision": normalized_decision,
+        "queue": build_glossary_queue_snapshot(config, run_id),
+        "snapshot": build_operator_snapshot(config, run_id=run_id),
+        "removed_terms": removed_terms,
+        "committed": committed,
     }
 
 
@@ -502,6 +682,12 @@ def _render_operator_html() -> str:
 
         <div class="stack">
           <section class="panel">
+            <h3>Glossary Decision</h3>
+            <p class="meta">Load 2-3 Thai options for one term, then approve or reject it.</p>
+            <div id="glossaryDecision" class="empty">No term selected.</div>
+          </section>
+
+          <section class="panel">
             <h3>Safe Actions</h3>
             <p class="meta">State-changing controls stay bounded and always stop on manual action.</p>
             <div class="stack">
@@ -556,6 +742,7 @@ def _render_operator_html() -> str:
     const rerunRunId = document.getElementById("rerunRunId");
     const rerunBlockId = document.getElementById("rerunBlockId");
     const rerunStage = document.getElementById("rerunStage");
+    let currentGlossarySuggestion = null;
 
     function setRunId(runId) {
       state.runId = runId || "";
@@ -717,6 +904,7 @@ def _render_operator_html() -> str:
           <td>${escapeHtml(item.category || "")}</td>
           <td>${escapeHtml(item.chapter_id || "")}</td>
           <td class="mono">${escapeHtml(item.first_seen_block || "")}</td>
+          <td><button data-term="${escapeHtml(item.original_term || "")}" class="load-suggestion-btn">Load options</button></td>
         </tr>
       `).join("");
       const removed = (data.removed_terms || []).length
@@ -731,12 +919,100 @@ def _render_operator_html() -> str:
               <th>Category</th>
               <th>Chapter</th>
               <th>First Seen</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>${rows}</tbody>
         </table>
         ${removed}
       `;
+      wrap.querySelectorAll(".load-suggestion-btn").forEach((button) => {
+        button.addEventListener("click", () => loadGlossarySuggestion(button.dataset.term || ""));
+      });
+    }
+
+    async function loadGlossarySuggestion(term) {
+      const runId = state.runId || runIdInput.value.trim();
+      if (!runId || !term) {
+        document.getElementById("glossaryDecision").innerHTML = `<div class="empty">Run ID and term are required.</div>`;
+        return;
+      }
+      const response = await fetch(`/api/glossary-suggestion?run_id=${encodeURIComponent(runId)}&term=${encodeURIComponent(term)}`);
+      const data = await response.json();
+      const wrap = document.getElementById("glossaryDecision");
+      if (!response.ok) {
+        wrap.innerHTML = `<div class="empty">${escapeHtml(data.error || "Failed to load suggestions.")}</div>`;
+        return;
+      }
+      currentGlossarySuggestion = data;
+      const optionRows = (data.options || []).map((option, index) => {
+        const rationale = (data.rationales || [])[index] || "";
+        return `<option value="${escapeHtml(option)}">${escapeHtml(option)}${rationale ? " — " + escapeHtml(rationale) : ""}</option>`;
+      }).join("");
+      const contextPreview = (data.context || []).join("\n\n");
+      wrap.className = "";
+      wrap.innerHTML = `
+        <div class="stack">
+          <div class="mono">term: ${escapeHtml(data.term)}</div>
+          <div class="mono">category: ${escapeHtml(data.category || "")}</div>
+          <div class="mono">provider: ${escapeHtml(data.provider || "")}</div>
+          <label for="glossaryOptionSelect">Thai option</label>
+          <select id="glossaryOptionSelect">${optionRows}</select>
+          <label for="glossaryDecisionNote">Decision note</label>
+          <input id="glossaryDecisionNote" placeholder="Optional note">
+          <div class="mono" style="white-space:pre-wrap;">${escapeHtml(contextPreview)}</div>
+          <div class="btn-row">
+            <button class="primary" id="approveTermBtn">Approve Selected Option</button>
+            <button id="rejectTermBtn">Reject Term</button>
+          </div>
+        </div>
+      `;
+      document.getElementById("approveTermBtn").addEventListener("click", () => submitGlossaryDecision("approve"));
+      document.getElementById("rejectTermBtn").addEventListener("click", () => submitGlossaryDecision("reject"));
+    }
+
+    async function submitGlossaryDecision(decision) {
+      if (!currentGlossarySuggestion) {
+        document.getElementById("actionResult").innerHTML = `<div class="empty">No glossary suggestion loaded.</div>`;
+        return;
+      }
+      const selectedOption = document.getElementById("glossaryOptionSelect")?.value || "";
+      const note = document.getElementById("glossaryDecisionNote")?.value || "";
+      const payload = {
+        action: "glossary-decision",
+        run_id: currentGlossarySuggestion.run_id,
+        term: currentGlossarySuggestion.term,
+        decision,
+        thai_term: decision === "approve" ? selectedOption : "",
+        note,
+      };
+      const response = await fetch("/api/action", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        document.getElementById("actionResult").innerHTML = `<div class="empty">${escapeHtml(data.error || "Glossary decision failed.")}</div>`;
+        return;
+      }
+      const decisionWrap = document.getElementById("glossaryDecision");
+      decisionWrap.className = "empty";
+      decisionWrap.textContent = data.committed
+        ? "Decision saved. Glossary approval committed for this run."
+        : "Decision saved.";
+      currentGlossarySuggestion = null;
+      document.getElementById("actionResult").innerHTML = `
+        <div class="stack">
+          <div><span class="pill ok">${escapeHtml(data.decision)}</span></div>
+          <div class="mono">${escapeHtml(data.term)}</div>
+          <div class="mono">${data.committed ? "glossary_approved committed" : "queue updated"}</div>
+        </div>
+      `;
+      if (data.snapshot) {
+        renderSnapshot(data.snapshot);
+      }
+      await loadGlossaryQueue(data.run_id || state.runId);
     }
 
     async function inspectBlock() {
@@ -917,6 +1193,18 @@ class _OperatorHandler(BaseHTTPRequestHandler):
             except Exception as exc:
                 self._send_json({"error": str(exc)}, status=500)
             return
+        if parsed.path == "/api/glossary-suggestion":
+            run_id = (params.get("run_id") or [self.default_run_id or ""])[0] or None
+            term = (params.get("term") or [""])[0]
+            if not run_id or not term:
+                self._send_json({"error": "run_id and term are required."}, status=400)
+                return
+            try:
+                payload = build_glossary_suggestion_snapshot(self.config, run_id, term)
+                self._send_json(payload)
+            except Exception as exc:
+                self._send_json({"error": str(exc)}, status=500)
+            return
         if parsed.path == "/api/inspect-block":
             run_id = (params.get("run_id") or [""])[0]
             block_id = (params.get("block_id") or [""])[0]
@@ -982,6 +1270,21 @@ class _OperatorHandler(BaseHTTPRequestHandler):
             action = str(payload.get("action") or "").strip()
             if not run_id or not action:
                 self._send_json({"error": "run_id and action are required."}, status=400)
+                return
+            if action == "glossary-decision":
+                term = str(payload.get("term") or "").strip()
+                decision = str(payload.get("decision") or "").strip()
+                thai_term = str(payload.get("thai_term") or "").strip()
+                note = str(payload.get("note") or "").strip()
+                result = execute_glossary_decision(
+                    config=self.config,
+                    run_id=run_id,
+                    term=term,
+                    decision=decision,
+                    thai_term=thai_term,
+                    note=note,
+                )
+                self._send_json(result)
                 return
             result = execute_operator_action(
                 config=self.config,

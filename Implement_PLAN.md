@@ -31,7 +31,7 @@ Finish also requires that worker models cannot silently mutate source-of-truth d
 - V3.10 complete: repeatable rollout protocol artifacts created
 - V3.11 complete: report automation command family created
 - V3.12 complete: glossary hardening report layer, runtime scan guards, approval-stage queue revalidation, historical rejected-term guard, narrow QA glossary enforcement, and per-run guard verification implemented
-- V4.0 in progress: local operator window slices 1-2 implemented with read-only status/report views plus bounded resume/rerun controls
+- V4.0 complete: local operator window now covers status, glossary decisions, bounded recovery controls, reports, and artifact viewing
 - current failed blocks: none
 - historical failed records exist because the ledger is append-only
 - source currently exists only through `ch023` in workspace, so future Deep Sea Embers ranges require fetch/scan decisions first
@@ -170,22 +170,35 @@ Current slice:
 
 - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
 - local HTTP operator window using existing pipeline/report functions
-- implemented so far:
+- implemented:
   - run status dashboard
   - current blocker / next effective action
   - chapter progress table
   - block inspection with artifact links and formatting validation issues
   - glossary candidate queue view after current deterministic revalidation
+  - provider-backed glossary suggestion view with 2-3 Thai options per term
+  - approve/reject glossary decisions from the operator window
+  - automatic `glossary_approved` commit when the effective queue is empty
   - report generation buttons for existing `report` command family
   - artifact viewer for workspace files
   - bounded resume control that always runs with `manual_action_mode=stop`
   - rerun-block control for targeted recovery
 - intentionally not implemented yet:
-  - glossary approve/reject actions
-  - term option selection UI
-  - broader state-changing controls beyond bounded resume/rerun-block
+  - broader state-changing controls beyond glossary approval plus bounded resume/rerun-block
 
-Done when the user can run normal work without asking Codex for every command.
+Status: complete on 2026-04-28.
+
+Done because the operator can now handle the practical single-novel workflow without requiring Codex to remember commands:
+
+- inspect status and blockers
+- inspect block artifacts
+- generate reports
+- review glossary candidates
+- load Thai term options
+- approve or reject glossary terms
+- commit glossary approval when queue is clear
+- run bounded resume checkpoints
+- rerun a failed block from a chosen stage
 
 ### V4.1: Multi-Novel Foundation
 
