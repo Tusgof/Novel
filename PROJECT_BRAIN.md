@@ -1,7 +1,7 @@
 # Project Brain: Deep Sea Embers Translation Pipeline
 
 Last updated: 2026-04-28
-Last verified: 2026-04-28 after V3.12 glossary hardening was completed and verified with `python -m compileall novel_pipeline`, `python test_translation.py`, `report glossary-conflicts --run-id batch-ch019-ch023-v1`, `report glossary-audit --run-id batch-ch019-ch023-v1`, and `report glossary-guard --run-id batch-ch019-ch023-v1`.
+Last verified: 2026-04-28 after V4.0 slice 1 was added and verified with `python -m compileall novel_pipeline` and `python test_translation.py`.
 
 This file is the project constitution, architecture map, and current operational memory. It should preserve the project goal, design principles, verified state, safety rules, recovery lessons, and pointers to detailed documents. Keep reports, long logs, and implementation detail in their dedicated files.
 
@@ -157,6 +157,11 @@ Active:
 - V3.10 complete: repeatable rollout protocol artifacts exist
 - V3.11 complete: report automation command family now exists
 - V3.12 complete: glossary and terminology hardening
+- V4.0 in progress: practical local operator product
+- V4.0 slice 1 now exists:
+  - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
+  - local read-only/control-light operator window for status, blocker, next safe action, block inspection, report generation, and artifact viewing
+  - intentionally no state-changing controls yet
 - V3.12 read-only tooling now exists:
   - `report glossary-conflicts [--run-id <run_id>]`
   - `report glossary-audit --run-id <run_id>`
@@ -197,7 +202,7 @@ Proceed with protocol/product work:
    - `00_Templates/Batch-Rollout-Checklist.md`
    - `00_Templates/Worker-Bounded-Batch-Prompt.md`
    - `07_Reports/v3_10_repeatable_rollout_protocol.md`
-3. Start `V4.0` product work from the stabilized V3.12 baseline. Focus on a practical local operator window, not another Deep Sea Embers translation run.
+3. Continue `V4.0` from the new operator baseline: add the first safe state-changing controls only after the read-only window is stable.
 4. Do not plan `ch024+` translation until new source is available and a fresh fetch/scan decision is made.
 
 ## Invariants And Guardrails

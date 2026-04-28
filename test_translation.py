@@ -1934,6 +1934,16 @@ def test_cli_parser_accepts_report_subcommands():
     assert guard_args.report_command == "glossary-guard"
     assert guard_args.run_id == "batch-ch019-ch023-v1"
 
+    operator_args = parser.parse_args([
+        "--config", "dummy.yaml",
+        "operator",
+        "--run-id", "batch-ch019-ch023-v1",
+        "--port", "8877",
+    ])
+    assert operator_args.command == "operator"
+    assert operator_args.run_id == "batch-ch019-ch023-v1"
+    assert operator_args.port == 8877
+
 
 def test_cmd_resume_returns_two_on_manual_action_required():
     """cmd_resume returns 2 when manual action is required."""
@@ -2802,6 +2812,59 @@ Body
         assert "- removed_by_noisy_wrapper: ????" in text
         assert "- kept_candidates: ???" in text
         assert result["actionable_failure"] is False
+
+
+def test_generate_operator_report_dispatches_supported_kinds():
+    from novel_pipeline.operator_ui import generate_operator_report
+
+    config = Mock()
+    with patch("novel_pipeline.operator_ui.build_checkpoint_report", return_value={"path": Path("a.md")}) as checkpoint, \
+         patch("novel_pipeline.operator_ui.build_cleanliness_report", return_value={"path": Path("b.md")}) as cleanliness, \
+         patch("novel_pipeline.operator_ui.build_provider_usage_report", return_value={"path": Path("c.md")}) as provider, \
+         patch("novel_pipeline.operator_ui.build_glossary_decisions_report", return_value={"path": Path("d.md")}) as decisions, \
+         patch("novel_pipeline.operator_ui.build_glossary_conflicts_report", return_value={"path": Path("e.md")}) as conflicts, \
+         patch("novel_pipeline.operator_ui.build_glossary_audit_report", return_value={"path": Path("f.md")}) as audit, \
+         patch("novel_pipeline.operator_ui.build_glossary_guard_report", return_value={"path": Path("g.md")}) as guard:
+        assert generate_operator_report(config=config, run_id="run-1", kind="checkpoint")["path"] == Path("a.md")
+        assert generate_operator_report(config=config, run_id="run-1", kind="cleanliness")["path"] == Path("b.md")
+        assert generate_operator_report(config=config, run_id="run-1", kind="provider-usage")["path"] == Path("c.md")
+        assert generate_operator_report(config=config, run_id="run-1", kind="glossary-decisions")["path"] == Path("d.md")
+        assert generate_operator_report(config=config, run_id="run-1", kind="glossary-conflicts")["path"] == Path("e.md")
+        assert generate_operator_report(config=config, run_id="run-1", kind="glossary-audit")["path"] == Path("f.md")
+        assert generate_operator_report(config=config, run_id="run-1", kind="glossary-guard")["path"] == Path("g.md")
+
+    checkpoint.assert_called_once()
+    cleanliness.assert_called_once()
+    provider.assert_called_once()
+    decisions.assert_called_once()
+    conflicts.assert_called_once()
+    audit.assert_called_once()
+    guard.assert_called_once()
+
+
+def test_safe_workspace_path_rejects_outside_workspace():
+    from novel_pipeline.operator_ui import _safe_workspace_path
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        root = Path(tmpdir)
+        allowed = root / "07_Reports" / "a.md"
+        allowed.parent.mkdir(parents=True, exist_ok=True)
+        allowed.write_text("ok", encoding="utf-8")
+        outside_dir = root.parent / "outside-codex-test"
+        outside_dir.mkdir(parents=True, exist_ok=True)
+        outside = outside_dir / "bad.md"
+        outside.write_text("bad", encoding="utf-8")
+
+        config = Mock()
+        config.workspace.root = root
+
+        assert _safe_workspace_path(config, str(allowed)) == allowed.resolve()
+        try:
+            _safe_workspace_path(config, str(outside))
+            assert False, "Expected ValueError for outside path"
+        except ValueError as exc:
+            assert "outside the workspace root" in str(exc).lower()
 
 
 def test_cli_rejects_stop_after_without_range():

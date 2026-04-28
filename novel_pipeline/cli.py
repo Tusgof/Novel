@@ -6,6 +6,7 @@ from pathlib import Path
 
 from novel_pipeline.config import load_app_config
 from novel_pipeline.logging import configure_logging
+from novel_pipeline.operator_ui import serve_operator_ui
 from novel_pipeline.reports import (
     build_checkpoint_report,
     build_cleanliness_report,
@@ -134,6 +135,12 @@ def build_parser() -> argparse.ArgumentParser:
     inspect_p = subparsers.add_parser("inspect-block", help="Inspect one block without modifying artifacts.")
     inspect_p.add_argument("--run-id", required=True, help="Run ID that owns the block artifacts.")
     inspect_p.add_argument("--block-id", required=True, help="Block ID to inspect, e.g. ch001-block-004.")
+
+    operator_p = subparsers.add_parser("operator", help="Start the local operator window.")
+    operator_p.add_argument("--run-id", default=argparse.SUPPRESS, help="Optional run ID to load on startup.")
+    operator_p.add_argument("--host", default="127.0.0.1", help="Host to bind the operator window server.")
+    operator_p.add_argument("--port", type=int, default=8765, help="Port to bind the operator window server.")
+    operator_p.add_argument("--open-browser", action="store_true", default=False, help="Open the operator window in a browser.")
 
     # rerun-block command
     rerun_p = subparsers.add_parser("rerun-block", help="Rerun one block from a selected stage.")
@@ -343,6 +350,30 @@ def cmd_inspect_block(args: argparse.Namespace, config) -> int:
         return 1
 
 
+def cmd_operator(args: argparse.Namespace, config) -> int:
+    try:
+        server = serve_operator_ui(
+            config=config,
+            host=args.host,
+            port=args.port,
+            run_id=getattr(args, "run_id", None),
+            open_browser=args.open_browser,
+        )
+    except Exception as exc:
+        print(f"[ERROR] operator failed to start: {exc}", file=sys.stderr)
+        return 1
+
+    url = f"http://{args.host}:{args.port}/"
+    print(f"[operator] Serving local operator window at {url}")
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        print("[operator] Stopped.")
+    finally:
+        server.server_close()
+    return 0
+
+
 def cmd_rerun_block(args: argparse.Namespace, config) -> int:
     if not args.run_id:
         print("[ERROR] rerun-block requires --run-id.", file=sys.stderr)
@@ -499,6 +530,7 @@ COMMAND_HANDLERS = {
     "status": cmd_status,
     "report": cmd_report,
     "inspect-block": cmd_inspect_block,
+    "operator": cmd_operator,
     "rerun-block": cmd_rerun_block,
     "fetch": cmd_fetch,
     "scan-terms": cmd_scan_terms,
