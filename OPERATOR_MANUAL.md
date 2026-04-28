@@ -1,6 +1,6 @@
 # Operator Manual
 
-Last updated: 2026-04-24
+Last updated: 2026-04-28
 
 This is the practical runbook. It should help the operator proceed without guessing.
 
@@ -22,9 +22,15 @@ This is the practical runbook. It should help the operator proceed without guess
   - translating/refining/qa/formatting/completed: all expected ch019-ch023 blocks complete.
   - current failed blocks: none.
   - manual actions needed: none.
-  - outputs exist for `ch019` through `ch023`.
+- outputs exist for `ch019` through `ch023`.
 - ch024+: untouched.
-- Next planned milestone: V3.11 report and verification automation, not a new translation batch.
+- V3.11 complete: report automation command family now exists.
+- V3.12 in progress: glossary hardening report layer and first scan-time guard slice now exist.
+- Current scan-time guard behavior:
+  - exact quarantine/rejected/deprecated terms are filtered before queue entry
+  - narrow approved-term noise such as `是失乡号` is filtered
+  - substring fragments that never occur standalone in a block are filtered
+- Next planned V3.12 slice: strengthen the remaining deterministic guardrails for noisy candidates, not a new translation batch.
 - Next safe action: use the reusable V3.10 protocol package to start the next bounded batch only after new source exists.
 
 ## Standard Preflight
@@ -48,6 +54,26 @@ Status:
 ```powershell
 novel-pipeline --config ".system/config.yaml" status --run-id batch-ch019-ch023-v1
 ```
+
+Generated verification reports:
+
+```powershell
+novel-pipeline --config ".system/config.yaml" report checkpoint --run-id batch-ch019-ch023-v1
+novel-pipeline --config ".system/config.yaml" report cleanliness --run-id batch-ch019-ch023-v1
+novel-pipeline --config ".system/config.yaml" report provider-usage --run-id batch-ch019-ch023-v1
+novel-pipeline --config ".system/config.yaml" report glossary-decisions --run-id batch-ch019-ch023-v1
+novel-pipeline --config ".system/config.yaml" report glossary-conflicts --run-id batch-ch019-ch023-v1
+novel-pipeline --config ".system/config.yaml" report glossary-audit --run-id batch-ch019-ch023-v1
+```
+
+Current generated artifacts:
+
+- `07_Reports/checkpoint_batch-ch019-ch023-v1.md`
+- `07_Reports/cleanliness_batch-ch019-ch023-v1_ch019-ch020-ch021-ch022-ch023.md`
+- `07_Reports/provider_usage_batch-ch019-ch023-v1.md`
+- `07_Reports/glossary_decisions_batch-ch019-ch023-v1.md`
+- `07_Reports/glossary_conflicts_batch-ch019-ch023-v1.md`
+- `07_Reports/glossary_audit_batch-ch019-ch023-v1.md`
 
 If CLI is unavailable, inspect:
 

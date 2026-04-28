@@ -1,7 +1,7 @@
 # Project Brain: Deep Sea Embers Translation Pipeline
 
-Last updated: 2026-04-24
-Last verified: 2026-04-24 after V3.10 protocol artifacts were created; V3.9 completion through ch023 remains the latest translation evidence and was previously verified with `python -m compileall novel_pipeline`, `python test_translation.py`, `status --run-id batch-ch019-ch023-v1`, output cleanliness checks for ch019-ch023, and spot-check report creation.
+Last updated: 2026-04-28
+Last verified: 2026-04-28 after V3.12 read-only glossary hardening reports were added and verified with `python -m compileall novel_pipeline`, `python test_translation.py`, `report glossary-conflicts --run-id batch-ch019-ch023-v1`, and `report glossary-audit --run-id batch-ch019-ch023-v1`.
 
 This file is the project constitution, architecture map, and current operational memory. It should preserve the project goal, design principles, verified state, safety rules, recovery lessons, and pointers to detailed documents. Keep reports, long logs, and implementation detail in their dedicated files.
 
@@ -155,13 +155,29 @@ Active:
 - current failed blocks: none
 - manual actions needed: none
 - V3.10 complete: repeatable rollout protocol artifacts exist
-- next milestone: `V3.11` report and verification automation
+- V3.11 complete: report automation command family now exists
+- V3.12 in progress: glossary and terminology hardening
+- V3.12 read-only tooling now exists:
+  - `report glossary-conflicts [--run-id <run_id>]`
+  - `report glossary-audit --run-id <run_id>`
+- V3.12 first runtime guard slice now exists in glossary scan:
+  - exact quarantine/rejected/deprecated terms are filtered before queue entry
+  - narrow approved-term noise like `是失乡号` is filtered
+  - substring fragments that never occur standalone in a block are filtered
+- `glossary-audit` verified clean for `batch-ch019-ch023-v1`
+- `glossary-conflicts` intentionally returns actionable findings for current glossary conflicts/noise and is meant to surface cleanup or guardrail work
+- next slice: stronger deterministic guardrails for the remaining noisy candidates and explicit verification evidence that scan noise drops on real chapters
 - ch024+: must remain unprocessed
 - final outputs for ch019-ch023 exist
 - V3.10 protocol artifacts now exist:
   - `00_Templates/Batch-Rollout-Checklist.md`
   - `00_Templates/Worker-Bounded-Batch-Prompt.md`
   - `07_Reports/v3_10_repeatable_rollout_protocol.md`
+- V3.11 report artifacts now exist:
+  - `07_Reports/checkpoint_batch-ch019-ch023-v1.md`
+  - `07_Reports/cleanliness_batch-ch019-ch023-v1_ch019-ch020-ch021-ch022-ch023.md`
+  - `07_Reports/provider_usage_batch-ch019-ch023-v1.md`
+  - `07_Reports/glossary_decisions_batch-ch019-ch023-v1.md`
 
 ## Next Safe Action
 
@@ -175,7 +191,7 @@ Proceed with protocol/product work:
    - `00_Templates/Batch-Rollout-Checklist.md`
    - `00_Templates/Worker-Bounded-Batch-Prompt.md`
    - `07_Reports/v3_10_repeatable_rollout_protocol.md`
-3. Start `V3.11` by turning repeated manual reports and verification steps into generated artifacts.
+3. Continue `V3.12` from the new report layer: turn conflict/audit findings into deterministic rejected-term guards and tighter quarantine overlap handling before planning any new Deep Sea Embers source range.
 4. Do not plan `ch024+` translation until new source is available and a fresh fetch/scan decision is made.
 
 ## Invariants And Guardrails
@@ -370,6 +386,8 @@ Worker model restrictions:
 - `00_Templates/Batch-Rollout-Checklist.md`: reusable operator checklist for bounded batches.
 - `00_Templates/Worker-Bounded-Batch-Prompt.md`: reusable worker prompt template for bounded batches.
 - `07_Reports/v3_10_repeatable_rollout_protocol.md`: repeatable rollout protocol and current V3.10 acceptance baseline.
+- `07_Reports/glossary_conflicts_batch-ch019-ch023-v1.md`: current glossary conflict surface for V3.12.
+- `07_Reports/glossary_audit_batch-ch019-ch023-v1.md`: per-chapter approved glossary usage audit for V3.12.
 - `D:\Fogust\Workspace\Novel\AGENTS.md`: global worker/agent behavior rules.
 - `07_Reports/`: detailed historical reports and checkpoint evidence.
 - `.system/config.yaml`: pipeline configuration entry point.

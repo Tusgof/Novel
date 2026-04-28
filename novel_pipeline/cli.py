@@ -6,6 +6,14 @@ from pathlib import Path
 
 from novel_pipeline.config import load_app_config
 from novel_pipeline.logging import configure_logging
+from novel_pipeline.reports import (
+    build_checkpoint_report,
+    build_cleanliness_report,
+    build_glossary_audit_report,
+    build_glossary_conflicts_report,
+    build_glossary_decisions_report,
+    build_provider_usage_report,
+)
 from novel_pipeline.pipeline import (
     approve_terms_command,
     ManualActionRequired,
@@ -82,6 +90,40 @@ def build_parser() -> argparse.ArgumentParser:
     # status command
     status_p = subparsers.add_parser("status", help="Show status of runs.")
     status_p.add_argument("--run-id", default=argparse.SUPPRESS, help="Run ID to inspect.")
+
+    # report command family
+    report_p = subparsers.add_parser("report", help="Generate verification reports.")
+    report_subparsers = report_p.add_subparsers(dest="report_command", required=True)
+
+    report_checkpoint_p = report_subparsers.add_parser("checkpoint", help="Generate a checkpoint report for a run.")
+    report_checkpoint_p.add_argument("--run-id", required=True, help="Run ID to summarize.")
+    report_checkpoint_p.add_argument("--output", type=Path, default=None, help="Output markdown path.")
+
+    report_cleanliness_p = report_subparsers.add_parser("cleanliness", help="Generate a final-output cleanliness report.")
+    report_cleanliness_p.add_argument("--run-id", required=True, help="Run ID to inspect.")
+    report_cleanliness_p.add_argument(
+        "--chapter-id",
+        action="append",
+        default=[],
+        help="Chapter ID to inspect. May be repeated.",
+    )
+    report_cleanliness_p.add_argument("--output", type=Path, default=None, help="Output markdown path.")
+
+    report_provider_p = report_subparsers.add_parser("provider-usage", help="Generate a provider usage/failure report.")
+    report_provider_p.add_argument("--run-id", required=True, help="Run ID to inspect.")
+    report_provider_p.add_argument("--output", type=Path, default=None, help="Output markdown path.")
+
+    report_glossary_p = report_subparsers.add_parser("glossary-decisions", help="Generate a glossary decisions report from glossary_approved records.")
+    report_glossary_p.add_argument("--run-id", required=True, help="Run ID to inspect.")
+    report_glossary_p.add_argument("--output", type=Path, default=None, help="Output markdown path.")
+
+    report_conflicts_p = report_subparsers.add_parser("glossary-conflicts", help="Generate a glossary conflicts report from glossary notes and scan artifacts.")
+    report_conflicts_p.add_argument("--run-id", default=None, help="Optional batch run ID to inspect for scan candidates.")
+    report_conflicts_p.add_argument("--output", type=Path, default=None, help="Output markdown path.")
+
+    report_audit_p = report_subparsers.add_parser("glossary-audit", help="Generate a chapter audit report from source blocks and final outputs.")
+    report_audit_p.add_argument("--run-id", required=True, help="Run ID to inspect.")
+    report_audit_p.add_argument("--output", type=Path, default=None, help="Output markdown path.")
 
     # inspect-block command
     inspect_p = subparsers.add_parser("inspect-block", help="Inspect one block without modifying artifacts.")
@@ -259,6 +301,32 @@ def cmd_status(args: argparse.Namespace, config) -> int:
     return 0
 
 
+def cmd_report(args: argparse.Namespace, config) -> int:
+    if args.report_command == "checkpoint":
+        result = build_checkpoint_report(config=config, run_id=args.run_id, output=args.output)
+    elif args.report_command == "cleanliness":
+        result = build_cleanliness_report(
+            config=config,
+            run_id=args.run_id,
+            chapter_ids=args.chapter_id or None,
+            output=args.output,
+        )
+    elif args.report_command == "provider-usage":
+        result = build_provider_usage_report(config=config, run_id=args.run_id, output=args.output)
+    elif args.report_command == "glossary-decisions":
+        result = build_glossary_decisions_report(config=config, run_id=args.run_id, output=args.output)
+    elif args.report_command == "glossary-conflicts":
+        result = build_glossary_conflicts_report(config=config, run_id=args.run_id, output=args.output)
+    elif args.report_command == "glossary-audit":
+        result = build_glossary_audit_report(config=config, run_id=args.run_id, output=args.output)
+    else:
+        print(f"[ERROR] Unknown report command: {args.report_command}", file=sys.stderr)
+        return 1
+
+    print(str(result["path"]))
+    return 1 if result.get("actionable_failure") else 0
+
+
 def cmd_inspect_block(args: argparse.Namespace, config) -> int:
     try:
         inspect_block_command(config=config, run_id=args.run_id, block_id=args.block_id)
@@ -422,6 +490,7 @@ COMMAND_HANDLERS = {
     "run": cmd_run,
     "resume": cmd_resume,
     "status": cmd_status,
+    "report": cmd_report,
     "inspect-block": cmd_inspect_block,
     "rerun-block": cmd_rerun_block,
     "fetch": cmd_fetch,

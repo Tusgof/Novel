@@ -3,6 +3,8 @@ from __future__ import annotations
 import re
 from collections import OrderedDict
 from dataclasses import dataclass
+from os import PathLike
+from pathlib import Path
 from typing import Any
 
 from novel_pipeline.artifacts import glossary_scan_artifact_path
@@ -10,6 +12,7 @@ from novel_pipeline.files import atomic_write_json, read_text_if_exists
 from novel_pipeline.glossary_support import (
     choose_option_interactively,
     load_glossary_index,
+    parse_glossary_note,
     write_glossary_note,
 )
 from novel_pipeline.prompts import PromptStore
@@ -31,6 +34,134 @@ class ProviderTermExtractionResult:
     failure_kind: str = ""
 
 
+def _glossary_note_record_from_path(path: Path) -> dict[str, Any] | None:
+    entry = parse_glossary_note(path)
+    if entry is None:
+        return None
+    status = str(entry.status or "proposed").strip().lower() or "proposed"
+    path_parts = {part.lower() for part in path.parts}
+    return {
+        "original_term": entry.original_term,
+        "aliases": list(entry.aliases),
+        "status": status,
+        "is_quarantine": "quarantine" in path_parts,
+    }
+
+
+def _load_glossary_note_records(glossary_dir: Path | str) -> list[dict[str, Any]]:
+    if not isinstance(glossary_dir, (str, Path, PathLike)):
+        return []
+    glossary_path = Path(glossary_dir)
+    glossary_path.mkdir(parents=True, exist_ok=True)
+    records: list[dict[str, Any]] = []
+    for path in sorted(glossary_path.rglob("*.md")):
+        record = _glossary_note_record_from_path(path)
+        if record is not None:
+            records.append(record)
+    return records
+
+
+def _note_bucket(note: dict[str, Any]) -> str:
+    if note.get("is_quarantine"):
+        return "quarantine"
+    status = str(note.get("status") or "proposed").strip().lower() or "proposed"
+    if status in {"approved", "rejected", "deprecated", "proposed"}:
+        return status
+    return "proposed"
+
+
+def _blocked_exact_terms(records: list[dict[str, Any]]) -> set[str]:
+    blocked: set[str] = set()
+    for note in records:
+        if _note_bucket(note) not in {"quarantine", "rejected", "deprecated"}:
+            continue
+        blocked.add(str(note.get("original_term") or "").strip())
+        for alias in note.get("aliases") or []:
+            blocked.add(str(alias).strip())
+    return {term for term in blocked if term}
+
+
+def _noise_anchor_terms(records: list[dict[str, Any]]) -> set[str]:
+    anchors: set[str] = set()
+    for note in records:
+        if _note_bucket(note) not in {"approved", "quarantine"}:
+            continue
+        anchors.add(str(note.get("original_term") or "").strip())
+        for alias in note.get("aliases") or []:
+            anchors.add(str(alias).strip())
+    return {term for term in anchors if term}
+
+
+def _is_obvious_noise_candidate(candidate: str, approved_terms: set[str], quarantine_terms: set[str]) -> bool:
+    candidate = candidate.strip()
+    if not candidate:
+        return False
+
+    # Keep this narrow: one-character edge noise around approved terms, or one-character
+    # truncations of quarantined terms, is treated as junk; nothing broader is inferred.
+    noisy_edge_tokens = {"是", "的", "了", "之", "其", "这", "那"}
+    for anchor in approved_terms:
+        if not anchor or anchor == candidate:
+            continue
+        if candidate.startswith(anchor):
+            suffix = candidate[len(anchor):]
+            if len(suffix) == 1 and suffix in noisy_edge_tokens:
+                return True
+        if candidate.endswith(anchor):
+            prefix = candidate[:-len(anchor)]
+            if len(prefix) == 1 and prefix in noisy_edge_tokens:
+                return True
+
+    for anchor in quarantine_terms:
+        if not anchor or anchor == candidate:
+            continue
+        if len(anchor) - len(candidate) == 1:
+            if anchor.startswith(candidate) or anchor.endswith(candidate):
+                return True
+
+    return False
+
+
+def _all_occurrences(text: str, term: str) -> list[tuple[int, int]]:
+    spans: list[tuple[int, int]] = []
+    start = 0
+    while True:
+        pos = text.find(term, start)
+        if pos == -1:
+            break
+        spans.append((pos, pos + len(term)))
+        start = pos + 1
+    return spans
+
+
+def _is_covered_by_any(span: tuple[int, int], covering_spans: list[tuple[int, int]]) -> bool:
+    start, end = span
+    for cover_start, cover_end in covering_spans:
+        if start >= cover_start and end <= cover_end:
+            return True
+    return False
+
+
+def _prune_substring_fragment_candidates(text: str, candidates: list[str]) -> list[str]:
+    kept: list[str] = []
+    for term in candidates:
+        longer_terms = [other for other in candidates if len(other) > len(term) and term in other]
+        if not longer_terms:
+            kept.append(term)
+            continue
+        term_spans = _all_occurrences(text, term)
+        if not term_spans:
+            kept.append(term)
+            continue
+        covering_spans: list[tuple[int, int]] = []
+        for longer_term in longer_terms:
+            covering_spans.extend(_all_occurrences(text, longer_term))
+        if term_spans and all(_is_covered_by_any(span, covering_spans) for span in term_spans):
+            continue
+        kept.append(term)
+    return kept
+
+
 def scan_terms_for_blocks(config: AppConfig, blocks: list[TextBlock], exclude_existing: bool = True) -> list[str]:
     """Extract candidate terms from blocks."""
     return [item["original_term"] for item in build_glossary_scan_queue(config, blocks, exclude_existing=exclude_existing)]
@@ -44,6 +175,15 @@ def build_glossary_scan_queue(
 ) -> list[dict[str, Any]]:
     """Build a deterministic glossary scan queue for the current chapter/run."""
     glossary_index = load_glossary_index(config.workspace.glossary_dir) if exclude_existing else {}
+    note_records = _load_glossary_note_records(config.workspace.glossary_dir)
+    blocked_exact_terms = _blocked_exact_terms(note_records)
+    approved_terms = _noise_anchor_terms(note_records)
+    quarantine_terms = {
+        str(note.get("original_term") or "").strip()
+        for note in note_records
+        if _note_bucket(note) == "quarantine"
+    }
+    quarantine_terms = {term for term in quarantine_terms if term}
     ordered: OrderedDict[str, dict[str, Any]] = OrderedDict()
 
     # Validate source text is not mojibake before any extraction
@@ -104,9 +244,17 @@ def build_glossary_scan_queue(
         
         candidates.extend(provider_terms)
         
+        filtered_candidates: list[str] = []
         for term in _dedupe_candidates(candidates):
+            if term in blocked_exact_terms:
+                continue
             if exclude_existing and term in glossary_index:
                 continue
+            if _is_obvious_noise_candidate(term, approved_terms, quarantine_terms):
+                continue
+            filtered_candidates.append(term)
+
+        for term in _prune_substring_fragment_candidates(text, filtered_candidates):
             if term in ordered:
                 continue
             ordered[term] = {

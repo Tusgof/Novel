@@ -16,6 +16,30 @@ from novel_pipeline.types import SourceConfig
 def _gb18030_html(text: str) -> bytes:
     return text.encode("gb18030")
 
+def _write_glossary_note_file(path: Path, *, original_term: str, status: str, aliases: tuple[str, ...] = ()) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if aliases:
+        aliases_block = "aliases:\n" + "\n".join(f"  - {alias}" for alias in aliases)
+    else:
+        aliases_block = "aliases: []"
+    path.write_text(
+        f"""---
+type: glossary-term
+original_term: {original_term}
+thai_term: {original_term}
+status: {status}
+{aliases_block}
+related: []
+source_language: zh
+category: term
+description: test note
+---
+
+body
+""",
+        encoding="utf-8",
+    )
+
 def test_format_glossary_subset():
     entries = [
         GlossaryEntry(original_term="邓肯", thai_term="ดันแคน", category="character", description="Protagonist"),
@@ -605,6 +629,139 @@ def test_glossary_scan_validates_source_mojibake():
         assert False, "Expected ValueError for mojibake source"
     except ValueError as e:
         assert "mojibake" in str(e) or "unexpected characters" in str(e)
+
+def test_build_glossary_scan_queue_filters_exact_quarantine_rejected_and_deprecated_terms():
+    from novel_pipeline.stages.glossary import build_glossary_scan_queue
+    from novel_pipeline.types import AppConfig, TextBlock
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        glossary_dir = base / "01_Glossary"
+        _write_glossary_note_file(
+            glossary_dir / "quarantine" / "邓肯船.md",
+            original_term="邓肯船",
+            status="proposed",
+            aliases=("肯船",),
+        )
+        _write_glossary_note_file(
+            glossary_dir / "status" / "rejected" / "废弃术语.md",
+            original_term="废弃术语",
+            status="rejected",
+            aliases=("拒绝别名",),
+        )
+        _write_glossary_note_file(
+            glossary_dir / "status" / "deprecated" / "旧称.md",
+            original_term="旧称",
+            status="deprecated",
+            aliases=("旧别名",),
+        )
+
+        config = Mock(spec=AppConfig)
+        config.workspace = Mock()
+        config.workspace.glossary_dir = glossary_dir
+        config.workspace.prompts = base / "prompts"
+        config.source_language = "zh"
+        config.novel_id = "test"
+        config.stage_routing = {}
+        config.stage_routing_for = Mock(side_effect=KeyError("term_extraction"))
+
+        block = TextBlock(
+            block_id="ch001-block-001",
+            chapter_id="ch001",
+            block_index=0,
+            source_text="测试文本",
+            source_language="zh",
+            start_offset=0,
+            end_offset=4,
+        )
+
+        with patch(
+            "novel_pipeline.stages.glossary.extract_candidate_terms",
+            return_value=["邓肯船", "肯船", "废弃术语", "拒绝别名", "旧称", "旧别名", "无关词"],
+        ):
+            queue = build_glossary_scan_queue(config, [block], exclude_existing=False)
+
+        assert [item["original_term"] for item in queue] == ["无关词"]
+
+
+def test_build_glossary_scan_queue_filters_noisy_prefix_suffix_around_approved_term():
+    from novel_pipeline.stages.glossary import build_glossary_scan_queue
+    from novel_pipeline.types import AppConfig, TextBlock
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        glossary_dir = base / "01_Glossary"
+        _write_glossary_note_file(
+            glossary_dir / "approved" / "失乡号.md",
+            original_term="失乡号",
+            status="approved",
+        )
+
+        config = Mock(spec=AppConfig)
+        config.workspace = Mock()
+        config.workspace.glossary_dir = glossary_dir
+        config.workspace.prompts = base / "prompts"
+        config.source_language = "zh"
+        config.novel_id = "test"
+        config.stage_routing = {}
+        config.stage_routing_for = Mock(side_effect=KeyError("term_extraction"))
+
+        block = TextBlock(
+            block_id="ch001-block-001",
+            chapter_id="ch001",
+            block_index=0,
+            source_text="测试文本",
+            source_language="zh",
+            start_offset=0,
+            end_offset=4,
+        )
+
+        with patch(
+            "novel_pipeline.stages.glossary.extract_candidate_terms",
+            return_value=["是失乡号", "失乡号", "无关词"],
+        ):
+            queue = build_glossary_scan_queue(config, [block], exclude_existing=False)
+
+        assert [item["original_term"] for item in queue] == ["失乡号", "无关词"]
+
+
+def test_build_glossary_scan_queue_prunes_substring_fragments_only_when_never_standalone():
+    from novel_pipeline.stages.glossary import build_glossary_scan_queue
+    from novel_pipeline.types import AppConfig, TextBlock
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        glossary_dir = base / "01_Glossary"
+
+        config = Mock(spec=AppConfig)
+        config.workspace = Mock()
+        config.workspace.glossary_dir = glossary_dir
+        config.workspace.prompts = base / "prompts"
+        config.source_language = "zh"
+        config.novel_id = "test"
+        config.stage_routing = {}
+        config.stage_routing_for = Mock(side_effect=KeyError("term_extraction"))
+
+        block = TextBlock(
+            block_id="ch001-block-001",
+            chapter_id="ch001",
+            block_index=0,
+            source_text="面具神注视着祭坛。黑曜石小刀落下。黑袍人停了下来，另一个袍人却继续前进。",
+            source_language="zh",
+            start_offset=0,
+            end_offset=10,
+        )
+
+        with patch(
+            "novel_pipeline.stages.glossary.extract_candidate_terms",
+            return_value=["面具神", "具神", "黑曜石", "曜石", "黑袍人", "袍人"],
+        ):
+            queue = build_glossary_scan_queue(config, [block], exclude_existing=False)
+
+        assert [item["original_term"] for item in queue] == ["面具神", "黑曜石", "黑袍人", "袍人"]
 
 def test_stage_routing_parses_timeout_and_retry():
     from novel_pipeline.types import StageRouting
@@ -1440,6 +1597,71 @@ def test_cli_parser_accepts_inspect_block():
     assert args.block_id == "ch019-block-003"
 
 
+def test_cli_parser_accepts_report_subcommands():
+    """CLI parser accepts the report subcommands."""
+    from novel_pipeline.cli import build_parser
+    parser = build_parser()
+
+    checkpoint_args = parser.parse_args([
+        "--config", "dummy.yaml",
+        "report",
+        "checkpoint",
+        "--run-id", "batch-ch019-ch023-v1",
+    ])
+    assert checkpoint_args.command == "report"
+    assert checkpoint_args.report_command == "checkpoint"
+    assert checkpoint_args.run_id == "batch-ch019-ch023-v1"
+
+    cleanliness_args = parser.parse_args([
+        "--config", "dummy.yaml",
+        "report",
+        "cleanliness",
+        "--run-id", "batch-ch019-ch023-v1",
+        "--chapter-id", "ch019",
+        "--chapter-id", "ch020",
+    ])
+    assert cleanliness_args.command == "report"
+    assert cleanliness_args.report_command == "cleanliness"
+    assert cleanliness_args.run_id == "batch-ch019-ch023-v1"
+    assert cleanliness_args.chapter_id == ["ch019", "ch020"]
+
+    provider_args = parser.parse_args([
+        "--config", "dummy.yaml",
+        "report",
+        "provider-usage",
+        "--run-id", "batch-ch019-ch023-v1",
+    ])
+    assert provider_args.report_command == "provider-usage"
+    assert provider_args.run_id == "batch-ch019-ch023-v1"
+
+    glossary_args = parser.parse_args([
+        "--config", "dummy.yaml",
+        "report",
+        "glossary-decisions",
+        "--run-id", "batch-ch019-ch023-v1",
+    ])
+    assert glossary_args.report_command == "glossary-decisions"
+    assert glossary_args.run_id == "batch-ch019-ch023-v1"
+
+    conflicts_args = parser.parse_args([
+        "--config", "dummy.yaml",
+        "report",
+        "glossary-conflicts",
+        "--run-id", "batch-ch019-ch023-v1",
+    ])
+    assert conflicts_args.report_command == "glossary-conflicts"
+    assert conflicts_args.run_id == "batch-ch019-ch023-v1"
+
+    audit_args = parser.parse_args([
+        "--config", "dummy.yaml",
+        "report",
+        "glossary-audit",
+        "--run-id", "batch-ch019-ch023-v1",
+    ])
+    assert audit_args.report_command == "glossary-audit"
+    assert audit_args.run_id == "batch-ch019-ch023-v1"
+
+
 def test_cmd_resume_returns_two_on_manual_action_required():
     """cmd_resume returns 2 when manual action is required."""
     from novel_pipeline.cli import cmd_resume
@@ -1837,6 +2059,400 @@ def test_inspect_block_command_reports_artifacts_and_validation():
     assert "provider/meta marker: stdout" in result["formatted_validation_issues"]
     assert "Han Chinese characters present" in result["formatted_validation_issues"]
     assert "quote-only line 3" in result["formatted_validation_issues"]
+
+
+def test_checkpoint_report_generation_writes_expected_markdown():
+    """Checkpoint report generation writes markdown from status_run data."""
+    from novel_pipeline.reports import build_checkpoint_report
+    from novel_pipeline.types import AppConfig
+    from unittest.mock import Mock, patch
+    import tempfile
+    from pathlib import Path
+
+    status = {
+        "total_records": 4,
+        "completed_blocks": ("ch019-block-001", "ch019-block-002"),
+        "current_failed_blocks": ("ch019-block-003",),
+        "historical_failed_records": 2,
+        "next_effective_action": "resume --run-id batch-ch019-ch023-v1",
+        "manual_actions": ["inspect failed blocks and rerun from the appropriate stage."],
+        "chapter_ids": ["ch019"],
+        "chapter_summary": {
+            "ch019": {
+                "expected_blocks": 3,
+                "completed_blocks": 2,
+                "failed_blocks": ["ch019-block-003"],
+                "pending_blocks": ["ch019-block-004"],
+                "output_exists": False,
+            }
+        },
+        "block_stage_status": {
+            "ch019-block-001": {"next_pending_stage": None, "records": [{}, {}]},
+        },
+    }
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        output_dir = base / "05_Output"
+        output_dir.mkdir()
+
+        config = Mock(spec=AppConfig)
+        config.workspace.output = output_dir
+        config.ledger_path = base / "06_Logs" / "ledger.jsonl"
+
+        with patch("novel_pipeline.reports.status_run", return_value=status):
+            result = build_checkpoint_report(config=config, run_id="batch-ch019-ch023-v1")
+        assert result["path"] == base / "07_Reports" / "checkpoint_batch-ch019-ch023-v1.md"
+        assert result["path"].exists()
+        text = result["path"].read_text(encoding="utf-8")
+        assert "# Checkpoint Report - batch-ch019-ch023-v1" in text
+        assert "total_records: 4" in text
+        assert "ch019-block-003" in text
+        assert "resume --run-id batch-ch019-ch023-v1" in text
+
+
+def test_cleanliness_report_flags_body_issues_and_ignores_title_han():
+    """Cleanliness report flags body problems but ignores Chinese in line 1."""
+    from novel_pipeline.reports import build_cleanliness_report
+    from novel_pipeline.types import AppConfig
+    from unittest.mock import Mock, patch
+    import tempfile
+    from pathlib import Path
+
+    run_id = "batch-ch019-ch023-v1"
+    chapter_id = "ch019"
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        work_dir = base / "04_Work"
+        output_dir = base / "05_Output"
+        work_dir.mkdir()
+        output_dir.mkdir()
+        chapter_dir = output_dir / chapter_id
+        chapter_dir.mkdir()
+        (chapter_dir / f"{chapter_id}.md").write_text(
+            "# 失乡号\n"
+            "Gemini stdout\n"
+            "你好，船长。\n"
+            "ดันแคน เอบนอร์มัล\n"
+            "\"\n",
+            encoding="utf-8",
+        )
+
+        config = Mock(spec=AppConfig)
+        config.workspace.work = work_dir
+        config.workspace.output = output_dir
+        config.ledger_path = base / "06_Logs" / "ledger.jsonl"
+
+        summary = {
+            "chapter_ids": [chapter_id],
+            "block_stage_status": {},
+        }
+
+        with patch("novel_pipeline.reports.status_run", return_value=summary), \
+             patch("novel_pipeline.reports.inspect_block_command", return_value={"formatted_validation_issues": []}):
+            result = build_cleanliness_report(config=config, run_id=run_id)
+        chapter = result["chapter_results"][0]
+        assert chapter["exists"] is True
+        assert any(issue == "provider/meta marker: gemini" for issue in chapter["issues"])
+        assert any(issue == "provider/meta marker: stdout" for issue in chapter["issues"])
+        assert any(issue == "wrong glossary variant: ดันแคน เอบนอร์มัล" for issue in chapter["issues"])
+        assert any(issue == "quote-only line 5" for issue in chapter["issues"])
+        assert any(issue.startswith("Han Chinese body line") for issue in chapter["issues"])
+        assert not any("line 1" in issue for issue in chapter["issues"])
+
+
+def test_cmd_report_cleanliness_returns_nonzero_on_missing_output():
+    """Report wrapper returns nonzero when a target chapter output is missing."""
+    from novel_pipeline.cli import cmd_report
+    from novel_pipeline.types import AppConfig
+    from unittest.mock import Mock, patch
+    import tempfile
+    from pathlib import Path
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        output_dir = base / "05_Output"
+        output_dir.mkdir()
+
+        config = Mock(spec=AppConfig)
+        config.workspace.output = output_dir
+        config.ledger_path = base / "06_Logs" / "ledger.jsonl"
+
+        args = Mock(
+            report_command="cleanliness",
+            run_id="batch-ch019-ch023-v1",
+            chapter_id=[],
+            output=None,
+        )
+
+        with patch("novel_pipeline.reports.status_run", return_value={"chapter_ids": ["ch019"], "block_stage_status": {}}):
+            result = cmd_report(args, config)
+
+    assert result == 1
+
+
+def test_provider_usage_report_generation_writes_expected_markdown():
+    """Provider usage report generation writes provider/stage/status counts."""
+    from novel_pipeline.reports import build_provider_usage_report
+    from novel_pipeline.types import AppConfig
+    from unittest.mock import Mock, patch
+    import tempfile
+    from pathlib import Path
+
+    summary = {
+        "current_failed_blocks": (),
+        "historical_failed_records": 2,
+        "provider_usage": {
+            "claude": {"refining": {"completed": 3, "failed": 1}},
+            "qwen": {"qa": {"completed": 3}},
+        },
+    }
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        config = Mock(spec=AppConfig)
+        config.workspace.output = base / "05_Output"
+        config.ledger_path = base / "06_Logs" / "ledger.jsonl"
+
+        with patch("novel_pipeline.reports.status_run", return_value=summary):
+            result = build_provider_usage_report(config=config, run_id="batch-ch019-ch023-v1")
+
+        assert result["path"] == base / "07_Reports" / "provider_usage_batch-ch019-ch023-v1.md"
+        text = result["path"].read_text(encoding="utf-8")
+        assert "# Provider Usage Report - batch-ch019-ch023-v1" in text
+        assert "| claude | refining | completed | 3 |" in text
+        assert "| claude | refining | failed | 1 |" in text
+        assert "| qwen | qa | completed | 3 |" in text
+
+
+def test_glossary_decisions_report_generation_writes_expected_markdown():
+    """Glossary decisions report is built from glossary_approved ledger metadata and glossary notes."""
+    from novel_pipeline.reports import build_glossary_decisions_report
+    from novel_pipeline.types import AppConfig, GlossaryEntry
+    from novel_pipeline.ledger import RunRecord
+    from unittest.mock import Mock, patch
+    import tempfile
+    from pathlib import Path
+
+    records = [
+        RunRecord(
+            run_id="batch-ch019-ch023-v1",
+            block_id="ch019",
+            stage="glossary_approved",
+            status="completed",
+            created_at="2026-04-18T21:36:06.528222Z",
+            provider="local",
+            input_hash="",
+            output_hash="",
+            metadata={
+                "approval_mode": "user_v3_9_glossary_gate",
+                "approved_terms": ["实太阳神", "面具神"],
+                "rejected_terms": ["阳神", "黑曜石"],
+            },
+        )
+    ]
+
+    glossary_index = {
+        "实太阳神": GlossaryEntry(
+            original_term="实太阳神",
+            thai_term="สุริยเทพที่แท้จริง",
+            category="title",
+            status="approved",
+            aliases=(),
+            description="",
+            related=(),
+            source_language="zh",
+            notes="",
+            metadata={"path": "01_Glossary/实太阳神.md"},
+        ),
+        "面具神": GlossaryEntry(
+            original_term="面具神",
+            thai_term="เทพหน้ากาก",
+            category="entity",
+            status="approved",
+            aliases=(),
+            description="",
+            related=(),
+            source_language="zh",
+            notes="",
+            metadata={"path": "01_Glossary/面具神.md"},
+        ),
+    }
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        config = Mock(spec=AppConfig)
+        config.workspace.output = base / "05_Output"
+        config.workspace.glossary_dir = base / "01_Glossary"
+        config.ledger_path = base / "06_Logs" / "ledger.jsonl"
+
+        mock_ledger = Mock()
+        mock_ledger.iter_records.return_value = records
+
+        with patch("novel_pipeline.reports.RunLedger", return_value=mock_ledger), \
+             patch("novel_pipeline.reports.load_glossary_index", return_value=glossary_index):
+            result = build_glossary_decisions_report(config=config, run_id="batch-ch019-ch023-v1")
+
+        text = result["path"].read_text(encoding="utf-8")
+        assert "# Glossary Decisions Report - batch-ch019-ch023-v1" in text
+        assert "user_v3_9_glossary_gate" in text
+        assert "实太阳神" in text
+        assert "สุริยเทพที่แท้จริง" in text
+        assert "面具神" in text
+        assert "เทพหน้ากาก" in text
+        assert "- 阳神" in text
+        assert "- 黑曜石" in text
+
+
+def test_glossary_conflicts_report_generation_writes_expected_markdown():
+    """Glossary conflicts report summarizes note collisions and batch scan artifacts."""
+    from novel_pipeline.reports import build_glossary_conflicts_report
+    from unittest.mock import Mock
+    import tempfile
+    from pathlib import Path
+    import json
+
+    def write_note(path: Path, *, original: str, thai: str, status: str = "approved", aliases: list[str] | None = None) -> None:
+        aliases = aliases or []
+        alias_block = "aliases: []" if not aliases else "aliases:\n" + "\n".join(f"  - {alias}" for alias in aliases)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(
+            f"""---
+type: glossary-term
+original_term: {original}
+thai_term: {thai}
+status: {status}
+{alias_block}
+source_language: zh
+category: term
+---
+
+Body
+""",
+            encoding="utf-8",
+        )
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        glossary_dir = base / "01_Glossary"
+        work_dir = base / "04_Work"
+
+        write_note(glossary_dir / "失乡号.md", original="失乡号", thai="เรือ失乡号", aliases=["鲸船"])
+        write_note(glossary_dir / "白橡木.md", original="白橡木", thai="ไม้โอ๊คขาว")
+        write_note(glossary_dir / "白橡木号.md", original="白橡木号", thai="เรือไม้โอ๊คขาว")
+        write_note(glossary_dir / "邓肯.md", original="邓肯", thai="ดันแคน")
+        write_note(glossary_dir / "废弃.md", original="废弃", thai="ทิ้งแล้ว", status="rejected")
+        write_note(glossary_dir / "quarantine" / "邓肯船.md", original="邓肯船", thai="เรือดันแคน", aliases=["鲸船"])
+
+        batch_path = work_dir / "_batch" / "batch-ch001" / "glossary_scan.json"
+        batch_path.parent.mkdir(parents=True, exist_ok=True)
+        batch_path.write_text(
+            json.dumps(
+                {
+                    "schema_version": 1,
+                    "scope": {"type": "batch", "id": "batch-ch001"},
+                    "chapter_ids": ["ch001"],
+                    "items": [
+                        {"original_term": "邓肯船"},
+                        {"original_term": "是失乡号"},
+                        {"original_term": "废弃"},
+                    ],
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+
+        config = Mock()
+        config.workspace.root = base
+        config.workspace.glossary_dir = glossary_dir
+        config.workspace.work = work_dir
+
+        result = build_glossary_conflicts_report(config=config, run_id="batch-ch001")
+
+        text = result["path"].read_text(encoding="utf-8")
+        assert "# Glossary Conflicts Report - batch-ch001" in text
+        assert "approved_terms_count: 4" in text
+        assert "quarantine_terms_count: 1" in text
+        assert "白橡木号 contains 白橡木" in text
+        assert "邓肯船 -> 邓肯 (prefix)" in text
+        assert "是失乡号 -> 失乡号 (suffix)" in text
+        assert "废弃 -> 废弃 (rejected |" in text
+        assert "鲸船 -> 失乡号, 邓肯船" in text
+
+
+def test_glossary_audit_report_generation_writes_expected_markdown():
+    """Glossary audit report compares source glossary subsets against final output."""
+    from novel_pipeline.reports import build_glossary_audit_report
+    from unittest.mock import Mock, patch
+    import tempfile
+    from pathlib import Path
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        glossary_dir = base / "01_Glossary"
+        raw_dir = base / "03_Raw"
+        output_dir = base / "05_Output"
+
+        glossary_dir.mkdir(parents=True, exist_ok=True)
+        (glossary_dir / "失乡号.md").write_text(
+            """---
+type: glossary-term
+original_term: 失乡号
+thai_term: เรือ失乡号
+status: approved
+aliases: []
+source_language: zh
+category: term
+---
+
+Body
+""",
+            encoding="utf-8",
+        )
+
+        source_path = raw_dir / "ch001" / "source.json"
+        source_path.parent.mkdir(parents=True, exist_ok=True)
+        source_path.write_text(
+            """{
+  "novel_id": "novel",
+  "chapter_id": "ch001",
+  "title": "Chapter 1",
+  "source_language": "zh",
+  "raw_text": "失乡号"
+}
+""",
+            encoding="utf-8",
+        )
+
+        chapter_output = output_dir / "ch001" / "ch001.md"
+        chapter_output.parent.mkdir(parents=True, exist_ok=True)
+        chapter_output.write_text("BADVARIANT\n", encoding="utf-8")
+
+        config = Mock()
+        config.workspace.root = base
+        config.workspace.glossary_dir = glossary_dir
+        config.workspace.raw = raw_dir
+        config.workspace.output = output_dir
+        config.chunking.chinese_character_limit = 2500
+        config.chunking.non_chinese_word_limit = 5000
+        config.source_language = "zh"
+
+        summary = {"chapter_ids": ["ch001"], "block_stage_status": {}}
+
+        with patch("novel_pipeline.reports.status_run", return_value=summary), \
+             patch("novel_pipeline.reports._WRONG_GLOSSARY_VARIANTS", ("BADVARIANT",)):
+            result = build_glossary_audit_report(config=config, run_id="batch-ch001")
+
+        text = result["path"].read_text(encoding="utf-8")
+        assert "# Glossary Audit Report - batch-ch001" in text
+        assert "expected approved glossary terms: 失乡号" in text
+        assert "missing thai terms in final output: เรือ失乡号" in text
+        assert "glossary subset source terms with missing thai output: 失乡号" in text
+        assert "suspicious wrong variants: BADVARIANT" in text
 
 
 def test_cli_rejects_stop_after_without_range():
@@ -2258,12 +2874,20 @@ if __name__ == "__main__":
     test_cli_parser_accepts_resume_manual_action_mode_stop()
     test_cli_parser_accepts_resume_bounded_flags()
     test_cli_parser_accepts_inspect_block()
+    test_cli_parser_accepts_report_subcommands()
     test_cmd_resume_returns_two_on_manual_action_required()
     test_resume_pipeline_stops_before_chapter_after_until_chapter()
     test_resume_chapter_stops_after_until_block()
     test_resume_chapter_stops_after_completed_until_block()
     test_resume_chapter_force_stops_after_until_block_and_uses_stop_mode()
     test_inspect_block_command_reports_artifacts_and_validation()
+    test_checkpoint_report_generation_writes_expected_markdown()
+    test_cleanliness_report_flags_body_issues_and_ignores_title_han()
+    test_cmd_report_cleanliness_returns_nonzero_on_missing_output()
+    test_provider_usage_report_generation_writes_expected_markdown()
+    test_glossary_decisions_report_generation_writes_expected_markdown()
+    test_glossary_conflicts_report_generation_writes_expected_markdown()
+    test_glossary_audit_report_generation_writes_expected_markdown()
     test_cli_rejects_stop_after_without_range()
     test_run_batch_pipeline_stop_after_glossary_scan()
     test_classify_command_too_long()
