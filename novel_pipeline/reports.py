@@ -18,6 +18,18 @@ from novel_pipeline.pipeline import (
     status_run,
     validate_formatted_text,
 )
+from novel_pipeline.stages.glossary import (
+    _blocked_exact_terms,
+    _dedupe_candidates,
+    _historical_rejected_terms,
+    _is_obvious_noise_candidate,
+    _load_glossary_note_records as _load_scan_note_records,
+    _noise_anchor_terms,
+    _note_bucket as _scan_note_bucket,
+    _prune_substring_fragment_candidates,
+    build_glossary_scan_queue,
+)
+from novel_pipeline.text_utils import extract_candidate_terms
 
 _HAN_RE = re.compile(r"[\u4e00-\u9fff]")
 _WRONG_GLOSSARY_VARIANTS: tuple[str, ...] = (
@@ -246,6 +258,29 @@ def _render_glossary_audit_markdown(*, run_id: str, chapter_results: list[dict[s
             f"- glossary subset source terms with missing thai output: {_comma_list(chapter.get('subset_terms_not_found'))}"
         )
         lines.append(f"- suspicious wrong variants: {_comma_list(chapter.get('wrong_variants'))}")
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def _render_glossary_guard_markdown(*, run_id: str, chapter_results: list[dict[str, Any]]) -> str:
+    lines: list[str] = [
+        f"# Glossary Guard Verification Report - {run_id}",
+        "",
+        "## Chapters",
+    ]
+    for chapter in chapter_results:
+        lines.extend(
+            [
+                "",
+                f"### {chapter['chapter_id']}",
+                f"- raw_deterministic_candidates: {chapter['raw_count']}",
+                f"- filtered_candidates: {chapter['filtered_count']}",
+                f"- removed_candidates: {chapter['removed_count']}",
+                f"- removed_by_blocked_exact: {_comma_list(chapter.get('removed_blocked_exact'))}",
+                f"- removed_by_noisy_wrapper: {_comma_list(chapter.get('removed_noisy'))}",
+                f"- removed_by_substring_prune: {_comma_list(chapter.get('removed_substring'))}",
+                f"- kept_candidates: {_comma_list(chapter.get('kept_terms'))}",
+            ]
+        )
     return "\n".join(lines).rstrip() + "\n"
 
 
@@ -813,6 +848,77 @@ def build_glossary_audit_report(*, config: Any, run_id: str, output: Path | None
     path = _stable_report_path(config=config, kind="glossary_audit", run_id=run_id, output=output)
     text = _render_glossary_audit_markdown(run_id=run_id, chapter_results=chapter_results)
     atomic_write_text(path, text)
+    return {
+        "path": path,
+        "text": text,
+        "summary": summary,
+        "chapter_results": chapter_results,
+        "actionable_failure": actionable_failure,
+    }
+
+
+def build_glossary_guard_report(*, config: Any, run_id: str, output: Path | None = None) -> dict[str, Any]:
+    summary = _quiet_status_run(config=config, run_id=run_id)
+    chapter_ids = list(summary.get("chapter_ids") or [])
+    chapter_results: list[dict[str, Any]] = []
+
+    note_records = _load_scan_note_records(config.workspace.glossary_dir)
+    blocked_exact_terms = _blocked_exact_terms(note_records)
+    blocked_exact_terms.update(_historical_rejected_terms(config))
+    approved_terms = _noise_anchor_terms(note_records)
+    quarantine_terms = {
+        str(note.get("original_term") or "").strip()
+        for note in note_records
+        if _scan_note_bucket(note) == "quarantine"
+    }
+    quarantine_terms = {term for term in quarantine_terms if term}
+
+    for chapter_id in chapter_ids:
+        _, blocks = _load_chapter_source_and_blocks(config, chapter_id)
+        raw_terms: list[str] = []
+        for block in blocks:
+            raw_terms.extend(extract_candidate_terms(block.source_text or block.text))
+        raw_terms = _dedupe_candidates(raw_terms)
+
+        filtered_items = build_glossary_scan_queue(config, blocks, exclude_existing=False)
+        kept_terms = [str(item.get("original_term", "")).strip() for item in filtered_items if str(item.get("original_term", "")).strip()]
+        kept_terms_set = set(kept_terms)
+
+        removed_blocked_exact: list[str] = []
+        removed_noisy: list[str] = []
+        pre_substring_terms: list[str] = []
+        for term in raw_terms:
+            if term in blocked_exact_terms:
+                removed_blocked_exact.append(term)
+                continue
+            if _is_obvious_noise_candidate(term, approved_terms, quarantine_terms):
+                removed_noisy.append(term)
+                continue
+            pre_substring_terms.append(term)
+
+        combined_text = "\n".join((block.source_text or block.text) for block in blocks)
+        post_substring_terms = _prune_substring_fragment_candidates(combined_text, pre_substring_terms)
+        post_substring_set = set(post_substring_terms)
+        removed_substring = [term for term in pre_substring_terms if term not in post_substring_set]
+
+        chapter_results.append(
+            {
+                "chapter_id": chapter_id,
+                "raw_count": len(raw_terms),
+                "filtered_count": len(kept_terms),
+                "removed_count": max(0, len(raw_terms) - len(kept_terms)),
+                "removed_blocked_exact": removed_blocked_exact,
+                "removed_noisy": removed_noisy,
+                "removed_substring": removed_substring,
+                "kept_terms": kept_terms,
+                "kept_terms_match_queue": kept_terms_set == post_substring_set,
+            }
+        )
+
+    path = _stable_report_path(config=config, kind="glossary_guard", run_id=run_id, output=output)
+    text = _render_glossary_guard_markdown(run_id=run_id, chapter_results=chapter_results)
+    atomic_write_text(path, text)
+    actionable_failure = any(not chapter["kept_terms_match_queue"] for chapter in chapter_results)
     return {
         "path": path,
         "text": text,

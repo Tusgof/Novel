@@ -25,14 +25,16 @@ This is the practical runbook. It should help the operator proceed without guess
 - outputs exist for `ch019` through `ch023`.
 - ch024+: untouched.
 - V3.11 complete: report automation command family now exists.
-- V3.12 in progress: glossary hardening report layer and first scan-time guard slice now exist.
+- V3.12 in progress: glossary hardening report layer, scan-time guards, historical rejected-term guard, narrow QA glossary gate, and per-run guard verification now exist.
 - V3.12 QA-stage glossary gate now blocks the narrow case where literal translation already used an approved Thai term and refinement removes it.
 - Current scan-time guard behavior:
   - exact quarantine/rejected/deprecated terms are filtered before queue entry
   - exact historical rejected terms from prior glossary approvals are filtered before queue entry
   - narrow approved-term noise such as `是失乡号` is filtered
   - substring fragments that never occur standalone in a block are filtered
-- Next planned V3.12 slice: continue deterministic guardrails and decide whether any broader approval/translation-stage glossary enforcement is needed beyond the narrow QA gate, not a new translation batch.
+- Current V3.12 verification artifact:
+  - `07_Reports/glossary_guard_batch-ch019-ch023-v1.md`
+- Next planned V3.12 slice: decide whether any further deterministic pruning or broader approval/translation-stage glossary enforcement is actually needed beyond the current scan-time guard and narrow QA gate.
 - Next safe action: use the reusable V3.10 protocol package to start the next bounded batch only after new source exists.
 
 ## Standard Preflight
@@ -66,6 +68,7 @@ novel-pipeline --config ".system/config.yaml" report provider-usage --run-id bat
 novel-pipeline --config ".system/config.yaml" report glossary-decisions --run-id batch-ch019-ch023-v1
 novel-pipeline --config ".system/config.yaml" report glossary-conflicts --run-id batch-ch019-ch023-v1
 novel-pipeline --config ".system/config.yaml" report glossary-audit --run-id batch-ch019-ch023-v1
+novel-pipeline --config ".system/config.yaml" report glossary-guard --run-id batch-ch019-ch023-v1
 ```
 
 Current generated artifacts:
@@ -76,6 +79,7 @@ Current generated artifacts:
 - `07_Reports/glossary_decisions_batch-ch019-ch023-v1.md`
 - `07_Reports/glossary_conflicts_batch-ch019-ch023-v1.md`
 - `07_Reports/glossary_audit_batch-ch019-ch023-v1.md`
+- `07_Reports/glossary_guard_batch-ch019-ch023-v1.md`
 
 If CLI is unavailable, inspect:
 

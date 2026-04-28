@@ -1819,6 +1819,15 @@ def test_cli_parser_accepts_report_subcommands():
     assert audit_args.report_command == "glossary-audit"
     assert audit_args.run_id == "batch-ch019-ch023-v1"
 
+    guard_args = parser.parse_args([
+        "--config", "dummy.yaml",
+        "report",
+        "glossary-guard",
+        "--run-id", "batch-ch019-ch023-v1",
+    ])
+    assert guard_args.report_command == "glossary-guard"
+    assert guard_args.run_id == "batch-ch019-ch023-v1"
+
 
 def test_cmd_resume_returns_two_on_manual_action_required():
     """cmd_resume returns 2 when manual action is required."""
@@ -2611,6 +2620,82 @@ Body
         assert "missing thai terms in final output: เรือ失乡号" in text
         assert "glossary subset source terms with missing thai output: 失乡号" in text
         assert "suspicious wrong variants: BADVARIANT" in text
+
+
+def test_glossary_guard_report_generation_writes_expected_markdown():
+    """Glossary guard report compares raw deterministic candidates against filtered queue results."""
+    from novel_pipeline.reports import build_glossary_guard_report
+    from novel_pipeline.types import TextBlock
+    from unittest.mock import Mock, patch
+    import tempfile
+    from pathlib import Path
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        glossary_dir = base / "01_Glossary"
+        glossary_dir.mkdir(parents=True, exist_ok=True)
+
+        (glossary_dir / "???.md").write_text(
+            """---
+type: glossary-term
+original_term: ???
+thai_term: ??????????????
+status: approved
+aliases: []
+source_language: zh
+category: vessel
+---
+
+Body
+""",
+            encoding="utf-8",
+        )
+        (glossary_dir / "quarantine" / "???.md").write_text(
+            """---
+type: glossary-term
+original_term: ???
+thai_term: none
+status: proposed
+aliases: []
+source_language: zh
+category: term
+---
+
+Body
+""",
+            encoding="utf-8",
+        )
+
+        config = Mock()
+        config.workspace.root = base
+        config.workspace.glossary_dir = glossary_dir
+        config.ledger_path = base / "06_Logs" / "run_ledger.jsonl"
+        config.source_language = "zh"
+        config.novel_id = "novel"
+
+        summary = {"chapter_ids": ["ch001"], "block_stage_status": {}}
+        blocks = [
+            TextBlock(
+                block_id="ch001-block-001",
+                chapter_id="ch001",
+                source_text="??????????????????",
+                source_language="zh",
+            )
+        ]
+
+        filtered_queue = [{"original_term": "???", "chapter_id": "ch001"}]
+
+        with patch("novel_pipeline.reports.status_run", return_value=summary),              patch("novel_pipeline.reports._load_chapter_source_and_blocks", return_value=(None, blocks)),              patch("novel_pipeline.reports.extract_candidate_terms", return_value=["???", "???", "????"]),              patch("novel_pipeline.reports.build_glossary_scan_queue", return_value=filtered_queue),              patch("novel_pipeline.reports._historical_rejected_terms", return_value=set()),              patch("novel_pipeline.reports._is_obvious_noise_candidate", side_effect=lambda term, approved, quarantine: term == "????"):
+            result = build_glossary_guard_report(config=config, run_id="batch-ch001")
+
+        text = result["path"].read_text(encoding="utf-8")
+        assert "# Glossary Guard Verification Report - batch-ch001" in text
+        assert "- raw_deterministic_candidates: 3" in text
+        assert "- filtered_candidates: 1" in text
+        assert "- removed_by_blocked_exact: ???" in text
+        assert "- removed_by_noisy_wrapper: ????" in text
+        assert "- kept_candidates: ???" in text
+        assert result["actionable_failure"] is False
 
 
 def test_cli_rejects_stop_after_without_range():
