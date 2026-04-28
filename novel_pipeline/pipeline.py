@@ -1004,6 +1004,7 @@ def _run_qa_with_retries(
                 provider_runner=primary_runner,
                 model=primary_model,
                 retry_count=retry_count,
+                style_profile_key=style_key,
             )
             used_runner = primary_runner
         except ProviderOutputError as exc:
@@ -1020,6 +1021,7 @@ def _run_qa_with_retries(
                     provider_runner=fallback_runner,
                     model=fallback_model,
                     retry_count=retry_count,
+                    style_profile_key=style_key,
                 )
                 used_runner = fallback_runner
             except ProviderOutputError:

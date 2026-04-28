@@ -1,10 +1,156 @@
 default:
   name: standard-thai-novel
   description: Neutral polished Thai prose that preserves source meaning.
+  genre_label: general fiction
+  tone: neutral, clean, readable
+  naming_notes: Keep names natural and consistent with the glossary.
+  narration_density: balanced
+  glossary_categories:
+    - character
+    - location
+    - organization
+    - item
+    - term
+  qa_criteria:
+    - Faithful meaning
+    - Natural Thai prose
+    - Stable glossary usage
+    - Clear sentence flow
+
+dark_fantasy:
+  name: dark-fantasy-thai
+  description: Gloomy Thai prose for dark fantasy settings.
+  genre_label: dark fantasy
+  tone: eerie, heavy, atmospheric, ominous
+  naming_notes: Keep names sharp and grounded; avoid heroic register.
+  narration_density: moderate
+  glossary_categories:
+    - character
+    - location
+    - item
+    - supernatural
+    - term
+  qa_criteria:
+    - Preserve menace
+    - Keep the mood bleak
+    - Avoid brightening the tone
+    - Keep terminology consistent
+
+xianxia_wuxia:
+  name: xianxia-wuxia-thai
+  description: Mythic martial-arts and cultivation prose with controlled grandeur.
+  genre_label: xianxia wuxia
+  tone: elevated, martial, mythic, energetic
+  naming_notes: Preserve sects, realms, techniques, and honorifics consistently.
+  narration_density: moderate
+  glossary_categories:
+    - character
+    - sect
+    - realm
+    - technique
+    - artifact
+    - location
+  qa_criteria:
+    - Keep cultivation terms intact
+    - Preserve martial cadence
+    - Avoid modern slang
+    - Keep honorifics stable
 
 xianxia:
-  name: xianxia-thai
-  description: Elevated Thai prose suitable for cultivation or xianxia fiction.
+  name: xianxia-wuxia-thai
+  description: Legacy alias for xianxia_wuxia.
+  genre_label: xianxia wuxia
+  tone: elevated, martial, mythic, energetic
+  naming_notes: Preserve sects, realms, techniques, and honorifics consistently.
+  narration_density: moderate
+  glossary_categories:
+    - character
+    - sect
+    - realm
+    - technique
+    - artifact
+    - location
+  qa_criteria:
+    - Keep cultivation terms intact
+    - Preserve martial cadence
+    - Avoid modern slang
+    - Keep honorifics stable
+
+modern_urban:
+  name: modern-urban-thai
+  description: Contemporary Thai prose for urban, workplace, or city-based fiction.
+  genre_label: modern urban
+  tone: contemporary, direct, vivid, grounded
+  naming_notes: Keep modern names and titles natural; avoid archaic phrasing.
+  narration_density: balanced
+  glossary_categories:
+    - character
+    - location
+    - organization
+    - item
+    - term
+  qa_criteria:
+    - Keep modern register
+    - Preserve character voice
+    - Avoid antiquated diction
+    - Keep references readable
+
+sci_fi:
+  name: sci-fi-thai
+  description: Clean Thai prose for science fiction, technology, and future settings.
+  genre_label: science fiction
+  tone: precise, curious, technical, forward-looking
+  naming_notes: Preserve technical terms and invented names consistently.
+  narration_density: moderate
+  glossary_categories:
+    - character
+    - location
+    - organization
+    - device
+    - term
+  qa_criteria:
+    - Keep technical meaning accurate
+    - Preserve worldbuilding terms
+    - Avoid fantasy-cultivation diction
+    - Keep exposition readable
+
+horror:
+  name: horror-thai
+  description: Tight, unsettling Thai prose for horror and suspense.
+  genre_label: horror
+  tone: tense, unsettling, claustrophobic, ominous
+  naming_notes: Keep names crisp; avoid softening dread or suspense.
+  narration_density: compact
+  glossary_categories:
+    - character
+    - location
+    - item
+    - supernatural
+    - term
+  qa_criteria:
+    - Preserve dread
+    - Avoid comic relief unless present in source
+    - Keep imagery sharp
+    - Maintain suspense
+
+romance_drama:
+  name: romance-drama-thai
+  description: Emotional Thai prose for romance, family, and character drama.
+  genre_label: romance drama
+  tone: warm, emotional, intimate, reflective
+  naming_notes: Keep names gentle and natural; preserve relationship nuance.
+  narration_density: balanced
+  glossary_categories:
+    - character
+    - relationship
+    - location
+    - item
+    - term
+  qa_criteria:
+    - Preserve emotional beats
+    - Keep character relationships clear
+    - Avoid melodramatic overload
+    - Maintain consistent names
 
 deep_sea_embers:
   name: deep-sea-embers-thai
@@ -14,25 +160,20 @@ deep_sea_embers:
     Thai prose is controlled, slightly ominous, and readable.
     Preserves dry/deadpan humor when present in source.
     Avoids wuxia/xianxia/cultivation diction entirely.
-  prose_guidelines:
-    tone: eerie, mysterious, atmospheric, subtly ominous
-    setting_emphasis: maritime, sea-going, ruined-world, supernatural, gothic
-    register: restrained and immersive; avoid overwrought or florid language
-    humor: preserve dry, understated, deadpan humor when source contains it
-    pacing: allow tension to build naturally; do not rush or compress suspense
-  diction_rules:
-    avoid:
-      - martial-arts terminology (e.g., 武功, 内功, 剑气)
-      - cultivation language (e.g., 修炼, 境界, 灵力, 丹药)
-      - sect/realm-heavy vocabulary
-    prefer:
-      - nautical/seafaring terms (ship, helm, anchor, deck, tide, fog)
-      - supernatural/horror vocabulary (ghost, specter, ruin, mist, decay)
-      - atmospheric descriptors (gloom, haze, salt air, creaking wood, cold water)
-    pronouns: use natural Thai pronouns fitting the character's role and era
-    transliteration: keep consistent with glossary; no Thai-ification of ship names or places
-  qa_bias_checks:
-    flag_if_detects:
-      - cultivation terminology injected by refiner
-      - wuxia-style combat language not present in source
-      - over-embellishment that dilutes eerie atmosphere
+  genre_label: dark fantasy
+  tone: eerie, mysterious, atmospheric, subtly ominous
+  naming_notes: Keep ship and place names consistent; preserve natural Thai pronouns; avoid Thai-ifying names.
+  narration_density: moderate
+  glossary_categories:
+    - character
+    - location
+    - ship
+    - supernatural
+    - item
+    - term
+  qa_criteria:
+    - Preserve maritime dread
+    - Keep prose restrained
+    - Avoid cultivation diction
+    - Preserve dry humor
+    - Keep glossary terms stable

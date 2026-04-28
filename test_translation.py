@@ -1971,6 +1971,46 @@ def test_cli_parser_accepts_init_novel():
     assert args.alias == ["Example Alt"]
 
 
+def test_style_profile_from_mapping_parses_structured_fields_and_legacy_description():
+    """Style profiles keep structured fields and still fall back to old description-only text."""
+    from novel_pipeline.types import StyleProfile
+
+    profile = StyleProfile.from_mapping(
+        "deep_sea_embers",
+        {
+            "name": "deep-sea-embers-thai",
+            "description": "Nautical dark fantasy style for Deep Sea Embers.",
+            "genre_label": "dark fantasy",
+            "tone": "eerie, mysterious",
+            "naming_notes": "Keep ship names stable.",
+            "narration_density": "moderate",
+            "glossary_categories": ["character", "ship"],
+            "qa_criteria": ["Preserve maritime dread", "Avoid cultivation diction"],
+            "prose_guidelines": {"tone": "restrained"},
+        },
+    )
+    assert profile.key == "deep_sea_embers"
+    assert profile.name == "deep-sea-embers-thai"
+    assert profile.genre_label == "dark fantasy"
+    assert profile.tone == "eerie, mysterious"
+    assert profile.naming_notes == "Keep ship names stable."
+    assert profile.narration_density == "moderate"
+    assert profile.glossary_categories == ("character", "ship")
+    assert profile.qa_criteria == ("Preserve maritime dread", "Avoid cultivation diction")
+    assert profile.metadata == {"prose_guidelines": {"tone": "restrained"}}
+    assert profile.instruction_text() == (
+        "Genre label: dark fantasy\n"
+        "Tone: eerie, mysterious\n"
+        "Naming notes: Keep ship names stable.\n"
+        "Narration density: moderate\n"
+        "Glossary categories: character, ship\n"
+        "QA criteria: Preserve maritime dread; Avoid cultivation diction"
+    )
+
+    legacy = StyleProfile.from_mapping("legacy", {"name": "legacy-style", "description": "Legacy prose only."})
+    assert legacy.instruction_text() == "Legacy prose only."
+
+
 def test_initialize_novel_project_scaffolds_expected_files_and_rewrites_codex_cd():
     """init-novel scaffold creates an isolated project without code edits."""
     import tempfile
@@ -2073,6 +2113,222 @@ providers:
     generated_config = load_app_config(target_root / ".system" / "config.yaml")
     assert generated_config.novel_id == "second-novel"
     assert generated_config.workspace.root == target_root.resolve()
+
+
+def test_initialize_novel_project_selects_style_profile_from_genre_or_default():
+    """init-novel resolves explicit style, genre presets, and default fallback in that order."""
+    import tempfile
+    import yaml
+    from novel_pipeline.config import load_app_config
+    from novel_pipeline.project_setup import initialize_novel_project
+
+    base = Path(tempfile.mkdtemp(prefix="novel-style-"))
+    source_root = base / "source-workspace"
+    (source_root / ".system").mkdir(parents=True)
+    (source_root / "prompts").mkdir()
+    (source_root / "00_Templates").mkdir()
+    (source_root / ".system" / "config.yaml").write_text(
+        """novel_id: template-workspace
+vault_root: .
+source_language: zh
+default_batch_size: 10
+chapter_unit: chapters
+default_style_profile: default
+chunking:
+  chinese_character_limit: 600
+  non_chinese_word_limit: 5000
+source:
+  adapter: piaotia
+  toc_url: https://example.com/template
+  delay_seconds: 1.0
+  encoding: gbk
+""",
+        encoding="utf-8",
+    )
+    (source_root / ".system" / "style_profiles.yaml").write_text(
+        """default:
+  name: standard-thai-novel
+  description: Neutral polished Thai prose.
+  genre_label: general fiction
+dark_fantasy:
+  name: dark-fantasy-thai
+  description: Gloomy Thai prose.
+  genre_label: dark fantasy
+sci_fi:
+  name: sci-fi-thai
+  description: Clean Thai prose for science fiction.
+  genre_label: science fiction
+deep_sea_embers:
+  name: deep-sea-embers-thai
+  description: Nautical dark fantasy style for Deep Sea Embers.
+  genre_label: dark fantasy
+""",
+        encoding="utf-8",
+    )
+    (source_root / ".system" / "providers.yaml").write_text(
+        """refinement:
+  provider: gemini
+providers:
+  gemini:
+    executable: gemini
+""",
+        encoding="utf-8",
+    )
+
+    config = load_app_config(source_root / ".system" / "config.yaml")
+
+    genre_target = base / "genre-project"
+    initialize_novel_project(
+        template_config=config,
+        project_root=genre_target,
+        title="Genre Novel",
+        source_url="https://example.com/genre/toc",
+        genre="Sci-Fi",
+        adapter="piaotia",
+    )
+    genre_config = load_app_config(genre_target / ".system" / "config.yaml")
+    genre_profile = yaml.safe_load((genre_target / "NOVEL_PROFILE.yaml").read_text(encoding="utf-8"))
+    assert genre_config.default_style_profile == "sci_fi"
+    assert genre_profile["style_profile"] == "sci_fi"
+
+    explicit_target = base / "explicit-project"
+    initialize_novel_project(
+        template_config=config,
+        project_root=explicit_target,
+        title="Explicit Novel",
+        source_url="https://example.com/explicit/toc",
+        genre="Sci-Fi",
+        adapter="piaotia",
+        style_profile="deep_sea_embers",
+    )
+    explicit_config = load_app_config(explicit_target / ".system" / "config.yaml")
+    explicit_profile = yaml.safe_load((explicit_target / "NOVEL_PROFILE.yaml").read_text(encoding="utf-8"))
+    assert explicit_config.default_style_profile == "deep_sea_embers"
+    assert explicit_profile["style_profile"] == "deep_sea_embers"
+
+    fallback_target = base / "fallback-project"
+    initialize_novel_project(
+        template_config=config,
+        project_root=fallback_target,
+        title="Fallback Novel",
+        source_url="https://example.com/fallback/toc",
+        genre="Mystery",
+        adapter="piaotia",
+    )
+    fallback_config = load_app_config(fallback_target / ".system" / "config.yaml")
+    fallback_profile = yaml.safe_load((fallback_target / "NOVEL_PROFILE.yaml").read_text(encoding="utf-8"))
+    assert fallback_config.default_style_profile == "default"
+    assert fallback_profile["style_profile"] == "default"
+
+
+def test_refine_stage_uses_structured_style_instructions():
+    """Refinement prompt wiring passes structured style instructions through to the template."""
+    from novel_pipeline.stages.refine import run_refine_stage
+    from novel_pipeline.types import LiteralDraft, LiteralSentencePair, StyleProfile, TextBlock
+
+    profile = StyleProfile.from_mapping(
+        "deep_sea_embers",
+        {
+            "name": "deep-sea-embers-thai",
+            "genre_label": "dark fantasy",
+            "tone": "eerie, mysterious, atmospheric",
+            "naming_notes": "Keep ship and place names stable.",
+            "narration_density": "moderate",
+            "glossary_categories": ["character", "ship"],
+            "qa_criteria": ["Preserve maritime dread", "Avoid cultivation diction"],
+        },
+    )
+    config = Mock()
+    config.workspace.prompts = Path("prompts")
+    config.style_profile_for_name = Mock(return_value=profile)
+    block = TextBlock(block_id="ch001-block-001", chapter_id="ch001", source_text="原文")
+    literal_draft = LiteralDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        sentence_pairs=(LiteralSentencePair(source_sentence="原文", literal_sentence="ข้อความไทย"),),
+    )
+    provider_runner = Mock()
+    provider_runner.spec.name = "claude"
+    provider_runner.run_with_retry.return_value = ProviderResponse(
+        provider="claude",
+        command=("claude",),
+        stdout="ข้อความไทยที่ปรับแล้ว",
+        returncode=0,
+    )
+
+    with patch("novel_pipeline.stages.refine.PromptStore.render", return_value="refine prompt") as mock_render:
+        result = run_refine_stage(
+            config=config,
+            block=block,
+            literal_draft=literal_draft,
+            glossary_subset=[],
+            style_profile_key="deep_sea_embers",
+            provider_runner=provider_runner,
+        )
+
+    assert result.style_profile == "deep_sea_embers"
+    config.style_profile_for_name.assert_called_once_with("deep_sea_embers")
+    assert mock_render.call_args.kwargs["style_instructions"] == profile.instruction_text()
+
+
+def test_qa_stage_uses_structured_style_instructions():
+    """QA prompt wiring passes structured style instructions through to the template."""
+    from novel_pipeline.stages.qa import run_qa_stage
+    from novel_pipeline.types import LiteralDraft, LiteralSentencePair, RefinedDraft, StyleProfile, TextBlock
+
+    profile = StyleProfile.from_mapping(
+        "deep_sea_embers",
+        {
+            "name": "deep-sea-embers-thai",
+            "genre_label": "dark fantasy",
+            "tone": "eerie, mysterious, atmospheric",
+            "naming_notes": "Keep ship and place names stable.",
+            "narration_density": "moderate",
+            "glossary_categories": ["character", "ship"],
+            "qa_criteria": ["Preserve maritime dread", "Avoid cultivation diction"],
+        },
+    )
+    config = Mock()
+    config.workspace.prompts = Path("prompts")
+    config.style_profile_for_name = Mock(return_value=profile)
+    block = TextBlock(block_id="ch001-block-001", chapter_id="ch001", source_text="原文")
+    literal_draft = LiteralDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        sentence_pairs=(LiteralSentencePair(source_sentence="原文", literal_sentence="ข้อความไทย"),),
+    )
+    refined_draft = RefinedDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        refined_text="ข้อความไทยที่ปรับแล้ว",
+    )
+    provider_runner = Mock()
+    provider_runner.spec.name = "claude"
+    provider_runner.run_with_retry.return_value = ProviderResponse(
+        provider="claude",
+        command=("claude",),
+        stdout="PASS: faithful translation with no omissions.",
+        returncode=0,
+    )
+
+    with patch("novel_pipeline.stages.qa.PromptStore.render", return_value="qa prompt") as mock_render:
+        report = run_qa_stage(
+            config=config,
+            block=block,
+            literal_draft=literal_draft,
+            refined_draft=refined_draft,
+            glossary_subset=[],
+            provider_runner=provider_runner,
+            model="",
+            retry_count=0,
+            style_profile_key="deep_sea_embers",
+        )
+
+    assert report.passed is True
+    config.style_profile_for_name.assert_called_once_with("deep_sea_embers")
+    assert mock_render.call_args.kwargs["style_instructions"] == profile.instruction_text()
+
+
 def test_cmd_resume_returns_two_on_manual_action_required():
     """cmd_resume returns 2 when manual action is required."""
     from novel_pipeline.cli import cmd_resume
@@ -3658,7 +3914,11 @@ if __name__ == "__main__":
     test_cli_parser_accepts_inspect_block()
     test_cli_parser_accepts_report_subcommands()
     test_cli_parser_accepts_init_novel()
+    test_style_profile_from_mapping_parses_structured_fields_and_legacy_description()
     test_initialize_novel_project_scaffolds_expected_files_and_rewrites_codex_cd()
+    test_initialize_novel_project_selects_style_profile_from_genre_or_default()
+    test_refine_stage_uses_structured_style_instructions()
+    test_qa_stage_uses_structured_style_instructions()
     test_cmd_resume_returns_two_on_manual_action_required()
     test_resume_pipeline_stops_before_chapter_after_until_chapter()
     test_resume_chapter_stops_after_until_block()

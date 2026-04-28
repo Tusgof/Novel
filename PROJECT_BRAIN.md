@@ -1,7 +1,7 @@
 # Project Brain: Deep Sea Embers Translation Pipeline
 
-Last updated: 2026-04-28
-Last verified: 2026-04-28 after V4.0 was completed and verified with `python -m compileall novel_pipeline`, `python test_translation.py`, and live operator endpoint checks for the local UI backend.
+Last updated: 2026-04-29
+Last verified: 2026-04-29 after V4.2 was completed and verified with `python -m compileall novel_pipeline` and `python test_translation.py`.
 
 This file is the project constitution, architecture map, and current operational memory. It should preserve the project goal, design principles, verified state, safety rules, recovery lessons, and pointers to detailed documents. Keep reports, long logs, and implementation detail in their dedicated files.
 
@@ -159,6 +159,7 @@ Active:
 - V3.12 complete: glossary and terminology hardening
 - V4.0 complete: practical local operator product for the current single-novel workflow
 - V4.1 complete: multi-novel foundation now exists through per-project scaffolding and setup/fetch playbooks
+- V4.2 complete: structured multi-genre style profiles now exist and are wired into refinement/QA prompts
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, and artifact viewing
@@ -173,6 +174,11 @@ Active:
   - copied `.system/`, `prompts/`, and `00_Templates/` baseline for a new project
   - isolated per-project `01_Glossary/`, `03_Raw/`, `04_Work/`, `05_Output/`, `06_Logs/`, and `07_Reports/`
   - codex fallback `--cd` is rewritten to the new project root during scaffold
+- V4.2 style profile baseline now exists:
+  - `.system/style_profiles.yaml` now includes practical presets for `dark_fantasy`, `xianxia_wuxia`, `modern_urban`, `sci_fi`, `horror`, `romance_drama`, and `deep_sea_embers`
+  - `StyleProfile` now carries structured fields for tone, naming notes, narration density, glossary categories, and QA criteria
+  - refinement and QA prompts now consume structured `style_instructions` instead of hardcoded Deep Sea Embers wording
+  - `init-novel` now resolves style selection by explicit `--style-profile`, then normalized `--genre`, then template default
 - V4.1 playbooks now exist:
   - `NOVEL_SETUP_PLAYBOOK.md`
   - `FETCH_ADAPTER_PLAYBOOK.md`
@@ -216,7 +222,7 @@ Proceed with protocol/product work:
    - `00_Templates/Batch-Rollout-Checklist.md`
    - `00_Templates/Worker-Bounded-Batch-Prompt.md`
    - `07_Reports/v3_10_repeatable_rollout_protocol.md`
-3. Start `V4.2` from this stable multi-novel baseline: explicit genre/style profiles that can sit on top of `NOVEL_PROFILE.yaml`.
+3. Start `V4.3` from this stable multi-novel and multi-genre baseline: research profile setup that uses title plus source URL instead of relying on one chapter as style evidence.
 4. Do not plan `ch024+` translation until new source is available and a fresh fetch/scan decision is made.
 
 ## Invariants And Guardrails
@@ -403,6 +409,7 @@ Worker model restrictions:
 - 2026-04-24: V3.9 completed through ch023. A `command_too_long` failure on `ch022-block-004` was recovered by bounded QA-stage rerun; final outputs for ch019-ch023 now exist, deterministic checks pass, and spot-check report was created.
 - 2026-04-24: V3.10 accepted. Reusable bounded-batch protocol artifacts were added: checklist template, worker prompt template, and rollout protocol report.
 - 2026-04-28: V4.0 accepted. The local operator window now covers status, glossary decision flow, bounded resume, rerun-block, reports, and artifact viewing for the practical single-novel workflow.
+- 2026-04-29: V4.2 accepted. Structured multi-genre style profiles now exist, `init-novel` can resolve genre presets to style profile keys, and refinement/QA prompts now consume consistent style instructions without hardcoded Deep Sea Embers wording.
 
 ## Document Map
 
@@ -421,6 +428,7 @@ Worker model restrictions:
 - `D:\Fogust\Workspace\Novel\AGENTS.md`: global worker/agent behavior rules.
 - `07_Reports/`: detailed historical reports and checkpoint evidence.
 - `.system/config.yaml`: pipeline configuration entry point.
+- `.system/style_profiles.yaml`: canonical style profile library and genre preset map.
 - `.system/providers.yaml`: provider routing and retry/timeout configuration.
 
 ## Roles

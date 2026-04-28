@@ -150,6 +150,12 @@ class StyleProfile(JsonSerializable):
     key: str
     name: str
     description: str
+    genre_label: str = ""
+    tone: str = ""
+    naming_notes: str = ""
+    narration_density: str = ""
+    glossary_categories: tuple[str, ...] = ()
+    qa_criteria: tuple[str, ...] = ()
     metadata: dict[str, Any] = field(default_factory=dict)
 
     @classmethod
@@ -159,8 +165,50 @@ class StyleProfile(JsonSerializable):
             key=key,
             name=str(payload.get("name", key)),
             description=str(payload.get("description", "")),
-            metadata={str(k): v for k, v in payload.items() if k not in {"name", "description"}},
+            genre_label=str(payload.get("genre_label", "")),
+            tone=str(payload.get("tone", "")),
+            naming_notes=str(payload.get("naming_notes", "")),
+            narration_density=str(payload.get("narration_density", "")),
+            glossary_categories=as_string_tuple(payload.get("glossary_categories")),
+            qa_criteria=as_string_tuple(payload.get("qa_criteria")),
+            metadata={
+                str(k): v
+                for k, v in payload.items()
+                if k not in {"name", "description", "genre_label", "tone", "naming_notes", "narration_density", "glossary_categories", "qa_criteria"}
+            },
         )
+
+    def instruction_text(self) -> str:
+        lines: list[str] = []
+        genre_label = self.genre_label.strip()
+        tone = self.tone.strip()
+        naming_notes = self.naming_notes.strip()
+        narration_density = self.narration_density.strip()
+        has_structured_fields = bool(
+            genre_label
+            or tone
+            or naming_notes
+            or narration_density
+            or self.glossary_categories
+            or self.qa_criteria
+        )
+        if has_structured_fields:
+            lines.append(f"Genre label: {genre_label or self.name}")
+        if tone:
+            lines.append(f"Tone: {tone}")
+        if naming_notes:
+            lines.append(f"Naming notes: {naming_notes}")
+        if narration_density:
+            lines.append(f"Narration density: {narration_density}")
+        if self.glossary_categories:
+            lines.append("Glossary categories: " + ", ".join(self.glossary_categories))
+        if self.qa_criteria:
+            lines.append("QA criteria: " + "; ".join(self.qa_criteria))
+        if lines:
+            return "\n".join(lines)
+        if self.description.strip():
+            return self.description.strip()
+        return self.name
 
 
 @dataclass(slots=True)

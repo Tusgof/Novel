@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import shutil
 from pathlib import Path
 from typing import Any
@@ -15,6 +16,47 @@ def slugify_novel_id(value: str) -> str:
     while "--" in compact:
         compact = compact.replace("--", "-")
     return compact.strip("-")
+
+
+def _normalize_style_profile_key(value: str) -> str:
+    compact = value.strip().lower().replace("-", "_").replace("/", "_")
+    compact = re.sub(r"[^a-z0-9_]+", "_", compact)
+    compact = re.sub(r"_+", "_", compact)
+    return compact.strip("_")
+
+
+def _resolve_style_profile_key(
+    *,
+    template_config: AppConfig,
+    genre: str,
+    explicit_style_profile: str,
+) -> str:
+    explicit = explicit_style_profile.strip()
+    if explicit:
+        return explicit
+
+    genre_key = _normalize_style_profile_key(genre)
+    if not genre_key:
+        return template_config.default_style_profile
+
+    genre_aliases = {
+        "dark_fantasy": "dark_fantasy",
+        "deep_sea_embers": "deep_sea_embers",
+        "horror": "horror",
+        "modern_urban": "modern_urban",
+        "romance_drama": "romance_drama",
+        "sci_fi": "sci_fi",
+        "science_fiction": "sci_fi",
+        "xianxia": "xianxia_wuxia",
+        "xianxia_wuxia": "xianxia_wuxia",
+        "wuxia": "xianxia_wuxia",
+    }
+    resolved = genre_aliases.get(genre_key, genre_key)
+    if resolved in template_config.style_profiles:
+        return resolved
+    if genre_key in template_config.style_profiles:
+        return genre_key
+    return template_config.default_style_profile
 
 
 def build_novel_profile(
@@ -147,6 +189,11 @@ def initialize_novel_project(
         raise ValueError("novel_id cannot be empty after normalization.")
 
     source_workspace = template_config.workspace.root
+    resolved_style_profile = _resolve_style_profile_key(
+        template_config=template_config,
+        genre=genre,
+        explicit_style_profile=style_profile,
+    )
     source_system = source_workspace / ".system"
     target_system = target_root / ".system"
     target_system.mkdir(parents=True, exist_ok=True)
@@ -172,7 +219,7 @@ def initialize_novel_project(
         "source_language": source_language.strip() or template_config.source_language,
         "default_batch_size": template_config.batch.default_batch_size,
         "chapter_unit": template_config.batch.chapter_unit,
-        "default_style_profile": style_profile.strip() or template_config.default_style_profile,
+        "default_style_profile": resolved_style_profile,
         "chunking": {
             "chinese_character_limit": template_config.chunking.chinese_character_limit,
             "non_chinese_word_limit": template_config.chunking.non_chinese_word_limit,
@@ -211,7 +258,7 @@ def initialize_novel_project(
         source_language=source_language.strip() or template_config.source_language,
         target_language=target_language.strip() or "th",
         genre=genre,
-        style_profile=style_profile.strip() or template_config.default_style_profile,
+        style_profile=resolved_style_profile,
         source_adapter=adapter.strip() or template_config.source.adapter,
         source_toc_url=source_url,
         created_from_workspace=source_workspace,

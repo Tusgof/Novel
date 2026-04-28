@@ -1,6 +1,6 @@
 # Operator Manual
 
-Last updated: 2026-04-28
+Last updated: 2026-04-29
 
 This is the practical runbook. It should help the operator proceed without guessing.
 
@@ -56,7 +56,8 @@ This is the practical runbook. It should help the operator proceed without guess
   - glossary approval is limited to current queue terms only
   - broader state-changing control beyond glossary approval plus bounded resume/rerun-block is still intentionally absent
 - V4.1 complete: multi-novel foundation now includes per-project scaffold and setup/fetch playbooks.
-- Next milestone after V4.1: `V4.2` multi-genre style profiles.
+- V4.2 complete: multi-genre style profiles now provide structured preset guidance for refinement and QA.
+- Next milestone after V4.2: `V4.3` novel research profile.
 
 ## Standard Preflight
 
@@ -107,6 +108,26 @@ V4.1 setup artifacts:
 - `00_Templates/Novel-Profile.yaml`
 - `NOVEL_SETUP_PLAYBOOK.md`
 - `FETCH_ADAPTER_PLAYBOOK.md`
+
+V4.2 style profile artifacts:
+
+- `.system/style_profiles.yaml`
+- structured fields now used by prompts:
+  - `genre_label`
+  - `tone`
+  - `naming_notes`
+  - `narration_density`
+  - `glossary_categories`
+  - `qa_criteria`
+- current preset keys:
+  - `default`
+  - `dark_fantasy`
+  - `xianxia_wuxia`
+  - `modern_urban`
+  - `sci_fi`
+  - `horror`
+  - `romance_drama`
+  - `deep_sea_embers`
 
 If CLI is unavailable, inspect:
 
@@ -163,6 +184,12 @@ novel-pipeline --config ".system/config.yaml" init-novel `
   --adapter "<adapter>" `
   --style-profile "<style_profile>"
 ```
+
+Style selection behavior:
+
+- explicit `--style-profile` wins
+- otherwise `--genre` is normalized and matched to a known preset when possible
+- otherwise the scaffold falls back to the template project's default style profile
 
 Expected result:
 

@@ -29,7 +29,7 @@ def run_refine_stage(
         literal_draft=formatted_literal,
         source_block=block.source_text,
         glossary_subset=formatted_glossary,
-        style_profile=style_profile.description or style_profile.name,
+        style_instructions=style_profile.instruction_text(),
         retry_feedback=retry_feedback or "none",
     )
     response = provider_runner.run_with_retry(

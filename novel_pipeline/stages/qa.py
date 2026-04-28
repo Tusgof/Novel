@@ -17,7 +17,8 @@ def run_qa_stage(
     glossary_subset: list[GlossaryEntry],
     provider_runner: ProviderRunner,
     model: str = "",
-    retry_count: int,
+    retry_count: int = 0,
+    style_profile_key: str = "",
 ) -> QAReport:
     findings = run_rule_checks(literal_draft=literal_draft, refined_draft=refined_draft, glossary_subset=glossary_subset)
     blocking_findings = [item for item in findings if item.severity == "error"]
@@ -32,12 +33,14 @@ def run_qa_stage(
             judge_provider="rules",
         )
     prompt_store = PromptStore(config.workspace.prompts)
+    style_profile = config.style_profile_for_name(style_profile_key or None)
     prompt = prompt_store.render(
         "qa_judge",
         source_block=block.source_text,
         literal_draft=literal_draft.to_dict(),
         refined_draft=refined_draft.to_dict(),
         glossary_subset=[entry.to_dict() for entry in glossary_subset],
+        style_instructions=style_profile.instruction_text(),
     )
     feedback = ""
     response = provider_runner.run_with_retry(

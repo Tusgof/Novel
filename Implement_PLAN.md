@@ -242,7 +242,33 @@ Goal: make style selection explicit and reusable across genres.
 - genre presets: dark fantasy, xianxia/wuxia, modern urban, sci-fi, horror, romance/drama
 - controls for tone, naming, narration density, glossary categories, QA criteria
 
-Done when a new project can choose or create a genre profile and prompts use it consistently.
+Status: complete on 2026-04-29.
+
+Implemented:
+
+- structured `StyleProfile` fields now include:
+  - `genre_label`
+  - `tone`
+  - `naming_notes`
+  - `narration_density`
+  - `glossary_categories`
+  - `qa_criteria`
+- `.system/style_profiles.yaml` now provides practical presets for:
+  - `default`
+  - `dark_fantasy`
+  - `xianxia_wuxia`
+  - `modern_urban`
+  - `sci_fi`
+  - `horror`
+  - `romance_drama`
+  - `deep_sea_embers`
+- refinement and QA prompts now consume structured `style_instructions` instead of hardcoded Deep Sea Embers wording
+- `init-novel` now resolves the style profile in this order:
+  - explicit `--style-profile`
+  - normalized `--genre` mapped to a known preset
+  - fallback to the template config default
+
+Done because a new project can now choose a standard genre preset or point to a specific style profile key, and the selected style instructions are used consistently in refinement and QA prompts.
 
 ### V4.3: Novel Research Profile
 
