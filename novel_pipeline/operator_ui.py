@@ -12,7 +12,17 @@ from typing import Any
 from urllib.parse import parse_qs, quote, unquote, urlparse
 
 from novel_pipeline.ledger import RunLedger
-from novel_pipeline.pipeline import inspect_block_command, status_run
+from novel_pipeline.pipeline import (
+    ManualActionRequired,
+    _load_chapter_source_and_blocks,
+    _read_glossary_scan_artifact,
+    _read_glossary_scan_items,
+    _revalidate_glossary_queue_items,
+    inspect_block_command,
+    rerun_block_pipeline,
+    resume_pipeline,
+    status_run,
+)
 from novel_pipeline.reports import (
     build_checkpoint_report,
     build_cleanliness_report,
@@ -103,6 +113,75 @@ def build_operator_snapshot(config: AppConfig, run_id: str | None = None) -> dic
         "run_id": resolved_run_id,
         "available_run_ids": _list_run_ids(config),
         "status": status,
+    }
+
+
+def build_glossary_queue_snapshot(config: AppConfig, run_id: str) -> dict[str, Any]:
+    artifact = _read_glossary_scan_artifact(config, run_id=run_id)
+    chapter_ids = list(artifact.get("chapter_ids", [])) if isinstance(artifact, dict) else []
+    queue_items = _read_glossary_scan_items(config, run_id=run_id)
+    if not queue_items:
+        return {
+            "run_id": run_id,
+            "chapter_ids": chapter_ids,
+            "items": [],
+            "removed_terms": [],
+        }
+
+    blocks = []
+    for chapter_id in chapter_ids:
+        _, chapter_blocks = _load_chapter_source_and_blocks(config, chapter_id)
+        blocks.extend(chapter_blocks)
+    filtered_items, removed_terms = _revalidate_glossary_queue_items(config, blocks, queue_items)
+    return {
+        "run_id": run_id,
+        "chapter_ids": chapter_ids,
+        "items": filtered_items,
+        "removed_terms": removed_terms,
+    }
+
+
+def execute_operator_action(
+    *,
+    config: AppConfig,
+    action: str,
+    run_id: str,
+    payload: dict[str, Any],
+) -> dict[str, Any]:
+    buffer = io.StringIO()
+    with contextlib.redirect_stdout(buffer):
+        if action == "resume":
+            until_chapter = str(payload.get("until_chapter") or "").strip() or None
+            until_block = str(payload.get("until_block") or "").strip() or None
+            if not until_chapter and not until_block:
+                raise ValueError("resume requires until_chapter or until_block.")
+            resume_pipeline(
+                config=config,
+                run_id=run_id,
+                force=False,
+                manual_action_mode="stop",
+                until_chapter=until_chapter,
+                until_block=until_block,
+            )
+        elif action == "rerun-block":
+            block_id = str(payload.get("block_id") or "").strip()
+            from_stage = str(payload.get("from_stage") or "").strip()
+            if not block_id or not from_stage:
+                raise ValueError("rerun-block requires block_id and from_stage.")
+            rerun_block_pipeline(
+                config=config,
+                run_id=run_id,
+                block_id=block_id,
+                from_stage=from_stage,
+            )
+        else:
+            raise ValueError(f"Unsupported operator action: {action}")
+
+    return {
+        "action": action,
+        "run_id": run_id,
+        "output": buffer.getvalue(),
+        "snapshot": build_operator_snapshot(config, run_id=run_id),
     }
 
 
@@ -345,9 +424,9 @@ def _render_operator_html() -> str:
         </div>
       </section>
 
-      <section>
-        <label>Reports</label>
-        <div class="grid-btns">
+          <section>
+            <label>Reports</label>
+            <div class="grid-btns">
           <button class="ghost-dark" data-report="checkpoint">Checkpoint</button>
           <button class="ghost-dark" data-report="cleanliness">Cleanliness</button>
           <button class="ghost-dark" data-report="provider-usage">Provider</button>
@@ -413,6 +492,52 @@ def _render_operator_html() -> str:
         </div>
         <div id="inspectResult" class="empty">No block inspected.</div>
       </section>
+
+      <div class="layout">
+        <section class="panel">
+          <h3>Glossary Candidate Queue</h3>
+          <p class="meta">Current effective queue after glossary revalidation. Read-only in this slice.</p>
+          <div id="glossaryQueue" class="empty">No queue loaded.</div>
+        </section>
+
+        <div class="stack">
+          <section class="panel">
+            <h3>Safe Actions</h3>
+            <p class="meta">State-changing controls stay bounded and always stop on manual action.</p>
+            <div class="stack">
+              <div>
+                <label for="resumeRunId">Resume Run</label>
+                <div class="inspect-grid">
+                  <input id="resumeRunId" placeholder="Run ID">
+                  <input id="resumeUntilChapter" placeholder="Until chapter e.g. ch022">
+                  <input id="resumeUntilBlock" placeholder="Or until block e.g. ch022-block-004">
+                </div>
+                <button class="primary" id="resumeBtn">Run Bounded Resume</button>
+              </div>
+              <div>
+                <label for="rerunRunId">Rerun Block</label>
+                <div class="inspect-grid">
+                  <input id="rerunRunId" placeholder="Run ID">
+                  <input id="rerunBlockId" placeholder="Block ID">
+                  <select id="rerunStage">
+                    <option value="qa">qa</option>
+                    <option value="refining">refining</option>
+                    <option value="translating">translating</option>
+                    <option value="formatting">formatting</option>
+                  </select>
+                </div>
+                <button class="primary" id="rerunBtn">Run Rerun-Block</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <h3>Action Result</h3>
+            <p class="meta">Captured local pipeline output for the last state-changing action.</p>
+            <div id="actionResult" class="empty">No action executed yet.</div>
+          </section>
+        </div>
+      </div>
     </main>
   </div>
 
@@ -425,12 +550,24 @@ def _render_operator_html() -> str:
     const runIdInput = document.getElementById("runIdInput");
     const inspectRunId = document.getElementById("inspectRunId");
     const inspectBlockId = document.getElementById("inspectBlockId");
+    const resumeRunId = document.getElementById("resumeRunId");
+    const resumeUntilChapter = document.getElementById("resumeUntilChapter");
+    const resumeUntilBlock = document.getElementById("resumeUntilBlock");
+    const rerunRunId = document.getElementById("rerunRunId");
+    const rerunBlockId = document.getElementById("rerunBlockId");
+    const rerunStage = document.getElementById("rerunStage");
 
     function setRunId(runId) {
       state.runId = runId || "";
       runIdInput.value = state.runId;
       if (!inspectRunId.value) {
         inspectRunId.value = state.runId;
+      }
+      if (!resumeRunId.value) {
+        resumeRunId.value = state.runId;
+      }
+      if (!rerunRunId.value) {
+        rerunRunId.value = state.runId;
       }
     }
 
@@ -554,6 +691,52 @@ def _render_operator_html() -> str:
       const response = await fetch(`/api/bootstrap${query}`);
       const data = await response.json();
       renderSnapshot(data);
+      if (data.run_id) {
+        await loadGlossaryQueue(data.run_id);
+      }
+    }
+
+    async function loadGlossaryQueue(runId) {
+      const response = await fetch(`/api/glossary-queue?run_id=${encodeURIComponent(runId)}`);
+      const data = await response.json();
+      const wrap = document.getElementById("glossaryQueue");
+      if (!response.ok) {
+        wrap.className = "empty";
+        wrap.textContent = data.error || "Failed to load glossary queue.";
+        return;
+      }
+      const items = data.items || [];
+      if (!items.length) {
+        wrap.className = "empty";
+        wrap.textContent = "No pending glossary candidates in the effective queue.";
+        return;
+      }
+      const rows = items.map((item) => `
+        <tr>
+          <td class="mono">${escapeHtml(item.original_term || "")}</td>
+          <td>${escapeHtml(item.category || "")}</td>
+          <td>${escapeHtml(item.chapter_id || "")}</td>
+          <td class="mono">${escapeHtml(item.first_seen_block || "")}</td>
+        </tr>
+      `).join("");
+      const removed = (data.removed_terms || []).length
+        ? `<div class="footer-note" style="margin-top:10px;">Removed by current guard: ${escapeHtml((data.removed_terms || []).join(", "))}</div>`
+        : "";
+      wrap.className = "";
+      wrap.innerHTML = `
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Term</th>
+              <th>Category</th>
+              <th>Chapter</th>
+              <th>First Seen</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+        ${removed}
+      `;
     }
 
     async function inspectBlock() {
@@ -616,9 +799,65 @@ def _render_operator_html() -> str:
       `;
     }
 
+    async function runAction(action, payload) {
+      const response = await fetch("/api/action", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json();
+      const target = document.getElementById("actionResult");
+      if (!response.ok) {
+        target.innerHTML = `<div class="empty">${escapeHtml(data.error || "Action failed.")}</div>`;
+        return;
+      }
+      target.innerHTML = `
+        <div class="stack">
+          <div><span class="pill ok">${escapeHtml(data.action)}</span></div>
+          <pre class="mono" style="margin:0; white-space:pre-wrap;">${escapeHtml(data.output || "(no output)")}</pre>
+        </div>
+      `;
+      if (data.snapshot) {
+        renderSnapshot(data.snapshot);
+        if (data.snapshot.run_id) {
+          await loadGlossaryQueue(data.snapshot.run_id);
+        }
+      }
+    }
+
     document.getElementById("loadRunBtn").addEventListener("click", () => loadSnapshot(runIdInput.value.trim()));
     document.getElementById("refreshBtn").addEventListener("click", () => loadSnapshot(state.runId || runIdInput.value.trim()));
     document.getElementById("inspectBtn").addEventListener("click", inspectBlock);
+    document.getElementById("resumeBtn").addEventListener("click", () => {
+      const runId = resumeRunId.value.trim() || state.runId;
+      const untilChapter = resumeUntilChapter.value.trim();
+      const untilBlock = resumeUntilBlock.value.trim();
+      if (!runId || (!untilChapter && !untilBlock)) {
+        document.getElementById("actionResult").innerHTML = `<div class="empty">Resume requires run ID and a bounded chapter or block.</div>`;
+        return;
+      }
+      runAction("resume", {
+        action: "resume",
+        run_id: runId,
+        until_chapter: untilChapter,
+        until_block: untilBlock,
+      });
+    });
+    document.getElementById("rerunBtn").addEventListener("click", () => {
+      const runId = rerunRunId.value.trim() || state.runId;
+      const blockId = rerunBlockId.value.trim();
+      const fromStage = rerunStage.value;
+      if (!runId || !blockId || !fromStage) {
+        document.getElementById("actionResult").innerHTML = `<div class="empty">Rerun-block requires run ID, block ID, and stage.</div>`;
+        return;
+      }
+      runAction("rerun-block", {
+        action: "rerun-block",
+        run_id: runId,
+        block_id: blockId,
+        from_stage: fromStage,
+      });
+    });
     document.querySelectorAll("[data-report]").forEach((button) => {
       button.addEventListener("click", () => generateReport(button.dataset.report));
     });
@@ -667,6 +906,17 @@ class _OperatorHandler(BaseHTTPRequestHandler):
             except Exception as exc:
                 self._send_json({"error": str(exc)}, status=500)
             return
+        if parsed.path == "/api/glossary-queue":
+            run_id = (params.get("run_id") or [self.default_run_id or ""])[0] or None
+            if not run_id:
+                self._send_json({"error": "run_id is required."}, status=400)
+                return
+            try:
+                payload = build_glossary_queue_snapshot(self.config, run_id)
+                self._send_json(payload)
+            except Exception as exc:
+                self._send_json({"error": str(exc)}, status=500)
+            return
         if parsed.path == "/api/inspect-block":
             run_id = (params.get("run_id") or [""])[0]
             block_id = (params.get("block_id") or [""])[0]
@@ -701,31 +951,47 @@ class _OperatorHandler(BaseHTTPRequestHandler):
 
     def do_POST(self) -> None:  # noqa: N802
         parsed = urlparse(self.path)
-        if parsed.path != "/api/report":
+        if parsed.path not in {"/api/report", "/api/action"}:
             self._send_json({"error": "Not found."}, status=404)
             return
         try:
             length = int(self.headers.get("Content-Length", "0"))
             raw = self.rfile.read(length).decode("utf-8") if length else "{}"
             payload = json.loads(raw)
-            run_id = str(payload.get("run_id") or "").strip()
-            kind = str(payload.get("kind") or "").strip()
-            chapter_ids = payload.get("chapter_ids")
-            if not run_id or not kind:
-                self._send_json({"error": "run_id and kind are required."}, status=400)
+            if parsed.path == "/api/report":
+                run_id = str(payload.get("run_id") or "").strip()
+                kind = str(payload.get("kind") or "").strip()
+                chapter_ids = payload.get("chapter_ids")
+                if not run_id or not kind:
+                    self._send_json({"error": "run_id and kind are required."}, status=400)
+                    return
+                result = generate_operator_report(
+                    config=self.config,
+                    run_id=run_id,
+                    kind=kind,
+                    chapter_ids=chapter_ids if isinstance(chapter_ids, list) else None,
+                )
+                self._send_json(
+                    {
+                        "path": str(result["path"]),
+                        "actionable_failure": bool(result.get("actionable_failure")),
+                    }
+                )
                 return
-            result = generate_operator_report(
+            run_id = str(payload.get("run_id") or "").strip()
+            action = str(payload.get("action") or "").strip()
+            if not run_id or not action:
+                self._send_json({"error": "run_id and action are required."}, status=400)
+                return
+            result = execute_operator_action(
                 config=self.config,
+                action=action,
                 run_id=run_id,
-                kind=kind,
-                chapter_ids=chapter_ids if isinstance(chapter_ids, list) else None,
+                payload=payload,
             )
-            self._send_json(
-                {
-                    "path": str(result["path"]),
-                    "actionable_failure": bool(result.get("actionable_failure")),
-                }
-            )
+            self._send_json(result)
+        except ManualActionRequired as exc:
+            self._send_json({"error": str(exc), "manual_action_required": True}, status=409)
         except Exception as exc:
             self._send_json({"error": str(exc)}, status=500)
 
@@ -752,6 +1018,8 @@ def serve_operator_ui(
 
 __all__ = [
     "build_operator_snapshot",
+    "build_glossary_queue_snapshot",
+    "execute_operator_action",
     "generate_operator_report",
     "serve_operator_ui",
 ]

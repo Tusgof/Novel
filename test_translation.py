@@ -2867,6 +2867,93 @@ def test_safe_workspace_path_rejects_outside_workspace():
             assert "outside the workspace root" in str(exc).lower()
 
 
+def test_build_glossary_queue_snapshot_revalidates_items():
+    from novel_pipeline.operator_ui import build_glossary_queue_snapshot
+    from novel_pipeline.types import TextBlock
+
+    config = Mock()
+    queue_items = [
+        {"original_term": "实太阳神", "chapter_id": "ch020", "first_seen_block": "ch020-block-004", "category": "title"},
+        {"original_term": "高台", "chapter_id": "ch020", "first_seen_block": "ch020-block-001", "category": "object"},
+    ]
+    filtered_items = [queue_items[0]]
+    blocks = [TextBlock(chapter_id="ch020", block_id="ch020-block-001", block_index=1, source_text="...", text="...")]
+
+    with patch("novel_pipeline.operator_ui._read_glossary_scan_artifact", return_value={"chapter_ids": ["ch020"]}), \
+         patch("novel_pipeline.operator_ui._read_glossary_scan_items", return_value=queue_items), \
+         patch("novel_pipeline.operator_ui._load_chapter_source_and_blocks", return_value=(None, blocks)), \
+         patch("novel_pipeline.operator_ui._revalidate_glossary_queue_items", return_value=(filtered_items, ["高台"])):
+        snapshot = build_glossary_queue_snapshot(config, "batch-ch019-ch023-v1")
+
+    assert snapshot["chapter_ids"] == ["ch020"]
+    assert snapshot["items"] == filtered_items
+    assert snapshot["removed_terms"] == ["高台"]
+
+
+def test_execute_operator_action_requires_bounded_resume():
+    from novel_pipeline.operator_ui import execute_operator_action
+
+    config = Mock()
+    try:
+        execute_operator_action(
+            config=config,
+            action="resume",
+            run_id="batch-ch019-ch023-v1",
+            payload={},
+        )
+        assert False, "Expected ValueError for unbounded resume"
+    except ValueError as exc:
+        assert "until_chapter or until_block" in str(exc)
+
+
+def test_execute_operator_action_resume_uses_stop_mode_and_returns_snapshot():
+    from novel_pipeline.operator_ui import execute_operator_action
+
+    config = Mock()
+    snapshot = {"run_id": "batch-ch019-ch023-v1", "status": {"next_effective_action": "none"}}
+    with patch("novel_pipeline.operator_ui.resume_pipeline") as resume_pipeline_mock, \
+         patch("novel_pipeline.operator_ui.build_operator_snapshot", return_value=snapshot):
+        result = execute_operator_action(
+            config=config,
+            action="resume",
+            run_id="batch-ch019-ch023-v1",
+            payload={"until_chapter": "ch022"},
+        )
+
+    resume_pipeline_mock.assert_called_once_with(
+        config=config,
+        run_id="batch-ch019-ch023-v1",
+        force=False,
+        manual_action_mode="stop",
+        until_chapter="ch022",
+        until_block=None,
+    )
+    assert result["snapshot"] == snapshot
+
+
+def test_execute_operator_action_rerun_block_dispatches_expected_args():
+    from novel_pipeline.operator_ui import execute_operator_action
+
+    config = Mock()
+    snapshot = {"run_id": "batch-ch019-ch023-v1", "status": {}}
+    with patch("novel_pipeline.operator_ui.rerun_block_pipeline") as rerun_mock, \
+         patch("novel_pipeline.operator_ui.build_operator_snapshot", return_value=snapshot):
+        result = execute_operator_action(
+            config=config,
+            action="rerun-block",
+            run_id="batch-ch019-ch023-v1",
+            payload={"block_id": "ch019-block-002", "from_stage": "qa"},
+        )
+
+    rerun_mock.assert_called_once_with(
+        config=config,
+        run_id="batch-ch019-ch023-v1",
+        block_id="ch019-block-002",
+        from_stage="qa",
+    )
+    assert result["snapshot"] == snapshot
+
+
 def test_cli_rejects_stop_after_without_range():
     """--stop-after without --range returns error."""
     from novel_pipeline.cli import cmd_run
@@ -3301,6 +3388,10 @@ if __name__ == "__main__":
     test_glossary_decisions_report_generation_writes_expected_markdown()
     test_glossary_conflicts_report_generation_writes_expected_markdown()
     test_glossary_audit_report_generation_writes_expected_markdown()
+    test_build_glossary_queue_snapshot_revalidates_items()
+    test_execute_operator_action_requires_bounded_resume()
+    test_execute_operator_action_resume_uses_stop_mode_and_returns_snapshot()
+    test_execute_operator_action_rerun_block_dispatches_expected_args()
     test_cli_rejects_stop_after_without_range()
     test_run_batch_pipeline_stop_after_glossary_scan()
     test_classify_command_too_long()

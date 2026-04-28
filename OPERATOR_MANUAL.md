@@ -26,7 +26,7 @@ This is the practical runbook. It should help the operator proceed without guess
 - ch024+: untouched.
 - V3.11 complete: report automation command family now exists.
 - V3.12 complete: glossary hardening report layer, scan-time guards, approval-stage queue revalidation, historical rejected-term guard, narrow QA glossary gate, and per-run guard verification now exist.
-- V4.0 in progress: local operator window slice 1 now exists.
+- V4.0 in progress: local operator window slices 1-2 now exist.
 - V3.12 QA-stage glossary gate now blocks the narrow case where literal translation already used an approved Thai term and refinement removes it.
 - Current scan-time guard behavior:
   - exact quarantine/rejected/deprecated terms are filtered before queue entry
@@ -37,19 +37,22 @@ This is the practical runbook. It should help the operator proceed without guess
   - older glossary scan artifacts are revalidated against the current deterministic queue before prompting or writing notes
 - Current V3.12 verification artifact:
   - `07_Reports/glossary_guard_batch-ch019-ch023-v1.md`
-- Current V4.0 slice 1 command:
+- Current V4.0 operator command:
   - `novel-pipeline --config ".system/config.yaml" operator --run-id batch-ch019-ch023-v1 --open-browser`
 - Current operator window scope:
   - status dashboard
   - next safe action
   - block inspection
+  - glossary candidate queue view
   - report generation
   - artifact viewing
+  - bounded resume control with required `until_chapter` or `until_block`
+  - rerun-block control
 - Not yet in operator window:
   - glossary approval actions
-  - rerun/resume buttons
-  - any state-changing control
-- Next safe action: stabilize the read-only operator window before adding state-changing controls.
+  - 2-3 option Thai term selection
+  - broader state-changing control beyond bounded resume/rerun-block
+- Next safe action: add glossary approval and term-decision controls without weakening the current guardrails.
 
 ## Standard Preflight
 

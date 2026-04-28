@@ -1,7 +1,7 @@
 # Project Brain: Deep Sea Embers Translation Pipeline
 
 Last updated: 2026-04-28
-Last verified: 2026-04-28 after V4.0 slice 1 was added and verified with `python -m compileall novel_pipeline` and `python test_translation.py`.
+Last verified: 2026-04-28 after V4.0 slice 2 was added and verified with `python -m compileall novel_pipeline`, `python test_translation.py`, and live operator endpoint checks.
 
 This file is the project constitution, architecture map, and current operational memory. It should preserve the project goal, design principles, verified state, safety rules, recovery lessons, and pointers to detailed documents. Keep reports, long logs, and implementation detail in their dedicated files.
 
@@ -158,10 +158,12 @@ Active:
 - V3.11 complete: report automation command family now exists
 - V3.12 complete: glossary and terminology hardening
 - V4.0 in progress: practical local operator product
-- V4.0 slice 1 now exists:
+- V4.0 slices 1-2 now exist:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
-  - local read-only/control-light operator window for status, blocker, next safe action, block inspection, report generation, and artifact viewing
-  - intentionally no state-changing controls yet
+  - local operator window for status, blocker, next safe action, block inspection, glossary queue view, report generation, and artifact viewing
+  - bounded resume action that requires `until_chapter` or `until_block` and always uses `manual_action_mode=stop`
+  - rerun-block action for targeted recovery
+  - glossary approval actions and term selection UI are still not implemented
 - V3.12 read-only tooling now exists:
   - `report glossary-conflicts [--run-id <run_id>]`
   - `report glossary-audit --run-id <run_id>`
@@ -202,7 +204,7 @@ Proceed with protocol/product work:
    - `00_Templates/Batch-Rollout-Checklist.md`
    - `00_Templates/Worker-Bounded-Batch-Prompt.md`
    - `07_Reports/v3_10_repeatable_rollout_protocol.md`
-3. Continue `V4.0` from the new operator baseline: add the first safe state-changing controls only after the read-only window is stable.
+3. Continue `V4.0` from the current operator baseline: next add glossary approval and term-decision controls, not broader unsafe actions.
 4. Do not plan `ch024+` translation until new source is available and a fresh fetch/scan decision is made.
 
 ## Invariants And Guardrails
