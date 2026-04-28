@@ -31,6 +31,7 @@ Finish also requires that worker models cannot silently mutate source-of-truth d
 - V3.10 complete: repeatable rollout protocol artifacts created
 - V3.11 complete: report automation command family created
 - V3.12 complete: glossary hardening report layer, runtime scan guards, approval-stage queue revalidation, historical rejected-term guard, narrow QA glossary enforcement, and per-run guard verification implemented
+- V4.0 in progress: local operator window slice 1 implemented as a read-only/control-light web UI for status, block inspection, report generation, and artifact viewing
 - current failed blocks: none
 - historical failed records exist because the ledger is append-only
 - source currently exists only through `ch023` in workspace, so future Deep Sea Embers ranges require fetch/scan decisions first
@@ -164,6 +165,23 @@ Goal: give the user a local operator window that supports the real workflow with
 - approve/reject UI
 - select one Thai term from 2-3 options
 - support bounded resume, rerun-block, report generation, artifact opening
+
+Current slice:
+
+- `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
+- local HTTP operator window using existing pipeline/report functions
+- implemented in read-only/control-light mode:
+  - run status dashboard
+  - current blocker / next effective action
+  - chapter progress table
+  - block inspection with artifact links and formatting validation issues
+  - report generation buttons for existing `report` command family
+  - artifact viewer for workspace files
+- intentionally not implemented yet:
+  - glossary approve/reject actions
+  - term option selection UI
+  - bounded resume / rerun-block buttons
+  - state-changing controls
 
 Done when the user can run normal work without asking Codex for every command.
 
