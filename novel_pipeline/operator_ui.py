@@ -119,6 +119,8 @@ def build_operator_snapshot(config: AppConfig, run_id: str | None = None) -> dic
         "run_id": resolved_run_id,
         "available_run_ids": _list_run_ids(config),
         "status": status,
+        "research_profile_path": str(config.workspace.root / "RESEARCH_PROFILE.yaml"),
+        "research_readiness": config.research_readiness_summary(),
     }
 
 
@@ -328,6 +330,8 @@ def execute_operator_action(
     run_id: str,
     payload: dict[str, Any],
 ) -> dict[str, Any]:
+    if action in {"resume", "rerun-block"}:
+        config.ensure_translation_ready(bounded=True)
     buffer = io.StringIO()
     with contextlib.redirect_stdout(buffer):
         if action == "resume":
@@ -649,6 +653,12 @@ def _render_operator_html() -> str:
           </section>
 
           <section class="panel">
+            <h3>Research Readiness</h3>
+            <p class="meta">Readiness contract for bounded translation versus normal production.</p>
+            <div id="researchReadiness" class="empty">No research profile loaded.</div>
+          </section>
+
+          <section class="panel">
             <h3>Manual Actions</h3>
             <p class="meta">Outstanding operator actions from `status`.</p>
             <ul id="manualActions" class="actions-list"></ul>
@@ -859,6 +869,34 @@ def _render_operator_html() -> str:
       }
     }
 
+    function renderResearchReadiness(snapshot) {
+      const wrap = document.getElementById("researchReadiness");
+      const readiness = snapshot?.research_readiness || {};
+      const profilePath = snapshot?.research_profile_path || readiness.path || "";
+      const warnings = readiness.warnings || [];
+      const blocking = readiness.blocking_reasons || [];
+      const missing = readiness.missing_fields || [];
+      const pillClass = readiness.readiness === "ready"
+        ? "ok"
+        : readiness.readiness === "degraded"
+          ? ""
+          : "danger";
+      wrap.className = "";
+      wrap.innerHTML = `
+        <div class="stack">
+          <div><span class="pill ${pillClass}">${escapeHtml(readiness.readiness || "blocked")}</span></div>
+          <div class="mono">status: ${escapeHtml(readiness.status || "missing")}</div>
+          <div class="mono">path: ${profilePath ? fileLink(profilePath, profilePath) : "missing"}</div>
+          <div class="mono">bounded translation: ${readiness.bounded_translation_ready ? "allowed" : "blocked"}</div>
+          <div class="mono">normal production: ${readiness.translation_ready ? "allowed" : "blocked"}</div>
+          <div class="mono">missing fields: ${escapeHtml(missing.length ? missing.join(", ") : "none")}</div>
+          <div class="mono">warnings: ${escapeHtml(warnings.length ? warnings.join(" | ") : "none")}</div>
+          <div class="mono">blocking: ${escapeHtml(blocking.length ? blocking.join(" | ") : "none")}</div>
+          <div class="mono">next safe action: ${escapeHtml(readiness.next_safe_action || "none")}</div>
+        </div>
+      `;
+    }
+
     function renderSnapshot(snapshot) {
       state.snapshot = snapshot;
       const runId = snapshot?.run_id || "";
@@ -870,6 +908,7 @@ def _render_operator_html() -> str:
       document.getElementById("nextAction").textContent = snapshot?.status?.next_effective_action || "none";
       renderMetrics(snapshot);
       renderChapterTable(snapshot);
+      renderResearchReadiness(snapshot);
       renderManualActions(snapshot);
     }
 

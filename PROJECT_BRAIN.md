@@ -161,6 +161,7 @@ Active:
 - V4.1 complete: multi-novel foundation now exists through per-project scaffolding and setup/fetch playbooks
 - V4.2 complete: structured multi-genre style profiles now exist and are wired into refinement/QA prompts
 - V4.3 complete: research-profile workflow now uses `RESEARCH_PROFILE.yaml`, a manual web-research playbook, and prompt context wiring for translation/refinement/QA
+- research-profile readiness contract now classifies `pending` / `drafted` / `active`, reports missing fields, and keeps a missing `RESEARCH_PROFILE.yaml` visible without breaking old read-only flows
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, and artifact viewing

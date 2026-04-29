@@ -311,6 +311,9 @@ Goal: make the tool restorable and movable without tribal knowledge.
 - environment checks for provider CLIs
 - config validation
 - backup and git guardrails
+- research-profile readiness contract: `pending` / `drafted` / `active`, required-field checks, missing-field reporting, and nonblocking missing-profile visibility
+
+Status: in progress; the research-profile readiness slice is implemented and the remaining V4.4 packaging checks stay open.
 
 Done when the tool can be restored or moved without rebuilding tribal knowledge.
 

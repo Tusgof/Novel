@@ -58,6 +58,7 @@ This is the practical runbook. It should help the operator proceed without guess
 - V4.1 complete: multi-novel foundation now includes per-project scaffold and setup/fetch playbooks.
 - V4.2 complete: multi-genre style profiles now provide structured preset guidance for refinement and QA.
 - V4.3 complete: research-profile workflow now uses `RESEARCH_PROFILE.yaml`, a manual web-research playbook, and prompt context wiring for translation/refinement/QA.
+- operator bootstrap/snapshot now carries the research-profile path plus readiness summary so the UI can surface pending, drafted, active, or missing states later.
 - Next milestone after V4.3: `V4.4` packaging and operator reliability.
 
 ## Standard Preflight

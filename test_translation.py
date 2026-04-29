@@ -2096,6 +2096,237 @@ notes: Preserve ship names and source-linked canon.
     )
 
 
+def _write_research_profile_test_workspace(base: Path, research_profile_text: str | None) -> Path:
+    workspace_root = base / "workspace"
+    system_root = workspace_root / ".system"
+    system_root.mkdir(parents=True)
+    (system_root / "config.yaml").write_text(
+        """novel_id: research-novel
+vault_root: .
+source_language: zh
+default_batch_size: 10
+chapter_unit: chapters
+default_style_profile: default
+chunking:
+  chinese_character_limit: 600
+  non_chinese_word_limit: 5000
+source:
+  adapter: piaotia
+  toc_url: https://example.com/toc
+""",
+        encoding="utf-8",
+    )
+    (system_root / "style_profiles.yaml").write_text(
+        """default:
+  name: default
+  description: default style
+""",
+        encoding="utf-8",
+    )
+    (system_root / "providers.yaml").write_text(
+        """literal_translation:
+  provider: gemini
+providers:
+  gemini:
+    executable: gemini
+""",
+        encoding="utf-8",
+    )
+    if research_profile_text is not None:
+        (workspace_root / "RESEARCH_PROFILE.yaml").write_text(research_profile_text, encoding="utf-8")
+    return system_root / "config.yaml"
+
+
+def test_research_profile_readiness_classification():
+    """Research profile readiness is status-aware and reports missing fields."""
+    from novel_pipeline.types import ResearchProfile
+
+    pending = ResearchProfile.from_mapping(
+        {
+            "title": "Deep Sea Embers",
+            "source_url": "https://example.com/original",
+            "status": "pending",
+            "synopsis": "Nautical dark fantasy with a slow-burn mystery.",
+            "tags": ["nautical dark fantasy", "mystery"],
+            "style_notes": "Blend eerie maritime atmosphere with grounded reactions.",
+            "reader_expectations": "Expect slow-burn reveals and practical protagonist logic.",
+            "review_summary": "Reviews emphasize atmosphere, mystery, and immersive worldbuilding.",
+            "terminology": ["ember", "abyss"],
+            "reference_links": ["https://example.com/review"],
+        }
+    )
+    pending_summary = pending.readiness_summary()
+    assert pending_summary["status"] == "pending"
+    assert pending_summary["readiness"] == "blocked"
+    assert pending_summary["translation_ready"] is False
+    assert pending_summary["bounded_translation_ready"] is False
+    assert pending_summary["fetch_ready"] is True
+    assert pending_summary["glossary_scan_ready"] is True
+    assert pending_summary["required_fields"] == ["title", "source_url"]
+    assert pending_summary["missing_fields"] == []
+    assert pending_summary["next_safe_action"].startswith("Fill synopsis")
+
+    drafted = ResearchProfile.from_mapping(
+        {
+            "title": "Deep Sea Embers",
+            "source_url": "https://example.com/original",
+            "status": "drafted",
+            "synopsis": "Nautical dark fantasy with a slow-burn mystery.",
+            "tags": ["nautical dark fantasy", "mystery"],
+            "style_notes": "Blend eerie maritime atmosphere with grounded reactions.",
+            "reader_expectations": "Expect slow-burn reveals and practical protagonist logic.",
+            "review_summary": "Reviews emphasize atmosphere, mystery, and immersive worldbuilding.",
+            "terminology": ["ember", "abyss"],
+            "reference_links": ["https://example.com/review"],
+        }
+    )
+    drafted_summary = drafted.readiness_summary()
+    assert drafted_summary["status"] == "drafted"
+    assert drafted_summary["readiness"] == "degraded"
+    assert drafted_summary["translation_ready"] is False
+    assert drafted_summary["bounded_translation_ready"] is True
+    assert drafted_summary["required_fields"] == [
+        "title",
+        "source_url",
+        "synopsis",
+        "tags",
+        "style_notes",
+    ]
+    assert drafted_summary["missing_fields"] == []
+    assert drafted_summary["warnings"]
+
+    active = ResearchProfile.from_mapping(
+        {
+            "title": "Deep Sea Embers",
+            "source_url": "https://example.com/original",
+            "status": "active",
+            "synopsis": "Nautical dark fantasy with a slow-burn mystery.",
+            "tags": ["nautical dark fantasy", "mystery"],
+            "style_notes": "Blend eerie maritime atmosphere with grounded reactions.",
+            "reader_expectations": "Expect slow-burn reveals and practical protagonist logic.",
+            "review_summary": "Reviews emphasize atmosphere, mystery, and immersive worldbuilding.",
+            "last_reviewed_at": "2026-04-29T00:00:00+07:00",
+            "reviewed_by": "Codex",
+            "terminology": ["ember", "abyss"],
+            "reference_links": ["https://example.com/review"],
+        }
+    )
+    active_summary = active.readiness_summary()
+    assert active_summary["status"] == "active"
+    assert active_summary["readiness"] == "ready"
+    assert active_summary["translation_ready"] is True
+    assert active_summary["bounded_translation_ready"] is True
+    assert active_summary["required_fields"][-2:] == ["last_reviewed_at", "reviewed_by"]
+    assert active_summary["review"] == {
+        "last_reviewed_at": "2026-04-29T00:00:00+07:00",
+        "reviewed_by": "Codex",
+    }
+
+
+def test_research_profile_missing_file_is_visible_but_not_blocking():
+    """Missing research profile remains readable for old projects but is not translation-ready."""
+    import tempfile
+    from novel_pipeline.config import load_app_config
+
+    base = Path(tempfile.mkdtemp(prefix="novel-research-missing-"))
+    config_path = _write_research_profile_test_workspace(base, None)
+    config = load_app_config(config_path)
+
+    assert config.research_profile is None
+    summary = config.research_readiness_summary()
+    assert summary["status"] == "missing"
+    assert summary["present"] is False
+    assert summary["translation_ready"] is False
+    assert summary["bounded_translation_ready"] is False
+    assert summary["fetch_ready"] is True
+    assert summary["glossary_scan_ready"] is True
+
+
+def test_research_profile_config_loads_review_metadata():
+    """Review metadata is preserved when the research profile is loaded."""
+    import tempfile
+    from novel_pipeline.config import load_app_config
+
+    base = Path(tempfile.mkdtemp(prefix="novel-research-review-"))
+    config_path = _write_research_profile_test_workspace(
+        base,
+        """schema_version: 1
+title: Deep Sea Embers
+source_url: https://example.com/toc
+status: active
+synopsis: Nautical dark fantasy with a slow-burn mystery.
+tags:
+  - nautical dark fantasy
+  - mystery
+style_notes: Blend eerie maritime atmosphere with grounded reactions.
+reader_expectations: Expect slow-burn reveals and practical protagonist logic.
+review_summary: Reviews emphasize atmosphere, mystery, and immersive worldbuilding.
+last_reviewed_at: 2026-04-29T00:00:00+07:00
+reviewed_by: Codex
+terminology:
+  - ember
+  - abyss
+reference_links:
+  - https://example.com/review
+""",
+    )
+    config = load_app_config(config_path)
+
+    assert config.research_profile is not None
+    assert config.research_profile.last_reviewed_at == "2026-04-29T00:00:00+07:00"
+    assert config.research_profile.reviewed_by == "Codex"
+    assert config.research_readiness_summary()["translation_ready"] is True
+
+
+def test_research_profile_source_url_mismatch_blocks_translation_readiness():
+    """A drafted profile anchored to a different source URL is not translation-ready."""
+    import tempfile
+    from novel_pipeline.config import load_app_config
+
+    base = Path(tempfile.mkdtemp(prefix="novel-research-mismatch-"))
+    config_path = _write_research_profile_test_workspace(
+        base,
+        """schema_version: 1
+title: Deep Sea Embers
+source_url: https://example.com/original
+status: drafted
+synopsis: Nautical dark fantasy with a slow-burn mystery.
+tags:
+  - nautical dark fantasy
+style_notes: Blend eerie maritime atmosphere with grounded reactions.
+""",
+    )
+    config = load_app_config(config_path)
+
+    summary = config.research_readiness_summary()
+    assert summary["status"] == "drafted"
+    assert summary["bounded_translation_ready"] is False
+    assert summary["translation_ready"] is False
+    assert any("source_url does not match" in item for item in summary["blocking_reasons"])
+
+
+def test_research_profile_invalid_status_rejected():
+    """Invalid research profile status is rejected by config loading."""
+    import tempfile
+    from novel_pipeline.config import ConfigError, load_app_config
+
+    base = Path(tempfile.mkdtemp(prefix="novel-research-invalid-"))
+    config_path = _write_research_profile_test_workspace(
+        base,
+        """schema_version: 1
+title: Deep Sea Embers
+source_url: https://example.com/toc
+status: archived
+""",
+    )
+
+    try:
+        load_app_config(config_path)
+        assert False, "Expected ConfigError for invalid research profile status"
+    except ConfigError as exc:
+        assert "Invalid research profile" in str(exc)
+
+
 def test_initialize_novel_project_scaffolds_expected_files_and_rewrites_codex_cd():
     """init-novel scaffold creates an isolated project without code edits."""
     import tempfile
@@ -2216,6 +2447,8 @@ providers:
     assert research_payload["aliases"] == ["Second Alt"]
     assert research_payload["source_url"] == "https://example.com/second/toc"
     assert research_payload["status"] == "pending"
+    assert research_payload["last_reviewed_at"] == ""
+    assert research_payload["reviewed_by"] == ""
 
     providers_payload = yaml.safe_load((target_root / ".system" / "providers.yaml").read_text(encoding="utf-8"))
     extra_args = providers_payload["providers"]["codex"]["extra_args"]
@@ -2592,6 +2825,7 @@ def test_cmd_resume_returns_two_on_manual_action_required():
 
     config = Mock()
     config.ledger_path = Mock()
+    config.ensure_translation_ready.return_value = {"readiness": "ready"}
 
     args = Mock(
         run_id="batch-ch019-ch023-v1",
@@ -2607,6 +2841,7 @@ def test_cmd_resume_returns_two_on_manual_action_required():
         sys.stderr = stderr
         with patch("novel_pipeline.cli.resume_pipeline", side_effect=ManualActionRequired("Manual action required for block ch019-block-003 at stage 'qa'.")) as mock_resume:
             result = cmd_resume(args, config)
+            config.ensure_translation_ready.assert_called_once_with(bounded=False)
             mock_resume.assert_called_once_with(
                 config=config,
                 run_id="batch-ch019-ch023-v1",
@@ -3547,6 +3782,7 @@ def test_execute_operator_action_resume_uses_stop_mode_and_returns_snapshot():
     from novel_pipeline.operator_ui import execute_operator_action
 
     config = Mock()
+    config.ensure_translation_ready.return_value = {"readiness": "degraded"}
     snapshot = {"run_id": "batch-ch019-ch023-v1", "status": {"next_effective_action": "none"}}
     with patch("novel_pipeline.operator_ui.resume_pipeline") as resume_pipeline_mock, \
          patch("novel_pipeline.operator_ui.build_operator_snapshot", return_value=snapshot):
@@ -3565,6 +3801,7 @@ def test_execute_operator_action_resume_uses_stop_mode_and_returns_snapshot():
         until_chapter="ch022",
         until_block=None,
     )
+    config.ensure_translation_ready.assert_called_once_with(bounded=True)
     assert result["snapshot"] == snapshot
 
 
@@ -3572,6 +3809,7 @@ def test_execute_operator_action_rerun_block_dispatches_expected_args():
     from novel_pipeline.operator_ui import execute_operator_action
 
     config = Mock()
+    config.ensure_translation_ready.return_value = {"readiness": "degraded"}
     snapshot = {"run_id": "batch-ch019-ch023-v1", "status": {}}
     with patch("novel_pipeline.operator_ui.rerun_block_pipeline") as rerun_mock, \
          patch("novel_pipeline.operator_ui.build_operator_snapshot", return_value=snapshot):
@@ -3588,7 +3826,45 @@ def test_execute_operator_action_rerun_block_dispatches_expected_args():
         block_id="ch019-block-002",
         from_stage="qa",
     )
+    config.ensure_translation_ready.assert_called_once_with(bounded=True)
     assert result["snapshot"] == snapshot
+
+
+def test_operator_snapshot_includes_research_readiness():
+    """Operator bootstrap snapshot includes research profile path and readiness summary."""
+    import tempfile
+    from novel_pipeline.config import load_app_config
+    from novel_pipeline.operator_ui import build_operator_snapshot
+
+    base = Path(tempfile.mkdtemp(prefix="novel-operator-snapshot-"))
+    config_path = _write_research_profile_test_workspace(
+        base,
+        """schema_version: 1
+title: Deep Sea Embers
+source_url: https://example.com/toc
+status: drafted
+synopsis: Nautical dark fantasy with a slow-burn mystery.
+tags:
+  - nautical dark fantasy
+  - mystery
+style_notes: Blend eerie maritime atmosphere with grounded reactions.
+reader_expectations: Expect slow-burn reveals and practical protagonist logic.
+review_summary: Reviews emphasize atmosphere, mystery, and immersive worldbuilding.
+terminology:
+  - ember
+  - abyss
+reference_links:
+  - https://example.com/review
+""",
+    )
+    config = load_app_config(config_path)
+    snapshot = build_operator_snapshot(config, run_id="batch-ch019-ch023-v1")
+
+    assert snapshot["research_profile_path"].endswith("RESEARCH_PROFILE.yaml")
+    assert snapshot["research_readiness"]["status"] == "drafted"
+    assert snapshot["research_readiness"]["bounded_translation_ready"] is True
+    assert snapshot["research_readiness"]["translation_ready"] is False
+    assert snapshot["research_readiness"]["path"].endswith("RESEARCH_PROFILE.yaml")
 
 
 def test_build_glossary_suggestion_snapshot_returns_provider_options():
@@ -4171,6 +4447,10 @@ if __name__ == "__main__":
     test_initialize_novel_project_scaffolds_expected_files_and_rewrites_codex_cd()
     test_initialize_novel_project_selects_style_profile_from_genre_or_default()
     test_research_profile_from_config_and_context_text()
+    test_research_profile_readiness_classification()
+    test_research_profile_missing_file_is_visible_but_not_blocking()
+    test_research_profile_config_loads_review_metadata()
+    test_research_profile_invalid_status_rejected()
     test_literal_translation_stage_uses_research_context()
     test_refine_stage_uses_research_context()
     test_qa_stage_uses_research_context()
@@ -4193,6 +4473,7 @@ if __name__ == "__main__":
     test_execute_operator_action_requires_bounded_resume()
     test_execute_operator_action_resume_uses_stop_mode_and_returns_snapshot()
     test_execute_operator_action_rerun_block_dispatches_expected_args()
+    test_operator_snapshot_includes_research_readiness()
     test_build_glossary_suggestion_snapshot_returns_provider_options()
     test_execute_glossary_decision_approve_commits_when_queue_is_empty()
     test_execute_glossary_decision_reject_updates_queue_without_commit()

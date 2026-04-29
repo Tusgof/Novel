@@ -33,6 +33,17 @@ from novel_pipeline.pipeline import (
     translate_literal_command,
 )
 
+def _warn_research_readiness(config, *, bounded: bool) -> int:
+    try:
+        summary = config.ensure_translation_ready(bounded=bounded)
+    except ValueError as exc:
+        print(f"[ERROR] {exc}", file=sys.stderr)
+        return 1
+    if summary["readiness"] == "degraded":
+        warnings = "; ".join(summary["warnings"]) or "bounded translation only"
+        print(f"[WARN] Research profile is drafted. {warnings}")
+    return 0
+
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
@@ -230,6 +241,10 @@ def cmd_run(args: argparse.Namespace, config) -> int:
         print("[ERROR] --stop-after is currently supported only for batch --range runs.", file=sys.stderr)
         return 1
     if args.chapter_range:
+        if not args.stop_after:
+            readiness_result = _warn_research_readiness(config, bounded=True)
+            if readiness_result:
+                return readiness_result
         from novel_pipeline.text_utils import parse_chapter_range
         try:
             chapter_ids = parse_chapter_range(args.chapter_range)
@@ -262,6 +277,9 @@ def cmd_run(args: argparse.Namespace, config) -> int:
             return 1
     
     # Single chapter mode (existing code)
+    readiness_result = _warn_research_readiness(config, bounded=True)
+    if readiness_result:
+        return readiness_result
     try:
         ctx = run_pipeline(
             config=config,
@@ -301,6 +319,13 @@ def cmd_resume(args: argparse.Namespace, config) -> int:
             print("Cannot determine run_id from ledger.", file=sys.stderr)
             return 1
         print(f"Using latest run_id: {run_id}")
+
+    readiness_result = _warn_research_readiness(
+        config,
+        bounded=bool(getattr(args, "until_chapter", None) or getattr(args, "until_block", None)),
+    )
+    if readiness_result:
+        return readiness_result
 
     try:
         ctx = resume_pipeline(
@@ -418,6 +443,9 @@ def cmd_rerun_block(args: argparse.Namespace, config) -> int:
     if not args.run_id:
         print("[ERROR] rerun-block requires --run-id.", file=sys.stderr)
         return 1
+    readiness_result = _warn_research_readiness(config, bounded=True)
+    if readiness_result:
+        return readiness_result
     try:
         rerun_block_pipeline(
             config=config,
@@ -504,6 +532,9 @@ def cmd_approve_terms(args: argparse.Namespace, config) -> int:
 
 
 def cmd_translate_literal(args: argparse.Namespace, config) -> int:
+    readiness_result = _warn_research_readiness(config, bounded=True)
+    if readiness_result:
+        return readiness_result
     try:
         translate_literal_command(
             config=config,
@@ -519,6 +550,9 @@ def cmd_translate_literal(args: argparse.Namespace, config) -> int:
 
 
 def cmd_refine(args: argparse.Namespace, config) -> int:
+    readiness_result = _warn_research_readiness(config, bounded=True)
+    if readiness_result:
+        return readiness_result
     try:
         refine_command(
             config=config,
@@ -535,6 +569,9 @@ def cmd_refine(args: argparse.Namespace, config) -> int:
 
 
 def cmd_qa(args: argparse.Namespace, config) -> int:
+    readiness_result = _warn_research_readiness(config, bounded=True)
+    if readiness_result:
+        return readiness_result
     try:
         qa_command(
             config=config,

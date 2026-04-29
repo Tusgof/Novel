@@ -149,6 +149,8 @@ def render_research_profile_yaml(profile: ResearchProfile) -> str:
         "style_notes": profile.style_notes,
         "reader_expectations": profile.reader_expectations,
         "review_summary": profile.review_summary,
+        "last_reviewed_at": profile.last_reviewed_at,
+        "reviewed_by": profile.reviewed_by,
         "terminology": list(profile.terminology),
         "reference_links": list(profile.reference_links),
         "notes": profile.notes,

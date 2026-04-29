@@ -103,7 +103,10 @@ def _parse_research_profile(path: Path) -> ResearchProfile | None:
     if not path.exists():
         return None
     payload = load_yaml_mapping(path)
-    return ResearchProfile.from_mapping(payload)
+    try:
+        return ResearchProfile.from_mapping(payload)
+    except ValueError as exc:
+        raise ConfigError(f"Invalid research profile: {exc}") from exc
 
 
 def load_app_config(config_path: Path | str = Path(".system/config.yaml")) -> AppConfig:

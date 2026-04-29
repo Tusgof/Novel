@@ -552,6 +552,8 @@ class ResearchProfile(JsonSerializable):
     style_notes: str = ""
     reader_expectations: str = ""
     review_summary: str = ""
+    last_reviewed_at: str = ""
+    reviewed_by: str = ""
     terminology: tuple[str, ...] = ()
     reference_links: tuple[str, ...] = ()
     notes: str = ""
@@ -567,6 +569,14 @@ class ResearchProfile(JsonSerializable):
             payload.setdefault("source_url", source_payload.get("url", source_payload.get("source_url", "")))
         if "synopsis" not in payload and payload.get("summary"):
             payload["synopsis"] = payload.get("summary")
+        status = str(payload.get("status", "pending")).strip().lower() or "pending"
+        if status not in {"pending", "drafted", "active"}:
+            raise ValueError(
+                "Research profile status must be one of pending, drafted, or active."
+            )
+        reviewed_at = payload.get("last_reviewed_at", "")
+        if isinstance(reviewed_at, datetime):
+            reviewed_at = reviewed_at.isoformat()
         return cls(
             title=str(payload.get("title", "")).strip(),
             aliases=as_string_tuple(payload.get("aliases")),
@@ -576,10 +586,12 @@ class ResearchProfile(JsonSerializable):
             style_notes=str(payload.get("style_notes", "")).strip(),
             reader_expectations=str(payload.get("reader_expectations", "")).strip(),
             review_summary=str(payload.get("review_summary", "")).strip(),
+            last_reviewed_at=str(reviewed_at).strip(),
+            reviewed_by=str(payload.get("reviewed_by", "")).strip(),
             terminology=as_string_tuple(payload.get("terminology")),
             reference_links=as_string_tuple(payload.get("reference_links")),
             notes=str(payload.get("notes", "")).strip(),
-            status=str(payload.get("status", "pending")).strip() or "pending",
+            status=status,
             metadata={
                 str(k): v
                 for k, v in payload.items()
@@ -594,6 +606,8 @@ class ResearchProfile(JsonSerializable):
                     "style_notes",
                     "reader_expectations",
                     "review_summary",
+                    "last_reviewed_at",
+                    "reviewed_by",
                     "terminology",
                     "reference_links",
                     "notes",
@@ -601,6 +615,88 @@ class ResearchProfile(JsonSerializable):
                 }
             },
         )
+
+    def normalized_status(self) -> str:
+        status = self.status.strip().lower() or "pending"
+        if status not in {"pending", "drafted", "active"}:
+            raise ValueError(
+                "Research profile status must be one of pending, drafted, or active."
+            )
+        return status
+
+    def required_fields(self) -> tuple[str, ...]:
+        status = self.normalized_status()
+        required = ["title", "source_url"]
+        if status in {"drafted", "active"}:
+            required.extend(["synopsis", "tags", "style_notes"])
+        if status == "active":
+            required.extend(["last_reviewed_at", "reviewed_by"])
+        return tuple(required)
+
+    def missing_fields(self) -> tuple[str, ...]:
+        missing: list[str] = []
+        for field_name in self.required_fields():
+            value = getattr(self, field_name, "")
+            if isinstance(value, str):
+                if not value.strip():
+                    missing.append(field_name)
+            elif not value:
+                missing.append(field_name)
+        return tuple(missing)
+
+    def readiness_summary(self) -> dict[str, Any]:
+        status = self.normalized_status()
+        missing_fields = list(self.missing_fields())
+        required_fields = list(self.required_fields())
+        review = {
+            "last_reviewed_at": self.last_reviewed_at.strip(),
+            "reviewed_by": self.reviewed_by.strip(),
+        }
+        missing_required_fields = bool(missing_fields)
+        translation_ready = status == "active" and not missing_required_fields
+        bounded_translation_ready = status in {"drafted", "active"} and not missing_required_fields
+        if translation_ready:
+            readiness = "ready"
+        elif bounded_translation_ready:
+            readiness = "degraded"
+        else:
+            readiness = "blocked"
+        warnings: list[str] = []
+        blocking_reasons: list[str] = []
+        next_safe_action = ""
+        if status == "pending":
+            warnings.append("Research profile status is pending.")
+            next_safe_action = "Fill synopsis, tags, and style_notes, then move status to drafted."
+        elif status == "drafted" and bounded_translation_ready:
+            warnings.append("Research profile is drafted; bounded translation is allowed with a degraded readiness state.")
+            if not review["last_reviewed_at"]:
+                warnings.append("last_reviewed_at is blank.")
+            if not review["reviewed_by"]:
+                warnings.append("reviewed_by is blank.")
+            next_safe_action = "Use bounded translation only, then review the profile and promote it to active before wider production."
+        elif status == "drafted":
+            blocking_reasons.append("Research profile is drafted but incomplete.")
+            next_safe_action = "Fill the missing required fields before bounded translation."
+        if missing_fields:
+            blocking_reasons.append("Missing required fields: " + ", ".join(missing_fields))
+        if status == "active" and missing_fields:
+            blocking_reasons.append("Research profile is active but incomplete.")
+        if status == "active" and not missing_fields:
+            next_safe_action = "Research profile is ready for normal production."
+        return {
+            "status": status,
+            "readiness": readiness,
+            "translation_ready": translation_ready,
+            "bounded_translation_ready": bounded_translation_ready,
+            "fetch_ready": True,
+            "glossary_scan_ready": True,
+            "required_fields": required_fields,
+            "missing_fields": missing_fields,
+            "warnings": warnings,
+            "blocking_reasons": blocking_reasons,
+            "review": review,
+            "next_safe_action": next_safe_action,
+        }
 
     def context_text(self) -> str:
         lines: list[str] = []
@@ -869,6 +965,57 @@ class AppConfig(JsonSerializable):
         if self.research_profile is None:
             return "none"
         return self.research_profile.context_text()
+
+    def research_readiness_summary(self) -> dict[str, Any]:
+        profile_path = self.workspace.root / "RESEARCH_PROFILE.yaml"
+        if self.research_profile is None:
+            return {
+                "path": str(profile_path),
+                "present": False,
+                "status": "missing",
+                "readiness": "blocked",
+                "translation_ready": False,
+                "bounded_translation_ready": False,
+                "fetch_ready": True,
+                "glossary_scan_ready": True,
+                "required_fields": [],
+                "missing_fields": [],
+                "warnings": ["RESEARCH_PROFILE.yaml is missing."],
+                "blocking_reasons": ["RESEARCH_PROFILE.yaml is missing."],
+                "review": {
+                    "last_reviewed_at": "",
+                    "reviewed_by": "",
+                },
+                "next_safe_action": "Create RESEARCH_PROFILE.yaml and fill the required fields before translation.",
+            }
+        summary = self.research_profile.readiness_summary()
+        expected_source_url = self.source.toc_url.strip()
+        profile_source_url = self.research_profile.source_url.strip()
+        if expected_source_url and profile_source_url and profile_source_url != expected_source_url:
+            message = "Research profile source_url does not match config source.toc_url."
+            if summary["status"] == "pending":
+                summary["warnings"] = [*summary["warnings"], message]
+            else:
+                summary["blocking_reasons"] = [*summary["blocking_reasons"], message]
+                summary["bounded_translation_ready"] = False
+                summary["translation_ready"] = False
+                summary["readiness"] = "blocked"
+        summary["path"] = str(profile_path)
+        summary["present"] = True
+        return summary
+
+    def ensure_translation_ready(self, *, bounded: bool) -> dict[str, Any]:
+        summary = self.research_readiness_summary()
+        is_ready = summary["bounded_translation_ready"] if bounded else summary["translation_ready"]
+        if not is_ready:
+            mode = "bounded translation" if bounded else "normal production"
+            raise ValueError(
+                f"Research profile is not ready for {mode}. "
+                f"status={summary['status']}; "
+                f"missing={', '.join(summary['missing_fields']) or 'none'}; "
+                f"blocking={'; '.join(summary['blocking_reasons']) or 'none'}"
+            )
+        return summary
 
 
 AppPaths = WorkspacePaths
