@@ -153,7 +153,9 @@ Active:
 - ch022: 5/5 complete, output exists
 - ch023: 5/5 complete, output exists
 - current failed blocks: none
+- historical failed records: 9
 - manual actions needed: none
+- next effective action: none
 - V3.10 complete: repeatable rollout protocol artifacts exist
 - V3.11 complete: report automation command family now exists
 - V3.12 complete: glossary and terminology hardening
@@ -163,6 +165,7 @@ Active:
 - V4.3 complete: research-profile workflow now uses `RESEARCH_PROFILE.yaml`, a manual web-research playbook, and prompt context wiring for translation/refinement/QA
 - research-profile readiness contract now classifies `pending` / `drafted` / `active`, reports missing fields, and keeps a missing `RESEARCH_PROFILE.yaml` visible without breaking old read-only flows
 - `novel-pipeline preflight` now summarizes provider executable availability, workspace/config integrity, research readiness, and git backup guardrails; the operator snapshot mirrors this state
+- latest verified preflight state: `ready` on 2026-04-29 (`main`, head `60bfc0f`, working tree clean, research status `active / ready`)
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, and artifact viewing
@@ -226,12 +229,14 @@ Proceed with protocol/product work:
 
 1. Freeze V3.9 completion evidence:
    `novel-pipeline --config ".system/config.yaml" status --run-id batch-ch019-ch023-v1`
-2. Use the new V3.10 artifacts as the reusable handoff package:
+2. Freeze current operator baseline:
+   `novel-pipeline --config ".system/config.yaml" preflight`
+3. Use the new V3.10 artifacts as the reusable handoff package:
    - `00_Templates/Batch-Rollout-Checklist.md`
    - `00_Templates/Worker-Bounded-Batch-Prompt.md`
    - `07_Reports/v3_10_repeatable_rollout_protocol.md`
-3. Start `V5.0` from this stable multi-novel, multi-genre, research-profile, and preflight baseline.
-4. Do not plan `ch024+` translation until new source is available and a fresh fetch/scan decision is made.
+4. Start `V5.0` from this stable multi-novel, multi-genre, research-profile, and preflight baseline.
+5. Do not plan `ch024+` translation until new source is available and a fresh fetch/scan decision is made.
 
 ## Invariants And Guardrails
 

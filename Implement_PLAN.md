@@ -325,6 +325,8 @@ Goal: make the workflow self-sufficient for normal novel production.
 - worker models cannot silently mutate source-of-truth docs or artifacts
 - Codex remains architect/reviewer, not manual command memory layer
 
+Status: active next milestone after V4.4. Current baseline is verified: `batch-ch019-ch023-v1` is complete, `preflight` is ready, and the operator/product foundation is in place for end-to-end acceptance tightening.
+
 Done when the workflow can operate end to end with bounded human decision points and safe recovery.
 
 ## Acceptance Gates
