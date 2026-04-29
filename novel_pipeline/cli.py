@@ -7,6 +7,7 @@ from pathlib import Path
 from novel_pipeline.config import load_app_config
 from novel_pipeline.logging import configure_logging
 from novel_pipeline.operator_ui import serve_operator_ui
+from novel_pipeline.preflight import build_preflight_summary, print_preflight_summary
 from novel_pipeline.project_setup import initialize_novel_project
 from novel_pipeline.reports import (
     build_checkpoint_report,
@@ -153,6 +154,9 @@ def build_parser() -> argparse.ArgumentParser:
     operator_p.add_argument("--host", default="127.0.0.1", help="Host to bind the operator window server.")
     operator_p.add_argument("--port", type=int, default=8765, help="Port to bind the operator window server.")
     operator_p.add_argument("--open-browser", action="store_true", default=False, help="Open the operator window in a browser.")
+
+    preflight_p = subparsers.add_parser("preflight", help="Run environment, config, and git guardrail checks.")
+    preflight_p.add_argument("--json", action="store_true", default=False, help="Print the preflight summary as JSON.")
 
     init_novel_p = subparsers.add_parser("init-novel", help="Scaffold a new novel project from the current workspace.")
     init_novel_p.add_argument("--project-root", type=Path, required=True, help="Target directory for the new novel project.")
@@ -412,6 +416,16 @@ def cmd_operator(args: argparse.Namespace, config) -> int:
     return 0
 
 
+def cmd_preflight(args: argparse.Namespace, config) -> int:
+    summary = build_preflight_summary(config)
+    if args.json:
+        import json
+        print(json.dumps(summary, ensure_ascii=False, indent=2))
+    else:
+        print_preflight_summary(summary)
+    return 1 if summary.get("blocking_reasons") else 0
+
+
 def cmd_init_novel(args: argparse.Namespace, config) -> int:
     try:
         result = initialize_novel_project(
@@ -608,6 +622,7 @@ COMMAND_HANDLERS = {
     "report": cmd_report,
     "inspect-block": cmd_inspect_block,
     "operator": cmd_operator,
+    "preflight": cmd_preflight,
     "init-novel": cmd_init_novel,
     "rerun-block": cmd_rerun_block,
     "fetch": cmd_fetch,

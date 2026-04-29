@@ -59,7 +59,8 @@ This is the practical runbook. It should help the operator proceed without guess
 - V4.2 complete: multi-genre style profiles now provide structured preset guidance for refinement and QA.
 - V4.3 complete: research-profile workflow now uses `RESEARCH_PROFILE.yaml`, a manual web-research playbook, and prompt context wiring for translation/refinement/QA.
 - operator bootstrap/snapshot now carries the research-profile path plus readiness summary so the UI can surface pending, drafted, active, or missing states later.
-- Next milestone after V4.3: `V4.4` packaging and operator reliability.
+- V4.4 complete: `novel-pipeline preflight` now checks provider executables, config/workspace integrity, research readiness, and git backup guardrails, and the operator window surfaces the same snapshot.
+- Next milestone after V4.4: `V5.0` product complete gate.
 
 ## Standard Preflight
 
@@ -81,6 +82,12 @@ Status:
 
 ```powershell
 novel-pipeline --config ".system/config.yaml" status --run-id batch-ch019-ch023-v1
+```
+
+Preflight:
+
+```powershell
+novel-pipeline --config ".system/config.yaml" preflight
 ```
 
 Generated verification reports:

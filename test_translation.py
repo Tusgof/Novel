@@ -2327,6 +2327,60 @@ status: archived
         assert "Invalid research profile" in str(exc)
 
 
+def test_build_preflight_summary_reports_provider_and_git_state():
+    """Preflight summary reports missing providers and git warnings without crashing."""
+    import tempfile
+    from unittest.mock import Mock, patch
+
+    from novel_pipeline.preflight import build_preflight_summary
+    from novel_pipeline.types import AppConfig, BatchDefaults, ChunkingPolicy, ProviderSpec, ResearchProfile, SourceConfig, StageRouting, StyleProfile, WorkspacePaths
+
+    workspace_root = Path(tempfile.mkdtemp(prefix="novel-preflight-"))
+    for name in [".system", "01_Glossary", "03_Raw", "04_Work", "05_Output", "06_Logs", "07_Reports"]:
+        (workspace_root / name).mkdir(parents=True, exist_ok=True)
+    config = AppConfig(
+        config_path=workspace_root / ".system" / "config.yaml",
+        workspace=WorkspacePaths.from_root(workspace_root),
+        novel_id="test-novel",
+        vault_root=workspace_root,
+        source_language="zh",
+        default_style_profile="default",
+        batch=BatchDefaults(),
+        chunking=ChunkingPolicy(),
+        research_profile=ResearchProfile.from_mapping(
+            {
+                "title": "Test Novel",
+                "source_url": "https://example.com/toc",
+                "status": "drafted",
+                "synopsis": "Synopsis",
+                "tags": ["mystery"],
+                "style_notes": "Keep the tone restrained.",
+            }
+        ),
+        source=SourceConfig(adapter="piaotia", toc_url="https://example.com/toc"),
+        providers={
+            "gemini": ProviderSpec(name="gemini", executable=("missing-gemini",)),
+        },
+        stage_routing={
+            "literal_translation": StageRouting(stage="literal_translation", provider="gemini"),
+        },
+        style_profiles={"default": StyleProfile(key="default", name="default", description="default")},
+        raw_config={},
+    )
+
+    with patch("novel_pipeline.preflight.shutil.which", side_effect=lambda name: None if name == "missing-gemini" else "C:/git.exe"), \
+         patch("novel_pipeline.preflight._git_capture", side_effect=[(True, "true"), (True, "main"), (True, "abc1234"), (True, "https://example.com/repo.git"), (True, " M test.txt")]):
+        summary = build_preflight_summary(config)
+
+    assert summary["status"] == "blocked"
+    assert summary["providers"][0]["provider"] == "gemini"
+    assert summary["providers"][0]["found"] is False
+    assert any("Provider executable not found" in item for item in summary["blocking_reasons"])
+    assert summary["git"]["in_work_tree"] is True
+    assert summary["git"]["clean"] is False
+    assert any("Working tree is dirty" in item for item in summary["warnings"])
+
+
 def test_initialize_novel_project_scaffolds_expected_files_and_rewrites_codex_cd():
     """init-novel scaffold creates an isolated project without code edits."""
     import tempfile
@@ -2855,6 +2909,20 @@ def test_cmd_resume_returns_two_on_manual_action_required():
 
     assert result == 2
     assert "[MANUAL ACTION REQUIRED]" in stderr.getvalue()
+
+
+def test_cmd_preflight_returns_one_when_blocked():
+    from argparse import Namespace
+
+    from novel_pipeline.cli import cmd_preflight
+
+    config = Mock()
+    args = Namespace(json=False)
+
+    with patch("novel_pipeline.cli.build_preflight_summary", return_value={"blocking_reasons": ["blocked"], "status": "blocked"}), \
+         patch("novel_pipeline.cli.print_preflight_summary") as print_mock:
+        assert cmd_preflight(args, config) == 1
+        print_mock.assert_called_once()
 
 
 def test_resume_pipeline_stops_before_chapter_after_until_chapter():
@@ -3867,6 +3935,32 @@ reference_links:
     assert snapshot["research_readiness"]["path"].endswith("RESEARCH_PROFILE.yaml")
 
 
+def test_operator_snapshot_includes_preflight():
+    """Operator snapshot includes a preflight summary."""
+    import tempfile
+    from novel_pipeline.config import load_app_config
+    from novel_pipeline.operator_ui import build_operator_snapshot
+
+    base = Path(tempfile.mkdtemp(prefix="novel-operator-preflight-"))
+    config_path = _write_research_profile_test_workspace(
+        base,
+        """schema_version: 1
+title: Deep Sea Embers
+source_url: https://example.com/toc
+status: drafted
+synopsis: Nautical dark fantasy with a slow-burn mystery.
+tags:
+  - nautical dark fantasy
+style_notes: Blend eerie maritime atmosphere with grounded reactions.
+""",
+    )
+    config = load_app_config(config_path)
+    with patch("novel_pipeline.operator_ui.build_preflight_summary", return_value={"status": "degraded", "warnings": ["dirty"], "blocking_reasons": []}):
+        snapshot = build_operator_snapshot(config, run_id="batch-ch019-ch023-v1")
+
+    assert snapshot["preflight"]["status"] == "degraded"
+
+
 def test_build_glossary_suggestion_snapshot_returns_provider_options():
     from novel_pipeline.operator_ui import build_glossary_suggestion_snapshot
     from novel_pipeline.types import TermSuggestion
@@ -4451,12 +4545,14 @@ if __name__ == "__main__":
     test_research_profile_missing_file_is_visible_but_not_blocking()
     test_research_profile_config_loads_review_metadata()
     test_research_profile_invalid_status_rejected()
+    test_build_preflight_summary_reports_provider_and_git_state()
     test_literal_translation_stage_uses_research_context()
     test_refine_stage_uses_research_context()
     test_qa_stage_uses_research_context()
     test_refine_stage_uses_structured_style_instructions()
     test_qa_stage_uses_structured_style_instructions()
     test_cmd_resume_returns_two_on_manual_action_required()
+    test_cmd_preflight_returns_one_when_blocked()
     test_resume_pipeline_stops_before_chapter_after_until_chapter()
     test_resume_chapter_stops_after_until_block()
     test_resume_chapter_stops_after_completed_until_block()
@@ -4474,6 +4570,7 @@ if __name__ == "__main__":
     test_execute_operator_action_resume_uses_stop_mode_and_returns_snapshot()
     test_execute_operator_action_rerun_block_dispatches_expected_args()
     test_operator_snapshot_includes_research_readiness()
+    test_operator_snapshot_includes_preflight()
     test_build_glossary_suggestion_snapshot_returns_provider_options()
     test_execute_glossary_decision_approve_commits_when_queue_is_empty()
     test_execute_glossary_decision_reject_updates_queue_without_commit()

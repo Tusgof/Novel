@@ -27,6 +27,7 @@ from novel_pipeline.pipeline import (
     resume_pipeline,
     status_run,
 )
+from novel_pipeline.preflight import build_preflight_summary
 from novel_pipeline.prompts import PromptStore
 from novel_pipeline.stages.glossary import build_term_suggestion
 from novel_pipeline.reports import (
@@ -121,6 +122,7 @@ def build_operator_snapshot(config: AppConfig, run_id: str | None = None) -> dic
         "status": status,
         "research_profile_path": str(config.workspace.root / "RESEARCH_PROFILE.yaml"),
         "research_readiness": config.research_readiness_summary(),
+        "preflight": build_preflight_summary(config),
     }
 
 
@@ -659,6 +661,12 @@ def _render_operator_html() -> str:
           </section>
 
           <section class="panel">
+            <h3>Preflight</h3>
+            <p class="meta">Environment, provider, and git guardrail checks.</p>
+            <div id="preflightSummary" class="empty">No preflight summary loaded.</div>
+          </section>
+
+          <section class="panel">
             <h3>Manual Actions</h3>
             <p class="meta">Outstanding operator actions from `status`.</p>
             <ul id="manualActions" class="actions-list"></ul>
@@ -897,6 +905,34 @@ def _render_operator_html() -> str:
       `;
     }
 
+    function renderPreflight(snapshot) {
+      const wrap = document.getElementById("preflightSummary");
+      const preflight = snapshot?.preflight || {};
+      const warnings = preflight.warnings || [];
+      const blocking = preflight.blocking_reasons || [];
+      const git = preflight.git || {};
+      const providerItems = preflight.providers || [];
+      const pillClass = preflight.status === "ready"
+        ? "ok"
+        : preflight.status === "degraded"
+          ? ""
+          : "danger";
+      const providerLines = providerItems.length
+        ? providerItems.map((item) => `${item.provider}: ${item.found ? "ready" : "missing"} [${(item.stages || []).join(", ")}]`).join(" | ")
+        : "none";
+      wrap.className = "";
+      wrap.innerHTML = `
+        <div class="stack">
+          <div><span class="pill ${pillClass}">${escapeHtml(preflight.status || "blocked")}</span></div>
+          <div class="mono">providers: ${escapeHtml(providerLines)}</div>
+          <div class="mono">git: ${git.available ? (git.in_work_tree ? `${git.branch || "(detached)"} / ${git.clean ? "clean" : "dirty"}` : "not a work tree") : "unavailable"}</div>
+          <div class="mono">warnings: ${escapeHtml(warnings.length ? warnings.join(" | ") : "none")}</div>
+          <div class="mono">blocking: ${escapeHtml(blocking.length ? blocking.join(" | ") : "none")}</div>
+          <div class="mono">next safe action: ${escapeHtml(preflight.next_safe_action || "none")}</div>
+        </div>
+      `;
+    }
+
     function renderSnapshot(snapshot) {
       state.snapshot = snapshot;
       const runId = snapshot?.run_id || "";
@@ -909,6 +945,7 @@ def _render_operator_html() -> str:
       renderMetrics(snapshot);
       renderChapterTable(snapshot);
       renderResearchReadiness(snapshot);
+      renderPreflight(snapshot);
       renderManualActions(snapshot);
     }
 

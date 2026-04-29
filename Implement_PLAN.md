@@ -313,7 +313,7 @@ Goal: make the tool restorable and movable without tribal knowledge.
 - backup and git guardrails
 - research-profile readiness contract: `pending` / `drafted` / `active`, required-field checks, missing-field reporting, and nonblocking missing-profile visibility
 
-Status: in progress; the research-profile readiness slice is implemented and the remaining V4.4 packaging checks stay open.
+Status: complete. `novel-pipeline preflight` now checks provider executables, config/workspace integrity, research-profile readiness, and git backup guardrails; the operator snapshot surfaces the same preflight state.
 
 Done when the tool can be restored or moved without rebuilding tribal knowledge.
 

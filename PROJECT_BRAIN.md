@@ -162,6 +162,7 @@ Active:
 - V4.2 complete: structured multi-genre style profiles now exist and are wired into refinement/QA prompts
 - V4.3 complete: research-profile workflow now uses `RESEARCH_PROFILE.yaml`, a manual web-research playbook, and prompt context wiring for translation/refinement/QA
 - research-profile readiness contract now classifies `pending` / `drafted` / `active`, reports missing fields, and keeps a missing `RESEARCH_PROFILE.yaml` visible without breaking old read-only flows
+- `novel-pipeline preflight` now summarizes provider executable availability, workspace/config integrity, research readiness, and git backup guardrails; the operator snapshot mirrors this state
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, and artifact viewing
@@ -229,7 +230,7 @@ Proceed with protocol/product work:
    - `00_Templates/Batch-Rollout-Checklist.md`
    - `00_Templates/Worker-Bounded-Batch-Prompt.md`
    - `07_Reports/v3_10_repeatable_rollout_protocol.md`
-3. Start `V4.4` from this stable multi-novel, multi-genre, research-profile baseline: package reliability, environment checks, config validation, and backup/git guardrails.
+3. Start `V5.0` from this stable multi-novel, multi-genre, research-profile, and preflight baseline.
 4. Do not plan `ch024+` translation until new source is available and a fresh fetch/scan decision is made.
 
 ## Invariants And Guardrails
