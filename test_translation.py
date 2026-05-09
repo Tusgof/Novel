@@ -4090,6 +4090,83 @@ def test_execute_operator_action_init_novel_parses_aliases_from_ui_payload():
     assert init_mock.call_args.kwargs["aliases"] == ["深海余烬", "Deep Sea Embers", "Ember Tide"]
 
 
+def test_execute_operator_action_save_research_profile_updates_yaml():
+    from novel_pipeline.operator_ui import execute_operator_action
+    from novel_pipeline.config import load_app_config
+
+    import tempfile
+    import yaml
+
+    base = Path(tempfile.mkdtemp(prefix="novel-save-research-profile-"))
+    config_path = _write_research_profile_test_workspace(
+        base,
+        """schema_version: 1
+title: Old Title
+source_url: https://example.com/toc
+status: drafted
+synopsis: Old synopsis
+tags:
+  - old tag
+style_notes: Preserve the original voice.
+reader_expectations: Existing readers
+review_summary: Existing review
+last_reviewed_at: 2026-05-01T00:00:00+00:00
+reviewed_by: Old reviewer
+terminology:
+  - ember
+reference_links:
+  - https://example.com/ref
+notes: Keep notes
+""",
+    )
+    config = load_app_config(config_path)
+
+    result = execute_operator_action(
+        config=config,
+        action="save-research-profile",
+        run_id="",
+        payload={
+            "title": "Updated Title",
+            "source_url": "https://example.com/toc",
+            "status": "active",
+            "synopsis": "Updated synopsis",
+            "tags": ["new tag", "second tag"],
+            "style_notes": "New style notes",
+            "last_reviewed_at": "2026-05-09T00:00:00+07:00",
+            "reviewed_by": "Editor",
+        },
+    )
+
+    saved_profile_path = config.workspace.root / "RESEARCH_PROFILE.yaml"
+    saved_payload = yaml.safe_load(saved_profile_path.read_text(encoding="utf-8"))
+    assert saved_payload == {
+        "schema_version": 1,
+        "title": "Updated Title",
+        "aliases": [],
+        "source_url": "https://example.com/toc",
+        "status": "active",
+        "synopsis": "Updated synopsis",
+        "tags": ["new tag", "second tag"],
+        "style_notes": "New style notes",
+        "reader_expectations": "Existing readers",
+        "review_summary": "Existing review",
+        "last_reviewed_at": "2026-05-09T00:00:00+07:00",
+        "reviewed_by": "Editor",
+        "terminology": ["ember"],
+        "reference_links": ["https://example.com/ref"],
+        "notes": "Keep notes",
+    }
+    assert config.research_profile is not None
+    assert config.research_profile.title == "Updated Title"
+    assert config.research_profile.status == "active"
+    assert config.research_profile.reader_expectations == "Existing readers"
+    assert config.research_profile.review_summary == "Existing review"
+    assert result["snapshot"]["research_profile"]["title"] == "Updated Title"
+    assert result["snapshot"]["research_readiness"]["status"] == "active"
+    assert result["snapshot"]["research_readiness"]["translation_ready"] is True
+    assert "Saved research profile to" in result["output"]
+
+
 def test_operator_snapshot_includes_research_readiness():
     """Operator bootstrap snapshot includes research profile path and readiness summary."""
     import tempfile
@@ -4125,6 +4202,48 @@ reference_links:
     assert snapshot["research_readiness"]["bounded_translation_ready"] is True
     assert snapshot["research_readiness"]["translation_ready"] is False
     assert snapshot["research_readiness"]["path"].endswith("RESEARCH_PROFILE.yaml")
+
+
+def test_operator_snapshot_includes_research_profile_data():
+    """Operator bootstrap snapshot exposes editable research profile data."""
+    import tempfile
+    from novel_pipeline.config import load_app_config
+    from novel_pipeline.operator_ui import build_operator_snapshot
+
+    base = Path(tempfile.mkdtemp(prefix="novel-operator-research-profile-"))
+    config_path = _write_research_profile_test_workspace(
+        base,
+        """schema_version: 1
+title: Deep Sea Embers
+source_url: https://example.com/toc
+status: drafted
+synopsis: Nautical dark fantasy with a slow-burn mystery.
+tags:
+  - nautical dark fantasy
+  - mystery
+style_notes: Blend eerie maritime atmosphere with grounded reactions.
+reader_expectations: Expect slow-burn reveals and practical protagonist logic.
+review_summary: Reviews emphasize atmosphere, mystery, and immersive worldbuilding.
+last_reviewed_at: 2026-05-01T00:00:00+07:00
+reviewed_by: Editor
+terminology:
+  - ember
+reference_links:
+  - https://example.com/review
+notes: Preserve ship names and source-linked canon.
+""",
+    )
+    config = load_app_config(config_path)
+    snapshot = build_operator_snapshot(config, run_id="batch-ch019-ch023-v1")
+
+    assert snapshot["research_profile"]["title"] == "Deep Sea Embers"
+    assert snapshot["research_profile"]["source_url"] == "https://example.com/toc"
+    assert snapshot["research_profile"]["status"] == "drafted"
+    assert snapshot["research_profile"]["synopsis"].startswith("Nautical dark fantasy")
+    assert snapshot["research_profile"]["tags"] == ["nautical dark fantasy", "mystery"]
+    assert snapshot["research_profile"]["style_notes"].startswith("Blend eerie maritime atmosphere")
+    assert snapshot["research_profile"]["last_reviewed_at"] == "2026-05-01T00:00:00+07:00"
+    assert snapshot["research_profile"]["reviewed_by"] == "Editor"
 
 
 def test_operator_snapshot_includes_preflight():
@@ -4768,7 +4887,9 @@ if __name__ == "__main__":
     test_execute_operator_action_init_novel_dispatches_expected_args()
     test_execute_operator_action_init_novel_rejects_missing_required_fields()
     test_execute_operator_action_init_novel_parses_aliases_from_ui_payload()
+    test_execute_operator_action_save_research_profile_updates_yaml()
     test_operator_snapshot_includes_research_readiness()
+    test_operator_snapshot_includes_research_profile_data()
     test_operator_snapshot_includes_preflight()
     test_build_glossary_suggestion_snapshot_returns_provider_options()
     test_execute_glossary_decision_approve_commits_when_queue_is_empty()

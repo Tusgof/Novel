@@ -45,6 +45,7 @@ This is the practical runbook. It should help the operator proceed without guess
 - Current operator window scope:
   - status dashboard
   - next safe action
+  - research-profile editor for readiness-critical fields (`title`, `source_url`, `status`, `synopsis`, `tags`, `style_notes`, `last_reviewed_at`, `reviewed_by`)
   - block inspection
   - glossary candidate queue view
   - glossary suggestion loading with 2-3 Thai options
@@ -57,12 +58,13 @@ This is the practical runbook. It should help the operator proceed without guess
   - rerun-block control
 - Operator guardrails:
   - init-novel requires explicit `project_root`, `title`, and `source_url`
+  - research-profile save is limited to readiness-critical fields only and revalidates through `ResearchProfile.from_mapping(...)`
   - batch start requires explicit `run_id` and explicit chapter range
   - batch start supports only `glossary-scan` or bounded full-batch mode
   - resume requires `until_chapter` or `until_block`
   - resume always uses `manual_action_mode=stop`
   - glossary approval is limited to current queue terms only
-- broader state-changing control beyond glossary approval plus bounded batch/resume/rerun is still intentionally absent
+- broader state-changing control beyond glossary approval, research-profile save, and bounded batch/resume/rerun is still intentionally absent
 - V4.1 complete: multi-novel foundation now includes per-project scaffold and setup/fetch playbooks.
 - V4.2 complete: multi-genre style profiles now provide structured preset guidance for refinement and QA.
 - V4.3 complete: research-profile workflow now uses `RESEARCH_PROFILE.yaml`, a manual web-research playbook, and prompt context wiring for translation/refinement/QA.

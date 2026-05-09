@@ -330,6 +330,15 @@ Status: active next milestone after V4.4. Current baseline is verified: `batch-c
 Current progress:
 
 - operator workflow can now scaffold a new novel project through `init-novel` inputs and return the created profile/research/config paths
+- operator workflow can now view and save readiness-critical `RESEARCH_PROFILE.yaml` fields without dropping to manual YAML editing:
+  - `title`
+  - `source_url`
+  - `status`
+  - `synopsis`
+  - `tags`
+  - `style_notes`
+  - `last_reviewed_at`
+  - `reviewed_by`
 - operator workflow can now start a batch range in two guarded modes:
   - scan-only gate via `stop_after=glossary-scan`
   - bounded batch run with research-readiness enforcement

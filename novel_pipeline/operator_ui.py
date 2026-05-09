@@ -12,7 +12,8 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, quote, unquote, urlparse
 
-from novel_pipeline.files import atomic_write_json, read_text_if_exists
+from novel_pipeline.config import load_yaml_mapping
+from novel_pipeline.files import atomic_write_json, atomic_write_text, read_text_if_exists
 from novel_pipeline.glossary_support import write_glossary_note
 from novel_pipeline.ledger import RunLedger
 from novel_pipeline.pipeline import (
@@ -31,7 +32,7 @@ from novel_pipeline.pipeline import (
 )
 from novel_pipeline.preflight import build_preflight_summary
 from novel_pipeline.prompts import PromptStore
-from novel_pipeline.project_setup import initialize_novel_project
+from novel_pipeline.project_setup import initialize_novel_project, render_research_profile_yaml
 from novel_pipeline.stages.glossary import build_term_suggestion
 from novel_pipeline.text_utils import parse_chapter_range
 from novel_pipeline.reports import (
@@ -43,7 +44,7 @@ from novel_pipeline.reports import (
     build_glossary_guard_report,
     build_provider_usage_report,
 )
-from novel_pipeline.types import AppConfig, GlossaryEntry, TermSuggestion
+from novel_pipeline.types import AppConfig, GlossaryEntry, ResearchProfile, TermSuggestion
 
 
 def _latest_run_id(config: AppConfig) -> str | None:
@@ -108,6 +109,56 @@ def _parse_init_novel_aliases(raw_aliases: Any) -> list[str]:
     return aliases
 
 
+def _parse_research_tags(raw_tags: Any) -> list[str]:
+    if raw_tags is None:
+        return []
+    if isinstance(raw_tags, (list, tuple)):
+        raw_items = raw_tags
+    else:
+        raw_items = re.split(r"[,\n]+", str(raw_tags))
+    tags: list[str] = []
+    for item in raw_items:
+        tag = str(item).strip()
+        if tag:
+            tags.append(tag)
+    return tags
+
+
+def _research_profile_path(config: AppConfig) -> Path:
+    return config.workspace.root / "RESEARCH_PROFILE.yaml"
+
+
+def _load_research_profile_mapping(config: AppConfig) -> dict[str, Any] | None:
+    path = _research_profile_path(config)
+    if not path.exists():
+        return None
+    return load_yaml_mapping(path)
+
+
+def _research_profile_snapshot(config: AppConfig) -> dict[str, Any]:
+    profile = config.research_profile
+    if profile is None:
+        payload = _load_research_profile_mapping(config)
+        if payload is not None:
+            profile = ResearchProfile.from_mapping(payload)
+    if profile is None:
+        profile = ResearchProfile(
+            title="",
+            source_url=config.source.toc_url.strip(),
+            status="pending",
+        )
+    return {
+        "title": profile.title,
+        "source_url": profile.source_url,
+        "status": profile.status,
+        "synopsis": profile.synopsis,
+        "tags": list(profile.tags),
+        "style_notes": profile.style_notes,
+        "last_reviewed_at": profile.last_reviewed_at,
+        "reviewed_by": profile.reviewed_by,
+    }
+
+
 def generate_operator_report(
     *,
     config: AppConfig,
@@ -140,6 +191,7 @@ def build_operator_snapshot(config: AppConfig, run_id: str | None = None) -> dic
         "available_run_ids": _list_run_ids(config),
         "status": status,
         "research_profile_path": str(config.workspace.root / "RESEARCH_PROFILE.yaml"),
+        "research_profile": _research_profile_snapshot(config),
         "research_readiness": config.research_readiness_summary(),
         "preflight": build_preflight_summary(config),
     }
@@ -423,6 +475,31 @@ def execute_operator_action(
                 style_profile=str(payload.get("style_profile") or "").strip(),
             )
             init_novel_paths = {key: str(value) for key, value in result.items()}
+        elif action == "save-research-profile":
+            profile_path = _research_profile_path(config)
+            current_payload = _load_research_profile_mapping(config)
+            if current_payload is None and config.research_profile is not None:
+                current_payload = config.research_profile.to_dict()
+            merged_payload = dict(current_payload or {})
+            merged_payload.setdefault("source_url", config.source.toc_url.strip())
+            merged_payload.setdefault("status", "pending")
+            for field_name in (
+                "title",
+                "source_url",
+                "status",
+                "synopsis",
+                "style_notes",
+                "last_reviewed_at",
+                "reviewed_by",
+            ):
+                if field_name in payload:
+                    merged_payload[field_name] = str(payload.get(field_name) or "").strip()
+            if "tags" in payload:
+                merged_payload["tags"] = _parse_research_tags(payload.get("tags"))
+            profile = ResearchProfile.from_mapping(merged_payload)
+            atomic_write_text(profile_path, render_research_profile_yaml(profile))
+            config.research_profile = profile
+            print(f"Saved research profile to {profile_path}")
         else:
             raise ValueError(f"Unsupported operator action: {action}")
 
@@ -734,6 +811,28 @@ def _render_operator_html() -> str:
           </section>
 
           <section class="panel">
+            <h3>Research Profile</h3>
+            <p class="meta">Edit the current workspace research profile fields used for readiness.</p>
+            <div class="stack">
+              <input id="researchProfileTitle" placeholder="Title">
+              <input id="researchProfileSourceUrl" placeholder="Source URL">
+              <div class="inspect-grid">
+                <select id="researchProfileStatus">
+                  <option value="pending">pending</option>
+                  <option value="drafted">drafted</option>
+                  <option value="active">active</option>
+                </select>
+                <input id="researchProfileLastReviewedAt" placeholder="Last reviewed at">
+              </div>
+              <input id="researchProfileReviewedBy" placeholder="Reviewed by">
+              <textarea id="researchProfileSynopsis" placeholder="Synopsis"></textarea>
+              <textarea id="researchProfileTags" placeholder="Tags, one per line or comma-separated"></textarea>
+              <textarea id="researchProfileStyleNotes" placeholder="Style notes"></textarea>
+            </div>
+            <button class="primary" id="saveResearchProfileBtn">Save Research Profile</button>
+          </section>
+
+          <section class="panel">
             <h3>Preflight</h3>
             <p class="meta">Environment, provider, and git guardrail checks.</p>
             <div id="preflightSummary" class="empty">No preflight summary loaded.</div>
@@ -874,6 +973,14 @@ def _render_operator_html() -> str:
     const initGenre = document.getElementById("initGenre");
     const initAdapter = document.getElementById("initAdapter");
     const initStyleProfile = document.getElementById("initStyleProfile");
+    const researchProfileTitle = document.getElementById("researchProfileTitle");
+    const researchProfileSourceUrl = document.getElementById("researchProfileSourceUrl");
+    const researchProfileStatus = document.getElementById("researchProfileStatus");
+    const researchProfileSynopsis = document.getElementById("researchProfileSynopsis");
+    const researchProfileTags = document.getElementById("researchProfileTags");
+    const researchProfileStyleNotes = document.getElementById("researchProfileStyleNotes");
+    const researchProfileLastReviewedAt = document.getElementById("researchProfileLastReviewedAt");
+    const researchProfileReviewedBy = document.getElementById("researchProfileReviewedBy");
     const resumeRunId = document.getElementById("resumeRunId");
     const resumeUntilChapter = document.getElementById("resumeUntilChapter");
     const resumeUntilBlock = document.getElementById("resumeUntilBlock");
@@ -918,6 +1025,13 @@ def _render_operator_html() -> str:
         return fileLink(path, label);
       }
       return escapeHtml(label || path || "");
+    }
+
+    function splitResearchProfileTags(raw) {
+      return String(raw || "")
+        .split(/[\n,]+/)
+        .map((item) => item.trim())
+        .filter(Boolean);
     }
 
     function renderPathList(paths) {
@@ -1050,6 +1164,18 @@ def _render_operator_html() -> str:
       `;
     }
 
+    function renderResearchProfileEditor(snapshot) {
+      const profile = snapshot?.research_profile || {};
+      researchProfileTitle.value = profile.title || "";
+      researchProfileSourceUrl.value = profile.source_url || "";
+      researchProfileStatus.value = profile.status || "pending";
+      researchProfileSynopsis.value = profile.synopsis || "";
+      researchProfileTags.value = Array.isArray(profile.tags) ? profile.tags.join("\n") : "";
+      researchProfileStyleNotes.value = profile.style_notes || "";
+      researchProfileLastReviewedAt.value = profile.last_reviewed_at || "";
+      researchProfileReviewedBy.value = profile.reviewed_by || "";
+    }
+
     function renderPreflight(snapshot) {
       const wrap = document.getElementById("preflightSummary");
       const preflight = snapshot?.preflight || {};
@@ -1090,6 +1216,7 @@ def _render_operator_html() -> str:
       renderMetrics(snapshot);
       renderChapterTable(snapshot);
       renderResearchReadiness(snapshot);
+      renderResearchProfileEditor(snapshot);
       renderPreflight(snapshot);
       renderManualActions(snapshot);
     }
@@ -1350,6 +1477,20 @@ def _render_operator_html() -> str:
         style_profile: initStyleProfile.value.trim(),
       });
     });
+    document.getElementById("saveResearchProfileBtn").addEventListener("click", () => {
+      runAction("save-research-profile", {
+        action: "save-research-profile",
+        run_id: state.runId || "",
+        title: researchProfileTitle.value.trim(),
+        source_url: researchProfileSourceUrl.value.trim(),
+        status: researchProfileStatus.value,
+        synopsis: researchProfileSynopsis.value.trim(),
+        tags: splitResearchProfileTags(researchProfileTags.value),
+        style_notes: researchProfileStyleNotes.value.trim(),
+        last_reviewed_at: researchProfileLastReviewedAt.value.trim(),
+        reviewed_by: researchProfileReviewedBy.value.trim(),
+      });
+    });
     document.getElementById("batchBtn").addEventListener("click", () => {
       const runId = batchRunId.value.trim() || state.runId;
       const chapterRange = batchChapterRange.value.trim();
@@ -1529,7 +1670,7 @@ class _OperatorHandler(BaseHTTPRequestHandler):
                 return
             run_id = str(payload.get("run_id") or "").strip()
             action = str(payload.get("action") or "").strip()
-            if not action or (not run_id and action != "init-novel"):
+            if not action or (not run_id and action not in {"init-novel", "save-research-profile"}):
                 self._send_json({"error": "action is required; run_id is required for run-scoped actions."}, status=400)
                 return
             if action == "glossary-decision":

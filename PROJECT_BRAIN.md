@@ -247,6 +247,15 @@ Current V5.0 slice in progress:
   - `title`
   - `source_url`
   - optional aliases / genre / adapter / style profile
+- operator can now edit the readiness-critical research-profile fields without dropping to YAML editing:
+  - `title`
+  - `source_url`
+  - `status`
+  - `synopsis`
+  - `tags`
+  - `style_notes`
+  - `last_reviewed_at`
+  - `reviewed_by`
 - operator can now initiate a batch range without dropping to CLI memory:
   - glossary scan gate (`glossary-scan`)
   - bounded batch run with research readiness enforced
