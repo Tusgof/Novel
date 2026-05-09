@@ -109,19 +109,19 @@ def _parse_init_novel_aliases(raw_aliases: Any) -> list[str]:
     return aliases
 
 
-def _parse_research_tags(raw_tags: Any) -> list[str]:
-    if raw_tags is None:
+def _parse_text_list(raw_items: Any) -> list[str]:
+    if raw_items is None:
         return []
-    if isinstance(raw_tags, (list, tuple)):
-        raw_items = raw_tags
+    if isinstance(raw_items, (list, tuple)):
+        values = raw_items
     else:
-        raw_items = re.split(r"[,\n]+", str(raw_tags))
-    tags: list[str] = []
-    for item in raw_items:
-        tag = str(item).strip()
-        if tag:
-            tags.append(tag)
-    return tags
+        values = re.split(r"[,\n]+", str(raw_items))
+    items: list[str] = []
+    for item in values:
+        text = str(item).strip()
+        if text:
+            items.append(text)
+    return items
 
 
 def _research_profile_path(config: AppConfig) -> Path:
@@ -149,13 +149,19 @@ def _research_profile_snapshot(config: AppConfig) -> dict[str, Any]:
         )
     return {
         "title": profile.title,
+        "aliases": list(profile.aliases),
         "source_url": profile.source_url,
         "status": profile.status,
         "synopsis": profile.synopsis,
         "tags": list(profile.tags),
         "style_notes": profile.style_notes,
+        "reader_expectations": profile.reader_expectations,
+        "review_summary": profile.review_summary,
         "last_reviewed_at": profile.last_reviewed_at,
         "reviewed_by": profile.reviewed_by,
+        "terminology": list(profile.terminology),
+        "reference_links": list(profile.reference_links),
+        "notes": profile.notes,
     }
 
 
@@ -489,13 +495,22 @@ def execute_operator_action(
                 "status",
                 "synopsis",
                 "style_notes",
+                "reader_expectations",
+                "review_summary",
                 "last_reviewed_at",
                 "reviewed_by",
+                "notes",
             ):
                 if field_name in payload:
                     merged_payload[field_name] = str(payload.get(field_name) or "").strip()
+            if "aliases" in payload:
+                merged_payload["aliases"] = _parse_text_list(payload.get("aliases"))
             if "tags" in payload:
-                merged_payload["tags"] = _parse_research_tags(payload.get("tags"))
+                merged_payload["tags"] = _parse_text_list(payload.get("tags"))
+            if "terminology" in payload:
+                merged_payload["terminology"] = _parse_text_list(payload.get("terminology"))
+            if "reference_links" in payload:
+                merged_payload["reference_links"] = _parse_text_list(payload.get("reference_links"))
             profile = ResearchProfile.from_mapping(merged_payload)
             atomic_write_text(profile_path, render_research_profile_yaml(profile))
             config.research_profile = profile
@@ -815,6 +830,7 @@ def _render_operator_html() -> str:
             <p class="meta">Edit the current workspace research profile fields used for readiness.</p>
             <div class="stack">
               <input id="researchProfileTitle" placeholder="Title">
+              <textarea id="researchProfileAliases" placeholder="Aliases, one per line or comma-separated"></textarea>
               <input id="researchProfileSourceUrl" placeholder="Source URL">
               <div class="inspect-grid">
                 <select id="researchProfileStatus">
@@ -828,6 +844,11 @@ def _render_operator_html() -> str:
               <textarea id="researchProfileSynopsis" placeholder="Synopsis"></textarea>
               <textarea id="researchProfileTags" placeholder="Tags, one per line or comma-separated"></textarea>
               <textarea id="researchProfileStyleNotes" placeholder="Style notes"></textarea>
+              <textarea id="researchProfileReaderExpectations" placeholder="Reader expectations"></textarea>
+              <textarea id="researchProfileReviewSummary" placeholder="Review summary"></textarea>
+              <textarea id="researchProfileTerminology" placeholder="Terminology, one per line or comma-separated"></textarea>
+              <textarea id="researchProfileReferenceLinks" placeholder="Reference links, one per line or comma-separated"></textarea>
+              <textarea id="researchProfileNotes" placeholder="Notes"></textarea>
             </div>
             <button class="primary" id="saveResearchProfileBtn">Save Research Profile</button>
           </section>
@@ -974,13 +995,19 @@ def _render_operator_html() -> str:
     const initAdapter = document.getElementById("initAdapter");
     const initStyleProfile = document.getElementById("initStyleProfile");
     const researchProfileTitle = document.getElementById("researchProfileTitle");
+    const researchProfileAliases = document.getElementById("researchProfileAliases");
     const researchProfileSourceUrl = document.getElementById("researchProfileSourceUrl");
     const researchProfileStatus = document.getElementById("researchProfileStatus");
     const researchProfileSynopsis = document.getElementById("researchProfileSynopsis");
     const researchProfileTags = document.getElementById("researchProfileTags");
     const researchProfileStyleNotes = document.getElementById("researchProfileStyleNotes");
+    const researchProfileReaderExpectations = document.getElementById("researchProfileReaderExpectations");
+    const researchProfileReviewSummary = document.getElementById("researchProfileReviewSummary");
     const researchProfileLastReviewedAt = document.getElementById("researchProfileLastReviewedAt");
     const researchProfileReviewedBy = document.getElementById("researchProfileReviewedBy");
+    const researchProfileTerminology = document.getElementById("researchProfileTerminology");
+    const researchProfileReferenceLinks = document.getElementById("researchProfileReferenceLinks");
+    const researchProfileNotes = document.getElementById("researchProfileNotes");
     const resumeRunId = document.getElementById("resumeRunId");
     const resumeUntilChapter = document.getElementById("resumeUntilChapter");
     const resumeUntilBlock = document.getElementById("resumeUntilBlock");
@@ -1027,7 +1054,7 @@ def _render_operator_html() -> str:
       return escapeHtml(label || path || "");
     }
 
-    function splitResearchProfileTags(raw) {
+    function splitListField(raw) {
       return String(raw || "")
         .split(/[\n,]+/)
         .map((item) => item.trim())
@@ -1167,13 +1194,19 @@ def _render_operator_html() -> str:
     function renderResearchProfileEditor(snapshot) {
       const profile = snapshot?.research_profile || {};
       researchProfileTitle.value = profile.title || "";
+      researchProfileAliases.value = Array.isArray(profile.aliases) ? profile.aliases.join("\n") : "";
       researchProfileSourceUrl.value = profile.source_url || "";
       researchProfileStatus.value = profile.status || "pending";
       researchProfileSynopsis.value = profile.synopsis || "";
       researchProfileTags.value = Array.isArray(profile.tags) ? profile.tags.join("\n") : "";
       researchProfileStyleNotes.value = profile.style_notes || "";
+      researchProfileReaderExpectations.value = profile.reader_expectations || "";
+      researchProfileReviewSummary.value = profile.review_summary || "";
       researchProfileLastReviewedAt.value = profile.last_reviewed_at || "";
       researchProfileReviewedBy.value = profile.reviewed_by || "";
+      researchProfileTerminology.value = Array.isArray(profile.terminology) ? profile.terminology.join("\n") : "";
+      researchProfileReferenceLinks.value = Array.isArray(profile.reference_links) ? profile.reference_links.join("\n") : "";
+      researchProfileNotes.value = profile.notes || "";
     }
 
     function renderPreflight(snapshot) {
@@ -1482,13 +1515,19 @@ def _render_operator_html() -> str:
         action: "save-research-profile",
         run_id: state.runId || "",
         title: researchProfileTitle.value.trim(),
+        aliases: splitListField(researchProfileAliases.value),
         source_url: researchProfileSourceUrl.value.trim(),
         status: researchProfileStatus.value,
         synopsis: researchProfileSynopsis.value.trim(),
-        tags: splitResearchProfileTags(researchProfileTags.value),
+        tags: splitListField(researchProfileTags.value),
         style_notes: researchProfileStyleNotes.value.trim(),
+        reader_expectations: researchProfileReaderExpectations.value.trim(),
+        review_summary: researchProfileReviewSummary.value.trim(),
         last_reviewed_at: researchProfileLastReviewedAt.value.trim(),
         reviewed_by: researchProfileReviewedBy.value.trim(),
+        terminology: splitListField(researchProfileTerminology.value),
+        reference_links: splitListField(researchProfileReferenceLinks.value),
+        notes: researchProfileNotes.value.trim(),
       });
     });
     document.getElementById("batchBtn").addEventListener("click", () => {

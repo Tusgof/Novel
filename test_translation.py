@@ -4127,13 +4127,19 @@ notes: Keep notes
         run_id="",
         payload={
             "title": "Updated Title",
+            "aliases": "Alias One, Alias Two",
             "source_url": "https://example.com/toc",
             "status": "active",
             "synopsis": "Updated synopsis",
-            "tags": ["new tag", "second tag"],
+            "tags": "new tag\nsecond tag",
             "style_notes": "New style notes",
+            "reader_expectations": "Updated expectations",
+            "review_summary": "Updated review summary",
             "last_reviewed_at": "2026-05-09T00:00:00+07:00",
             "reviewed_by": "Editor",
+            "terminology": "ember, abyss",
+            "reference_links": "https://example.com/ref\nhttps://example.com/review",
+            "notes": "Updated notes",
         },
     )
 
@@ -4142,26 +4148,36 @@ notes: Keep notes
     assert saved_payload == {
         "schema_version": 1,
         "title": "Updated Title",
-        "aliases": [],
+        "aliases": ["Alias One", "Alias Two"],
         "source_url": "https://example.com/toc",
         "status": "active",
         "synopsis": "Updated synopsis",
         "tags": ["new tag", "second tag"],
         "style_notes": "New style notes",
-        "reader_expectations": "Existing readers",
-        "review_summary": "Existing review",
+        "reader_expectations": "Updated expectations",
+        "review_summary": "Updated review summary",
         "last_reviewed_at": "2026-05-09T00:00:00+07:00",
         "reviewed_by": "Editor",
-        "terminology": ["ember"],
-        "reference_links": ["https://example.com/ref"],
-        "notes": "Keep notes",
+        "terminology": ["ember", "abyss"],
+        "reference_links": ["https://example.com/ref", "https://example.com/review"],
+        "notes": "Updated notes",
     }
     assert config.research_profile is not None
     assert config.research_profile.title == "Updated Title"
+    assert config.research_profile.aliases == ("Alias One", "Alias Two")
     assert config.research_profile.status == "active"
-    assert config.research_profile.reader_expectations == "Existing readers"
-    assert config.research_profile.review_summary == "Existing review"
+    assert config.research_profile.reader_expectations == "Updated expectations"
+    assert config.research_profile.review_summary == "Updated review summary"
+    assert config.research_profile.terminology == ("ember", "abyss")
+    assert config.research_profile.reference_links == ("https://example.com/ref", "https://example.com/review")
+    assert config.research_profile.notes == "Updated notes"
     assert result["snapshot"]["research_profile"]["title"] == "Updated Title"
+    assert result["snapshot"]["research_profile"]["aliases"] == ["Alias One", "Alias Two"]
+    assert result["snapshot"]["research_profile"]["reader_expectations"] == "Updated expectations"
+    assert result["snapshot"]["research_profile"]["review_summary"] == "Updated review summary"
+    assert result["snapshot"]["research_profile"]["terminology"] == ["ember", "abyss"]
+    assert result["snapshot"]["research_profile"]["reference_links"] == ["https://example.com/ref", "https://example.com/review"]
+    assert result["snapshot"]["research_profile"]["notes"] == "Updated notes"
     assert result["snapshot"]["research_readiness"]["status"] == "active"
     assert result["snapshot"]["research_readiness"]["translation_ready"] is True
     assert "Saved research profile to" in result["output"]
@@ -4178,6 +4194,9 @@ def test_operator_snapshot_includes_research_readiness():
         base,
         """schema_version: 1
 title: Deep Sea Embers
+aliases:
+  - Deep Sea
+  - DSE
 source_url: https://example.com/toc
 status: drafted
 synopsis: Nautical dark fantasy with a slow-burn mystery.
@@ -4237,13 +4256,19 @@ notes: Preserve ship names and source-linked canon.
     snapshot = build_operator_snapshot(config, run_id="batch-ch019-ch023-v1")
 
     assert snapshot["research_profile"]["title"] == "Deep Sea Embers"
+    assert snapshot["research_profile"]["aliases"] == ["Deep Sea", "DSE"]
     assert snapshot["research_profile"]["source_url"] == "https://example.com/toc"
     assert snapshot["research_profile"]["status"] == "drafted"
     assert snapshot["research_profile"]["synopsis"].startswith("Nautical dark fantasy")
     assert snapshot["research_profile"]["tags"] == ["nautical dark fantasy", "mystery"]
     assert snapshot["research_profile"]["style_notes"].startswith("Blend eerie maritime atmosphere")
+    assert snapshot["research_profile"]["reader_expectations"].startswith("Expect slow-burn reveals")
+    assert snapshot["research_profile"]["review_summary"].startswith("Reviews emphasize atmosphere")
     assert snapshot["research_profile"]["last_reviewed_at"] == "2026-05-01T00:00:00+07:00"
     assert snapshot["research_profile"]["reviewed_by"] == "Editor"
+    assert snapshot["research_profile"]["terminology"] == ["ember"]
+    assert snapshot["research_profile"]["reference_links"] == ["https://example.com/review"]
+    assert snapshot["research_profile"]["notes"] == "Preserve ship names and source-linked canon."
 
 
 def test_operator_snapshot_includes_preflight():

@@ -45,7 +45,7 @@ This is the practical runbook. It should help the operator proceed without guess
 - Current operator window scope:
   - status dashboard
   - next safe action
-  - research-profile editor for readiness-critical fields (`title`, `source_url`, `status`, `synopsis`, `tags`, `style_notes`, `last_reviewed_at`, `reviewed_by`)
+  - research-profile editor for concise profile fields (`title`, `aliases`, `source_url`, `status`, `synopsis`, `tags`, `style_notes`, `reader_expectations`, `review_summary`, `last_reviewed_at`, `reviewed_by`, `terminology`, `reference_links`, `notes`)
   - block inspection
   - glossary candidate queue view
   - glossary suggestion loading with 2-3 Thai options
@@ -58,7 +58,7 @@ This is the practical runbook. It should help the operator proceed without guess
   - rerun-block control
 - Operator guardrails:
   - init-novel requires explicit `project_root`, `title`, and `source_url`
-  - research-profile save is limited to readiness-critical fields only and revalidates through `ResearchProfile.from_mapping(...)`
+  - research-profile save is limited to the concise profile fields surfaced in the UI and revalidates through `ResearchProfile.from_mapping(...)`
   - batch start requires explicit `run_id` and explicit chapter range
   - batch start supports only `glossary-scan` or bounded full-batch mode
   - resume requires `until_chapter` or `until_block`
@@ -71,7 +71,7 @@ This is the practical runbook. It should help the operator proceed without guess
 - operator bootstrap/snapshot now carries the research-profile path plus readiness summary so the UI can surface pending, drafted, active, or missing states later.
 - V4.4 complete: `novel-pipeline preflight` now checks provider executables, config/workspace integrity, research readiness, and git backup guardrails, and the operator window surfaces the same snapshot.
 - current preflight baseline: `ready` on 2026-04-29 (`main`, head `60bfc0f`, working tree clean, research readiness `active / ready`).
-- Next milestone after V4.4: `V5.0` product complete gate.
+- V5.0 complete: the operator window now covers practical end-to-end local workflow from project scaffold through research profile maintenance, glossary approval, bounded batch execution, recovery, reports, and final-output review.
 
 ## Standard Preflight
 

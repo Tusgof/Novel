@@ -325,26 +325,32 @@ Goal: make the workflow self-sufficient for normal novel production.
 - worker models cannot silently mutate source-of-truth docs or artifacts
 - Codex remains architect/reviewer, not manual command memory layer
 
-Status: active next milestone after V4.4. Current baseline is verified: `batch-ch019-ch023-v1` is complete, `preflight` is ready, and the operator/product foundation is in place for end-to-end acceptance tightening.
+Status: complete. The local operator workflow now covers new-project scaffold, concise research-profile authoring, glossary scan/approval, bounded batch start, bounded resume/rerun recovery, report generation, artifact inspection, and final-output review from the same control surface.
 
 Current progress:
 
 - operator workflow can now scaffold a new novel project through `init-novel` inputs and return the created profile/research/config paths
-- operator workflow can now view and save readiness-critical `RESEARCH_PROFILE.yaml` fields without dropping to manual YAML editing:
+- operator workflow can now view and save concise `RESEARCH_PROFILE.yaml` fields without dropping to manual YAML editing:
   - `title`
+  - `aliases`
   - `source_url`
   - `status`
   - `synopsis`
   - `tags`
   - `style_notes`
+  - `reader_expectations`
+  - `review_summary`
   - `last_reviewed_at`
   - `reviewed_by`
+  - `terminology`
+  - `reference_links`
+  - `notes`
 - operator workflow can now start a batch range in two guarded modes:
   - scan-only gate via `stop_after=glossary-scan`
   - bounded batch run with research-readiness enforcement
 - operator batch actions still require explicit `run_id`, explicit chapter range, and always use `manual_action_mode=stop`
 
-Done when the workflow can operate end to end with bounded human decision points and safe recovery.
+Done because the workflow can now operate end to end with bounded human decision points and safe recovery for the practical local product scope.
 
 ## Acceptance Gates
 

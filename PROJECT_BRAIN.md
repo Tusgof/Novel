@@ -240,26 +240,33 @@ Proceed with protocol/product work:
 4. Start `V5.0` from this stable multi-novel, multi-genre, research-profile, and preflight baseline.
 5. Do not plan `ch024+` translation until new source is available and a fresh fetch/scan decision is made.
 
-Current V5.0 slice in progress:
+V5.0 accepted baseline:
 
 - operator can now scaffold a new novel project without dropping to CLI memory:
   - `project_root`
   - `title`
   - `source_url`
   - optional aliases / genre / adapter / style profile
-- operator can now edit the readiness-critical research-profile fields without dropping to YAML editing:
+- operator can now edit the concise research-profile fields without dropping to YAML editing:
   - `title`
+  - `aliases`
   - `source_url`
   - `status`
   - `synopsis`
   - `tags`
   - `style_notes`
+  - `reader_expectations`
+  - `review_summary`
   - `last_reviewed_at`
   - `reviewed_by`
+  - `terminology`
+  - `reference_links`
+  - `notes`
 - operator can now initiate a batch range without dropping to CLI memory:
   - glossary scan gate (`glossary-scan`)
   - bounded batch run with research readiness enforced
 - this does not remove the explicit-approval rule for starting a new production batch
+- practical local product scope is now covered end to end from project scaffold through final-output review
 
 ## Invariants And Guardrails
 
