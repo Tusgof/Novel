@@ -24,12 +24,14 @@ from novel_pipeline.pipeline import (
     _revalidate_glossary_queue_items,
     inspect_block_command,
     rerun_block_pipeline,
+    run_batch_pipeline,
     resume_pipeline,
     status_run,
 )
 from novel_pipeline.preflight import build_preflight_summary
 from novel_pipeline.prompts import PromptStore
 from novel_pipeline.stages.glossary import build_term_suggestion
+from novel_pipeline.text_utils import parse_chapter_range
 from novel_pipeline.reports import (
     build_checkpoint_report,
     build_cleanliness_report,
@@ -336,7 +338,30 @@ def execute_operator_action(
         config.ensure_translation_ready(bounded=True)
     buffer = io.StringIO()
     with contextlib.redirect_stdout(buffer):
-        if action == "resume":
+        if action == "run-batch":
+            chapter_range = str(payload.get("chapter_range") or "").strip()
+            stop_after = str(payload.get("stop_after") or "").strip()
+            if not run_id or not chapter_range:
+                raise ValueError("run-batch requires run_id and chapter_range.")
+            if stop_after not in {"", "glossary-scan"}:
+                raise ValueError("run-batch only supports stop_after='' or 'glossary-scan'.")
+            chapter_ids = parse_chapter_range(chapter_range)
+            if not chapter_ids:
+                raise ValueError("run-batch requires a non-empty chapter range.")
+            if stop_after == "":
+                config.ensure_translation_ready(bounded=True)
+                stop_after_arg = None
+            else:
+                stop_after_arg = "glossary-scan"
+            run_batch_pipeline(
+                config=config,
+                chapter_ids=chapter_ids,
+                run_id=run_id,
+                force=False,
+                stop_after=stop_after_arg,
+                manual_action_mode="stop",
+            )
+        elif action == "resume":
             until_chapter = str(payload.get("until_chapter") or "").strip() or None
             until_block = str(payload.get("until_block") or "").strip() or None
             if not until_chapter and not until_block:
@@ -599,7 +624,7 @@ def _render_operator_html() -> str:
   <div class="shell">
     <aside class="nav">
       <h1>Novel Operator</h1>
-      <p>Local control surface for status, inspection, and reports.</p>
+      <p>Local control surface for status, inspection, reports, and bounded batch actions.</p>
 
       <section>
         <label for="runIdInput">Run ID</label>
@@ -625,7 +650,7 @@ def _render_operator_html() -> str:
 
       <section>
         <div class="footer-note">
-          This slice is intentionally read-only and control-light. It surfaces status, inspection, and reports without adding new state-changing paths.
+          This slice surfaces status, inspection, reports, and bounded state-changing actions.
         </div>
       </section>
     </aside>
@@ -692,11 +717,11 @@ def _render_operator_html() -> str:
       </section>
 
       <div class="layout">
-        <section class="panel">
-          <h3>Glossary Candidate Queue</h3>
-          <p class="meta">Current effective queue after glossary revalidation. Read-only in this slice.</p>
-          <div id="glossaryQueue" class="empty">No queue loaded.</div>
-        </section>
+      <section class="panel">
+        <h3>Glossary Candidate Queue</h3>
+        <p class="meta">Current effective queue after glossary revalidation.</p>
+        <div id="glossaryQueue" class="empty">No queue loaded.</div>
+      </section>
 
         <div class="stack">
           <section class="panel">
@@ -709,6 +734,18 @@ def _render_operator_html() -> str:
             <h3>Safe Actions</h3>
             <p class="meta">State-changing controls stay bounded and always stop on manual action.</p>
             <div class="stack">
+              <div>
+                <label for="batchRunId">Run Batch Range</label>
+                <div class="inspect-grid">
+                  <input id="batchRunId" placeholder="Run ID">
+                  <input id="batchChapterRange" placeholder="Chapter range e.g. ch004-ch008">
+                  <select id="batchMode">
+                    <option value="scan-only">Scan-only gate</option>
+                    <option value="bounded">Bounded batch run</option>
+                  </select>
+                </div>
+                <button class="primary" id="batchBtn">Run Batch</button>
+              </div>
               <div>
                 <label for="resumeRunId">Resume Run</label>
                 <div class="inspect-grid">
@@ -754,6 +791,9 @@ def _render_operator_html() -> str:
     const runIdInput = document.getElementById("runIdInput");
     const inspectRunId = document.getElementById("inspectRunId");
     const inspectBlockId = document.getElementById("inspectBlockId");
+    const batchRunId = document.getElementById("batchRunId");
+    const batchChapterRange = document.getElementById("batchChapterRange");
+    const batchMode = document.getElementById("batchMode");
     const resumeRunId = document.getElementById("resumeRunId");
     const resumeUntilChapter = document.getElementById("resumeUntilChapter");
     const resumeUntilBlock = document.getElementById("resumeUntilBlock");
@@ -765,6 +805,9 @@ def _render_operator_html() -> str:
     function setRunId(runId) {
       state.runId = runId || "";
       runIdInput.value = state.runId;
+      if (!batchRunId.value) {
+        batchRunId.value = state.runId;
+      }
       if (!inspectRunId.value) {
         inspectRunId.value = state.runId;
       }
@@ -1180,6 +1223,21 @@ def _render_operator_html() -> str:
     document.getElementById("loadRunBtn").addEventListener("click", () => loadSnapshot(runIdInput.value.trim()));
     document.getElementById("refreshBtn").addEventListener("click", () => loadSnapshot(state.runId || runIdInput.value.trim()));
     document.getElementById("inspectBtn").addEventListener("click", inspectBlock);
+    document.getElementById("batchBtn").addEventListener("click", () => {
+      const runId = batchRunId.value.trim() || state.runId;
+      const chapterRange = batchChapterRange.value.trim();
+      const stopAfter = batchMode.value === "scan-only" ? "glossary-scan" : "";
+      if (!runId || !chapterRange) {
+        document.getElementById("actionResult").innerHTML = `<div class="empty">Run-batch requires run ID and chapter range.</div>`;
+        return;
+      }
+      runAction("run-batch", {
+        action: "run-batch",
+        run_id: runId,
+        chapter_range: chapterRange,
+        stop_after: stopAfter,
+      });
+    });
     document.getElementById("resumeBtn").addEventListener("click", () => {
       const runId = resumeRunId.value.trim() || state.runId;
       const untilChapter = resumeUntilChapter.value.trim();

@@ -51,13 +51,16 @@ This is the practical runbook. It should help the operator proceed without guess
   - approve/reject glossary decisions
   - report generation
   - artifact viewing
+  - batch range start control for scan-only gate or bounded batch run
   - bounded resume control with required `until_chapter` or `until_block`
   - rerun-block control
 - Operator guardrails:
+  - batch start requires explicit `run_id` and explicit chapter range
+  - batch start supports only `glossary-scan` or bounded full-batch mode
   - resume requires `until_chapter` or `until_block`
   - resume always uses `manual_action_mode=stop`
   - glossary approval is limited to current queue terms only
-  - broader state-changing control beyond glossary approval plus bounded resume/rerun-block is still intentionally absent
+- broader state-changing control beyond glossary approval plus bounded batch/resume/rerun is still intentionally absent
 - V4.1 complete: multi-novel foundation now includes per-project scaffold and setup/fetch playbooks.
 - V4.2 complete: multi-genre style profiles now provide structured preset guidance for refinement and QA.
 - V4.3 complete: research-profile workflow now uses `RESEARCH_PROFILE.yaml`, a manual web-research playbook, and prompt context wiring for translation/refinement/QA.

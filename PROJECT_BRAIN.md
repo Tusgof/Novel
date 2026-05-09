@@ -168,12 +168,13 @@ Active:
 - latest verified preflight state: `ready` on 2026-04-29 (`main`, head `60bfc0f`, working tree clean, research status `active / ready`)
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
-  - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, and artifact viewing
+  - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, artifact viewing, and bounded batch-start actions
   - bounded resume action that requires `until_chapter` or `until_block` and always uses `manual_action_mode=stop`
   - rerun-block action for targeted recovery
+  - run-batch action that requires explicit `run_id` and chapter range and supports only scan-only gate or bounded batch mode
   - glossary approve/reject actions with 2-3 Thai term options now exist
   - glossary approval commits automatically when the queue is cleared
-  - broader state-changing controls are still intentionally limited to bounded recovery and glossary approval
+  - broader state-changing controls are still intentionally limited to bounded batch start, bounded recovery, and glossary approval
 - V4.1 scaffolding now exists:
   - `novel-pipeline init-novel --project-root <path> --title <title> --source-url <toc_url> ...`
   - per-project `NOVEL_PROFILE.yaml`
@@ -237,6 +238,13 @@ Proceed with protocol/product work:
    - `07_Reports/v3_10_repeatable_rollout_protocol.md`
 4. Start `V5.0` from this stable multi-novel, multi-genre, research-profile, and preflight baseline.
 5. Do not plan `ch024+` translation until new source is available and a fresh fetch/scan decision is made.
+
+Current V5.0 slice in progress:
+
+- operator can now initiate a batch range without dropping to CLI memory:
+  - glossary scan gate (`glossary-scan`)
+  - bounded batch run with research readiness enforced
+- this does not remove the explicit-approval rule for starting a new production batch
 
 ## Invariants And Guardrails
 

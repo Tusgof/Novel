@@ -327,6 +327,13 @@ Goal: make the workflow self-sufficient for normal novel production.
 
 Status: active next milestone after V4.4. Current baseline is verified: `batch-ch019-ch023-v1` is complete, `preflight` is ready, and the operator/product foundation is in place for end-to-end acceptance tightening.
 
+Current progress:
+
+- operator workflow can now start a batch range in two guarded modes:
+  - scan-only gate via `stop_after=glossary-scan`
+  - bounded batch run with research-readiness enforcement
+- operator batch actions still require explicit `run_id`, explicit chapter range, and always use `manual_action_mode=stop`
+
 Done when the workflow can operate end to end with bounded human decision points and safe recovery.
 
 ## Acceptance Gates

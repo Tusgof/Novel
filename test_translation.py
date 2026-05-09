@@ -3898,6 +3898,98 @@ def test_execute_operator_action_rerun_block_dispatches_expected_args():
     assert result["snapshot"] == snapshot
 
 
+def test_execute_operator_action_run_batch_scan_only_dispatches_expected_args():
+    from novel_pipeline.operator_ui import execute_operator_action
+
+    config = Mock()
+    snapshot = {"run_id": "batch-ch004-ch008-v1", "status": {}}
+    with patch("novel_pipeline.operator_ui.parse_chapter_range", return_value=["ch004", "ch005", "ch006"]), \
+         patch("novel_pipeline.operator_ui.run_batch_pipeline") as run_batch_mock, \
+         patch("novel_pipeline.operator_ui.build_operator_snapshot", return_value=snapshot):
+        result = execute_operator_action(
+            config=config,
+            action="run-batch",
+            run_id="batch-ch004-ch008-v1",
+            payload={"chapter_range": "ch004-ch006", "stop_after": "glossary-scan"},
+        )
+
+    run_batch_mock.assert_called_once_with(
+        config=config,
+        chapter_ids=["ch004", "ch005", "ch006"],
+        run_id="batch-ch004-ch008-v1",
+        force=False,
+        stop_after="glossary-scan",
+        manual_action_mode="stop",
+    )
+    config.ensure_translation_ready.assert_not_called()
+    assert result["snapshot"] == snapshot
+
+
+def test_execute_operator_action_run_batch_bounded_dispatches_expected_args():
+    from novel_pipeline.operator_ui import execute_operator_action
+
+    config = Mock()
+    config.ensure_translation_ready.return_value = {"readiness": "degraded"}
+    snapshot = {"run_id": "batch-ch004-ch008-v1", "status": {}}
+    with patch("novel_pipeline.operator_ui.parse_chapter_range", return_value=["ch004", "ch005", "ch006"]), \
+         patch("novel_pipeline.operator_ui.run_batch_pipeline") as run_batch_mock, \
+         patch("novel_pipeline.operator_ui.build_operator_snapshot", return_value=snapshot):
+        result = execute_operator_action(
+            config=config,
+            action="run-batch",
+            run_id="batch-ch004-ch008-v1",
+            payload={"chapter_range": "ch004-ch006", "stop_after": ""},
+        )
+
+    config.ensure_translation_ready.assert_called_once_with(bounded=True)
+    run_batch_mock.assert_called_once_with(
+        config=config,
+        chapter_ids=["ch004", "ch005", "ch006"],
+        run_id="batch-ch004-ch008-v1",
+        force=False,
+        stop_after=None,
+        manual_action_mode="stop",
+    )
+    assert result["snapshot"] == snapshot
+
+
+def test_execute_operator_action_run_batch_rejects_invalid_stop_after():
+    from novel_pipeline.operator_ui import execute_operator_action
+
+    config = Mock()
+    try:
+        execute_operator_action(
+            config=config,
+            action="run-batch",
+            run_id="batch-ch004-ch008-v1",
+            payload={"chapter_range": "ch004-ch006", "stop_after": "review"},
+        )
+        assert False, "Expected ValueError for invalid stop_after"
+    except ValueError as exc:
+        assert "stop_after" in str(exc)
+
+
+def test_execute_operator_action_run_batch_rejects_missing_run_id_or_chapter_range():
+    from novel_pipeline.operator_ui import execute_operator_action
+
+    config = Mock()
+    cases = [
+        {"run_id": "", "payload": {"chapter_range": "ch004-ch006", "stop_after": ""}},
+        {"run_id": "batch-ch004-ch008-v1", "payload": {"chapter_range": "", "stop_after": ""}},
+    ]
+    for case in cases:
+        try:
+            execute_operator_action(
+                config=config,
+                action="run-batch",
+                run_id=case["run_id"],
+                payload=case["payload"],
+            )
+            assert False, "Expected ValueError for missing batch inputs"
+        except ValueError as exc:
+            assert "run-batch requires run_id and chapter_range" in str(exc)
+
+
 def test_operator_snapshot_includes_research_readiness():
     """Operator bootstrap snapshot includes research profile path and readiness summary."""
     import tempfile
@@ -4569,6 +4661,10 @@ if __name__ == "__main__":
     test_execute_operator_action_requires_bounded_resume()
     test_execute_operator_action_resume_uses_stop_mode_and_returns_snapshot()
     test_execute_operator_action_rerun_block_dispatches_expected_args()
+    test_execute_operator_action_run_batch_scan_only_dispatches_expected_args()
+    test_execute_operator_action_run_batch_bounded_dispatches_expected_args()
+    test_execute_operator_action_run_batch_rejects_invalid_stop_after()
+    test_execute_operator_action_run_batch_rejects_missing_run_id_or_chapter_range()
     test_operator_snapshot_includes_research_readiness()
     test_operator_snapshot_includes_preflight()
     test_build_glossary_suggestion_snapshot_returns_provider_options()
