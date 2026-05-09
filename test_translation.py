@@ -2395,6 +2395,71 @@ def test_build_preflight_summary_reports_provider_and_git_state():
     assert any("Working tree is dirty" in item for item in summary["warnings"])
 
 
+def test_build_preflight_summary_ignores_generated_report_changes():
+    """Generated report churn should not degrade an otherwise ready workspace."""
+    import tempfile
+    from unittest.mock import patch
+
+    from novel_pipeline.preflight import build_preflight_summary
+    from novel_pipeline.types import AppConfig, BatchDefaults, ChunkingPolicy, ProviderSpec, ResearchProfile, SourceConfig, StageRouting, StyleProfile, WorkspacePaths
+
+    workspace_root = Path(tempfile.mkdtemp(prefix="novel-preflight-ignore-reports-"))
+    for name in [".system", "01_Glossary", "03_Raw", "04_Work", "05_Output", "06_Logs", "07_Reports"]:
+        (workspace_root / name).mkdir(parents=True, exist_ok=True)
+    config = AppConfig(
+        config_path=workspace_root / ".system" / "config.yaml",
+        workspace=WorkspacePaths.from_root(workspace_root),
+        novel_id="test-novel",
+        vault_root=workspace_root,
+        source_language="zh",
+        default_style_profile="default",
+        batch=BatchDefaults(),
+        chunking=ChunkingPolicy(),
+        research_profile=ResearchProfile.from_mapping(
+            {
+                "title": "Test Novel",
+                "source_url": "https://example.com/toc",
+                "status": "active",
+                "synopsis": "Synopsis",
+                "tags": ["mystery"],
+                "style_notes": "Keep the tone restrained.",
+                "last_reviewed_at": "2026-05-10",
+                "reviewed_by": "tester",
+            }
+        ),
+        source=SourceConfig(adapter="piaotia", toc_url="https://example.com/toc"),
+        providers={
+            "gemini": ProviderSpec(name="gemini", executable=("gemini",)),
+        },
+        stage_routing={
+            "literal_translation": StageRouting(stage="literal_translation", provider="gemini"),
+        },
+        style_profiles={"default": StyleProfile(key="default", name="default", description="default")},
+        raw_config={},
+    )
+
+    git_status = "\n".join(
+        [
+            "M 07_Reports/preflight_report.md",
+            " M 07_Reports/product_review_batch-ch019-ch023-v1.md",
+        ]
+    )
+    with patch("novel_pipeline.preflight.shutil.which", return_value="C:/tool.exe"), \
+         patch(
+             "novel_pipeline.preflight._git_capture",
+             side_effect=[(True, "true"), (True, "main"), (True, "abc1234"), (True, "https://example.com/repo.git"), (True, git_status)],
+         ):
+        summary = build_preflight_summary(config)
+
+    assert summary["status"] == "ready"
+    assert summary["git"]["clean"] is True
+    assert summary["warnings"] == []
+    assert summary["git"]["ignored_generated_changes"] == [
+        "07_Reports/preflight_report.md",
+        "07_Reports/product_review_batch-ch019-ch023-v1.md",
+    ]
+
+
 def test_preflight_report_generation_writes_expected_markdown():
     from novel_pipeline.reports import build_preflight_report
     from novel_pipeline.types import AppConfig
@@ -2431,6 +2496,7 @@ def test_preflight_report_generation_writes_expected_markdown():
             "origin": "https://example.com/repo.git",
             "clean": False,
             "warnings": ["Working tree is dirty."],
+            "ignored_generated_changes": [],
         },
         "research_readiness": {
             "status": "drafted",
@@ -2462,6 +2528,7 @@ def test_preflight_report_generation_writes_expected_markdown():
         assert "| claude | ready | C:/claude.exe | stdin | refining | none |" in text
         assert "| gemini | blocked | gemini | argv | translating | none |" in text
         assert "- branch: main" in text
+        assert "- ignored_generated_changes: none" in text
         assert "- readiness: degraded" in text
         assert result["actionable_failure"] is True
 

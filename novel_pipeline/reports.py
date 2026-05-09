@@ -357,6 +357,7 @@ def _render_preflight_markdown(*, summary: dict[str, Any]) -> str:
         f"- origin: {git_info.get('origin') or 'none'}",
         f"- working_tree: {'clean' if git_info.get('clean') else 'dirty'}",
         f"- git_warnings: {_comma_list(git_info.get('warnings') or [])}",
+        f"- ignored_generated_changes: {_comma_list(git_info.get('ignored_generated_changes') or [])}",
         "",
         "## Workspace",
         f"- missing_directories: {_comma_list(summary.get('missing_directories') or [])}",

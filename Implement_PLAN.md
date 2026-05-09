@@ -487,6 +487,26 @@ Accepted because:
 
 After V5.3 there is no active delivery milestone. Future work should be opened as explicit backlog items rather than reopening product-complete scope implicitly.
 
+### V5.4: Generated Report Baseline Hygiene
+
+Goal: keep readiness and product-review checks trustworthy even when the operator regenerates tracked report artifacts.
+
+Status: complete on 2026-05-10.
+
+Implemented:
+
+- preflight git cleanliness now ignores changes to known generated report artifacts under `07_Reports/` when deciding readiness
+- ignored generated report paths are surfaced explicitly in the preflight summary/report instead of silently disappearing
+- `product-review` can now remain accepted after `report preflight` or other generated-report refresh steps, provided no non-report tracked files are dirty
+
+Accepted because:
+
+- `build_preflight_summary(...)` still degrades on ordinary dirty tracked files
+- generated changes to known report outputs no longer force a false dirty-tree warning by themselves
+- the `V5.3` closeout sequence can regenerate `preflight_report.md` and keep `product_review_*.md` accepted on a clean source tree
+
+After V5.4 there is no active delivery milestone. Future work should still be opened as explicit backlog items.
+
 ## Acceptance Gates
 
 This document rewrite is accepted only when:

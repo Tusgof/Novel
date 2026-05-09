@@ -201,6 +201,7 @@ Active:
 - V5.1 complete: `product-review` report now verifies the product-complete baseline against real run evidence and canonical doc/state checks
 - V5.2 complete: canonical root docs are reduced to the three durable source-of-truth files and legacy overlapping root docs are retired
 - V5.3 complete: post-complete hardening now includes a generated preflight diagnostics artifact, accepted recovery-drill evidence, operator recovery command hints/quick links, and a canonical recovery checklist template
+- V5.4 complete: preflight readiness now ignores churn in known generated report artifacts so report refreshes do not falsely degrade the accepted baseline
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, artifact viewing, novel-project scaffold, and bounded batch-start actions
@@ -310,12 +311,16 @@ Next milestones after product-complete:
 - `V5.1`: complete
 - `V5.2`: complete
 - `V5.3`: complete
+- `V5.4`: complete
 - accepted V5.3 hardening baseline:
   - `07_Reports/preflight_report.md`
   - `07_Reports/recovery_drill.md`
   - operator recovery command hints and quick links
   - `00_Templates/Recovery-Drill-Checklist.md`
-- there is no active delivery milestone after V5.3; future work should be opened as explicit backlog items
+- accepted V5.4 reliability baseline:
+  - readiness ignores known generated report churn under `07_Reports/`
+  - preflight still degrades on ordinary dirty tracked files
+- there is no active delivery milestone after V5.4; future work should be opened as explicit backlog items
 
 ## Invariants And Guardrails
 
@@ -504,6 +509,7 @@ Worker model restrictions:
 - 2026-04-29: V4.2 accepted. Structured multi-genre style profiles now exist, `init-novel` can resolve genre presets to style profile keys, and refinement/QA prompts now consume consistent style instructions without hardcoded Deep Sea Embers wording.
 - 2026-04-29: V4.3 accepted. Research is now stored in `RESEARCH_PROFILE.yaml`, collected through a practical web-research playbook, and passed into translation/refinement/QA prompts as concise context.
 - 2026-05-10: V5.3 accepted. Post-complete hardening now has a generated preflight diagnostics artifact, accepted recovery-drill evidence, operator recovery hints/quick links, and a canonical recovery checklist without expanding product scope.
+- 2026-05-10: V5.4 accepted. Generated report refreshes no longer cause false dirty-tree degradation in preflight/product-review, while ordinary tracked-file drift still degrades readiness as intended.
 
 ## Document Map
 

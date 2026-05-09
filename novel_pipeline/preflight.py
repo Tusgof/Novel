@@ -7,6 +7,17 @@ from typing import Any
 
 from novel_pipeline.types import AppConfig
 
+_GENERATED_REPORT_PREFIXES: tuple[str, ...] = (
+    "checkpoint_",
+    "cleanliness_",
+    "provider_usage_",
+    "glossary_decisions_",
+    "glossary_conflicts_",
+    "glossary_audit_",
+    "glossary_guard_",
+    "product_review_",
+)
+
 
 def _resolve_executable(command: tuple[str, ...]) -> tuple[bool, str]:
     if not command:
@@ -36,6 +47,26 @@ def _git_capture(workspace_root: Path, *args: str) -> tuple[bool, str]:
         return False, ""
     output = (completed.stdout or completed.stderr or "").strip()
     return completed.returncode == 0, output
+
+
+def _status_line_path(line: str) -> str:
+    if len(line) >= 3 and line[2] == " ":
+        raw = line[3:]
+    else:
+        parts = line.split(maxsplit=1)
+        raw = parts[1] if len(parts) == 2 else line
+    path_text = raw.split(" -> ", 1)[-1].strip()
+    return path_text.replace("\\", "/")
+
+
+def _is_generated_report_path(path_text: str) -> bool:
+    normalized = path_text.replace("\\", "/").strip()
+    if not normalized.startswith("07_Reports/"):
+        return False
+    name = Path(normalized).name
+    if name in {"preflight_report.md", "recovery_drill.md"}:
+        return True
+    return any(name.startswith(prefix) and name.endswith(".md") for prefix in _GENERATED_REPORT_PREFIXES)
 
 
 def build_preflight_summary(config: AppConfig) -> dict[str, Any]:
@@ -90,6 +121,7 @@ def build_preflight_summary(config: AppConfig) -> dict[str, Any]:
         "status_short": "",
         "clean": False,
         "warnings": [],
+        "ignored_generated_changes": [],
     }
     if not git_available:
         git_summary["warnings"].append("git is not available in PATH.")
@@ -105,7 +137,18 @@ def build_preflight_summary(config: AppConfig) -> dict[str, Any]:
             _, git_summary["head"] = _git_capture(config.workspace.root, "rev-parse", "--short", "HEAD")
             origin_ok, git_summary["origin"] = _git_capture(config.workspace.root, "remote", "get-url", "origin")
             _, git_summary["status_short"] = _git_capture(config.workspace.root, "status", "--short")
-            git_summary["clean"] = not bool(git_summary["status_short"].strip())
+            status_lines = [line for line in git_summary["status_short"].splitlines() if line.strip()]
+            relevant_lines: list[str] = []
+            ignored_generated_changes: list[str] = []
+            for line in status_lines:
+                path_text = _status_line_path(line)
+                if _is_generated_report_path(path_text):
+                    ignored_generated_changes.append(path_text)
+                else:
+                    relevant_lines.append(line)
+            git_summary["status_short"] = "\n".join(relevant_lines)
+            git_summary["ignored_generated_changes"] = ignored_generated_changes
+            git_summary["clean"] = not bool(relevant_lines)
             if not git_summary["clean"]:
                 git_summary["warnings"].append("Working tree is dirty.")
                 warnings.append("Working tree is dirty; commit or stash before large write actions.")
@@ -173,6 +216,11 @@ def print_preflight_summary(summary: dict[str, Any]) -> None:
         print(f"  - head: {git_info['head']}")
         print(f"  - remote origin: {git_info['origin'] or 'missing'}")
         print(f"  - working tree: {clean_text}")
+        if git_info.get("ignored_generated_changes"):
+            print(
+                "  - ignored generated report changes: "
+                + ", ".join(git_info["ignored_generated_changes"])
+            )
     research = summary["research_readiness"]
     print("Research readiness:")
     print(

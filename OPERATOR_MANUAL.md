@@ -88,7 +88,8 @@ This is the practical runbook. It should help the operator proceed without guess
 - V5.1 complete: product-complete review and verification now exists through `report product-review`.
 - V5.2 complete: canonical docs and memory cleanup are closed; the root doc set is now explicit and legacy overlapping docs are retired.
 - V5.3 complete: preflight diagnostics, recovery drill reporting, operator recovery hints, quick links, and canonical recovery checklist are now part of the accepted hardening baseline.
-- No active delivery milestone after V5.3. Open future work as explicit backlog items only.
+- V5.4 complete: generated report refreshes under `07_Reports/` no longer degrade preflight/product-review by themselves.
+- No active delivery milestone after V5.4. Open future work as explicit backlog items only.
 
 ## Standard Preflight
 
