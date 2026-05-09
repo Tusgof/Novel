@@ -329,6 +329,7 @@ Status: active next milestone after V4.4. Current baseline is verified: `batch-c
 
 Current progress:
 
+- operator workflow can now scaffold a new novel project through `init-novel` inputs and return the created profile/research/config paths
 - operator workflow can now start a batch range in two guarded modes:
   - scan-only gate via `stop_after=glossary-scan`
   - bounded batch run with research-readiness enforcement

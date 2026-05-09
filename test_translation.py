@@ -3990,6 +3990,106 @@ def test_execute_operator_action_run_batch_rejects_missing_run_id_or_chapter_ran
             assert "run-batch requires run_id and chapter_range" in str(exc)
 
 
+def test_execute_operator_action_init_novel_dispatches_expected_args():
+    from novel_pipeline.operator_ui import execute_operator_action
+
+    config = Mock()
+    snapshot = {"run_id": None, "status": {}}
+    with patch("novel_pipeline.operator_ui.initialize_novel_project", return_value={
+        "project_root": Path(r"D:\Temp\Novel"),
+        "config_path": Path(r"D:\Temp\Novel\.system\config.yaml"),
+        "profile_path": Path(r"D:\Temp\Novel\NOVEL_PROFILE.yaml"),
+        "research_profile_path": Path(r"D:\Temp\Novel\RESEARCH_PROFILE.yaml"),
+    }) as init_mock, patch("novel_pipeline.operator_ui.build_operator_snapshot", return_value=snapshot):
+        result = execute_operator_action(
+            config=config,
+            action="init-novel",
+            run_id="",
+            payload={
+                "project_root": r"D:\Temp\Novel",
+                "title": "Deep Sea Embers",
+                "source_url": "https://example.com/toc",
+                "novel_id": "deep-sea-embers",
+                "aliases": "深海余烬,  Deep Sea Embers\n  Ember Tide  ,",
+                "source_language": "zh",
+                "target_language": "th",
+                "genre": "dark fantasy",
+                "adapter": "piaotia",
+                "style_profile": "deep_sea_embers",
+            },
+        )
+
+    init_mock.assert_called_once_with(
+        template_config=config,
+        project_root=Path(r"D:\Temp\Novel"),
+        title="Deep Sea Embers",
+        source_url="https://example.com/toc",
+        novel_id="deep-sea-embers",
+        aliases=["深海余烬", "Deep Sea Embers", "Ember Tide"],
+        source_language="zh",
+        target_language="th",
+        genre="dark fantasy",
+        adapter="piaotia",
+        style_profile="deep_sea_embers",
+    )
+    assert result["paths"] == {
+        "project_root": r"D:\Temp\Novel",
+        "config_path": r"D:\Temp\Novel\.system\config.yaml",
+        "profile_path": r"D:\Temp\Novel\NOVEL_PROFILE.yaml",
+        "research_profile_path": r"D:\Temp\Novel\RESEARCH_PROFILE.yaml",
+    }
+    assert result["snapshot"]["init_novel_paths"] == result["paths"]
+
+
+def test_execute_operator_action_init_novel_rejects_missing_required_fields():
+    from novel_pipeline.operator_ui import execute_operator_action
+
+    config = Mock()
+    cases = [
+        {"project_root": "", "title": "Deep Sea Embers", "source_url": "https://example.com/toc"},
+        {"project_root": r"D:\Temp\Novel", "title": "", "source_url": "https://example.com/toc"},
+        {"project_root": r"D:\Temp\Novel", "title": "Deep Sea Embers", "source_url": ""},
+    ]
+    for payload in cases:
+        try:
+            execute_operator_action(
+                config=config,
+                action="init-novel",
+                run_id="",
+                payload=payload,
+            )
+            assert False, "Expected ValueError for missing init-novel fields"
+        except ValueError as exc:
+            assert "init-novel requires project_root, title, and source_url" in str(exc)
+
+
+def test_execute_operator_action_init_novel_parses_aliases_from_ui_payload():
+    from novel_pipeline.operator_ui import execute_operator_action
+
+    config = Mock()
+    snapshot = {"run_id": None, "status": {}}
+    with patch("novel_pipeline.operator_ui.initialize_novel_project", return_value={
+        "project_root": Path(r"D:\Temp\Novel"),
+        "config_path": Path(r"D:\Temp\Novel\.system\config.yaml"),
+        "profile_path": Path(r"D:\Temp\Novel\NOVEL_PROFILE.yaml"),
+        "research_profile_path": Path(r"D:\Temp\Novel\RESEARCH_PROFILE.yaml"),
+    }) as init_mock, patch("novel_pipeline.operator_ui.build_operator_snapshot", return_value=snapshot):
+        execute_operator_action(
+            config=config,
+            action="init-novel",
+            run_id="",
+            payload={
+                "project_root": r"D:\Temp\Novel",
+                "title": "Deep Sea Embers",
+                "source_url": "https://example.com/toc",
+                "aliases": "  深海余烬,  Deep Sea Embers\n\n Ember Tide , ,",
+            },
+        )
+
+    init_mock.assert_called_once()
+    assert init_mock.call_args.kwargs["aliases"] == ["深海余烬", "Deep Sea Embers", "Ember Tide"]
+
+
 def test_operator_snapshot_includes_research_readiness():
     """Operator bootstrap snapshot includes research profile path and readiness summary."""
     import tempfile
@@ -4665,6 +4765,9 @@ if __name__ == "__main__":
     test_execute_operator_action_run_batch_bounded_dispatches_expected_args()
     test_execute_operator_action_run_batch_rejects_invalid_stop_after()
     test_execute_operator_action_run_batch_rejects_missing_run_id_or_chapter_range()
+    test_execute_operator_action_init_novel_dispatches_expected_args()
+    test_execute_operator_action_init_novel_rejects_missing_required_fields()
+    test_execute_operator_action_init_novel_parses_aliases_from_ui_payload()
     test_operator_snapshot_includes_research_readiness()
     test_operator_snapshot_includes_preflight()
     test_build_glossary_suggestion_snapshot_returns_provider_options()

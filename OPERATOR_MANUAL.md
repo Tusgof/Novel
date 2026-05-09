@@ -51,10 +51,12 @@ This is the practical runbook. It should help the operator proceed without guess
   - approve/reject glossary decisions
   - report generation
   - artifact viewing
+  - novel-project scaffold form for `init-novel`
   - batch range start control for scan-only gate or bounded batch run
   - bounded resume control with required `until_chapter` or `until_block`
   - rerun-block control
 - Operator guardrails:
+  - init-novel requires explicit `project_root`, `title`, and `source_url`
   - batch start requires explicit `run_id` and explicit chapter range
   - batch start supports only `glossary-scan` or bounded full-batch mode
   - resume requires `until_chapter` or `until_block`

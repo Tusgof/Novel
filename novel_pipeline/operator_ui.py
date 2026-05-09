@@ -3,6 +3,7 @@ from __future__ import annotations
 import contextlib
 import io
 import json
+import re
 import threading
 import webbrowser
 from http import HTTPStatus
@@ -30,6 +31,7 @@ from novel_pipeline.pipeline import (
 )
 from novel_pipeline.preflight import build_preflight_summary
 from novel_pipeline.prompts import PromptStore
+from novel_pipeline.project_setup import initialize_novel_project
 from novel_pipeline.stages.glossary import build_term_suggestion
 from novel_pipeline.text_utils import parse_chapter_range
 from novel_pipeline.reports import (
@@ -89,6 +91,21 @@ def _safe_workspace_path(config: AppConfig, raw_path: str) -> Path:
     if not candidate.exists():
         raise ValueError("Requested file does not exist.")
     return candidate
+
+
+def _parse_init_novel_aliases(raw_aliases: Any) -> list[str]:
+    if raw_aliases is None:
+        return []
+    if isinstance(raw_aliases, (list, tuple)):
+        raw_items = raw_aliases
+    else:
+        raw_items = re.split(r"[,\n]+", str(raw_aliases))
+    aliases: list[str] = []
+    for item in raw_items:
+        alias = str(item).strip()
+        if alias:
+            aliases.append(alias)
+    return aliases
 
 
 def generate_operator_report(
@@ -338,6 +355,7 @@ def execute_operator_action(
         config.ensure_translation_ready(bounded=True)
     buffer = io.StringIO()
     with contextlib.redirect_stdout(buffer):
+        init_novel_paths: dict[str, str] | None = None
         if action == "run-batch":
             chapter_range = str(payload.get("chapter_range") or "").strip()
             stop_after = str(payload.get("stop_after") or "").strip()
@@ -385,14 +403,38 @@ def execute_operator_action(
                 block_id=block_id,
                 from_stage=from_stage,
             )
+        elif action == "init-novel":
+            project_root = str(payload.get("project_root") or "").strip()
+            title = str(payload.get("title") or "").strip()
+            source_url = str(payload.get("source_url") or "").strip()
+            if not project_root or not title or not source_url:
+                raise ValueError("init-novel requires project_root, title, and source_url.")
+            result = initialize_novel_project(
+                template_config=config,
+                project_root=Path(project_root),
+                title=title,
+                source_url=source_url,
+                novel_id=str(payload.get("novel_id") or "").strip() or None,
+                aliases=_parse_init_novel_aliases(payload.get("aliases")),
+                source_language=str(payload.get("source_language") or "").strip(),
+                target_language=str(payload.get("target_language") or "").strip(),
+                genre=str(payload.get("genre") or "").strip(),
+                adapter=str(payload.get("adapter") or "").strip(),
+                style_profile=str(payload.get("style_profile") or "").strip(),
+            )
+            init_novel_paths = {key: str(value) for key, value in result.items()}
         else:
             raise ValueError(f"Unsupported operator action: {action}")
 
+    snapshot = build_operator_snapshot(config, run_id=run_id or None)
+    if init_novel_paths is not None:
+        snapshot["init_novel_paths"] = init_novel_paths
     return {
         "action": action,
         "run_id": run_id,
         "output": buffer.getvalue(),
-        "snapshot": build_operator_snapshot(config, run_id=run_id),
+        "paths": init_novel_paths,
+        "snapshot": snapshot,
     }
 
 
@@ -450,7 +492,7 @@ def _render_operator_html() -> str:
       font-weight: 600;
       color: inherit;
     }
-    .nav input, .panel input, .panel select {
+    .nav input, .panel input, .panel select, .nav textarea, .panel textarea {
       width: 100%;
       height: 38px;
       border: 1px solid var(--border);
@@ -458,6 +500,12 @@ def _render_operator_html() -> str:
       padding: 0 10px;
       background: white;
       color: var(--text);
+    }
+    .nav textarea, .panel textarea {
+      height: auto;
+      min-height: 86px;
+      padding: 8px 10px;
+      resize: vertical;
     }
     .nav input { background: rgba(255,255,255,.98); }
     .btn-row, .grid-btns {
@@ -735,6 +783,28 @@ def _render_operator_html() -> str:
             <p class="meta">State-changing controls stay bounded and always stop on manual action.</p>
             <div class="stack">
               <div>
+                <label for="initProjectRoot">Init Novel Project</label>
+                <div class="stack">
+                  <div class="inspect-grid">
+                    <input id="initProjectRoot" placeholder="Project root">
+                    <input id="initTitle" placeholder="Title">
+                  </div>
+                  <input id="initSourceUrl" placeholder="Source URL">
+                  <div class="inspect-grid">
+                    <input id="initNovelId" placeholder="Novel ID (optional)">
+                    <input id="initSourceLanguage" placeholder="Source language">
+                    <input id="initTargetLanguage" placeholder="Target language">
+                  </div>
+                  <div class="inspect-grid">
+                    <input id="initGenre" placeholder="Genre">
+                    <input id="initAdapter" placeholder="Adapter">
+                    <input id="initStyleProfile" placeholder="Style profile">
+                  </div>
+                  <textarea id="initAliases" placeholder="Aliases, one per line or comma-separated"></textarea>
+                </div>
+                <button class="primary" id="initNovelBtn">Init Novel Project</button>
+              </div>
+              <div>
                 <label for="batchRunId">Run Batch Range</label>
                 <div class="inspect-grid">
                   <input id="batchRunId" placeholder="Run ID">
@@ -794,6 +864,16 @@ def _render_operator_html() -> str:
     const batchRunId = document.getElementById("batchRunId");
     const batchChapterRange = document.getElementById("batchChapterRange");
     const batchMode = document.getElementById("batchMode");
+    const initProjectRoot = document.getElementById("initProjectRoot");
+    const initTitle = document.getElementById("initTitle");
+    const initSourceUrl = document.getElementById("initSourceUrl");
+    const initNovelId = document.getElementById("initNovelId");
+    const initAliases = document.getElementById("initAliases");
+    const initSourceLanguage = document.getElementById("initSourceLanguage");
+    const initTargetLanguage = document.getElementById("initTargetLanguage");
+    const initGenre = document.getElementById("initGenre");
+    const initAdapter = document.getElementById("initAdapter");
+    const initStyleProfile = document.getElementById("initStyleProfile");
     const resumeRunId = document.getElementById("resumeRunId");
     const resumeUntilChapter = document.getElementById("resumeUntilChapter");
     const resumeUntilBlock = document.getElementById("resumeUntilBlock");
@@ -830,6 +910,28 @@ def _render_operator_html() -> str:
     function fileLink(path, label) {
       const href = "/api/file?path=" + encodeURIComponent(path);
       return `<a class="report-link" href="${href}" target="_blank" rel="noreferrer">${escapeHtml(label || path)}</a>`;
+    }
+
+    function maybeWorkspaceFileLink(path, label) {
+      const workspaceRoot = state.snapshot?.preflight?.workspace_root || "";
+      if (workspaceRoot && path && String(path).startsWith(workspaceRoot)) {
+        return fileLink(path, label);
+      }
+      return escapeHtml(label || path || "");
+    }
+
+    function renderPathList(paths) {
+      const projectRoot = paths?.project_root || "";
+      const configPath = paths?.config_path || "";
+      const profilePath = paths?.profile_path || "";
+      const researchProfilePath = paths?.research_profile_path || "";
+      const items = [
+        `<li class="mono">project_root: ${escapeHtml(projectRoot || "missing")}</li>`,
+        `<li class="mono">config_path: ${configPath ? maybeWorkspaceFileLink(configPath, configPath) : "missing"}</li>`,
+        `<li class="mono">profile_path: ${profilePath ? maybeWorkspaceFileLink(profilePath, profilePath) : "missing"}</li>`,
+        `<li class="mono">research_profile_path: ${researchProfilePath ? maybeWorkspaceFileLink(researchProfilePath, researchProfilePath) : "missing"}</li>`,
+      ];
+      return `<div><strong>Created Paths</strong><ul class="artifact-list">${items.join("")}</ul></div>`;
     }
 
     function renderMetrics(snapshot) {
@@ -1206,10 +1308,12 @@ def _render_operator_html() -> str:
         target.innerHTML = `<div class="empty">${escapeHtml(data.error || "Action failed.")}</div>`;
         return;
       }
+      const initPaths = data.paths || data.snapshot?.init_novel_paths || null;
       target.innerHTML = `
         <div class="stack">
           <div><span class="pill ok">${escapeHtml(data.action)}</span></div>
           <pre class="mono" style="margin:0; white-space:pre-wrap;">${escapeHtml(data.output || "(no output)")}</pre>
+          ${initPaths ? renderPathList(initPaths) : ""}
         </div>
       `;
       if (data.snapshot) {
@@ -1223,6 +1327,29 @@ def _render_operator_html() -> str:
     document.getElementById("loadRunBtn").addEventListener("click", () => loadSnapshot(runIdInput.value.trim()));
     document.getElementById("refreshBtn").addEventListener("click", () => loadSnapshot(state.runId || runIdInput.value.trim()));
     document.getElementById("inspectBtn").addEventListener("click", inspectBlock);
+    document.getElementById("initNovelBtn").addEventListener("click", () => {
+      const projectRoot = initProjectRoot.value.trim();
+      const title = initTitle.value.trim();
+      const sourceUrl = initSourceUrl.value.trim();
+      if (!projectRoot || !title || !sourceUrl) {
+        document.getElementById("actionResult").innerHTML = `<div class="empty">Init Novel Project requires project root, title, and source URL.</div>`;
+        return;
+      }
+      runAction("init-novel", {
+        action: "init-novel",
+        run_id: state.runId || "",
+        project_root: projectRoot,
+        title,
+        source_url: sourceUrl,
+        novel_id: initNovelId.value.trim(),
+        aliases: initAliases.value,
+        source_language: initSourceLanguage.value.trim(),
+        target_language: initTargetLanguage.value.trim(),
+        genre: initGenre.value.trim(),
+        adapter: initAdapter.value.trim(),
+        style_profile: initStyleProfile.value.trim(),
+      });
+    });
     document.getElementById("batchBtn").addEventListener("click", () => {
       const runId = batchRunId.value.trim() || state.runId;
       const chapterRange = batchChapterRange.value.trim();
@@ -1402,8 +1529,8 @@ class _OperatorHandler(BaseHTTPRequestHandler):
                 return
             run_id = str(payload.get("run_id") or "").strip()
             action = str(payload.get("action") or "").strip()
-            if not run_id or not action:
-                self._send_json({"error": "run_id and action are required."}, status=400)
+            if not action or (not run_id and action != "init-novel"):
+                self._send_json({"error": "action is required; run_id is required for run-scoped actions."}, status=400)
                 return
             if action == "glossary-decision":
                 term = str(payload.get("term") or "").strip()

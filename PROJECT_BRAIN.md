@@ -168,10 +168,11 @@ Active:
 - latest verified preflight state: `ready` on 2026-04-29 (`main`, head `60bfc0f`, working tree clean, research status `active / ready`)
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
-  - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, artifact viewing, and bounded batch-start actions
+  - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, artifact viewing, novel-project scaffold, and bounded batch-start actions
   - bounded resume action that requires `until_chapter` or `until_block` and always uses `manual_action_mode=stop`
   - rerun-block action for targeted recovery
   - run-batch action that requires explicit `run_id` and chapter range and supports only scan-only gate or bounded batch mode
+  - init-novel action that requires explicit project root, title, and source URL and returns the created profile/config paths
   - glossary approve/reject actions with 2-3 Thai term options now exist
   - glossary approval commits automatically when the queue is cleared
   - broader state-changing controls are still intentionally limited to bounded batch start, bounded recovery, and glossary approval
@@ -241,6 +242,11 @@ Proceed with protocol/product work:
 
 Current V5.0 slice in progress:
 
+- operator can now scaffold a new novel project without dropping to CLI memory:
+  - `project_root`
+  - `title`
+  - `source_url`
+  - optional aliases / genre / adapter / style profile
 - operator can now initiate a batch range without dropping to CLI memory:
   - glossary scan gate (`glossary-scan`)
   - bounded batch run with research readiness enforced
