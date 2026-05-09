@@ -80,6 +80,9 @@ This is the practical runbook. It should help the operator proceed without guess
 - current V5.3 operator friction reduction:
   - bootstrap snapshot now includes copyable command hints for preflight, status, reports, and first-failed-block inspection
   - the operator window now shows quick links to canonical docs and high-value reports when those files exist
+- current V5.3 restore walkthrough:
+  - `00_Templates/Recovery-Drill-Checklist.md` now defines the exact restore sequence for canonical docs
+  - the checklist explicitly separates canonical-doc restore from runtime artifact handling
 - current preflight baseline: `ready` on 2026-05-10 after V5.1/V5.2 verification (working tree clean, research readiness `active / ready`).
 - V5.0 complete: the operator window now covers practical end-to-end local workflow from project scaffold through research profile maintenance, glossary approval, bounded batch execution, recovery, reports, and final-output review.
 - V5.1 complete: product-complete review and verification now exists through `report product-review`.
@@ -142,6 +145,7 @@ Current generated artifacts:
 - `07_Reports/glossary_guard_batch-ch019-ch023-v1.md`
 - `07_Reports/preflight_report.md`
 - `07_Reports/recovery_drill.md`
+- `00_Templates/Recovery-Drill-Checklist.md`
 
 V4.1 setup artifacts:
 

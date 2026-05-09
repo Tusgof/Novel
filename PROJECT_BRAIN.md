@@ -313,6 +313,7 @@ Next milestones after product-complete:
 - current V5.3 slice: preflight diagnostics artifact plus richer operator preflight panel
 - current V5.3 slice: recovery drill artifact plus git-backed restore verification for canonical docs and runtime ignore policy
 - current V5.3 slice: operator snapshot now carries copyable command hints and quick links for canonical docs/high-value reports
+- current V5.3 slice: `00_Templates/Recovery-Drill-Checklist.md` now defines the exact restore path for canonical docs without dragging runtime dirs into git recovery
 
 ## Invariants And Guardrails
 

@@ -473,6 +473,7 @@ Current slice:
 - operator bootstrap snapshot now includes:
   - copyable command hints for preflight, reports, status, and first-failed-block inspection
   - quick links to canonical docs and high-value reports when those files exist
+- `00_Templates/Recovery-Drill-Checklist.md` now defines the exact restore sequence for canonical docs without mixing runtime artifact recovery into git-based recovery
 
 These slices are not product-scope expansion. They are post-complete diagnostics and recovery hardening so the operator can inspect environment state, capture evidence, and prove that canonical memory can be restored safely without pulling runtime state into git.
 
