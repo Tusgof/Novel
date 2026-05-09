@@ -77,6 +77,9 @@ This is the practical runbook. It should help the operator proceed without guess
   - report buttons now include `recovery-drill`
   - recovery drill verifies canonical docs are tracked/restorable from `HEAD`
   - recovery drill verifies runtime directories remain ignored and untracked
+- current V5.3 operator friction reduction:
+  - bootstrap snapshot now includes copyable command hints for preflight, status, reports, and first-failed-block inspection
+  - the operator window now shows quick links to canonical docs and high-value reports when those files exist
 - current preflight baseline: `ready` on 2026-05-10 after V5.1/V5.2 verification (working tree clean, research readiness `active / ready`).
 - V5.0 complete: the operator window now covers practical end-to-end local workflow from project scaffold through research profile maintenance, glossary approval, bounded batch execution, recovery, reports, and final-output review.
 - V5.1 complete: product-complete review and verification now exists through `report product-review`.

@@ -470,6 +470,9 @@ Current slice:
   - remote `origin` exists
   - canonical docs are tracked and restorable from `HEAD`
   - runtime directories (`03_Raw`, `04_Work`, `05_Output`, `06_Logs`) remain ignored and untracked
+- operator bootstrap snapshot now includes:
+  - copyable command hints for preflight, reports, status, and first-failed-block inspection
+  - quick links to canonical docs and high-value reports when those files exist
 
 These slices are not product-scope expansion. They are post-complete diagnostics and recovery hardening so the operator can inspect environment state, capture evidence, and prove that canonical memory can be restored safely without pulling runtime state into git.
 

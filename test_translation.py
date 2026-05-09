@@ -4506,6 +4506,49 @@ style_notes: Blend eerie maritime atmosphere with grounded reactions.
     assert snapshot["preflight"]["status"] == "degraded"
 
 
+def test_operator_snapshot_includes_command_hints_and_quick_links():
+    """Operator snapshot exposes copyable command hints and existing canonical/report links."""
+    import tempfile
+    from novel_pipeline.config import load_app_config
+    from novel_pipeline.operator_ui import build_operator_snapshot
+
+    base = Path(tempfile.mkdtemp(prefix="novel-operator-links-"))
+    config_path = _write_research_profile_test_workspace(
+        base,
+        """schema_version: 1
+title: Deep Sea Embers
+source_url: https://example.com/toc
+status: active
+synopsis: Nautical dark fantasy with a slow-burn mystery.
+tags:
+  - nautical dark fantasy
+style_notes: Blend eerie maritime atmosphere with grounded reactions.
+last_reviewed_at: 2026-05-10T00:00:00+07:00
+reviewed_by: Operator
+""",
+    )
+    workspace_root = base / "workspace"
+    (workspace_root / "PROJECT_BRAIN.md").write_text("brain\n", encoding="utf-8")
+    (workspace_root / "Implement_PLAN.md").write_text("plan\n", encoding="utf-8")
+    (workspace_root / "OPERATOR_MANUAL.md").write_text("manual\n", encoding="utf-8")
+    reports_dir = workspace_root / "07_Reports"
+    reports_dir.mkdir(parents=True, exist_ok=True)
+    (reports_dir / "preflight_report.md").write_text("preflight\n", encoding="utf-8")
+    (reports_dir / "recovery_drill.md").write_text("recovery\n", encoding="utf-8")
+    (reports_dir / "product_review_batch-ch019-ch023-v1.md").write_text("product\n", encoding="utf-8")
+
+    config = load_app_config(config_path)
+    with patch("novel_pipeline.operator_ui.build_preflight_summary", return_value={"status": "ready", "next_safe_action": "Preflight is ready for normal production."}), \
+         patch("novel_pipeline.operator_ui.status_run", return_value={"next_effective_action": "none", "manual_actions": [], "current_failed_blocks": []}):
+        snapshot = build_operator_snapshot(config, run_id="batch-ch019-ch023-v1")
+
+    assert "preflight" in snapshot["command_hints"]
+    assert "report recovery-drill" in snapshot["command_hints"]["recovery_drill"]
+    assert any(item["label"] == "Project Brain" for item in snapshot["quick_links"])
+    assert any(item["label"] == "Recovery Drill" for item in snapshot["quick_links"])
+    assert any(item["label"] == "Product Review" for item in snapshot["quick_links"])
+
+
 def test_build_glossary_suggestion_snapshot_returns_provider_options():
     from novel_pipeline.operator_ui import build_glossary_suggestion_snapshot
     from novel_pipeline.types import TermSuggestion
@@ -5128,6 +5171,7 @@ if __name__ == "__main__":
     test_operator_snapshot_includes_research_readiness()
     test_operator_snapshot_includes_research_profile_data()
     test_operator_snapshot_includes_preflight()
+    test_operator_snapshot_includes_command_hints_and_quick_links()
     test_build_glossary_suggestion_snapshot_returns_provider_options()
     test_execute_glossary_decision_approve_commits_when_queue_is_empty()
     test_execute_glossary_decision_reject_updates_queue_without_commit()

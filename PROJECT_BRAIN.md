@@ -200,7 +200,7 @@ Active:
 - V5.0 complete: practical local operator product now covers end-to-end workflow from project scaffold through final-output review
 - V5.1 complete: `product-review` report now verifies the product-complete baseline against real run evidence and canonical doc/state checks
 - V5.2 complete: canonical root docs are reduced to the three durable source-of-truth files and legacy overlapping root docs are retired
-- V5.3 in progress: preflight diagnostics now have a generated report artifact plus richer operator-side visibility, and recovery drill evidence now verifies canonical-doc restore readiness and runtime ignore policy
+- V5.3 in progress: preflight diagnostics now have a generated report artifact plus richer operator-side visibility, recovery drill evidence now verifies canonical-doc restore readiness and runtime ignore policy, and the operator snapshot now exposes copyable recovery command hints plus quick links to canonical docs/reports
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, artifact viewing, novel-project scaffold, and bounded batch-start actions
@@ -312,6 +312,7 @@ Next milestones after product-complete:
 - `V5.3`: active hardening/polish backlog
 - current V5.3 slice: preflight diagnostics artifact plus richer operator preflight panel
 - current V5.3 slice: recovery drill artifact plus git-backed restore verification for canonical docs and runtime ignore policy
+- current V5.3 slice: operator snapshot now carries copyable command hints and quick links for canonical docs/high-value reports
 
 ## Invariants And Guardrails
 

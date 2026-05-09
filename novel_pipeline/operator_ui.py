@@ -168,6 +168,62 @@ def _research_profile_snapshot(config: AppConfig) -> dict[str, Any]:
     }
 
 
+def _operator_command_hints(config: AppConfig, run_id: str | None, status: dict[str, Any], preflight: dict[str, Any]) -> dict[str, str]:
+    config_path = str(config.config_path)
+    hints: dict[str, str] = {
+        "preflight": f'novel-pipeline --config "{config_path}" preflight',
+        "preflight_report": f'novel-pipeline --config "{config_path}" report preflight',
+        "recovery_drill": f'novel-pipeline --config "{config_path}" report recovery-drill',
+        "operator": f'novel-pipeline --config "{config_path}" operator --open-browser',
+    }
+    if run_id:
+        hints["status"] = f'novel-pipeline --config "{config_path}" status --run-id {run_id}'
+        hints["product_review"] = f'novel-pipeline --config "{config_path}" report product-review --run-id {run_id}'
+        next_action = str(status.get("next_effective_action") or "").strip()
+        if next_action:
+            hints["next_effective_action"] = next_action
+        current_failed = list(status.get("current_failed_blocks") or [])
+        if current_failed:
+            first_failed = current_failed[0]
+            hints["inspect_first_failed"] = (
+                f'novel-pipeline --config "{config_path}" inspect-block --run-id {run_id} --block-id {first_failed}'
+            )
+        manual_actions = [
+            str(item).strip()
+            for item in (status.get("manual_actions") or [])
+            if str(item).strip() and str(item).strip().lower() != "none"
+        ]
+        if manual_actions:
+            hints["manual_action_summary"] = " | ".join(manual_actions)
+    if preflight.get("status") != "ready":
+        hints["preflight_next_safe_action"] = str(preflight.get("next_safe_action") or "Fix preflight warnings or blockers.")
+    return hints
+
+
+def _operator_quick_links(config: AppConfig, run_id: str | None) -> list[dict[str, str]]:
+    root = config.workspace.root
+    candidates = [
+        ("Project Brain", root / "PROJECT_BRAIN.md"),
+        ("Implement Plan", root / "Implement_PLAN.md"),
+        ("Operator Manual", root / "OPERATOR_MANUAL.md"),
+        ("Research Profile", root / "RESEARCH_PROFILE.yaml"),
+        ("Preflight Report", root / "07_Reports" / "preflight_report.md"),
+        ("Recovery Drill", root / "07_Reports" / "recovery_drill.md"),
+    ]
+    if run_id:
+        candidates.extend(
+            [
+                ("Product Review", root / "07_Reports" / f"product_review_{run_id}.md"),
+                ("Checkpoint Report", root / "07_Reports" / f"checkpoint_{run_id}.md"),
+            ]
+        )
+    links: list[dict[str, str]] = []
+    for label, path in candidates:
+        if path.exists():
+            links.append({"label": label, "path": str(path)})
+    return links
+
+
 def generate_operator_report(
     *,
     config: AppConfig,
@@ -215,6 +271,7 @@ def generate_operator_report(
 def build_operator_snapshot(config: AppConfig, run_id: str | None = None) -> dict[str, Any]:
     resolved_run_id = run_id or _latest_run_id(config)
     status = _quiet_status_run(config, resolved_run_id) if resolved_run_id else {"runs": []}
+    preflight = build_preflight_summary(config)
     return {
         "run_id": resolved_run_id,
         "available_run_ids": _list_run_ids(config),
@@ -222,7 +279,9 @@ def build_operator_snapshot(config: AppConfig, run_id: str | None = None) -> dic
         "research_profile_path": str(config.workspace.root / "RESEARCH_PROFILE.yaml"),
         "research_profile": _research_profile_snapshot(config),
         "research_readiness": config.research_readiness_summary(),
-        "preflight": build_preflight_summary(config),
+        "preflight": preflight,
+        "command_hints": _operator_command_hints(config, resolved_run_id, status, preflight),
+        "quick_links": _operator_quick_links(config, resolved_run_id),
     }
 
 
@@ -846,6 +905,13 @@ def _render_operator_html() -> str:
           </section>
 
           <section class="panel">
+            <h3>Recovery Hints</h3>
+            <p class="meta">Copyable commands and quick links for diagnostics, review, and bounded recovery.</p>
+            <div id="commandHints" class="empty">No command hints loaded.</div>
+            <div id="quickLinks" class="empty" style="margin-top:12px;">No quick links loaded.</div>
+          </section>
+
+          <section class="panel">
             <h3>Research Readiness</h3>
             <p class="meta">Readiness contract for bounded translation versus normal production.</p>
             <div id="researchReadiness" class="empty">No research profile loaded.</div>
@@ -1280,6 +1346,34 @@ def _render_operator_html() -> str:
       `;
     }
 
+    function renderCommandHints(snapshot) {
+      const wrap = document.getElementById("commandHints");
+      const hints = snapshot?.command_hints || {};
+      const rows = Object.entries(hints).map(([label, command]) => {
+        return `<li><strong>${escapeHtml(label)}</strong><pre class="mono" style="margin:6px 0 0; white-space:pre-wrap;">${escapeHtml(command)}</pre></li>`;
+      }).join("");
+      if (!rows) {
+        wrap.className = "empty";
+        wrap.textContent = "No command hints loaded.";
+        return;
+      }
+      wrap.className = "";
+      wrap.innerHTML = `<ul class="issues-list">${rows}</ul>`;
+    }
+
+    function renderQuickLinks(snapshot) {
+      const wrap = document.getElementById("quickLinks");
+      const links = snapshot?.quick_links || [];
+      if (!links.length) {
+        wrap.className = "empty";
+        wrap.textContent = "No quick links loaded.";
+        return;
+      }
+      const rows = links.map((item) => `<li>${fileLink(item.path, item.label)}</li>`).join("");
+      wrap.className = "";
+      wrap.innerHTML = `<ul class="artifact-list">${rows}</ul>`;
+    }
+
     function renderSnapshot(snapshot) {
       state.snapshot = snapshot;
       const runId = snapshot?.run_id || "";
@@ -1294,6 +1388,8 @@ def _render_operator_html() -> str:
       renderResearchReadiness(snapshot);
       renderResearchProfileEditor(snapshot);
       renderPreflight(snapshot);
+      renderCommandHints(snapshot);
+      renderQuickLinks(snapshot);
       renderManualActions(snapshot);
     }
 
