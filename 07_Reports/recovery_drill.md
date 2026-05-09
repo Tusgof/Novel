@@ -4,7 +4,7 @@
 - overall_status: accepted
 - workspace_root: D:\Fogust\Workspace\Novel\Deep Sea Embers
 - branch: main
-- head: ee1c058
+- head: d3ffe56
 - origin: https://github.com/Tusgof/Novel.git
 - next_safe_action: Recovery baseline is ready. Use git restore for canonical docs and keep runtime state out of git.
 
