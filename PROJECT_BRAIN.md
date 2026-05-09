@@ -1,7 +1,7 @@
 # Project Brain: Deep Sea Embers Translation Pipeline
 
-Last updated: 2026-04-29
-Last verified: 2026-04-29 after V4.3 was completed and verified with `python -m compileall novel_pipeline` and `python test_translation.py`.
+Last updated: 2026-05-09
+Last verified: 2026-05-09 after V5.0 completion and canonical-doc cleanup verification with `python -m compileall novel_pipeline` and `python test_translation.py`.
 
 This file is the project constitution, architecture map, and current operational memory. It should preserve the project goal, design principles, verified state, safety rules, recovery lessons, and pointers to detailed documents. Keep reports, long logs, and implementation detail in their dedicated files.
 
@@ -92,6 +92,35 @@ State model:
 - Worker reports are claims until disk state proves them.
 - Multi-novel and multi-genre support must be designed in, not bolted on after the first novel.
 
+## Canonical Document Set
+
+Root docs that remain canonical:
+
+- `PROJECT_BRAIN.md`: durable project memory, architecture, verified state, guardrails, and recovery lessons
+- `IMPLEMENT_PLAN.md`: milestone roadmap from the current verified state forward
+- `OPERATOR_MANUAL.md`: practical operator runbook and command policy
+
+Operational supporting docs that stay separate:
+
+- `NOVEL_SETUP_PLAYBOOK.md`: new-project setup workflow
+- `FETCH_ADAPTER_PLAYBOOK.md`: adapter design/validation workflow
+- `RESEARCH_PROFILE_PLAYBOOK.md`: research collection workflow
+- `00_Templates/`: reusable checklists and scaffolds
+- `07_Reports/`: historical evidence, checkpoints, spot-checks, and generated reports
+
+Retired root docs:
+
+- `MASTER_PLAN.md`: superseded by `PROJECT_BRAIN.md` plus `IMPLEMENT_PLAN.md`
+- `REPORT.md`: stale point-in-time snapshot superseded by current reports and `PROJECT_BRAIN.md`
+- `SUMMARY.md`: stale point-in-time snapshot superseded by current reports and `PROJECT_BRAIN.md`
+
+Rule:
+
+- do not recreate overlapping root summary/plan docs
+- if a new durable rule or architectural fact matters, put it in `PROJECT_BRAIN.md`
+- if a new future milestone matters, put it in `IMPLEMENT_PLAN.md`
+- if a new execution procedure matters, put it in `OPERATOR_MANUAL.md`
+
 ## Improvement Backlog Scoring
 
 Use two axes for prioritization:
@@ -165,7 +194,8 @@ Active:
 - V4.3 complete: research-profile workflow now uses `RESEARCH_PROFILE.yaml`, a manual web-research playbook, and prompt context wiring for translation/refinement/QA
 - research-profile readiness contract now classifies `pending` / `drafted` / `active`, reports missing fields, and keeps a missing `RESEARCH_PROFILE.yaml` visible without breaking old read-only flows
 - `novel-pipeline preflight` now summarizes provider executable availability, workspace/config integrity, research readiness, and git backup guardrails; the operator snapshot mirrors this state
-- latest verified preflight state: `ready` on 2026-04-29 (`main`, head `60bfc0f`, working tree clean, research status `active / ready`)
+- latest verified preflight state: `ready` on 2026-05-09 after V5.0 completion and operator smoke checks
+- V5.0 complete: practical local operator product now covers end-to-end workflow from project scaffold through final-output review
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, artifact viewing, novel-project scaffold, and bounded batch-start actions
@@ -237,7 +267,7 @@ Proceed with protocol/product work:
    - `00_Templates/Batch-Rollout-Checklist.md`
    - `00_Templates/Worker-Bounded-Batch-Prompt.md`
    - `07_Reports/v3_10_repeatable_rollout_protocol.md`
-4. Start `V5.0` from this stable multi-novel, multi-genre, research-profile, and preflight baseline.
+4. Start `V5.1` review/verification from this stable multi-novel, multi-genre, research-profile, and preflight baseline.
 5. Do not plan `ch024+` translation until new source is available and a fresh fetch/scan decision is made.
 
 V5.0 accepted baseline:
@@ -267,6 +297,12 @@ V5.0 accepted baseline:
   - bounded batch run with research readiness enforced
 - this does not remove the explicit-approval rule for starting a new production batch
 - practical local product scope is now covered end to end from project scaffold through final-output review
+
+Next milestones after product-complete:
+
+- `V5.1`: product-complete review and verification
+- `V5.2`: canonical docs and memory cleanup
+- `V5.3`: post-complete hardening and polish
 
 ## Invariants And Guardrails
 
@@ -457,25 +493,25 @@ Worker model restrictions:
 
 ## Document Map
 
-- `PROJECT_BRAIN.md`: project definition, architecture map, current verified state, guardrails, recovery memory.
-- `IMPLEMENT_PLAN.md`: milestone plan, V3.10 protocol deliverables, future productization work, V4/V5 direction.
-- `OPERATOR_MANUAL.md`: practical runbook, bounded batch start steps, and command guide.
-- `00_Templates/Batch-Rollout-Checklist.md`: reusable operator checklist for bounded batches.
-- `00_Templates/Worker-Bounded-Batch-Prompt.md`: reusable worker prompt template for bounded batches.
-- `07_Reports/v3_10_repeatable_rollout_protocol.md`: repeatable rollout protocol and current V3.10 acceptance baseline.
-- `07_Reports/glossary_conflicts_batch-ch019-ch023-v1.md`: current glossary conflict surface for V3.12.
-- `07_Reports/glossary_audit_batch-ch019-ch023-v1.md`: per-chapter approved glossary usage audit for V3.12.
-- `07_Reports/glossary_guard_batch-ch019-ch023-v1.md`: per-run evidence that current glossary guards reduce noisy deterministic scan candidates.
-- `NOVEL_SETUP_PLAYBOOK.md`: step-by-step operator setup flow for a new novel project.
-- `FETCH_ADAPTER_PLAYBOOK.md`: fetch adapter implementation and validation checklist.
-- `RESEARCH_PROFILE_PLAYBOOK.md`: step-by-step research workflow using title plus source URL and external synopsis/review sources.
-- `00_Templates/Novel-Profile.yaml`: canonical per-novel profile shape.
-- `00_Templates/Research-Profile.yaml`: canonical research-profile scaffold.
-- `D:\Fogust\Workspace\Novel\AGENTS.md`: global worker/agent behavior rules.
-- `07_Reports/`: detailed historical reports and checkpoint evidence.
-- `.system/config.yaml`: pipeline configuration entry point.
-- `.system/style_profiles.yaml`: canonical style profile library and genre preset map.
-- `.system/providers.yaml`: provider routing and retry/timeout configuration.
+- Canonical memory:
+  - `PROJECT_BRAIN.md`
+  - `IMPLEMENT_PLAN.md`
+  - `OPERATOR_MANUAL.md`
+- Playbooks and templates:
+  - `NOVEL_SETUP_PLAYBOOK.md`
+  - `FETCH_ADAPTER_PLAYBOOK.md`
+  - `RESEARCH_PROFILE_PLAYBOOK.md`
+  - `00_Templates/Batch-Rollout-Checklist.md`
+  - `00_Templates/Worker-Bounded-Batch-Prompt.md`
+  - `00_Templates/Novel-Profile.yaml`
+  - `00_Templates/Research-Profile.yaml`
+- Runtime and policy:
+  - `.system/config.yaml`
+  - `.system/style_profiles.yaml`
+  - `.system/providers.yaml`
+  - `D:\Fogust\Workspace\Novel\AGENTS.md`
+- Historical evidence:
+  - `07_Reports/`
 
 ## Roles
 

@@ -1,6 +1,6 @@
 # Operator Manual
 
-Last updated: 2026-04-29
+Last updated: 2026-05-09
 
 This is the practical runbook. It should help the operator proceed without guessing.
 
@@ -72,6 +72,8 @@ This is the practical runbook. It should help the operator proceed without guess
 - V4.4 complete: `novel-pipeline preflight` now checks provider executables, config/workspace integrity, research readiness, and git backup guardrails, and the operator window surfaces the same snapshot.
 - current preflight baseline: `ready` on 2026-04-29 (`main`, head `60bfc0f`, working tree clean, research readiness `active / ready`).
 - V5.0 complete: the operator window now covers practical end-to-end local workflow from project scaffold through research profile maintenance, glossary approval, bounded batch execution, recovery, reports, and final-output review.
+- Next milestone: `V5.1` product-complete review and verification.
+- Post-review cleanup milestone: `V5.2` canonical docs and memory cleanup.
 
 ## Standard Preflight
 
@@ -130,6 +132,18 @@ V4.1 setup artifacts:
 - `NOVEL_SETUP_PLAYBOOK.md`
 - `FETCH_ADAPTER_PLAYBOOK.md`
 - `RESEARCH_PROFILE_PLAYBOOK.md`
+
+Canonical root docs:
+
+- `PROJECT_BRAIN.md`
+- `IMPLEMENT_PLAN.md`
+- `OPERATOR_MANUAL.md`
+
+Retired root docs:
+
+- `MASTER_PLAN.md`
+- `REPORT.md`
+- `SUMMARY.md`
 
 V4.2 style profile artifacts:
 

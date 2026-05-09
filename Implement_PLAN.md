@@ -352,6 +352,75 @@ Current progress:
 
 Done because the workflow can now operate end to end with bounded human decision points and safe recovery for the practical local product scope.
 
+### V5.1: Product-Complete Review And Verification
+
+Goal: verify that V5.0 is genuinely complete in practice, not just feature-complete on paper.
+
+Status: active next milestone after V5.0 completion.
+
+- run a strict acceptance review against the canonical operator flow:
+  - init novel
+  - fill concise research profile
+  - run scan-only glossary gate
+  - approve glossary terms
+  - run bounded translation
+  - recover a bounded failure path
+  - generate reports
+  - inspect final outputs
+- verify that the flow works from operator/CLI surfaces without relying on undocumented Codex memory
+- verify that preflight, readiness gating, and bounded-stop guardrails behave as documented
+- verify that git state, docs, and runtime evidence stay coherent
+
+Stop when:
+
+- acceptance evidence is missing
+- operator flow requires undocumented manual steps
+- guardrails fail to stop unsafe execution
+- worker claims do not match disk state
+
+Done when:
+
+- a review/verification report exists
+- the operator flow is demonstrated end to end against the accepted product scope
+- any gaps are either fixed or recorded as explicit post-complete backlog
+
+### V5.2: Canonical Docs And Memory Cleanup
+
+Goal: reduce memory sprawl so the project has one clear document set instead of overlapping historical plans.
+
+Status: planned after V5.1.
+
+- define the canonical root doc set
+- consolidate still-useful legacy doc content into `PROJECT_BRAIN.md`
+- retire obsolete root docs that duplicate canonical memory
+- preserve reports/playbooks/templates that remain operational inputs
+
+Stop when:
+
+- a legacy doc is still referenced by active workflow after retirement
+- canonical ownership of a topic is ambiguous
+
+Done when:
+
+- `PROJECT_BRAIN.md` holds the important durable project memory
+- `IMPLEMENT_PLAN.md` is only the roadmap
+- `OPERATOR_MANUAL.md` is only the runbook
+- obsolete overlapping root docs are removed or explicitly retired
+
+### V5.3: Post-Complete Hardening And Polish
+
+Goal: improve reliability and operator efficiency after the product-complete baseline is verified.
+
+Status: backlog after V5.1 and V5.2.
+
+- acceptance-driven UX cleanup
+- restore/recovery drills
+- tighter environment diagnostics
+- small operator friction reductions that do not expand scope
+- packaging polish only after review/verification is closed
+
+Done when post-complete improvements are prioritized against real review findings rather than speculation.
+
 ## Acceptance Gates
 
 This document rewrite is accepted only when:
