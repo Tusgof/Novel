@@ -1,7 +1,7 @@
 # Project Brain: Deep Sea Embers Translation Pipeline
 
 Last updated: 2026-05-10
-Last verified: 2026-05-10 after V5.3 diagnostics/recovery slice verification with `python -m compileall novel_pipeline`, `python test_translation.py`, `novel-pipeline report preflight`, `novel-pipeline preflight`, and `novel-pipeline report recovery-drill`.
+Last verified: 2026-05-10 after V5.3 closure verification with `python -m compileall novel_pipeline`, `python test_translation.py`, `novel-pipeline preflight`, `novel-pipeline report preflight`, `novel-pipeline report recovery-drill`, and `novel-pipeline report product-review --run-id batch-ch019-ch023-v1`.
 
 This file is the project constitution, architecture map, and current operational memory. It should preserve the project goal, design principles, verified state, safety rules, recovery lessons, and pointers to detailed documents. Keep reports, long logs, and implementation detail in their dedicated files.
 
@@ -200,7 +200,7 @@ Active:
 - V5.0 complete: practical local operator product now covers end-to-end workflow from project scaffold through final-output review
 - V5.1 complete: `product-review` report now verifies the product-complete baseline against real run evidence and canonical doc/state checks
 - V5.2 complete: canonical root docs are reduced to the three durable source-of-truth files and legacy overlapping root docs are retired
-- V5.3 in progress: preflight diagnostics now have a generated report artifact plus richer operator-side visibility, recovery drill evidence now verifies canonical-doc restore readiness and runtime ignore policy, and the operator snapshot now exposes copyable recovery command hints plus quick links to canonical docs/reports
+- V5.3 complete: post-complete hardening now includes a generated preflight diagnostics artifact, accepted recovery-drill evidence, operator recovery command hints/quick links, and a canonical recovery checklist template
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, artifact viewing, novel-project scaffold, and bounded batch-start actions
@@ -272,7 +272,7 @@ Proceed with protocol/product work:
    - `00_Templates/Batch-Rollout-Checklist.md`
    - `00_Templates/Worker-Bounded-Batch-Prompt.md`
    - `07_Reports/v3_10_repeatable_rollout_protocol.md`
-4. Start `V5.3` hardening/polish only from the verified `V5.1`/`V5.2` baseline; do not reopen product-complete scope casually.
+4. Keep the accepted V5 baseline green by rerunning `preflight` and `report product-review` before any new backlog item that changes operator behavior or reliability policy.
 5. Do not plan `ch024+` translation until new source is available and a fresh fetch/scan decision is made.
 
 V5.0 accepted baseline:
@@ -309,11 +309,13 @@ Next milestones after product-complete:
 
 - `V5.1`: complete
 - `V5.2`: complete
-- `V5.3`: active hardening/polish backlog
-- current V5.3 slice: preflight diagnostics artifact plus richer operator preflight panel
-- current V5.3 slice: recovery drill artifact plus git-backed restore verification for canonical docs and runtime ignore policy
-- current V5.3 slice: operator snapshot now carries copyable command hints and quick links for canonical docs/high-value reports
-- current V5.3 slice: `00_Templates/Recovery-Drill-Checklist.md` now defines the exact restore path for canonical docs without dragging runtime dirs into git recovery
+- `V5.3`: complete
+- accepted V5.3 hardening baseline:
+  - `07_Reports/preflight_report.md`
+  - `07_Reports/recovery_drill.md`
+  - operator recovery command hints and quick links
+  - `00_Templates/Recovery-Drill-Checklist.md`
+- there is no active delivery milestone after V5.3; future work should be opened as explicit backlog items
 
 ## Invariants And Guardrails
 
@@ -501,6 +503,7 @@ Worker model restrictions:
 - 2026-04-28: V4.0 accepted. The local operator window now covers status, glossary decision flow, bounded resume, rerun-block, reports, and artifact viewing for the practical single-novel workflow.
 - 2026-04-29: V4.2 accepted. Structured multi-genre style profiles now exist, `init-novel` can resolve genre presets to style profile keys, and refinement/QA prompts now consume consistent style instructions without hardcoded Deep Sea Embers wording.
 - 2026-04-29: V4.3 accepted. Research is now stored in `RESEARCH_PROFILE.yaml`, collected through a practical web-research playbook, and passed into translation/refinement/QA prompts as concise context.
+- 2026-05-10: V5.3 accepted. Post-complete hardening now has a generated preflight diagnostics artifact, accepted recovery-drill evidence, operator recovery hints/quick links, and a canonical recovery checklist without expanding product scope.
 
 ## Document Map
 

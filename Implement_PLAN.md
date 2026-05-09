@@ -446,7 +446,7 @@ Accepted because:
 
 Goal: improve reliability and operator efficiency after the product-complete baseline is verified.
 
-Status: active backlog after V5.1 and V5.2 closure.
+Status: complete on 2026-05-10.
 
 - acceptance-driven UX cleanup
 - restore/recovery drills
@@ -454,7 +454,7 @@ Status: active backlog after V5.1 and V5.2 closure.
 - small operator friction reductions that do not expand scope
 - packaging polish only after review/verification is closed
 
-Current slice:
+Implemented:
 
 - `novel-pipeline report preflight [--output <path>]` now generates a durable diagnostics artifact for the current workspace without requiring a run ID
 - operator report actions now include `preflight`
@@ -477,7 +477,15 @@ Current slice:
 
 These slices are not product-scope expansion. They are post-complete diagnostics and recovery hardening so the operator can inspect environment state, capture evidence, and prove that canonical memory can be restored safely without pulling runtime state into git.
 
-Done when post-complete improvements are prioritized against real review findings rather than speculation.
+Accepted because:
+
+- `novel-pipeline --config ".system/config.yaml" preflight` returns `ready`
+- `novel-pipeline --config ".system/config.yaml" report preflight` generates `07_Reports/preflight_report.md`
+- `novel-pipeline --config ".system/config.yaml" report recovery-drill` generates `07_Reports/recovery_drill.md` with accepted recovery baseline
+- `novel-pipeline --config ".system/config.yaml" report product-review --run-id batch-ch019-ch023-v1` returns accepted on a clean tree after the hardening slices land
+- operator recovery hints and quick links now expose the exact commands and canonical files needed for bounded inspection and restore
+
+After V5.3 there is no active delivery milestone. Future work should be opened as explicit backlog items rather than reopening product-complete scope implicitly.
 
 ## Acceptance Gates
 

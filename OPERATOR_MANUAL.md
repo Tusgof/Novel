@@ -70,25 +70,25 @@ This is the practical runbook. It should help the operator proceed without guess
 - V4.3 complete: research-profile workflow now uses `RESEARCH_PROFILE.yaml`, a manual web-research playbook, and prompt context wiring for translation/refinement/QA.
 - operator bootstrap/snapshot now carries the research-profile path plus readiness summary so the UI can surface pending, drafted, active, or missing states later.
 - V4.4 complete: `novel-pipeline preflight` now checks provider executables, config/workspace integrity, research readiness, and git backup guardrails, and the operator window surfaces the same snapshot.
-- current V5.3 operator diagnostics improvement:
+- V5.3 operator diagnostics improvement:
   - report buttons now include `preflight`
   - the preflight panel now shows workspace/config paths, research readiness state, per-provider resolved executable details, and git branch/head/origin/working-tree state
-- current V5.3 recovery drill improvement:
+- V5.3 recovery drill improvement:
   - report buttons now include `recovery-drill`
   - recovery drill verifies canonical docs are tracked/restorable from `HEAD`
   - recovery drill verifies runtime directories remain ignored and untracked
-- current V5.3 operator friction reduction:
+- V5.3 operator friction reduction:
   - bootstrap snapshot now includes copyable command hints for preflight, status, reports, and first-failed-block inspection
   - the operator window now shows quick links to canonical docs and high-value reports when those files exist
-- current V5.3 restore walkthrough:
+- V5.3 restore walkthrough:
   - `00_Templates/Recovery-Drill-Checklist.md` now defines the exact restore sequence for canonical docs
   - the checklist explicitly separates canonical-doc restore from runtime artifact handling
 - current preflight baseline: `ready` on 2026-05-10 after V5.1/V5.2 verification (working tree clean, research readiness `active / ready`).
 - V5.0 complete: the operator window now covers practical end-to-end local workflow from project scaffold through research profile maintenance, glossary approval, bounded batch execution, recovery, reports, and final-output review.
 - V5.1 complete: product-complete review and verification now exists through `report product-review`.
 - V5.2 complete: canonical docs and memory cleanup are closed; the root doc set is now explicit and legacy overlapping docs are retired.
-- V5.3 in progress: preflight diagnostics now have a durable report artifact and richer operator-side detail for provider/git/research state.
-- Next milestone: continue `V5.3` post-complete hardening and polish.
+- V5.3 complete: preflight diagnostics, recovery drill reporting, operator recovery hints, quick links, and canonical recovery checklist are now part of the accepted hardening baseline.
+- No active delivery milestone after V5.3. Open future work as explicit backlog items only.
 
 ## Standard Preflight
 
