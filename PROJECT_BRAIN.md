@@ -1,7 +1,7 @@
 # Project Brain: Deep Sea Embers Translation Pipeline
 
 Last updated: 2026-05-10
-Last verified: 2026-05-10 after V5.1/V5.2 verification with `python -m compileall novel_pipeline`, `python test_translation.py`, `novel-pipeline report product-review`, and `novel-pipeline preflight`.
+Last verified: 2026-05-10 after V5.3 diagnostics slice verification with `python -m compileall novel_pipeline`, `python test_translation.py`, `novel-pipeline report preflight`, and `novel-pipeline preflight`.
 
 This file is the project constitution, architecture map, and current operational memory. It should preserve the project goal, design principles, verified state, safety rules, recovery lessons, and pointers to detailed documents. Keep reports, long logs, and implementation detail in their dedicated files.
 
@@ -194,10 +194,12 @@ Active:
 - V4.3 complete: research-profile workflow now uses `RESEARCH_PROFILE.yaml`, a manual web-research playbook, and prompt context wiring for translation/refinement/QA
 - research-profile readiness contract now classifies `pending` / `drafted` / `active`, reports missing fields, and keeps a missing `RESEARCH_PROFILE.yaml` visible without breaking old read-only flows
 - `novel-pipeline preflight` now summarizes provider executable availability, workspace/config integrity, research readiness, and git backup guardrails; the operator snapshot mirrors this state
+- `novel-pipeline report preflight` now writes a durable diagnostics artifact at `07_Reports/preflight_report.md`
 - latest verified preflight state: `ready` on 2026-05-10 after V5.1/V5.2 verification and clean-tree recheck
 - V5.0 complete: practical local operator product now covers end-to-end workflow from project scaffold through final-output review
 - V5.1 complete: `product-review` report now verifies the product-complete baseline against real run evidence and canonical doc/state checks
 - V5.2 complete: canonical root docs are reduced to the three durable source-of-truth files and legacy overlapping root docs are retired
+- V5.3 in progress: preflight diagnostics now have a generated report artifact plus richer operator-side visibility for provider, git, and research readiness state
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, artifact viewing, novel-project scaffold, and bounded batch-start actions
@@ -307,6 +309,7 @@ Next milestones after product-complete:
 - `V5.1`: complete
 - `V5.2`: complete
 - `V5.3`: active hardening/polish backlog
+- current V5.3 slice: preflight diagnostics artifact plus richer operator preflight panel
 
 ## Invariants And Guardrails
 

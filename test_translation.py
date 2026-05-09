@@ -1934,6 +1934,13 @@ def test_cli_parser_accepts_report_subcommands():
     assert guard_args.report_command == "glossary-guard"
     assert guard_args.run_id == "batch-ch019-ch023-v1"
 
+    preflight_args = parser.parse_args([
+        "--config", "dummy.yaml",
+        "report",
+        "preflight",
+    ])
+    assert preflight_args.report_command == "preflight"
+
     operator_args = parser.parse_args([
         "--config", "dummy.yaml",
         "operator",
@@ -2379,6 +2386,77 @@ def test_build_preflight_summary_reports_provider_and_git_state():
     assert summary["git"]["in_work_tree"] is True
     assert summary["git"]["clean"] is False
     assert any("Working tree is dirty" in item for item in summary["warnings"])
+
+
+def test_preflight_report_generation_writes_expected_markdown():
+    from novel_pipeline.reports import build_preflight_report
+    from novel_pipeline.types import AppConfig
+    from unittest.mock import Mock, patch
+    import tempfile
+
+    summary = {
+        "status": "degraded",
+        "workspace_root": "D:/Novel/Deep Sea Embers",
+        "config_path": "D:/Novel/Deep Sea Embers/.system/config.yaml",
+        "providers": [
+            {
+                "provider": "claude",
+                "status": "ready",
+                "resolved_path": "C:/claude.exe",
+                "prompt_transport": "stdin",
+                "stages": ["refining"],
+                "working_dir": "",
+            },
+            {
+                "provider": "gemini",
+                "status": "blocked",
+                "resolved_path": "gemini",
+                "prompt_transport": "argv",
+                "stages": ["translating"],
+                "working_dir": "",
+            },
+        ],
+        "git": {
+            "available": True,
+            "in_work_tree": True,
+            "branch": "main",
+            "head": "abc1234",
+            "origin": "https://example.com/repo.git",
+            "clean": False,
+            "warnings": ["Working tree is dirty."],
+        },
+        "research_readiness": {
+            "status": "drafted",
+            "readiness": "degraded",
+            "bounded_translation_ready": True,
+            "translation_ready": False,
+            "missing_fields": [],
+            "warnings": ["review metadata missing"],
+            "blocking_reasons": [],
+            "next_safe_action": "Continue only with bounded operations.",
+        },
+        "missing_directories": [],
+        "warnings": ["Working tree is dirty; commit or stash before large write actions."],
+        "blocking_reasons": [],
+        "next_safe_action": "Continue only with bounded operations while warnings remain.",
+    }
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        config = Mock(spec=AppConfig)
+        config.workspace.root = base
+
+        with patch("novel_pipeline.reports.build_preflight_summary", return_value=summary):
+            result = build_preflight_report(config=config)
+
+        text = result["path"].read_text(encoding="utf-8")
+        assert "# Preflight Report" in text
+        assert "- status: degraded" in text
+        assert "| claude | ready | C:/claude.exe | stdin | refining | none |" in text
+        assert "| gemini | blocked | gemini | argv | translating | none |" in text
+        assert "- branch: main" in text
+        assert "- readiness: degraded" in text
+        assert result["actionable_failure"] is True
 
 
 def test_initialize_novel_project_scaffolds_expected_files_and_rewrites_codex_cd():
@@ -3825,6 +3903,7 @@ def test_generate_operator_report_dispatches_supported_kinds():
     with patch("novel_pipeline.operator_ui.build_checkpoint_report", return_value={"path": Path("a.md")}) as checkpoint, \
          patch("novel_pipeline.operator_ui.build_cleanliness_report", return_value={"path": Path("b.md")}) as cleanliness, \
          patch("novel_pipeline.operator_ui.build_provider_usage_report", return_value={"path": Path("c.md")}) as provider, \
+         patch("novel_pipeline.operator_ui.build_preflight_report", return_value={"path": Path("p.md")}) as preflight, \
          patch("novel_pipeline.operator_ui.build_product_review_report", return_value={"path": Path("h.md")}) as product_review, \
          patch("novel_pipeline.operator_ui.build_glossary_decisions_report", return_value={"path": Path("d.md")}) as decisions, \
          patch("novel_pipeline.operator_ui.build_glossary_conflicts_report", return_value={"path": Path("e.md")}) as conflicts, \
@@ -3833,6 +3912,7 @@ def test_generate_operator_report_dispatches_supported_kinds():
         assert generate_operator_report(config=config, run_id="run-1", kind="checkpoint")["path"] == Path("a.md")
         assert generate_operator_report(config=config, run_id="run-1", kind="cleanliness")["path"] == Path("b.md")
         assert generate_operator_report(config=config, run_id="run-1", kind="provider-usage")["path"] == Path("c.md")
+        assert generate_operator_report(config=config, run_id=None, kind="preflight")["path"] == Path("p.md")
         assert generate_operator_report(config=config, run_id="run-1", kind="product-review")["path"] == Path("h.md")
         assert generate_operator_report(config=config, run_id="run-1", kind="glossary-decisions")["path"] == Path("d.md")
         assert generate_operator_report(config=config, run_id="run-1", kind="glossary-conflicts")["path"] == Path("e.md")
@@ -3842,6 +3922,7 @@ def test_generate_operator_report_dispatches_supported_kinds():
     checkpoint.assert_called_once()
     cleanliness.assert_called_once()
     provider.assert_called_once()
+    preflight.assert_called_once()
     product_review.assert_called_once()
     decisions.assert_called_once()
     conflicts.assert_called_once()
@@ -4952,6 +5033,7 @@ if __name__ == "__main__":
     test_research_profile_config_loads_review_metadata()
     test_research_profile_invalid_status_rejected()
     test_build_preflight_summary_reports_provider_and_git_state()
+    test_preflight_report_generation_writes_expected_markdown()
     test_literal_translation_stage_uses_research_context()
     test_refine_stage_uses_research_context()
     test_qa_stage_uses_research_context()

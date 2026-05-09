@@ -70,11 +70,15 @@ This is the practical runbook. It should help the operator proceed without guess
 - V4.3 complete: research-profile workflow now uses `RESEARCH_PROFILE.yaml`, a manual web-research playbook, and prompt context wiring for translation/refinement/QA.
 - operator bootstrap/snapshot now carries the research-profile path plus readiness summary so the UI can surface pending, drafted, active, or missing states later.
 - V4.4 complete: `novel-pipeline preflight` now checks provider executables, config/workspace integrity, research readiness, and git backup guardrails, and the operator window surfaces the same snapshot.
+- current V5.3 operator diagnostics improvement:
+  - report buttons now include `preflight`
+  - the preflight panel now shows workspace/config paths, research readiness state, per-provider resolved executable details, and git branch/head/origin/working-tree state
 - current preflight baseline: `ready` on 2026-05-10 after V5.1/V5.2 verification (working tree clean, research readiness `active / ready`).
 - V5.0 complete: the operator window now covers practical end-to-end local workflow from project scaffold through research profile maintenance, glossary approval, bounded batch execution, recovery, reports, and final-output review.
 - V5.1 complete: product-complete review and verification now exists through `report product-review`.
 - V5.2 complete: canonical docs and memory cleanup are closed; the root doc set is now explicit and legacy overlapping docs are retired.
-- Next milestone: `V5.3` post-complete hardening and polish.
+- V5.3 in progress: preflight diagnostics now have a durable report artifact and richer operator-side detail for provider/git/research state.
+- Next milestone: continue `V5.3` post-complete hardening and polish.
 
 ## Standard Preflight
 
@@ -102,6 +106,7 @@ Preflight:
 
 ```powershell
 novel-pipeline --config ".system/config.yaml" preflight
+novel-pipeline --config ".system/config.yaml" report preflight
 ```
 
 Generated verification reports:
@@ -115,6 +120,7 @@ novel-pipeline --config ".system/config.yaml" report glossary-conflicts --run-id
 novel-pipeline --config ".system/config.yaml" report glossary-audit --run-id batch-ch019-ch023-v1
 novel-pipeline --config ".system/config.yaml" report glossary-guard --run-id batch-ch019-ch023-v1
 novel-pipeline --config ".system/config.yaml" report product-review --run-id batch-ch019-ch023-v1
+novel-pipeline --config ".system/config.yaml" report preflight
 ```
 
 Current generated artifacts:
@@ -126,6 +132,7 @@ Current generated artifacts:
 - `07_Reports/glossary_conflicts_batch-ch019-ch023-v1.md`
 - `07_Reports/glossary_audit_batch-ch019-ch023-v1.md`
 - `07_Reports/glossary_guard_batch-ch019-ch023-v1.md`
+- `07_Reports/preflight_report.md`
 
 V4.1 setup artifacts:
 

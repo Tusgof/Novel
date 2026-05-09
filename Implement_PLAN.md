@@ -454,6 +454,18 @@ Status: active backlog after V5.1 and V5.2 closure.
 - small operator friction reductions that do not expand scope
 - packaging polish only after review/verification is closed
 
+Current slice:
+
+- `novel-pipeline report preflight [--output <path>]` now generates a durable diagnostics artifact for the current workspace without requiring a run ID
+- operator report actions now include `preflight`
+- operator preflight panel now shows:
+  - workspace/config paths
+  - research readiness state
+  - per-provider status, stages, transport, and resolved executable path
+  - git branch/head/origin/working-tree state
+
+This slice is not product-scope expansion. It is a post-complete diagnostics and UX hardening pass so the operator can inspect environment state and capture it as evidence without dropping to ad hoc shell inspection.
+
 Done when post-complete improvements are prioritized against real review findings rather than speculation.
 
 ## Acceptance Gates

@@ -285,6 +285,69 @@ def _render_glossary_guard_markdown(*, run_id: str, chapter_results: list[dict[s
     return "\n".join(lines).rstrip() + "\n"
 
 
+def _render_preflight_markdown(*, summary: dict[str, Any]) -> str:
+    research = summary.get("research_readiness") or {}
+    git_info = summary.get("git") or {}
+    provider_rows: list[str] = []
+    for item in summary.get("providers") or []:
+        provider_rows.append(
+            "| "
+            + " | ".join(
+                [
+                    str(item.get("provider") or ""),
+                    str(item.get("status") or ""),
+                    str(item.get("resolved_path") or ""),
+                    str(item.get("prompt_transport") or ""),
+                    _comma_list(item.get("stages") or []),
+                    str(item.get("working_dir") or "none"),
+                ]
+            )
+            + " |"
+        )
+    if not provider_rows:
+        provider_rows.append("| none | blocked | none | none | none | none |")
+
+    lines: list[str] = [
+        "# Preflight Report",
+        "",
+        "## Summary",
+        f"- status: {summary.get('status', 'unknown')}",
+        f"- workspace_root: {summary.get('workspace_root', '')}",
+        f"- config_path: {summary.get('config_path', '')}",
+        f"- next_safe_action: {summary.get('next_safe_action', 'none')}",
+        "",
+        "## Providers",
+        "| provider | status | resolved_path | prompt_transport | stages | working_dir |",
+        "| --- | --- | --- | --- | --- | --- |",
+        *provider_rows,
+        "",
+        "## Research Readiness",
+        f"- status: {research.get('status', 'missing')}",
+        f"- readiness: {research.get('readiness', 'blocked')}",
+        f"- bounded_translation_ready: {'yes' if research.get('bounded_translation_ready') else 'no'}",
+        f"- translation_ready: {'yes' if research.get('translation_ready') else 'no'}",
+        f"- missing_fields: {_comma_list(research.get('missing_fields') or [])}",
+        f"- warnings: {_comma_list(research.get('warnings') or [])}",
+        f"- blocking_reasons: {_comma_list(research.get('blocking_reasons') or [])}",
+        f"- next_safe_action: {research.get('next_safe_action', 'none')}",
+        "",
+        "## Git Guardrails",
+        f"- available: {'yes' if git_info.get('available') else 'no'}",
+        f"- in_work_tree: {'yes' if git_info.get('in_work_tree') else 'no'}",
+        f"- branch: {git_info.get('branch') or 'none'}",
+        f"- head: {git_info.get('head') or 'none'}",
+        f"- origin: {git_info.get('origin') or 'none'}",
+        f"- working_tree: {'clean' if git_info.get('clean') else 'dirty'}",
+        f"- git_warnings: {_comma_list(git_info.get('warnings') or [])}",
+        "",
+        "## Workspace",
+        f"- missing_directories: {_comma_list(summary.get('missing_directories') or [])}",
+        f"- warnings: {_comma_list(summary.get('warnings') or [])}",
+        f"- blocking_reasons: {_comma_list(summary.get('blocking_reasons') or [])}",
+    ]
+    return "\n".join(lines).rstrip() + "\n"
+
+
 def _render_checkpoint_markdown(*, run_id: str, summary: dict[str, Any]) -> str:
     lines: list[str] = [
         f"# Checkpoint Report - {run_id}",
@@ -994,6 +1057,19 @@ def build_glossary_guard_report(*, config: Any, run_id: str, output: Path | None
         "summary": summary,
         "chapter_results": chapter_results,
         "actionable_failure": actionable_failure,
+    }
+
+
+def build_preflight_report(*, config: Any, output: Path | None = None) -> dict[str, Any]:
+    summary = build_preflight_summary(config)
+    path = _stable_report_path(config=config, kind="preflight_report", run_id=None, output=output)
+    text = _render_preflight_markdown(summary=summary)
+    atomic_write_text(path, text)
+    return {
+        "path": path,
+        "text": text,
+        "summary": summary,
+        "actionable_failure": summary.get("status") != "ready",
     }
 
 

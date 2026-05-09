@@ -38,6 +38,7 @@ from novel_pipeline.text_utils import parse_chapter_range
 from novel_pipeline.reports import (
     build_checkpoint_report,
     build_cleanliness_report,
+    build_preflight_report,
     build_product_review_report,
     build_glossary_audit_report,
     build_glossary_conflicts_report,
@@ -169,25 +170,41 @@ def _research_profile_snapshot(config: AppConfig) -> dict[str, Any]:
 def generate_operator_report(
     *,
     config: AppConfig,
-    run_id: str,
+    run_id: str | None,
     kind: str,
     chapter_ids: list[str] | None = None,
 ) -> dict[str, Any]:
     if kind == "checkpoint":
+        if not run_id:
+            raise ValueError("checkpoint report requires run_id.")
         return build_checkpoint_report(config=config, run_id=run_id)
     if kind == "cleanliness":
+        if not run_id:
+            raise ValueError("cleanliness report requires run_id.")
         return build_cleanliness_report(config=config, run_id=run_id, chapter_ids=chapter_ids or None)
     if kind == "provider-usage":
+        if not run_id:
+            raise ValueError("provider-usage report requires run_id.")
         return build_provider_usage_report(config=config, run_id=run_id)
     if kind == "glossary-decisions":
+        if not run_id:
+            raise ValueError("glossary-decisions report requires run_id.")
         return build_glossary_decisions_report(config=config, run_id=run_id)
     if kind == "glossary-conflicts":
         return build_glossary_conflicts_report(config=config, run_id=run_id)
     if kind == "glossary-audit":
+        if not run_id:
+            raise ValueError("glossary-audit report requires run_id.")
         return build_glossary_audit_report(config=config, run_id=run_id)
     if kind == "glossary-guard":
+        if not run_id:
+            raise ValueError("glossary-guard report requires run_id.")
         return build_glossary_guard_report(config=config, run_id=run_id)
+    if kind == "preflight":
+        return build_preflight_report(config=config)
     if kind == "product-review":
+        if not run_id:
+            raise ValueError("product-review report requires run_id.")
         return build_product_review_report(config=config, run_id=run_id)
     raise ValueError(f"Unsupported report kind: {kind}")
 
@@ -784,6 +801,7 @@ def _render_operator_html() -> str:
           <button class="ghost-dark" data-report="checkpoint">Checkpoint</button>
           <button class="ghost-dark" data-report="cleanliness">Cleanliness</button>
           <button class="ghost-dark" data-report="provider-usage">Provider</button>
+          <button class="ghost-dark" data-report="preflight">Preflight</button>
           <button class="ghost-dark" data-report="product-review">Product Review</button>
           <button class="ghost-dark" data-report="glossary-decisions">Decisions</button>
           <button class="ghost-dark" data-report="glossary-conflicts">Conflicts</button>
@@ -1220,20 +1238,37 @@ def _render_operator_html() -> str:
       const blocking = preflight.blocking_reasons || [];
       const git = preflight.git || {};
       const providerItems = preflight.providers || [];
+      const research = preflight.research_readiness || {};
       const pillClass = preflight.status === "ready"
         ? "ok"
         : preflight.status === "degraded"
           ? ""
           : "danger";
-      const providerLines = providerItems.length
-        ? providerItems.map((item) => `${item.provider}: ${item.found ? "ready" : "missing"} [${(item.stages || []).join(", ")}]`).join(" | ")
-        : "none";
+      const providerLines = providerItems.length ? providerItems.map((item) => {
+        const resolvedPath = item.resolved_path || item.command?.[0] || "none";
+        return `<li>${escapeHtml(item.provider)}: ${escapeHtml(item.status || (item.found ? "ready" : "blocked"))} | ${escapeHtml((item.stages || []).join(", ") || "none")} | ${escapeHtml(item.prompt_transport || "none")} | ${escapeHtml(resolvedPath)}</li>`;
+      }).join("") : "<li>none</li>";
+      const gitLines = [
+        `branch: ${git.available ? (git.branch || "(detached)") : "unavailable"}`,
+        `head: ${git.head || "none"}`,
+        `origin: ${git.origin || "none"}`,
+        `working tree: ${git.available ? (git.in_work_tree ? (git.clean ? "clean" : "dirty") : "not a work tree") : "unavailable"}`,
+      ].map((line) => `<li>${escapeHtml(line)}</li>`).join("");
       wrap.className = "";
       wrap.innerHTML = `
         <div class="stack">
           <div><span class="pill ${pillClass}">${escapeHtml(preflight.status || "blocked")}</span></div>
-          <div class="mono">providers: ${escapeHtml(providerLines)}</div>
-          <div class="mono">git: ${git.available ? (git.in_work_tree ? `${git.branch || "(detached)"} / ${git.clean ? "clean" : "dirty"}` : "not a work tree") : "unavailable"}</div>
+          <div class="mono">workspace: ${escapeHtml(preflight.workspace_root || "unknown")}</div>
+          <div class="mono">config: ${escapeHtml(preflight.config_path || "unknown")}</div>
+          <div class="mono">research: ${escapeHtml(research.status || "missing")} / ${escapeHtml(research.readiness || "blocked")} / bounded=${research.bounded_translation_ready ? "yes" : "no"} / production=${research.translation_ready ? "yes" : "no"}</div>
+          <div>
+            <strong>Providers</strong>
+            <ul class="issues-list">${providerLines}</ul>
+          </div>
+          <div>
+            <strong>Git guardrails</strong>
+            <ul class="issues-list">${gitLines}</ul>
+          </div>
           <div class="mono">warnings: ${escapeHtml(warnings.length ? warnings.join(" | ") : "none")}</div>
           <div class="mono">blocking: ${escapeHtml(blocking.length ? blocking.join(" | ") : "none")}</div>
           <div class="mono">next safe action: ${escapeHtml(preflight.next_safe_action || "none")}</div>
@@ -1438,7 +1473,7 @@ def _render_operator_html() -> str:
 
     async function generateReport(kind) {
       const runId = state.runId || runIdInput.value.trim();
-      if (!runId) {
+      if (kind !== "preflight" && !runId) {
         document.getElementById("reportResult").innerHTML = `<div class="empty">Run ID is required.</div>`;
         return;
       }
@@ -1695,12 +1730,15 @@ class _OperatorHandler(BaseHTTPRequestHandler):
                 run_id = str(payload.get("run_id") or "").strip()
                 kind = str(payload.get("kind") or "").strip()
                 chapter_ids = payload.get("chapter_ids")
-                if not run_id or not kind:
+                if not kind:
+                    self._send_json({"error": "kind is required."}, status=400)
+                    return
+                if kind != "preflight" and not run_id:
                     self._send_json({"error": "run_id and kind are required."}, status=400)
                     return
                 result = generate_operator_report(
                     config=self.config,
-                    run_id=run_id,
+                    run_id=run_id or None,
                     kind=kind,
                     chapter_ids=chapter_ids if isinstance(chapter_ids, list) else None,
                 )
