@@ -11,6 +11,7 @@ from novel_pipeline.artifacts import batch_glossary_scan_artifact_path
 from novel_pipeline.files import atomic_write_text, read_text_if_exists
 from novel_pipeline.glossary_support import load_glossary_index, parse_glossary_note
 from novel_pipeline.ledger import RunLedger
+from novel_pipeline.preflight import build_preflight_summary
 from novel_pipeline.pipeline import (
     _load_chapter_source_and_blocks,
     _resolve_glossary_subset,
@@ -470,6 +471,74 @@ def _render_glossary_decisions_markdown(
     return "\n".join(lines).rstrip() + "\n"
 
 
+def _render_product_review_markdown(
+    *,
+    run_id: str,
+    overall_status: str,
+    preflight: dict[str, Any],
+    summary: dict[str, Any],
+    canonical_present: list[str],
+    canonical_missing: list[str],
+    retired_absent: list[str],
+    retired_present: list[str],
+    required_present: list[str],
+    required_missing: list[str],
+    output_rows: list[dict[str, Any]],
+    accepted_checks: list[dict[str, str]],
+) -> str:
+    lines: list[str] = [
+        f"# Product Review Report - {run_id}",
+        "",
+        "## Summary",
+        f"- overall_status: {overall_status}",
+        f"- preflight_status: {preflight.get('status', 'unknown')}",
+        f"- run_records: {summary.get('total_records', 0)}",
+        f"- completed_blocks_count: {len(summary.get('completed_blocks') or [])}",
+        f"- current_failed_blocks: {_comma_list(summary.get('current_failed_blocks'))}",
+        f"- historical_failed_records: {summary.get('historical_failed_records', 0)}",
+        f"- manual_actions_needed: {_comma_list(summary.get('manual_actions'))}",
+        f"- next_effective_action: {summary.get('next_effective_action', 'none')}",
+        "",
+        "## Acceptance Checklist",
+        "| check | status | detail |",
+        "| --- | --- | --- |",
+    ]
+    for item in accepted_checks:
+        lines.append(f"| {item['check']} | {item['status']} | {item['detail']} |")
+
+    lines.extend(
+        [
+            "",
+            "## Preflight",
+            f"- status: {preflight.get('status', 'unknown')}",
+            f"- next_safe_action: {preflight.get('next_safe_action', 'none')}",
+            f"- warnings: {_comma_list(preflight.get('warnings'))}",
+            f"- blocking_reasons: {_comma_list(preflight.get('blocking_reasons'))}",
+            "",
+            "## Canonical Docs",
+            f"- canonical_present: {_comma_list(canonical_present)}",
+            f"- canonical_missing: {_comma_list(canonical_missing)}",
+            f"- retired_absent: {_comma_list(retired_absent)}",
+            f"- retired_present: {_comma_list(retired_present)}",
+            "",
+            "## Required Product Files",
+            f"- present: {_comma_list(required_present)}",
+            f"- missing: {_comma_list(required_missing)}",
+            "",
+            "## Final Outputs",
+            "| chapter | exists | issues | path |",
+            "| --- | --- | --- | --- |",
+        ]
+    )
+    for row in output_rows:
+        lines.append(
+            f"| {row['chapter_id']} | {'yes' if row['exists'] else 'no'} | "
+            f"{_comma_list(row['issues'])} | {row['path']} |"
+        )
+
+    return "\n".join(lines).rstrip() + "\n"
+
+
 def _quiet_status_run(*, config: Any, run_id: str) -> dict[str, Any]:
     with redirect_stdout(StringIO()):
         return status_run(config=config, run_id=run_id)
@@ -925,4 +994,142 @@ def build_glossary_guard_report(*, config: Any, run_id: str, output: Path | None
         "summary": summary,
         "chapter_results": chapter_results,
         "actionable_failure": actionable_failure,
+    }
+
+
+def build_product_review_report(*, config: Any, run_id: str, output: Path | None = None) -> dict[str, Any]:
+    summary = _quiet_status_run(config=config, run_id=run_id)
+    preflight = build_preflight_summary(config)
+    root = config.workspace.root
+
+    canonical_docs = [
+        "PROJECT_BRAIN.md",
+        "IMPLEMENT_PLAN.md",
+        "OPERATOR_MANUAL.md",
+    ]
+    retired_docs = [
+        "MASTER_PLAN.md",
+        "REPORT.md",
+        "SUMMARY.md",
+    ]
+    required_product_files = [
+        "NOVEL_SETUP_PLAYBOOK.md",
+        "FETCH_ADAPTER_PLAYBOOK.md",
+        "RESEARCH_PROFILE_PLAYBOOK.md",
+        "RESEARCH_PROFILE.yaml",
+        "00_Templates/Novel-Profile.yaml",
+        "00_Templates/Research-Profile.yaml",
+        "00_Templates/Batch-Rollout-Checklist.md",
+        "00_Templates/Worker-Bounded-Batch-Prompt.md",
+        "novel_pipeline/operator_ui.py",
+        "novel_pipeline/preflight.py",
+        "novel_pipeline/project_setup.py",
+    ]
+
+    canonical_present = [name for name in canonical_docs if (root / name).exists()]
+    canonical_missing = [name for name in canonical_docs if not (root / name).exists()]
+    retired_present = [name for name in retired_docs if (root / name).exists()]
+    retired_absent = [name for name in retired_docs if not (root / name).exists()]
+    required_present = [name for name in required_product_files if (root / name).exists()]
+    required_missing = [name for name in required_product_files if not (root / name).exists()]
+
+    chapter_ids = list(summary.get("chapter_ids") or [])
+    output_rows: list[dict[str, Any]] = []
+    output_has_issues = False
+    for chapter_id in chapter_ids:
+        output_path, text = _load_chapter_output(config, chapter_id)
+        issues: list[str] = []
+        if text is None:
+            issues.append("missing final output")
+        else:
+            issues.extend(_scan_cleanliness_text(text))
+        if issues:
+            output_has_issues = True
+        output_rows.append(
+            {
+                "chapter_id": chapter_id,
+                "exists": text is not None,
+                "issues": issues,
+                "path": str(output_path),
+            }
+        )
+
+    current_failed_blocks = list(summary.get("current_failed_blocks") or [])
+    raw_manual_actions = [str(item).strip() for item in (summary.get("manual_actions") or []) if str(item).strip()]
+    effective_manual_actions = [item for item in raw_manual_actions if item.lower() != "none"]
+    glossary_records = list(
+        RunLedger(config.ledger_path).iter_records(run_id=run_id, stage="glossary_approved", status="completed")
+    )
+    glossary_approval_present = any(re.fullmatch(r"ch\d+", record.block_id) for record in glossary_records)
+    recovery_evidence = bool(summary.get("historical_failed_records", 0)) and not current_failed_blocks
+
+    accepted_checks: list[dict[str, str]] = [
+        {
+            "check": "preflight",
+            "status": "ok" if not preflight.get("blocking_reasons") and not preflight.get("warnings") else ("warn" if not preflight.get("blocking_reasons") else "fail"),
+            "detail": preflight.get("status", "unknown"),
+        },
+        {
+            "check": "run_complete",
+            "status": "ok" if chapter_ids and not current_failed_blocks and not effective_manual_actions else "fail",
+            "detail": f"chapters={_comma_list(chapter_ids)}; failed={_comma_list(current_failed_blocks)}; manual={_comma_list(effective_manual_actions)}",
+        },
+        {
+            "check": "final_outputs_clean",
+            "status": "ok" if chapter_ids and not output_has_issues else "fail",
+            "detail": "all chapter outputs present and clean" if chapter_ids and not output_has_issues else "missing output or cleanliness issue detected",
+        },
+        {
+            "check": "glossary_approval_evidence",
+            "status": "ok" if glossary_approval_present else "fail",
+            "detail": f"glossary_approved records: {len(glossary_records)}",
+        },
+        {
+            "check": "recovery_evidence",
+            "status": "ok" if recovery_evidence else "warn",
+            "detail": f"historical_failed_records={summary.get('historical_failed_records', 0)}; current_failed={_comma_list(current_failed_blocks)}",
+        },
+        {
+            "check": "canonical_docs",
+            "status": "ok" if not canonical_missing and not retired_present else "fail",
+            "detail": f"missing={_comma_list(canonical_missing)}; retired_present={_comma_list(retired_present)}",
+        },
+        {
+            "check": "required_product_files",
+            "status": "ok" if not required_missing else "fail",
+            "detail": f"missing={_comma_list(required_missing)}",
+        },
+    ]
+
+    if any(item["status"] == "fail" for item in accepted_checks):
+        overall_status = "failed"
+    elif any(item["status"] == "warn" for item in accepted_checks):
+        overall_status = "degraded"
+    else:
+        overall_status = "accepted"
+
+    path = _stable_report_path(config=config, kind="product_review", run_id=run_id, output=output)
+    text = _render_product_review_markdown(
+        run_id=run_id,
+        overall_status=overall_status,
+        preflight=preflight,
+        summary=summary,
+        canonical_present=canonical_present,
+        canonical_missing=canonical_missing,
+        retired_absent=retired_absent,
+        retired_present=retired_present,
+        required_present=required_present,
+        required_missing=required_missing,
+        output_rows=output_rows,
+        accepted_checks=accepted_checks,
+    )
+    atomic_write_text(path, text)
+    return {
+        "path": path,
+        "text": text,
+        "summary": summary,
+        "preflight": preflight,
+        "accepted_checks": accepted_checks,
+        "overall_status": overall_status,
+        "actionable_failure": overall_status != "accepted",
     }

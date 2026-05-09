@@ -1,7 +1,7 @@
 # Project Brain: Deep Sea Embers Translation Pipeline
 
-Last updated: 2026-05-09
-Last verified: 2026-05-09 after V5.0 completion and canonical-doc cleanup verification with `python -m compileall novel_pipeline` and `python test_translation.py`.
+Last updated: 2026-05-10
+Last verified: 2026-05-10 after V5.1/V5.2 verification with `python -m compileall novel_pipeline`, `python test_translation.py`, `novel-pipeline report product-review`, and `novel-pipeline preflight`.
 
 This file is the project constitution, architecture map, and current operational memory. It should preserve the project goal, design principles, verified state, safety rules, recovery lessons, and pointers to detailed documents. Keep reports, long logs, and implementation detail in their dedicated files.
 
@@ -194,8 +194,10 @@ Active:
 - V4.3 complete: research-profile workflow now uses `RESEARCH_PROFILE.yaml`, a manual web-research playbook, and prompt context wiring for translation/refinement/QA
 - research-profile readiness contract now classifies `pending` / `drafted` / `active`, reports missing fields, and keeps a missing `RESEARCH_PROFILE.yaml` visible without breaking old read-only flows
 - `novel-pipeline preflight` now summarizes provider executable availability, workspace/config integrity, research readiness, and git backup guardrails; the operator snapshot mirrors this state
-- latest verified preflight state: `ready` on 2026-05-09 after V5.0 completion and operator smoke checks
+- latest verified preflight state: `ready` on 2026-05-10 after V5.1/V5.2 verification and clean-tree recheck
 - V5.0 complete: practical local operator product now covers end-to-end workflow from project scaffold through final-output review
+- V5.1 complete: `product-review` report now verifies the product-complete baseline against real run evidence and canonical doc/state checks
+- V5.2 complete: canonical root docs are reduced to the three durable source-of-truth files and legacy overlapping root docs are retired
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, artifact viewing, novel-project scaffold, and bounded batch-start actions
@@ -267,7 +269,7 @@ Proceed with protocol/product work:
    - `00_Templates/Batch-Rollout-Checklist.md`
    - `00_Templates/Worker-Bounded-Batch-Prompt.md`
    - `07_Reports/v3_10_repeatable_rollout_protocol.md`
-4. Start `V5.1` review/verification from this stable multi-novel, multi-genre, research-profile, and preflight baseline.
+4. Start `V5.3` hardening/polish only from the verified `V5.1`/`V5.2` baseline; do not reopen product-complete scope casually.
 5. Do not plan `ch024+` translation until new source is available and a fresh fetch/scan decision is made.
 
 V5.0 accepted baseline:
@@ -297,12 +299,14 @@ V5.0 accepted baseline:
   - bounded batch run with research readiness enforced
 - this does not remove the explicit-approval rule for starting a new production batch
 - practical local product scope is now covered end to end from project scaffold through final-output review
+- product review evidence now exists at:
+  - `07_Reports/product_review_batch-ch019-ch023-v1.md`
 
 Next milestones after product-complete:
 
-- `V5.1`: product-complete review and verification
-- `V5.2`: canonical docs and memory cleanup
-- `V5.3`: post-complete hardening and polish
+- `V5.1`: complete
+- `V5.2`: complete
+- `V5.3`: active hardening/polish backlog
 
 ## Invariants And Guardrails
 

@@ -1,6 +1,6 @@
 # Operator Manual
 
-Last updated: 2026-05-09
+Last updated: 2026-05-10
 
 This is the practical runbook. It should help the operator proceed without guessing.
 
@@ -70,10 +70,11 @@ This is the practical runbook. It should help the operator proceed without guess
 - V4.3 complete: research-profile workflow now uses `RESEARCH_PROFILE.yaml`, a manual web-research playbook, and prompt context wiring for translation/refinement/QA.
 - operator bootstrap/snapshot now carries the research-profile path plus readiness summary so the UI can surface pending, drafted, active, or missing states later.
 - V4.4 complete: `novel-pipeline preflight` now checks provider executables, config/workspace integrity, research readiness, and git backup guardrails, and the operator window surfaces the same snapshot.
-- current preflight baseline: `ready` on 2026-04-29 (`main`, head `60bfc0f`, working tree clean, research readiness `active / ready`).
+- current preflight baseline: `ready` on 2026-05-10 after V5.1/V5.2 verification (working tree clean, research readiness `active / ready`).
 - V5.0 complete: the operator window now covers practical end-to-end local workflow from project scaffold through research profile maintenance, glossary approval, bounded batch execution, recovery, reports, and final-output review.
-- Next milestone: `V5.1` product-complete review and verification.
-- Post-review cleanup milestone: `V5.2` canonical docs and memory cleanup.
+- V5.1 complete: product-complete review and verification now exists through `report product-review`.
+- V5.2 complete: canonical docs and memory cleanup are closed; the root doc set is now explicit and legacy overlapping docs are retired.
+- Next milestone: `V5.3` post-complete hardening and polish.
 
 ## Standard Preflight
 
@@ -113,6 +114,7 @@ novel-pipeline --config ".system/config.yaml" report glossary-decisions --run-id
 novel-pipeline --config ".system/config.yaml" report glossary-conflicts --run-id batch-ch019-ch023-v1
 novel-pipeline --config ".system/config.yaml" report glossary-audit --run-id batch-ch019-ch023-v1
 novel-pipeline --config ".system/config.yaml" report glossary-guard --run-id batch-ch019-ch023-v1
+novel-pipeline --config ".system/config.yaml" report product-review --run-id batch-ch019-ch023-v1
 ```
 
 Current generated artifacts:

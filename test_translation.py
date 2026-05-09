@@ -3415,6 +3415,70 @@ def test_cmd_report_cleanliness_returns_nonzero_on_missing_output():
     assert result == 1
 
 
+def test_product_review_report_generation_writes_expected_markdown():
+    """Product review report summarizes acceptance state from deterministic evidence."""
+    from novel_pipeline.reports import build_product_review_report
+    from novel_pipeline.types import AppConfig
+    from unittest.mock import Mock, patch
+    import tempfile
+    from pathlib import Path
+
+    run_id = "batch-ch019-ch023-v1"
+    summary = {
+        "total_records": 163,
+        "completed_blocks": ["ch019-block-001", "ch019-block-002"],
+        "current_failed_blocks": [],
+        "historical_failed_records": 9,
+        "next_effective_action": "none",
+        "manual_actions": ["none"],
+        "chapter_ids": ["ch019"],
+    }
+    preflight = {
+        "status": "ready",
+        "warnings": [],
+        "blocking_reasons": [],
+        "next_safe_action": "Preflight is ready for normal production.",
+    }
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        (base / "07_Reports").mkdir(parents=True, exist_ok=True)
+        chapter_dir = base / "05_Output" / "ch019"
+        chapter_dir.mkdir(parents=True, exist_ok=True)
+        (chapter_dir / "ch019.md").write_text(
+            "# 第十九章\nดันแคนยืนอยู่บนดาดฟ้าเรือ\n",
+            encoding="utf-8",
+        )
+        for name in ("PROJECT_BRAIN.md", "IMPLEMENT_PLAN.md", "OPERATOR_MANUAL.md", "NOVEL_SETUP_PLAYBOOK.md", "FETCH_ADAPTER_PLAYBOOK.md", "RESEARCH_PROFILE_PLAYBOOK.md", "RESEARCH_PROFILE.yaml"):
+            (base / name).write_text("ok\n", encoding="utf-8")
+        (base / "00_Templates").mkdir(parents=True, exist_ok=True)
+        for name in ("Novel-Profile.yaml", "Research-Profile.yaml", "Batch-Rollout-Checklist.md", "Worker-Bounded-Batch-Prompt.md"):
+            (base / "00_Templates" / name).write_text("ok\n", encoding="utf-8")
+        (base / "novel_pipeline").mkdir(parents=True, exist_ok=True)
+        for name in ("operator_ui.py", "preflight.py", "project_setup.py"):
+            (base / "novel_pipeline" / name).write_text("ok\n", encoding="utf-8")
+
+        config = Mock(spec=AppConfig)
+        config.workspace.root = base
+        config.workspace.output = base / "05_Output"
+        config.ledger_path = base / "06_Logs" / "run_ledger.jsonl"
+
+        ledger_records = [Mock(block_id="ch019", metadata={})]
+        with patch("novel_pipeline.reports.status_run", return_value=summary), \
+             patch("novel_pipeline.reports.build_preflight_summary", return_value=preflight), \
+             patch("novel_pipeline.reports.RunLedger") as ledger_cls:
+            ledger_cls.return_value.iter_records.return_value = ledger_records
+            result = build_product_review_report(config=config, run_id=run_id)
+
+        assert result["overall_status"] == "accepted"
+        assert result["actionable_failure"] is False
+        text = result["path"].read_text(encoding="utf-8")
+        assert "# Product Review Report - batch-ch019-ch023-v1" in text
+        assert "- overall_status: accepted" in text
+        assert "| preflight | ok | ready |" in text
+        assert "| glossary_approval_evidence | ok | glossary_approved records: 1 |" in text
+
+
 def test_provider_usage_report_generation_writes_expected_markdown():
     """Provider usage report generation writes provider/stage/status counts."""
     from novel_pipeline.reports import build_provider_usage_report
@@ -3761,6 +3825,7 @@ def test_generate_operator_report_dispatches_supported_kinds():
     with patch("novel_pipeline.operator_ui.build_checkpoint_report", return_value={"path": Path("a.md")}) as checkpoint, \
          patch("novel_pipeline.operator_ui.build_cleanliness_report", return_value={"path": Path("b.md")}) as cleanliness, \
          patch("novel_pipeline.operator_ui.build_provider_usage_report", return_value={"path": Path("c.md")}) as provider, \
+         patch("novel_pipeline.operator_ui.build_product_review_report", return_value={"path": Path("h.md")}) as product_review, \
          patch("novel_pipeline.operator_ui.build_glossary_decisions_report", return_value={"path": Path("d.md")}) as decisions, \
          patch("novel_pipeline.operator_ui.build_glossary_conflicts_report", return_value={"path": Path("e.md")}) as conflicts, \
          patch("novel_pipeline.operator_ui.build_glossary_audit_report", return_value={"path": Path("f.md")}) as audit, \
@@ -3768,6 +3833,7 @@ def test_generate_operator_report_dispatches_supported_kinds():
         assert generate_operator_report(config=config, run_id="run-1", kind="checkpoint")["path"] == Path("a.md")
         assert generate_operator_report(config=config, run_id="run-1", kind="cleanliness")["path"] == Path("b.md")
         assert generate_operator_report(config=config, run_id="run-1", kind="provider-usage")["path"] == Path("c.md")
+        assert generate_operator_report(config=config, run_id="run-1", kind="product-review")["path"] == Path("h.md")
         assert generate_operator_report(config=config, run_id="run-1", kind="glossary-decisions")["path"] == Path("d.md")
         assert generate_operator_report(config=config, run_id="run-1", kind="glossary-conflicts")["path"] == Path("e.md")
         assert generate_operator_report(config=config, run_id="run-1", kind="glossary-audit")["path"] == Path("f.md")
@@ -3776,6 +3842,7 @@ def test_generate_operator_report_dispatches_supported_kinds():
     checkpoint.assert_called_once()
     cleanliness.assert_called_once()
     provider.assert_called_once()
+    product_review.assert_called_once()
     decisions.assert_called_once()
     conflicts.assert_called_once()
     audit.assert_called_once()
@@ -4234,6 +4301,9 @@ def test_operator_snapshot_includes_research_profile_data():
         base,
         """schema_version: 1
 title: Deep Sea Embers
+aliases:
+  - Deep Sea
+  - DSE
 source_url: https://example.com/toc
 status: drafted
 synopsis: Nautical dark fantasy with a slow-burn mystery.
@@ -4897,6 +4967,7 @@ if __name__ == "__main__":
     test_checkpoint_report_generation_writes_expected_markdown()
     test_cleanliness_report_flags_body_issues_and_ignores_title_han()
     test_cmd_report_cleanliness_returns_nonzero_on_missing_output()
+    test_product_review_report_generation_writes_expected_markdown()
     test_provider_usage_report_generation_writes_expected_markdown()
     test_glossary_decisions_report_generation_writes_expected_markdown()
     test_glossary_conflicts_report_generation_writes_expected_markdown()
@@ -4919,6 +4990,7 @@ if __name__ == "__main__":
     test_build_glossary_suggestion_snapshot_returns_provider_options()
     test_execute_glossary_decision_approve_commits_when_queue_is_empty()
     test_execute_glossary_decision_reject_updates_queue_without_commit()
+    test_generate_operator_report_dispatches_supported_kinds()
     test_cli_rejects_stop_after_without_range()
     test_run_batch_pipeline_stop_after_glossary_scan()
     test_classify_command_too_long()

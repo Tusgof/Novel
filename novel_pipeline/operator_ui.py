@@ -38,6 +38,7 @@ from novel_pipeline.text_utils import parse_chapter_range
 from novel_pipeline.reports import (
     build_checkpoint_report,
     build_cleanliness_report,
+    build_product_review_report,
     build_glossary_audit_report,
     build_glossary_conflicts_report,
     build_glossary_decisions_report,
@@ -186,6 +187,8 @@ def generate_operator_report(
         return build_glossary_audit_report(config=config, run_id=run_id)
     if kind == "glossary-guard":
         return build_glossary_guard_report(config=config, run_id=run_id)
+    if kind == "product-review":
+        return build_product_review_report(config=config, run_id=run_id)
     raise ValueError(f"Unsupported report kind: {kind}")
 
 
@@ -781,6 +784,7 @@ def _render_operator_html() -> str:
           <button class="ghost-dark" data-report="checkpoint">Checkpoint</button>
           <button class="ghost-dark" data-report="cleanliness">Cleanliness</button>
           <button class="ghost-dark" data-report="provider-usage">Provider</button>
+          <button class="ghost-dark" data-report="product-review">Product Review</button>
           <button class="ghost-dark" data-report="glossary-decisions">Decisions</button>
           <button class="ghost-dark" data-report="glossary-conflicts">Conflicts</button>
           <button class="ghost-dark" data-report="glossary-audit">Audit</button>

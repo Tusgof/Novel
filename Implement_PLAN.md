@@ -356,7 +356,7 @@ Done because the workflow can now operate end to end with bounded human decision
 
 Goal: verify that V5.0 is genuinely complete in practice, not just feature-complete on paper.
 
-Status: active next milestone after V5.0 completion.
+Status: complete on 2026-05-10.
 
 - run a strict acceptance review against the canonical operator flow:
   - init novel
@@ -384,11 +384,30 @@ Done when:
 - the operator flow is demonstrated end to end against the accepted product scope
 - any gaps are either fixed or recorded as explicit post-complete backlog
 
+Implemented:
+
+- `novel-pipeline report product-review --run-id <run_id> [--output <path>]`
+- `07_Reports/product_review_batch-ch019-ch023-v1.md`
+- deterministic review now verifies:
+  - preflight state
+  - canonical root docs present and retired root docs absent
+  - required operator/playbook/template files present
+  - final outputs exist and pass cleanliness checks
+  - glossary approval evidence exists
+  - recovery evidence exists without current failed blocks
+
+Accepted because:
+
+- `python -m compileall novel_pipeline` passes
+- `python test_translation.py` passes
+- `novel-pipeline --config ".system/config.yaml" report product-review --run-id batch-ch019-ch023-v1` produces an accepted review on a clean tree
+- `novel-pipeline --config ".system/config.yaml" preflight` returns `ready` after the V5.1/V5.2 sync commit
+
 ### V5.2: Canonical Docs And Memory Cleanup
 
 Goal: reduce memory sprawl so the project has one clear document set instead of overlapping historical plans.
 
-Status: planned after V5.1.
+Status: complete on 2026-05-10.
 
 - define the canonical root doc set
 - consolidate still-useful legacy doc content into `PROJECT_BRAIN.md`
@@ -407,11 +426,27 @@ Done when:
 - `OPERATOR_MANUAL.md` is only the runbook
 - obsolete overlapping root docs are removed or explicitly retired
 
+Accepted because:
+
+- canonical root docs are now limited to:
+  - `PROJECT_BRAIN.md`
+  - `IMPLEMENT_PLAN.md`
+  - `OPERATOR_MANUAL.md`
+- operational supporting docs remain explicit:
+  - playbooks
+  - templates
+  - generated reports
+- retired root docs are absent:
+  - `MASTER_PLAN.md`
+  - `REPORT.md`
+  - `SUMMARY.md`
+- `product-review` verification now checks this doc contract directly
+
 ### V5.3: Post-Complete Hardening And Polish
 
 Goal: improve reliability and operator efficiency after the product-complete baseline is verified.
 
-Status: backlog after V5.1 and V5.2.
+Status: active backlog after V5.1 and V5.2 closure.
 
 - acceptance-driven UX cleanup
 - restore/recovery drills

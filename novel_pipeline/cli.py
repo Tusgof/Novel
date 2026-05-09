@@ -12,6 +12,7 @@ from novel_pipeline.project_setup import initialize_novel_project
 from novel_pipeline.reports import (
     build_checkpoint_report,
     build_cleanliness_report,
+    build_product_review_report,
     build_glossary_audit_report,
     build_glossary_conflicts_report,
     build_glossary_decisions_report,
@@ -143,6 +144,10 @@ def build_parser() -> argparse.ArgumentParser:
     report_guard_p = report_subparsers.add_parser("glossary-guard", help="Generate a glossary guard verification report from source blocks.")
     report_guard_p.add_argument("--run-id", required=True, help="Run ID to inspect.")
     report_guard_p.add_argument("--output", type=Path, default=None, help="Output markdown path.")
+
+    report_product_p = report_subparsers.add_parser("product-review", help="Generate a product-complete review report for a run.")
+    report_product_p.add_argument("--run-id", required=True, help="Run ID to inspect.")
+    report_product_p.add_argument("--output", type=Path, default=None, help="Output markdown path.")
 
     # inspect-block command
     inspect_p = subparsers.add_parser("inspect-block", help="Inspect one block without modifying artifacts.")
@@ -375,6 +380,8 @@ def cmd_report(args: argparse.Namespace, config) -> int:
         result = build_glossary_audit_report(config=config, run_id=args.run_id, output=args.output)
     elif args.report_command == "glossary-guard":
         result = build_glossary_guard_report(config=config, run_id=args.run_id, output=args.output)
+    elif args.report_command == "product-review":
+        result = build_product_review_report(config=config, run_id=args.run_id, output=args.output)
     else:
         print(f"[ERROR] Unknown report command: {args.report_command}", file=sys.stderr)
         return 1
