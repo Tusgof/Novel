@@ -73,6 +73,10 @@ This is the practical runbook. It should help the operator proceed without guess
 - current V5.3 operator diagnostics improvement:
   - report buttons now include `preflight`
   - the preflight panel now shows workspace/config paths, research readiness state, per-provider resolved executable details, and git branch/head/origin/working-tree state
+- current V5.3 recovery drill improvement:
+  - report buttons now include `recovery-drill`
+  - recovery drill verifies canonical docs are tracked/restorable from `HEAD`
+  - recovery drill verifies runtime directories remain ignored and untracked
 - current preflight baseline: `ready` on 2026-05-10 after V5.1/V5.2 verification (working tree clean, research readiness `active / ready`).
 - V5.0 complete: the operator window now covers practical end-to-end local workflow from project scaffold through research profile maintenance, glossary approval, bounded batch execution, recovery, reports, and final-output review.
 - V5.1 complete: product-complete review and verification now exists through `report product-review`.
@@ -121,6 +125,7 @@ novel-pipeline --config ".system/config.yaml" report glossary-audit --run-id bat
 novel-pipeline --config ".system/config.yaml" report glossary-guard --run-id batch-ch019-ch023-v1
 novel-pipeline --config ".system/config.yaml" report product-review --run-id batch-ch019-ch023-v1
 novel-pipeline --config ".system/config.yaml" report preflight
+novel-pipeline --config ".system/config.yaml" report recovery-drill
 ```
 
 Current generated artifacts:
@@ -133,6 +138,7 @@ Current generated artifacts:
 - `07_Reports/glossary_audit_batch-ch019-ch023-v1.md`
 - `07_Reports/glossary_guard_batch-ch019-ch023-v1.md`
 - `07_Reports/preflight_report.md`
+- `07_Reports/recovery_drill.md`
 
 V4.1 setup artifacts:
 

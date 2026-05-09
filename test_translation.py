@@ -1941,6 +1941,13 @@ def test_cli_parser_accepts_report_subcommands():
     ])
     assert preflight_args.report_command == "preflight"
 
+    recovery_args = parser.parse_args([
+        "--config", "dummy.yaml",
+        "report",
+        "recovery-drill",
+    ])
+    assert recovery_args.report_command == "recovery-drill"
+
     operator_args = parser.parse_args([
         "--config", "dummy.yaml",
         "operator",
@@ -2457,6 +2464,54 @@ def test_preflight_report_generation_writes_expected_markdown():
         assert "- branch: main" in text
         assert "- readiness: degraded" in text
         assert result["actionable_failure"] is True
+
+
+def test_recovery_drill_report_generation_writes_expected_markdown():
+    from novel_pipeline.reports import build_recovery_drill_report
+    from novel_pipeline.types import AppConfig
+    from unittest.mock import Mock, patch
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        config = Mock(spec=AppConfig)
+        config.workspace.root = base
+
+        responses = {
+            ("rev-parse", "--is-inside-work-tree"): (True, "true"),
+            ("branch", "--show-current"): (True, "main"),
+            ("rev-parse", "--short", "HEAD"): (True, "abc1234"),
+            ("remote", "get-url", "origin"): (True, "https://example.com/repo.git"),
+            ("ls-files", "--error-unmatch", "PROJECT_BRAIN.md"): (True, "PROJECT_BRAIN.md"),
+            ("show", "HEAD:PROJECT_BRAIN.md"): (True, "brain"),
+            ("ls-files", "--error-unmatch", "Implement_PLAN.md"): (True, "Implement_PLAN.md"),
+            ("show", "HEAD:Implement_PLAN.md"): (True, "plan"),
+            ("ls-files", "--error-unmatch", "OPERATOR_MANUAL.md"): (True, "OPERATOR_MANUAL.md"),
+            ("show", "HEAD:OPERATOR_MANUAL.md"): (True, "manual"),
+            ("check-ignore", "03_Raw"): (True, "03_Raw"),
+            ("ls-files", "03_Raw"): (True, ""),
+            ("check-ignore", "04_Work"): (True, "04_Work"),
+            ("ls-files", "04_Work"): (True, ""),
+            ("check-ignore", "05_Output"): (True, "05_Output"),
+            ("ls-files", "05_Output"): (True, ""),
+            ("check-ignore", "06_Logs"): (True, "06_Logs"),
+            ("ls-files", "06_Logs"): (True, ""),
+        }
+
+        def fake_git_capture(workspace_root, *args):
+            return responses[args]
+
+        with patch("novel_pipeline.reports._git_capture", side_effect=fake_git_capture):
+            result = build_recovery_drill_report(config=config)
+
+        text = result["path"].read_text(encoding="utf-8")
+        assert "# Recovery Drill Report" in text
+        assert "- overall_status: accepted" in text
+        assert "| canonical_docs_restorable | ok | all canonical docs tracked and restorable from HEAD |" in text
+        assert "| runtime_dirs_ignored | ok | runtime directories are ignored and untracked |" in text
+        assert "| PROJECT_BRAIN.md | yes | yes | tracked and restorable |" in text
+        assert "| 03_Raw | yes | 0 | ignored and untracked |" in text
+        assert result["actionable_failure"] is False
 
 
 def test_initialize_novel_project_scaffolds_expected_files_and_rewrites_codex_cd():
@@ -3904,6 +3959,7 @@ def test_generate_operator_report_dispatches_supported_kinds():
          patch("novel_pipeline.operator_ui.build_cleanliness_report", return_value={"path": Path("b.md")}) as cleanliness, \
          patch("novel_pipeline.operator_ui.build_provider_usage_report", return_value={"path": Path("c.md")}) as provider, \
          patch("novel_pipeline.operator_ui.build_preflight_report", return_value={"path": Path("p.md")}) as preflight, \
+         patch("novel_pipeline.operator_ui.build_recovery_drill_report", return_value={"path": Path("r.md")}) as recovery, \
          patch("novel_pipeline.operator_ui.build_product_review_report", return_value={"path": Path("h.md")}) as product_review, \
          patch("novel_pipeline.operator_ui.build_glossary_decisions_report", return_value={"path": Path("d.md")}) as decisions, \
          patch("novel_pipeline.operator_ui.build_glossary_conflicts_report", return_value={"path": Path("e.md")}) as conflicts, \
@@ -3913,6 +3969,7 @@ def test_generate_operator_report_dispatches_supported_kinds():
         assert generate_operator_report(config=config, run_id="run-1", kind="cleanliness")["path"] == Path("b.md")
         assert generate_operator_report(config=config, run_id="run-1", kind="provider-usage")["path"] == Path("c.md")
         assert generate_operator_report(config=config, run_id=None, kind="preflight")["path"] == Path("p.md")
+        assert generate_operator_report(config=config, run_id=None, kind="recovery-drill")["path"] == Path("r.md")
         assert generate_operator_report(config=config, run_id="run-1", kind="product-review")["path"] == Path("h.md")
         assert generate_operator_report(config=config, run_id="run-1", kind="glossary-decisions")["path"] == Path("d.md")
         assert generate_operator_report(config=config, run_id="run-1", kind="glossary-conflicts")["path"] == Path("e.md")
@@ -3923,6 +3980,7 @@ def test_generate_operator_report_dispatches_supported_kinds():
     cleanliness.assert_called_once()
     provider.assert_called_once()
     preflight.assert_called_once()
+    recovery.assert_called_once()
     product_review.assert_called_once()
     decisions.assert_called_once()
     conflicts.assert_called_once()
@@ -5034,6 +5092,7 @@ if __name__ == "__main__":
     test_research_profile_invalid_status_rejected()
     test_build_preflight_summary_reports_provider_and_git_state()
     test_preflight_report_generation_writes_expected_markdown()
+    test_recovery_drill_report_generation_writes_expected_markdown()
     test_literal_translation_stage_uses_research_context()
     test_refine_stage_uses_research_context()
     test_qa_stage_uses_research_context()

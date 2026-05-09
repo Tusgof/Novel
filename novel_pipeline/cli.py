@@ -13,6 +13,7 @@ from novel_pipeline.reports import (
     build_checkpoint_report,
     build_cleanliness_report,
     build_preflight_report,
+    build_recovery_drill_report,
     build_product_review_report,
     build_glossary_audit_report,
     build_glossary_conflicts_report,
@@ -148,6 +149,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     report_preflight_p = report_subparsers.add_parser("preflight", help="Generate a preflight diagnostics report for the current workspace.")
     report_preflight_p.add_argument("--output", type=Path, default=None, help="Output markdown path.")
+
+    report_recovery_p = report_subparsers.add_parser("recovery-drill", help="Generate a recovery-readiness report for canonical docs and git guardrails.")
+    report_recovery_p.add_argument("--output", type=Path, default=None, help="Output markdown path.")
 
     report_product_p = report_subparsers.add_parser("product-review", help="Generate a product-complete review report for a run.")
     report_product_p.add_argument("--run-id", required=True, help="Run ID to inspect.")
@@ -386,6 +390,8 @@ def cmd_report(args: argparse.Namespace, config) -> int:
         result = build_glossary_guard_report(config=config, run_id=args.run_id, output=args.output)
     elif args.report_command == "preflight":
         result = build_preflight_report(config=config, output=args.output)
+    elif args.report_command == "recovery-drill":
+        result = build_recovery_drill_report(config=config, output=args.output)
     elif args.report_command == "product-review":
         result = build_product_review_report(config=config, run_id=args.run_id, output=args.output)
     else:

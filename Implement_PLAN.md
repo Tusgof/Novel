@@ -463,8 +463,15 @@ Current slice:
   - research readiness state
   - per-provider status, stages, transport, and resolved executable path
   - git branch/head/origin/working-tree state
+- `novel-pipeline report recovery-drill [--output <path>]` now verifies recovery preconditions for the canonical docs and runtime ignore policy
+- operator report actions now include `recovery-drill`
+- recovery drill currently checks:
+  - repo is inside a git work tree
+  - remote `origin` exists
+  - canonical docs are tracked and restorable from `HEAD`
+  - runtime directories (`03_Raw`, `04_Work`, `05_Output`, `06_Logs`) remain ignored and untracked
 
-This slice is not product-scope expansion. It is a post-complete diagnostics and UX hardening pass so the operator can inspect environment state and capture it as evidence without dropping to ad hoc shell inspection.
+These slices are not product-scope expansion. They are post-complete diagnostics and recovery hardening so the operator can inspect environment state, capture evidence, and prove that canonical memory can be restored safely without pulling runtime state into git.
 
 Done when post-complete improvements are prioritized against real review findings rather than speculation.
 

@@ -5,6 +5,7 @@ from io import StringIO
 import json
 from pathlib import Path
 import re
+import subprocess
 from typing import Any
 
 from novel_pipeline.artifacts import batch_glossary_scan_artifact_path
@@ -91,6 +92,23 @@ def _relative_report_path(path: Path, anchor: Path | None) -> str:
         except ValueError:
             pass
     return str(path)
+
+
+def _git_capture(workspace_root: Path, *args: str) -> tuple[bool, str]:
+    try:
+        completed = subprocess.run(
+            ["git", *args],
+            cwd=str(workspace_root),
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            timeout=10,
+            check=False,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return False, ""
+    output = (completed.stdout or completed.stderr or "").strip()
+    return completed.returncode == 0, output
 
 
 def _note_record_from_path(path: Path) -> dict[str, Any] | None:
@@ -345,6 +363,59 @@ def _render_preflight_markdown(*, summary: dict[str, Any]) -> str:
         f"- warnings: {_comma_list(summary.get('warnings') or [])}",
         f"- blocking_reasons: {_comma_list(summary.get('blocking_reasons') or [])}",
     ]
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def _render_recovery_drill_markdown(
+    *,
+    summary: dict[str, Any],
+    checks: list[dict[str, str]],
+    canonical_rows: list[dict[str, str]],
+    runtime_rows: list[dict[str, str]],
+) -> str:
+    lines: list[str] = [
+        "# Recovery Drill Report",
+        "",
+        "## Summary",
+        f"- overall_status: {summary.get('overall_status', 'unknown')}",
+        f"- workspace_root: {summary.get('workspace_root', '')}",
+        f"- branch: {summary.get('branch') or 'none'}",
+        f"- head: {summary.get('head') or 'none'}",
+        f"- origin: {summary.get('origin') or 'none'}",
+        f"- next_safe_action: {summary.get('next_safe_action', 'none')}",
+        "",
+        "## Acceptance Checks",
+        "| check | status | detail |",
+        "| --- | --- | --- |",
+    ]
+    for item in checks:
+        lines.append(f"| {item['check']} | {item['status']} | {item['detail']} |")
+
+    lines.extend(
+        [
+            "",
+            "## Canonical Docs",
+            "| path | tracked | restorable_from_head | detail |",
+            "| --- | --- | --- | --- |",
+        ]
+    )
+    for row in canonical_rows:
+        lines.append(
+            f"| {row['path']} | {row['tracked']} | {row['restorable_from_head']} | {row['detail']} |"
+        )
+
+    lines.extend(
+        [
+            "",
+            "## Runtime Ignore Policy",
+            "| path | ignored | tracked_entries | detail |",
+            "| --- | --- | ---: | --- |",
+        ]
+    )
+    for row in runtime_rows:
+        lines.append(
+            f"| {row['path']} | {row['ignored']} | {row['tracked_entries']} | {row['detail']} |"
+        )
     return "\n".join(lines).rstrip() + "\n"
 
 
@@ -1070,6 +1141,116 @@ def build_preflight_report(*, config: Any, output: Path | None = None) -> dict[s
         "text": text,
         "summary": summary,
         "actionable_failure": summary.get("status") != "ready",
+    }
+
+
+def build_recovery_drill_report(*, config: Any, output: Path | None = None) -> dict[str, Any]:
+    workspace_root = config.workspace.root
+    git_available, inside = _git_capture(workspace_root, "rev-parse", "--is-inside-work-tree")
+    branch_ok, branch = _git_capture(workspace_root, "branch", "--show-current")
+    head_ok, head = _git_capture(workspace_root, "rev-parse", "--short", "HEAD")
+    origin_ok, origin = _git_capture(workspace_root, "remote", "get-url", "origin")
+
+    canonical_paths = [
+        "PROJECT_BRAIN.md",
+        "Implement_PLAN.md",
+        "OPERATOR_MANUAL.md",
+    ]
+    canonical_rows: list[dict[str, str]] = []
+    canonical_fail = False
+    for relative_path in canonical_paths:
+        tracked_ok, tracked_output = _git_capture(workspace_root, "ls-files", "--error-unmatch", relative_path)
+        restore_ok, _ = _git_capture(workspace_root, "show", f"HEAD:{relative_path}")
+        detail = "tracked and restorable"
+        if not tracked_ok:
+            detail = tracked_output or "not tracked"
+        elif not restore_ok:
+            detail = "missing from HEAD"
+        canonical_rows.append(
+            {
+                "path": relative_path,
+                "tracked": "yes" if tracked_ok else "no",
+                "restorable_from_head": "yes" if restore_ok else "no",
+                "detail": detail,
+            }
+        )
+        if not tracked_ok or not restore_ok:
+            canonical_fail = True
+
+    runtime_paths = ["03_Raw", "04_Work", "05_Output", "06_Logs"]
+    runtime_rows: list[dict[str, str]] = []
+    runtime_fail = False
+    for relative_path in runtime_paths:
+        ignored_ok, ignored_output = _git_capture(workspace_root, "check-ignore", relative_path)
+        tracked_ok, tracked_output = _git_capture(workspace_root, "ls-files", relative_path)
+        tracked_entries = [line for line in tracked_output.splitlines() if line.strip()] if tracked_ok else []
+        detail = "ignored and untracked"
+        if not ignored_ok:
+            detail = "not ignored by git"
+        elif tracked_entries:
+            detail = f"tracked entries present: {_comma_list(tracked_entries)}"
+        runtime_rows.append(
+            {
+                "path": relative_path,
+                "ignored": "yes" if ignored_ok else "no",
+                "tracked_entries": str(len(tracked_entries)),
+                "detail": detail,
+            }
+        )
+        if not ignored_ok or tracked_entries:
+            runtime_fail = True
+
+    checks: list[dict[str, str]] = [
+        {
+            "check": "git_work_tree",
+            "status": "ok" if git_available and inside.strip().lower() == "true" else "fail",
+            "detail": "inside git work tree" if git_available and inside.strip().lower() == "true" else "git unavailable or outside work tree",
+        },
+        {
+            "check": "remote_origin",
+            "status": "ok" if origin_ok and origin else "fail",
+            "detail": origin or "origin missing",
+        },
+        {
+            "check": "canonical_docs_restorable",
+            "status": "ok" if not canonical_fail else "fail",
+            "detail": "all canonical docs tracked and restorable from HEAD" if not canonical_fail else "one or more canonical docs are not safely restorable",
+        },
+        {
+            "check": "runtime_dirs_ignored",
+            "status": "ok" if not runtime_fail else "fail",
+            "detail": "runtime directories are ignored and untracked" if not runtime_fail else "runtime ignore policy drift detected",
+        },
+    ]
+
+    overall_status = "accepted" if all(item["status"] == "ok" for item in checks) else "failed"
+    next_safe_action = (
+        "Recovery baseline is ready. Use git restore for canonical docs and keep runtime state out of git."
+        if overall_status == "accepted"
+        else "Fix git tracking/ignore drift before relying on recovery drills."
+    )
+    summary = {
+        "overall_status": overall_status,
+        "workspace_root": str(workspace_root),
+        "branch": branch if branch_ok else "",
+        "head": head if head_ok else "",
+        "origin": origin if origin_ok else "",
+        "next_safe_action": next_safe_action,
+    }
+    path = _stable_report_path(config=config, kind="recovery_drill", run_id=None, output=output)
+    text = _render_recovery_drill_markdown(
+        summary=summary,
+        checks=checks,
+        canonical_rows=canonical_rows,
+        runtime_rows=runtime_rows,
+    )
+    atomic_write_text(path, text)
+    return {
+        "path": path,
+        "text": text,
+        "summary": summary,
+        "checks": checks,
+        "actionable_failure": overall_status != "accepted",
     }
 
 

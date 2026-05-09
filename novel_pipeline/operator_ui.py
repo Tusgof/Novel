@@ -39,6 +39,7 @@ from novel_pipeline.reports import (
     build_checkpoint_report,
     build_cleanliness_report,
     build_preflight_report,
+    build_recovery_drill_report,
     build_product_review_report,
     build_glossary_audit_report,
     build_glossary_conflicts_report,
@@ -202,6 +203,8 @@ def generate_operator_report(
         return build_glossary_guard_report(config=config, run_id=run_id)
     if kind == "preflight":
         return build_preflight_report(config=config)
+    if kind == "recovery-drill":
+        return build_recovery_drill_report(config=config)
     if kind == "product-review":
         if not run_id:
             raise ValueError("product-review report requires run_id.")
@@ -802,6 +805,7 @@ def _render_operator_html() -> str:
           <button class="ghost-dark" data-report="cleanliness">Cleanliness</button>
           <button class="ghost-dark" data-report="provider-usage">Provider</button>
           <button class="ghost-dark" data-report="preflight">Preflight</button>
+          <button class="ghost-dark" data-report="recovery-drill">Recovery</button>
           <button class="ghost-dark" data-report="product-review">Product Review</button>
           <button class="ghost-dark" data-report="glossary-decisions">Decisions</button>
           <button class="ghost-dark" data-report="glossary-conflicts">Conflicts</button>
@@ -1733,7 +1737,7 @@ class _OperatorHandler(BaseHTTPRequestHandler):
                 if not kind:
                     self._send_json({"error": "kind is required."}, status=400)
                     return
-                if kind != "preflight" and not run_id:
+                if kind not in {"preflight", "recovery-drill"} and not run_id:
                     self._send_json({"error": "run_id and kind are required."}, status=400)
                     return
                 result = generate_operator_report(
