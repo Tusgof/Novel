@@ -28,7 +28,7 @@
 - available: yes
 - in_work_tree: yes
 - branch: main
-- head: 6911bf1
+- head: ab8f5d6
 - origin: https://github.com/Tusgof/Novel.git
 - working_tree: clean
 - git_warnings: none
