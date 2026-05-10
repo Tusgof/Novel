@@ -507,6 +507,81 @@ Accepted because:
 
 After V5.4 there is no active delivery milestone. Future work should still be opened as explicit backlog items.
 
+### V6.0: Operator Control Dashboard
+
+Goal: turn the current functional operator window into a denser control dashboard for daily translation operations, without widening execution risk.
+
+Status: planned backlog after V5.4 closure.
+
+Why this is separate from V4.0/V5.0:
+
+- the current operator already supports glossary approval, bounded batch start, bounded resume, rerun-block, reports, artifact viewing, and research-profile editing
+- what is missing is a more unified control surface for active translation work, chapter progress, failure handling, and glossary decision flow
+- this is a usability and operational-density milestone, not a product-scope reset
+
+Planned slices:
+
+- V6.0A: Dashboard density and control layout
+  - single-page run dashboard with:
+    - run selector
+    - chapter progress matrix
+    - current blocker panel
+    - next safe action panel
+    - provider/preflight strip
+    - recent action/result log
+  - done when the operator can understand current run state without jumping across multiple panels
+
+- V6.0B: Translation control actions
+  - clearer start/stop/resume/recovery controls for:
+    - scan-only gate
+    - bounded batch run
+    - bounded resume to chapter/block
+    - rerun-block from explicit stage
+  - stronger action confirmation text showing exact command equivalence and exact scope
+  - done when translation control actions are visible and auditable from the dashboard without ambiguous scope
+
+- V6.0C: Glossary approval workbench
+  - richer glossary queue panel with:
+    - source term
+    - suggested Thai options
+    - selected decision preview
+    - note/status context if the term intersects approved/rejected/quarantine history
+    - batch-level progress for glossary approval closure
+  - done when glossary approval can be handled from one dedicated workbench instead of scattered UI fragments
+
+- V6.0D: Block inspection and recovery workbench
+  - tighter inspect-block presentation:
+    - source/literal/refined/QA/formatted artifact links
+    - latest stage state
+    - formatting/cleanliness findings
+    - direct rerun target selection
+  - done when a failed or suspicious block can be diagnosed and recovered from one place
+
+- V6.0E: Acceptance and guardrails
+  - no new broad state-changing actions beyond bounded scope already accepted
+  - all dashboard actions still enforce:
+    - explicit run/range/block scope
+    - `manual_action_mode=stop`
+    - research-readiness gating
+    - deterministic verification/report visibility
+  - done when the richer dashboard does not weaken the accepted safety model
+
+Acceptance criteria:
+
+- the dashboard exposes the active translation workflow more clearly than the current operator baseline
+- glossary approval is handled through a dedicated dashboard workbench with option selection and decision context
+- translation/recovery actions remain bounded and auditable
+- compile/tests pass
+- docs and operator runbook are synced
+
+Not part of V6.0:
+
+- visual polish for its own sake
+- unbounded one-click production runs
+- silent force-accept of QA failures
+- new provider routing policy
+- automated semantic approval without human review
+
 ## Acceptance Gates
 
 This document rewrite is accepted only when:

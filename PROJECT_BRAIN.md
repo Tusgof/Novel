@@ -202,6 +202,7 @@ Active:
 - V5.2 complete: canonical root docs are reduced to the three durable source-of-truth files and legacy overlapping root docs are retired
 - V5.3 complete: post-complete hardening now includes a generated preflight diagnostics artifact, accepted recovery-drill evidence, operator recovery command hints/quick links, and a canonical recovery checklist template
 - V5.4 complete: preflight readiness now ignores churn in known generated report artifacts so report refreshes do not falsely degrade the accepted baseline
+- V6.0 planned: operator control dashboard milestone defined as the next explicit backlog item for denser translation control, glossary workbench UX, and bounded recovery visibility
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, artifact viewing, novel-project scaffold, and bounded batch-start actions
@@ -312,6 +313,7 @@ Next milestones after product-complete:
 - `V5.2`: complete
 - `V5.3`: complete
 - `V5.4`: complete
+- `V6.0`: planned backlog
 - accepted V5.3 hardening baseline:
   - `07_Reports/preflight_report.md`
   - `07_Reports/recovery_drill.md`
@@ -320,7 +322,10 @@ Next milestones after product-complete:
 - accepted V5.4 reliability baseline:
   - readiness ignores known generated report churn under `07_Reports/`
   - preflight still degrades on ordinary dirty tracked files
-- there is no active delivery milestone after V5.4; future work should be opened as explicit backlog items
+- next explicit backlog item:
+  - `V6.0 Operator Control Dashboard`
+  - focus: denser run control, dedicated glossary approval workbench, and clearer bounded recovery controls
+- there is no active delivery milestone after V5.4 until `V6.0` is explicitly started
 
 ## Invariants And Guardrails
 
