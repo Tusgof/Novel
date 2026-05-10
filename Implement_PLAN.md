@@ -563,6 +563,10 @@ Planned slices:
     - note/status context if the term intersects approved/rejected/quarantine history
     - batch-level progress for glossary approval closure
   - done when glossary approval can be handled from one dedicated workbench instead of scattered UI fragments
+  - complete on 2026-05-10:
+    - glossary queue now shows batch closure progress and per-term history context
+    - glossary suggestion view now shows first-seen location, history intersections, and selected decision preview
+    - glossary decision results now echo the approved Thai term when applicable
 
 - V6.0D: Block inspection and recovery workbench
   - tighter inspect-block presentation:

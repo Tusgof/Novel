@@ -105,7 +105,11 @@ This is the practical runbook. It should help the operator proceed without guess
   - batch, resume, and rerun controls now show exact CLI-equivalent previews before execution
   - each control shows explicit scope and guardrail text
   - action results echo the previewed command for audit trail clarity
-- next slice: `V6.0C` glossary approval workbench
+- V6.0C complete:
+  - glossary queue now shows batch closure progress
+  - each term shows intersecting approved/rejected/quarantine/proposed note history
+  - suggestion view includes first-seen location, history context, and selected decision preview
+- next slice: `V6.0D` block inspection and recovery workbench
 
 ## Standard Preflight
 

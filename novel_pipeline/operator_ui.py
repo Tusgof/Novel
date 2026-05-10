@@ -14,7 +14,7 @@ from urllib.parse import parse_qs, quote, unquote, urlparse
 
 from novel_pipeline.config import load_yaml_mapping
 from novel_pipeline.files import atomic_write_json, atomic_write_text, read_text_if_exists
-from novel_pipeline.glossary_support import write_glossary_note
+from novel_pipeline.glossary_support import parse_glossary_note, write_glossary_note
 from novel_pipeline.ledger import RunLedger
 from novel_pipeline.pipeline import (
     ManualActionRequired,
@@ -289,12 +289,14 @@ def build_glossary_queue_snapshot(config: AppConfig, run_id: str) -> dict[str, A
     artifact = _read_glossary_scan_artifact(config, run_id=run_id)
     chapter_ids = list(artifact.get("chapter_ids", [])) if isinstance(artifact, dict) else []
     queue_items = _read_glossary_scan_items(config, run_id=run_id)
+    note_records = _load_operator_glossary_note_records(config)
     if not queue_items:
         return {
             "run_id": run_id,
             "chapter_ids": chapter_ids,
             "items": [],
             "removed_terms": [],
+            "progress": _glossary_progress_snapshot(artifact or {}, {"items": [], "removed_terms": []}),
         }
 
     blocks = []
@@ -302,11 +304,21 @@ def build_glossary_queue_snapshot(config: AppConfig, run_id: str) -> dict[str, A
         _, chapter_blocks = _load_chapter_source_and_blocks(config, chapter_id)
         blocks.extend(chapter_blocks)
     filtered_items, removed_terms = _revalidate_glossary_queue_items(config, blocks, queue_items)
+    items_with_context: list[dict[str, Any]] = []
+    for item in filtered_items:
+        enriched = dict(item)
+        enriched["intersections"] = _glossary_intersections(note_records, str(item.get("original_term") or ""))
+        items_with_context.append(enriched)
+    snapshot = {
+        "items": items_with_context,
+        "removed_terms": removed_terms,
+    }
     return {
         "run_id": run_id,
         "chapter_ids": chapter_ids,
-        "items": filtered_items,
+        "items": items_with_context,
         "removed_terms": removed_terms,
+        "progress": _glossary_progress_snapshot(artifact, snapshot),
     }
 
 
@@ -329,11 +341,96 @@ def _artifact_decisions(artifact: dict[str, Any]) -> list[dict[str, Any]]:
     return [item for item in decisions if isinstance(item, dict)]
 
 
+def _load_operator_glossary_note_records(config: AppConfig) -> list[dict[str, Any]]:
+    glossary_dir = config.workspace.glossary_dir
+    if not isinstance(glossary_dir, (str, Path)):
+        return []
+    glossary_dir.mkdir(parents=True, exist_ok=True)
+    records: list[dict[str, Any]] = []
+    for path in sorted(glossary_dir.rglob("*.md")):
+        entry = parse_glossary_note(path)
+        if entry is None:
+            continue
+        path_parts = {part.lower() for part in path.parts}
+        records.append(
+            {
+                "original_term": entry.original_term,
+                "thai_term": entry.thai_term,
+                "status": str(entry.status or "proposed").strip().lower() or "proposed",
+                "category": entry.category,
+                "aliases": list(entry.aliases),
+                "path": str(path.resolve()),
+                "is_quarantine": "quarantine" in path_parts,
+            }
+        )
+    return records
+
+
+def _glossary_note_bucket(note: dict[str, Any]) -> str:
+    if note.get("is_quarantine"):
+        return "quarantine"
+    status = str(note.get("status") or "proposed").strip().lower() or "proposed"
+    if status in {"approved", "rejected", "deprecated", "proposed"}:
+        return status
+    return "proposed"
+
+
+def _glossary_intersections(records: list[dict[str, Any]], term: str) -> dict[str, list[dict[str, Any]]]:
+    normalized = term.strip()
+    exact: list[dict[str, Any]] = []
+    overlap: list[dict[str, Any]] = []
+    for note in records:
+        note_term = str(note.get("original_term") or "").strip()
+        aliases = [str(item).strip() for item in (note.get("aliases") or []) if str(item).strip()]
+        keys = [note_term, *aliases]
+        if normalized in keys:
+            exact.append(
+                {
+                    "term": note_term,
+                    "thai_term": str(note.get("thai_term") or "").strip(),
+                    "status": _glossary_note_bucket(note),
+                    "path": str(note.get("path") or ""),
+                    "match_type": "exact",
+                }
+            )
+            continue
+        if any(normalized and key and (normalized in key or key in normalized) for key in keys):
+            overlap.append(
+                {
+                    "term": note_term,
+                    "thai_term": str(note.get("thai_term") or "").strip(),
+                    "status": _glossary_note_bucket(note),
+                    "path": str(note.get("path") or ""),
+                    "match_type": "overlap",
+                }
+            )
+    return {"exact": exact, "overlap": overlap}
+
+
+def _glossary_progress_snapshot(artifact: dict[str, Any], queue_snapshot: dict[str, Any]) -> dict[str, Any]:
+    decisions = _artifact_decisions(artifact)
+    approved_terms, rejected_terms = _decision_metadata(artifact)
+    chapter_ids = list(artifact.get("chapter_ids", []))
+    pending_items = list(queue_snapshot.get("items") or [])
+    total_candidates = len(pending_items) + len(decisions)
+    return {
+        "chapter_ids": chapter_ids,
+        "total_candidates": total_candidates,
+        "pending_count": len(pending_items),
+        "decided_count": len(decisions),
+        "approved_count": len(approved_terms),
+        "rejected_count": len(rejected_terms),
+        "removed_terms_count": len(queue_snapshot.get("removed_terms") or []),
+        "completion_ready": not pending_items,
+    }
+
+
 def build_glossary_suggestion_snapshot(config: AppConfig, run_id: str, term: str) -> dict[str, Any]:
     queue_snapshot = build_glossary_queue_snapshot(config, run_id)
     queue_item = next((item for item in queue_snapshot["items"] if item.get("original_term") == term), None)
     if queue_item is None:
         raise ValueError(f"Term '{term}' is not in the current glossary queue.")
+    note_records = _load_operator_glossary_note_records(config)
     prompt_store = PromptStore(config.workspace.prompts)
     provider_runner = config.provider_for_stage("term_suggestion")
     from novel_pipeline.providers.base import ProviderRunner
@@ -344,6 +441,10 @@ def build_glossary_suggestion_snapshot(config: AppConfig, run_id: str, term: str
         term=term,
         context=str(queue_item.get("context", "")),
     )
+    try:
+        artifact = _read_batch_glossary_artifact(config, run_id)
+    except Exception:
+        artifact = {"chapter_ids": list(queue_snapshot.get("chapter_ids", []))}
     return {
         "run_id": run_id,
         "term": term,
@@ -355,6 +456,8 @@ def build_glossary_suggestion_snapshot(config: AppConfig, run_id: str, term: str
         "rationales": list(suggestion.rationales),
         "rationale": suggestion.rationale,
         "provider": suggestion.provider,
+        "intersections": _glossary_intersections(note_records, term),
+        "progress": _glossary_progress_snapshot(artifact, queue_snapshot),
     }
 
 
@@ -477,6 +580,7 @@ def execute_glossary_decision(
         "run_id": run_id,
         "term": term,
         "decision": normalized_decision,
+        "thai_term": entry.thai_term,
         "queue": build_glossary_queue_snapshot(config, run_id),
         "snapshot": build_operator_snapshot(config, run_id=run_id),
         "removed_terms": removed_terms,
@@ -892,6 +996,34 @@ def _render_operator_html() -> str:
       letter-spacing: .04em;
       margin-bottom: 6px;
     }
+    .glossary-progress {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .glossary-progress .overview-card {
+      padding: 10px 12px;
+    }
+    .context-stack {
+      display: grid;
+      gap: 6px;
+    }
+    .context-chip {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--surface-alt);
+      color: var(--text);
+      margin-right: 6px;
+      margin-bottom: 6px;
+    }
+    .context-chip.approved { background: #e7f7ee; color: var(--ok); }
+    .context-chip.rejected,
+    .context-chip.quarantine,
+    .context-chip.deprecated { background: #fdeceb; color: var(--danger); }
     .pill {
       display: inline-block;
       border-radius: 999px;
@@ -938,7 +1070,7 @@ def _render_operator_html() -> str:
     @media (max-width: 1080px) {
       .shell { grid-template-columns: 1fr; }
       .metrics, .layout { grid-template-columns: 1fr; }
-      .status-strip, .overview-grid, .run-row { grid-template-columns: 1fr; }
+      .status-strip, .overview-grid, .glossary-progress, .run-row { grid-template-columns: 1fr; }
       .inspect-grid { grid-template-columns: 1fr; }
     }
   </style>
@@ -1103,15 +1235,16 @@ def _render_operator_html() -> str:
 
       <div class="layout">
       <section class="panel">
-        <h3>Glossary Candidate Queue</h3>
-        <p class="meta">Current effective queue after glossary revalidation.</p>
+        <h3>Glossary Workbench</h3>
+        <p class="meta">Current effective queue, batch closure progress, and note-history context for glossary approval.</p>
+        <div id="glossaryProgress" class="empty">No glossary progress loaded.</div>
         <div id="glossaryQueue" class="empty">No queue loaded.</div>
       </section>
 
         <div class="stack">
           <section class="panel">
             <h3>Glossary Decision</h3>
-            <p class="meta">Load 2-3 Thai options for one term, then approve or reject it.</p>
+            <p class="meta">Load 2-3 Thai options, inspect note-history context, preview the selected decision, then approve or reject.</p>
             <div id="glossaryDecision" class="empty">No term selected.</div>
           </section>
 
@@ -1528,6 +1661,57 @@ def _render_operator_html() -> str:
       `;
     }
 
+    function renderGlossaryProgress(data) {
+      const wrap = document.getElementById("glossaryProgress");
+      const progress = data?.progress || null;
+      if (!progress) {
+        wrap.className = "empty";
+        wrap.textContent = "No glossary progress loaded.";
+        return;
+      }
+      wrap.className = "glossary-progress";
+      wrap.innerHTML = `
+        <div class="overview-card">
+          <div class="label">Candidates</div>
+          <div class="value">${progress.total_candidates ?? 0}</div>
+          <div class="sub">${(progress.chapter_ids || []).length} chapters in glossary scope</div>
+        </div>
+        <div class="overview-card">
+          <div class="label">Pending</div>
+          <div class="value">${progress.pending_count ?? 0}</div>
+          <div class="sub">remaining queue items</div>
+        </div>
+        <div class="overview-card">
+          <div class="label">Approved</div>
+          <div class="value">${progress.approved_count ?? 0}</div>
+          <div class="sub">decisions in current artifact</div>
+        </div>
+        <div class="overview-card">
+          <div class="label">Rejected</div>
+          <div class="value">${progress.rejected_count ?? 0}</div>
+          <div class="sub">decisions in current artifact</div>
+        </div>
+        <div class="overview-card">
+          <div class="label">Closure</div>
+          <div class="value">${progress.completion_ready ? "ready" : "open"}</div>
+          <div class="sub">${progress.removed_terms_count ?? 0} removed by guard</div>
+        </div>
+      `;
+    }
+
+    function renderGlossaryIntersectionSummary(intersections) {
+      const exact = intersections?.exact || [];
+      const overlap = intersections?.overlap || [];
+      const all = exact.concat(overlap);
+      if (!all.length) {
+        return `<span class="context-chip">clean</span>`;
+      }
+      return all.map((item) => {
+        const status = String(item.status || "proposed").trim();
+        return `<span class="context-chip ${escapeHtml(status)}">${escapeHtml(status)}:${escapeHtml(item.term || "")}</span>`;
+      }).join("");
+    }
+
     function renderChapterMatrix(snapshot) {
       const wrap = document.getElementById("chapterMatrix");
       const summary = snapshot?.status?.chapter_summary || {};
@@ -1836,6 +2020,7 @@ def _render_operator_html() -> str:
       const response = await fetch(`/api/glossary-queue?run_id=${encodeURIComponent(runId)}`);
       const data = await response.json();
       const wrap = document.getElementById("glossaryQueue");
+      renderGlossaryProgress(data);
       if (!response.ok) {
         wrap.className = "empty";
         wrap.textContent = data.error || "Failed to load glossary queue.";
@@ -1851,6 +2036,7 @@ def _render_operator_html() -> str:
         <tr>
           <td class="mono">${escapeHtml(item.original_term || "")}</td>
           <td>${escapeHtml(item.category || "")}</td>
+          <td>${renderGlossaryIntersectionSummary(item.intersections)}</td>
           <td>${escapeHtml(item.chapter_id || "")}</td>
           <td class="mono">${escapeHtml(item.first_seen_block || "")}</td>
           <td><button data-term="${escapeHtml(item.original_term || "")}" class="load-suggestion-btn">Load options</button></td>
@@ -1866,6 +2052,7 @@ def _render_operator_html() -> str:
             <tr>
               <th>Term</th>
               <th>Category</th>
+              <th>History Context</th>
               <th>Chapter</th>
               <th>First Seen</th>
               <th>Action</th>
@@ -1958,6 +2145,7 @@ def _render_operator_html() -> str:
         <div class="stack">
           <div><span class="pill ok">${escapeHtml(data.decision)}</span></div>
           <div class="mono">${escapeHtml(data.term)}</div>
+          ${data.thai_term ? `<div class="mono">${escapeHtml(data.thai_term)}</div>` : ""}
           <div class="mono">${data.committed ? "glossary_approved committed" : "queue updated"}</div>
         </div>
       `;

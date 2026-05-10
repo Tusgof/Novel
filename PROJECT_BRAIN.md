@@ -324,9 +324,10 @@ Next milestones after product-complete:
   - preflight still degrades on ordinary dirty tracked files
 - current delivery milestone:
   - `V6.0 Operator Control Dashboard`
-  - current slice: `V6.0C` glossary approval workbench
+  - current slice: `V6.0D` block inspection and recovery workbench
   - `V6.0A` complete: the dashboard now has run selector, preflight/provider strip, run overview, chapter matrix, current blocker panel, next safe action visibility, and recent activity log
   - `V6.0B` complete: batch/resume/rerun controls now show exact command previews, scope, and guardrails before execution and echo the command in action results
+  - `V6.0C` complete: glossary workbench now shows batch progress, per-term note-history intersections, suggestion context, and selected decision preview in one surface
 
 ## Invariants And Guardrails
 

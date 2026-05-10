@@ -4099,7 +4099,8 @@ def test_build_glossary_queue_snapshot_revalidates_items():
         snapshot = build_glossary_queue_snapshot(config, "batch-ch019-ch023-v1")
 
     assert snapshot["chapter_ids"] == ["ch020"]
-    assert snapshot["items"] == filtered_items
+    assert [item["original_term"] for item in snapshot["items"]] == [item["original_term"] for item in filtered_items]
+    assert all("intersections" in item for item in snapshot["items"])
     assert snapshot["removed_terms"] == ["高台"]
 
 
@@ -4629,6 +4630,8 @@ def test_render_operator_html_contains_v6_dashboard_elements():
     assert 'id="batchPreview"' in html
     assert 'id="resumePreview"' in html
     assert 'id="rerunPreview"' in html
+    assert 'id="glossaryProgress"' in html
+    assert 'id="glossaryDecisionPreview"' in html
 
 
 def test_build_glossary_suggestion_snapshot_returns_provider_options():
