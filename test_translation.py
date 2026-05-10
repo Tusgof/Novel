@@ -4626,6 +4626,9 @@ def test_render_operator_html_contains_v6_dashboard_elements():
     assert 'id="chapterMatrix"' in html
     assert 'id="currentBlocker"' in html
     assert 'id="activityLog"' in html
+    assert 'id="batchPreview"' in html
+    assert 'id="resumePreview"' in html
+    assert 'id="rerunPreview"' in html
 
 
 def test_build_glossary_suggestion_snapshot_returns_provider_options():

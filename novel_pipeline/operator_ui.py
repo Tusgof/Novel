@@ -865,6 +865,33 @@ def _render_operator_html() -> str:
       font-weight: 600;
     }
     .stack { display: grid; gap: 14px; }
+    .action-stack { display: grid; gap: 12px; }
+    .action-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      background: var(--surface-alt);
+    }
+    .action-card .meta {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .preview-box {
+      margin-top: 10px;
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      padding: 10px 12px;
+    }
+    .preview-box .label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 6px;
+    }
     .pill {
       display: inline-block;
       border-radius: 999px;
@@ -1090,10 +1117,11 @@ def _render_operator_html() -> str:
 
           <section class="panel">
             <h3>Safe Actions</h3>
-            <p class="meta">State-changing controls stay bounded and always stop on manual action.</p>
-            <div class="stack">
-              <div>
+            <p class="meta">State-changing controls stay bounded, show exact CLI equivalence, and keep scope visible before execution.</p>
+            <div class="action-stack">
+              <div class="action-card">
                 <label for="initProjectRoot">Init Novel Project</label>
+                <p class="meta">Create a new isolated novel workspace. This is setup, not translation flow.</p>
                 <div class="stack">
                   <div class="inspect-grid">
                     <input id="initProjectRoot" placeholder="Project root">
@@ -1114,8 +1142,9 @@ def _render_operator_html() -> str:
                 </div>
                 <button class="primary" id="initNovelBtn">Init Novel Project</button>
               </div>
-              <div>
+              <div class="action-card">
                 <label for="batchRunId">Run Batch Range</label>
+                <p class="meta">Start from fetch/glossary scan or run a bounded production batch across an explicit chapter range.</p>
                 <div class="inspect-grid">
                   <input id="batchRunId" placeholder="Run ID">
                   <input id="batchChapterRange" placeholder="Chapter range e.g. ch004-ch008">
@@ -1125,18 +1154,22 @@ def _render_operator_html() -> str:
                   </select>
                 </div>
                 <button class="primary" id="batchBtn">Run Batch</button>
+                <div id="batchPreview" class="preview-box empty">No batch scope prepared.</div>
               </div>
-              <div>
+              <div class="action-card">
                 <label for="resumeRunId">Resume Run</label>
+                <p class="meta">Continue an existing run only to an explicit chapter or block. Manual action mode stays fixed at stop.</p>
                 <div class="inspect-grid">
                   <input id="resumeRunId" placeholder="Run ID">
                   <input id="resumeUntilChapter" placeholder="Until chapter e.g. ch022">
                   <input id="resumeUntilBlock" placeholder="Or until block e.g. ch022-block-004">
                 </div>
                 <button class="primary" id="resumeBtn">Run Bounded Resume</button>
+                <div id="resumePreview" class="preview-box empty">No bounded resume scope prepared.</div>
               </div>
-              <div>
+              <div class="action-card">
                 <label for="rerunRunId">Rerun Block</label>
+                <p class="meta">Recover exactly one block from an explicit stage. Upstream artifacts are reused.</p>
                 <div class="inspect-grid">
                   <input id="rerunRunId" placeholder="Run ID">
                   <input id="rerunBlockId" placeholder="Block ID">
@@ -1148,6 +1181,7 @@ def _render_operator_html() -> str:
                   </select>
                 </div>
                 <button class="primary" id="rerunBtn">Run Rerun-Block</button>
+                <div id="rerunPreview" class="preview-box empty">No rerun-block scope prepared.</div>
               </div>
             </div>
           </section>
@@ -1251,6 +1285,86 @@ def _render_operator_html() -> str:
         .split(/[\n,]+/)
         .map((item) => item.trim())
         .filter(Boolean);
+    }
+
+    function commandPrefix() {
+      const configPath = state.snapshot?.preflight?.config_path || ".system/config.yaml";
+      return `novel-pipeline --config "${configPath}"`;
+    }
+
+    function renderActionPreview(targetId, title, command, scopeLines) {
+      const wrap = document.getElementById(targetId);
+      if (!command) {
+        wrap.className = "preview-box empty";
+        wrap.textContent = "Incomplete action scope.";
+        return;
+      }
+      wrap.className = "preview-box";
+      wrap.innerHTML = `
+        <div class="label">${escapeHtml(title)}</div>
+        <div class="mono">${escapeHtml(command)}</div>
+        <ul class="actions-list" style="margin-top:10px;">
+          ${scopeLines.map((line) => `<li class="mono">${escapeHtml(line)}</li>`).join("")}
+        </ul>
+      `;
+    }
+
+    function renderActionPreviews() {
+      const prefix = commandPrefix();
+
+      const batchRun = batchRunId.value.trim() || state.runId;
+      const batchRange = batchChapterRange.value.trim();
+      const batchScanOnly = batchMode.value === "scan-only";
+      const batchCommand = batchRun && batchRange
+        ? `${prefix} run --range ${batchRange} --run-id ${batchRun}${batchScanOnly ? " --stop-after glossary-scan" : ""}`
+        : "";
+      renderActionPreview(
+        "batchPreview",
+        batchScanOnly ? "Scan-only gate" : "Bounded batch run",
+        batchCommand,
+        [
+          `run_id=${batchRun || "missing"} | range=${batchRange || "missing"}`,
+          batchScanOnly ? "scope: fetch + glossary scan only" : "scope: bounded production run across explicit chapter range",
+          batchScanOnly ? "translation readiness: not required" : "translation readiness: bounded path enforced",
+        ],
+      );
+
+      const resumeRun = resumeRunId.value.trim() || state.runId;
+      const untilChapter = resumeUntilChapter.value.trim();
+      const untilBlock = resumeUntilBlock.value.trim();
+      const resumeBound = untilChapter
+        ? `--until-chapter ${untilChapter}`
+        : (untilBlock ? `--until-block ${untilBlock}` : "");
+      const resumeCommand = resumeRun && resumeBound
+        ? `${prefix} resume --run-id ${resumeRun} ${resumeBound} --manual-action-mode stop`
+        : "";
+      renderActionPreview(
+        "resumePreview",
+        "Bounded resume",
+        resumeCommand,
+        [
+          `run_id=${resumeRun || "missing"} | boundary=${untilChapter || untilBlock || "missing"}`,
+          untilChapter ? "scope: resume through explicit chapter boundary" : "scope: resume through explicit block boundary",
+          "guardrail: manual actions force stop, never continue silently",
+        ],
+      );
+
+      const rerunRun = rerunRunId.value.trim() || state.runId;
+      const blockId = rerunBlockId.value.trim();
+      const stage = rerunStage.value.trim();
+      const rerunCommand = rerunRun && blockId && stage
+        ? `${prefix} rerun-block --run-id ${rerunRun} --block-id ${blockId} --from-stage ${stage}`
+        : "";
+      renderActionPreview(
+        "rerunPreview",
+        "Rerun block",
+        rerunCommand,
+        [
+          `run_id=${rerunRun || "missing"} | block_id=${blockId || "missing"}`,
+          `scope: rerun one block from ${stage || "missing"} only`,
+          "guardrail: upstream artifacts reused; no broad resume implied",
+        ],
+      );
     }
 
     function renderPathList(paths) {
@@ -1704,6 +1818,7 @@ def _render_operator_html() -> str:
       renderCommandHints(snapshot);
       renderQuickLinks(snapshot);
       renderManualActions(snapshot);
+      renderActionPreviews();
     }
 
     async function loadSnapshot(runId = "") {
@@ -1931,9 +2046,17 @@ def _render_operator_html() -> str:
         return;
       }
       const initPaths = data.paths || data.snapshot?.init_novel_paths || null;
+      const commandPreview = action === "run-batch"
+        ? document.getElementById("batchPreview")?.querySelector(".mono")?.textContent
+        : action === "resume"
+          ? document.getElementById("resumePreview")?.querySelector(".mono")?.textContent
+          : action === "rerun-block"
+            ? document.getElementById("rerunPreview")?.querySelector(".mono")?.textContent
+            : "";
       target.innerHTML = `
         <div class="stack">
           <div><span class="pill ok">${escapeHtml(data.action)}</span></div>
+          ${commandPreview ? `<div class="mono">${escapeHtml(commandPreview)}</div>` : ""}
           <pre class="mono" style="margin:0; white-space:pre-wrap;">${escapeHtml(data.output || "(no output)")}</pre>
           ${initPaths ? renderPathList(initPaths) : ""}
         </div>
@@ -1956,6 +2079,11 @@ def _render_operator_html() -> str:
         loadSnapshot(runId);
       }
     });
+    [batchRunId, batchChapterRange, batchMode, resumeRunId, resumeUntilChapter, resumeUntilBlock, rerunRunId, rerunBlockId, rerunStage]
+      .forEach((element) => {
+        element.addEventListener("input", renderActionPreviews);
+        element.addEventListener("change", renderActionPreviews);
+      });
     document.getElementById("inspectBtn").addEventListener("click", inspectBlock);
     document.getElementById("initNovelBtn").addEventListener("click", () => {
       const projectRoot = initProjectRoot.value.trim();

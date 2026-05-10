@@ -101,7 +101,11 @@ This is the practical runbook. It should help the operator proceed without guess
   - chapter progress matrix sorted by pressure with next pending stage visibility
   - current blocker panel
   - recent activity log
-- next slice: `V6.0B` translation control actions
+- V6.0B complete:
+  - batch, resume, and rerun controls now show exact CLI-equivalent previews before execution
+  - each control shows explicit scope and guardrail text
+  - action results echo the previewed command for audit trail clarity
+- next slice: `V6.0C` glossary approval workbench
 
 ## Standard Preflight
 

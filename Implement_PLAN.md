@@ -550,6 +550,10 @@ Planned slices:
     - rerun-block from explicit stage
   - stronger action confirmation text showing exact command equivalence and exact scope
   - done when translation control actions are visible and auditable from the dashboard without ambiguous scope
+  - complete on 2026-05-10:
+    - batch, resume, and rerun controls now render exact CLI-equivalent previews before execution
+    - each state-changing control now shows scope and guardrail text inline
+    - action result now echoes the previewed command for auditability after execution
 
 - V6.0C: Glossary approval workbench
   - richer glossary queue panel with:
