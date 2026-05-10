@@ -530,12 +530,17 @@ Planned slices:
     - provider/preflight strip
     - recent action/result log
   - done when the operator can understand current run state without jumping across multiple panels
+  - complete on 2026-05-10.
   - first implementation round landed on 2026-05-10:
     - run selector wired from known ledger run IDs
     - chapter progress matrix added above the detailed chapter table
     - preflight/provider status strip added
     - current blocker panel added
     - recent activity log added for snapshot/report/inspect/action events
+  - closing round landed on 2026-05-10:
+    - run overview panel now collocates scope, blocker, next safe action, and chapter pressure
+    - run subtitle now summarizes scope, output coverage, and current failed blocks
+    - chapter matrix is sorted by pressure and shows next pending block/stage
 
 - V6.0B: Translation control actions
   - clearer start/stop/resume/recovery controls for:

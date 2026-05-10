@@ -94,12 +94,14 @@ This is the practical runbook. It should help the operator proceed without guess
   - denser translation control dashboard
   - dedicated glossary approval workbench
   - clearer bounded recovery and block-inspection surface
-- V6.0A first round landed:
+- V6.0A complete:
   - run selector from known run IDs
   - preflight/provider status strip
-  - chapter progress matrix
+  - run overview panel for scope, blocker, next action, and chapter pressure
+  - chapter progress matrix sorted by pressure with next pending stage visibility
   - current blocker panel
   - recent activity log
+- next slice: `V6.0B` translation control actions
 
 ## Standard Preflight
 

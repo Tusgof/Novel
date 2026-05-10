@@ -324,8 +324,8 @@ Next milestones after product-complete:
   - preflight still degrades on ordinary dirty tracked files
 - current delivery milestone:
   - `V6.0 Operator Control Dashboard`
-  - current slice: `V6.0A` dashboard density and control layout
-  - landed in first round: run selector, chapter matrix, preflight/provider strip, current blocker panel, and recent activity log
+  - current slice: `V6.0B` translation control actions
+  - `V6.0A` complete: the dashboard now has run selector, preflight/provider strip, run overview, chapter matrix, current blocker panel, next safe action visibility, and recent activity log
 
 ## Invariants And Guardrails
 

@@ -769,12 +769,42 @@ def _render_operator_html() -> str:
       gap: 12px;
       margin-bottom: 18px;
     }
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
     .status-card, .chapter-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 12px 14px;
       box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+    }
+    .overview-card {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+    .overview-card .label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 6px;
+    }
+    .overview-card .value {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .overview-card .sub {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+      word-break: break-word;
     }
     .status-card .label, .chapter-card .label {
       font-size: 11px;
@@ -881,7 +911,7 @@ def _render_operator_html() -> str:
     @media (max-width: 1080px) {
       .shell { grid-template-columns: 1fr; }
       .metrics, .layout { grid-template-columns: 1fr; }
-      .status-strip, .run-row { grid-template-columns: 1fr; }
+      .status-strip, .overview-grid, .run-row { grid-template-columns: 1fr; }
       .inspect-grid { grid-template-columns: 1fr; }
     }
   </style>
@@ -939,6 +969,11 @@ def _render_operator_html() -> str:
 
       <section class="metrics" id="metrics"></section>
       <section id="statusStrip" class="status-strip"></section>
+      <section class="panel">
+        <h3>Run Overview</h3>
+        <p class="meta">Single-page summary of scope, blocker, next action, and chapter pressure.</p>
+        <div id="runOverview" class="empty">No run loaded.</div>
+      </section>
 
       <div class="layout">
         <section class="panel">
@@ -1271,6 +1306,39 @@ def _render_operator_html() -> str:
       runSelector.innerHTML = options.join("");
     }
 
+    function resolveCurrentBlocker(snapshot) {
+      const status = snapshot?.status || {};
+      const preflight = snapshot?.preflight || {};
+      const failed = status.current_failed_blocks || [];
+      const manualActions = (status.manual_actions || []).filter((item) => String(item || "").trim().toLowerCase() !== "none");
+      const blocking = preflight.blocking_reasons || [];
+      const warnings = preflight.warnings || [];
+
+      let pillClass = "ok";
+      let title = "No active blocker";
+      let detail = "Normal bounded operation is allowed.";
+
+      if (blocking.length) {
+        pillClass = "danger";
+        title = "Preflight blocking";
+        detail = blocking.join(" | ");
+      } else if (failed.length) {
+        pillClass = "danger";
+        title = "Failed blocks present";
+        detail = failed.join(", ");
+      } else if (manualActions.length) {
+        pillClass = "danger";
+        title = "Manual action required";
+        detail = manualActions.join(" | ");
+      } else if (preflight.status === "degraded" || warnings.length) {
+        pillClass = "";
+        title = "Bounded-only caution";
+        detail = warnings.join(" | ") || preflight.next_safe_action || "Use bounded controls only.";
+      }
+
+      return { pillClass, title, detail };
+    }
+
     function renderStatusStrip(snapshot) {
       const wrap = document.getElementById("statusStrip");
       const preflight = snapshot?.preflight || {};
@@ -1305,6 +1373,47 @@ def _render_operator_html() -> str:
       `;
     }
 
+    function renderRunOverview(snapshot) {
+      const wrap = document.getElementById("runOverview");
+      const status = snapshot?.status || {};
+      const chapterIds = status.chapter_ids || [];
+      if (!chapterIds.length && !snapshot?.run_id) {
+        wrap.className = "empty";
+        wrap.textContent = "No run overview available.";
+        return;
+      }
+      const summary = status.chapter_summary || {};
+      const blocker = resolveCurrentBlocker(snapshot);
+      const manualActions = (status.manual_actions || []).filter((item) => String(item || "").trim().toLowerCase() !== "none");
+      const failedChapterCount = chapterIds.filter((chapterId) => (summary[chapterId]?.failed_blocks || []).length > 0).length;
+      const pendingChapterCount = chapterIds.filter((chapterId) => (summary[chapterId]?.pending_blocks || []).length > 0).length;
+      const outputReadyCount = chapterIds.filter((chapterId) => summary[chapterId]?.output_exists).length;
+      const pendingBlockCount = chapterIds.reduce((total, chapterId) => total + ((summary[chapterId]?.pending_blocks || []).length), 0);
+      wrap.className = "overview-grid";
+      wrap.innerHTML = `
+        <div class="overview-card">
+          <div class="label">Run Scope</div>
+          <div class="value">${escapeHtml(status.run_id || snapshot.run_id || "workspace")}</div>
+          <div class="sub">${chapterIds.length} chapters in scope | ${status.total_records ?? 0} ledger records</div>
+        </div>
+        <div class="overview-card">
+          <div class="label">Current Blocker</div>
+          <div class="value"><span class="pill ${blocker.pillClass}">${escapeHtml(blocker.title)}</span></div>
+          <div class="sub">${escapeHtml(blocker.detail)}</div>
+        </div>
+        <div class="overview-card">
+          <div class="label">Next Safe Action</div>
+          <div class="value">${escapeHtml(status.next_effective_action || "none")}</div>
+          <div class="sub">${manualActions.length} manual actions still listed</div>
+        </div>
+        <div class="overview-card">
+          <div class="label">Chapter Pressure</div>
+          <div class="value">${failedChapterCount} failed | ${pendingChapterCount} pending</div>
+          <div class="sub">${pendingBlockCount} pending blocks | ${outputReadyCount}/${chapterIds.length} outputs ready</div>
+        </div>
+      `;
+    }
+
     function renderChapterMatrix(snapshot) {
       const wrap = document.getElementById("chapterMatrix");
       const summary = snapshot?.status?.chapter_summary || {};
@@ -1314,16 +1423,39 @@ def _render_operator_html() -> str:
         wrap.textContent = "No chapter matrix available.";
         return;
       }
-      const cards = chapterIds.map((chapterId) => {
+      const sortedChapterIds = [...chapterIds].sort((leftId, rightId) => {
+        const left = summary[leftId] || {};
+        const right = summary[rightId] || {};
+        const leftFailed = (left.failed_blocks || []).length;
+        const rightFailed = (right.failed_blocks || []).length;
+        if (leftFailed !== rightFailed) {
+          return rightFailed - leftFailed;
+        }
+        const leftPending = (left.pending_blocks || []).length;
+        const rightPending = (right.pending_blocks || []).length;
+        if (leftPending !== rightPending) {
+          return rightPending - leftPending;
+        }
+        const leftOutputPenalty = left.output_exists ? 0 : 1;
+        const rightOutputPenalty = right.output_exists ? 0 : 1;
+        if (leftOutputPenalty !== rightOutputPenalty) {
+          return rightOutputPenalty - leftOutputPenalty;
+        }
+        return leftId.localeCompare(rightId);
+      });
+      const cards = sortedChapterIds.map((chapterId) => {
         const item = summary[chapterId] || {};
         const failed = item.failed_blocks || [];
         const pending = item.pending_blocks || [];
+        const nextPendingBlock = pending[0] || "";
+        const nextPendingStage = nextPendingBlock ? (item.pending_stages?.[nextPendingBlock] || "?") : "";
         return `
           <div class="chapter-card">
             <div class="label">${escapeHtml(chapterId)}</div>
             <div class="value">${item.completed_blocks ?? 0}/${item.expected_blocks ?? 0} complete</div>
             <div class="sub">failed: ${failed.length ? escapeHtml(failed.join(", ")) : "none"}</div>
             <div class="sub">pending: ${pending.length ? escapeHtml(pending.join(", ")) : "none"}</div>
+            <div class="sub">next: ${nextPendingBlock ? `${escapeHtml(nextPendingBlock)} (${escapeHtml(nextPendingStage)})` : "none"}</div>
             <div class="sub">output: ${item.output_exists ? "exists" : "missing"}</div>
           </div>
         `;
@@ -1391,40 +1523,13 @@ def _render_operator_html() -> str:
 
     function renderCurrentBlocker(snapshot) {
       const wrap = document.getElementById("currentBlocker");
-      const status = snapshot?.status || {};
-      const preflight = snapshot?.preflight || {};
-      const failed = status.current_failed_blocks || [];
-      const manualActions = (status.manual_actions || []).filter((item) => String(item || "").trim().toLowerCase() !== "none");
-      const blocking = preflight.blocking_reasons || [];
-      const warnings = preflight.warnings || [];
-
-      let pillClass = "ok";
-      let title = "No active blocker";
-      let detail = "Normal bounded operation is allowed.";
-
-      if (blocking.length) {
-        pillClass = "danger";
-        title = "Preflight blocking";
-        detail = blocking.join(" | ");
-      } else if (failed.length) {
-        pillClass = "danger";
-        title = "Failed blocks present";
-        detail = failed.join(", ");
-      } else if (manualActions.length) {
-        pillClass = "danger";
-        title = "Manual action required";
-        detail = manualActions.join(" | ");
-      } else if (preflight.status === "degraded" || warnings.length) {
-        pillClass = "";
-        title = "Bounded-only caution";
-        detail = warnings.join(" | ") || preflight.next_safe_action || "Use bounded controls only.";
-      }
+      const blocker = resolveCurrentBlocker(snapshot);
 
       wrap.className = "";
       wrap.innerHTML = `
         <div class="stack">
-          <div><span class="pill ${pillClass}">${escapeHtml(title)}</span></div>
-          <div class="mono">${escapeHtml(detail)}</div>
+          <div><span class="pill ${blocker.pillClass}">${escapeHtml(blocker.title)}</span></div>
+          <div class="mono">${escapeHtml(blocker.detail)}</div>
         </div>
       `;
     }
@@ -1575,13 +1680,21 @@ def _render_operator_html() -> str:
       const runId = snapshot?.run_id || "";
       setRunId(runId);
       renderRunSelector(snapshot);
+      const status = snapshot?.status || {};
+      const chapterIds = status.chapter_ids || [];
+      const summary = status.chapter_summary || {};
+      const outputReadyCount = chapterIds.filter((chapterId) => summary[chapterId]?.output_exists).length;
+      const failedCount = Array.isArray(status.current_failed_blocks) ? status.current_failed_blocks.length : 0;
       document.getElementById("runTitle").textContent = runId || "No run loaded";
-      document.getElementById("runSubtitle").textContent = snapshot?.available_run_ids?.length
-        ? `${snapshot.available_run_ids.length} known run IDs in ledger.`
-        : "No runs recorded.";
+      document.getElementById("runSubtitle").textContent = runId
+        ? `${chapterIds.length} chapters | ${outputReadyCount}/${chapterIds.length} outputs ready | ${failedCount} current failed blocks`
+        : (snapshot?.available_run_ids?.length
+          ? `${snapshot.available_run_ids.length} known run IDs in ledger.`
+          : "No runs recorded.");
       document.getElementById("nextAction").textContent = snapshot?.status?.next_effective_action || "none";
       renderMetrics(snapshot);
       renderStatusStrip(snapshot);
+      renderRunOverview(snapshot);
       renderChapterMatrix(snapshot);
       renderChapterTable(snapshot);
       renderCurrentBlocker(snapshot);
