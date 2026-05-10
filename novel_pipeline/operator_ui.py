@@ -996,6 +996,29 @@ def _render_operator_html() -> str:
       letter-spacing: .04em;
       margin-bottom: 6px;
     }
+    .artifact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+    .artifact-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      background: var(--surface-alt);
+    }
+    .artifact-card .label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 6px;
+    }
+    .artifact-card .value {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
     .glossary-progress {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -2173,25 +2196,57 @@ def _render_operator_html() -> str:
       const artifactEntries = Object.entries(data.artifact_paths || {}).map(([stage, path]) => {
         const exists = data.artifact_exists?.[stage];
         const label = `${stage} (${exists ? "exists" : "missing"})`;
-        return `<li>${exists ? fileLink(path, label) : escapeHtml(label + ": " + path)}</li>`;
+        return `
+          <div class="artifact-card">
+            <div class="label">${escapeHtml(stage)}</div>
+            <div class="value">${exists ? "exists" : "missing"}</div>
+            <div class="mono">${exists ? fileLink(path, label) : escapeHtml(path)}</div>
+          </div>
+        `;
       }).join("");
       const issues = (data.formatted_validation_issues || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("");
+      const latestStages = Object.entries(data.latest_by_stage || {}).map(([stage, record]) => `
+        <li class="mono">${escapeHtml(stage)}: ${escapeHtml(record.status || "unknown")} / ${escapeHtml(record.provider || "unknown")}</li>
+      `).join("");
+      const rerunStage = data.next_pending_stage || "qa";
       document.getElementById("inspectResult").innerHTML = `
         <div class="stack">
           <div><span class="pill ${data.next_pending_stage ? "danger" : "ok"}">${data.next_pending_stage ? "pending " + escapeHtml(data.next_pending_stage) : "complete"}</span></div>
           <div class="mono">chapter: ${escapeHtml(data.chapter_id)}</div>
           <div>
             <strong>Artifacts</strong>
-            <ul class="artifact-list">${artifactEntries}</ul>
+            <div class="artifact-grid">${artifactEntries}</div>
+          </div>
+          <div>
+            <strong>Latest Stage State</strong>
+            ${latestStages ? `<ul class="issues-list">${latestStages}</ul>` : `<div class="empty">none</div>`}
           </div>
           <div>
             <strong>Formatted validation issues</strong>
             ${issues ? `<ul class="issues-list">${issues}</ul>` : `<div class="empty">none</div>`}
           </div>
+          <div class="preview-box">
+            <div class="label">Recovery target</div>
+            <div class="mono">recommended rerun stage: ${escapeHtml(rerunStage)}</div>
+            <div class="btn-row" style="margin-top:10px;">
+              <button class="primary" id="inspectUsePendingStageBtn">Use Pending Stage</button>
+              <button id="inspectUseQaStageBtn">Use QA Stage</button>
+            </div>
+          </div>
           <div class="mono">ledger records: ${(data.records || []).length}</div>
         </div>
       `;
+      document.getElementById("inspectUsePendingStageBtn").addEventListener("click", () => setRerunTargetFromInspect(runId, blockId, rerunStage));
+      document.getElementById("inspectUseQaStageBtn").addEventListener("click", () => setRerunTargetFromInspect(runId, blockId, "qa"));
       logActivity("inspect", blockId, data.next_pending_stage ? `Pending ${data.next_pending_stage}.` : "Block complete.");
+    }
+
+    function setRerunTargetFromInspect(runId, blockId, stage) {
+      rerunRunId.value = runId || state.runId || "";
+      rerunBlockId.value = blockId || "";
+      rerunStage.value = stage || "qa";
+      renderActionPreviews();
+      logActivity("rerun-target", blockId || "none", `Prepared rerun-block from ${stage || "qa"}.`);
     }
 
     async function generateReport(kind) {

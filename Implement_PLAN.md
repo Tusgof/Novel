@@ -575,6 +575,10 @@ Planned slices:
     - formatting/cleanliness findings
     - direct rerun target selection
   - done when a failed or suspicious block can be diagnosed and recovered from one place
+  - complete on 2026-05-10:
+    - inspect-block now surfaces source plus all downstream artifact links
+    - inspect view now shows latest stage state and cleanliness findings together
+    - inspect view can prefill rerun-block targets directly into the recovery controls
 
 - V6.0E: Acceptance and guardrails
   - no new broad state-changing actions beyond bounded scope already accepted

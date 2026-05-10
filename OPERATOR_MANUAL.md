@@ -109,7 +109,11 @@ This is the practical runbook. It should help the operator proceed without guess
   - glossary queue now shows batch closure progress
   - each term shows intersecting approved/rejected/quarantine/proposed note history
   - suggestion view includes first-seen location, history context, and selected decision preview
-- next slice: `V6.0D` block inspection and recovery workbench
+- V6.0D complete:
+  - inspect workbench now shows source, literal, refined, QA, and formatted artifact links together
+  - latest stage state and formatted validation findings are visible in one view
+  - inspect can prefill rerun-block targets into the recovery controls
+- next slice: `V6.0E` acceptance and guardrails
 
 ## Standard Preflight
 

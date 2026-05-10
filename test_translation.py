@@ -3463,6 +3463,8 @@ def test_inspect_block_command_reports_artifacts_and_validation():
         config.workspace.output = output_dir
         config.ledger_path = base / "06_Logs" / "ledger.jsonl"
 
+        (raw_dir / chapter_id).mkdir(parents=True, exist_ok=True)
+        (raw_dir / chapter_id / "source.json").write_text('{"chapter_id":"ch019","title":"Title","raw_text":"source"}', encoding="utf-8")
         _write_block_artifact(config, chapter_id, block_id, "literal", {"text": "literal"})
         _write_block_artifact(config, chapter_id, block_id, "refined", {"refined_text": "refined"})
         _write_block_artifact(config, chapter_id, block_id, "qa", {"passed": False})
@@ -3475,7 +3477,7 @@ def test_inspect_block_command_reports_artifacts_and_validation():
             result = inspect_block_command(config=config, run_id=run_id, block_id=block_id)
 
     assert result["chapter_id"] == chapter_id
-    assert result["artifact_exists"] == {"literal": True, "refined": True, "qa": True, "formatted": True}
+    assert result["artifact_exists"] == {"source": True, "literal": True, "refined": True, "qa": True, "formatted": True}
     assert len(result["records"]) == 3
     assert result["next_pending_stage"] == "qa"
     assert "provider/meta marker: gemini" in result["formatted_validation_issues"]

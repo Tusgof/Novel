@@ -1965,10 +1965,14 @@ def inspect_block_command(
         for (record_block_id, stage), record in state.latest_by_stage.items()
         if record_block_id == block_id
     }
-    artifact_paths = {
-        stage: str(_artifact_block_path(config, chapter_id, block_id, stage))
-        for stage in ("literal", "refined", "qa", "formatted")
-    }
+    source_path = str(config.workspace.raw / chapter_id / "source.json")
+    artifact_paths = {"source": source_path}
+    artifact_paths.update(
+        {
+            stage: str(_artifact_block_path(config, chapter_id, block_id, stage))
+            for stage in ("literal", "refined", "qa", "formatted")
+        }
+    )
     artifact_exists = {stage: Path(path).exists() for stage, path in artifact_paths.items()}
 
     formatted_validation_issues: list[str] = []
@@ -2006,7 +2010,7 @@ def inspect_block_command(
 
     print(f"Inspect block {block_id} in run {run_id}:")
     print(f"  Chapter: {chapter_id}")
-    for stage in ("literal", "refined", "qa", "formatted"):
+    for stage in ("source", "literal", "refined", "qa", "formatted"):
         exists = "exists" if artifact_exists[stage] else "missing"
         print(f"  {stage}: {artifact_paths[stage]} ({exists})")
     print(f"  Next pending stage: {next_pending_stage or 'none'}")
