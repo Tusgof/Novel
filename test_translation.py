@@ -4616,6 +4616,17 @@ reviewed_by: Operator
     assert any(item["label"] == "Product Review" for item in snapshot["quick_links"])
 
 
+def test_render_operator_html_contains_v6_dashboard_elements():
+    from novel_pipeline.operator_ui import _render_operator_html
+
+    html = _render_operator_html()
+    assert 'id="runSelector"' in html
+    assert 'id="statusStrip"' in html
+    assert 'id="chapterMatrix"' in html
+    assert 'id="currentBlocker"' in html
+    assert 'id="activityLog"' in html
+
+
 def test_build_glossary_suggestion_snapshot_returns_provider_options():
     from novel_pipeline.operator_ui import build_glossary_suggestion_snapshot
     from novel_pipeline.types import TermSuggestion

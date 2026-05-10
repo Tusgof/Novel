@@ -763,6 +763,49 @@ def _render_operator_html() -> str:
       grid-template-columns: minmax(0, 1.3fr) minmax(320px, .7fr);
       gap: 18px;
     }
+    .status-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .status-card, .chapter-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+    }
+    .status-card .label, .chapter-card .label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-bottom: 6px;
+    }
+    .status-card .value, .chapter-card .value {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .status-card .sub, .chapter-card .sub {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .chapter-matrix {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .run-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(180px, 240px);
+      gap: 10px;
+      align-items: end;
+    }
     .panel {
       padding: 16px;
     }
@@ -838,6 +881,7 @@ def _render_operator_html() -> str:
     @media (max-width: 1080px) {
       .shell { grid-template-columns: 1fr; }
       .metrics, .layout { grid-template-columns: 1fr; }
+      .status-strip, .run-row { grid-template-columns: 1fr; }
       .inspect-grid { grid-template-columns: 1fr; }
     }
   </style>
@@ -850,7 +894,12 @@ def _render_operator_html() -> str:
 
       <section>
         <label for="runIdInput">Run ID</label>
-        <input id="runIdInput" placeholder="batch-ch019-ch023-v1">
+        <div class="run-row">
+          <input id="runIdInput" placeholder="batch-ch019-ch023-v1">
+          <select id="runSelector">
+            <option value="">Select known run</option>
+          </select>
+        </div>
         <div class="btn-row" style="margin-top: 10px;">
           <button class="primary" id="loadRunBtn">Load Run</button>
           <button class="ghost-dark" id="refreshBtn">Refresh</button>
@@ -889,15 +938,23 @@ def _render_operator_html() -> str:
       </div>
 
       <section class="metrics" id="metrics"></section>
+      <section id="statusStrip" class="status-strip"></section>
 
       <div class="layout">
         <section class="panel">
-          <h3>Chapter Status</h3>
-          <p class="meta">Current chapter progress and next pending stages.</p>
+          <h3>Chapter Dashboard</h3>
+          <p class="meta">Run selector, chapter matrix, and detailed chapter progress for the active run.</p>
+          <div id="chapterMatrix" class="empty">No run loaded.</div>
           <div id="chapterTableWrap" class="empty">No run loaded.</div>
         </section>
 
         <div class="stack">
+          <section class="panel">
+            <h3>Current Blocker</h3>
+            <p class="meta">What currently blocks normal flow, if anything.</p>
+            <div id="currentBlocker" class="empty">No run loaded.</div>
+          </section>
+
           <section class="panel">
             <h3>Safe Next Action</h3>
             <p class="meta">Directly from the current verified run state.</p>
@@ -955,6 +1012,12 @@ def _render_operator_html() -> str:
             <h3>Manual Actions</h3>
             <p class="meta">Outstanding operator actions from `status`.</p>
             <ul id="manualActions" class="actions-list"></ul>
+          </section>
+
+          <section class="panel">
+            <h3>Recent Activity</h3>
+            <p class="meta">Recent dashboard loads, reports, inspections, and bounded actions.</p>
+            <ul id="activityLog" class="actions-list"></ul>
           </section>
 
           <section class="panel">
@@ -1068,9 +1131,11 @@ def _render_operator_html() -> str:
     const state = {
       runId: "",
       snapshot: null,
+      activityLog: [],
     };
 
     const runIdInput = document.getElementById("runIdInput");
+    const runSelector = document.getElementById("runSelector");
     const inspectRunId = document.getElementById("inspectRunId");
     const inspectBlockId = document.getElementById("inspectBlockId");
     const batchRunId = document.getElementById("batchRunId");
@@ -1198,6 +1263,75 @@ def _render_operator_html() -> str:
       `;
     }
 
+    function renderRunSelector(snapshot) {
+      const runIds = snapshot?.available_run_ids || [];
+      const selected = snapshot?.run_id || "";
+      const options = ['<option value="">Select known run</option>']
+        .concat(runIds.map((runId) => `<option value="${escapeHtml(runId)}"${runId === selected ? " selected" : ""}>${escapeHtml(runId)}</option>`));
+      runSelector.innerHTML = options.join("");
+    }
+
+    function renderStatusStrip(snapshot) {
+      const wrap = document.getElementById("statusStrip");
+      const preflight = snapshot?.preflight || {};
+      const research = snapshot?.research_readiness || {};
+      const status = snapshot?.status || {};
+      const providers = preflight.providers || [];
+      const readyProviders = providers.filter((item) => item.status === "ready").length;
+      const blockedProviders = providers.filter((item) => item.status !== "ready").length;
+      const failedCount = Array.isArray(status.current_failed_blocks) ? status.current_failed_blocks.length : 0;
+      const manualCount = (status.manual_actions || []).filter((item) => String(item || "").trim().toLowerCase() !== "none").length;
+      wrap.innerHTML = `
+        <div class="status-card">
+          <div class="label">Preflight</div>
+          <div class="value">${escapeHtml(preflight.status || "unknown")}</div>
+          <div class="sub">${escapeHtml(preflight.next_safe_action || "none")}</div>
+        </div>
+        <div class="status-card">
+          <div class="label">Research</div>
+          <div class="value">${escapeHtml(research.status || "missing")} / ${escapeHtml(research.readiness || "blocked")}</div>
+          <div class="sub">bounded=${research.bounded_translation_ready ? "yes" : "no"} | production=${research.translation_ready ? "yes" : "no"}</div>
+        </div>
+        <div class="status-card">
+          <div class="label">Providers</div>
+          <div class="value">${readyProviders} ready / ${blockedProviders} blocked</div>
+          <div class="sub">${providers.length} provider routes in current workspace</div>
+        </div>
+        <div class="status-card">
+          <div class="label">Run Pressure</div>
+          <div class="value">${failedCount} failed / ${manualCount} manual</div>
+          <div class="sub">${escapeHtml(status.run_id || "no run")}</div>
+        </div>
+      `;
+    }
+
+    function renderChapterMatrix(snapshot) {
+      const wrap = document.getElementById("chapterMatrix");
+      const summary = snapshot?.status?.chapter_summary || {};
+      const chapterIds = snapshot?.status?.chapter_ids || [];
+      if (!chapterIds.length) {
+        wrap.className = "empty";
+        wrap.textContent = "No chapter matrix available.";
+        return;
+      }
+      const cards = chapterIds.map((chapterId) => {
+        const item = summary[chapterId] || {};
+        const failed = item.failed_blocks || [];
+        const pending = item.pending_blocks || [];
+        return `
+          <div class="chapter-card">
+            <div class="label">${escapeHtml(chapterId)}</div>
+            <div class="value">${item.completed_blocks ?? 0}/${item.expected_blocks ?? 0} complete</div>
+            <div class="sub">failed: ${failed.length ? escapeHtml(failed.join(", ")) : "none"}</div>
+            <div class="sub">pending: ${pending.length ? escapeHtml(pending.join(", ")) : "none"}</div>
+            <div class="sub">output: ${item.output_exists ? "exists" : "missing"}</div>
+          </div>
+        `;
+      }).join("");
+      wrap.className = "chapter-matrix";
+      wrap.innerHTML = cards;
+    }
+
     function renderChapterTable(snapshot) {
       const wrap = document.getElementById("chapterTableWrap");
       const summary = snapshot?.status?.chapter_summary || {};
@@ -1253,6 +1387,46 @@ def _render_operator_html() -> str:
         li.textContent = action;
         list.appendChild(li);
       }
+    }
+
+    function renderCurrentBlocker(snapshot) {
+      const wrap = document.getElementById("currentBlocker");
+      const status = snapshot?.status || {};
+      const preflight = snapshot?.preflight || {};
+      const failed = status.current_failed_blocks || [];
+      const manualActions = (status.manual_actions || []).filter((item) => String(item || "").trim().toLowerCase() !== "none");
+      const blocking = preflight.blocking_reasons || [];
+      const warnings = preflight.warnings || [];
+
+      let pillClass = "ok";
+      let title = "No active blocker";
+      let detail = "Normal bounded operation is allowed.";
+
+      if (blocking.length) {
+        pillClass = "danger";
+        title = "Preflight blocking";
+        detail = blocking.join(" | ");
+      } else if (failed.length) {
+        pillClass = "danger";
+        title = "Failed blocks present";
+        detail = failed.join(", ");
+      } else if (manualActions.length) {
+        pillClass = "danger";
+        title = "Manual action required";
+        detail = manualActions.join(" | ");
+      } else if (preflight.status === "degraded" || warnings.length) {
+        pillClass = "";
+        title = "Bounded-only caution";
+        detail = warnings.join(" | ") || preflight.next_safe_action || "Use bounded controls only.";
+      }
+
+      wrap.className = "";
+      wrap.innerHTML = `
+        <div class="stack">
+          <div><span class="pill ${pillClass}">${escapeHtml(title)}</span></div>
+          <div class="mono">${escapeHtml(detail)}</div>
+        </div>
+      `;
     }
 
     function renderResearchReadiness(snapshot) {
@@ -1374,17 +1548,43 @@ def _render_operator_html() -> str:
       wrap.innerHTML = `<ul class="artifact-list">${rows}</ul>`;
     }
 
+    function logActivity(kind, title, detail, status = "ok") {
+      const stamp = new Date().toLocaleTimeString();
+      state.activityLog.unshift({ kind, title, detail, status, stamp });
+      state.activityLog = state.activityLog.slice(0, 10);
+      renderActivityLog();
+    }
+
+    function renderActivityLog() {
+      const wrap = document.getElementById("activityLog");
+      if (!state.activityLog.length) {
+        wrap.innerHTML = `<li class="empty">No activity yet.</li>`;
+        return;
+      }
+      wrap.innerHTML = state.activityLog.map((item) => `
+        <li>
+          <div><span class="pill ${item.status === "error" ? "danger" : item.status === "warn" ? "" : "ok"}">${escapeHtml(item.kind)}</span></div>
+          <div class="mono" style="margin-top:6px;">${escapeHtml(item.stamp)} — ${escapeHtml(item.title)}</div>
+          <div class="mono" style="margin-top:4px;">${escapeHtml(item.detail || "none")}</div>
+        </li>
+      `).join("");
+    }
+
     function renderSnapshot(snapshot) {
       state.snapshot = snapshot;
       const runId = snapshot?.run_id || "";
       setRunId(runId);
+      renderRunSelector(snapshot);
       document.getElementById("runTitle").textContent = runId || "No run loaded";
       document.getElementById("runSubtitle").textContent = snapshot?.available_run_ids?.length
         ? `${snapshot.available_run_ids.length} known run IDs in ledger.`
         : "No runs recorded.";
       document.getElementById("nextAction").textContent = snapshot?.status?.next_effective_action || "none";
       renderMetrics(snapshot);
+      renderStatusStrip(snapshot);
+      renderChapterMatrix(snapshot);
       renderChapterTable(snapshot);
+      renderCurrentBlocker(snapshot);
       renderResearchReadiness(snapshot);
       renderResearchProfileEditor(snapshot);
       renderPreflight(snapshot);
@@ -1398,6 +1598,7 @@ def _render_operator_html() -> str:
       const response = await fetch(`/api/bootstrap${query}`);
       const data = await response.json();
       renderSnapshot(data);
+      logActivity("snapshot", runId || data.run_id || "latest", response.ok ? "Snapshot loaded." : (data.error || "Snapshot failed."), response.ok ? "ok" : "error");
       if (data.run_id) {
         await loadGlossaryQueue(data.run_id);
       }
@@ -1462,8 +1663,10 @@ def _render_operator_html() -> str:
       const wrap = document.getElementById("glossaryDecision");
       if (!response.ok) {
         wrap.innerHTML = `<div class="empty">${escapeHtml(data.error || "Failed to load suggestions.")}</div>`;
+        logActivity("glossary", term, data.error || "Failed to load suggestions.", "error");
         return;
       }
+      logActivity("glossary", data.term || term, "Loaded Thai suggestion options.");
       currentGlossarySuggestion = data;
       const optionRows = (data.options || []).map((option, index) => {
         const rationale = (data.rationales || [])[index] || "";
@@ -1514,6 +1717,7 @@ def _render_operator_html() -> str:
       const data = await response.json();
       if (!response.ok) {
         document.getElementById("actionResult").innerHTML = `<div class="empty">${escapeHtml(data.error || "Glossary decision failed.")}</div>`;
+        logActivity("glossary", currentGlossarySuggestion.term, data.error || "Glossary decision failed.", "error");
         return;
       }
       const decisionWrap = document.getElementById("glossaryDecision");
@@ -1532,6 +1736,7 @@ def _render_operator_html() -> str:
       if (data.snapshot) {
         renderSnapshot(data.snapshot);
       }
+      logActivity("glossary", data.term, data.committed ? "Decision saved and glossary approval committed." : "Decision saved and queue updated.");
       await loadGlossaryQueue(data.run_id || state.runId);
     }
 
@@ -1546,6 +1751,7 @@ def _render_operator_html() -> str:
       const data = await response.json();
       if (!response.ok) {
         document.getElementById("inspectResult").innerHTML = `<div class="empty">${escapeHtml(data.error || "Inspect failed.")}</div>`;
+        logActivity("inspect", blockId, data.error || "Inspect failed.", "error");
         return;
       }
       const artifactEntries = Object.entries(data.artifact_paths || {}).map(([stage, path]) => {
@@ -1569,6 +1775,7 @@ def _render_operator_html() -> str:
           <div class="mono">ledger records: ${(data.records || []).length}</div>
         </div>
       `;
+      logActivity("inspect", blockId, data.next_pending_stage ? `Pending ${data.next_pending_stage}.` : "Block complete.");
     }
 
     async function generateReport(kind) {
@@ -1585,6 +1792,7 @@ def _render_operator_html() -> str:
       const data = await response.json();
       if (!response.ok) {
         document.getElementById("reportResult").innerHTML = `<div class="empty">${escapeHtml(data.error || "Report generation failed.")}</div>`;
+        logActivity("report", kind, data.error || "Report generation failed.", "error");
         return;
       }
       document.getElementById("reportResult").innerHTML = `
@@ -1593,6 +1801,7 @@ def _render_operator_html() -> str:
           <div>${fileLink(data.path, data.path)}</div>
         </div>
       `;
+      logActivity("report", kind, data.path, data.actionable_failure ? "warn" : "ok");
     }
 
     async function runAction(action, payload) {
@@ -1605,6 +1814,7 @@ def _render_operator_html() -> str:
       const target = document.getElementById("actionResult");
       if (!response.ok) {
         target.innerHTML = `<div class="empty">${escapeHtml(data.error || "Action failed.")}</div>`;
+        logActivity(action, payload.run_id || state.runId || "none", data.error || "Action failed.", "error");
         return;
       }
       const initPaths = data.paths || data.snapshot?.init_novel_paths || null;
@@ -1621,10 +1831,18 @@ def _render_operator_html() -> str:
           await loadGlossaryQueue(data.snapshot.run_id);
         }
       }
+      logActivity(action, payload.run_id || state.runId || "workspace", data.output || "Action completed.");
     }
 
     document.getElementById("loadRunBtn").addEventListener("click", () => loadSnapshot(runIdInput.value.trim()));
     document.getElementById("refreshBtn").addEventListener("click", () => loadSnapshot(state.runId || runIdInput.value.trim()));
+    runSelector.addEventListener("change", () => {
+      const runId = runSelector.value.trim();
+      runIdInput.value = runId;
+      if (runId) {
+        loadSnapshot(runId);
+      }
+    });
     document.getElementById("inspectBtn").addEventListener("click", inspectBlock);
     document.getElementById("initNovelBtn").addEventListener("click", () => {
       const projectRoot = initProjectRoot.value.trim();

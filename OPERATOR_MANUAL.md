@@ -89,12 +89,17 @@ This is the practical runbook. It should help the operator proceed without guess
 - V5.2 complete: canonical docs and memory cleanup are closed; the root doc set is now explicit and legacy overlapping docs are retired.
 - V5.3 complete: preflight diagnostics, recovery drill reporting, operator recovery hints, quick links, and canonical recovery checklist are now part of the accepted hardening baseline.
 - V5.4 complete: generated report refreshes under `07_Reports/` no longer degrade preflight/product-review by themselves.
-- Next planned backlog milestone: `V6.0 Operator Control Dashboard`.
+- V6.0 active: `Operator Control Dashboard`.
 - V6.0 intent:
   - denser translation control dashboard
   - dedicated glossary approval workbench
   - clearer bounded recovery and block-inspection surface
-- No active delivery milestone after V5.4 until `V6.0` is explicitly started.
+- V6.0A first round landed:
+  - run selector from known run IDs
+  - preflight/provider status strip
+  - chapter progress matrix
+  - current blocker panel
+  - recent activity log
 
 ## Standard Preflight
 

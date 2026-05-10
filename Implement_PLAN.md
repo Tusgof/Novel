@@ -511,7 +511,7 @@ After V5.4 there is no active delivery milestone. Future work should still be op
 
 Goal: turn the current functional operator window into a denser control dashboard for daily translation operations, without widening execution risk.
 
-Status: planned backlog after V5.4 closure.
+Status: active on 2026-05-10.
 
 Why this is separate from V4.0/V5.0:
 
@@ -530,6 +530,12 @@ Planned slices:
     - provider/preflight strip
     - recent action/result log
   - done when the operator can understand current run state without jumping across multiple panels
+  - first implementation round landed on 2026-05-10:
+    - run selector wired from known ledger run IDs
+    - chapter progress matrix added above the detailed chapter table
+    - preflight/provider status strip added
+    - current blocker panel added
+    - recent activity log added for snapshot/report/inspect/action events
 
 - V6.0B: Translation control actions
   - clearer start/stop/resume/recovery controls for:
