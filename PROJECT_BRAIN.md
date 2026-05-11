@@ -202,7 +202,7 @@ Active:
 - V5.2 complete: canonical root docs are reduced to the three durable source-of-truth files and legacy overlapping root docs are retired
 - V5.3 complete: post-complete hardening now includes a generated preflight diagnostics artifact, accepted recovery-drill evidence, operator recovery command hints/quick links, and a canonical recovery checklist template
 - V5.4 complete: preflight readiness now ignores churn in known generated report artifacts so report refreshes do not falsely degrade the accepted baseline
-- V6.0 active: operator control dashboard work has started for denser translation control, glossary workbench UX, and bounded recovery visibility
+- V6.0 complete: operator control dashboard now exposes denser translation control, glossary workbench UX, bounded recovery visibility, and an explicit accepted guardrail panel
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, artifact viewing, novel-project scaffold, and bounded batch-start actions
@@ -313,7 +313,7 @@ Next milestones after product-complete:
 - `V5.2`: complete
 - `V5.3`: complete
 - `V5.4`: complete
-- `V6.0`: active
+- `V6.0`: complete
 - accepted V5.3 hardening baseline:
   - `07_Reports/preflight_report.md`
   - `07_Reports/recovery_drill.md`
@@ -323,12 +323,13 @@ Next milestones after product-complete:
   - readiness ignores known generated report churn under `07_Reports/`
   - preflight still degrades on ordinary dirty tracked files
 - current delivery milestone:
-  - `V6.0 Operator Control Dashboard`
-  - current slice: `V6.0E` acceptance and guardrails
+  - `V6.0 Operator Control Dashboard` complete
   - `V6.0A` complete: the dashboard now has run selector, preflight/provider strip, run overview, chapter matrix, current blocker panel, next safe action visibility, and recent activity log
   - `V6.0B` complete: batch/resume/rerun controls now show exact command previews, scope, and guardrails before execution and echo the command in action results
   - `V6.0C` complete: glossary workbench now shows batch progress, per-term note-history intersections, suggestion context, and selected decision preview in one surface
   - `V6.0D` complete: inspect workbench now shows source-through-formatted artifacts, latest stage state, cleanliness findings, and direct rerun-target preparation
+  - `V6.0E` complete: the dashboard now surfaces the accepted bounded-action model directly, including allowed state-changing actions, bounded translation rules, and visible report kinds
+  - after `V6.0`, there is no active delivery milestone until a new backlog item is opened explicitly
 
 ## Invariants And Guardrails
 

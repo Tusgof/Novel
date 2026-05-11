@@ -89,7 +89,7 @@ This is the practical runbook. It should help the operator proceed without guess
 - V5.2 complete: canonical docs and memory cleanup are closed; the root doc set is now explicit and legacy overlapping docs are retired.
 - V5.3 complete: preflight diagnostics, recovery drill reporting, operator recovery hints, quick links, and canonical recovery checklist are now part of the accepted hardening baseline.
 - V5.4 complete: generated report refreshes under `07_Reports/` no longer degrade preflight/product-review by themselves.
-- V6.0 active: `Operator Control Dashboard`.
+- V6.0 complete: `Operator Control Dashboard`.
 - V6.0 intent:
   - denser translation control dashboard
   - dedicated glossary approval workbench
@@ -113,7 +113,14 @@ This is the practical runbook. It should help the operator proceed without guess
   - inspect workbench now shows source, literal, refined, QA, and formatted artifact links together
   - latest stage state and formatted validation findings are visible in one view
   - inspect can prefill rerun-block targets into the recovery controls
-- next slice: `V6.0E` acceptance and guardrails
+- V6.0E complete:
+  - dashboard now shows an `Accepted Guardrails` panel
+  - the accepted bounded-action model is visible in one place:
+    - allowed state-changing actions only
+    - bounded translation rules
+    - visible report kinds
+  - no broad unbounded execution action was added while closing the dashboard milestone
+- no active delivery milestone is open right now
 
 ## Standard Preflight
 

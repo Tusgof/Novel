@@ -4619,6 +4619,41 @@ reviewed_by: Operator
     assert any(item["label"] == "Product Review" for item in snapshot["quick_links"])
 
 
+def test_operator_snapshot_includes_dashboard_guardrails():
+    """Operator snapshot exposes the accepted bounded-action model for the dashboard."""
+    import tempfile
+    from novel_pipeline.config import load_app_config
+    from novel_pipeline.operator_ui import build_operator_snapshot
+
+    base = Path(tempfile.mkdtemp(prefix="novel-operator-guardrails-"))
+    config_path = _write_research_profile_test_workspace(
+        base,
+        """schema_version: 1
+title: Deep Sea Embers
+source_url: https://example.com/toc
+status: active
+synopsis: Nautical dark fantasy with a slow-burn mystery.
+tags:
+  - nautical dark fantasy
+style_notes: Blend eerie maritime atmosphere with grounded reactions.
+last_reviewed_at: 2026-05-10T00:00:00+07:00
+reviewed_by: Operator
+""",
+    )
+    config = load_app_config(config_path)
+    with patch("novel_pipeline.operator_ui.build_preflight_summary", return_value={"status": "ready", "next_safe_action": "Preflight is ready for normal production."}), \
+         patch("novel_pipeline.operator_ui.status_run", return_value={"next_effective_action": "none", "manual_actions": [], "current_failed_blocks": []}):
+        snapshot = build_operator_snapshot(config, run_id="batch-ch019-ch023-v1")
+
+    guardrails = snapshot["dashboard_guardrails"]
+    assert "run-batch" in guardrails["allowed_state_actions"]
+    assert "rerun-block" in guardrails["allowed_state_actions"]
+    assert "product-review" in guardrails["visible_report_kinds"]
+    assert guardrails["run_batch_requires_run_id"] is True
+    assert guardrails["resume_manual_action_mode"] == "stop"
+    assert guardrails["broad_unbounded_actions_exposed"] is False
+
+
 def test_render_operator_html_contains_v6_dashboard_elements():
     from novel_pipeline.operator_ui import _render_operator_html
 
@@ -4634,6 +4669,7 @@ def test_render_operator_html_contains_v6_dashboard_elements():
     assert 'id="rerunPreview"' in html
     assert 'id="glossaryProgress"' in html
     assert 'id="glossaryDecisionPreview"' in html
+    assert 'id="dashboardGuardrails"' in html
 
 
 def test_build_glossary_suggestion_snapshot_returns_provider_options():

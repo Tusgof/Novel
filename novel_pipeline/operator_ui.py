@@ -49,6 +49,28 @@ from novel_pipeline.reports import (
 )
 from novel_pipeline.types import AppConfig, GlossaryEntry, ResearchProfile, TermSuggestion
 
+_OPERATOR_REPORT_KINDS: tuple[str, ...] = (
+    "checkpoint",
+    "cleanliness",
+    "provider-usage",
+    "preflight",
+    "recovery-drill",
+    "product-review",
+    "glossary-decisions",
+    "glossary-conflicts",
+    "glossary-audit",
+    "glossary-guard",
+)
+
+_OPERATOR_STATE_ACTIONS: tuple[str, ...] = (
+    "init-novel",
+    "save-research-profile",
+    "glossary-decision",
+    "run-batch",
+    "resume",
+    "rerun-block",
+)
+
 
 def _latest_run_id(config: AppConfig) -> str | None:
     ledger = RunLedger(config.ledger_path)
@@ -224,6 +246,23 @@ def _operator_quick_links(config: AppConfig, run_id: str | None) -> list[dict[st
     return links
 
 
+def _operator_dashboard_guardrails() -> dict[str, Any]:
+    return {
+        "allowed_state_actions": list(_OPERATOR_STATE_ACTIONS),
+        "visible_report_kinds": list(_OPERATOR_REPORT_KINDS),
+        "run_batch_requires_run_id": True,
+        "run_batch_requires_chapter_range": True,
+        "run_batch_allowed_modes": ["bounded", "glossary-scan"],
+        "resume_requires_boundary": True,
+        "resume_manual_action_mode": "stop",
+        "rerun_requires_block_and_stage": True,
+        "glossary_current_queue_only": True,
+        "research_readiness_gate": "bounded",
+        "inspect_prefill_only": True,
+        "broad_unbounded_actions_exposed": False,
+    }
+
+
 def generate_operator_report(
     *,
     config: AppConfig,
@@ -280,6 +319,7 @@ def build_operator_snapshot(config: AppConfig, run_id: str | None = None) -> dic
         "research_profile": _research_profile_snapshot(config),
         "research_readiness": config.research_readiness_summary(),
         "preflight": preflight,
+        "dashboard_guardrails": _operator_dashboard_guardrails(),
         "command_hints": _operator_command_hints(config, resolved_run_id, status, preflight),
         "quick_links": _operator_quick_links(config, resolved_run_id),
     }
@@ -1186,6 +1226,12 @@ def _render_operator_html() -> str:
           </section>
 
           <section class="panel">
+            <h3>Accepted Guardrails</h3>
+            <p class="meta">The dashboard safety model that must stay true as controls get denser.</p>
+            <div id="dashboardGuardrails" class="empty">No guardrails loaded.</div>
+          </section>
+
+          <section class="panel">
             <h3>Research Readiness</h3>
             <p class="meta">Readiness contract for bounded translation versus normal production.</p>
             <div id="researchReadiness" class="empty">No research profile loaded.</div>
@@ -1974,6 +2020,35 @@ def _render_operator_html() -> str:
       wrap.innerHTML = `<ul class="artifact-list">${rows}</ul>`;
     }
 
+    function renderDashboardGuardrails(snapshot) {
+      const wrap = document.getElementById("dashboardGuardrails");
+      const guardrails = snapshot?.dashboard_guardrails || {};
+      if (!Object.keys(guardrails).length) {
+        wrap.className = "empty";
+        wrap.textContent = "No guardrails loaded.";
+        return;
+      }
+      const actions = (guardrails.allowed_state_actions || []).map((item) => `<span class="pill ok">${escapeHtml(item)}</span>`).join(" ");
+      const reports = (guardrails.visible_report_kinds || []).map((item) => `<span class="pill">${escapeHtml(item)}</span>`).join(" ");
+      wrap.className = "";
+      wrap.innerHTML = `
+        <div class="stack">
+          <div><strong>Allowed state-changing actions</strong></div>
+          <div>${actions || '<span class="empty">none</span>'}</div>
+          <ul class="issues-list">
+            <li>run-batch requires explicit run ID and chapter range; allowed modes: ${escapeHtml((guardrails.run_batch_allowed_modes || []).join(", ") || "none")}</li>
+            <li>resume requires an explicit boundary and always uses manual-action-mode=${escapeHtml(guardrails.resume_manual_action_mode || "unknown")}</li>
+            <li>rerun-block requires exactly one block ID plus one stage</li>
+            <li>research readiness gate for translation actions: ${escapeHtml(guardrails.research_readiness_gate || "unknown")}</li>
+            <li>glossary decisions stay limited to current queue terms; inspect only prefills recovery targets</li>
+            <li>broad unbounded actions exposed: ${guardrails.broad_unbounded_actions_exposed ? "yes" : "no"}</li>
+          </ul>
+          <div><strong>Visible report kinds</strong></div>
+          <div>${reports || '<span class="empty">none</span>'}</div>
+        </div>
+      `;
+    }
+
     function logActivity(kind, title, detail, status = "ok") {
       const stamp = new Date().toLocaleTimeString();
       state.activityLog.unshift({ kind, title, detail, status, stamp });
@@ -2024,6 +2099,7 @@ def _render_operator_html() -> str:
       renderPreflight(snapshot);
       renderCommandHints(snapshot);
       renderQuickLinks(snapshot);
+      renderDashboardGuardrails(snapshot);
       renderManualActions(snapshot);
       renderActionPreviews();
     }

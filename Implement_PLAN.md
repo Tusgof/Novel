@@ -511,7 +511,7 @@ After V5.4 there is no active delivery milestone. Future work should still be op
 
 Goal: turn the current functional operator window into a denser control dashboard for daily translation operations, without widening execution risk.
 
-Status: active on 2026-05-10.
+Status: complete on 2026-05-11.
 
 Why this is separate from V4.0/V5.0:
 
@@ -588,6 +588,10 @@ Planned slices:
     - research-readiness gating
     - deterministic verification/report visibility
   - done when the richer dashboard does not weaken the accepted safety model
+  - complete on 2026-05-11:
+    - operator snapshot now exposes the accepted guardrail contract directly
+    - dashboard UI now shows the allowed state-changing actions, bounded translation rules, and visible report kinds in one panel
+    - no new unbounded state-changing action was introduced while closing `V6.0`
 
 Acceptance criteria:
 
@@ -596,6 +600,13 @@ Acceptance criteria:
 - translation/recovery actions remain bounded and auditable
 - compile/tests pass
 - docs and operator runbook are synced
+
+Accepted because:
+
+- operator snapshot now exposes an explicit bounded-action guardrail model
+- the dashboard renders the same guardrail model in the UI
+- compile/tests passed after the `V6.0E` changes
+- the accepted safety model from `V5.x` remains intact while the denser dashboard controls are visible in one place
 
 Not part of V6.0:
 
