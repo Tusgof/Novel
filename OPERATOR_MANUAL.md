@@ -128,7 +128,10 @@ This is the practical runbook. It should help the operator proceed without guess
     - mixed active vs historical files in `07_Reports/`
     - canonical doc naming inconsistency around `IMPLEMENT_PLAN.md`
     - disposable local cache such as `__pycache__/`
-- next slice: `V6.1B` canonical naming and doc path cleanup
+- V6.1B complete:
+  - active code, templates, tests, and canonical docs now use `IMPLEMENT_PLAN.md` consistently
+  - the canonical roadmap path is normalized for recovery and quick-link flows
+- next slice: `V6.1C` archive and repo-surface cleanup
 
 ## Standard Preflight
 

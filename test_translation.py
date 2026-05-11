@@ -2551,8 +2551,8 @@ def test_recovery_drill_report_generation_writes_expected_markdown():
             ("remote", "get-url", "origin"): (True, "https://example.com/repo.git"),
             ("ls-files", "--error-unmatch", "PROJECT_BRAIN.md"): (True, "PROJECT_BRAIN.md"),
             ("show", "HEAD:PROJECT_BRAIN.md"): (True, "brain"),
-            ("ls-files", "--error-unmatch", "Implement_PLAN.md"): (True, "Implement_PLAN.md"),
-            ("show", "HEAD:Implement_PLAN.md"): (True, "plan"),
+            ("ls-files", "--error-unmatch", "IMPLEMENT_PLAN.md"): (True, "IMPLEMENT_PLAN.md"),
+            ("show", "HEAD:IMPLEMENT_PLAN.md"): (True, "plan"),
             ("ls-files", "--error-unmatch", "OPERATOR_MANUAL.md"): (True, "OPERATOR_MANUAL.md"),
             ("show", "HEAD:OPERATOR_MANUAL.md"): (True, "manual"),
             ("check-ignore", "03_Raw"): (True, "03_Raw"),
@@ -4599,7 +4599,7 @@ reviewed_by: Operator
     )
     workspace_root = base / "workspace"
     (workspace_root / "PROJECT_BRAIN.md").write_text("brain\n", encoding="utf-8")
-    (workspace_root / "Implement_PLAN.md").write_text("plan\n", encoding="utf-8")
+    (workspace_root / "IMPLEMENT_PLAN.md").write_text("plan\n", encoding="utf-8")
     (workspace_root / "OPERATOR_MANUAL.md").write_text("manual\n", encoding="utf-8")
     reports_dir = workspace_root / "07_Reports"
     reports_dir.mkdir(parents=True, exist_ok=True)

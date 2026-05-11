@@ -226,7 +226,7 @@ def _operator_quick_links(config: AppConfig, run_id: str | None) -> list[dict[st
     root = config.workspace.root
     candidates = [
         ("Project Brain", root / "PROJECT_BRAIN.md"),
-        ("Implement Plan", root / "Implement_PLAN.md"),
+        ("Implement Plan", root / "IMPLEMENT_PLAN.md"),
         ("Operator Manual", root / "OPERATOR_MANUAL.md"),
         ("Research Profile", root / "RESEARCH_PROFILE.yaml"),
         ("Preflight Report", root / "07_Reports" / "preflight_report.md"),

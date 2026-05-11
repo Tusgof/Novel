@@ -1154,7 +1154,7 @@ def build_recovery_drill_report(*, config: Any, output: Path | None = None) -> d
 
     canonical_paths = [
         "PROJECT_BRAIN.md",
-        "Implement_PLAN.md",
+        "IMPLEMENT_PLAN.md",
         "OPERATOR_MANUAL.md",
     ]
     canonical_rows: list[dict[str, str]] = []

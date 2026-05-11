@@ -643,6 +643,9 @@ Planned slices:
   - normalize durable doc references so the canonical filenames are referred to consistently
   - remove or fix stale references that point to retired or mis-cased root docs
   - done when canonical docs have one stable naming contract
+  - complete on 2026-05-11:
+    - active code, templates, tests, and canonical docs now use `IMPLEMENT_PLAN.md` consistently
+    - git-tracked canonical roadmap path is normalized to `IMPLEMENT_PLAN.md`
 
 - V6.1C: Archive and repo-surface cleanup
   - move non-operational benchmark/history artifacts out of the active working surface while keeping evidence restorable

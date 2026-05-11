@@ -138,10 +138,13 @@ Classification:
 
 ## Proposed Next Slice
 
-`V6.1B` - canonical naming and doc path cleanup.
+Update after execution:
+
+- `V6.1B` completed on 2026-05-11 by normalizing active references and git path casing to `IMPLEMENT_PLAN.md`
+- next cleanup slice is now `V6.1C`
+
+`V6.1C` - archive and repo-surface cleanup.
 
 Reason:
 
-- highest signal-to-risk ratio
-- small surface area
-- improves clarity before larger archive cleanup
+- report/history and helper-script surface is the next largest practical clutter source after naming normalization

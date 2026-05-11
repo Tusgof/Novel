@@ -332,10 +332,10 @@ Next milestones after product-complete:
   - `V6.0E` complete: the dashboard now surfaces the accepted bounded-action model directly, including allowed state-changing actions, bounded translation rules, and visible report kinds
   - `V6.1 System Review, Verification, And Cleanup` active
   - `V6.1A` complete: repo audit captured cleanup candidates and classified the main risks before any destructive changes
+  - `V6.1B` complete: canonical naming is now normalized around `IMPLEMENT_PLAN.md` across active code, templates, tests, and canonical docs
   - next cleanup pressure points:
     - benchmark/test helper scripts in `scripts/`
     - mixed active vs historical artifacts in `07_Reports/`
-    - canonical doc naming inconsistency around `IMPLEMENT_PLAN.md`
     - disposable local cache such as `__pycache__/`
 
 ## Invariants And Guardrails
