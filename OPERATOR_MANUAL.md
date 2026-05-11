@@ -131,7 +131,11 @@ This is the practical runbook. It should help the operator proceed without guess
 - V6.1B complete:
   - active code, templates, tests, and canonical docs now use `IMPLEMENT_PLAN.md` consistently
   - the canonical roadmap path is normalized for recovery and quick-link flows
-- next slice: `V6.1C` archive and repo-surface cleanup
+- V6.1C complete:
+  - benchmark/history reports now live under `07_Reports/archive/`
+  - benchmark/debug helper scripts now live under `scripts/archive/benchmarks/`
+  - disposable local cache such as `__pycache__/` has been removed from the active repo surface
+- next slice: `V6.1D` verification and clean baseline refresh
 
 ## Standard Preflight
 
@@ -188,6 +192,7 @@ Current generated artifacts:
 - `07_Reports/glossary_guard_batch-ch019-ch023-v1.md`
 - `07_Reports/preflight_report.md`
 - `07_Reports/recovery_drill.md`
+- historical and benchmark artifacts are intentionally moved under `07_Reports/archive/`
 - `00_Templates/Recovery-Drill-Checklist.md`
 
 V4.1 setup artifacts:

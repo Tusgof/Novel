@@ -141,10 +141,11 @@ Classification:
 Update after execution:
 
 - `V6.1B` completed on 2026-05-11 by normalizing active references and git path casing to `IMPLEMENT_PLAN.md`
-- next cleanup slice is now `V6.1C`
+- `V6.1C` completed on 2026-05-11 by archiving benchmark/history artifacts and moving benchmark/debug helper scripts off the active repo surface
+- next cleanup slice is now `V6.1D`
 
-`V6.1C` - archive and repo-surface cleanup.
+`V6.1D` - verification and clean baseline refresh.
 
 Reason:
 
-- report/history and helper-script surface is the next largest practical clutter source after naming normalization
+- cleanup execution is done; the remaining work is proving that compile/tests/preflight/product-review still hold after the archive moves

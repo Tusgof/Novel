@@ -70,7 +70,7 @@ Core components:
 - `04_Work/`: per-block and batch artifacts.
 - `05_Output/`: final chapter Markdown.
 - `06_Logs/run_ledger.jsonl`: append-only execution ledger.
-- `07_Reports/`: scan, classification, approval, checkpoint, benchmark, and spot-check reports.
+- `07_Reports/`: active operational reports at the root; historical/benchmark artifacts under `07_Reports/archive/`.
 
 State model:
 
@@ -106,7 +106,7 @@ Operational supporting docs that stay separate:
 - `FETCH_ADAPTER_PLAYBOOK.md`: adapter design/validation workflow
 - `RESEARCH_PROFILE_PLAYBOOK.md`: research collection workflow
 - `00_Templates/`: reusable checklists and scaffolds
-- `07_Reports/`: historical evidence, checkpoints, spot-checks, and generated reports
+- `07_Reports/`: active operational evidence at the root plus archived historical/benchmark evidence under `07_Reports/archive/`
 
 Retired root docs:
 
@@ -333,10 +333,9 @@ Next milestones after product-complete:
   - `V6.1 System Review, Verification, And Cleanup` active
   - `V6.1A` complete: repo audit captured cleanup candidates and classified the main risks before any destructive changes
   - `V6.1B` complete: canonical naming is now normalized around `IMPLEMENT_PLAN.md` across active code, templates, tests, and canonical docs
+  - `V6.1C` complete: benchmark/history artifacts now live under archive paths and benchmark/debug helper scripts no longer crowd the active repo surface
   - next cleanup pressure points:
-    - benchmark/test helper scripts in `scripts/`
-    - mixed active vs historical artifacts in `07_Reports/`
-    - disposable local cache such as `__pycache__/`
+    - final verification and baseline refresh after archive moves
 
 ## Invariants And Guardrails
 
@@ -547,7 +546,8 @@ Worker model restrictions:
   - `.system/providers.yaml`
   - `D:\Fogust\Workspace\Novel\AGENTS.md`
 - Historical evidence:
-  - `07_Reports/`
+  - active operational reports remain in `07_Reports/`
+  - archived history and benchmarks now live in `07_Reports/archive/`
 
 ## Roles
 

@@ -652,6 +652,11 @@ Planned slices:
   - remove disposable local caches that should never be treated as durable state
   - avoid touching accepted runtime evidence or canonical reports needed by product review/preflight
   - done when the active repo surface is materially cleaner without losing important audit history
+  - complete on 2026-05-11:
+    - benchmark and one-off diagnostic reports were moved under `07_Reports/archive/`
+    - doc-memory backup artifacts were moved under `07_Reports/archive/history/`
+    - benchmark/debug helper scripts were moved under `scripts/archive/benchmarks/`
+    - local `__pycache__/` was removed from the active repo surface
 
 - V6.1D: Verification and clean baseline refresh
   - rerun compile/tests/preflight/product-review after cleanup
