@@ -204,6 +204,7 @@ Active:
 - V5.4 complete: preflight readiness now ignores churn in known generated report artifacts so report refreshes do not falsely degrade the accepted baseline
 - V6.0 complete: operator control dashboard now exposes denser translation control, glossary workbench UX, bounded recovery visibility, and an explicit accepted guardrail panel
 - V6.1 complete: system review, naming normalization, archive cleanup, and post-cleanup verification are closed
+- V6.2 complete: dashboard UX polish and report-surface separation now keep `07_Reports/` root operational and expose active vs archived report surfaces directly in the operator window
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, artifact viewing, novel-project scaffold, and bounded batch-start actions
@@ -525,6 +526,7 @@ Worker model restrictions:
 - 2026-04-29: V4.3 accepted. Research is now stored in `RESEARCH_PROFILE.yaml`, collected through a practical web-research playbook, and passed into translation/refinement/QA prompts as concise context.
 - 2026-05-10: V5.3 accepted. Post-complete hardening now has a generated preflight diagnostics artifact, accepted recovery-drill evidence, operator recovery hints/quick links, and a canonical recovery checklist without expanding product scope.
 - 2026-05-10: V5.4 accepted. Generated report refreshes no longer cause false dirty-tree degradation in preflight/product-review, while ordinary tracked-file drift still degrades readiness as intended.
+- 2026-05-11: V6.2 accepted. Historical run evidence moved under `07_Reports/archive/history/`, the root report surface now contains operational baselines only, and the dashboard now renders active report workspace and archive context separately.
 
 ## Document Map
 
@@ -548,6 +550,7 @@ Worker model restrictions:
 - Historical evidence:
   - active operational reports remain in `07_Reports/`
   - archived history and benchmarks now live in `07_Reports/archive/`
+  - archived run evidence is being tightened under `07_Reports/archive/history/` so the root report surface stays operational
 
 ## Roles
 
@@ -577,23 +580,23 @@ Worker model restrictions:
 
 V3.7:
 
-- `07_Reports/production_dry_run_batch_ch004_ch008_v2.md`
-- `07_Reports/spot_check_batch_ch004_ch008_v2.md`
+- `07_Reports/archive/history/v3_7/production_dry_run_batch_ch004_ch008_v2.md`
+- `07_Reports/archive/history/v3_7/spot_check_batch_ch004_ch008_v2.md`
 
 V3.8:
 
-- `07_Reports/glossary_scan_batch-ch009-ch018-v1.md`
-- `07_Reports/glossary_classification_batch-ch009-ch018-v1.md`
-- `07_Reports/glossary_approval_decisions_batch-ch009-ch018-v1.md`
-- `07_Reports/ch009_failed_block_recovery_gpt54.md`
-- `07_Reports/ch009_block_006_qa_recovery.md`
-- `07_Reports/v3_8_phase3_ch010_ch013_checkpoint.md`
-- `07_Reports/v3_8_phase4_ch014_ch018_checkpoint.md`
-- `07_Reports/spot_check_batch_ch014_ch018_v1.md`
+- `07_Reports/archive/history/v3_8/glossary_scan_batch-ch009-ch018-v1.md`
+- `07_Reports/archive/history/v3_8/glossary_classification_batch-ch009-ch018-v1.md`
+- `07_Reports/archive/history/v3_8/glossary_approval_decisions_batch-ch009-ch018-v1.md`
+- `07_Reports/archive/history/v3_8/ch009_failed_block_recovery_gpt54.md`
+- `07_Reports/archive/history/v3_8/ch009_block_006_qa_recovery.md`
+- `07_Reports/archive/history/v3_8/v3_8_phase3_ch010_ch013_checkpoint.md`
+- `07_Reports/archive/history/v3_8/v3_8_phase4_ch014_ch018_checkpoint.md`
+- `07_Reports/archive/history/v3_8/spot_check_batch_ch014_ch018_v1.md`
 
 V3.9:
 
-- `07_Reports/glossary_scan_batch-ch019-ch023-v1.md`
-- `07_Reports/glossary_classification_batch-ch019-ch023-v1.md`
-- `07_Reports/glossary_approval_decisions_batch-ch019-ch023-v1.md`
-- `07_Reports/spot_check_batch_ch019_ch023_v1.md`
+- `07_Reports/archive/history/v3_9/glossary_scan_batch-ch019-ch023-v1.md`
+- `07_Reports/archive/history/v3_9/glossary_classification_batch-ch019-ch023-v1.md`
+- `07_Reports/archive/history/v3_9/glossary_approval_decisions_batch-ch019-ch023-v1.md`
+- `07_Reports/archive/history/v3_9/spot_check_batch_ch019_ch023_v1.md`

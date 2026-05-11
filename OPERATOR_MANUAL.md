@@ -140,7 +140,10 @@ This is the practical runbook. It should help the operator proceed without guess
   - `preflight` returned `ready`
   - `recovery-drill` remained `accepted`
   - `product-review` remained accepted after cleanup
-- no active delivery milestone is open right now
+- V6.2 complete:
+  - dashboard scan speed and report workspace clarity improved without changing the bounded execution model
+  - `07_Reports/` root now presents operational reports only; historical run evidence lives under `07_Reports/archive/history/`
+  - the operator window now shows a dedicated `Report Workspace` panel with active vs archive separation
 
 ## Standard Preflight
 
@@ -198,6 +201,7 @@ Current generated artifacts:
 - `07_Reports/preflight_report.md`
 - `07_Reports/recovery_drill.md`
 - historical and benchmark artifacts are intentionally moved under `07_Reports/archive/`
+- active dashboard work should treat `07_Reports/` root as operational surface and `07_Reports/archive/` as read-only history
 - `00_Templates/Recovery-Drill-Checklist.md`
 
 V4.1 setup artifacts:

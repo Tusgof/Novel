@@ -246,6 +246,91 @@ def _operator_quick_links(config: AppConfig, run_id: str | None) -> list[dict[st
     return links
 
 
+def _report_link_entry(label: str, path: Path) -> dict[str, str]:
+    return {"label": label, "path": str(path)}
+
+
+def _operator_report_surfaces(config: AppConfig, run_id: str | None) -> dict[str, Any]:
+    reports_root = config.workspace.root / "07_Reports"
+    archive_root = reports_root / "archive"
+
+    active_reference = [
+        ("Rollout Protocol", reports_root / "v3_10_repeatable_rollout_protocol.md"),
+        ("Preflight Report", reports_root / "preflight_report.md"),
+        ("Recovery Drill", reports_root / "recovery_drill.md"),
+    ]
+    active_generated: list[tuple[str, Path]] = []
+    if run_id:
+        active_generated.extend(
+            [
+                ("Product Review", reports_root / f"product_review_{run_id}.md"),
+                ("Checkpoint", reports_root / f"checkpoint_{run_id}.md"),
+                ("Provider Usage", reports_root / f"provider_usage_{run_id}.md"),
+                ("Glossary Decisions", reports_root / f"glossary_decisions_{run_id}.md"),
+                ("Glossary Conflicts", reports_root / f"glossary_conflicts_{run_id}.md"),
+                ("Glossary Audit", reports_root / f"glossary_audit_{run_id}.md"),
+                ("Glossary Guard", reports_root / f"glossary_guard_{run_id}.md"),
+            ]
+        )
+        active_generated.extend(
+            (
+                "Cleanliness",
+                path,
+            )
+            for path in sorted(reports_root.glob(f"cleanliness_{run_id}*.md"))
+        )
+
+    seen_paths: set[Path] = set()
+
+    def _existing(entries: list[tuple[str, Path]]) -> list[dict[str, str]]:
+        links: list[dict[str, str]] = []
+        for label, path in entries:
+            if path.exists() and path not in seen_paths:
+                seen_paths.add(path)
+                links.append(_report_link_entry(label, path))
+        return links
+
+    active = {
+        "reference": _existing(active_reference),
+        "generated": _existing(active_generated),
+        "other_root": [],
+        "count": 0,
+    }
+    root_files = sorted(
+        [
+            path
+            for path in reports_root.glob("*.md")
+            if path.exists() and path not in seen_paths
+        ],
+        key=lambda path: path.name.lower(),
+    )
+    active["other_root"] = [_report_link_entry(path.name, path) for path in root_files]
+    active["count"] = len(active["reference"]) + len(active["generated"]) + len(active["other_root"])
+
+    archive_groups: list[dict[str, Any]] = []
+    if archive_root.exists():
+        for group in sorted([path for path in archive_root.iterdir() if path.is_dir()], key=lambda path: path.name.lower()):
+            count = sum(1 for _ in group.rglob("*.md"))
+            archive_groups.append({"label": group.name, "count": count})
+    archive_recent = sorted(
+        archive_root.rglob("*.md") if archive_root.exists() else [],
+        key=lambda path: path.stat().st_mtime,
+        reverse=True,
+    )[:8]
+    archive = {
+        "groups": archive_groups,
+        "recent": [
+            {
+                "label": str(path.relative_to(reports_root)).replace("\\", "/"),
+                "path": str(path),
+            }
+            for path in archive_recent
+        ],
+        "count": sum(item["count"] for item in archive_groups),
+    }
+    return {"active": active, "archive": archive}
+
+
 def _operator_dashboard_guardrails() -> dict[str, Any]:
     return {
         "allowed_state_actions": list(_OPERATOR_STATE_ACTIONS),
@@ -322,6 +407,7 @@ def build_operator_snapshot(config: AppConfig, run_id: str | None = None) -> dic
         "dashboard_guardrails": _operator_dashboard_guardrails(),
         "command_hints": _operator_command_hints(config, resolved_run_id, status, preflight),
         "quick_links": _operator_quick_links(config, resolved_run_id),
+        "report_surfaces": _operator_report_surfaces(config, resolved_run_id),
     }
 
 
@@ -1109,6 +1195,21 @@ def _render_operator_html() -> str:
       padding: 0;
       list-style: none;
     }
+    .surface-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+    .surface-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      background: var(--surface-alt);
+    }
+    .surface-card h4 {
+      margin: 0 0 8px;
+      font-size: 13px;
+    }
     .artifact-list a, .report-link {
       color: var(--accent);
       text-decoration: none;
@@ -1158,8 +1259,11 @@ def _render_operator_html() -> str:
         </div>
       </section>
 
-          <section>
-            <label>Reports</label>
+      <section>
+            <label>Generate Active Reports</label>
+            <div class="footer-note" style="margin-bottom: 10px;">
+              These buttons regenerate current operational baselines only. Historical evidence stays under archive.
+            </div>
             <div class="grid-btns">
           <button class="ghost-dark" data-report="checkpoint">Checkpoint</button>
           <button class="ghost-dark" data-report="cleanliness">Cleanliness</button>
@@ -1287,6 +1391,12 @@ def _render_operator_html() -> str:
             <h3>Recent Report Output</h3>
             <p class="meta">Generated by the existing CLI report layer.</p>
             <div id="reportResult" class="empty">No report generated yet.</div>
+          </section>
+
+          <section class="panel">
+            <h3>Report Workspace</h3>
+            <p class="meta">Separate active operational reports from archived historical evidence.</p>
+            <div id="reportWorkspace" class="empty">No report workspace loaded.</div>
           </section>
         </div>
       </div>
@@ -2020,6 +2130,54 @@ def _render_operator_html() -> str:
       wrap.innerHTML = `<ul class="artifact-list">${rows}</ul>`;
     }
 
+    function renderReportWorkspace(snapshot) {
+      const wrap = document.getElementById("reportWorkspace");
+      const reportSurfaces = snapshot?.report_surfaces || {};
+      const active = reportSurfaces.active || {};
+      const archive = reportSurfaces.archive || {};
+      const renderLinks = (items) => {
+        if (!items || !items.length) {
+          return '<div class="empty">none</div>';
+        }
+        return `<ul class="artifact-list">${items.map((item) => `<li>${fileLink(item.path, item.label)}</li>`).join("")}</ul>`;
+      };
+      const archiveGroups = (archive.groups || []).length
+        ? `<ul class="issues-list">${archive.groups.map((item) => `<li><strong>${escapeHtml(item.label)}</strong> <span class="mono">${escapeHtml(String(item.count))} files</span></li>`).join("")}</ul>`
+        : '<div class="empty">none</div>';
+      wrap.className = "";
+      wrap.innerHTML = `
+        <div class="surface-grid">
+          <div class="surface-card">
+            <h4>Active operational reports</h4>
+            <div class="mono" style="margin-bottom:8px;">${escapeHtml(String(active.count || 0))} files at 07_Reports root</div>
+            <div class="footer-note" style="margin-bottom:8px;">Reference baselines and current generated reports used in daily operation.</div>
+            ${renderLinks(active.reference)}
+          </div>
+          <div class="surface-card">
+            <h4>Current generated run reports</h4>
+            <div class="footer-note" style="margin-bottom:8px;">Run-scoped outputs that should be regenerated or reviewed from the dashboard.</div>
+            ${renderLinks(active.generated)}
+          </div>
+          <div class="surface-card">
+            <h4>Archive</h4>
+            <div class="mono" style="margin-bottom:8px;">${escapeHtml(String(archive.count || 0))} files under 07_Reports/archive</div>
+            <div class="footer-note" style="margin-bottom:8px;">Historical run evidence and old benchmarks kept for reference, not daily operation.</div>
+            ${archiveGroups}
+          </div>
+          <div class="surface-card">
+            <h4>Recent archive files</h4>
+            ${renderLinks(archive.recent)}
+          </div>
+        </div>
+        ${active.other_root && active.other_root.length ? `
+          <div class="footer-note" style="margin-top:12px;">
+            Root reports needing reclassification:
+          </div>
+          ${renderLinks(active.other_root)}
+        ` : ""}
+      `;
+    }
+
     function renderDashboardGuardrails(snapshot) {
       const wrap = document.getElementById("dashboardGuardrails");
       const guardrails = snapshot?.dashboard_guardrails || {};
@@ -2099,6 +2257,7 @@ def _render_operator_html() -> str:
       renderPreflight(snapshot);
       renderCommandHints(snapshot);
       renderQuickLinks(snapshot);
+      renderReportWorkspace(snapshot);
       renderDashboardGuardrails(snapshot);
       renderManualActions(snapshot);
       renderActionPreviews();

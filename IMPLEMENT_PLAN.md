@@ -88,7 +88,7 @@ Expected verified state:
 - `05_Output/ch019` through `05_Output/ch023` exist
 - current failed blocks: none
 - manual actions needed: none
-- spot-check report exists at `07_Reports/spot_check_batch_ch019_ch023_v1.md`
+- spot-check report exists at `07_Reports/archive/history/v3_9/spot_check_batch_ch019_ch023_v1.md`
 
 ### V3.10: Repeatable Rollout Protocol
 
@@ -632,7 +632,7 @@ Planned slices:
     - retire/delete
     - normalize/rename
   - complete on 2026-05-11:
-    - audit evidence captured in `07_Reports/system_cleanup_audit_20260511.md`
+    - audit evidence captured in `07_Reports/archive/history/v6_1/system_cleanup_audit_20260511.md`
     - high-value findings identified before any destructive cleanup:
       - `07_Reports/` contains a mix of canonical generated baselines and old benchmark/history artifacts
       - `scripts/` contains post-decision benchmark/test helpers that are likely no longer part of normal product operation
@@ -683,7 +683,56 @@ Status after V6.1:
 - `V6.1B` complete
 - `V6.1C` complete
 - `V6.1D` complete
-- no active delivery milestone is open right now
+- `V6.2` is the active backlog item
+
+### V6.2: Dashboard UX Polish And Report Surface Separation
+
+Goal: make the operator dashboard easier to scan during daily work and make the `07_Reports/` surface clearly distinguish active operational reports from historical evidence.
+
+Status: complete on 2026-05-11.
+
+Planned slices:
+
+- V6.2A: Report surface separation
+  - move non-operational historical run reports out of the `07_Reports/` root into archive paths while preserving evidence
+  - keep only current operational baselines and reusable operator references at the root
+  - done when the root report surface reads as active operational workspace rather than mixed history
+  - complete on 2026-05-11:
+    - historical run evidence for V3.7, V3.8, V3.9, and V6.1 cleanup moved under `07_Reports/archive/history/`
+    - `07_Reports/` root now contains only active operational baselines plus the reusable rollout protocol reference
+
+- V6.2B: Dashboard report workspace
+  - expose active generated reports, active reference reports, and archive counts as separate dashboard surfaces
+  - show recent archive files without mixing them into the active quick-link flow
+  - done when the operator can tell in one scan what is current, what is reusable baseline, and what is historical evidence
+  - complete on 2026-05-11:
+    - operator snapshot now exposes `report_surfaces`
+    - dashboard now renders a dedicated `Report Workspace` panel with separate active and archive sections
+
+- V6.2C: Focused UX polish
+  - tighten the report-generation wording and layout so dashboard actions read as operational controls rather than a flat button list
+  - keep the existing bounded execution model intact
+  - done when the dashboard improves scan speed and orientation without adding new broad actions
+  - complete on 2026-05-11:
+    - report actions are labeled as active operational generation rather than a generic report bucket
+    - archive visibility is now contextual instead of mixed into the everyday quick-link path
+
+Acceptance criteria:
+
+- compile/tests still pass
+- report generation and product-review baselines still work
+- active report root and archive paths are clearly separated
+- dashboard snapshot/UI expose active reports and archived history separately
+- no pipeline run, resume, or rerun-block execution is needed for this polish work
+
+Verification completed on 2026-05-11:
+
+- `python -m compileall novel_pipeline` passed
+- `python test_translation.py` passed
+- operator runtime snapshot showed:
+  - `07_Reports/` root reduced to active operational files only
+  - `report_surfaces.active` and `report_surfaces.archive` separated correctly
+  - `Report Workspace` markup present in the served dashboard HTML
 
 ## Acceptance Gates
 

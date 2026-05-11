@@ -4619,6 +4619,55 @@ reviewed_by: Operator
     assert any(item["label"] == "Product Review" for item in snapshot["quick_links"])
 
 
+def test_operator_snapshot_separates_active_and_archived_reports():
+    """Operator snapshot separates active report surface from archived history."""
+    import tempfile
+    from novel_pipeline.config import load_app_config
+    from novel_pipeline.operator_ui import build_operator_snapshot
+
+    base = Path(tempfile.mkdtemp(prefix="novel-operator-report-surface-"))
+    config_path = _write_research_profile_test_workspace(
+        base,
+        """schema_version: 1
+title: Deep Sea Embers
+source_url: https://example.com/toc
+status: active
+synopsis: Nautical dark fantasy with a slow-burn mystery.
+tags:
+  - nautical dark fantasy
+style_notes: Blend eerie maritime atmosphere with grounded reactions.
+last_reviewed_at: 2026-05-10T00:00:00+07:00
+reviewed_by: Operator
+""",
+    )
+    workspace_root = base / "workspace"
+    reports_dir = workspace_root / "07_Reports"
+    archive_history = reports_dir / "archive" / "history" / "v3_9"
+    archive_bench = reports_dir / "archive" / "benchmarks"
+    archive_history.mkdir(parents=True, exist_ok=True)
+    archive_bench.mkdir(parents=True, exist_ok=True)
+    (reports_dir / "v3_10_repeatable_rollout_protocol.md").write_text("protocol\n", encoding="utf-8")
+    (reports_dir / "preflight_report.md").write_text("preflight\n", encoding="utf-8")
+    (reports_dir / "product_review_batch-ch019-ch023-v1.md").write_text("product\n", encoding="utf-8")
+    (archive_history / "spot_check_batch_ch019_ch023_v1.md").write_text("spot\n", encoding="utf-8")
+    (archive_bench / "refinement_benchmark.md").write_text("bench\n", encoding="utf-8")
+
+    config = load_app_config(config_path)
+    with patch("novel_pipeline.operator_ui.build_preflight_summary", return_value={"status": "ready", "next_safe_action": "Preflight is ready for normal production."}), \
+         patch("novel_pipeline.operator_ui.status_run", return_value={"next_effective_action": "none", "manual_actions": [], "current_failed_blocks": []}):
+        snapshot = build_operator_snapshot(config, run_id="batch-ch019-ch023-v1")
+
+    surfaces = snapshot["report_surfaces"]
+    assert any(item["label"] == "Rollout Protocol" for item in surfaces["active"]["reference"])
+    assert any(item["label"] == "Product Review" for item in surfaces["active"]["generated"])
+    assert any(item["label"] == "history" for item in surfaces["archive"]["groups"])
+    assert any(item["label"] == "benchmarks" for item in surfaces["archive"]["groups"])
+    assert any(
+        item["label"] == "archive/history/v3_9/spot_check_batch_ch019_ch023_v1.md"
+        for item in surfaces["archive"]["recent"]
+    )
+
+
 def test_operator_snapshot_includes_dashboard_guardrails():
     """Operator snapshot exposes the accepted bounded-action model for the dashboard."""
     import tempfile
@@ -4669,6 +4718,7 @@ def test_render_operator_html_contains_v6_dashboard_elements():
     assert 'id="rerunPreview"' in html
     assert 'id="glossaryProgress"' in html
     assert 'id="glossaryDecisionPreview"' in html
+    assert 'id="reportWorkspace"' in html
     assert 'id="dashboardGuardrails"' in html
 
 
@@ -5295,6 +5345,7 @@ if __name__ == "__main__":
     test_operator_snapshot_includes_research_profile_data()
     test_operator_snapshot_includes_preflight()
     test_operator_snapshot_includes_command_hints_and_quick_links()
+    test_operator_snapshot_separates_active_and_archived_reports()
     test_build_glossary_suggestion_snapshot_returns_provider_options()
     test_execute_glossary_decision_approve_commits_when_queue_is_empty()
     test_execute_glossary_decision_reject_updates_queue_without_commit()
