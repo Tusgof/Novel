@@ -142,10 +142,11 @@ Update after execution:
 
 - `V6.1B` completed on 2026-05-11 by normalizing active references and git path casing to `IMPLEMENT_PLAN.md`
 - `V6.1C` completed on 2026-05-11 by archiving benchmark/history artifacts and moving benchmark/debug helper scripts off the active repo surface
-- next cleanup slice is now `V6.1D`
+- `V6.1D` completed on 2026-05-11 after compile/tests/preflight/recovery-drill/product-review re-verified the cleaned repo surface
+- cleanup review is now closed; future work should open as a new backlog item
 
-`V6.1D` - verification and clean baseline refresh.
+`V6.1` closeout completed.
 
 Reason:
 
-- cleanup execution is done; the remaining work is proving that compile/tests/preflight/product-review still hold after the archive moves
+- audit, cleanup execution, and post-cleanup verification are all complete

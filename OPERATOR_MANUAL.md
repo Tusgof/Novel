@@ -120,7 +120,7 @@ This is the practical runbook. It should help the operator proceed without guess
     - bounded translation rules
     - visible report kinds
   - no broad unbounded execution action was added while closing the dashboard milestone
-- V6.1 active: `System Review, Verification, And Cleanup`.
+- V6.1 complete: `System Review, Verification, And Cleanup`.
 - V6.1A complete:
   - read-only audit captured cleanup candidates before any destructive changes
   - top cleanup targets are:
@@ -135,7 +135,12 @@ This is the practical runbook. It should help the operator proceed without guess
   - benchmark/history reports now live under `07_Reports/archive/`
   - benchmark/debug helper scripts now live under `scripts/archive/benchmarks/`
   - disposable local cache such as `__pycache__/` has been removed from the active repo surface
-- next slice: `V6.1D` verification and clean baseline refresh
+- V6.1D complete:
+  - compile/tests passed after cleanup
+  - `preflight` returned `ready`
+  - `recovery-drill` remained `accepted`
+  - `product-review` remained accepted after cleanup
+- no active delivery milestone is open right now
 
 ## Standard Preflight
 

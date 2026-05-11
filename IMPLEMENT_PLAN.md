@@ -662,6 +662,12 @@ Planned slices:
   - rerun compile/tests/preflight/product-review after cleanup
   - verify that cleanup did not break operator behavior, doc contracts, or report baselines
   - done when the repo is clean, the accepted baseline still passes, and the cleanup report is updated with final decisions
+  - complete on 2026-05-11:
+    - `python -m compileall novel_pipeline` passed
+    - `python test_translation.py` passed
+    - `novel-pipeline --config ".system/config.yaml" preflight` returned `ready`
+    - `novel-pipeline --config ".system/config.yaml" report recovery-drill` remained `accepted`
+    - `novel-pipeline --config ".system/config.yaml" report product-review --run-id batch-ch019-ch023-v1` remained accepted on the cleaned repo surface
 
 Acceptance criteria:
 
@@ -670,6 +676,14 @@ Acceptance criteria:
 - accepted runtime/report baselines remain reproducible
 - compile/tests/preflight/product-review still pass after cleanup
 - no translation/artifact/ledger state is damaged by cleanup work
+
+Status after V6.1:
+
+- `V6.1A` complete
+- `V6.1B` complete
+- `V6.1C` complete
+- `V6.1D` complete
+- no active delivery milestone is open right now
 
 ## Acceptance Gates
 
