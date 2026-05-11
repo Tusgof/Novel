@@ -120,7 +120,15 @@ This is the practical runbook. It should help the operator proceed without guess
     - bounded translation rules
     - visible report kinds
   - no broad unbounded execution action was added while closing the dashboard milestone
-- no active delivery milestone is open right now
+- V6.1 active: `System Review, Verification, And Cleanup`.
+- V6.1A complete:
+  - read-only audit captured cleanup candidates before any destructive changes
+  - top cleanup targets are:
+    - benchmark/test helper scripts in `scripts/`
+    - mixed active vs historical files in `07_Reports/`
+    - canonical doc naming inconsistency around `IMPLEMENT_PLAN.md`
+    - disposable local cache such as `__pycache__/`
+- next slice: `V6.1B` canonical naming and doc path cleanup
 
 ## Standard Preflight
 

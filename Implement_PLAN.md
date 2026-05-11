@@ -616,6 +616,53 @@ Not part of V6.0:
 - new provider routing policy
 - automated semantic approval without human review
 
+### V6.1: System Review, Verification, And Cleanup
+
+Goal: review the product-complete system as a maintained repo, classify clutter and stale assets, and clean it without damaging canonical memory, runtime evidence, or accepted operator behavior.
+
+Status: active on 2026-05-11.
+
+Planned slices:
+
+- V6.1A: Audit and classification
+  - inspect repo structure, tracked reports, helper scripts, generated caches, and naming inconsistencies
+  - classify each candidate as:
+    - keep
+    - archive
+    - retire/delete
+    - normalize/rename
+  - complete on 2026-05-11:
+    - audit evidence captured in `07_Reports/system_cleanup_audit_20260511.md`
+    - high-value findings identified before any destructive cleanup:
+      - `07_Reports/` contains a mix of canonical generated baselines and old benchmark/history artifacts
+      - `scripts/` contains post-decision benchmark/test helpers that are likely no longer part of normal product operation
+      - `__pycache__/` exists locally but is already ignored and should be treated as disposable cache, not repo content
+      - `Implement_PLAN.md` vs `IMPLEMENT_PLAN.md` naming is inconsistent across docs and deserves normalization
+
+- V6.1B: Canonical naming and doc path cleanup
+  - normalize durable doc references so the canonical filenames are referred to consistently
+  - remove or fix stale references that point to retired or mis-cased root docs
+  - done when canonical docs have one stable naming contract
+
+- V6.1C: Archive and repo-surface cleanup
+  - move non-operational benchmark/history artifacts out of the active working surface while keeping evidence restorable
+  - remove disposable local caches that should never be treated as durable state
+  - avoid touching accepted runtime evidence or canonical reports needed by product review/preflight
+  - done when the active repo surface is materially cleaner without losing important audit history
+
+- V6.1D: Verification and clean baseline refresh
+  - rerun compile/tests/preflight/product-review after cleanup
+  - verify that cleanup did not break operator behavior, doc contracts, or report baselines
+  - done when the repo is clean, the accepted baseline still passes, and the cleanup report is updated with final decisions
+
+Acceptance criteria:
+
+- cleanup decisions are evidence-based, not ad hoc
+- canonical docs remain intact and consistent
+- accepted runtime/report baselines remain reproducible
+- compile/tests/preflight/product-review still pass after cleanup
+- no translation/artifact/ledger state is damaged by cleanup work
+
 ## Acceptance Gates
 
 This document rewrite is accepted only when:

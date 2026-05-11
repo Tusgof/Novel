@@ -203,6 +203,7 @@ Active:
 - V5.3 complete: post-complete hardening now includes a generated preflight diagnostics artifact, accepted recovery-drill evidence, operator recovery command hints/quick links, and a canonical recovery checklist template
 - V5.4 complete: preflight readiness now ignores churn in known generated report artifacts so report refreshes do not falsely degrade the accepted baseline
 - V6.0 complete: operator control dashboard now exposes denser translation control, glossary workbench UX, bounded recovery visibility, and an explicit accepted guardrail panel
+- V6.1 active: system review, verification, and cleanup has started from a read-only audit baseline before any destructive cleanup
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, artifact viewing, novel-project scaffold, and bounded batch-start actions
@@ -329,7 +330,13 @@ Next milestones after product-complete:
   - `V6.0C` complete: glossary workbench now shows batch progress, per-term note-history intersections, suggestion context, and selected decision preview in one surface
   - `V6.0D` complete: inspect workbench now shows source-through-formatted artifacts, latest stage state, cleanliness findings, and direct rerun-target preparation
   - `V6.0E` complete: the dashboard now surfaces the accepted bounded-action model directly, including allowed state-changing actions, bounded translation rules, and visible report kinds
-  - after `V6.0`, there is no active delivery milestone until a new backlog item is opened explicitly
+  - `V6.1 System Review, Verification, And Cleanup` active
+  - `V6.1A` complete: repo audit captured cleanup candidates and classified the main risks before any destructive changes
+  - next cleanup pressure points:
+    - benchmark/test helper scripts in `scripts/`
+    - mixed active vs historical artifacts in `07_Reports/`
+    - canonical doc naming inconsistency around `IMPLEMENT_PLAN.md`
+    - disposable local cache such as `__pycache__/`
 
 ## Invariants And Guardrails
 
