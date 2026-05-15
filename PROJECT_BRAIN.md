@@ -1,7 +1,7 @@
 # Project Brain: Deep Sea Embers Translation Pipeline
 
-Last updated: 2026-05-10
-Last verified: 2026-05-10 after V5.3 closure verification with `python -m compileall novel_pipeline`, `python test_translation.py`, `novel-pipeline preflight`, `novel-pipeline report preflight`, `novel-pipeline report recovery-drill`, and `novel-pipeline report product-review --run-id batch-ch019-ch023-v1`.
+Last updated: 2026-05-16
+Last verified: 2026-05-16 after dashboard workflow simplification verification with `python -m compileall novel_pipeline`, `python test_translation.py`, local operator HTML/snapshot inspection, and bounded-action surface review.
 
 This file is the project constitution, architecture map, and current operational memory. It should preserve the project goal, design principles, verified state, safety rules, recovery lessons, and pointers to detailed documents. Keep reports, long logs, and implementation detail in their dedicated files.
 
@@ -205,6 +205,7 @@ Active:
 - V6.0 complete: operator control dashboard now exposes denser translation control, glossary workbench UX, bounded recovery visibility, and an explicit accepted guardrail panel
 - V6.1 complete: system review, naming normalization, archive cleanup, and post-cleanup verification are closed
 - V6.2 complete: dashboard UX polish and report-surface separation now keep `07_Reports/` root operational and expose active vs archived report surfaces directly in the operator window
+- V6.3 complete: the operator dashboard now uses workflow focus modes and regrouped control panels so the daily translation path is easier to scan without changing bounded execution policy
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, artifact viewing, novel-project scaffold, and bounded batch-start actions
@@ -527,6 +528,7 @@ Worker model restrictions:
 - 2026-05-10: V5.3 accepted. Post-complete hardening now has a generated preflight diagnostics artifact, accepted recovery-drill evidence, operator recovery hints/quick links, and a canonical recovery checklist without expanding product scope.
 - 2026-05-10: V5.4 accepted. Generated report refreshes no longer cause false dirty-tree degradation in preflight/product-review, while ordinary tracked-file drift still degrades readiness as intended.
 - 2026-05-11: V6.2 accepted. Historical run evidence moved under `07_Reports/archive/history/`, the root report surface now contains operational baselines only, and the dashboard now renders active report workspace and archive context separately.
+- 2026-05-16: V6.3 accepted. The operator dashboard now groups controls by real workflow (`Current Run`, `Glossary`, `Recovery`, `Reports`, `Setup`) and moves setup/report tooling out of the main daily translation path.
 
 ## Document Map
 

@@ -889,6 +889,20 @@ def _render_operator_html() -> str:
       line-height: 1.4;
     }
     .nav section { margin-bottom: 20px; }
+    .focus-nav {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .focus-btn {
+      height: 34px;
+      font-size: 12px;
+    }
+    .focus-btn.active {
+      background: #f9fafb;
+      color: #111827;
+      border-color: rgba(255,255,255,.22);
+    }
     .nav label, .panel label {
       display: block;
       margin-bottom: 6px;
@@ -993,6 +1007,37 @@ def _render_operator_html() -> str:
       grid-template-columns: minmax(0, 1.3fr) minmax(320px, .7fr);
       gap: 18px;
     }
+    .column-stack {
+      display: grid;
+      gap: 18px;
+      align-content: start;
+    }
+    .focus-strip {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: -4px;
+    }
+    .focus-chip {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--muted);
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .focus-chip.active {
+      background: #111827;
+      color: #f9fafb;
+      border-color: #111827;
+    }
+    .workflow-header {
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
     .status-strip {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1069,6 +1114,9 @@ def _render_operator_html() -> str:
     .panel {
       padding: 16px;
     }
+    .panel[data-focus-group][hidden] {
+      display: none !important;
+    }
     .panel h3 {
       margin: 0 0 6px;
       font-size: 16px;
@@ -1096,6 +1144,11 @@ def _render_operator_html() -> str:
     }
     .stack { display: grid; gap: 14px; }
     .action-stack { display: grid; gap: 12px; }
+    .dual-stack {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
     .action-card {
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -1210,6 +1263,12 @@ def _render_operator_html() -> str:
       margin: 0 0 8px;
       font-size: 13px;
     }
+    .report-toolbar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 8px;
+      margin-bottom: 14px;
+    }
     .artifact-list a, .report-link {
       color: var(--accent);
       text-decoration: none;
@@ -1234,8 +1293,10 @@ def _render_operator_html() -> str:
     @media (max-width: 1080px) {
       .shell { grid-template-columns: 1fr; }
       .metrics, .layout { grid-template-columns: 1fr; }
+      .dual-stack { grid-template-columns: 1fr; }
       .status-strip, .overview-grid, .glossary-progress, .run-row { grid-template-columns: 1fr; }
       .inspect-grid { grid-template-columns: 1fr; }
+      .focus-nav { grid-template-columns: 1fr 1fr 1fr; }
     }
   </style>
 </head>
@@ -1260,21 +1321,17 @@ def _render_operator_html() -> str:
       </section>
 
       <section>
-            <label>Generate Active Reports</label>
-            <div class="footer-note" style="margin-bottom: 10px;">
-              These buttons regenerate current operational baselines only. Historical evidence stays under archive.
-            </div>
-            <div class="grid-btns">
-          <button class="ghost-dark" data-report="checkpoint">Checkpoint</button>
-          <button class="ghost-dark" data-report="cleanliness">Cleanliness</button>
-          <button class="ghost-dark" data-report="provider-usage">Provider</button>
-          <button class="ghost-dark" data-report="preflight">Preflight</button>
-          <button class="ghost-dark" data-report="recovery-drill">Recovery</button>
-          <button class="ghost-dark" data-report="product-review">Product Review</button>
-          <button class="ghost-dark" data-report="glossary-decisions">Decisions</button>
-          <button class="ghost-dark" data-report="glossary-conflicts">Conflicts</button>
-          <button class="ghost-dark" data-report="glossary-audit">Audit</button>
-          <button class="ghost-dark" data-report="glossary-guard">Guard</button>
+        <label>Workflow Focus</label>
+        <div class="footer-note" style="margin-bottom: 10px;">
+          Filter the dashboard to the task you are doing right now.
+        </div>
+        <div class="focus-nav">
+          <button class="ghost-dark focus-btn active" data-focus-target="operate">Current Run</button>
+          <button class="ghost-dark focus-btn" data-focus-target="glossary">Glossary</button>
+          <button class="ghost-dark focus-btn" data-focus-target="recovery">Recovery</button>
+          <button class="ghost-dark focus-btn" data-focus-target="reports">Reports</button>
+          <button class="ghost-dark focus-btn" data-focus-target="setup">Setup</button>
+          <button class="ghost-dark focus-btn" data-focus-target="all">All</button>
         </div>
       </section>
 
@@ -1293,6 +1350,21 @@ def _render_operator_html() -> str:
         </div>
       </div>
 
+      <section class="panel workflow-header">
+        <div>
+          <h3>Workflow Focus</h3>
+          <p class="meta">Show only the surfaces needed for the current step instead of scanning the whole dashboard.</p>
+        </div>
+        <div class="focus-strip">
+          <button class="focus-chip active" data-focus-target="operate">Current Run</button>
+          <button class="focus-chip" data-focus-target="glossary">Glossary</button>
+          <button class="focus-chip" data-focus-target="recovery">Recovery</button>
+          <button class="focus-chip" data-focus-target="reports">Reports</button>
+          <button class="focus-chip" data-focus-target="setup">Setup</button>
+          <button class="focus-chip" data-focus-target="all">All</button>
+        </div>
+      </section>
+
       <section class="metrics" id="metrics"></section>
       <section id="statusStrip" class="status-strip"></section>
       <section class="panel">
@@ -1302,158 +1374,18 @@ def _render_operator_html() -> str:
       </section>
 
       <div class="layout">
-        <section class="panel">
-          <h3>Chapter Dashboard</h3>
-          <p class="meta">Run selector, chapter matrix, and detailed chapter progress for the active run.</p>
-          <div id="chapterMatrix" class="empty">No run loaded.</div>
-          <div id="chapterTableWrap" class="empty">No run loaded.</div>
-        </section>
-
-        <div class="stack">
-          <section class="panel">
-            <h3>Current Blocker</h3>
-            <p class="meta">What currently blocks normal flow, if anything.</p>
-            <div id="currentBlocker" class="empty">No run loaded.</div>
+        <div class="column-stack">
+          <section class="panel" data-focus-group="operate,recovery,all">
+            <h3>Chapter Dashboard</h3>
+            <p class="meta">Progress, pending pressure, and output coverage for the current run.</p>
+            <div id="chapterMatrix" class="empty">No run loaded.</div>
+            <div id="chapterTableWrap" class="empty">No run loaded.</div>
           </section>
 
-          <section class="panel">
-            <h3>Safe Next Action</h3>
-            <p class="meta">Directly from the current verified run state.</p>
-            <div id="nextAction" class="mono empty">No run loaded.</div>
-          </section>
-
-          <section class="panel">
-            <h3>Recovery Hints</h3>
-            <p class="meta">Copyable commands and quick links for diagnostics, review, and bounded recovery.</p>
-            <div id="commandHints" class="empty">No command hints loaded.</div>
-            <div id="quickLinks" class="empty" style="margin-top:12px;">No quick links loaded.</div>
-          </section>
-
-          <section class="panel">
-            <h3>Accepted Guardrails</h3>
-            <p class="meta">The dashboard safety model that must stay true as controls get denser.</p>
-            <div id="dashboardGuardrails" class="empty">No guardrails loaded.</div>
-          </section>
-
-          <section class="panel">
-            <h3>Research Readiness</h3>
-            <p class="meta">Readiness contract for bounded translation versus normal production.</p>
-            <div id="researchReadiness" class="empty">No research profile loaded.</div>
-          </section>
-
-          <section class="panel">
-            <h3>Research Profile</h3>
-            <p class="meta">Edit the current workspace research profile fields used for readiness.</p>
-            <div class="stack">
-              <input id="researchProfileTitle" placeholder="Title">
-              <textarea id="researchProfileAliases" placeholder="Aliases, one per line or comma-separated"></textarea>
-              <input id="researchProfileSourceUrl" placeholder="Source URL">
-              <div class="inspect-grid">
-                <select id="researchProfileStatus">
-                  <option value="pending">pending</option>
-                  <option value="drafted">drafted</option>
-                  <option value="active">active</option>
-                </select>
-                <input id="researchProfileLastReviewedAt" placeholder="Last reviewed at">
-              </div>
-              <input id="researchProfileReviewedBy" placeholder="Reviewed by">
-              <textarea id="researchProfileSynopsis" placeholder="Synopsis"></textarea>
-              <textarea id="researchProfileTags" placeholder="Tags, one per line or comma-separated"></textarea>
-              <textarea id="researchProfileStyleNotes" placeholder="Style notes"></textarea>
-              <textarea id="researchProfileReaderExpectations" placeholder="Reader expectations"></textarea>
-              <textarea id="researchProfileReviewSummary" placeholder="Review summary"></textarea>
-              <textarea id="researchProfileTerminology" placeholder="Terminology, one per line or comma-separated"></textarea>
-              <textarea id="researchProfileReferenceLinks" placeholder="Reference links, one per line or comma-separated"></textarea>
-              <textarea id="researchProfileNotes" placeholder="Notes"></textarea>
-            </div>
-            <button class="primary" id="saveResearchProfileBtn">Save Research Profile</button>
-          </section>
-
-          <section class="panel">
-            <h3>Preflight</h3>
-            <p class="meta">Environment, provider, and git guardrail checks.</p>
-            <div id="preflightSummary" class="empty">No preflight summary loaded.</div>
-          </section>
-
-          <section class="panel">
-            <h3>Manual Actions</h3>
-            <p class="meta">Outstanding operator actions from `status`.</p>
-            <ul id="manualActions" class="actions-list"></ul>
-          </section>
-
-          <section class="panel">
-            <h3>Recent Activity</h3>
-            <p class="meta">Recent dashboard loads, reports, inspections, and bounded actions.</p>
-            <ul id="activityLog" class="actions-list"></ul>
-          </section>
-
-          <section class="panel">
-            <h3>Recent Report Output</h3>
-            <p class="meta">Generated by the existing CLI report layer.</p>
-            <div id="reportResult" class="empty">No report generated yet.</div>
-          </section>
-
-          <section class="panel">
-            <h3>Report Workspace</h3>
-            <p class="meta">Separate active operational reports from archived historical evidence.</p>
-            <div id="reportWorkspace" class="empty">No report workspace loaded.</div>
-          </section>
-        </div>
-      </div>
-
-      <section class="panel">
-        <h3>Block Inspection</h3>
-        <p class="meta">Read-only artifact and validation view for one block.</p>
-        <div class="inspect-grid">
-          <input id="inspectRunId" placeholder="Run ID">
-          <input id="inspectBlockId" placeholder="Block ID e.g. ch019-block-002">
-          <button class="primary" id="inspectBtn">Inspect</button>
-        </div>
-        <div id="inspectResult" class="empty">No block inspected.</div>
-      </section>
-
-      <div class="layout">
-      <section class="panel">
-        <h3>Glossary Workbench</h3>
-        <p class="meta">Current effective queue, batch closure progress, and note-history context for glossary approval.</p>
-        <div id="glossaryProgress" class="empty">No glossary progress loaded.</div>
-        <div id="glossaryQueue" class="empty">No queue loaded.</div>
-      </section>
-
-        <div class="stack">
-          <section class="panel">
-            <h3>Glossary Decision</h3>
-            <p class="meta">Load 2-3 Thai options, inspect note-history context, preview the selected decision, then approve or reject.</p>
-            <div id="glossaryDecision" class="empty">No term selected.</div>
-          </section>
-
-          <section class="panel">
-            <h3>Safe Actions</h3>
-            <p class="meta">State-changing controls stay bounded, show exact CLI equivalence, and keep scope visible before execution.</p>
-            <div class="action-stack">
-              <div class="action-card">
-                <label for="initProjectRoot">Init Novel Project</label>
-                <p class="meta">Create a new isolated novel workspace. This is setup, not translation flow.</p>
-                <div class="stack">
-                  <div class="inspect-grid">
-                    <input id="initProjectRoot" placeholder="Project root">
-                    <input id="initTitle" placeholder="Title">
-                  </div>
-                  <input id="initSourceUrl" placeholder="Source URL">
-                  <div class="inspect-grid">
-                    <input id="initNovelId" placeholder="Novel ID (optional)">
-                    <input id="initSourceLanguage" placeholder="Source language">
-                    <input id="initTargetLanguage" placeholder="Target language">
-                  </div>
-                  <div class="inspect-grid">
-                    <input id="initGenre" placeholder="Genre">
-                    <input id="initAdapter" placeholder="Adapter">
-                    <input id="initStyleProfile" placeholder="Style profile">
-                  </div>
-                  <textarea id="initAliases" placeholder="Aliases, one per line or comma-separated"></textarea>
-                </div>
-                <button class="primary" id="initNovelBtn">Init Novel Project</button>
-              </div>
+          <section class="panel" data-focus-group="operate,recovery,all">
+            <h3>Batch Controls</h3>
+            <p class="meta">Use bounded batch start or bounded resume first. These are the fastest daily controls.</p>
+            <div class="dual-stack">
               <div class="action-card">
                 <label for="batchRunId">Run Batch Range</label>
                 <p class="meta">Start from fetch/glossary scan or run a bounded production batch across an explicit chapter range.</p>
@@ -1479,29 +1411,188 @@ def _render_operator_html() -> str:
                 <button class="primary" id="resumeBtn">Run Bounded Resume</button>
                 <div id="resumePreview" class="preview-box empty">No bounded resume scope prepared.</div>
               </div>
-              <div class="action-card">
-                <label for="rerunRunId">Rerun Block</label>
-                <p class="meta">Recover exactly one block from an explicit stage. Upstream artifacts are reused.</p>
-                <div class="inspect-grid">
-                  <input id="rerunRunId" placeholder="Run ID">
-                  <input id="rerunBlockId" placeholder="Block ID">
-                  <select id="rerunStage">
-                    <option value="qa">qa</option>
-                    <option value="refining">refining</option>
-                    <option value="translating">translating</option>
-                    <option value="formatting">formatting</option>
-                  </select>
-                </div>
-                <button class="primary" id="rerunBtn">Run Rerun-Block</button>
-                <div id="rerunPreview" class="preview-box empty">No rerun-block scope prepared.</div>
-              </div>
             </div>
           </section>
 
-          <section class="panel">
-            <h3>Action Result</h3>
-            <p class="meta">Captured local pipeline output for the last state-changing action.</p>
-            <div id="actionResult" class="empty">No action executed yet.</div>
+          <section class="panel" data-focus-group="glossary,all">
+            <h3>Glossary Workbench</h3>
+            <p class="meta">Approve or reject terms after scan. Work here before translation starts.</p>
+            <div id="glossaryProgress" class="empty">No glossary progress loaded.</div>
+            <div id="glossaryQueue" class="empty">No queue loaded.</div>
+          </section>
+
+          <section class="panel" data-focus-group="glossary,all">
+            <h3>Glossary Decision</h3>
+            <p class="meta">Load 2-3 Thai options, inspect note-history context, preview the selected decision, then approve or reject.</p>
+            <div id="glossaryDecision" class="empty">No term selected.</div>
+          </section>
+
+          <section class="panel" data-focus-group="recovery,all">
+            <h3>Block Inspection</h3>
+            <p class="meta">Read one block, see stage state, and jump directly to the narrowest recovery target.</p>
+            <div class="inspect-grid">
+              <input id="inspectRunId" placeholder="Run ID">
+              <input id="inspectBlockId" placeholder="Block ID e.g. ch019-block-002">
+              <button class="primary" id="inspectBtn">Inspect</button>
+            </div>
+            <div id="inspectResult" class="empty">No block inspected.</div>
+          </section>
+
+          <section class="panel" data-focus-group="recovery,all">
+            <h3>Recovery Controls</h3>
+            <p class="meta">Recover exactly one block from one stage. Inspect first, then rerun only what failed.</p>
+            <div class="action-card">
+              <label for="rerunRunId">Rerun Block</label>
+              <p class="meta">Recover exactly one block from an explicit stage. Upstream artifacts are reused.</p>
+              <div class="inspect-grid">
+                <input id="rerunRunId" placeholder="Run ID">
+                <input id="rerunBlockId" placeholder="Block ID">
+                <select id="rerunStage">
+                  <option value="qa">qa</option>
+                  <option value="refining">refining</option>
+                  <option value="translating">translating</option>
+                  <option value="formatting">formatting</option>
+                </select>
+              </div>
+              <button class="primary" id="rerunBtn">Run Rerun-Block</button>
+              <div id="rerunPreview" class="preview-box empty">No rerun-block scope prepared.</div>
+            </div>
+            <div style="margin-top:12px;">
+              <h4 style="margin:0 0 8px; font-size:13px;">Action Result</h4>
+              <div id="actionResult" class="empty">No action executed yet.</div>
+            </div>
+          </section>
+
+          <section class="panel" data-focus-group="setup,all">
+            <h3>Project Setup</h3>
+            <p class="meta">Use this only when creating a new novel project or updating its research profile.</p>
+            <div class="action-stack">
+              <div class="action-card">
+                <label for="initProjectRoot">Init Novel Project</label>
+                <p class="meta">Create a new isolated novel workspace. This is setup, not translation flow.</p>
+                <div class="stack">
+                  <div class="inspect-grid">
+                    <input id="initProjectRoot" placeholder="Project root">
+                    <input id="initTitle" placeholder="Title">
+                  </div>
+                  <input id="initSourceUrl" placeholder="Source URL">
+                  <div class="inspect-grid">
+                    <input id="initNovelId" placeholder="Novel ID (optional)">
+                    <input id="initSourceLanguage" placeholder="Source language">
+                    <input id="initTargetLanguage" placeholder="Target language">
+                  </div>
+                  <div class="inspect-grid">
+                    <input id="initGenre" placeholder="Genre">
+                    <input id="initAdapter" placeholder="Adapter">
+                    <input id="initStyleProfile" placeholder="Style profile">
+                  </div>
+                  <textarea id="initAliases" placeholder="Aliases, one per line or comma-separated"></textarea>
+                </div>
+                <button class="primary" id="initNovelBtn">Init Novel Project</button>
+              </div>
+              <div class="action-card">
+                <label>Research Profile</label>
+                <p class="meta">Edit the current workspace research profile fields used for readiness.</p>
+                <div class="stack">
+                  <input id="researchProfileTitle" placeholder="Title">
+                  <textarea id="researchProfileAliases" placeholder="Aliases, one per line or comma-separated"></textarea>
+                  <input id="researchProfileSourceUrl" placeholder="Source URL">
+                  <div class="inspect-grid">
+                    <select id="researchProfileStatus">
+                      <option value="pending">pending</option>
+                      <option value="drafted">drafted</option>
+                      <option value="active">active</option>
+                    </select>
+                    <input id="researchProfileLastReviewedAt" placeholder="Last reviewed at">
+                  </div>
+                  <input id="researchProfileReviewedBy" placeholder="Reviewed by">
+                  <textarea id="researchProfileSynopsis" placeholder="Synopsis"></textarea>
+                  <textarea id="researchProfileTags" placeholder="Tags, one per line or comma-separated"></textarea>
+                  <textarea id="researchProfileStyleNotes" placeholder="Style notes"></textarea>
+                  <textarea id="researchProfileReaderExpectations" placeholder="Reader expectations"></textarea>
+                  <textarea id="researchProfileReviewSummary" placeholder="Review summary"></textarea>
+                  <textarea id="researchProfileTerminology" placeholder="Terminology, one per line or comma-separated"></textarea>
+                  <textarea id="researchProfileReferenceLinks" placeholder="Reference links, one per line or comma-separated"></textarea>
+                  <textarea id="researchProfileNotes" placeholder="Notes"></textarea>
+                </div>
+                <button class="primary" id="saveResearchProfileBtn">Save Research Profile</button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="column-stack">
+          <section class="panel" data-focus-group="operate,recovery,all">
+            <h3>Current Blocker</h3>
+            <p class="meta">What currently blocks normal flow, if anything.</p>
+            <div id="currentBlocker" class="empty">No run loaded.</div>
+          </section>
+
+          <section class="panel" data-focus-group="operate,recovery,all">
+            <h3>Safe Next Action</h3>
+            <p class="meta">Directly from the current verified run state.</p>
+            <div id="nextAction" class="mono empty">No run loaded.</div>
+          </section>
+
+          <section class="panel" data-focus-group="operate,recovery,all">
+            <h3>Manual Actions</h3>
+            <p class="meta">Outstanding operator actions from `status`.</p>
+            <ul id="manualActions" class="actions-list"></ul>
+          </section>
+
+          <section class="panel" data-focus-group="reports,all">
+            <h3>Report Controls</h3>
+            <p class="meta">Generate current operational reports. Historical evidence is visible separately below.</p>
+            <div class="report-toolbar">
+              <button class="primary" data-report="checkpoint">Checkpoint</button>
+              <button data-report="cleanliness">Cleanliness</button>
+              <button data-report="provider-usage">Provider</button>
+              <button data-report="preflight">Preflight</button>
+              <button data-report="recovery-drill">Recovery</button>
+              <button data-report="product-review">Product Review</button>
+              <button data-report="glossary-decisions">Decisions</button>
+              <button data-report="glossary-conflicts">Conflicts</button>
+              <button data-report="glossary-audit">Audit</button>
+              <button data-report="glossary-guard">Guard</button>
+            </div>
+            <div id="reportResult" class="empty">No report generated yet.</div>
+          </section>
+
+          <section class="panel" data-focus-group="reports,all">
+            <h3>Report Workspace</h3>
+            <p class="meta">Separate active operational reports from archived historical evidence.</p>
+            <div id="reportWorkspace" class="empty">No report workspace loaded.</div>
+          </section>
+
+          <section class="panel" data-focus-group="setup,reports,all">
+            <h3>Research Readiness</h3>
+            <p class="meta">Readiness contract for bounded translation versus normal production.</p>
+            <div id="researchReadiness" class="empty">No research profile loaded.</div>
+          </section>
+
+          <section class="panel" data-focus-group="operate,recovery,reports,setup,all">
+            <h3>Recovery Hints</h3>
+            <p class="meta">Copyable commands and quick links for diagnostics, review, and bounded recovery.</p>
+            <div id="commandHints" class="empty">No command hints loaded.</div>
+            <div id="quickLinks" class="empty" style="margin-top:12px;">No quick links loaded.</div>
+          </section>
+
+          <section class="panel" data-focus-group="operate,recovery,reports,all">
+            <h3>Accepted Guardrails</h3>
+            <p class="meta">The dashboard safety model that must stay true as controls get denser.</p>
+            <div id="dashboardGuardrails" class="empty">No guardrails loaded.</div>
+          </section>
+
+          <section class="panel" data-focus-group="operate,recovery,setup,reports,all">
+            <h3>Preflight</h3>
+            <p class="meta">Environment, provider, and git guardrail checks.</p>
+            <div id="preflightSummary" class="empty">No preflight summary loaded.</div>
+          </section>
+
+          <section class="panel" data-focus-group="operate,recovery,reports,setup,all">
+            <h3>Recent Activity</h3>
+            <p class="meta">Recent dashboard loads, reports, inspections, and bounded actions.</p>
+            <ul id="activityLog" class="actions-list"></ul>
           </section>
         </div>
       </div>
@@ -1513,6 +1604,7 @@ def _render_operator_html() -> str:
       runId: "",
       snapshot: null,
       activityLog: [],
+      focus: "operate",
     };
 
     const runIdInput = document.getElementById("runIdInput");
@@ -1553,6 +1645,18 @@ def _render_operator_html() -> str:
     const rerunBlockId = document.getElementById("rerunBlockId");
     const rerunStage = document.getElementById("rerunStage");
     let currentGlossarySuggestion = null;
+
+    function setDashboardFocus(focus) {
+      state.focus = focus || "operate";
+      document.querySelectorAll("[data-focus-target]").forEach((button) => {
+        button.classList.toggle("active", button.dataset.focusTarget === state.focus);
+      });
+      document.querySelectorAll("[data-focus-group]").forEach((element) => {
+        const groups = String(element.dataset.focusGroup || "").split(",").map((item) => item.trim()).filter(Boolean);
+        const visible = state.focus === "all" || groups.includes("all") || groups.includes(state.focus);
+        element.hidden = !visible;
+      });
+    }
 
     function setRunId(runId) {
       state.runId = runId || "";
@@ -2261,6 +2365,7 @@ def _render_operator_html() -> str:
       renderDashboardGuardrails(snapshot);
       renderManualActions(snapshot);
       renderActionPreviews();
+      setDashboardFocus(state.focus);
     }
 
     async function loadSnapshot(runId = "") {
@@ -2654,7 +2759,11 @@ def _render_operator_html() -> str:
     document.querySelectorAll("[data-report]").forEach((button) => {
       button.addEventListener("click", () => generateReport(button.dataset.report));
     });
+    document.querySelectorAll("[data-focus-target]").forEach((button) => {
+      button.addEventListener("click", () => setDashboardFocus(button.dataset.focusTarget || "operate"));
+    });
 
+    setDashboardFocus(state.focus);
     loadSnapshot("");
   </script>
 </body>

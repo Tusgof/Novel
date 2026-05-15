@@ -4707,6 +4707,8 @@ def test_render_operator_html_contains_v6_dashboard_elements():
     from novel_pipeline.operator_ui import _render_operator_html
 
     html = _render_operator_html()
+    assert 'data-focus-target="operate"' in html
+    assert 'data-focus-target="glossary"' in html
     assert 'id="runSelector"' in html
     assert 'id="statusStrip"' in html
     assert 'id="runOverview"' in html

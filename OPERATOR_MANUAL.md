@@ -1,6 +1,6 @@
 # Operator Manual
 
-Last updated: 2026-05-10
+Last updated: 2026-05-16
 
 This is the practical runbook. It should help the operator proceed without guessing.
 
@@ -144,6 +144,13 @@ This is the practical runbook. It should help the operator proceed without guess
   - dashboard scan speed and report workspace clarity improved without changing the bounded execution model
   - `07_Reports/` root now presents operational reports only; historical run evidence lives under `07_Reports/archive/history/`
   - the operator window now shows a dedicated `Report Workspace` panel with active vs archive separation
+- V6.3 complete:
+  - the dashboard now supports workflow focus modes: `Current Run`, `Glossary`, `Recovery`, `Reports`, `Setup`, and `All`
+  - batch start and bounded resume are grouped under `Batch Controls`
+  - rerun-block and action feedback are grouped under `Recovery Controls`
+  - glossary queue and glossary decision now form a tighter glossary task surface
+  - project scaffold and research editing are moved under `Project Setup` instead of the daily run path
+  - report generation now lives in a dedicated `Report Controls` panel inside the main workspace
 
 ## Standard Preflight
 

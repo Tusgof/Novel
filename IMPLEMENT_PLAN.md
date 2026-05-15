@@ -734,6 +734,34 @@ Verification completed on 2026-05-11:
   - `report_surfaces.active` and `report_surfaces.archive` separated correctly
   - `Report Workspace` markup present in the served dashboard HTML
 
+### V6.3: Dashboard Workflow Simplification
+
+Goal: make the operator dashboard easier to use during daily translation work by reorganizing the existing controls around the real workflow instead of a flat pile of panels.
+
+Status: complete on 2026-05-16.
+
+Completed slices:
+
+- V6.3A: Workflow-first focus model
+  - sidebar and top-of-page focus switches now filter the dashboard by `Current Run`, `Glossary`, `Recovery`, `Reports`, `Setup`, or `All`
+  - operators can reduce visual noise without losing any existing bounded action
+
+- V6.3B: Regrouped operational controls
+  - batch start and bounded resume now live together under `Batch Controls`
+  - rerun-block and action-result feedback now live together under `Recovery Controls`
+  - glossary queue and glossary decision now sit together as the glossary task surface
+
+- V6.3C: Setup moved out of the daily run path
+  - `Init Novel Project` and `Research Profile` editing now live under `Project Setup`
+  - report generation moved from the sidebar into a dedicated `Report Controls` panel in the main workspace
+
+Acceptance criteria:
+
+- compile/tests still pass
+- no new unbounded state-changing actions are introduced
+- all previous action IDs and guarded behaviors remain usable
+- the dashboard can be filtered to the operator's current task instead of forcing full-page scanning
+
 ## Acceptance Gates
 
 This document rewrite is accepted only when:
