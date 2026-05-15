@@ -903,6 +903,10 @@ def _render_operator_html() -> str:
       color: #111827;
       border-color: rgba(255,255,255,.22);
     }
+    .sidebar-run-stack {
+      display: grid;
+      gap: 8px;
+    }
     .nav label, .panel label {
       display: block;
       margin-bottom: 6px;
@@ -1292,6 +1296,10 @@ def _render_operator_html() -> str:
       color: var(--muted);
       font-weight: 500;
     }
+    .panel-flash {
+      border-color: var(--accent) !important;
+      box-shadow: 0 0 0 3px rgba(15, 98, 254, 0.12), var(--shadow) !important;
+    }
     .artifact-list a, .report-link {
       color: var(--accent);
       text-decoration: none;
@@ -1331,11 +1339,14 @@ def _render_operator_html() -> str:
 
       <section>
         <label for="runIdInput">Run ID</label>
-        <div class="run-row">
+        <div class="sidebar-run-stack">
           <input id="runIdInput" placeholder="batch-ch019-ch023-v1">
           <select id="runSelector">
             <option value="">Select known run</option>
           </select>
+        </div>
+        <div class="footer-note" style="margin-top: 8px;">
+          Paste a run ID or pick one from the known-run list, then load it.
         </div>
         <div class="btn-row" style="margin-top: 10px;">
           <button class="primary" id="loadRunBtn">Load Run</button>
@@ -1401,20 +1412,20 @@ def _render_operator_html() -> str:
         <p class="meta">Jump straight to the action surface you need instead of scanning the whole dashboard.</p>
         <div class="quick-action-grid">
           <button class="quick-action-btn primary" id="jumpBatchControlsBtn">
-            <strong>Run Translation</strong>
-            <span>Open bounded batch start and bounded resume.</span>
+            <strong>Open Batch Controls</strong>
+            <span>Jump to bounded batch start and bounded resume.</span>
           </button>
           <button class="quick-action-btn" id="jumpGlossaryWorkbenchBtn">
-            <strong>Review Glossary</strong>
-            <span>Open glossary queue and decision controls.</span>
+            <strong>Open Glossary Workbench</strong>
+            <span>Jump to glossary queue and decision controls.</span>
           </button>
           <button class="quick-action-btn" id="jumpRecoveryBtn">
-            <strong>Recover Block</strong>
-            <span>Open inspect and rerun-block surfaces.</span>
+            <strong>Open Recovery Tools</strong>
+            <span>Jump to inspect and rerun-block surfaces.</span>
           </button>
           <button class="quick-action-btn" id="jumpReportsBtn">
-            <strong>Generate Report</strong>
-            <span>Open active report controls and report workspace.</span>
+            <strong>Open Report Controls</strong>
+            <span>Jump to active report controls and report workspace.</span>
           </button>
         </div>
       </section>
@@ -1708,7 +1719,9 @@ def _render_operator_html() -> str:
       setDashboardFocus(focus);
       const panel = document.getElementById(panelId);
       if (panel) {
+        panel.classList.add("panel-flash");
         panel.scrollIntoView({ behavior: "smooth", block: "start" });
+        setTimeout(() => panel.classList.remove("panel-flash"), 1200);
       }
     }
 
@@ -2707,7 +2720,7 @@ def _render_operator_html() -> str:
       logActivity(action, payload.run_id || state.runId || "workspace", data.output || "Action completed.");
     }
 
-    document.getElementById("loadRunBtn").addEventListener("click", () => loadSnapshot(runIdInput.value.trim()));
+    document.getElementById("loadRunBtn").addEventListener("click", () => loadSnapshot(runIdInput.value.trim() || runSelector.value.trim()));
     document.getElementById("refreshBtn").addEventListener("click", () => loadSnapshot(state.runId || runIdInput.value.trim()));
     document.getElementById("jumpBatchControlsBtn").addEventListener("click", () => focusAndScroll("operate", "batchControlsPanel"));
     document.getElementById("jumpGlossaryWorkbenchBtn").addEventListener("click", () => focusAndScroll("glossary", "glossaryWorkbenchPanel"));

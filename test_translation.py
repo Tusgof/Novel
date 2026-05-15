@@ -4708,7 +4708,9 @@ def test_render_operator_html_contains_v6_dashboard_elements():
 
     html = _render_operator_html()
     assert "Primary Actions" in html
+    assert "Open Batch Controls" in html
     assert 'id="jumpBatchControlsBtn"' in html
+    assert "Paste a run ID or pick one from the known-run list" in html
     assert 'data-focus-target="operate"' in html
     assert 'data-focus-target="glossary"' in html
     assert 'id="runSelector"' in html
