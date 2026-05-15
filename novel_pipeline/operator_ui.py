@@ -1269,6 +1269,29 @@ def _render_operator_html() -> str:
       gap: 8px;
       margin-bottom: 14px;
     }
+    .quick-action-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+    .quick-action-btn {
+      height: auto;
+      min-height: 72px;
+      padding: 12px;
+      text-align: left;
+      display: grid;
+      gap: 4px;
+      align-content: start;
+    }
+    .quick-action-btn strong {
+      font-size: 13px;
+    }
+    .quick-action-btn span {
+      font-size: 12px;
+      line-height: 1.45;
+      color: var(--muted);
+      font-weight: 500;
+    }
     .artifact-list a, .report-link {
       color: var(--accent);
       text-decoration: none;
@@ -1373,16 +1396,32 @@ def _render_operator_html() -> str:
         <div id="runOverview" class="empty">No run loaded.</div>
       </section>
 
+      <section class="panel" data-focus-group="operate,glossary,recovery,reports,all">
+        <h3>Primary Actions</h3>
+        <p class="meta">Jump straight to the action surface you need instead of scanning the whole dashboard.</p>
+        <div class="quick-action-grid">
+          <button class="quick-action-btn primary" id="jumpBatchControlsBtn">
+            <strong>Run Translation</strong>
+            <span>Open bounded batch start and bounded resume.</span>
+          </button>
+          <button class="quick-action-btn" id="jumpGlossaryWorkbenchBtn">
+            <strong>Review Glossary</strong>
+            <span>Open glossary queue and decision controls.</span>
+          </button>
+          <button class="quick-action-btn" id="jumpRecoveryBtn">
+            <strong>Recover Block</strong>
+            <span>Open inspect and rerun-block surfaces.</span>
+          </button>
+          <button class="quick-action-btn" id="jumpReportsBtn">
+            <strong>Generate Report</strong>
+            <span>Open active report controls and report workspace.</span>
+          </button>
+        </div>
+      </section>
+
       <div class="layout">
         <div class="column-stack">
-          <section class="panel" data-focus-group="operate,recovery,all">
-            <h3>Chapter Dashboard</h3>
-            <p class="meta">Progress, pending pressure, and output coverage for the current run.</p>
-            <div id="chapterMatrix" class="empty">No run loaded.</div>
-            <div id="chapterTableWrap" class="empty">No run loaded.</div>
-          </section>
-
-          <section class="panel" data-focus-group="operate,recovery,all">
+          <section class="panel" id="batchControlsPanel" data-focus-group="operate,recovery,all">
             <h3>Batch Controls</h3>
             <p class="meta">Use bounded batch start or bounded resume first. These are the fastest daily controls.</p>
             <div class="dual-stack">
@@ -1414,7 +1453,14 @@ def _render_operator_html() -> str:
             </div>
           </section>
 
-          <section class="panel" data-focus-group="glossary,all">
+          <section class="panel" id="chapterDashboardPanel" data-focus-group="operate,recovery,all">
+            <h3>Chapter Dashboard</h3>
+            <p class="meta">Progress, pending pressure, and output coverage for the current run.</p>
+            <div id="chapterMatrix" class="empty">No run loaded.</div>
+            <div id="chapterTableWrap" class="empty">No run loaded.</div>
+          </section>
+
+          <section class="panel" id="glossaryWorkbenchPanel" data-focus-group="glossary,all">
             <h3>Glossary Workbench</h3>
             <p class="meta">Approve or reject terms after scan. Work here before translation starts.</p>
             <div id="glossaryProgress" class="empty">No glossary progress loaded.</div>
@@ -1427,7 +1473,7 @@ def _render_operator_html() -> str:
             <div id="glossaryDecision" class="empty">No term selected.</div>
           </section>
 
-          <section class="panel" data-focus-group="recovery,all">
+          <section class="panel" id="blockInspectionPanel" data-focus-group="recovery,all">
             <h3>Block Inspection</h3>
             <p class="meta">Read one block, see stage state, and jump directly to the narrowest recovery target.</p>
             <div class="inspect-grid">
@@ -1540,7 +1586,7 @@ def _render_operator_html() -> str:
             <ul id="manualActions" class="actions-list"></ul>
           </section>
 
-          <section class="panel" data-focus-group="reports,all">
+          <section class="panel" id="reportControlsPanel" data-focus-group="reports,all">
             <h3>Report Controls</h3>
             <p class="meta">Generate current operational reports. Historical evidence is visible separately below.</p>
             <div class="report-toolbar">
@@ -1656,6 +1702,14 @@ def _render_operator_html() -> str:
         const visible = state.focus === "all" || groups.includes("all") || groups.includes(state.focus);
         element.hidden = !visible;
       });
+    }
+
+    function focusAndScroll(focus, panelId) {
+      setDashboardFocus(focus);
+      const panel = document.getElementById(panelId);
+      if (panel) {
+        panel.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     }
 
     function setRunId(runId) {
@@ -2655,6 +2709,10 @@ def _render_operator_html() -> str:
 
     document.getElementById("loadRunBtn").addEventListener("click", () => loadSnapshot(runIdInput.value.trim()));
     document.getElementById("refreshBtn").addEventListener("click", () => loadSnapshot(state.runId || runIdInput.value.trim()));
+    document.getElementById("jumpBatchControlsBtn").addEventListener("click", () => focusAndScroll("operate", "batchControlsPanel"));
+    document.getElementById("jumpGlossaryWorkbenchBtn").addEventListener("click", () => focusAndScroll("glossary", "glossaryWorkbenchPanel"));
+    document.getElementById("jumpRecoveryBtn").addEventListener("click", () => focusAndScroll("recovery", "blockInspectionPanel"));
+    document.getElementById("jumpReportsBtn").addEventListener("click", () => focusAndScroll("reports", "reportControlsPanel"));
     runSelector.addEventListener("change", () => {
       const runId = runSelector.value.trim();
       runIdInput.value = runId;
