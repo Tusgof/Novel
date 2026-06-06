@@ -914,7 +914,7 @@ def _render_operator_html() -> str:
       font-weight: 600;
       color: inherit;
     }
-    .nav input, .panel input, .panel select, .nav textarea, .panel textarea {
+    .nav input, .nav select, .panel input, .panel select, .nav textarea, .panel textarea {
       width: 100%;
       height: 38px;
       border: 1px solid var(--border);
@@ -929,7 +929,7 @@ def _render_operator_html() -> str:
       padding: 8px 10px;
       resize: vertical;
     }
-    .nav input { background: rgba(255,255,255,.98); }
+    .nav input, .nav select { background: rgba(255,255,255,.98); }
     .btn-row, .grid-btns {
       display: grid;
       gap: 8px;
@@ -1273,33 +1273,6 @@ def _render_operator_html() -> str:
       gap: 8px;
       margin-bottom: 14px;
     }
-    .quick-action-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 10px;
-    }
-    .quick-action-btn {
-      height: auto;
-      min-height: 72px;
-      padding: 12px;
-      text-align: left;
-      display: grid;
-      gap: 4px;
-      align-content: start;
-    }
-    .quick-action-btn strong {
-      font-size: 13px;
-    }
-    .quick-action-btn span {
-      font-size: 12px;
-      line-height: 1.45;
-      color: var(--muted);
-      font-weight: 500;
-    }
-    .panel-flash {
-      border-color: var(--accent) !important;
-      box-shadow: 0 0 0 3px rgba(15, 98, 254, 0.12), var(--shadow) !important;
-    }
     .artifact-list a, .report-link {
       color: var(--accent);
       text-decoration: none;
@@ -1349,29 +1322,29 @@ def _render_operator_html() -> str:
           Paste a run ID or pick one from the known-run list, then load it.
         </div>
         <div class="btn-row" style="margin-top: 10px;">
-          <button class="primary" id="loadRunBtn">Load Run</button>
-          <button class="ghost-dark" id="refreshBtn">Refresh</button>
+          <button class="primary" id="loadRunBtn" data-action-role="read-only">Load Run</button>
+          <button class="ghost-dark" id="refreshBtn" data-action-role="read-only">Refresh</button>
         </div>
       </section>
 
       <section>
-        <label>Workflow Focus</label>
+        <label>Task</label>
         <div class="footer-note" style="margin-bottom: 10px;">
-          Filter the dashboard to the task you are doing right now.
+          Pick the work you are doing now.
         </div>
         <div class="focus-nav">
-          <button class="ghost-dark focus-btn active" data-focus-target="operate">Current Run</button>
-          <button class="ghost-dark focus-btn" data-focus-target="glossary">Glossary</button>
-          <button class="ghost-dark focus-btn" data-focus-target="recovery">Recovery</button>
-          <button class="ghost-dark focus-btn" data-focus-target="reports">Reports</button>
-          <button class="ghost-dark focus-btn" data-focus-target="setup">Setup</button>
-          <button class="ghost-dark focus-btn" data-focus-target="all">All</button>
+          <button class="ghost-dark focus-btn active" data-focus-target="operate" data-task-role="navigation">Continue</button>
+          <button class="ghost-dark focus-btn" data-focus-target="glossary" data-task-role="navigation">Glossary</button>
+          <button class="ghost-dark focus-btn" data-focus-target="recovery" data-task-role="navigation">Recover</button>
+          <button class="ghost-dark focus-btn" data-focus-target="reports" data-task-role="navigation">Reports</button>
+          <button class="ghost-dark focus-btn" data-focus-target="setup" data-task-role="navigation">Setup</button>
+          <button class="ghost-dark focus-btn" data-focus-target="all" data-task-role="navigation">All</button>
         </div>
       </section>
 
       <section>
         <div class="footer-note">
-          This slice surfaces status, inspection, reports, and bounded state-changing actions.
+          Navigation is secondary. State-changing actions stay inside each task panel with explicit scope previews.
         </div>
       </section>
     </aside>
@@ -1386,16 +1359,16 @@ def _render_operator_html() -> str:
 
       <section class="panel workflow-header">
         <div>
-          <h3>Workflow Focus</h3>
-          <p class="meta">Show only the surfaces needed for the current step instead of scanning the whole dashboard.</p>
+          <h3>Task Workspace</h3>
+          <p class="meta">Choose the job first, then use the bounded action inside that task.</p>
         </div>
         <div class="focus-strip">
-          <button class="focus-chip active" data-focus-target="operate">Current Run</button>
-          <button class="focus-chip" data-focus-target="glossary">Glossary</button>
-          <button class="focus-chip" data-focus-target="recovery">Recovery</button>
-          <button class="focus-chip" data-focus-target="reports">Reports</button>
-          <button class="focus-chip" data-focus-target="setup">Setup</button>
-          <button class="focus-chip" data-focus-target="all">All</button>
+          <button class="focus-chip active" data-focus-target="operate" data-task-role="navigation">Continue Translation</button>
+          <button class="focus-chip" data-focus-target="glossary" data-task-role="navigation">Glossary Review</button>
+          <button class="focus-chip" data-focus-target="recovery" data-task-role="navigation">Recover Block</button>
+          <button class="focus-chip" data-focus-target="reports" data-task-role="navigation">Reports</button>
+          <button class="focus-chip" data-focus-target="setup" data-task-role="navigation">Project Setup</button>
+          <button class="focus-chip" data-focus-target="all" data-task-role="navigation">All</button>
         </div>
       </section>
 
@@ -1407,27 +1380,10 @@ def _render_operator_html() -> str:
         <div id="runOverview" class="empty">No run loaded.</div>
       </section>
 
-      <section class="panel" data-focus-group="operate,glossary,recovery,reports,all">
-        <h3>Primary Actions</h3>
-        <p class="meta">Jump straight to the action surface you need instead of scanning the whole dashboard.</p>
-        <div class="quick-action-grid">
-          <button class="quick-action-btn primary" id="jumpBatchControlsBtn">
-            <strong>Open Batch Controls</strong>
-            <span>Jump to bounded batch start and bounded resume.</span>
-          </button>
-          <button class="quick-action-btn" id="jumpGlossaryWorkbenchBtn">
-            <strong>Open Glossary Workbench</strong>
-            <span>Jump to glossary queue and decision controls.</span>
-          </button>
-          <button class="quick-action-btn" id="jumpRecoveryBtn">
-            <strong>Open Recovery Tools</strong>
-            <span>Jump to inspect and rerun-block surfaces.</span>
-          </button>
-          <button class="quick-action-btn" id="jumpReportsBtn">
-            <strong>Open Report Controls</strong>
-            <span>Jump to active report controls and report workspace.</span>
-          </button>
-        </div>
+      <section class="panel" id="taskGuidePanel">
+        <h3>Task Guide</h3>
+        <p class="meta"><span id="taskGuideTitle">Continue Translation</span> - task-specific state and next action. Execution controls are below.</p>
+        <div id="taskGuide" class="empty">No run loaded.</div>
       </section>
 
       <div class="layout">
@@ -1447,7 +1403,7 @@ def _render_operator_html() -> str:
                     <option value="bounded">Bounded batch run</option>
                   </select>
                 </div>
-                <button class="primary" id="batchBtn">Run Batch</button>
+                <button class="primary" id="batchBtn" data-action-role="state-changing">Run Batch</button>
                 <div id="batchPreview" class="preview-box empty">No batch scope prepared.</div>
               </div>
               <div class="action-card">
@@ -1458,7 +1414,7 @@ def _render_operator_html() -> str:
                   <input id="resumeUntilChapter" placeholder="Until chapter e.g. ch022">
                   <input id="resumeUntilBlock" placeholder="Or until block e.g. ch022-block-004">
                 </div>
-                <button class="primary" id="resumeBtn">Run Bounded Resume</button>
+                <button class="primary" id="resumeBtn" data-action-role="state-changing">Run Bounded Resume</button>
                 <div id="resumePreview" class="preview-box empty">No bounded resume scope prepared.</div>
               </div>
             </div>
@@ -1490,7 +1446,7 @@ def _render_operator_html() -> str:
             <div class="inspect-grid">
               <input id="inspectRunId" placeholder="Run ID">
               <input id="inspectBlockId" placeholder="Block ID e.g. ch019-block-002">
-              <button class="primary" id="inspectBtn">Inspect</button>
+              <button class="primary" id="inspectBtn" data-action-role="read-only">Inspect</button>
             </div>
             <div id="inspectResult" class="empty">No block inspected.</div>
           </section>
@@ -1511,7 +1467,7 @@ def _render_operator_html() -> str:
                   <option value="formatting">formatting</option>
                 </select>
               </div>
-              <button class="primary" id="rerunBtn">Run Rerun-Block</button>
+              <button class="primary" id="rerunBtn" data-action-role="state-changing">Run Rerun-Block</button>
               <div id="rerunPreview" class="preview-box empty">No rerun-block scope prepared.</div>
             </div>
             <div style="margin-top:12px;">
@@ -1545,7 +1501,7 @@ def _render_operator_html() -> str:
                   </div>
                   <textarea id="initAliases" placeholder="Aliases, one per line or comma-separated"></textarea>
                 </div>
-                <button class="primary" id="initNovelBtn">Init Novel Project</button>
+                <button class="primary" id="initNovelBtn" data-action-role="setup-action">Init Novel Project</button>
               </div>
               <div class="action-card">
                 <label>Research Profile</label>
@@ -1572,7 +1528,7 @@ def _render_operator_html() -> str:
                   <textarea id="researchProfileReferenceLinks" placeholder="Reference links, one per line or comma-separated"></textarea>
                   <textarea id="researchProfileNotes" placeholder="Notes"></textarea>
                 </div>
-                <button class="primary" id="saveResearchProfileBtn">Save Research Profile</button>
+                <button class="primary" id="saveResearchProfileBtn" data-action-role="setup-action">Save Research Profile</button>
               </div>
             </div>
           </section>
@@ -1601,16 +1557,16 @@ def _render_operator_html() -> str:
             <h3>Report Controls</h3>
             <p class="meta">Generate current operational reports. Historical evidence is visible separately below.</p>
             <div class="report-toolbar">
-              <button class="primary" data-report="checkpoint">Checkpoint</button>
-              <button data-report="cleanliness">Cleanliness</button>
-              <button data-report="provider-usage">Provider</button>
-              <button data-report="preflight">Preflight</button>
-              <button data-report="recovery-drill">Recovery</button>
-              <button data-report="product-review">Product Review</button>
-              <button data-report="glossary-decisions">Decisions</button>
-              <button data-report="glossary-conflicts">Conflicts</button>
-              <button data-report="glossary-audit">Audit</button>
-              <button data-report="glossary-guard">Guard</button>
+              <button class="primary" data-report="checkpoint" data-action-role="report-action">Checkpoint</button>
+              <button data-report="cleanliness" data-action-role="report-action">Cleanliness</button>
+              <button data-report="provider-usage" data-action-role="report-action">Provider</button>
+              <button data-report="preflight" data-action-role="report-action">Preflight</button>
+              <button data-report="recovery-drill" data-action-role="report-action">Recovery</button>
+              <button data-report="product-review" data-action-role="report-action">Product Review</button>
+              <button data-report="glossary-decisions" data-action-role="report-action">Decisions</button>
+              <button data-report="glossary-conflicts" data-action-role="report-action">Conflicts</button>
+              <button data-report="glossary-audit" data-action-role="report-action">Audit</button>
+              <button data-report="glossary-guard" data-action-role="report-action">Guard</button>
             </div>
             <div id="reportResult" class="empty">No report generated yet.</div>
           </section>
@@ -1710,19 +1666,10 @@ def _render_operator_html() -> str:
       });
       document.querySelectorAll("[data-focus-group]").forEach((element) => {
         const groups = String(element.dataset.focusGroup || "").split(",").map((item) => item.trim()).filter(Boolean);
-        const visible = state.focus === "all" || groups.includes("all") || groups.includes(state.focus);
+        const visible = state.focus === "all" || groups.includes(state.focus);
         element.hidden = !visible;
       });
-    }
-
-    function focusAndScroll(focus, panelId) {
-      setDashboardFocus(focus);
-      const panel = document.getElementById(panelId);
-      if (panel) {
-        panel.classList.add("panel-flash");
-        panel.scrollIntoView({ behavior: "smooth", block: "start" });
-        setTimeout(() => panel.classList.remove("panel-flash"), 1200);
-      }
+      renderTaskGuide(state.snapshot);
     }
 
     function setRunId(runId) {
@@ -1765,7 +1712,7 @@ def _render_operator_html() -> str:
 
     function splitListField(raw) {
       return String(raw || "")
-        .split(/[\n,]+/)
+        .split(/[\\n,]+/)
         .map((item) => item.trim())
         .filter(Boolean);
     }
@@ -1934,6 +1881,76 @@ def _render_operator_html() -> str:
       }
 
       return { pillClass, title, detail };
+    }
+
+    function renderTaskGuide(snapshot) {
+      const title = document.getElementById("taskGuideTitle");
+      const wrap = document.getElementById("taskGuide");
+      if (!title || !wrap) {
+        return;
+      }
+      const status = snapshot?.status || {};
+      const blocker = resolveCurrentBlocker(snapshot);
+      const manualActions = (status.manual_actions || []).filter((item) => String(item || "").trim().toLowerCase() !== "none");
+      const failedBlocks = status.current_failed_blocks || [];
+      const nextAction = status.next_effective_action || "none";
+      const taskMap = {
+        operate: {
+          title: "Continue Translation",
+          detail: snapshot?.run_id
+            ? `Next safe action: ${nextAction}. Current blocker: ${blocker.title}.`
+            : "Load a run first. Then use Resume Run with an explicit chapter or block boundary.",
+          action: failedBlocks.length
+            ? "Switch to Recover Block before continuing translation."
+            : "Use Run Bounded Resume for an existing run, or Run Batch Range for a scan-only gate on a new explicit range.",
+        },
+        glossary: {
+          title: "Glossary Review",
+          detail: snapshot?.run_id
+            ? "Review scan candidates, load Thai options only when needed, then approve or reject one term at a time."
+            : "Load the scan-only run before reviewing glossary candidates.",
+          action: "Use Load options only when you are ready for provider-assisted Thai suggestions.",
+        },
+        recovery: {
+          title: "Recover Block",
+          detail: failedBlocks.length
+            ? `Current failed blocks: ${failedBlocks.join(", ")}.`
+            : "No current failed blocks are reported for the loaded run.",
+          action: "Inspect the exact block first, then rerun one block from the narrowest failed stage.",
+        },
+        reports: {
+          title: "Reports",
+          detail: "Generate current operational reports, then check the report workspace for active versus archived evidence.",
+          action: "Reports create documentation artifacts; they do not translate chapters.",
+        },
+        setup: {
+          title: "Project Setup",
+          detail: "Use only for a new novel workspace or research profile update.",
+          action: "Normal Deep Sea Embers continuation does not require setup controls.",
+        },
+        all: {
+          title: "All Controls",
+          detail: "All dashboard surfaces are visible. Use this only when auditing or debugging the control window.",
+          action: "For normal work, pick one task tab so unrelated controls stay hidden.",
+        },
+      };
+      const guide = taskMap[state.focus] || taskMap.operate;
+      title.textContent = guide.title;
+      wrap.className = "";
+      wrap.innerHTML = `
+        <div class="overview-grid">
+          <div class="overview-card">
+            <div class="label">Task State</div>
+            <div class="value">${escapeHtml(guide.detail)}</div>
+            <div class="sub">${manualActions.length ? `${manualActions.length} manual actions listed` : "No manual action listed"}</div>
+          </div>
+          <div class="overview-card">
+            <div class="label">What To Do Here</div>
+            <div class="value">${escapeHtml(guide.action)}</div>
+            <div class="sub">Navigation buttons only change the view; action buttons below execute bounded commands.</div>
+          </div>
+        </div>
+      `;
     }
 
     function renderStatusStrip(snapshot) {
@@ -2213,18 +2230,18 @@ def _render_operator_html() -> str:
     function renderResearchProfileEditor(snapshot) {
       const profile = snapshot?.research_profile || {};
       researchProfileTitle.value = profile.title || "";
-      researchProfileAliases.value = Array.isArray(profile.aliases) ? profile.aliases.join("\n") : "";
+      researchProfileAliases.value = Array.isArray(profile.aliases) ? profile.aliases.join("\\n") : "";
       researchProfileSourceUrl.value = profile.source_url || "";
       researchProfileStatus.value = profile.status || "pending";
       researchProfileSynopsis.value = profile.synopsis || "";
-      researchProfileTags.value = Array.isArray(profile.tags) ? profile.tags.join("\n") : "";
+      researchProfileTags.value = Array.isArray(profile.tags) ? profile.tags.join("\\n") : "";
       researchProfileStyleNotes.value = profile.style_notes || "";
       researchProfileReaderExpectations.value = profile.reader_expectations || "";
       researchProfileReviewSummary.value = profile.review_summary || "";
       researchProfileLastReviewedAt.value = profile.last_reviewed_at || "";
       researchProfileReviewedBy.value = profile.reviewed_by || "";
-      researchProfileTerminology.value = Array.isArray(profile.terminology) ? profile.terminology.join("\n") : "";
-      researchProfileReferenceLinks.value = Array.isArray(profile.reference_links) ? profile.reference_links.join("\n") : "";
+      researchProfileTerminology.value = Array.isArray(profile.terminology) ? profile.terminology.join("\\n") : "";
+      researchProfileReferenceLinks.value = Array.isArray(profile.reference_links) ? profile.reference_links.join("\\n") : "";
       researchProfileNotes.value = profile.notes || "";
     }
 
@@ -2469,7 +2486,7 @@ def _render_operator_html() -> str:
           <td>${renderGlossaryIntersectionSummary(item.intersections)}</td>
           <td>${escapeHtml(item.chapter_id || "")}</td>
           <td class="mono">${escapeHtml(item.first_seen_block || "")}</td>
-          <td><button data-term="${escapeHtml(item.original_term || "")}" class="load-suggestion-btn">Load options</button></td>
+          <td><button data-term="${escapeHtml(item.original_term || "")}" class="load-suggestion-btn" data-action-role="provider-assisted">Load options</button></td>
         </tr>
       `).join("");
       const removed = (data.removed_terms || []).length
@@ -2517,7 +2534,7 @@ def _render_operator_html() -> str:
         const rationale = (data.rationales || [])[index] || "";
         return `<option value="${escapeHtml(option)}">${escapeHtml(option)}${rationale ? " — " + escapeHtml(rationale) : ""}</option>`;
       }).join("");
-      const contextPreview = (data.context || []).join("\n\n");
+      const contextPreview = (data.context || []).join("\\n\\n");
       wrap.className = "";
       wrap.innerHTML = `
         <div class="stack">
@@ -2530,8 +2547,8 @@ def _render_operator_html() -> str:
           <input id="glossaryDecisionNote" placeholder="Optional note">
           <div class="mono" style="white-space:pre-wrap;">${escapeHtml(contextPreview)}</div>
           <div class="btn-row">
-            <button class="primary" id="approveTermBtn">Approve Selected Option</button>
-            <button id="rejectTermBtn">Reject Term</button>
+            <button class="primary" id="approveTermBtn" data-action-role="state-changing">Approve Selected Option</button>
+            <button id="rejectTermBtn" data-action-role="state-changing">Reject Term</button>
           </div>
         </div>
       `;
@@ -2636,8 +2653,8 @@ def _render_operator_html() -> str:
             <div class="label">Recovery target</div>
             <div class="mono">recommended rerun stage: ${escapeHtml(rerunStage)}</div>
             <div class="btn-row" style="margin-top:10px;">
-              <button class="primary" id="inspectUsePendingStageBtn">Use Pending Stage</button>
-              <button id="inspectUseQaStageBtn">Use QA Stage</button>
+              <button class="primary" id="inspectUsePendingStageBtn" data-action-role="read-only">Use Pending Stage</button>
+              <button id="inspectUseQaStageBtn" data-action-role="read-only">Use QA Stage</button>
             </div>
           </div>
           <div class="mono">ledger records: ${(data.records || []).length}</div>
@@ -2722,10 +2739,6 @@ def _render_operator_html() -> str:
 
     document.getElementById("loadRunBtn").addEventListener("click", () => loadSnapshot(runIdInput.value.trim() || runSelector.value.trim()));
     document.getElementById("refreshBtn").addEventListener("click", () => loadSnapshot(state.runId || runIdInput.value.trim()));
-    document.getElementById("jumpBatchControlsBtn").addEventListener("click", () => focusAndScroll("operate", "batchControlsPanel"));
-    document.getElementById("jumpGlossaryWorkbenchBtn").addEventListener("click", () => focusAndScroll("glossary", "glossaryWorkbenchPanel"));
-    document.getElementById("jumpRecoveryBtn").addEventListener("click", () => focusAndScroll("recovery", "blockInspectionPanel"));
-    document.getElementById("jumpReportsBtn").addEventListener("click", () => focusAndScroll("reports", "reportControlsPanel"));
     runSelector.addEventListener("change", () => {
       const runId = runSelector.value.trim();
       runIdInput.value = runId;

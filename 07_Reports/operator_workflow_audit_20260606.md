@@ -167,3 +167,35 @@ The backend control surface is present, but the current operator window is not y
 - Any UI change bypasses research readiness, bounded resume, or glossary approval guardrails.
 - Any test claims UI behavior without checking the relevant rendered control or API response.
 - Any workflow requires Codex memory to know the next button.
+
+## Implementation Closeout
+- closeout_status: accepted
+- implementation_date: 2026-06-06
+- files_changed_for_closeout:
+  - `novel_pipeline/operator_ui.py`
+  - `test_translation.py`
+  - `IMPLEMENT_PLAN.md`
+  - `PROJECT_BRAIN.md`
+  - `OPERATOR_MANUAL.md`
+  - `07_Reports/operator_workflow_audit_20260606.md`
+- root_causes_confirmed:
+  - the rendered operator JavaScript had invalid newline escaping, so the dashboard script could stop before binding buttons
+  - deleted Primary Actions buttons still had live event listeners, which would break execution after the misleading buttons were removed
+  - focus filtering treated every panel tagged with `all` as always visible, so task tabs did not actually reduce page complexity
+  - sidebar run selector styling did not apply to `<select>`, causing fragile Run ID layout
+- changes_landed:
+  - removed misleading Primary Actions jump controls
+  - added task-first `Task Guide`
+  - tagged navigation buttons with `data-task-role="navigation"`
+  - tagged read-only, state-changing, setup, report, and provider-assisted controls with explicit `data-action-role` values
+  - fixed rendered JavaScript escaping for newline regex/string usage
+  - fixed task focus filtering so `all` only shows all panels when the `All` task is selected
+  - fixed sidebar Run ID input/select width
+- verification:
+  - `python -m compileall novel_pipeline`
+  - `python test_translation.py`
+  - rendered operator script checked with `node --check`
+  - served operator window at `127.0.0.1:8778`
+  - browser smoke verified default run load, task role counts, no Primary Actions/jump button, full-width Run ID controls, Glossary tab filtering, Recovery tab filtering, and no new console errors
+- live_provider_calls: none
+- live_translation_pipeline_actions: none

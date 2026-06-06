@@ -766,7 +766,18 @@ Acceptance criteria:
 
 Goal: stop treating the current operator window as accepted UX and audit the whole workflow from a real user's point of view. The current system has strong backend guardrails, but the control window still does not reliably match how a normal user expects to continue translation work, approve glossary decisions, recover failures, or understand what button to press next.
 
-Status: active backlog item opened on 2026-06-06.
+Status: complete on 2026-06-06.
+
+Implementation closeout:
+
+- audit report created at `07_Reports/operator_workflow_audit_20260606.md`
+- misleading `Primary Actions` jump buttons removed from the operator window
+- operator window now leads with task modes: `Continue Translation`, `Glossary Review`, `Recover Block`, `Reports`, `Project Setup`, and `All`
+- `Task Guide` now explains task state and the next safe action from the loaded run snapshot
+- navigation buttons are tagged with `data-task-role="navigation"`
+- read-only, state-changing, setup, report, and provider-assisted controls are tagged with explicit `data-action-role` values
+- Run ID input/select layout is fixed so both controls are full-width in the sidebar
+- browser smoke verified that task tabs filter panels correctly and the page has no new console errors
 
 Problem statement:
 
@@ -881,6 +892,7 @@ Acceptance criteria:
 - the target redesign is task-first, not panel-first
 - the follow-up implementation backlog is prioritized by user impact and ease
 - compile/tests/preflight remain green after any documentation or audit tooling changes
+- operator HTML/JS renders without syntax errors and task navigation works in browser smoke
 
 ## Acceptance Gates
 

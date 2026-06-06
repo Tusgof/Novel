@@ -151,11 +151,12 @@ This is the practical runbook. It should help the operator proceed without guess
   - glossary queue and glossary decision now form a tighter glossary task surface
   - project scaffold and research editing are moved under `Project Setup` instead of the daily run path
   - report generation now lives in a dedicated `Report Controls` panel inside the main workspace
-- V6.4 active:
-  - the operator control window is under workflow audit and rebuild planning
-  - current audit verdict: backend/API guardrails work, but the window is still not suitable as the primary UI for a normal user
-  - active audit report: `07_Reports/operator_workflow_audit_20260606.md`
-  - until V6.4 implementation lands, use CLI/preflight/status as the authority when dashboard behavior is confusing
+- V6.4 complete:
+  - the operator control window now uses task-first modes: `Continue Translation`, `Glossary Review`, `Recover Block`, `Reports`, `Project Setup`, and `All`
+  - misleading Primary Actions jump buttons were removed; navigation controls are secondary and action buttons stay inside task panels
+  - control roles are explicit in the HTML for navigation, read-only actions, state-changing actions, setup actions, report actions, and provider-assisted glossary suggestions
+  - Run ID input/select layout is fixed in the sidebar
+  - audit report: `07_Reports/operator_workflow_audit_20260606.md`
 
 ## Standard Preflight
 
