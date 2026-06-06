@@ -1,7 +1,7 @@
 # Project Brain: Deep Sea Embers Translation Pipeline
 
-Last updated: 2026-05-16
-Last verified: 2026-05-16 after dashboard workflow simplification verification with `python -m compileall novel_pipeline`, `python test_translation.py`, local operator HTML/snapshot inspection, and bounded-action surface review.
+Last updated: 2026-06-06
+Last verified: 2026-06-06 after V6.4 operator workflow audit evidence collection with `preflight`, served operator HTML, `/api/bootstrap`, read-only glossary queue, read-only inspect-block, and invalid action guard checks.
 
 This file is the project constitution, architecture map, and current operational memory. It should preserve the project goal, design principles, verified state, safety rules, recovery lessons, and pointers to detailed documents. Keep reports, long logs, and implementation detail in their dedicated files.
 
@@ -206,6 +206,8 @@ Active:
 - V6.1 complete: system review, naming normalization, archive cleanup, and post-cleanup verification are closed
 - V6.2 complete: dashboard UX polish and report-surface separation now keep `07_Reports/` root operational and expose active vs archived report surfaces directly in the operator window
 - V6.3 complete: the operator dashboard now uses workflow focus modes and regrouped control panels so the daily translation path is easier to scan without changing bounded execution policy
+- V6.4 active: operator workflow audit found the backend guardrails usable but the control window still action_required for normal users; the next UI work must be task-first rather than panel-first
+- V6.4 audit report exists at `07_Reports/operator_workflow_audit_20260606.md`
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, artifact viewing, novel-project scaffold, and bounded batch-start actions
@@ -529,6 +531,7 @@ Worker model restrictions:
 - 2026-05-10: V5.4 accepted. Generated report refreshes no longer cause false dirty-tree degradation in preflight/product-review, while ordinary tracked-file drift still degrades readiness as intended.
 - 2026-05-11: V6.2 accepted. Historical run evidence moved under `07_Reports/archive/history/`, the root report surface now contains operational baselines only, and the dashboard now renders active report workspace and archive context separately.
 - 2026-05-16: V6.3 accepted. The operator dashboard now groups controls by real workflow (`Current Run`, `Glossary`, `Recovery`, `Reports`, `Setup`) and moves setup/report tooling out of the main daily translation path.
+- 2026-06-06: V6.4 audit opened. Runtime evidence shows backend APIs and guardrails work, but the current operator window is not accepted as primary UX for a normal user. Redesign should prioritize task-first flows: `Continue Translation`, `Glossary Review`, `Recover Block`, `Reports`, and `Project Setup`.
 
 ## Document Map
 

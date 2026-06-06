@@ -1,6 +1,6 @@
 # Operator Manual
 
-Last updated: 2026-05-16
+Last updated: 2026-06-06
 
 This is the practical runbook. It should help the operator proceed without guessing.
 
@@ -151,6 +151,11 @@ This is the practical runbook. It should help the operator proceed without guess
   - glossary queue and glossary decision now form a tighter glossary task surface
   - project scaffold and research editing are moved under `Project Setup` instead of the daily run path
   - report generation now lives in a dedicated `Report Controls` panel inside the main workspace
+- V6.4 active:
+  - the operator control window is under workflow audit and rebuild planning
+  - current audit verdict: backend/API guardrails work, but the window is still not suitable as the primary UI for a normal user
+  - active audit report: `07_Reports/operator_workflow_audit_20260606.md`
+  - until V6.4 implementation lands, use CLI/preflight/status as the authority when dashboard behavior is confusing
 
 ## Standard Preflight
 
