@@ -762,6 +762,126 @@ Acceptance criteria:
 - all previous action IDs and guarded behaviors remain usable
 - the dashboard can be filtered to the operator's current task instead of forcing full-page scanning
 
+### V6.4: Operator Workflow Audit And Control Window Rebuild
+
+Goal: stop treating the current operator window as accepted UX and audit the whole workflow from a real user's point of view. The current system has strong backend guardrails, but the control window still does not reliably match how a normal user expects to continue translation work, approve glossary decisions, recover failures, or understand what button to press next.
+
+Status: active backlog item opened on 2026-06-06.
+
+Problem statement:
+
+- the backend pipeline is usable through CLI, but the operator window is not yet a trustworthy primary control surface
+- important actions exist, but the UI does not make the next safe action obvious enough
+- several controls look clickable but behave as navigation/filter helpers rather than execution actions
+- run selection, batch start, resume, glossary approval, and recovery are still too exposed as implementation details
+- the dashboard is still designed around internal panels instead of user tasks
+- the system cannot be considered user-friendly until a user can operate common translation flows from the window without asking Codex which command to run
+
+Audit principles:
+
+- inspect real behavior, not just code presence
+- verify every button and form against the API/action it is supposed to trigger
+- separate navigation controls from state-changing controls visually and behaviorally
+- keep all existing bounded execution guardrails
+- do not start translation, provider calls, or artifact-changing pipeline work during audit unless a specific controlled test explicitly requires it and is approved
+- prefer one clear user path over many equivalent controls
+
+Planned slices:
+
+- V6.4A: Current workflow audit
+  - map the real user workflows:
+    - continue Deep Sea Embers from the next chapter range
+    - start scan-only glossary gate
+    - approve/reject glossary candidates
+    - start bounded translation after glossary approval
+    - inspect and recover a failed block
+    - generate reports and understand whether the run is safe
+    - create a new novel project and prepare research profile
+  - for each workflow record:
+    - what the user currently sees
+    - what the user needs to decide
+    - which controls are confusing or misplaced
+    - which CLI command/API call is the real backend action
+    - what should be one click, what should require confirmation, and what should be read-only
+  - output: `07_Reports/operator_workflow_audit_<date>.md`
+  - done when the audit names concrete UX failures with screenshots or served-HTML/API evidence where practical
+
+- V6.4B: Button and API behavior audit
+  - verify every dashboard button:
+    - focus/navigation buttons
+    - load/refresh run buttons
+    - batch run button
+    - bounded resume button
+    - glossary option loading
+    - approve/reject glossary decision
+    - inspect block
+    - rerun-block
+    - report generation
+    - init novel
+    - save research profile
+  - classify each button as:
+    - navigation-only
+    - read-only API
+    - state-changing bounded action
+    - setup action
+  - identify controls that look like state-changing actions but are navigation-only
+  - output: button/action matrix in the audit report
+  - done when every visible control has a documented expected effect and a test/smoke-check plan
+
+- V6.4C: User-task redesign specification
+  - replace the current panel-first dashboard model with task-first flows:
+    - `Continue Translation`
+    - `Glossary Review`
+    - `Recover Block`
+    - `Reports`
+    - `Project Setup`
+  - each task view must show:
+    - current state
+    - next safe action
+    - required inputs
+    - exact action that will run
+    - result/output after action
+    - stop conditions
+  - state-changing buttons must use action wording, not vague navigation wording
+  - navigation/filter controls must be visually secondary and never look like execution controls
+  - done when the target UI spec is specific enough to implement without redesigning during coding
+
+- V6.4D: Implementation backlog from audit
+  - score each finding on two axes:
+    - ease: 0 hard, 1 medium, 2 easy
+    - importance: 0 low, 1 medium, 2 high
+  - prioritize findings with high importance first, especially easy/high-impact fixes
+  - split implementation into bounded follow-up milestones rather than one broad UI rewrite
+  - done when the next implementation milestone has:
+    - explicit scope
+    - files likely to change
+    - tests/smoke checks
+    - stop conditions
+
+- V6.4E: Acceptance test plan for the rebuilt control window
+  - define a no-provider smoke path for UI behavior wherever possible
+  - define a controlled local/dummy project path for setup and report actions
+  - define which actions require user approval before live provider/pipeline execution
+  - require browser-level checks, not just static HTML string tests
+  - done when the acceptance plan can prove that a normal user can complete the core workflow from the window
+
+Stop conditions:
+
+- any proposed audit step would run live translation/provider calls without explicit user approval
+- any implementation starts before the audit identifies the actual failure mode
+- a dashboard action can mutate state without showing exact scope first
+- a UI change weakens bounded execution, research-readiness gating, or glossary approval guardrails
+- the audit report cannot map a visible control to a backend action or intentional navigation behavior
+
+Acceptance criteria:
+
+- `IMPLEMENT_PLAN.md` defines the audit/rebuild milestone before more dashboard code is changed
+- the audit report exists and identifies concrete control-window failures
+- each visible operator action is classified and verified or marked as failing
+- the target redesign is task-first, not panel-first
+- the follow-up implementation backlog is prioritized by user impact and ease
+- compile/tests/preflight remain green after any documentation or audit tooling changes
+
 ## Acceptance Gates
 
 This document rewrite is accepted only when:
