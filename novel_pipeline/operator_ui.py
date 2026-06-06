@@ -1085,6 +1085,43 @@ def _render_operator_html() -> str:
       line-height: 1.45;
       word-break: break-word;
     }
+    .command-center {
+      border-left: 4px solid var(--accent);
+    }
+    .command-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+    .command-head h3 {
+      font-size: 18px;
+    }
+    .task-label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .detail-panel summary {
+      cursor: pointer;
+      font-weight: 700;
+      list-style: none;
+    }
+    .detail-panel summary::-webkit-details-marker { display: none; }
+    .detail-panel summary::after {
+      content: "+";
+      float: right;
+      color: var(--muted);
+    }
+    .detail-panel[open] summary::after { content: "-"; }
+    .detail-body {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
     .status-card .label, .chapter-card .label {
       font-size: 11px;
       color: var(--muted);
@@ -1119,6 +1156,9 @@ def _render_operator_html() -> str:
       padding: 16px;
     }
     .panel[data-focus-group][hidden] {
+      display: none !important;
+    }
+    .is-hidden {
       display: none !important;
     }
     .panel h3 {
@@ -1301,6 +1341,7 @@ def _render_operator_html() -> str:
       .status-strip, .overview-grid, .glossary-progress, .run-row { grid-template-columns: 1fr; }
       .inspect-grid { grid-template-columns: 1fr; }
       .focus-nav { grid-template-columns: 1fr 1fr 1fr; }
+      .command-head { display: block; }
     }
   </style>
 </head>
@@ -1308,7 +1349,6 @@ def _render_operator_html() -> str:
   <div class="shell">
     <aside class="nav">
       <h1>Novel Operator</h1>
-      <p>Local control surface for status, inspection, reports, and bounded batch actions.</p>
 
       <section>
         <label for="runIdInput">Run ID</label>
@@ -1318,9 +1358,6 @@ def _render_operator_html() -> str:
             <option value="">Select known run</option>
           </select>
         </div>
-        <div class="footer-note" style="margin-top: 8px;">
-          Paste a run ID or pick one from the known-run list, then load it.
-        </div>
         <div class="btn-row" style="margin-top: 10px;">
           <button class="primary" id="loadRunBtn" data-action-role="read-only">Load Run</button>
           <button class="ghost-dark" id="refreshBtn" data-action-role="read-only">Refresh</button>
@@ -1329,9 +1366,6 @@ def _render_operator_html() -> str:
 
       <section>
         <label>Task</label>
-        <div class="footer-note" style="margin-bottom: 10px;">
-          Pick the work you are doing now.
-        </div>
         <div class="focus-nav">
           <button class="ghost-dark focus-btn active" data-focus-target="operate" data-task-role="navigation">Continue</button>
           <button class="ghost-dark focus-btn" data-focus-target="glossary" data-task-role="navigation">Glossary</button>
@@ -1339,12 +1373,6 @@ def _render_operator_html() -> str:
           <button class="ghost-dark focus-btn" data-focus-target="reports" data-task-role="navigation">Reports</button>
           <button class="ghost-dark focus-btn" data-focus-target="setup" data-task-role="navigation">Setup</button>
           <button class="ghost-dark focus-btn" data-focus-target="all" data-task-role="navigation">All</button>
-        </div>
-      </section>
-
-      <section>
-        <div class="footer-note">
-          Navigation is secondary. State-changing actions stay inside each task panel with explicit scope previews.
         </div>
       </section>
     </aside>
@@ -1359,8 +1387,7 @@ def _render_operator_html() -> str:
 
       <section class="panel workflow-header">
         <div>
-          <h3>Task Workspace</h3>
-          <p class="meta">Choose the job first, then use the bounded action inside that task.</p>
+          <h3>Tasks</h3>
         </div>
         <div class="focus-strip">
           <button class="focus-chip active" data-focus-target="operate" data-task-role="navigation">Continue Translation</button>
@@ -1372,77 +1399,72 @@ def _render_operator_html() -> str:
         </div>
       </section>
 
-      <section class="metrics" id="metrics"></section>
-      <section id="statusStrip" class="status-strip"></section>
-      <section class="panel">
-        <h3>Run Overview</h3>
-        <p class="meta">Single-page summary of scope, blocker, next action, and chapter pressure.</p>
+      <section class="panel command-center" id="dailyHome">
+        <div class="command-head">
+          <div>
+            <div class="task-label">Daily Home</div>
+            <h3 id="taskGuideTitle">Continue Translation</h3>
+          </div>
+          <div class="mono" id="nextAction">No run loaded.</div>
+        </div>
         <div id="runOverview" class="empty">No run loaded.</div>
-      </section>
-
-      <section class="panel" id="taskGuidePanel">
-        <h3>Task Guide</h3>
-        <p class="meta"><span id="taskGuideTitle">Continue Translation</span> - task-specific state and next action. Execution controls are below.</p>
-        <div id="taskGuide" class="empty">No run loaded.</div>
+        <div id="taskGuide" class="empty" style="margin-top:12px;">No run loaded.</div>
       </section>
 
       <div class="layout">
         <div class="column-stack">
           <section class="panel" id="batchControlsPanel" data-focus-group="operate,recovery,all">
-            <h3>Batch Controls</h3>
-            <p class="meta">Use bounded batch start or bounded resume first. These are the fastest daily controls.</p>
+            <h3>Translation Actions</h3>
             <div class="dual-stack">
               <div class="action-card">
-                <label for="batchRunId">Run Batch Range</label>
-                <p class="meta">Start from fetch/glossary scan or run a bounded production batch across an explicit chapter range.</p>
+                <label for="batchRunId">Start Batch</label>
                 <div class="inspect-grid">
                   <input id="batchRunId" placeholder="Run ID">
                   <input id="batchChapterRange" placeholder="Chapter range e.g. ch004-ch008">
                   <select id="batchMode">
-                    <option value="scan-only">Scan-only gate</option>
-                    <option value="bounded">Bounded batch run</option>
+                    <option value="scan-only">Scan Terms</option>
+                    <option value="bounded">Translate Batch</option>
                   </select>
                 </div>
-                <button class="primary" id="batchBtn" data-action-role="state-changing">Run Batch</button>
+                <button class="primary" id="batchBtn" data-action-role="state-changing">Start Batch</button>
                 <div id="batchPreview" class="preview-box empty">No batch scope prepared.</div>
               </div>
               <div class="action-card">
-                <label for="resumeRunId">Resume Run</label>
-                <p class="meta">Continue an existing run only to an explicit chapter or block. Manual action mode stays fixed at stop.</p>
+                <label for="resumeRunId">Continue To Boundary</label>
                 <div class="inspect-grid">
                   <input id="resumeRunId" placeholder="Run ID">
                   <input id="resumeUntilChapter" placeholder="Until chapter e.g. ch022">
                   <input id="resumeUntilBlock" placeholder="Or until block e.g. ch022-block-004">
                 </div>
-                <button class="primary" id="resumeBtn" data-action-role="state-changing">Run Bounded Resume</button>
+                <button class="primary" id="resumeBtn" data-action-role="state-changing">Continue</button>
                 <div id="resumePreview" class="preview-box empty">No bounded resume scope prepared.</div>
               </div>
             </div>
           </section>
 
           <section class="panel" id="chapterDashboardPanel" data-focus-group="operate,recovery,all">
-            <h3>Chapter Dashboard</h3>
-            <p class="meta">Progress, pending pressure, and output coverage for the current run.</p>
+            <h3>Chapters</h3>
             <div id="chapterMatrix" class="empty">No run loaded.</div>
-            <div id="chapterTableWrap" class="empty">No run loaded.</div>
+            <details class="detail-panel" style="margin-top:12px;">
+              <summary>Chapter table</summary>
+              <div id="chapterTableWrap" class="empty detail-body">No run loaded.</div>
+            </details>
           </section>
 
           <section class="panel" id="glossaryWorkbenchPanel" data-focus-group="glossary,all">
-            <h3>Glossary Workbench</h3>
-            <p class="meta">Approve or reject terms after scan. Work here before translation starts.</p>
+            <h3>Glossary Review</h3>
             <div id="glossaryProgress" class="empty">No glossary progress loaded.</div>
             <div id="glossaryQueue" class="empty">No queue loaded.</div>
           </section>
 
           <section class="panel" data-focus-group="glossary,all">
             <h3>Glossary Decision</h3>
-            <p class="meta">Load 2-3 Thai options, inspect note-history context, preview the selected decision, then approve or reject.</p>
+            <p class="meta">Loading options may call the term-suggestion provider.</p>
             <div id="glossaryDecision" class="empty">No term selected.</div>
           </section>
 
           <section class="panel" id="blockInspectionPanel" data-focus-group="recovery,all">
             <h3>Block Inspection</h3>
-            <p class="meta">Read one block, see stage state, and jump directly to the narrowest recovery target.</p>
             <div class="inspect-grid">
               <input id="inspectRunId" placeholder="Run ID">
               <input id="inspectBlockId" placeholder="Block ID e.g. ch019-block-002">
@@ -1451,12 +1473,11 @@ def _render_operator_html() -> str:
             <div id="inspectResult" class="empty">No block inspected.</div>
           </section>
 
-          <section class="panel" data-focus-group="recovery,all">
-            <h3>Recovery Controls</h3>
-            <p class="meta">Recover exactly one block from one stage. Inspect first, then rerun only what failed.</p>
-            <div class="action-card">
+          <section class="panel" id="recoveryControlsPanel" data-focus-group="recovery,all">
+            <h3>Recover This Block</h3>
+            <div id="recoveryEmptyState" class="empty">No current failures.</div>
+            <div class="action-card" id="rerunActionCard">
               <label for="rerunRunId">Rerun Block</label>
-              <p class="meta">Recover exactly one block from an explicit stage. Upstream artifacts are reused.</p>
               <div class="inspect-grid">
                 <input id="rerunRunId" placeholder="Run ID">
                 <input id="rerunBlockId" placeholder="Block ID">
@@ -1478,11 +1499,9 @@ def _render_operator_html() -> str:
 
           <section class="panel" data-focus-group="setup,all">
             <h3>Project Setup</h3>
-            <p class="meta">Use this only when creating a new novel project or updating its research profile.</p>
             <div class="action-stack">
               <div class="action-card">
                 <label for="initProjectRoot">Init Novel Project</label>
-                <p class="meta">Create a new isolated novel workspace. This is setup, not translation flow.</p>
                 <div class="stack">
                   <div class="inspect-grid">
                     <input id="initProjectRoot" placeholder="Project root">
@@ -1505,7 +1524,6 @@ def _render_operator_html() -> str:
               </div>
               <div class="action-card">
                 <label>Research Profile</label>
-                <p class="meta">Edit the current workspace research profile fields used for readiness.</p>
                 <div class="stack">
                   <input id="researchProfileTitle" placeholder="Title">
                   <textarea id="researchProfileAliases" placeholder="Aliases, one per line or comma-separated"></textarea>
@@ -1536,75 +1554,60 @@ def _render_operator_html() -> str:
 
         <div class="column-stack">
           <section class="panel" data-focus-group="operate,recovery,all">
-            <h3>Current Blocker</h3>
-            <p class="meta">What currently blocks normal flow, if anything.</p>
-            <div id="currentBlocker" class="empty">No run loaded.</div>
-          </section>
-
-          <section class="panel" data-focus-group="operate,recovery,all">
-            <h3>Safe Next Action</h3>
-            <p class="meta">Directly from the current verified run state.</p>
-            <div id="nextAction" class="mono empty">No run loaded.</div>
-          </section>
-
-          <section class="panel" data-focus-group="operate,recovery,all">
             <h3>Manual Actions</h3>
-            <p class="meta">Outstanding operator actions from `status`.</p>
             <ul id="manualActions" class="actions-list"></ul>
           </section>
 
           <section class="panel" id="reportControlsPanel" data-focus-group="reports,all">
-            <h3>Report Controls</h3>
-            <p class="meta">Generate current operational reports. Historical evidence is visible separately below.</p>
+            <h3>Reports</h3>
             <div class="report-toolbar">
-              <button class="primary" data-report="checkpoint" data-action-role="report-action">Checkpoint</button>
-              <button data-report="cleanliness" data-action-role="report-action">Cleanliness</button>
-              <button data-report="provider-usage" data-action-role="report-action">Provider</button>
-              <button data-report="preflight" data-action-role="report-action">Preflight</button>
-              <button data-report="recovery-drill" data-action-role="report-action">Recovery</button>
-              <button data-report="product-review" data-action-role="report-action">Product Review</button>
+              <button class="primary" data-report="preflight" data-action-role="report-action">System Ready?</button>
+              <button data-report="checkpoint" data-action-role="report-action">Run Complete?</button>
+              <button data-report="cleanliness" data-action-role="report-action">Output Clean?</button>
+              <button data-report="provider-usage" data-action-role="report-action">Provider Issue?</button>
+              <button data-report="glossary-guard" data-action-role="report-action">Glossary Safe?</button>
+              <button data-report="product-review" data-action-role="report-action">Product Gate</button>
               <button data-report="glossary-decisions" data-action-role="report-action">Decisions</button>
               <button data-report="glossary-conflicts" data-action-role="report-action">Conflicts</button>
               <button data-report="glossary-audit" data-action-role="report-action">Audit</button>
-              <button data-report="glossary-guard" data-action-role="report-action">Guard</button>
+              <button data-report="recovery-drill" data-action-role="report-action">Recovery Drill</button>
             </div>
             <div id="reportResult" class="empty">No report generated yet.</div>
           </section>
 
           <section class="panel" data-focus-group="reports,all">
             <h3>Report Workspace</h3>
-            <p class="meta">Separate active operational reports from archived historical evidence.</p>
             <div id="reportWorkspace" class="empty">No report workspace loaded.</div>
           </section>
 
           <section class="panel" data-focus-group="setup,reports,all">
             <h3>Research Readiness</h3>
-            <p class="meta">Readiness contract for bounded translation versus normal production.</p>
             <div id="researchReadiness" class="empty">No research profile loaded.</div>
           </section>
 
+          <details class="panel detail-panel" data-focus-group="operate,recovery,reports,setup,all">
+            <summary>Technical Details</summary>
+            <div class="detail-body">
+              <section class="metrics" id="metrics"></section>
+              <section id="statusStrip" class="status-strip"></section>
+              <div>
+                <h3>Recovery Hints</h3>
+                <div id="commandHints" class="empty">No command hints loaded.</div>
+                <div id="quickLinks" class="empty" style="margin-top:12px;">No quick links loaded.</div>
+              </div>
+              <div>
+                <h3>Guardrails</h3>
+                <div id="dashboardGuardrails" class="empty">No guardrails loaded.</div>
+              </div>
+              <div>
+                <h3>Preflight</h3>
+                <div id="preflightSummary" class="empty">No preflight summary loaded.</div>
+              </div>
+            </div>
+          </details>
+
           <section class="panel" data-focus-group="operate,recovery,reports,setup,all">
-            <h3>Recovery Hints</h3>
-            <p class="meta">Copyable commands and quick links for diagnostics, review, and bounded recovery.</p>
-            <div id="commandHints" class="empty">No command hints loaded.</div>
-            <div id="quickLinks" class="empty" style="margin-top:12px;">No quick links loaded.</div>
-          </section>
-
-          <section class="panel" data-focus-group="operate,recovery,reports,all">
-            <h3>Accepted Guardrails</h3>
-            <p class="meta">The dashboard safety model that must stay true as controls get denser.</p>
-            <div id="dashboardGuardrails" class="empty">No guardrails loaded.</div>
-          </section>
-
-          <section class="panel" data-focus-group="operate,recovery,setup,reports,all">
-            <h3>Preflight</h3>
-            <p class="meta">Environment, provider, and git guardrail checks.</p>
-            <div id="preflightSummary" class="empty">No preflight summary loaded.</div>
-          </section>
-
-          <section class="panel" data-focus-group="operate,recovery,reports,setup,all">
-            <h3>Recent Activity</h3>
-            <p class="meta">Recent dashboard loads, reports, inspections, and bounded actions.</p>
+            <h3>Activity</h3>
             <ul id="activityLog" class="actions-list"></ul>
           </section>
         </div>
@@ -1898,40 +1901,44 @@ def _render_operator_html() -> str:
         operate: {
           title: "Continue Translation",
           detail: snapshot?.run_id
-            ? `Next safe action: ${nextAction}. Current blocker: ${blocker.title}.`
-            : "Load a run first. Then use Resume Run with an explicit chapter or block boundary.",
+            ? `${blocker.title}.`
+            : "Load a run first.",
           action: failedBlocks.length
             ? "Switch to Recover Block before continuing translation."
-            : "Use Run Bounded Resume for an existing run, or Run Batch Range for a scan-only gate on a new explicit range.",
+            : nextAction === "none"
+              ? "This run has no pending action. Start a new scan range when source is ready."
+              : nextAction,
         },
         glossary: {
           title: "Glossary Review",
           detail: snapshot?.run_id
-            ? "Review scan candidates, load Thai options only when needed, then approve or reject one term at a time."
+            ? "Review pending terms one at a time."
             : "Load the scan-only run before reviewing glossary candidates.",
-          action: "Use Load options only when you are ready for provider-assisted Thai suggestions.",
+          action: "Load options only when provider-assisted suggestions are acceptable.",
         },
         recovery: {
           title: "Recover Block",
           detail: failedBlocks.length
             ? `Current failed blocks: ${failedBlocks.join(", ")}.`
-            : "No current failed blocks are reported for the loaded run.",
-          action: "Inspect the exact block first, then rerun one block from the narrowest failed stage.",
+            : "No current failed blocks.",
+          action: failedBlocks.length
+            ? "Inspect the failed block, then recover one stage."
+            : "No recovery action is needed.",
         },
         reports: {
           title: "Reports",
-          detail: "Generate current operational reports, then check the report workspace for active versus archived evidence.",
-          action: "Reports create documentation artifacts; they do not translate chapters.",
+          detail: "Generate evidence by question.",
+          action: "Reports refresh markdown artifacts; they do not translate chapters.",
         },
         setup: {
           title: "Project Setup",
-          detail: "Use only for a new novel workspace or research profile update.",
-          action: "Normal Deep Sea Embers continuation does not require setup controls.",
+          detail: "Use for a new novel or research profile update.",
+          action: "Normal Deep Sea Embers continuation does not require setup.",
         },
         all: {
           title: "All Controls",
-          detail: "All dashboard surfaces are visible. Use this only when auditing or debugging the control window.",
-          action: "For normal work, pick one task tab so unrelated controls stay hidden.",
+          detail: "All surfaces are visible.",
+          action: "For normal work, pick one task.",
         },
       };
       const guide = taskMap[state.focus] || taskMap.operate;
@@ -1947,7 +1954,7 @@ def _render_operator_html() -> str:
           <div class="overview-card">
             <div class="label">What To Do Here</div>
             <div class="value">${escapeHtml(guide.action)}</div>
-            <div class="sub">Navigation buttons only change the view; action buttons below execute bounded commands.</div>
+            <div class="sub">Action buttons below show scope before execution.</div>
           </div>
         </div>
       `;
@@ -2008,7 +2015,7 @@ def _render_operator_html() -> str:
         <div class="overview-card">
           <div class="label">Run Scope</div>
           <div class="value">${escapeHtml(status.run_id || snapshot.run_id || "workspace")}</div>
-          <div class="sub">${chapterIds.length} chapters in scope | ${status.total_records ?? 0} ledger records</div>
+          <div class="sub">${chapterIds.length} chapters | ${outputReadyCount}/${chapterIds.length} outputs ready</div>
         </div>
         <div class="overview-card">
           <div class="label">Current Blocker</div>
@@ -2018,12 +2025,12 @@ def _render_operator_html() -> str:
         <div class="overview-card">
           <div class="label">Next Safe Action</div>
           <div class="value">${escapeHtml(status.next_effective_action || "none")}</div>
-          <div class="sub">${manualActions.length} manual actions still listed</div>
+          <div class="sub">${manualActions.length} manual actions</div>
         </div>
         <div class="overview-card">
           <div class="label">Chapter Pressure</div>
           <div class="value">${failedChapterCount} failed | ${pendingChapterCount} pending</div>
-          <div class="sub">${pendingBlockCount} pending blocks | ${outputReadyCount}/${chapterIds.length} outputs ready</div>
+          <div class="sub">${pendingBlockCount} pending blocks</div>
         </div>
       `;
     }
@@ -2188,6 +2195,9 @@ def _render_operator_html() -> str:
 
     function renderCurrentBlocker(snapshot) {
       const wrap = document.getElementById("currentBlocker");
+      if (!wrap) {
+        return;
+      }
       const blocker = resolveCurrentBlocker(snapshot);
 
       wrap.className = "";
@@ -2197,6 +2207,23 @@ def _render_operator_html() -> str:
           <div class="mono">${escapeHtml(blocker.detail)}</div>
         </div>
       `;
+    }
+
+    function renderRecoveryVisibility(snapshot) {
+      const failedBlocks = snapshot?.status?.current_failed_blocks || [];
+      const manualActions = (snapshot?.status?.manual_actions || []).filter((item) => String(item || "").trim().toLowerCase() !== "none");
+      const emptyState = document.getElementById("recoveryEmptyState");
+      const rerunCard = document.getElementById("rerunActionCard");
+      const shouldShowExecution = failedBlocks.length > 0 || manualActions.length > 0;
+      if (emptyState) {
+        emptyState.classList.toggle("is-hidden", shouldShowExecution);
+        emptyState.textContent = shouldShowExecution
+          ? ""
+          : "No current failures. Inspect a block only if you need to review artifacts.";
+      }
+      if (rerunCard) {
+        rerunCard.classList.toggle("is-hidden", !shouldShowExecution);
+      }
     }
 
     function renderResearchReadiness(snapshot) {
@@ -2448,6 +2475,7 @@ def _render_operator_html() -> str:
       renderReportWorkspace(snapshot);
       renderDashboardGuardrails(snapshot);
       renderManualActions(snapshot);
+      renderRecoveryVisibility(snapshot);
       renderActionPreviews();
       setDashboardFocus(state.focus);
     }

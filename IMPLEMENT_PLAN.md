@@ -894,6 +894,177 @@ Acceptance criteria:
 - compile/tests/preflight remain green after any documentation or audit tooling changes
 - operator HTML/JS renders without syntax errors and task navigation works in browser smoke
 
+### V6.5: Operator UI/UX Rebuild For Normal Users
+
+Goal: turn the current task-first operator window into a genuinely usable daily control surface. The next rebuild must reduce visual noise, remove unnecessary explanatory text, and make the correct next action obvious without requiring the user to understand ledger stages, command names, or Codex memory.
+
+Status: complete on 2026-06-06.
+
+Implementation closeout:
+
+- text/surface audit created at `07_Reports/operator_ui_text_surface_audit_20260606.md`
+- sidebar copy reduced to run selector and task navigation only
+- first working surface is now `Daily Home`, showing current run, blocker, next safe action, and task guidance before detailed panels
+- technical status, provider/git guardrails, command hints, and preflight diagnostics moved behind `Technical Details`
+- normal recovery execution controls are hidden when there is no failed/manual block
+- reports are grouped by operator question: `System Ready?`, `Run Complete?`, `Output Clean?`, `Provider Issue?`, and `Glossary Safe?`
+- glossary decision copy now labels provider-assisted suggestion loading before options are requested
+- browser smoke on `127.0.0.1:8765` verified default run load, task switching, collapsed technical details, hidden recovery execution, report grouping, and no new console errors
+
+Design thesis:
+
+- the first screen should answer three questions only:
+  - What run/project am I working on?
+  - Is anything blocking me?
+  - What is the next safe action?
+- technical detail should be available on demand, not visible by default
+- navigation must look like navigation; execution must look like execution
+- every primary button must either do one bounded action or clearly open the one form needed for that action
+- copy should be utility copy, not documentation embedded into the UI
+
+Non-goals:
+
+- do not redesign provider routing, ledger semantics, glossary policy, or pipeline stages
+- do not add new broad/unbounded pipeline actions
+- do not add decorative UI, marketing copy, animations, or cosmetic-only polish
+- do not hide guardrails; collapse them behind readable summaries and detail toggles
+- do not remove CLI authority; the UI is a control surface over the same bounded backend
+
+Copy reduction rules:
+
+- remove repeated helper text when the label already explains the control
+- keep section subtitles to one short sentence only when they prevent a real mistake
+- move command previews, guardrails, provider notes, and report explanations into expandable details
+- replace internal names with user-task labels where possible:
+  - `run-batch` -> `Start Batch`
+  - `resume` -> `Continue To Boundary`
+  - `rerun-block` -> `Recover This Block`
+  - `glossary-scan` -> `Scan Terms`
+  - `glossary_approved` -> `Glossary Ready`
+- keep exact command/API names visible only in preview/detail areas before execution
+
+Layout target:
+
+- left sidebar:
+  - project/run selector
+  - task navigation only
+  - no long explanations
+- main header:
+  - current run/project
+  - blocker state
+  - next safe action
+- primary workspace:
+  - one active task at a time
+  - one primary action per task state
+  - secondary details collapsed by default
+- right/context area or lower detail area:
+  - artifacts, command preview, report links, guardrails, and activity log
+  - visible only when useful for the selected task
+
+Milestone slices:
+
+- V6.5A: Text And Surface Audit
+  - list every visible heading, subtitle, note, button label, placeholder, and empty-state message in `operator_ui.py`
+  - classify each item as:
+    - keep visible
+    - shorten
+    - move to details
+    - remove
+  - identify panels that exist mainly to explain the system rather than help the operator decide
+  - done when the rebuild has a concrete deletion/shortening map before code changes
+
+- V6.5B: Daily Translation Home
+  - make `Continue Translation` the default working home
+  - show current run, completed/pending/failed summary, and next safe action above the fold
+  - if the loaded run is complete, show the next practical choice:
+    - start a new explicit scan-only range if source exists
+    - fetch/source decision required if source does not exist
+  - show only the relevant bounded action form:
+    - scan terms
+    - continue to chapter/block boundary
+    - recover failed block
+  - done when the user can understand what to do next from the first viewport
+
+- V6.5C: Glossary Review UX
+  - collapse glossary progress into a small state summary:
+    - pending
+    - approved
+    - rejected
+    - ready/blocked
+  - show one selected term at a time with:
+    - source term
+    - short context
+    - 2-3 Thai options
+    - approve/reject buttons
+  - hide long history/intersection details behind an expandable section
+  - label provider-assisted suggestion loading clearly before it is clicked
+  - done when glossary approval can be completed without scanning multiple panels
+
+- V6.5D: Recovery UX
+  - hide recovery execution controls when no failed/manual block exists
+  - when a failed/manual block exists, show it as the primary task
+  - prefill run ID, block ID, and recommended stage from inspection/status when possible
+  - keep exact rerun command preview before execution
+  - done when recovery starts from a visible failed block, not from blank technical fields
+
+- V6.5E: Reports And Setup De-Clutter
+  - keep reports grouped by user question:
+    - system ready?
+    - run complete?
+    - output clean?
+    - provider/failure issue?
+    - glossary safe?
+  - move lower-frequency setup fields out of the daily translation view
+  - keep Project Setup as a separate task with short steps:
+    - create project
+    - research profile
+    - preflight
+    - source/fetch adapter
+    - scan terms
+  - done when report/setup controls no longer compete with the daily translation path
+
+- V6.5F: Visual Hierarchy And Responsiveness
+  - reduce card nesting and thick panel boundaries
+  - make primary action visually dominant and secondary actions plainly secondary
+  - keep stable widths/heights for run selector, task nav, action buttons, glossary options, and report controls
+  - verify text does not overflow buttons, panels, or mobile widths
+  - use a restrained palette and avoid adding decorative visual noise
+  - done when the page is scannable on desktop and usable on narrower browser widths
+
+- V6.5G: Browser Acceptance Pass
+  - run no-provider browser smoke on the local operator window
+  - verify:
+    - default run loads
+    - task navigation works
+    - first viewport shows current run, blocker, and next action
+    - glossary task can load queue without mutation
+    - recovery task hides execution controls when no failed block exists
+    - reports task is grouped by user question
+    - no console errors
+    - no visible `Primary Actions`-style fake action buttons return
+  - done when browser evidence proves the window is usable, not just statically rendered
+
+Stop conditions:
+
+- a UI change makes it easier to run an unbounded or wrong-scope action
+- a state-changing action lacks an exact scope/command preview
+- primary copy grows instead of shrinking
+- the first viewport still requires reading multiple explanatory paragraphs
+- provider-backed glossary suggestion is not clearly labeled before use
+- tests pass but browser interaction fails
+
+Acceptance criteria:
+
+- visible operator copy is shorter and mapped to user tasks
+- the default view makes the next safe action obvious
+- internal command/stage names are moved to previews/details instead of front-line UI
+- each task has one clear primary action for its current state
+- recovery and setup no longer distract from normal translation when not needed
+- compile/tests pass
+- rendered script syntax check passes
+- browser smoke passes on the normal local operator port
+- no provider calls or live translation actions are used for UI acceptance unless explicitly approved
+
 ## Acceptance Gates
 
 This document rewrite is accepted only when:

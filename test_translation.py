@@ -4707,11 +4707,17 @@ def test_render_operator_html_contains_v6_dashboard_elements():
     from novel_pipeline.operator_ui import _render_operator_html
 
     html = _render_operator_html()
-    assert "Task Workspace" in html
-    assert "Task Guide" in html
+    assert "Tasks" in html
+    assert "Daily Home" in html
+    assert 'id="dailyHome"' in html
     assert 'id="taskGuide"' in html
+    assert 'id="rerunActionCard"' in html
+    assert "Technical Details" in html
+    assert "System Ready?" in html
+    assert "Run Complete?" in html
     assert 'id="jumpBatchControlsBtn"' not in html
-    assert "Paste a run ID or pick one from the known-run list" in html
+    assert "Paste a run ID or pick one from the known-run list" not in html
+    assert "Navigation is secondary" not in html
     assert 'data-focus-target="operate"' in html
     assert 'data-focus-target="glossary"' in html
     assert 'data-task-role="navigation"' in html

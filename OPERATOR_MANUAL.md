@@ -157,6 +157,13 @@ This is the practical runbook. It should help the operator proceed without guess
   - control roles are explicit in the HTML for navigation, read-only actions, state-changing actions, setup actions, report actions, and provider-assisted glossary suggestions
   - Run ID input/select layout is fixed in the sidebar
   - audit report: `07_Reports/operator_workflow_audit_20260606.md`
+- V6.5 complete:
+  - the first working surface is now `Daily Home`: current run, blocker, next safe action, and task guidance
+  - long helper copy was removed from the sidebar and primary task panels
+  - technical diagnostics, command hints, guardrails, and preflight details are collapsed under `Technical Details`
+  - recovery execution controls are hidden when the loaded run has no failed/manual block
+  - report buttons are grouped by operator question: system readiness, run completion, output cleanliness, provider issue, and glossary safety
+  - audit report: `07_Reports/operator_ui_text_surface_audit_20260606.md`
 
 ## Standard Preflight
 

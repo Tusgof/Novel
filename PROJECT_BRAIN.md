@@ -1,7 +1,7 @@
 # Project Brain: Deep Sea Embers Translation Pipeline
 
 Last updated: 2026-06-06
-Last verified: 2026-06-06 after V6.4 operator workflow rebuild smoke with compile/tests, rendered-script syntax check, served operator window, browser task-tab checks, and no new console errors.
+Last verified: 2026-06-06 after V6.5 operator UI/UX rebuild with compile/tests, rendered-script syntax check, served operator window, browser smoke on `127.0.0.1:8765`, collapsed technical details, hidden recovery execution when no failures exist, and no new console errors.
 
 This file is the project constitution, architecture map, and current operational memory. It should preserve the project goal, design principles, verified state, safety rules, recovery lessons, and pointers to detailed documents. Keep reports, long logs, and implementation detail in their dedicated files.
 
@@ -208,6 +208,8 @@ Active:
 - V6.3 complete: the operator dashboard now uses workflow focus modes and regrouped control panels so the daily translation path is easier to scan without changing bounded execution policy
 - V6.4 complete: operator workflow audit and first rebuild landed; the control window is now task-first, removes misleading Primary Actions jump buttons, tags control roles, fixes Run ID layout, and verifies task-tab filtering in browser smoke
 - V6.4 audit report exists at `07_Reports/operator_workflow_audit_20260606.md`
+- V6.5 complete: operator UI/UX rebuild reduced visible copy, made `Daily Home` the first working surface, moved diagnostics behind `Technical Details`, hid recovery execution when no failures exist, and grouped reports by operator question
+- V6.5 audit report exists at `07_Reports/operator_ui_text_surface_audit_20260606.md`
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, artifact viewing, novel-project scaffold, and bounded batch-start actions
@@ -532,6 +534,7 @@ Worker model restrictions:
 - 2026-05-11: V6.2 accepted. Historical run evidence moved under `07_Reports/archive/history/`, the root report surface now contains operational baselines only, and the dashboard now renders active report workspace and archive context separately.
 - 2026-05-16: V6.3 accepted. The operator dashboard now groups controls by real workflow (`Current Run`, `Glossary`, `Recovery`, `Reports`, `Setup`) and moves setup/report tooling out of the main daily translation path.
 - 2026-06-06: V6.4 accepted. Runtime evidence showed backend APIs and guardrails worked while the window failed as a normal-user control surface. The rebuild removed misleading navigation-as-action controls, fixed rendered JS/layout issues, and verified task-first flows: `Continue Translation`, `Glossary Review`, `Recover Block`, `Reports`, and `Project Setup`.
+- 2026-06-06: V6.5 accepted. The operator window now prioritizes a concise daily home, hides technical diagnostics by default, suppresses recovery execution controls when there is no failed/manual block, and groups reports by operator question rather than raw report names.
 
 ## Document Map
 
