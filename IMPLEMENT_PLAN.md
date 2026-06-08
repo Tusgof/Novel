@@ -620,7 +620,7 @@ Not part of V6.0:
 
 Goal: review the product-complete system as a maintained repo, classify clutter and stale assets, and clean it without damaging canonical memory, runtime evidence, or accepted operator behavior.
 
-Status: active on 2026-05-11.
+Status: complete on 2026-05-11.
 
 Planned slices:
 
@@ -683,7 +683,7 @@ Status after V6.1:
 - `V6.1B` complete
 - `V6.1C` complete
 - `V6.1D` complete
-- `V6.2` is the active backlog item
+- `V6.2` became the next backlog item and is now complete
 
 ### V6.2: Dashboard UX Polish And Report Surface Separation
 

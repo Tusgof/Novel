@@ -342,7 +342,7 @@ Next milestones after product-complete:
   - `V6.1B` complete: canonical naming is now normalized around `IMPLEMENT_PLAN.md` across active code, templates, tests, and canonical docs
   - `V6.1C` complete: benchmark/history artifacts now live under archive paths and benchmark/debug helper scripts no longer crowd the active repo surface
   - `V6.1D` complete: compile/tests/preflight/product-review/recovery-drill were rerun successfully after cleanup
-  - after `V6.1`, there is no active delivery milestone until a new backlog item is opened explicitly
+  - `V6.2` through `V6.6` are complete; latest accepted milestone is V6.6 employee dashboard, explicit provider smoke testing, design guide, and hybrid formatting
 
 ## Invariants And Guardrails
 
