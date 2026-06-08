@@ -16,8 +16,9 @@ Do not turn the dashboard into documentation, a marketing page, or a decorative 
 ## Visual Direction
 
 - Use a clear, friendly, restrained style inspired by Wise-style product dashboards.
-- Green is reserved for ready, success, completed, and positive states.
-- Blue is reserved for primary actions and links.
+- Bright green is the primary action/accent color.
+- Green is also used for ready, success, completed, and positive states.
+- Blue is reserved for links and secondary navigation affordances, not primary action emphasis.
 - Yellow is reserved for warnings and bounded-only caution.
 - Red is reserved for blocked, failed, destructive, or urgent states.
 - Use neutral surfaces, readable contrast, and subtle borders.
@@ -51,6 +52,7 @@ Every interactive element must show clear state:
 - navigation: inactive and active
 - status chips: ready, warning, blocked, unknown
 - long actions: current employee, action/stage, provider/model, elapsed time, waiting/retry/fallback state, and last safe log line
+- action completion: visible result banner near the current decision area with success, warning, or failure state
 
 ## Employee Cards
 

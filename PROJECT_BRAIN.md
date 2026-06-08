@@ -211,7 +211,7 @@ Active:
 - V6.5 complete: operator UI/UX rebuild reduced visible copy, made `Daily Home` the first working surface, moved diagnostics behind `Technical Details`, hid recovery execution when no failures exist, and grouped reports by operator question
 - V6.5 audit report exists at `07_Reports/operator_ui_text_surface_audit_20260606.md`
 - V6.6 complete: dashboard now has eight display-only novel-style employee cards (`000 Ferryman` through `007 Warden`), chibi dashboard asset, read-only employee readiness, explicit provider smoke action, loading/status feedback, `DESIGN.md`, and hybrid AI formatting with deterministic validation plus local fallback
-- V6.7 complete: dashboard shell now follows `DESIGN.md` with a first-viewport `Current decision` area, one active task workspace, compact right status rail, removed old `Daily Home` / `Employee Status` labels, and read-only bootstrap verified without provider calls
+- V6.7 complete: dashboard shell now follows `DESIGN.md` with a first-viewport `Current decision` area, one active task workspace, compact right status rail, bright Wise-inspired green primary accent, visible action result banner, removed old `Daily Home` / `Employee Status` labels, and read-only bootstrap verified without provider calls
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, artifact viewing, novel-project scaffold, and bounded batch-start actions
@@ -538,7 +538,7 @@ Worker model restrictions:
 - 2026-06-06: V6.4 accepted. Runtime evidence showed backend APIs and guardrails worked while the window failed as a normal-user control surface. The rebuild removed misleading navigation-as-action controls, fixed rendered JS/layout issues, and verified task-first flows: `Continue Translation`, `Glossary Review`, `Recover Block`, `Reports`, and `Project Setup`.
 - 2026-06-06: V6.5 accepted. The operator window now prioritizes a concise daily home, hides technical diagnostics by default, suppresses recovery execution controls when there is no failed/manual block, and groups reports by operator question rather than raw report names.
 - 2026-06-08: V6.6 accepted. The dashboard now exposes eight display-only novel-style employee cards with chibi asset support, read-only employee readiness, explicit provider smoke testing, loading feedback, `DESIGN.md`, and hybrid Qwen/local formatting with content-preservation validation.
-- 2026-06-08: V6.7 accepted. The dashboard shell now uses a first-viewport decision area, one active task workspace, and a compact right status rail; old `Daily Home` / `Employee Status` labels and the duplicate hidden task header were removed.
+- 2026-06-08: V6.7 accepted. The dashboard shell now uses a first-viewport decision area, one active task workspace, a compact right status rail, Wise-inspired green primary actions, and visible action result banners; old `Daily Home` / `Employee Status` labels and the duplicate hidden task header were removed.
 
 ## Document Map
 

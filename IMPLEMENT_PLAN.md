@@ -1197,6 +1197,8 @@ Implemented:
   - right status rail for employees, manual actions, reports, research readiness, technical details, and activity
 - old `Daily Home` / `Employee Status` labels and duplicate hidden task header were removed
 - employee cards were compacted so they show real work, provider route, readiness, and latest activity without crowding the active task controls
+- primary action styling now uses a bright Wise-inspired green accent while blue is reserved for links
+- action completion now surfaces a result banner near `Current decision`, including the no-glossary-candidates case after scan-only runs
 - technical diagnostics remain available but collapsed behind `Technical Details`
 - provider smoke remains explicit and user-triggered only
 

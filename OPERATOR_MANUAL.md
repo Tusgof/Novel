@@ -175,6 +175,8 @@ This is the practical runbook. It should help the operator proceed without guess
   - dashboard shell now follows `DESIGN.md` instead of the older feature-wall layout
   - first viewport shows `Current decision`, run overview, current blocker, next action, and compact task guidance
   - main work is split into one active task workspace plus a right status rail for employees, manual actions, reports, readiness, and technical details
+  - primary action styling now uses bright Wise-inspired green; blue is kept for links
+  - action results now appear as a visible banner near `Current decision`, including when a glossary scan finds no terms to review
   - old `Daily Home` and `Employee Status` labels are removed
   - provider smoke remains an explicit user-triggered action
 

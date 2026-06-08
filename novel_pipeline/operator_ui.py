@@ -986,7 +986,10 @@ def _render_operator_html() -> str:
       --text: #111827;
       --muted: #5b6472;
       --border: #d8dee7;
-      --accent: #1769ff;
+      --accent: #9fe870;
+      --accent-strong: #173300;
+      --accent-soft: #effcdd;
+      --link: #1769ff;
       --danger: #b42318;
       --warning: #a15c07;
       --ok: #16834b;
@@ -1091,12 +1094,13 @@ def _render_operator_html() -> str:
     button:hover { transform: translateY(-1px); }
     button:active { transform: translateY(0); }
     button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
-      outline: 3px solid rgba(23, 105, 255, .2);
+      outline: 3px solid rgba(117, 209, 63, .28);
       outline-offset: 1px;
     }
     button.primary {
       background: var(--accent);
-      color: white;
+      color: var(--accent-strong);
+      border-color: #85cf56;
     }
     button.ghost-dark {
       background: rgba(255,255,255,.08);
@@ -1188,9 +1192,9 @@ def _render_operator_html() -> str:
       cursor: pointer;
     }
     .focus-chip.active {
-      background: #111827;
-      color: #f9fafb;
-      border-color: #111827;
+      background: var(--accent);
+      color: var(--accent-strong);
+      border-color: #85cf56;
     }
     .status-strip {
       display: grid;
@@ -1451,6 +1455,42 @@ def _render_operator_html() -> str:
     .loading-status.active {
       display: block;
     }
+    .result-banner {
+      display: none;
+      margin-top: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      padding: 12px 14px;
+    }
+    .result-banner.active {
+      display: grid;
+      gap: 5px;
+    }
+    .result-banner.ok {
+      background: var(--accent-soft);
+      border-color: #b8ee87;
+      color: var(--accent-strong);
+    }
+    .result-banner.warn {
+      background: #fff8ea;
+      border-color: #f3c96b;
+      color: #713f12;
+    }
+    .result-banner.danger {
+      background: #fff1f0;
+      border-color: #f4aaa3;
+      color: #7a271a;
+    }
+    .result-banner .title {
+      font-weight: 800;
+      line-height: 1.35;
+    }
+    .result-banner .detail {
+      font-size: 12px;
+      line-height: 1.45;
+      word-break: break-word;
+    }
     .glossary-progress {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -1524,7 +1564,7 @@ def _render_operator_html() -> str:
       margin-bottom: 14px;
     }
     .artifact-list a, .report-link {
-      color: var(--accent);
+      color: var(--link);
       text-decoration: none;
       word-break: break-all;
     }
@@ -1677,6 +1717,7 @@ def _render_operator_html() -> str:
           </div>
         </div>
         <div id="loadingStatus" class="loading-status" data-loading-state="idle"></div>
+        <div id="runResultBanner" class="result-banner" data-result-state="idle"></div>
       </section>
 
       <div class="layout">
@@ -2771,6 +2812,47 @@ def _render_operator_html() -> str:
       state.loadingStartedAt = null;
     }
 
+    function showResultBanner(kind, title, detail = "") {
+      const wrap = document.getElementById("runResultBanner");
+      if (!wrap) {
+        return;
+      }
+      const normalized = ["ok", "warn", "danger"].includes(kind) ? kind : "ok";
+      wrap.className = `result-banner active ${normalized}`;
+      wrap.dataset.resultState = normalized;
+      wrap.innerHTML = `
+        <div class="title">${escapeHtml(title)}</div>
+        ${detail ? `<div class="detail">${escapeHtml(detail)}</div>` : ""}
+      `;
+    }
+
+    function actionResultTitle(action) {
+      const labels = {
+        "run-batch": "Batch command finished",
+        "resume": "Resume finished",
+        "rerun-block": "Rerun-block finished",
+        "glossary-decision": "Glossary decision saved",
+        "init-novel": "Project setup finished",
+        "save-research-profile": "Research profile saved",
+      };
+      return labels[action] || "Action finished";
+    }
+
+    function summarizeActionOutput(data) {
+      const snapshot = data?.snapshot || {};
+      const status = snapshot.status || {};
+      const failed = status.current_failed_blocks || [];
+      if (failed.length) {
+        return `Current failed blocks: ${failed.join(", ")}. Inspect before continuing.`;
+      }
+      const next = status.next_effective_action || "";
+      if (next && next !== "none") {
+        return `Next safe action: ${next}`;
+      }
+      const lines = String(data?.output || "").split("\\n").map((line) => line.trim()).filter(Boolean);
+      return lines.slice(-2).join(" | ") || "No further action was reported.";
+    }
+
     function spritePosition(index) {
       const col = index % 4;
       const row = Math.floor(index / 4);
@@ -2880,6 +2962,13 @@ def _render_operator_html() -> str:
       if (!items.length) {
         wrap.className = "empty";
         wrap.textContent = "No pending glossary candidates in the effective queue.";
+        if ((data.progress?.total_candidates ?? 0) === 0) {
+          showResultBanner(
+            "warn",
+            "Glossary scan found no terms to review",
+            "This run has no glossary candidates in the effective queue. Continue translation with a bounded resume when ready.",
+          );
+        }
         return;
       }
       const rows = items.map((item) => `
@@ -2988,6 +3077,7 @@ def _render_operator_html() -> str:
       if (!response.ok) {
         document.getElementById("actionResult").innerHTML = `<div class="empty">${escapeHtml(data.error || "Glossary decision failed.")}</div>`;
         logActivity("glossary", currentGlossarySuggestion.term, data.error || "Glossary decision failed.", "error");
+        showResultBanner("danger", "Glossary decision failed", data.error || "Check the decision and retry.");
         clearLoadingStatus("Glossary decision failed.");
         return;
       }
@@ -3010,6 +3100,11 @@ def _render_operator_html() -> str:
       }
       logActivity("glossary", data.term, data.committed ? "Decision saved and glossary approval committed." : "Decision saved and queue updated.");
       await loadGlossaryQueue(data.run_id || state.runId);
+      showResultBanner(
+        "ok",
+        data.committed ? "Glossary approval committed" : "Glossary decision saved",
+        data.committed ? "The run can continue to translation." : "The queue was updated.",
+      );
       clearLoadingStatus("Glossary decision saved.");
     }
 
@@ -3102,6 +3197,7 @@ def _render_operator_html() -> str:
       if (!response.ok) {
         document.getElementById("reportResult").innerHTML = `<div class="empty">${escapeHtml(data.error || "Report generation failed.")}</div>`;
         logActivity("report", kind, data.error || "Report generation failed.", "error");
+        showResultBanner("danger", "Report failed", data.error || "Check report inputs and retry.");
         clearLoadingStatus("Report generation failed.");
         return;
       }
@@ -3112,6 +3208,11 @@ def _render_operator_html() -> str:
         </div>
       `;
       logActivity("report", kind, data.path, data.actionable_failure ? "warn" : "ok");
+      showResultBanner(
+        data.actionable_failure ? "warn" : "ok",
+        data.actionable_failure ? "Report generated with action needed" : "Report generated",
+        data.path || "",
+      );
       clearLoadingStatus("Report generated.");
     }
 
@@ -3127,6 +3228,7 @@ def _render_operator_html() -> str:
       if (!response.ok) {
         target.innerHTML = `<div class="empty">${escapeHtml(data.error || "Action failed.")}</div>`;
         logActivity(action, payload.run_id || state.runId || "none", data.error || "Action failed.", "error");
+        showResultBanner("danger", `${actionResultTitle(action)} failed`, data.error || "Check the action scope and retry.");
         clearLoadingStatus(`${action} failed.`);
         return;
       }
@@ -3153,6 +3255,7 @@ def _render_operator_html() -> str:
         }
       }
       logActivity(action, payload.run_id || state.runId || "workspace", data.output || "Action completed.");
+      showResultBanner("ok", actionResultTitle(action), summarizeActionOutput(data));
       clearLoadingStatus(`${action} completed.`);
     }
 
@@ -3173,6 +3276,7 @@ def _render_operator_html() -> str:
         wrap.className = "empty";
         wrap.textContent = data.error || "Provider smoke failed.";
         logActivity("provider-smoke", "failed", data.error || "Provider smoke failed.", "error");
+        showResultBanner("danger", "Provider smoke failed", data.error || "One or more provider checks failed.");
         clearLoadingStatus("Provider smoke failed.");
         return;
       }
@@ -3185,6 +3289,7 @@ def _render_operator_html() -> str:
       wrap.className = "";
       wrap.innerHTML = `<ul class="actions-list">${rows || '<li class="empty">No provider routes tested.</li>'}</ul>`;
       logActivity("provider-smoke", "complete", `${(data.results || []).length} routes tested.`);
+      showResultBanner("ok", "Provider smoke complete", `${(data.results || []).length} routes tested.`);
       clearLoadingStatus("Provider smoke complete.");
     }
 

@@ -4788,8 +4788,12 @@ def test_render_operator_html_contains_v6_dashboard_elements():
     assert 'id="employeeStatusPanel"' in html
     assert 'id="employeeStatus"' in html
     assert 'id="loadingStatus"' in html
+    assert 'id="runResultBanner"' in html
     assert 'id="providerSmokeBtn"' in html
     assert 'data-action-role="provider-smoke"' in html
+    assert "--accent: #9fe870" in html
+    assert "--link: #1769ff" in html
+    assert "Glossary scan found no terms to review" in html
     assert 'id="rerunActionCard"' in html
     assert "Technical Details" in html
     assert 'class="right-rail"' in html
