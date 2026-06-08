@@ -1182,6 +1182,41 @@ Acceptance criteria:
 - `novel-pipeline --config ".system/config.yaml" preflight` passes or reports only accepted warnings
 - browser smoke confirms employee cards render and no new console errors appear
 
+### V6.7: DESIGN.md Dashboard Shell Rebuild
+
+Goal: replace the remaining "feature wall" dashboard structure with a simpler operator shell that matches `DESIGN.md`: one clear decision area, one active task workspace, and one compact status rail. This is a UX/layout milestone only; it must not change provider routing, ledger semantics, pipeline stages, or state-changing guardrails.
+
+Status: complete on 2026-06-08.
+
+Implemented:
+
+- the first viewport now starts with `Current decision`, run overview, current blocker, next action, and compact task guidance
+- sidebar workflow choices now use normal operator language: `Continue Translation`, `Review Glossary`, `Recover Block`, `Generate Reports`, `Project Setup`, and `All Surfaces`
+- the main area is split into:
+  - task workspace for bounded translation, glossary review, recovery, setup, and report controls
+  - right status rail for employees, manual actions, reports, research readiness, technical details, and activity
+- old `Daily Home` / `Employee Status` labels and duplicate hidden task header were removed
+- employee cards were compacted so they show real work, provider route, readiness, and latest activity without crowding the active task controls
+- technical diagnostics remain available but collapsed behind `Technical Details`
+- provider smoke remains explicit and user-triggered only
+
+Acceptance evidence:
+
+- `python -m compileall novel_pipeline` passed
+- `python test_translation.py` passed
+- `novel-pipeline --config ".system/config.yaml" preflight` ran and reported only the expected dirty-worktree warning while this milestone was being edited
+- served dashboard returned HTTP 200 at `http://127.0.0.1:8766/`
+- served HTML contains `Current decision`, `Employees`, `right-rail`, and `task-surface`
+- served HTML no longer contains old visible labels `Daily Home` or `Employee Status`
+- read-only bootstrap for `batch-ch019-ch023-v1` returned employee status, report surfaces, guardrails, and no current failed blocks
+
+Stop conditions:
+
+- any dashboard read-only load calls providers
+- any task navigation behaves like a state-changing action
+- any state-changing control loses its explicit scope preview
+- provider/model/stage audit fields are hidden behind employee labels
+
 ## Acceptance Gates
 
 This document rewrite is accepted only when:

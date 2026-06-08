@@ -1,6 +1,6 @@
 # Operator Manual
 
-Last updated: 2026-06-06
+Last updated: 2026-06-08
 
 This is the practical runbook. It should help the operator proceed without guessing.
 
@@ -171,6 +171,12 @@ This is the practical runbook. It should help the operator proceed without guess
   - long-running actions now surface loading/status feedback with current employee/action/provider context
   - formatting is hybrid gated: configured AI formatter first, deterministic validation always, local formatter as fallback/cleanup
   - design rules now live in `DESIGN.md`
+- V6.7 complete:
+  - dashboard shell now follows `DESIGN.md` instead of the older feature-wall layout
+  - first viewport shows `Current decision`, run overview, current blocker, next action, and compact task guidance
+  - main work is split into one active task workspace plus a right status rail for employees, manual actions, reports, readiness, and technical details
+  - old `Daily Home` and `Employee Status` labels are removed
+  - provider smoke remains an explicit user-triggered action
 
 ## Standard Preflight
 

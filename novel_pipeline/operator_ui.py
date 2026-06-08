@@ -979,16 +979,18 @@ def _render_operator_html() -> str:
   <title>Novel Operator</title>
   <style>
     :root {
-      --bg: #f4f5f7;
+      --bg: #f6f7f9;
       --surface: #ffffff;
-      --surface-alt: #eef1f5;
-      --text: #16181d;
-      --muted: #5f6673;
-      --border: #d9dee8;
-      --accent: #0f62fe;
-      --danger: #c0362c;
-      --ok: #1f8f50;
-      --shadow: 0 1px 2px rgba(16,24,40,.04), 0 8px 24px rgba(16,24,40,.06);
+      --surface-alt: #f0f3f6;
+      --surface-soft: #f8fafb;
+      --text: #111827;
+      --muted: #5b6472;
+      --border: #d8dee7;
+      --accent: #1769ff;
+      --danger: #b42318;
+      --warning: #a15c07;
+      --ok: #16834b;
+      --shadow: 0 1px 2px rgba(16,24,40,.04), 0 10px 30px rgba(16,24,40,.06);
       --radius: 8px;
       font-family: "Segoe UI", Tahoma, sans-serif;
     }
@@ -997,13 +999,17 @@ def _render_operator_html() -> str:
     .shell {
       min-height: 100svh;
       display: grid;
-      grid-template-columns: 280px minmax(0, 1fr);
+      grid-template-columns: 288px minmax(0, 1fr);
     }
     .nav {
-      background: #111827;
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      background: #101828;
       color: #f9fafb;
       padding: 20px 18px;
       border-right: 1px solid rgba(255,255,255,.08);
+      overflow-y: auto;
     }
     .nav h1 {
       margin: 0 0 6px;
@@ -1016,15 +1022,23 @@ def _render_operator_html() -> str:
       font-size: 13px;
       line-height: 1.4;
     }
+    .side-caption {
+      color: #98a2b3;
+      font-size: 12px;
+      line-height: 1.5;
+      margin-top: 10px;
+    }
     .nav section { margin-bottom: 20px; }
     .focus-nav {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 8px;
     }
     .focus-btn {
-      height: 34px;
-      font-size: 12px;
+      height: 38px;
+      font-size: 13px;
+      text-align: left;
+      justify-content: flex-start;
     }
     .focus-btn.active {
       background: #f9fafb;
@@ -1072,6 +1086,13 @@ def _render_operator_html() -> str:
       cursor: pointer;
       background: var(--surface-alt);
       color: var(--text);
+      transition: background .15s ease, border-color .15s ease, transform .12s ease;
+    }
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+    button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 3px solid rgba(23, 105, 255, .2);
+      outline-offset: 1px;
     }
     button.primary {
       background: var(--accent);
@@ -1083,14 +1104,14 @@ def _render_operator_html() -> str:
       border-color: rgba(255,255,255,.12);
     }
     .main {
-      padding: 20px;
+      padding: 20px 24px 28px;
       display: grid;
-      gap: 18px;
+      gap: 16px;
       align-content: start;
     }
     .topbar {
       display: flex;
-      align-items: flex-end;
+      align-items: flex-start;
       justify-content: space-between;
       gap: 12px;
     }
@@ -1103,6 +1124,12 @@ def _render_operator_html() -> str:
       color: var(--muted);
       font-size: 13px;
     }
+    .topbar-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
     .metrics {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1112,7 +1139,7 @@ def _render_operator_html() -> str:
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      box-shadow: var(--shadow);
+      box-shadow: 0 1px 2px rgba(16,24,40,.04);
     }
     .metric {
       padding: 14px 16px;
@@ -1136,8 +1163,8 @@ def _render_operator_html() -> str:
     }
     .layout {
       display: grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(320px, .7fr);
-      gap: 18px;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 16px;
     }
     .column-stack {
       display: grid;
@@ -1146,7 +1173,7 @@ def _render_operator_html() -> str:
     }
     .focus-strip {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
       margin-top: -4px;
     }
@@ -1165,11 +1192,6 @@ def _render_operator_html() -> str:
       color: #f9fafb;
       border-color: #111827;
     }
-    .workflow-header {
-      display: grid;
-      gap: 10px;
-      align-content: start;
-    }
     .status-strip {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1186,10 +1208,9 @@ def _render_operator_html() -> str:
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 12px 14px;
-      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
     }
     .overview-card {
-      background: var(--surface-alt);
+      background: var(--surface-soft);
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 12px 14px;
@@ -1215,6 +1236,7 @@ def _render_operator_html() -> str:
     }
     .command-center {
       border-left: 4px solid var(--accent);
+      box-shadow: var(--shadow);
     }
     .command-head {
       display: flex;
@@ -1325,7 +1347,7 @@ def _render_operator_html() -> str:
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 12px;
-      background: var(--surface-alt);
+      background: var(--surface-soft);
     }
     .action-card .meta {
       margin: 0 0 10px;
@@ -1372,23 +1394,23 @@ def _render_operator_html() -> str:
     }
     .employee-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 12px;
+      grid-template-columns: 1fr;
+      gap: 8px;
     }
     .employee-card {
       display: grid;
-      grid-template-columns: 72px minmax(0, 1fr);
-      gap: 12px;
+      grid-template-columns: 52px minmax(0, 1fr);
+      gap: 10px;
       align-items: start;
       border: 1px solid var(--border);
       border-radius: 8px;
-      background: var(--surface-alt);
-      padding: 12px;
+      background: var(--surface);
+      padding: 10px;
     }
     .employee-avatar {
-      width: 64px;
-      height: 64px;
-      border-radius: 16px;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
       border: 1px solid var(--border);
       background-image: url("/api/dashboard-asset?name=employee-chibi-spritesheet.png");
       background-size: 400% 200%;
@@ -1410,6 +1432,11 @@ def _render_operator_html() -> str:
       color: var(--muted);
       font-size: 12px;
       line-height: 1.45;
+    }
+    .employee-lines {
+      display: grid;
+      gap: 3px;
+      margin-top: 6px;
     }
     .loading-status {
       margin-top: 12px;
@@ -1463,6 +1490,7 @@ def _render_operator_html() -> str:
     }
     .pill.ok { background: #e7f7ee; color: var(--ok); }
     .pill.danger { background: #fdeceb; color: var(--danger); }
+    .pill.warn { background: #fff4df; color: var(--warning); }
     .mono {
       font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
       font-size: 12px;
@@ -1507,6 +1535,59 @@ def _render_operator_html() -> str:
       gap: 8px;
       margin-bottom: 12px;
     }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(260px, .9fr);
+      gap: 12px;
+      align-items: stretch;
+    }
+    .active-action-bar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      padding-top: 12px;
+      margin-top: 12px;
+    }
+    .decision-copy {
+      display: grid;
+      gap: 5px;
+      min-width: 0;
+    }
+    .decision-copy .value {
+      color: var(--text);
+      font-weight: 800;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+    .decision-copy .sub {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+    .blocker-summary {
+      display: grid;
+      gap: 8px;
+      align-content: start;
+      min-width: 0;
+    }
+    .blocker-summary .detail {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+    .right-rail {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+    .task-surface {
+      display: grid;
+      gap: 12px;
+    }
     .empty {
       color: var(--muted);
       font-size: 13px;
@@ -1518,7 +1599,8 @@ def _render_operator_html() -> str:
     }
     @media (max-width: 1080px) {
       .shell { grid-template-columns: 1fr; }
-      .metrics, .layout { grid-template-columns: 1fr; }
+      .nav { position: static; height: auto; }
+      .metrics, .layout, .hero-grid { grid-template-columns: 1fr; }
       .dual-stack { grid-template-columns: 1fr; }
       .status-strip, .overview-grid, .glossary-progress, .run-row { grid-template-columns: 1fr; }
       .inspect-grid { grid-template-columns: 1fr; }
@@ -1531,6 +1613,7 @@ def _render_operator_html() -> str:
   <div class="shell">
     <aside class="nav">
       <h1>Novel Operator</h1>
+      <p class="side-caption">Local dashboard for bounded translation work.</p>
 
       <section>
         <label for="runIdInput">Run ID</label>
@@ -1547,15 +1630,16 @@ def _render_operator_html() -> str:
       </section>
 
       <section>
-        <label>Task</label>
+        <label>Workspace</label>
         <div class="focus-nav">
-          <button class="ghost-dark focus-btn active" data-focus-target="operate" data-task-role="navigation">Continue</button>
-          <button class="ghost-dark focus-btn" data-focus-target="glossary" data-task-role="navigation">Glossary</button>
-          <button class="ghost-dark focus-btn" data-focus-target="recovery" data-task-role="navigation">Recover</button>
-          <button class="ghost-dark focus-btn" data-focus-target="reports" data-task-role="navigation">Reports</button>
-          <button class="ghost-dark focus-btn" data-focus-target="setup" data-task-role="navigation">Setup</button>
-          <button class="ghost-dark focus-btn" data-focus-target="all" data-task-role="navigation">All</button>
+          <button class="ghost-dark focus-btn active" data-focus-target="operate" data-task-role="navigation">Continue Translation</button>
+          <button class="ghost-dark focus-btn" data-focus-target="glossary" data-task-role="navigation">Review Glossary</button>
+          <button class="ghost-dark focus-btn" data-focus-target="recovery" data-task-role="navigation">Recover Block</button>
+          <button class="ghost-dark focus-btn" data-focus-target="reports" data-task-role="navigation">Generate Reports</button>
+          <button class="ghost-dark focus-btn" data-focus-target="setup" data-task-role="navigation">Project Setup</button>
+          <button class="ghost-dark focus-btn" data-focus-target="all" data-task-role="navigation">All Surfaces</button>
         </div>
+        <p class="side-caption">Pick one job. State-changing buttons still show scope before execution.</p>
       </section>
     </aside>
 
@@ -1565,53 +1649,43 @@ def _render_operator_html() -> str:
           <h2 id="runTitle">No run loaded</h2>
           <p id="runSubtitle">Load a run to inspect current status, blocker, and artifacts.</p>
         </div>
+        <div class="topbar-actions">
+          <button id="providerSmokeBtn" data-action-role="provider-smoke">Smoke Test Providers</button>
+        </div>
       </div>
-
-      <section class="panel workflow-header">
-        <div>
-          <h3>Tasks</h3>
-        </div>
-        <div class="focus-strip">
-          <button class="focus-chip active" data-focus-target="operate" data-task-role="navigation">Continue Translation</button>
-          <button class="focus-chip" data-focus-target="glossary" data-task-role="navigation">Glossary Review</button>
-          <button class="focus-chip" data-focus-target="recovery" data-task-role="navigation">Recover Block</button>
-          <button class="focus-chip" data-focus-target="reports" data-task-role="navigation">Reports</button>
-          <button class="focus-chip" data-focus-target="setup" data-task-role="navigation">Project Setup</button>
-          <button class="focus-chip" data-focus-target="all" data-task-role="navigation">All</button>
-        </div>
-      </section>
 
       <section class="panel command-center" id="dailyHome">
         <div class="command-head">
           <div>
-            <div class="task-label">Daily Home</div>
+            <div class="task-label">Current decision</div>
             <h3 id="taskGuideTitle">Continue Translation</h3>
           </div>
           <div class="mono" id="nextAction">No run loaded.</div>
         </div>
-        <div id="runOverview" class="empty">No run loaded.</div>
-        <div id="taskGuide" class="empty" style="margin-top:12px;">No run loaded.</div>
+        <div class="hero-grid">
+          <div id="runOverview" class="empty">No run loaded.</div>
+          <div id="currentBlocker" class="empty">No blocker loaded.</div>
+        </div>
+        <div class="active-action-bar">
+          <div id="taskGuide" class="empty">No run loaded.</div>
+          <div class="focus-strip">
+            <button class="focus-chip active" data-focus-target="operate" data-task-role="navigation">Continue</button>
+            <button class="focus-chip" data-focus-target="glossary" data-task-role="navigation">Glossary</button>
+            <button class="focus-chip" data-focus-target="recovery" data-task-role="navigation">Recover</button>
+            <button class="focus-chip" data-focus-target="reports" data-task-role="navigation">Reports</button>
+            <button class="focus-chip" data-focus-target="setup" data-task-role="navigation">Setup</button>
+          </div>
+        </div>
         <div id="loadingStatus" class="loading-status" data-loading-state="idle"></div>
       </section>
 
-      <section class="panel" id="employeeStatusPanel" data-focus-group="operate,glossary,recovery,reports,setup,all">
-        <div class="command-head">
-          <div>
-            <h3>Employee Status</h3>
-          </div>
-          <button id="providerSmokeBtn" data-action-role="provider-smoke">Smoke Test Providers</button>
-        </div>
-        <div id="employeeStatus" class="employee-grid"></div>
-        <div id="providerSmokeResult" class="empty" style="margin-top:12px;">Provider smoke test has not run.</div>
-      </section>
-
       <div class="layout">
-        <div class="column-stack">
-          <section class="panel" id="batchControlsPanel" data-focus-group="operate,recovery,all">
-            <h3>Translation Actions</h3>
+        <div class="column-stack task-surface">
+          <section class="panel" id="batchControlsPanel" data-focus-group="operate,all">
+            <h3>Continue Translation</h3>
             <div class="dual-stack">
               <div class="action-card">
-                <label for="batchRunId">Start Batch</label>
+                <label for="batchRunId">Start A Bounded Batch</label>
                 <div class="inspect-grid">
                   <input id="batchRunId" placeholder="Run ID">
                   <input id="batchChapterRange" placeholder="Chapter range e.g. ch004-ch008">
@@ -1637,7 +1711,7 @@ def _render_operator_html() -> str:
           </section>
 
           <section class="panel" id="chapterDashboardPanel" data-focus-group="operate,recovery,all">
-            <h3>Chapters</h3>
+            <h3>Chapter Progress</h3>
             <div id="chapterMatrix" class="empty">No run loaded.</div>
             <details class="detail-panel" style="margin-top:12px;">
               <summary>Chapter table</summary>
@@ -1653,7 +1727,7 @@ def _render_operator_html() -> str:
 
           <section class="panel" data-focus-group="glossary,all">
             <h3>Glossary Decision</h3>
-            <p class="meta">Loading options may call the term-suggestion provider.</p>
+            <div id="glossaryDecisionPreview" class="preview-box">Provider-assisted suggestions require an explicit click.</div>
             <div id="glossaryDecision" class="empty">No term selected.</div>
           </section>
 
@@ -1668,7 +1742,7 @@ def _render_operator_html() -> str:
           </section>
 
           <section class="panel" id="recoveryControlsPanel" data-focus-group="recovery,all">
-            <h3>Recover This Block</h3>
+            <h3>Recover Block</h3>
             <div id="recoveryEmptyState" class="empty">No current failures.</div>
             <div class="action-card" id="rerunActionCard">
               <label for="rerunRunId">Rerun Block</label>
@@ -1685,10 +1759,7 @@ def _render_operator_html() -> str:
               <button class="primary" id="rerunBtn" data-action-role="state-changing">Run Rerun-Block</button>
               <div id="rerunPreview" class="preview-box empty">No rerun-block scope prepared.</div>
             </div>
-            <div style="margin-top:12px;">
-              <h4 style="margin:0 0 8px; font-size:13px;">Action Result</h4>
-              <div id="actionResult" class="empty">No action executed yet.</div>
-            </div>
+            <div id="actionResult" class="preview-box empty">No action executed yet.</div>
           </section>
 
           <section class="panel" data-focus-group="setup,all">
@@ -1746,7 +1817,17 @@ def _render_operator_html() -> str:
           </section>
         </div>
 
-        <div class="column-stack">
+        <div class="right-rail">
+          <section class="panel" id="employeeStatusPanel" data-focus-group="operate,glossary,recovery,reports,setup,all">
+            <div class="command-head">
+              <div>
+                <h3>Employees</h3>
+              </div>
+            </div>
+            <div id="employeeStatus" class="employee-grid"></div>
+            <div id="providerSmokeResult" class="empty" style="margin-top:12px;">Provider smoke test has not run.</div>
+          </section>
+
           <section class="panel" data-focus-group="operate,recovery,all">
             <h3>Manual Actions</h3>
             <ul id="manualActions" class="actions-list"></ul>
@@ -2139,20 +2220,11 @@ def _render_operator_html() -> str:
       };
       const guide = taskMap[state.focus] || taskMap.operate;
       title.textContent = guide.title;
-      wrap.className = "";
+      wrap.className = "decision-copy";
       wrap.innerHTML = `
-        <div class="overview-grid">
-          <div class="overview-card">
-            <div class="label">Task State</div>
-            <div class="value">${escapeHtml(guide.detail)}</div>
-            <div class="sub">${manualActions.length ? `${manualActions.length} manual actions listed` : "No manual action listed"}</div>
-          </div>
-          <div class="overview-card">
-            <div class="label">What To Do Here</div>
-            <div class="value">${escapeHtml(guide.action)}</div>
-            <div class="sub">Action buttons below show scope before execution.</div>
-          </div>
-        </div>
+        <div class="task-label">Task State</div>
+        <div class="value">${escapeHtml(guide.detail)}</div>
+        <div class="sub">${escapeHtml(guide.action)}</div>
       `;
     }
 
@@ -2396,12 +2468,10 @@ def _render_operator_html() -> str:
       }
       const blocker = resolveCurrentBlocker(snapshot);
 
-      wrap.className = "";
+      wrap.className = "blocker-summary";
       wrap.innerHTML = `
-        <div class="stack">
-          <div><span class="pill ${blocker.pillClass}">${escapeHtml(blocker.title)}</span></div>
-          <div class="mono">${escapeHtml(blocker.detail)}</div>
-        </div>
+        <div><span class="pill ${blocker.pillClass}">${escapeHtml(blocker.title)}</span></div>
+        <div class="detail">${escapeHtml(blocker.detail)}</div>
       `;
     }
 
@@ -2728,11 +2798,12 @@ def _render_operator_html() -> str:
                 <span class="employee-name">${escapeHtml(employee.name)}</span>
                 <span class="pill ${readinessClass}">${escapeHtml(employee.readiness || "unknown")}</span>
               </div>
-              <div class="employee-role">${escapeHtml(employee.archetype || "")}</div>
-              <div class="mono" style="margin-top:6px;">role: ${escapeHtml(employee.role || "")}</div>
-              <div class="mono" style="margin-top:4px;">does: ${escapeHtml(mapped)}</div>
-              <div class="mono" style="margin-top:4px;">route: ${escapeHtml(employee.provider_model || "local")}</div>
-              <div class="employee-role" style="margin-top:6px;">${escapeHtml(employee.latest_activity || "")}</div>
+              <div class="employee-role">${escapeHtml(employee.role || employee.archetype || "")}</div>
+              <div class="employee-lines">
+                <div class="mono">work: ${escapeHtml(mapped)}</div>
+                <div class="mono">route: ${escapeHtml(employee.provider_model || "local")}</div>
+              </div>
+              <div class="employee-role" style="margin-top:6px;">${escapeHtml(employee.latest_activity || "No recent activity.")}</div>
             </div>
           </article>
         `;

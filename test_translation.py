@@ -4780,8 +4780,9 @@ def test_render_operator_html_contains_v6_dashboard_elements():
     from novel_pipeline.operator_ui import _render_operator_html
 
     html = _render_operator_html()
-    assert "Tasks" in html
-    assert "Daily Home" in html
+    assert "Current decision" in html
+    assert "Continue Translation" in html
+    assert "Employees" in html
     assert 'id="dailyHome"' in html
     assert 'id="taskGuide"' in html
     assert 'id="employeeStatusPanel"' in html
@@ -4789,14 +4790,20 @@ def test_render_operator_html_contains_v6_dashboard_elements():
     assert 'id="loadingStatus"' in html
     assert 'id="providerSmokeBtn"' in html
     assert 'data-action-role="provider-smoke"' in html
-    assert "Employee Status" in html
     assert 'id="rerunActionCard"' in html
     assert "Technical Details" in html
+    assert 'class="right-rail"' in html
+    assert 'class="column-stack task-surface"' in html
+    assert 'class="active-action-bar"' in html
+    assert "blocker-summary" in html
+    assert "decision-copy" in html
     assert "System Ready?" in html
     assert "Run Complete?" in html
     assert 'id="jumpBatchControlsBtn"' not in html
     assert "Paste a run ID or pick one from the known-run list" not in html
     assert "Navigation is secondary" not in html
+    assert "Daily Home" not in html
+    assert "Employee Status" not in html
     assert 'data-focus-target="operate"' in html
     assert 'data-focus-target="glossary"' in html
     assert 'data-task-role="navigation"' in html

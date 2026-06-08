@@ -1,7 +1,7 @@
 # Project Brain: Deep Sea Embers Translation Pipeline
 
 Last updated: 2026-06-08
-Last verified: 2026-06-08 after V6.6 employee dashboard, design guide, and hybrid formatting implementation with compile/tests, preflight, served operator window, browser smoke on `127.0.0.1:8765`, employee cards rendered, provider smoke remaining explicit/user-triggered, and no console errors.
+Last verified: 2026-06-08 after V6.7 dashboard shell rebuild with compile/tests, preflight, served operator window on `127.0.0.1:8766`, HTTP/static dashboard checks, read-only bootstrap checks, and provider smoke remaining explicit/user-triggered.
 
 This file is the project constitution, architecture map, and current operational memory. It should preserve the project goal, design principles, verified state, safety rules, recovery lessons, and pointers to detailed documents. Keep reports, long logs, and implementation detail in their dedicated files.
 
@@ -211,6 +211,7 @@ Active:
 - V6.5 complete: operator UI/UX rebuild reduced visible copy, made `Daily Home` the first working surface, moved diagnostics behind `Technical Details`, hid recovery execution when no failures exist, and grouped reports by operator question
 - V6.5 audit report exists at `07_Reports/operator_ui_text_surface_audit_20260606.md`
 - V6.6 complete: dashboard now has eight display-only novel-style employee cards (`000 Ferryman` through `007 Warden`), chibi dashboard asset, read-only employee readiness, explicit provider smoke action, loading/status feedback, `DESIGN.md`, and hybrid AI formatting with deterministic validation plus local fallback
+- V6.7 complete: dashboard shell now follows `DESIGN.md` with a first-viewport `Current decision` area, one active task workspace, compact right status rail, removed old `Daily Home` / `Employee Status` labels, and read-only bootstrap verified without provider calls
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, artifact viewing, novel-project scaffold, and bounded batch-start actions
@@ -342,7 +343,7 @@ Next milestones after product-complete:
   - `V6.1B` complete: canonical naming is now normalized around `IMPLEMENT_PLAN.md` across active code, templates, tests, and canonical docs
   - `V6.1C` complete: benchmark/history artifacts now live under archive paths and benchmark/debug helper scripts no longer crowd the active repo surface
   - `V6.1D` complete: compile/tests/preflight/product-review/recovery-drill were rerun successfully after cleanup
-  - `V6.2` through `V6.6` are complete; latest accepted milestone is V6.6 employee dashboard, explicit provider smoke testing, design guide, and hybrid formatting
+  - `V6.2` through `V6.7` are complete; latest accepted milestone is V6.7 dashboard shell rebuild using `DESIGN.md`
 
 ## Invariants And Guardrails
 
@@ -537,6 +538,7 @@ Worker model restrictions:
 - 2026-06-06: V6.4 accepted. Runtime evidence showed backend APIs and guardrails worked while the window failed as a normal-user control surface. The rebuild removed misleading navigation-as-action controls, fixed rendered JS/layout issues, and verified task-first flows: `Continue Translation`, `Glossary Review`, `Recover Block`, `Reports`, and `Project Setup`.
 - 2026-06-06: V6.5 accepted. The operator window now prioritizes a concise daily home, hides technical diagnostics by default, suppresses recovery execution controls when there is no failed/manual block, and groups reports by operator question rather than raw report names.
 - 2026-06-08: V6.6 accepted. The dashboard now exposes eight display-only novel-style employee cards with chibi asset support, read-only employee readiness, explicit provider smoke testing, loading feedback, `DESIGN.md`, and hybrid Qwen/local formatting with content-preservation validation.
+- 2026-06-08: V6.7 accepted. The dashboard shell now uses a first-viewport decision area, one active task workspace, and a compact right status rail; old `Daily Home` / `Employee Status` labels and the duplicate hidden task header were removed.
 
 ## Document Map
 
