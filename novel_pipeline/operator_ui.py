@@ -13,6 +13,7 @@ from typing import Any
 from urllib.parse import parse_qs, quote, unquote, urlparse
 
 from novel_pipeline.config import load_yaml_mapping
+from novel_pipeline.employees import EMPLOYEE_ROSTER, employee_provider_label
 from novel_pipeline.files import atomic_write_json, atomic_write_text, read_text_if_exists
 from novel_pipeline.glossary_support import parse_glossary_note, write_glossary_note
 from novel_pipeline.ledger import RunLedger
@@ -33,6 +34,7 @@ from novel_pipeline.pipeline import (
 from novel_pipeline.preflight import build_preflight_summary
 from novel_pipeline.prompts import PromptStore
 from novel_pipeline.project_setup import initialize_novel_project, render_research_profile_yaml
+from novel_pipeline.providers.base import ProviderRunner, classify_provider_response
 from novel_pipeline.stages.glossary import build_term_suggestion
 from novel_pipeline.text_utils import parse_chapter_range
 from novel_pipeline.reports import (
@@ -47,7 +49,7 @@ from novel_pipeline.reports import (
     build_glossary_guard_report,
     build_provider_usage_report,
 )
-from novel_pipeline.types import AppConfig, GlossaryEntry, ResearchProfile, TermSuggestion
+from novel_pipeline.types import AppConfig, GlossaryEntry, ProviderRequest, ResearchProfile, TermSuggestion
 
 _OPERATOR_REPORT_KINDS: tuple[str, ...] = (
     "checkpoint",
@@ -331,6 +333,129 @@ def _operator_report_surfaces(config: AppConfig, run_id: str | None) -> dict[str
     return {"active": active, "archive": archive}
 
 
+def _employee_stage_activity(status: dict[str, Any], stages: tuple[str, ...]) -> str:
+    provider_usage = status.get("provider_usage") or {}
+    counts: dict[str, int] = {}
+    for stages_by_provider in provider_usage.values():
+        if not isinstance(stages_by_provider, dict):
+            continue
+        for stage, statuses in stages_by_provider.items():
+            if stage not in stages or not isinstance(statuses, dict):
+                continue
+            counts[stage] = counts.get(stage, 0) + sum(int(value) for value in statuses.values())
+    if not counts:
+        return "No run activity yet."
+    return " | ".join(f"{stage}: {count}" for stage, count in sorted(counts.items()))
+
+
+def _employee_status_snapshot(config: AppConfig, status: dict[str, Any], preflight: dict[str, Any]) -> list[dict[str, Any]]:
+    provider_status = {
+        str(item.get("provider") or ""): str(item.get("status") or "unknown")
+        for item in preflight.get("providers", [])
+        if isinstance(item, dict)
+    }
+    failed_blocks = list(status.get("current_failed_blocks") or [])
+    manual_actions = [
+        str(item).strip()
+        for item in status.get("manual_actions", [])
+        if str(item).strip().lower() != "none"
+    ]
+    records = int(status.get("total_records") or 0)
+    employees: list[dict[str, Any]] = []
+    for index, employee in enumerate(EMPLOYEE_ROSTER):
+        route_stages = [stage for stage in employee["stages"] if stage in config.stage_routing]
+        route_providers = [
+            config.stage_routing_for(stage).provider
+            for stage in route_stages
+            if config.stage_routing_for(stage).provider
+        ]
+        if route_providers:
+            route_states = [provider_status.get(provider, "unknown") for provider in route_providers]
+            if any(state == "blocked" for state in route_states):
+                readiness = "blocked"
+            elif any(state == "unknown" for state in route_states):
+                readiness = "unknown"
+            else:
+                readiness = "ready"
+        elif preflight.get("status") == "blocked":
+            readiness = "warning"
+        else:
+            readiness = "ready"
+        if employee["code"] == "007" and failed_blocks:
+            readiness = "blocked"
+        elif employee["code"] in {"004", "007"} and manual_actions:
+            readiness = "warning"
+        latest_activity = _employee_stage_activity(status, tuple(employee["stages"]))
+        if not records:
+            latest_activity = "No loaded run activity."
+        employees.append(
+            {
+                "index": index,
+                "code": employee["code"],
+                "name": employee["name"],
+                "archetype": employee["archetype"],
+                "role": employee["role"],
+                "maps_to": list(employee["maps_to"]),
+                "stages": list(employee["stages"]),
+                "actions": list(employee["actions"]),
+                "provider_model": employee_provider_label(config, employee),
+                "readiness": readiness,
+                "latest_activity": latest_activity,
+                "asset": "employee-chibi-spritesheet.png",
+            }
+        )
+    return employees
+
+
+def run_provider_smoke_tests(config: AppConfig, *, confirm: bool) -> dict[str, Any]:
+    if not confirm:
+        raise ValueError("Provider smoke test requires explicit confirmation.")
+    routes: list[tuple[str, str, str]] = []
+    seen: set[tuple[str, str]] = set()
+    for stage, routing in sorted(config.stage_routing.items()):
+        stage_routes = [(routing.provider, routing.model)]
+        stage_routes.extend((item.get("provider", ""), item.get("model", "")) for item in routing.fallbacks)
+        for provider_name, model in stage_routes:
+            if not provider_name or provider_name == "local":
+                continue
+            key = (provider_name, model)
+            if key in seen:
+                continue
+            seen.add(key)
+            routes.append((stage, provider_name, model))
+
+    results: list[dict[str, Any]] = []
+    prompt = "Reply with exactly: OK"
+    for stage, provider_name, model in routes:
+        spec = config.providers[provider_name]
+        runner = ProviderRunner(spec)
+        response = runner.run(
+            ProviderRequest(
+                prompt=prompt,
+                provider=provider_name,
+                stage=f"smoke:{stage}",
+                model=model,
+                cwd=config.workspace.root,
+                timeout_seconds=min(spec.timeout_seconds, 30.0),
+            )
+        )
+        failure_kind = classify_provider_response(response, require_stdout=True)
+        results.append(
+            {
+                "stage": stage,
+                "provider": provider_name,
+                "model": response.model,
+                "status": "ready" if not failure_kind else "blocked",
+                "failure_kind": failure_kind,
+                "returncode": response.returncode,
+                "duration_seconds": response.duration_seconds,
+                "stdout_preview": (response.stdout or "").strip()[:120],
+                "stderr_preview": (response.stderr or "").strip()[:120],
+            }
+        )
+    return {"results": results}
+
+
 def _operator_dashboard_guardrails() -> dict[str, Any]:
     return {
         "allowed_state_actions": list(_OPERATOR_STATE_ACTIONS),
@@ -345,6 +470,8 @@ def _operator_dashboard_guardrails() -> dict[str, Any]:
         "research_readiness_gate": "bounded",
         "inspect_prefill_only": True,
         "broad_unbounded_actions_exposed": False,
+        "employee_aliases_display_only": True,
+        "provider_smoke_requires_explicit_action": True,
     }
 
 
@@ -405,6 +532,7 @@ def build_operator_snapshot(config: AppConfig, run_id: str | None = None) -> dic
         "research_readiness": config.research_readiness_summary(),
         "preflight": preflight,
         "dashboard_guardrails": _operator_dashboard_guardrails(),
+        "employee_status": _employee_status_snapshot(config, status, preflight),
         "command_hints": _operator_command_hints(config, resolved_run_id, status, preflight),
         "quick_links": _operator_quick_links(config, resolved_run_id),
         "report_surfaces": _operator_report_surfaces(config, resolved_run_id),
@@ -1242,6 +1370,60 @@ def _render_operator_html() -> str:
       font-weight: 700;
       margin-bottom: 6px;
     }
+    .employee-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 12px;
+    }
+    .employee-card {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface-alt);
+      padding: 12px;
+    }
+    .employee-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background-image: url("/api/dashboard-asset?name=employee-chibi-spritesheet.png");
+      background-size: 400% 200%;
+      background-repeat: no-repeat;
+      background-color: #f8fafc;
+    }
+    .employee-card .employee-title {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+    .employee-card .employee-name {
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .employee-card .employee-role {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .loading-status {
+      margin-top: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #ecfdf5;
+      color: #064e3b;
+      padding: 10px 12px;
+      font-size: 13px;
+      display: none;
+    }
+    .loading-status.active {
+      display: block;
+    }
     .glossary-progress {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -1409,6 +1591,18 @@ def _render_operator_html() -> str:
         </div>
         <div id="runOverview" class="empty">No run loaded.</div>
         <div id="taskGuide" class="empty" style="margin-top:12px;">No run loaded.</div>
+        <div id="loadingStatus" class="loading-status" data-loading-state="idle"></div>
+      </section>
+
+      <section class="panel" id="employeeStatusPanel" data-focus-group="operate,glossary,recovery,reports,setup,all">
+        <div class="command-head">
+          <div>
+            <h3>Employee Status</h3>
+          </div>
+          <button id="providerSmokeBtn" data-action-role="provider-smoke">Smoke Test Providers</button>
+        </div>
+        <div id="employeeStatus" class="employee-grid"></div>
+        <div id="providerSmokeResult" class="empty" style="margin-top:12px;">Provider smoke test has not run.</div>
       </section>
 
       <div class="layout">
@@ -1621,6 +1815,8 @@ def _render_operator_html() -> str:
       snapshot: null,
       activityLog: [],
       focus: "operate",
+      loadingStartedAt: null,
+      loadingTimer: null,
     };
 
     const runIdInput = document.getElementById("runIdInput");
@@ -2444,6 +2640,105 @@ def _render_operator_html() -> str:
       `).join("");
     }
 
+    function employeeByCode(code) {
+      return (state.snapshot?.employee_status || []).find((employee) => employee.code === code) || null;
+    }
+
+    function employeeForAction(action) {
+      const actionMap = {
+        "bootstrap": "000",
+        "run-batch": "000",
+        "glossary-queue": "001",
+        "glossary-suggestion": "001",
+        "glossary-decision": "001",
+        "resume": "002",
+        "rerun-block": "007",
+        "inspect-block": "007",
+        "report": "006",
+        "provider-smoke": "004",
+        "init-novel": "000",
+        "save-research-profile": "000",
+      };
+      return employeeByCode(actionMap[action] || "006");
+    }
+
+    function setLoadingStatus(action, detail = "") {
+      const employee = employeeForAction(action);
+      const wrap = document.getElementById("loadingStatus");
+      state.loadingStartedAt = Date.now();
+      if (state.loadingTimer) {
+        clearInterval(state.loadingTimer);
+      }
+      const render = () => {
+        const elapsed = state.loadingStartedAt ? Math.max(0, Math.round((Date.now() - state.loadingStartedAt) / 1000)) : 0;
+        wrap.className = "loading-status active";
+        wrap.dataset.loadingState = "active";
+        wrap.innerHTML = `
+          <strong>${escapeHtml(employee ? `${employee.code} ${employee.name}` : "Worker")}</strong>
+          <span class="mono"> action=${escapeHtml(action)} | provider=${escapeHtml(employee?.provider_model || "local")} | elapsed=${elapsed}s</span>
+          <div class="mono" style="margin-top:4px;">${escapeHtml(detail || "Waiting for response...")}</div>
+        `;
+      };
+      render();
+      state.loadingTimer = setInterval(render, 1000);
+    }
+
+    function clearLoadingStatus(message = "") {
+      const wrap = document.getElementById("loadingStatus");
+      if (state.loadingTimer) {
+        clearInterval(state.loadingTimer);
+        state.loadingTimer = null;
+      }
+      if (message) {
+        wrap.className = "loading-status active";
+        wrap.dataset.loadingState = "done";
+        wrap.innerHTML = `<strong>Done</strong><span class="mono"> ${escapeHtml(message)}</span>`;
+      } else {
+        wrap.className = "loading-status";
+        wrap.dataset.loadingState = "idle";
+        wrap.textContent = "";
+      }
+      state.loadingStartedAt = null;
+    }
+
+    function spritePosition(index) {
+      const col = index % 4;
+      const row = Math.floor(index / 4);
+      return `${col * 33.3333}% ${row * 100}%`;
+    }
+
+    function renderEmployeeStatus(snapshot) {
+      const wrap = document.getElementById("employeeStatus");
+      const employees = snapshot?.employee_status || [];
+      if (!employees.length) {
+        wrap.className = "empty";
+        wrap.textContent = "No employee status available.";
+        return;
+      }
+      wrap.className = "employee-grid";
+      wrap.innerHTML = employees.map((employee) => {
+        const readinessClass = employee.readiness === "ready" ? "ok" : employee.readiness === "blocked" ? "danger" : "";
+        const mapped = (employee.maps_to || []).join(", ");
+        return `
+          <article class="employee-card" data-employee-code="${escapeHtml(employee.code)}">
+            <div class="employee-avatar" role="img" aria-label="${escapeHtml(employee.name)} chibi" style="background-position:${spritePosition(employee.index || 0)};"></div>
+            <div>
+              <div class="employee-title">
+                <span class="pill">${escapeHtml(employee.code)}</span>
+                <span class="employee-name">${escapeHtml(employee.name)}</span>
+                <span class="pill ${readinessClass}">${escapeHtml(employee.readiness || "unknown")}</span>
+              </div>
+              <div class="employee-role">${escapeHtml(employee.archetype || "")}</div>
+              <div class="mono" style="margin-top:6px;">role: ${escapeHtml(employee.role || "")}</div>
+              <div class="mono" style="margin-top:4px;">does: ${escapeHtml(mapped)}</div>
+              <div class="mono" style="margin-top:4px;">route: ${escapeHtml(employee.provider_model || "local")}</div>
+              <div class="employee-role" style="margin-top:6px;">${escapeHtml(employee.latest_activity || "")}</div>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
     function renderSnapshot(snapshot) {
       state.snapshot = snapshot;
       const runId = snapshot?.run_id || "";
@@ -2464,6 +2759,7 @@ def _render_operator_html() -> str:
       renderMetrics(snapshot);
       renderStatusStrip(snapshot);
       renderRunOverview(snapshot);
+      renderEmployeeStatus(snapshot);
       renderChapterMatrix(snapshot);
       renderChapterTable(snapshot);
       renderCurrentBlocker(snapshot);
@@ -2481,17 +2777,25 @@ def _render_operator_html() -> str:
     }
 
     async function loadSnapshot(runId = "") {
-      const query = runId ? `?run_id=${encodeURIComponent(runId)}` : "";
-      const response = await fetch(`/api/bootstrap${query}`);
-      const data = await response.json();
-      renderSnapshot(data);
-      logActivity("snapshot", runId || data.run_id || "latest", response.ok ? "Snapshot loaded." : (data.error || "Snapshot failed."), response.ok ? "ok" : "error");
-      if (data.run_id) {
-        await loadGlossaryQueue(data.run_id);
+      setLoadingStatus("bootstrap", "Loading read-only status snapshot.");
+      try {
+        const query = runId ? `?run_id=${encodeURIComponent(runId)}` : "";
+        const response = await fetch(`/api/bootstrap${query}`);
+        const data = await response.json();
+        renderSnapshot(data);
+        logActivity("snapshot", runId || data.run_id || "latest", response.ok ? "Snapshot loaded." : (data.error || "Snapshot failed."), response.ok ? "ok" : "error");
+        if (data.run_id) {
+          await loadGlossaryQueue(data.run_id);
+        }
+        clearLoadingStatus("Snapshot loaded.");
+      } catch (error) {
+        clearLoadingStatus("Snapshot failed.");
+        logActivity("snapshot", runId || "latest", String(error), "error");
       }
     }
 
     async function loadGlossaryQueue(runId) {
+      setLoadingStatus("glossary-queue", "Loading glossary queue without provider calls.");
       const response = await fetch(`/api/glossary-queue?run_id=${encodeURIComponent(runId)}`);
       const data = await response.json();
       const wrap = document.getElementById("glossaryQueue");
@@ -2540,6 +2844,7 @@ def _render_operator_html() -> str:
       wrap.querySelectorAll(".load-suggestion-btn").forEach((button) => {
         button.addEventListener("click", () => loadGlossarySuggestion(button.dataset.term || ""));
       });
+      clearLoadingStatus("Glossary queue loaded.");
     }
 
     async function loadGlossarySuggestion(term) {
@@ -2548,12 +2853,14 @@ def _render_operator_html() -> str:
         document.getElementById("glossaryDecision").innerHTML = `<div class="empty">Run ID and term are required.</div>`;
         return;
       }
+      setLoadingStatus("glossary-suggestion", `Loading provider-assisted options for ${term}.`);
       const response = await fetch(`/api/glossary-suggestion?run_id=${encodeURIComponent(runId)}&term=${encodeURIComponent(term)}`);
       const data = await response.json();
       const wrap = document.getElementById("glossaryDecision");
       if (!response.ok) {
         wrap.innerHTML = `<div class="empty">${escapeHtml(data.error || "Failed to load suggestions.")}</div>`;
         logActivity("glossary", term, data.error || "Failed to load suggestions.", "error");
+        clearLoadingStatus("Glossary suggestion failed.");
         return;
       }
       logActivity("glossary", data.term || term, "Loaded Thai suggestion options.");
@@ -2582,6 +2889,7 @@ def _render_operator_html() -> str:
       `;
       document.getElementById("approveTermBtn").addEventListener("click", () => submitGlossaryDecision("approve"));
       document.getElementById("rejectTermBtn").addEventListener("click", () => submitGlossaryDecision("reject"));
+      clearLoadingStatus("Glossary options loaded.");
     }
 
     async function submitGlossaryDecision(decision) {
@@ -2599,6 +2907,7 @@ def _render_operator_html() -> str:
         thai_term: decision === "approve" ? selectedOption : "",
         note,
       };
+      setLoadingStatus("glossary-decision", `${decision} ${currentGlossarySuggestion.term}.`);
       const response = await fetch("/api/action", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -2608,6 +2917,7 @@ def _render_operator_html() -> str:
       if (!response.ok) {
         document.getElementById("actionResult").innerHTML = `<div class="empty">${escapeHtml(data.error || "Glossary decision failed.")}</div>`;
         logActivity("glossary", currentGlossarySuggestion.term, data.error || "Glossary decision failed.", "error");
+        clearLoadingStatus("Glossary decision failed.");
         return;
       }
       const decisionWrap = document.getElementById("glossaryDecision");
@@ -2629,6 +2939,7 @@ def _render_operator_html() -> str:
       }
       logActivity("glossary", data.term, data.committed ? "Decision saved and glossary approval committed." : "Decision saved and queue updated.");
       await loadGlossaryQueue(data.run_id || state.runId);
+      clearLoadingStatus("Glossary decision saved.");
     }
 
     async function inspectBlock() {
@@ -2638,11 +2949,13 @@ def _render_operator_html() -> str:
         document.getElementById("inspectResult").innerHTML = `<div class="empty">Run ID and block ID are required.</div>`;
         return;
       }
+      setLoadingStatus("inspect-block", `Inspecting ${blockId}.`);
       const response = await fetch(`/api/inspect-block?run_id=${encodeURIComponent(runId)}&block_id=${encodeURIComponent(blockId)}`);
       const data = await response.json();
       if (!response.ok) {
         document.getElementById("inspectResult").innerHTML = `<div class="empty">${escapeHtml(data.error || "Inspect failed.")}</div>`;
         logActivity("inspect", blockId, data.error || "Inspect failed.", "error");
+        clearLoadingStatus("Inspect failed.");
         return;
       }
       const artifactEntries = Object.entries(data.artifact_paths || {}).map(([stage, path]) => {
@@ -2691,6 +3004,7 @@ def _render_operator_html() -> str:
       document.getElementById("inspectUsePendingStageBtn").addEventListener("click", () => setRerunTargetFromInspect(runId, blockId, rerunStage));
       document.getElementById("inspectUseQaStageBtn").addEventListener("click", () => setRerunTargetFromInspect(runId, blockId, "qa"));
       logActivity("inspect", blockId, data.next_pending_stage ? `Pending ${data.next_pending_stage}.` : "Block complete.");
+      clearLoadingStatus("Block inspected.");
     }
 
     function setRerunTargetFromInspect(runId, blockId, stage) {
@@ -2707,6 +3021,7 @@ def _render_operator_html() -> str:
         document.getElementById("reportResult").innerHTML = `<div class="empty">Run ID is required.</div>`;
         return;
       }
+      setLoadingStatus("report", `Generating ${kind} report.`);
       const response = await fetch("/api/report", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -2716,6 +3031,7 @@ def _render_operator_html() -> str:
       if (!response.ok) {
         document.getElementById("reportResult").innerHTML = `<div class="empty">${escapeHtml(data.error || "Report generation failed.")}</div>`;
         logActivity("report", kind, data.error || "Report generation failed.", "error");
+        clearLoadingStatus("Report generation failed.");
         return;
       }
       document.getElementById("reportResult").innerHTML = `
@@ -2725,9 +3041,11 @@ def _render_operator_html() -> str:
         </div>
       `;
       logActivity("report", kind, data.path, data.actionable_failure ? "warn" : "ok");
+      clearLoadingStatus("Report generated.");
     }
 
     async function runAction(action, payload) {
+      setLoadingStatus(action, `Executing ${action}; waiting for backend result.`);
       const response = await fetch("/api/action", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -2738,6 +3056,7 @@ def _render_operator_html() -> str:
       if (!response.ok) {
         target.innerHTML = `<div class="empty">${escapeHtml(data.error || "Action failed.")}</div>`;
         logActivity(action, payload.run_id || state.runId || "none", data.error || "Action failed.", "error");
+        clearLoadingStatus(`${action} failed.`);
         return;
       }
       const initPaths = data.paths || data.snapshot?.init_novel_paths || null;
@@ -2763,10 +3082,44 @@ def _render_operator_html() -> str:
         }
       }
       logActivity(action, payload.run_id || state.runId || "workspace", data.output || "Action completed.");
+      clearLoadingStatus(`${action} completed.`);
+    }
+
+    async function runProviderSmoke() {
+      const confirmed = window.confirm("Provider smoke test will call configured AI provider CLIs with tiny prompts. Continue?");
+      if (!confirmed) {
+        return;
+      }
+      setLoadingStatus("provider-smoke", "Running explicit provider smoke checks.");
+      const response = await fetch("/api/provider-smoke", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ confirm: true }),
+      });
+      const data = await response.json();
+      const wrap = document.getElementById("providerSmokeResult");
+      if (!response.ok) {
+        wrap.className = "empty";
+        wrap.textContent = data.error || "Provider smoke failed.";
+        logActivity("provider-smoke", "failed", data.error || "Provider smoke failed.", "error");
+        clearLoadingStatus("Provider smoke failed.");
+        return;
+      }
+      const rows = (data.results || []).map((item) => `
+        <li class="mono">
+          ${escapeHtml(item.provider)}/${escapeHtml(item.model || "default")}:
+          ${escapeHtml(item.status)} ${item.failure_kind ? `(${escapeHtml(item.failure_kind)})` : ""}
+        </li>
+      `).join("");
+      wrap.className = "";
+      wrap.innerHTML = `<ul class="actions-list">${rows || '<li class="empty">No provider routes tested.</li>'}</ul>`;
+      logActivity("provider-smoke", "complete", `${(data.results || []).length} routes tested.`);
+      clearLoadingStatus("Provider smoke complete.");
     }
 
     document.getElementById("loadRunBtn").addEventListener("click", () => loadSnapshot(runIdInput.value.trim() || runSelector.value.trim()));
     document.getElementById("refreshBtn").addEventListener("click", () => loadSnapshot(state.runId || runIdInput.value.trim()));
+    document.getElementById("providerSmokeBtn").addEventListener("click", runProviderSmoke);
     runSelector.addEventListener("change", () => {
       const runId = runSelector.value.trim();
       runIdInput.value = runId;
@@ -2973,17 +3326,37 @@ class _OperatorHandler(BaseHTTPRequestHandler):
             except Exception as exc:
                 self._send_text(str(exc), status=400)
             return
+        if parsed.path == "/api/dashboard-asset":
+            name = Path((params.get("name") or [""])[0]).name
+            if name not in {"employee-chibi-spritesheet.png", "employee-chibi-spritesheet-source.png"}:
+                self._send_text("Unsupported dashboard asset.", status=400)
+                return
+            asset_path = self.config.workspace.root / "assets" / "dashboard" / name
+            if not asset_path.exists():
+                self._send_text("Dashboard asset not found.", status=404)
+                return
+            body = asset_path.read_bytes()
+            self.send_response(200)
+            self.send_header("Content-Type", "image/png")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
         self._send_json({"error": "Not found."}, status=404)
 
     def do_POST(self) -> None:  # noqa: N802
         parsed = urlparse(self.path)
-        if parsed.path not in {"/api/report", "/api/action"}:
+        if parsed.path not in {"/api/report", "/api/action", "/api/provider-smoke"}:
             self._send_json({"error": "Not found."}, status=404)
             return
         try:
             length = int(self.headers.get("Content-Length", "0"))
             raw = self.rfile.read(length).decode("utf-8") if length else "{}"
             payload = json.loads(raw)
+            if parsed.path == "/api/provider-smoke":
+                result = run_provider_smoke_tests(self.config, confirm=bool(payload.get("confirm")))
+                self._send_json(result)
+                return
             if parsed.path == "/api/report":
                 run_id = str(payload.get("run_id") or "").strip()
                 kind = str(payload.get("kind") or "").strip()

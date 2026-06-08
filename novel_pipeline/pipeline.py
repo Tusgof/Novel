@@ -23,9 +23,9 @@ from novel_pipeline.glossary_support import (
 )
 from novel_pipeline.ledger import ResumeState, RunLedger
 from novel_pipeline.prompts import PromptStore
-from novel_pipeline.providers.base import ProviderExecutionError, ProviderOutputError, ProviderRunner
+from novel_pipeline.providers.base import ProviderExecutionError, ProviderOutputError, ProviderRunner, ensure_provider_response
 from novel_pipeline.stages.fetch import run_fetch_stage
-from novel_pipeline.stages.format import format_block_text
+from novel_pipeline.stages.format import cleanup_provider_formatted_text, format_block_text
 from novel_pipeline.stages.glossary import (
     build_glossary_scan_queue,
     build_term_suggestion,
@@ -124,7 +124,13 @@ _FORMATTING_HAN_RE = re.compile(r"[\u4e00-\u9fff]")
 _CHAPTER_ID_RE = re.compile(r"^ch(\d+)$")
 
 
-def validate_formatted_text(text: str) -> list[str]:
+def _format_content_signature(text: str) -> str:
+    normalized = text.lower()
+    normalized = re.sub(r"[\s\"'“”‘’\[\]\(\)（）*_`~.,!?;:，。！？；：…\-]+", "", normalized)
+    return normalized
+
+
+def validate_formatted_text(text: str, source_text: str | None = None) -> list[str]:
     issues: list[str] = []
     lowered = text.lower()
     for marker in _FORMATTING_PROVIDER_META_MARKERS:
@@ -135,7 +141,69 @@ def validate_formatted_text(text: str) -> list[str]:
     for line_number, line in enumerate(text.splitlines(), start=1):
         if line.strip() in {'"', "“", "”"}:
             issues.append(f"quote-only line {line_number}")
+    if source_text is not None:
+        source_signature = _format_content_signature(source_text)
+        output_signature = _format_content_signature(text)
+        if source_signature and output_signature != source_signature:
+            issues.append("formatted text content changed")
     return issues
+
+
+def _format_block_with_hybrid_provider(
+    *,
+    config: AppConfig,
+    prompt_store: PromptStore,
+    refined_text: str,
+) -> tuple[str, str, dict[str, Any]]:
+    provider_error: dict[str, Any] | None = None
+    try:
+        routing = config.stage_routing_for("formatting")
+        if routing.provider and routing.provider != "local":
+            runner = _provider_runner_for_stage(config, "formatting")
+            model = config.stage_model_for("formatting") or ""
+            prompt = prompt_store.render("formatting.md", text=refined_text)
+            response = runner.run_with_retry(
+                ProviderRequest(
+                    prompt=prompt,
+                    provider=runner.spec.name,
+                    stage="formatting",
+                    model=model,
+                    cwd=config.workspace.root,
+                    timeout_seconds=routing.timeout_seconds,
+                ),
+                require_stdout=True,
+                max_attempts=routing.retry_max_attempts,
+                retry_delay_seconds=routing.retry_initial_delay_seconds,
+                retry_backoff_multiplier=routing.retry_backoff_multiplier,
+                retry_failure_kinds=routing.retry_failure_kinds,
+            )
+            ensure_provider_response(response)
+            provider_text = cleanup_provider_formatted_text(response.stdout)
+            validation_issues = validate_formatted_text(provider_text, source_text=refined_text)
+            if validation_issues:
+                provider_error = {
+                    "formatting_mode": "provider_failed_validation",
+                    "provider": runner.spec.name,
+                    "model": response.model,
+                    "validation_issues": validation_issues,
+                    "duration_seconds": response.duration_seconds,
+                }
+            else:
+                return provider_text, runner.spec.name, {
+                    "formatting_mode": "provider",
+                    "model": response.model,
+                    "duration_seconds": response.duration_seconds,
+                    "local_cleanup": "minimal_whitespace",
+                }
+    except Exception as exc:
+        provider_error = _exception_metadata(exc)
+        provider_error["formatting_mode"] = "provider_failed"
+
+    local_text = format_block_text(refined_text)
+    metadata: dict[str, Any] = {"formatting_mode": "local_fallback"}
+    if provider_error is not None:
+        metadata["provider_attempt"] = provider_error
+    return local_text, "local", metadata
 
 
 def _chapter_sort_key(chapter_id: str) -> tuple[int, str]:
@@ -920,8 +988,12 @@ def _process_block(
     formatted_text: str | None = None
     force_format = _should_force_block_stage("formatting", force=force, force_from_stage=force_from_stage)
     if not ledger.has_committed(run_id=run_id, block_id=block_id, stage="formatting") or force_format:
-        formatted_text = format_block_text(refined_draft.refined_text)
-        validation_issues = validate_formatted_text(formatted_text)
+        formatted_text, formatter_provider, formatter_metadata = _format_block_with_hybrid_provider(
+            config=config,
+            prompt_store=ctx.prompt_store,
+            refined_text=refined_draft.refined_text,
+        )
+        validation_issues = validate_formatted_text(formatted_text, source_text=refined_draft.refined_text)
         if validation_issues:
             _commit_stage(
                 ledger,
@@ -929,8 +1001,8 @@ def _process_block(
                 block_id,
                 "formatting",
                 "failed",
-                provider="local",
-                metadata={"validation_issues": validation_issues},
+                provider=formatter_provider,
+                metadata={**formatter_metadata, "validation_issues": validation_issues},
             )
             raise ValueError(
                 f"Formatted text validation failed for {block_id}: {'; '.join(validation_issues)}"
@@ -938,13 +1010,13 @@ def _process_block(
         oh = _sha256(formatted_text)
         _write_block_artifact(config, block.chapter_id, block_id, "formatted", {"text": formatted_text})
         _commit_stage(ledger, run_id, block_id, "formatting", "completed",
-                      provider="local", output_hash=oh)
+                      provider=formatter_provider, output_hash=oh, metadata=formatter_metadata)
     else:
         print(f"[{run_id}]     format already committed, skipping.")
         cached = _read_block_artifact(config, block.chapter_id, block_id, "formatted")
         if cached is not None:
             formatted_text = cached.get("text", refined_draft.refined_text)
-        validation_issues = validate_formatted_text(formatted_text or "")
+        validation_issues = validate_formatted_text(formatted_text or "", source_text=refined_draft.refined_text)
         if validation_issues:
             _commit_stage(
                 ledger,
@@ -1663,8 +1735,12 @@ def format_command(
         print(f"[{run_id}] {block_id} formatting already committed, skipping. Use --force to rerun.")
         return _artifact_block_path(config, chapter_id, block_id, "formatted")
     refined_draft = _reconstruct_refined_draft(refined_cached, block_id, chapter_id)
-    formatted_text = format_block_text(refined_draft.refined_text)
-    validation_issues = validate_formatted_text(formatted_text)
+    formatted_text, formatter_provider, formatter_metadata = _format_block_with_hybrid_provider(
+        config=config,
+        prompt_store=PromptStore(config.workspace.prompts),
+        refined_text=refined_draft.refined_text,
+    )
+    validation_issues = validate_formatted_text(formatted_text, source_text=refined_draft.refined_text)
     if validation_issues:
         if run_id:
             _commit_stage(
@@ -1673,13 +1749,22 @@ def format_command(
                 block_id,
                 "formatting",
                 "failed",
-                provider="local",
-                metadata={"validation_issues": validation_issues},
+                provider=formatter_provider,
+                metadata={**formatter_metadata, "validation_issues": validation_issues},
             )
         raise ValueError(f"Formatted text validation failed for {block_id}: {'; '.join(validation_issues)}")
     path = _write_block_artifact(config, chapter_id, block_id, "formatted", {"text": formatted_text})
     if run_id:
-        _commit_stage(ledger, run_id, block_id, "formatting", "completed", provider="local", output_hash=_sha256(formatted_text))
+        _commit_stage(
+            ledger,
+            run_id,
+            block_id,
+            "formatting",
+            "completed",
+            provider=formatter_provider,
+            output_hash=_sha256(formatted_text),
+            metadata=formatter_metadata,
+        )
         _commit_stage(ledger, run_id, block_id, "completed", "completed", provider="local")
     print(f"[format] {block_id}: {path}")
     return path

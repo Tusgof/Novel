@@ -185,3 +185,10 @@ def format_block_text(text: str) -> str:
     # Final normalization of whitespace (remove extra spaces)
     cleaned = normalize_whitespace(cleaned)
     return cleaned.strip()
+
+
+def cleanup_provider_formatted_text(text: str) -> str:
+    """Minimal cleanup after AI formatting without stripping semantic quotes."""
+    cleaned = normalize_whitespace(text)
+    cleaned = re.sub(r'\n{3,}', '\n\n', cleaned)
+    return cleaned.strip()

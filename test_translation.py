@@ -1374,6 +1374,79 @@ def test_validate_formatted_text_detects_problem_markers():
     assert "quote-only line 3" in issues
 
 
+def test_validate_formatted_text_blocks_content_changes():
+    """Formatting may change layout punctuation, but not the underlying content."""
+    from novel_pipeline.pipeline import validate_formatted_text
+
+    ok_issues = validate_formatted_text('"สวัสดี"\n\n*ปัง*', source_text='สวัสดี\n\nปัง')
+    assert "formatted text content changed" not in ok_issues
+
+    changed_issues = validate_formatted_text("สวัสดี เพิ่ม", source_text="สวัสดี")
+    assert "formatted text content changed" in changed_issues
+
+
+def test_hybrid_formatting_uses_provider_when_valid():
+    """Configured formatting provider is used when output validates."""
+    from novel_pipeline.pipeline import _format_block_with_hybrid_provider
+    from novel_pipeline.types import StageRouting
+    from unittest.mock import Mock, patch
+
+    config = Mock()
+    config.stage_routing_for.return_value = StageRouting(stage="formatting", provider="qwen", model="deepseek-reasoner")
+    config.stage_model_for.return_value = "deepseek-reasoner"
+    config.provider_for_stage.return_value = ProviderSpec(name="qwen", executable=("qwen",), default_model="deepseek-reasoner")
+    config.workspace.root = Path(".")
+    prompt_store = Mock()
+    prompt_store.render.return_value = "format prompt"
+    response = ProviderResponse(
+        provider="qwen",
+        command=("qwen",),
+        stdout='"สวัสดี"\n\n*ปัง*',
+        returncode=0,
+        model="deepseek-reasoner",
+        duration_seconds=0.1,
+    )
+
+    with patch("novel_pipeline.providers.base.ProviderRunner.run_with_retry", return_value=response):
+        text, provider, metadata = _format_block_with_hybrid_provider(
+            config=config,
+            prompt_store=prompt_store,
+            refined_text='สวัสดี\n\nปัง',
+        )
+
+    assert text == '"สวัสดี"\n\n*ปัง*'
+    assert provider == "qwen"
+    assert metadata["formatting_mode"] == "provider"
+
+
+def test_hybrid_formatting_falls_back_to_local_with_metadata():
+    """Provider failure falls back to local formatting and keeps audit metadata."""
+    from novel_pipeline.pipeline import _format_block_with_hybrid_provider
+    from novel_pipeline.types import StageRouting
+    from unittest.mock import Mock, patch
+
+    config = Mock()
+    config.stage_routing_for.return_value = StageRouting(stage="formatting", provider="qwen", model="deepseek-reasoner")
+    config.stage_model_for.return_value = "deepseek-reasoner"
+    config.provider_for_stage.return_value = ProviderSpec(name="qwen", executable=("qwen",), default_model="deepseek-reasoner")
+    config.workspace.root = Path(".")
+    prompt_store = Mock()
+    prompt_store.render.return_value = "format prompt"
+
+    with patch("novel_pipeline.providers.base.ProviderRunner.run_with_retry", side_effect=RuntimeError("provider down")), \
+         patch("novel_pipeline.pipeline.format_block_text", return_value="สวัสดี"):
+        text, provider, metadata = _format_block_with_hybrid_provider(
+            config=config,
+            prompt_store=prompt_store,
+            refined_text="สวัสดี",
+        )
+
+    assert text == "สวัสดี"
+    assert provider == "local"
+    assert metadata["formatting_mode"] == "local_fallback"
+    assert metadata["provider_attempt"]["message"] == "provider down"
+
+
 def test_qa_escalation_stop_raises_without_input():
     """Manual-action stop mode raises without prompting for input."""
     from novel_pipeline.pipeline import ManualActionRequired, _qa_escalation_prompt
@@ -4711,6 +4784,12 @@ def test_render_operator_html_contains_v6_dashboard_elements():
     assert "Daily Home" in html
     assert 'id="dailyHome"' in html
     assert 'id="taskGuide"' in html
+    assert 'id="employeeStatusPanel"' in html
+    assert 'id="employeeStatus"' in html
+    assert 'id="loadingStatus"' in html
+    assert 'id="providerSmokeBtn"' in html
+    assert 'data-action-role="provider-smoke"' in html
+    assert "Employee Status" in html
     assert 'id="rerunActionCard"' in html
     assert "Technical Details" in html
     assert "System Ready?" in html
@@ -4738,6 +4817,33 @@ def test_render_operator_html_contains_v6_dashboard_elements():
     assert 'id="glossaryDecisionPreview"' in html
     assert 'id="reportWorkspace"' in html
     assert 'id="dashboardGuardrails"' in html
+
+
+def test_employee_roster_is_display_only_and_maps_real_work():
+    from novel_pipeline.employees import EMPLOYEE_ROSTER, employee_for_stage
+
+    codes = [item["code"] for item in EMPLOYEE_ROSTER]
+    names = [item["name"] for item in EMPLOYEE_ROSTER]
+
+    assert codes == ["000", "001", "002", "003", "004", "005", "006", "007"]
+    assert names == ["Ferryman", "Libra", "Quill", "Vesper", "Corvus", "Loom", "Archivist", "Warden"]
+    assert employee_for_stage("qa_judge")["name"] == "Corvus"
+    assert employee_for_stage("formatting")["name"] == "Loom"
+    assert all(item["maps_to"] for item in EMPLOYEE_ROSTER)
+
+
+def test_operator_dashboard_v66_docs_and_assets_exist():
+    root = Path(".")
+    plan = (root / "IMPLEMENT_PLAN.md").read_text(encoding="utf-8")
+    design = (root / "DESIGN.md").read_text(encoding="utf-8")
+    asset = root / "assets" / "dashboard" / "employee-chibi-spritesheet.png"
+
+    assert "### V6.6: Novel-Style Employee Dashboard" in plan
+    assert "| 001 | Libra |" in plan
+    assert "Hybrid AI Formatting" in plan
+    assert "Employee Cards" in design
+    assert "Read-only dashboard load must not call live providers." in design
+    assert asset.exists()
 
 
 def test_build_glossary_suggestion_snapshot_returns_provider_options():
@@ -5300,6 +5406,9 @@ if __name__ == "__main__":
     test_status_run_fetched_only_pre_batch()
     test_status_run_reports_effective_failure_fields()
     test_validate_formatted_text_detects_problem_markers()
+    test_validate_formatted_text_blocks_content_changes()
+    test_hybrid_formatting_uses_provider_when_valid()
+    test_hybrid_formatting_falls_back_to_local_with_metadata()
     test_qa_escalation_stop_raises_without_input()
     test_qa_rule_warning_does_not_block_ai_pass()
     test_qa_glossary_missing_term_blocks_when_refinement_removed_literal_term()
@@ -5364,6 +5473,8 @@ if __name__ == "__main__":
     test_operator_snapshot_includes_preflight()
     test_operator_snapshot_includes_command_hints_and_quick_links()
     test_operator_snapshot_separates_active_and_archived_reports()
+    test_employee_roster_is_display_only_and_maps_real_work()
+    test_operator_dashboard_v66_docs_and_assets_exist()
     test_build_glossary_suggestion_snapshot_returns_provider_options()
     test_execute_glossary_decision_approve_commits_when_queue_is_empty()
     test_execute_glossary_decision_reject_updates_queue_without_commit()

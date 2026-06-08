@@ -164,6 +164,13 @@ This is the practical runbook. It should help the operator proceed without guess
   - recovery execution controls are hidden when the loaded run has no failed/manual block
   - report buttons are grouped by operator question: system readiness, run completion, output cleanliness, provider issue, and glossary safety
   - audit report: `07_Reports/operator_ui_text_surface_audit_20260606.md`
+- V6.6 complete:
+  - dashboard shows eight display-only employee cards: `000 Ferryman`, `001 Libra`, `002 Quill`, `003 Vesper`, `004 Corvus`, `005 Loom`, `006 Archivist`, and `007 Warden`
+  - employee cards describe real mapped stages/actions and show provider/model routes; ledger/config stage names remain canonical
+  - provider smoke testing is explicit and user-triggered only; normal dashboard load remains read-only
+  - long-running actions now surface loading/status feedback with current employee/action/provider context
+  - formatting is hybrid gated: configured AI formatter first, deterministic validation always, local formatter as fallback/cleanup
+  - design rules now live in `DESIGN.md`
 
 ## Standard Preflight
 

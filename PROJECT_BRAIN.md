@@ -1,7 +1,7 @@
 # Project Brain: Deep Sea Embers Translation Pipeline
 
-Last updated: 2026-06-06
-Last verified: 2026-06-06 after V6.5 operator UI/UX rebuild with compile/tests, rendered-script syntax check, served operator window, browser smoke on `127.0.0.1:8765`, collapsed technical details, hidden recovery execution when no failures exist, and no new console errors.
+Last updated: 2026-06-08
+Last verified: 2026-06-08 after V6.6 employee dashboard, design guide, and hybrid formatting implementation with compile/tests, preflight, served operator window, browser smoke on `127.0.0.1:8765`, employee cards rendered, provider smoke remaining explicit/user-triggered, and no console errors.
 
 This file is the project constitution, architecture map, and current operational memory. It should preserve the project goal, design principles, verified state, safety rules, recovery lessons, and pointers to detailed documents. Keep reports, long logs, and implementation detail in their dedicated files.
 
@@ -210,6 +210,7 @@ Active:
 - V6.4 audit report exists at `07_Reports/operator_workflow_audit_20260606.md`
 - V6.5 complete: operator UI/UX rebuild reduced visible copy, made `Daily Home` the first working surface, moved diagnostics behind `Technical Details`, hid recovery execution when no failures exist, and grouped reports by operator question
 - V6.5 audit report exists at `07_Reports/operator_ui_text_surface_audit_20260606.md`
+- V6.6 complete: dashboard now has eight display-only novel-style employee cards (`000 Ferryman` through `007 Warden`), chibi dashboard asset, read-only employee readiness, explicit provider smoke action, loading/status feedback, `DESIGN.md`, and hybrid AI formatting with deterministic validation plus local fallback
 - V4.0 operator window now exists:
   - `novel-pipeline operator [--run-id <run_id>] [--host <host>] [--port <port>] [--open-browser]`
   - local operator window for status, blocker, next safe action, block inspection, glossary queue view, glossary suggestion/decision flow, report generation, artifact viewing, novel-project scaffold, and bounded batch-start actions
@@ -437,9 +438,9 @@ Current routing:
 - Gemini: term extraction and literal translation.
 - Claude: term suggestions and primary refinement.
 - GPT-5.4 via Codex: first refinement fallback after Claude failure.
-- Qwen: second refinement fallback and QA judge.
+- Qwen: second refinement fallback, QA judge, and primary provider-backed formatting.
 - Gemini: QA fallback only on provider failure.
-- Local Python: formatting, ledger/status/bookkeeping.
+- Local Python: formatting fallback/cleanup, deterministic validation, ledger/status/bookkeeping.
 
 Hard rules:
 
@@ -464,7 +465,7 @@ Worker model restrictions:
 - Gemini command length: argv transport can hit `command_too_long`, especially as QA fallback.
 - QA hard-fail: noninteractive workers can abort with EOF at manual prompt.
 - QA warning semantics: deterministic warnings should stay auditable but must not override a Qwen `PASS`; regression tests now cover this.
-- Formatting drift: formatting can remove dialogue quote marks after QA passes.
+- Formatting drift: formatting can alter presentation after QA passes; V6.6 now routes configured AI formatting through deterministic validation and local fallback, but quote/content checks must stay active.
 - Mojibake/encoding errors: reports or artifacts can display corrupted Chinese/Thai if encoding is mishandled.
 - Worker false completion: unreliable free models may claim state changes that did not occur.
 - Documentation overwrite: memory docs were previously shortened/damaged by worker edits before git backup existed.
@@ -535,6 +536,7 @@ Worker model restrictions:
 - 2026-05-16: V6.3 accepted. The operator dashboard now groups controls by real workflow (`Current Run`, `Glossary`, `Recovery`, `Reports`, `Setup`) and moves setup/report tooling out of the main daily translation path.
 - 2026-06-06: V6.4 accepted. Runtime evidence showed backend APIs and guardrails worked while the window failed as a normal-user control surface. The rebuild removed misleading navigation-as-action controls, fixed rendered JS/layout issues, and verified task-first flows: `Continue Translation`, `Glossary Review`, `Recover Block`, `Reports`, and `Project Setup`.
 - 2026-06-06: V6.5 accepted. The operator window now prioritizes a concise daily home, hides technical diagnostics by default, suppresses recovery execution controls when there is no failed/manual block, and groups reports by operator question rather than raw report names.
+- 2026-06-08: V6.6 accepted. The dashboard now exposes eight display-only novel-style employee cards with chibi asset support, read-only employee readiness, explicit provider smoke testing, loading feedback, `DESIGN.md`, and hybrid Qwen/local formatting with content-preservation validation.
 
 ## Document Map
 

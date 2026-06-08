@@ -1065,6 +1065,123 @@ Acceptance criteria:
 - browser smoke passes on the normal local operator port
 - no provider calls or live translation actions are used for UI acceptance unless explicitly approved
 
+### V6.6: Novel-Style Employee Dashboard, Hybrid AI Formatting, Status/Loading UX, And Design Guide
+
+Goal: make the dashboard easier to understand by presenting pipeline responsibilities as named novel-style employees, while keeping the actual runtime stages, ledger names, provider routing, and safety gates auditable. This milestone also closes the current formatting mismatch where `.system/providers.yaml` routes `formatting` to Qwen but the runtime still commits every formatting record as `local`.
+
+Status: complete on 2026-06-08.
+
+Implementation closeout:
+
+- display-only employee roster added for `000 Ferryman` through `007 Warden`
+- dashboard renders employee cards with role, mapped real work, provider/model route, readiness, latest activity, and chibi spritesheet asset
+- dashboard loading/status surface now identifies the responsible employee/action/provider while work is pending
+- provider smoke test exists as an explicit user-triggered action and is not part of normal read-only dashboard load
+- formatting now uses configured provider routing first, validates provider output against source content, and falls back to local formatting with audit metadata
+- `DESIGN.md` created as the dashboard design source of truth
+
+Locked decisions:
+
+- employee model is display/docs alias only in V6.6
+- existing stage names remain source of truth in ledger/config/reports
+- dashboard may show employee code/name beside stage/provider, but must still show provider/model/stage for auditability
+- no employee abstraction is added to runtime execution until a later explicit milestone
+- formatting becomes hybrid gated: AI formatter first when configured, deterministic validation always, local formatter as cleanup/fallback
+- provider health checks are two-tier:
+  - read-only health check from preflight/status/config inspection
+  - optional smoke test only when the user explicitly presses a provider-smoke action
+- DeepSeek production routing stays unchanged for now; model migration is deferred and must be tested before routing changes
+- `DESIGN.md` becomes the dashboard design source of truth
+
+Employee roster:
+
+| code | name | archetype | real role | maps to |
+| --- | --- | --- | --- | --- |
+| 000 | Ferryman | คนพาข้ามฝั่ง / ผู้นำทางเข้าท่า | setup, fetch, new project entry | `init-novel`, fetch/source adapter, project setup, preflight |
+| 001 | Libra | บรรณารักษ์หญิง | glossary librarian | term extraction, term suggestion, glossary queue, approve/reject |
+| 002 | Quill | นักจดถ้อยคำ | literal translator | `literal_translation` |
+| 003 | Vesper | บรรณาธิการยามค่ำ | refinement editor | `refinement` |
+| 004 | Corvus | ผู้ตรวจคำสาบาน | QA judge | `qa_judge` |
+| 005 | Loom | ช่างเรียงรูปเล่ม | formatting/layout worker | `formatting` |
+| 006 | Archivist | ผู้เฝ้าหอจดหมายเหตุ | reports/output keeper | reports, final output, cleanliness/product review |
+| 007 | Warden | ผู้คุมประตูฉุกเฉิน | recovery worker | inspect-block, rerun-block, failed block recovery |
+
+Dashboard employee rules:
+
+- show a card for every employee with code, name, role, mapped real stage/action, provider/model route, readiness, latest run activity, and current loading/action state
+- employee cards must describe what the system actually does today; do not invent tasks that are not implemented
+- employee art may be chibi/cartoon novel-style assets, but it is decoration around real operational state, not a replacement for audit fields
+- if employee labels appear in reports, reports must still include raw provider, model, stage, block ID, run ID, and output path
+- employee names should feel like novel characters but remain readable for a normal operator
+
+Implementation slices:
+
+- V6.6A: Employee Layer
+  - add a small static roster for display metadata
+  - map roster entries to existing stages/actions only
+  - surface employee labels in the operator snapshot and dashboard
+  - include chibi dashboard asset references without making assets required for pipeline execution
+  - done when dashboard can render the eight employee cards and tests prove the roster is display-only
+
+- V6.6B: Employee Status And Loading Dashboard
+  - show readiness as `ready`, `warning`, `blocked`, or `unknown`
+  - use preflight/status/config inspection for read-only readiness
+  - add a loading/status strip that shows current employee, stage/action, provider/model, elapsed time, retry/fallback/waiting state, and last safe UI log line
+  - add an explicit optional provider smoke-test control that clearly warns it will call providers
+  - done when read-only dashboard load calls no providers and provider smoke requires an explicit user action
+
+- V6.6C: Hybrid AI Formatting
+  - use existing `prompts/formatting.md` for provider-backed formatting
+  - route formatting through `.system/providers.yaml` when configured
+  - preserve dialogue quotes, thought italics, skill brackets, sound-effect styling, and paragraph spacing
+  - run deterministic formatted-text validation after provider output and after local fallback
+  - keep local formatter available as cleanup/fallback
+  - commit formatting ledger provider as the actual successful formatter provider, not always `local`
+  - stop if both provider formatting and local fallback fail validation
+  - done when formatting tests cover quote preservation, thought/sound-effect layout, provider/meta leakage rejection, Han leakage rejection, and unsafe output blocking
+
+- V6.6D: DeepSeek Compatibility Backlog
+  - keep `deepseek-reasoner` in production routing for now
+  - test `deepseek-v4-flash` and `deepseek-v4-pro` before `2026-07-24`
+  - consider `deepseek-v4-flash` for cheap formatting only after smoke test and one bounded block test
+  - consider `deepseek-v4-pro` for QA/reasoning only after confirming thinking support through the Qwen/OpenAI-compatible bridge
+  - do not list Elephant or Nemotron as usable production implementers
+  - done when the migration note is documented and no production provider routing is changed
+
+- V6.6E: Dashboard Design System
+  - create `DESIGN.md`
+  - encode Wise-inspired dashboard principles: clear, friendly, restrained, green accent for ready/positive states
+  - incorporate the local `ui-ux.txt` rules that matter here: hierarchy, 4/8-point spacing, semantic colors, component states, loading feedback, and immediate system response
+  - prioritize function over decoration
+  - forbid marketing hero treatment, decorative gradients, and noisy card walls
+  - done when dashboard changes can be reviewed against `DESIGN.md`
+
+Stop conditions:
+
+- an employee label hides or replaces raw provider/model/stage audit data
+- dashboard read-only load triggers a live provider call
+- provider smoke test can run without an explicit user action
+- formatting provider output is committed without deterministic validation
+- local fallback masks a semantic formatting failure without ledger metadata
+- the dashboard becomes more decorative but less useful for continuing a run, approving glossary, recovering a block, or reading the current blocker
+- DeepSeek routing is changed without a separate smoke test, bounded block test, and migration report
+
+Acceptance criteria:
+
+- `IMPLEMENT_PLAN.md` includes V6.6 and the employee roster
+- `DESIGN.md` exists and is used as the dashboard design reference
+- employee status cards render in the dashboard
+- employee cards include real role, mapped stage/action, provider/model, readiness, and chibi asset
+- read-only status/bootstrap path does not call providers
+- optional provider smoke test is explicit and separate from normal dashboard load
+- loading state shows employee/stage/provider progress for long actions
+- formatting ledger records show the actual successful formatting provider
+- deterministic formatted-text validation remains mandatory
+- `python -m compileall novel_pipeline` passes
+- `python test_translation.py` passes
+- `novel-pipeline --config ".system/config.yaml" preflight` passes or reports only accepted warnings
+- browser smoke confirms employee cards render and no new console errors appear
+
 ## Acceptance Gates
 
 This document rewrite is accepted only when:
