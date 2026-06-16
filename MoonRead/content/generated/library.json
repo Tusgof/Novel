@@ -1,0 +1,111 @@
+{
+  "generatedAt": "2026-06-16T18:29:50.853Z",
+  "reader": {
+    "name": "MoonRead",
+    "theme": "Stardust",
+    "colors": {
+      "navy": "#121926",
+      "gold": "#EBC05F",
+      "cream": "#F0F0F0"
+    }
+  },
+  "summary": {
+    "books": 2,
+    "chapters": 160,
+    "available": 160,
+    "missing": 0,
+    "rejected": 0
+  },
+  "books": [
+    {
+      "slug": "deep-sea-embers",
+      "title": "Deep Sea Embers",
+      "thaiTitle": "เถ้าถ่านแห่งทะเลลึก",
+      "synopsis": "เมื่อครูมัธยมธรรมดาตื่นขึ้นมาพบว่าตัวเองติดอยู่ในอพาร์ตเมนต์ที่ถูกหมอกปริศนาห่อหุ้ม ประตูห้องเดียวที่เปิดได้กลับนำเขาไปสู่ดาดฟ้าเรือผีตำนานแห่ง \"ทะเลไร้ขอบเขต\" ในร่างของกัปตันดันแคน แอบโนมาร์ ผู้เป็นที่หวาดกลัวของทุกคน เขาต้องเรียนรู้ที่จะเป็นกัปตันเรือผีท่ามกลางโลกที่เต็มไปด้วยเทพเจ้า หมอกลึกลับ และพรมแดนความจริงที่กำลังจะพังทลาย",
+      "tags": [
+        "แฟนตาซี",
+        "ลึกลับ",
+        "เดินเรือ",
+        "ผจญภัย"
+      ],
+      "cover": "/images/deep-sea-embers-cover.png",
+      "href": "/book",
+      "chaptersHref": "/chapters",
+      "targetRange": "ch001-ch080",
+      "summary": {
+        "total": 80,
+        "available": 80,
+        "missing": 0,
+        "rejected": 0,
+        "skipped": 0
+      },
+      "latestChapter": {
+        "id": "ch080",
+        "number": 80,
+        "title": "บทที่ 80",
+        "status": "available",
+        "sourcePath": "ch080/ch080.md",
+        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch080.md",
+        "href": "/read/ch080",
+        "charCount": 7713,
+        "readingMinutes": 2
+      },
+      "firstChapter": {
+        "id": "ch001",
+        "number": 1,
+        "title": "บทที่ 1: วันนั้นหมอกหนา",
+        "status": "available",
+        "sourcePath": "ch001/ch001.md",
+        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch001.md",
+        "href": "/read/ch001",
+        "charCount": 7583,
+        "readingMinutes": 2
+      }
+    },
+    {
+      "slug": "horror-game-developer",
+      "title": "นักพัฒนาเกมสยองขวัญ",
+      "thaiTitle": "นักพัฒนาเกมสยองขวัญ",
+      "synopsis": "เซ็ธ ธอร์น โปรแกรมเมอร์เกมสุดซวยที่กลัวผีแต่ดันทำเกมสยองขวัญ วันหนึ่งระบบปริศนาบังคับให้เขาเข้าไปในฉากสยองที่เป็นของจริง ต้องเอาชีวิตรอดจากโอเปร่าผีสิง นักดนตรีไร้ดวงตา และผู้เล่นคนอื่นที่ดูจะรู้กฎเกมดีกว่าเขา ภายใต้หน้ากากตัวตลกที่เขาเลือกมาโดยไม่รู้ว่ามันจะเปลี่ยนชะตาของเขาไปตลอดกาล",
+      "tags": [
+        "สยองขวัญ",
+        "เกม",
+        "ระบบ",
+        "เอาชีวิตรอด"
+      ],
+      "cover": "/images/horror-game-developer-cover.png",
+      "href": "/books/horror-game-developer",
+      "chaptersHref": "/books/horror-game-developer/chapters",
+      "targetRange": "ch001-ch080",
+      "summary": {
+        "total": 80,
+        "available": 80,
+        "missing": 0,
+        "rejected": 0,
+        "skipped": 0
+      },
+      "latestChapter": {
+        "id": "ch080",
+        "number": 80,
+        "title": "ตอนที่ 80 - วิวัฒนาการ [3]",
+        "status": "available",
+        "sourcePath": "ch080/ch080.md",
+        "generatedPath": "content/generated/books/horror-game-developer/chapters/ch080.md",
+        "href": "/books/horror-game-developer/read/ch080",
+        "charCount": 7028,
+        "readingMinutes": 2
+      },
+      "firstChapter": {
+        "id": "ch001",
+        "number": 1,
+        "title": "ตอนที่ 1 - บทนำ",
+        "status": "available",
+        "sourcePath": "ch001/ch001.md",
+        "generatedPath": "content/generated/books/horror-game-developer/chapters/ch001.md",
+        "href": "/books/horror-game-developer/read/ch001",
+        "charCount": 6203,
+        "readingMinutes": 2
+      }
+    }
+  ]
+}

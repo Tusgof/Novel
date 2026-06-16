@@ -1,0 +1,32 @@
+{
+  "name": "moonread",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "build:with-content": "npm run generate:chapters && next build",
+    "lint": "eslint .",
+    "generate:chapters": "node scripts/generate-chapters.mjs",
+    "smoke": "node scripts/smoke-reader.mjs"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-sans-thai": "^5.2.8",
+    "@fontsource/maitree": "^5.2.8",
+    "@fontsource/noto-serif-thai": "^5.2.7",
+    "@fontsource/sarabun": "^5.2.8",
+    "iconv-lite": "^0.7.0",
+    "lucide-react": "^0.468.0",
+    "next": "^16.2.7",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^16.2.7",
+    "playwright": "^1.60.0"
+  },
+  "overrides": {
+    "postcss": "^8.5.10"
+  }
+}

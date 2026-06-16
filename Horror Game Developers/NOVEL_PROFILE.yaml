@@ -1,0 +1,22 @@
+schema_version: 1
+novel_id: horror-game-developer
+title: 'Horror Game Developer: My games aren''t that scary!'
+aliases:
+- 'Horror Game Developer: My games really aren''t that scary!'
+languages:
+  source: en
+  target: th
+genre: horror
+style_profile: horror
+source:
+  adapter: roliascan
+  toc_url: https://roliascan.com/manga/horror-game-developer-my-games-aren-t-that-scary-novel/
+research:
+  status: pending
+  profile_path: RESEARCH_PROFILE.yaml
+  title: 'Horror Game Developer: My games aren''t that scary!'
+  source_url: https://roliascan.com/manga/horror-game-developer-my-games-aren-t-that-scary-novel/
+setup:
+  created_at: '2026-06-09T18:27:32.821749+00:00'
+  created_from_workspace: D:\Fogust\Workspace\Novel\Deep Sea Embers
+notes: ''

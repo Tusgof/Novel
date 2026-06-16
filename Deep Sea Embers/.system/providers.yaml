@@ -1,0 +1,189 @@
+term_extraction:
+  provider: openrouter
+  model: google/gemini-3-flash-preview
+  timeout_seconds: 120
+  max_calls_per_scan: 8
+  max_failures_per_scan: 2
+  fallbacks:
+    - provider: openrouter
+      model: deepseek/deepseek-v4-flash
+    - provider: codex
+      model: gpt-5.4
+  retry:
+    max_attempts: 1
+    initial_delay_seconds: 0
+    backoff_multiplier: 1.0
+    failure_kinds:
+      - quota
+      - timeout
+      - nonzero_exit
+      - empty_stdout
+term_suggestion:
+  provider: openrouter
+  model: deepseek/deepseek-v4-flash
+  timeout_seconds: 120
+  fallbacks:
+    - provider: openrouter
+      model: google/gemini-3-flash-preview
+    - provider: claude
+      model: sonnet
+literal_translation:
+  provider: openrouter
+  model: google/gemini-3-flash-preview
+  fallbacks:
+    - provider: openrouter
+      model: deepseek/deepseek-v4-flash
+    - provider: codex
+      model: gpt-5.4
+refinement:
+  provider: openrouter
+  model: deepseek/deepseek-v4-flash
+  fallbacks:
+    - provider: openrouter
+      model: google/gemini-3-flash-preview
+    - provider: openrouter
+      model: anthropic/claude-sonnet-4.6
+    - provider: codex
+      model: gpt-5.4
+    - provider: qwen
+      model: deepseek-reasoner
+qa_judge:
+  provider: openrouter_reasoning
+  model: deepseek/deepseek-v4-flash
+  fallbacks:
+    - provider: qwen
+      model: deepseek-reasoner
+    - provider: openrouter
+      model: deepseek/deepseek-v4-pro
+    - provider: codex
+      model: gpt-5.4
+formatting:
+  provider: openrouter
+  model: deepseek/deepseek-v4-flash
+  fallbacks:
+    - provider: openrouter
+      model: google/gemini-3-flash-preview
+project_setup:
+  provider: codex
+  model: gpt-5.4
+fetch:
+  provider: codex
+  model: gpt-5.4
+
+providers:
+  openrouter:
+    executable:
+      - python
+      - scripts\openrouter_provider_shim.py
+    prompt_flag:
+    prompt_position: positional
+    prompt_transport: stdin
+    model_flag: -m
+    model_position: before_prompt
+    default_model: google/gemini-3-flash-preview
+    timeout_seconds: 360
+    env:
+      PYTHONIOENCODING: utf-8
+      PYTHONUTF8: "1"
+    retry:
+      max_attempts: 1
+      initial_delay_seconds: 0
+      backoff_multiplier: 1.0
+      failure_kinds:
+        - quota
+        - timeout
+        - nonzero_exit
+  openrouter_reasoning:
+    executable:
+      - python
+      - scripts\openrouter_provider_shim.py
+    extra_args:
+      - --reasoning-enabled
+      - --reasoning-exclude
+      - --max-tokens
+      - "1500"
+      - --system-prompt
+      - "You are a strict translation QA judge. Return exactly one line. The first characters of your response must be exactly PASS: or FAIL:. Do not output markdown, JSON, headings, analysis, or any text before PASS:/FAIL:. If uncertain, return FAIL: followed by the concrete issue."
+    prompt_flag:
+    prompt_position: positional
+    prompt_transport: stdin
+    model_flag: -m
+    model_position: before_prompt
+    default_model: deepseek/deepseek-v4-flash
+    timeout_seconds: 360
+    env:
+      PYTHONIOENCODING: utf-8
+      PYTHONUTF8: "1"
+    retry:
+      max_attempts: 1
+      initial_delay_seconds: 0
+      backoff_multiplier: 1.0
+      failure_kinds:
+        - quota
+        - timeout
+        - nonzero_exit
+        - empty_stdout
+  gemini:
+    executable: C:\Users\ASUS\AppData\Roaming\npm\gemini.cmd
+    default_model: pro
+    timeout_seconds: 300
+    max_command_chars: 24000
+    retry:
+      max_attempts: 2
+      initial_delay_seconds: 60
+      backoff_multiplier: 2.0
+      failure_kinds:
+        - quota
+        - timeout
+  claude:
+    executable: C:\Users\ASUS\AppData\Roaming\npm\claude.cmd
+    default_model: sonnet
+    prompt_transport: stdin
+    retry:
+      max_attempts: 1
+      initial_delay_seconds: 0
+      backoff_multiplier: 1.0
+      failure_kinds:
+        - quota
+        - timeout
+  qwen:
+    executable: C:\Users\ASUS\AppData\Roaming\npm\qwen.cmd
+    prompt_flag:
+    prompt_position: positional
+    prompt_transport: stdin
+    model_flag: -m
+    model_position: before_prompt
+    default_model: deepseek-reasoner
+    timeout_seconds: 300
+    retry:
+      max_attempts: 1
+      initial_delay_seconds: 0
+      backoff_multiplier: 1.0
+      failure_kinds:
+        - quota
+        - timeout
+  codex:
+    executable:
+      - C:\Users\ASUS\AppData\Roaming\npm\codex.cmd
+      - exec
+    prompt_flag: "-"
+    prompt_position: positional
+    prompt_transport: stdin
+    model_flag: -m
+    model_position: before_prompt
+    timeout_seconds: 300
+    extra_args:
+      - --skip-git-repo-check
+      - --cd
+      - D:\Fogust\Workspace\Novel\Deep Sea Embers
+      - --sandbox
+      - read-only
+    retry:
+      max_attempts: 1
+      initial_delay_seconds: 0
+      backoff_multiplier: 1.0
+      failure_kinds:
+        - quota
+        - timeout
+        - nonzero_exit
+        - empty_stdout

@@ -1,0 +1,12 @@
+{
+  "name": "moonread-legacy-stub",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix ..\\..\\MoonRead run dev",
+    "build": "npm --prefix ..\\..\\MoonRead run build",
+    "build:with-content": "npm --prefix ..\\..\\MoonRead run build:with-content",
+    "lint": "npm --prefix ..\\..\\MoonRead run lint",
+    "generate:chapters": "npm --prefix ..\\..\\MoonRead run generate:chapters",
+    "smoke": "npm --prefix ..\\..\\MoonRead run smoke"
+  }
+}

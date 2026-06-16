@@ -1,0 +1,17 @@
+[project]
+name = "novel-pipeline"
+version = "0.1.0"
+description = "Local-first novel translation pipeline scaffold"
+requires-python = ">=3.11"
+dependencies = ["PyYAML>=6.0"]
+
+[project.scripts]
+novel-pipeline = "novel_pipeline.cli:main"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["novel_pipeline*"]

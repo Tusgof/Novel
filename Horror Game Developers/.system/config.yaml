@@ -1,0 +1,14 @@
+novel_id: horror-game-developer
+vault_root: .
+source_language: en
+default_batch_size: 10
+chapter_unit: chapters
+default_style_profile: horror
+chunking:
+  chinese_character_limit: 600
+  non_chinese_word_limit: 5000
+source:
+  adapter: roliascan
+  toc_url: https://roliascan.com/manga/horror-game-developer-my-games-aren-t-that-scary-novel/
+  delay_seconds: 1.0
+  encoding: utf-8

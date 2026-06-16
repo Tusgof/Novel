@@ -1,0 +1,64 @@
+# Python/runtime caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local agent/app state
+.claude/
+.qwen/
+.playwright-mcp/
+
+# Provider/config secrets
+.env
+.env.*
+*.key
+*.token
+
+# Node / Next.js
+node_modules/
+.next/
+.vercel/
+output/playwright/
+
+# Novel pipeline runtime artifacts
+**/03_Raw/
+**/04_Work/
+**/05_Output/
+**/05_Output_backup_before_*/
+**/05_Output_legacy_*/
+**/06_Logs/
+
+# Obsidian local state
+**/.obsidian/workspace*
+**/.obsidian/cache/
+**/.obsidian/plugins/
+
+# Temporary operator files
+input.txt
+temp_*.py
+tmp_*.py
+worker_report_*.md
+translation_evaluation.json
+glossary_report_*.txt
+*.log
+*.base
+
+# Local validation scratch files
+test_edge.py
+test_new_scan.py
+validate_fixes.py
+validation_mojibake.py
+
+# Ad hoc backups / migration backups
+99_Adhoc_Scripts/_git_backups/
+99_Adhoc_Scripts/canonical_docs_backup_*/
+99_Adhoc_Scripts/*.py
+99_Adhoc_Scripts/*.tmp
+99_Adhoc_Scripts/*.bak
+
+# Archived/generated historical reports are kept locally, but root git tracks active docs and current reports first.
+**/07_Reports/archive/
+
+# OS noise
+Thumbs.db
+.DS_Store
