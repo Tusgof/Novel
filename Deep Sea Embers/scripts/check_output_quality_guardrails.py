@@ -14,9 +14,13 @@ HGD = NOVEL_ROOT / "Horror Game Developers"
 MOONREAD = Path(os.environ.get("MOONREAD_READER_ROOT", NOVEL_ROOT / "MoonRead"))
 if not MOONREAD.exists():
     MOONREAD = DSE / "reader-web"
+REGISTRY_PATH = NOVEL_ROOT / "00_Config" / "novel_registry.json"
+REGISTRY = json.loads(REGISTRY_PATH.read_text(encoding="utf-8")) if REGISTRY_PATH.exists() else {"novels": []}
+REGISTERED_NOVELS = list(REGISTRY.get("novels", []))
 MAX_PARAGRAPH_CHARS = 900
 MAX_HGD_PARAGRAPH_CHARS = 520
-HGD_ENGLISH_TITLE_MARKERS = [
+HGD_POLICY = next((novel for novel in REGISTERED_NOVELS if novel.get("slug") == "horror-game-developer"), {})
+HGD_ENGLISH_TITLE_MARKERS = HGD_POLICY.get("title_policy", {}).get("forbidden_title_markers") or [
     "Horror Game Developer",
     "Chapter",
     "Prologue",
@@ -76,7 +80,7 @@ HGD_SETH_PRONOUN_CHAPTERS = {
     "ch033",
     "ch035",
 }
-HGD_DANGLING_ENDINGS = (
+HGD_DANGLING_ENDINGS = tuple(HGD_POLICY.get("quality", {}).get("dangling_endings") or (
     "แต่",
     "และ",
     "กับ",
@@ -85,11 +89,27 @@ HGD_DANGLING_ENDINGS = (
     "ใน",
     "ก่อนจะ",
     "มือเธอ",
-)
+))
 
 
 def read(path: Path) -> str:
     return path.read_text(encoding="utf-8").replace("\r\n", "\n")
+
+
+def novel_root(novel: dict) -> Path:
+    return NOVEL_ROOT / str(novel.get("folder", ""))
+
+
+def novel_raw_root(novel: dict) -> Path:
+    return novel_root(novel) / str(novel.get("raw_dir", "03_Raw"))
+
+
+def novel_output_root(novel: dict) -> Path:
+    return novel_root(novel) / str(novel.get("output_dir", "05_Output"))
+
+
+def novel_reader_manifest_path(novel: dict) -> Path:
+    return MOONREAD / "content/generated/books" / str(novel.get("slug", "")) / "manifest.json"
 
 
 def check_absent(path: Path, terms: list[str], issues: list[str]) -> None:
@@ -193,6 +213,87 @@ def check_dse_generic_title_fallbacks(issues: list[str]) -> None:
             )
 
 
+def check_registry_title_policies(issues: list[str]) -> None:
+    for novel in REGISTERED_NOVELS:
+        slug = str(novel.get("slug", ""))
+        title_policy = novel.get("title_policy", {}) or {}
+        reader = novel.get("reader", {}) or {}
+        output_root = novel_output_root(novel)
+        raw_root = novel_raw_root(novel)
+
+        forbidden_markers = list(title_policy.get("forbidden_title_markers") or [])
+        if forbidden_markers:
+            for output_dir in sorted(output_root.glob("ch*")):
+                if not output_dir.is_dir():
+                    continue
+                chapter = output_dir.name
+                path = output_root / chapter / f"{chapter}.md"
+                if not path.exists():
+                    continue
+                heading = read(path).split("\n", 1)[0].strip()
+                for marker in forbidden_markers:
+                    if marker in heading:
+                        issues.append(f"{path}: {slug} heading contains forbidden title marker: {marker}")
+
+        if title_policy.get("named_chinese_source_titles_require_sidecar"):
+            for source_path in sorted(raw_root.glob("ch*/source.json")):
+                chapter = source_path.parent.name
+                output_path = output_root / chapter / f"{chapter}.md"
+                if not output_path.exists():
+                    continue
+
+                source_payload = json.loads(read(source_path))
+                source_title = str(source_payload.get("title", "")).strip()
+                if not has_named_chinese_chapter_title(source_title):
+                    continue
+
+                heading = read(output_path).split("\n", 1)[0].strip()
+                try:
+                    number = int(chapter[2:])
+                except ValueError:
+                    continue
+                if heading == f"# บทที่ {number}":
+                    issues.append(
+                        f"{output_path}: {slug} heading uses generic fallback despite named source title: {source_title}"
+                    )
+
+        manifest_path = novel_reader_manifest_path(novel)
+        if not manifest_path.exists():
+            continue
+        manifest = json.loads(read(manifest_path))
+        expected_reader_title = str(reader.get("title", "")).strip()
+        if title_policy.get("english_source_titles_require_thai_output") and expected_reader_title:
+            novel_title = str(manifest.get("novel", {}).get("title", "")).strip()
+            if novel_title != expected_reader_title:
+                issues.append(
+                    f"{manifest_path}: reader book title should be {expected_reader_title!r}; got {novel_title!r}"
+                )
+
+        for chapter in manifest.get("chapters", []):
+            chapter_id = str(chapter.get("id", ""))
+            title = str(chapter.get("title", ""))
+            for marker in forbidden_markers:
+                if marker in title:
+                    issues.append(f"{manifest_path}: {chapter_id}: reader title contains forbidden marker: {marker}")
+
+            if title_policy.get("named_chinese_source_titles_require_sidecar"):
+                source_path = raw_root / chapter_id / "source.json"
+                if not source_path.exists():
+                    continue
+                source_payload = json.loads(read(source_path))
+                source_title = str(source_payload.get("title", "")).strip()
+                if not has_named_chinese_chapter_title(source_title):
+                    continue
+                try:
+                    number = int(chapter_id[2:])
+                except ValueError:
+                    continue
+                if title == f"บทที่ {number}":
+                    issues.append(
+                        f"{manifest_path}: {chapter_id}: reader title uses generic fallback despite named source title: {source_title}"
+                    )
+
+
 def check_hgd_truncation_against_source(issues: list[str]) -> None:
     for source_path in sorted((HGD / "03_Raw").glob("ch*/source.json")):
         chapter = source_path.parent.name
@@ -217,6 +318,43 @@ def check_hgd_truncation_against_source(issues: list[str]) -> None:
         tail = output_body.rstrip()
         if any(tail.endswith(ending) for ending in HGD_DANGLING_ENDINGS):
             issues.append(f"{output_path}: output appears to end mid-sentence: {tail[-80:]}")
+
+
+def check_registry_truncation_against_source(issues: list[str]) -> None:
+    for novel in REGISTERED_NOVELS:
+        quality = novel.get("quality", {}) or {}
+        min_source_chars = int(quality.get("truncation_min_source_chars") or 0)
+        min_ratio = float(quality.get("truncation_min_ratio") or 0)
+        if min_source_chars <= 0 or min_ratio <= 0:
+            continue
+
+        raw_root = novel_raw_root(novel)
+        output_root = novel_output_root(novel)
+        dangling_endings = tuple(quality.get("dangling_endings") or ())
+        slug = str(novel.get("slug", ""))
+        for source_path in sorted(raw_root.glob("ch*/source.json")):
+            chapter = source_path.parent.name
+            output_path = output_root / chapter / f"{chapter}.md"
+            if not output_path.exists():
+                continue
+
+            source_payload = json.loads(read(source_path))
+            source_text = str(source_payload.get("raw_text", ""))
+            output_text = read(output_path)
+            output_body = "\n".join(output_text.split("\n")[1:]).strip()
+            if len(source_text) < min_source_chars:
+                continue
+
+            ratio = len(output_body) / max(1, len(source_text))
+            if ratio < min_ratio:
+                issues.append(
+                    f"{output_path}: {slug} output appears truncated versus source "
+                    f"(source chars={len(source_text)}, output chars={len(output_body)}, ratio={ratio:.2f})"
+                )
+
+            tail = output_body.rstrip()
+            if dangling_endings and any(tail.endswith(ending) for ending in dangling_endings):
+                issues.append(f"{output_path}: {slug} output appears to end mid-sentence: {tail[-80:]}")
 
 
 def check_hgd_required_source_beats(issues: list[str]) -> None:
@@ -282,11 +420,10 @@ def main() -> int:
         generated_path = MOONREAD / "content/generated/books/horror-game-developer/chapters" / f"{chapter}.md"
         if generated_path.exists():
             check_absent(generated_path, HGD_FORBIDDEN_ENGLISH_OUTPUT, issues)
-    check_hgd_title_fallbacks(issues)
-    check_dse_generic_title_fallbacks(issues)
+    check_registry_title_policies(issues)
     check_hgd_required_source_beats(issues)
     check_hgd_pronoun_policy(issues)
-    check_hgd_truncation_against_source(issues)
+    check_registry_truncation_against_source(issues)
 
     check_paragraph_density(DSE / "05_Output", issues)
     for number in range(1, 36):

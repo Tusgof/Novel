@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "shared_quality": {
+    "min_markdown_chars": 700,
+    "default_max_paragraph_chars": 900,
+    "reject_provider_meta": true,
+    "reject_han_body_text": true,
+    "reject_bad_encoding": true,
+    "title_sidecar_required_for_named_source_title": true
+  },
+  "novels": [
+    {
+      "slug": "deep-sea-embers",
+      "folder": "Deep Sea Embers",
+      "source_language": "zh",
+      "raw_dir": "03_Raw",
+      "work_dir": "04_Work",
+      "output_dir": "05_Output",
+      "reader": {
+        "enabled": true,
+        "legacy_default": true,
+        "first_chapter": 1,
+        "last_chapter": 80,
+        "title": "Deep Sea Embers",
+        "thai_title": "เถ้าถ่านแห่งทะเลลึก",
+        "author": "远瞳 (Yuan Tong)",
+        "synopsis": "เมื่อครูมัธยมธรรมดาตื่นขึ้นมาพบว่าตัวเองติดอยู่ในอพาร์ตเมนต์ที่ถูกหมอกปริศนาห่อหุ้ม ประตูห้องเดียวที่เปิดได้กลับนำเขาไปสู่ดาดฟ้าเรือผีตำนานแห่ง \"ทะเลไร้ขอบเขต\" ในร่างของกัปตันดันแคน แอบโนมาร์ ผู้เป็นที่หวาดกลัวของทุกคน เขาต้องเรียนรู้ที่จะเป็นกัปตันเรือผีท่ามกลางโลกที่เต็มไปด้วยเทพเจ้า หมอกลึกลับ และพรมแดนความจริงที่กำลังจะพังทลาย",
+        "tags": ["แฟนตาซี", "ลึกลับ", "เดินเรือ", "ผจญภัย"],
+        "cover": "/images/deep-sea-embers-cover.png",
+        "source_root_env": "DSE_READER_SOURCE_ROOT",
+        "first_chapter_env": "DSE_READER_FIRST_CHAPTER",
+        "last_chapter_env": "DSE_READER_LAST_CHAPTER"
+      },
+      "title_policy": {
+        "named_chinese_source_titles_require_sidecar": true,
+        "generic_title_prefix": "บทที่"
+      },
+      "quality": {
+        "max_paragraph_chars": 900
+      }
+    },
+    {
+      "slug": "horror-game-developer",
+      "folder": "Horror Game Developers",
+      "source_language": "en",
+      "raw_dir": "03_Raw",
+      "work_dir": "04_Work",
+      "output_dir": "05_Output",
+      "reader": {
+        "enabled": true,
+        "legacy_default": false,
+        "first_chapter": 1,
+        "last_chapter": 80,
+        "title": "นักพัฒนาเกมสยองขวัญ",
+        "thai_title": "นักพัฒนาเกมสยองขวัญ",
+        "author": "CKtalon",
+        "synopsis": "เซ็ธ ธอร์น โปรแกรมเมอร์เกมสุดซวยที่กลัวผีแต่ดันทำเกมสยองขวัญ วันหนึ่งระบบปริศนาบังคับให้เขาเข้าไปในฉากสยองที่เป็นของจริง ต้องเอาชีวิตรอดจากโอเปร่าผีสิง นักดนตรีไร้ดวงตา และผู้เล่นคนอื่นที่ดูจะรู้กฎเกมดีกว่าเขา ภายใต้หน้ากากตัวตลกที่เขาเลือกมาโดยไม่รู้ว่ามันจะเปลี่ยนชะตาของเขาไปตลอดกาล",
+        "tags": ["สยองขวัญ", "เกม", "ระบบ", "เอาชีวิตรอด"],
+        "cover": "/images/horror-game-developer-cover.png",
+        "source_root_env": "HGD_READER_SOURCE_ROOT",
+        "first_chapter_env": "HGD_READER_FIRST_CHAPTER",
+        "last_chapter_env": "HGD_READER_LAST_CHAPTER"
+      },
+      "title_policy": {
+        "english_source_titles_require_thai_output": true,
+        "normalizer": "hgd_title_map",
+        "forbidden_title_markers": [
+          "Horror Game Developer",
+          "Chapter",
+          "Prologue",
+          "Jester",
+          "Mission Complete",
+          "Orientation Day",
+          "The world has changed",
+          "Developing Game",
+          "The missing piece",
+          "Scream",
+          "Quest Completed",
+          "Painting",
+          "Velora Art Museum",
+          "Live Stream",
+          "The lunatic with the sunglasses",
+          "The game that makes you scream",
+          "Your account has been reinstated",
+          "Return of the Jester",
+          "Masquerade ball",
+          "The perfect piece",
+          "Crying",
+          "Little girl",
+          "Little Girl",
+          "App Update",
+          "Shepherd",
+          "Evolution"
+        ]
+      },
+      "quality": {
+        "max_paragraph_chars": 520,
+        "truncation_min_source_chars": 3000,
+        "truncation_min_ratio": 0.45,
+        "dangling_endings": ["แต่", "และ", "กับ", "ของ", "ที่", "ใน", "ก่อนจะ", "มือเธอ"]
+      }
+    }
+  ]
+}

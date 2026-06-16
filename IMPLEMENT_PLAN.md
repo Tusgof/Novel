@@ -40,6 +40,7 @@ Completed:
 - V6.15: dashboard usability follow-up closed for practical scope
 - V6.16/V6.16.5/V6.17/V6.17.1: HGD title/format audit and repair gate closed for published scope
 - V6.18: first narrow speed slice complete; formatting/openrouter concurrency=2 was benchmarked on ch051 and passed without enabling global concurrency by default
+- V6.22: multi-novel / per-novel quality layer split introduced through `00_Config/novel_registry.json`, MoonRead registry import, and registry-driven output guardrails
 - HGD pronoun consistency repair closed for published scope: Seth-dominant chapters now use `ผม` consistently, HGD has an Obsidian pronoun policy note, prompts/profile/QA include the rule, and output guardrails cover known high-risk chapters
 
 Current production state:
@@ -104,6 +105,34 @@ Rule for future HGD work:
 - Keep `00_Templates`, `01_Glossary`, `02_Database_Views`, `03_Raw`, `04_Work`, `05_Output`, `06_Logs`, `07_Reports`, `.system`, `prompts`, `scripts`, and profiles inside that vault folder.
 - Obsidian is useful as the human/operator memory layer: glossary notes, database views, templates, style policy, pronoun policy, and source/research notes stay inspectable outside the CLI.
 - Runtime scripts may use the same folder as project root, but should not overwrite `.obsidian` settings/plugins.
+
+### V6.22 Multi-Novel / Per-Novel Layer Split
+
+Goal: stop fixing recurring quality bugs only inside one novel path.
+
+Layer model:
+
+- Multi-novel layer: `00_Config/novel_registry.json` and shared scripts. This owns reader inclusion, source/output paths, generic Markdown checks, title fallback policy, truncation thresholds, and MoonRead import metadata.
+- Per-novel layer: each registry entry plus that novel's Obsidian/prompt/profile notes. This owns story-specific title normalization, pronoun policy, required source beats, forbidden variants, and genre voice.
+
+Current implementation:
+
+- MoonRead `scripts/generate-chapters.mjs` reads enabled books from `00_Config/novel_registry.json` instead of a hardcoded DSE/HGD list.
+- `scripts/check_output_quality_guardrails.py` reads the same registry for shared title fallback and truncation checks.
+- DSE keeps a per-novel rule requiring translated title sidecars for named Chinese source titles.
+- HGD keeps per-novel title normalization, English-title marker rejection, truncation threshold, and pronoun/required-beat checks.
+
+Rule for future bugs:
+
+- If the failure pattern can affect multiple novels, add the detection/prevention to the multi-novel layer.
+- If the failure depends on character voice, local terminology, source-site quirks, or genre style, add only that detail to the per-novel layer.
+
+Done when:
+
+- registry-driven MoonRead generation passes
+- registry-driven output guardrail passes
+- tests cover the registry contract
+- docs explain where future novel settings belong
 
 Current repository state:
 

@@ -50,6 +50,7 @@ source adapter
 
 Important paths:
 
+- `D:\Fogust\Workspace\Novel\00_Config\novel_registry.json`: shared multi-novel registry plus per-novel reader/title/quality policy
 - `D:\Fogust\Workspace\Novel\Deep Sea Embers\novel_pipeline\`: Python package and CLI
 - `D:\Fogust\Workspace\Novel\Deep Sea Embers\.system\`: config, providers, style profiles
 - `D:\Fogust\Workspace\Novel\Deep Sea Embers\01_Glossary\`: glossary notes
@@ -62,6 +63,12 @@ Important paths:
 - `D:\Fogust\Workspace\Novel\Deep Sea Embers\reader-web\`: compatibility stub for older MoonRead commands only
 
 Ledger rule: historical failed records remain. Current status must be inferred from latest valid state, not raw failed-record counts.
+
+Layering rule:
+
+- Multi-novel layer: generic policies that should apply to every novel live in `00_Config\novel_registry.json` and shared scripts. Examples: MoonRead import range/source root, final Markdown validation, generic title fallback detection, truncation thresholds, and provider/meta/encoding leakage checks.
+- Novel layer: story-specific policy lives in each novel entry and its vault notes. Examples: DSE Chinese title sidecar requirement, HGD English-title normalization, Seth pronoun policy, required source beats, and known forbidden variants.
+- If a bug pattern can recur across novels, fix it in the multi-novel layer first, then add only the narrow story-specific details to the novel layer.
 
 ## Current Verified State
 
@@ -91,6 +98,7 @@ MoonRead:
 
 - current reader library includes Deep Sea Embers `ch001-ch080` and Horror Game Developer `ch001-ch080`
 - canonical MoonRead app path is `D:\Fogust\Workspace\Novel\MoonRead`; it is no longer owned by the Deep Sea Embers folder
+- MoonRead imports novels from `00_Config\novel_registry.json`; adding a future novel should start by adding a registry entry, not by hardcoding paths in `MoonRead\scripts\generate-chapters.mjs`
 - MoonRead reads verified Markdown only
 - MoonRead must not call providers, edit glossary/source/artifacts, or modify ledger
 - latest relevant checks: `generate:chapters`, `lint`, `build`, and `smoke` passed after V6.19.1 UX/UI polish and cover art integration
@@ -187,6 +195,7 @@ Requires explicit user approval:
 | QA false pass | add deterministic guardrails after confirmed misses; inspect risky QA artifacts |
 | Pronoun/name/title drift | add deterministic known-variant checks after user reports |
 | DSE generic title fallback | final assembly requires `title.json` for named Chinese source titles; output guardrail rejects `บทที่ N` when source has a real title |
+| Same bug recurring in another novel | promote the generic part into `00_Config\novel_registry.json` and shared guardrail code, then keep only story-specific details in the novel layer |
 | HGD Seth pronoun drift | keep HGD Obsidian pronoun policy, prompt/profile rules, and published-scope guardrail checks aligned |
 | New novel setup without vault | create/open the novel Obsidian vault first, then add profile/glossary/source/output folders inside it |
 | Dense or broken formatting | AI formatting plus deterministic validation; use `C:\Users\ASUS\Downloads\good format.md` as style reference |

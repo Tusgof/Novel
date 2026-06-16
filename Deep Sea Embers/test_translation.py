@@ -1528,6 +1528,21 @@ def test_title_validation_enforces_mandatory_glossary_terms():
         raise AssertionError("title validation should reject deprecated/incorrect glossary variant")
 
 
+def test_novel_registry_defines_shared_and_per_novel_layers():
+    registry_path = Path(__file__).resolve().parents[1] / "00_Config" / "novel_registry.json"
+    registry = json.loads(registry_path.read_text(encoding="utf-8"))
+
+    assert registry["shared_quality"]["title_sidecar_required_for_named_source_title"] is True
+    novels = {novel["slug"]: novel for novel in registry["novels"]}
+    assert {"deep-sea-embers", "horror-game-developer"}.issubset(novels)
+    assert novels["deep-sea-embers"]["title_policy"]["named_chinese_source_titles_require_sidecar"] is True
+    assert novels["horror-game-developer"]["title_policy"]["normalizer"] == "hgd_title_map"
+    assert novels["horror-game-developer"]["quality"]["truncation_min_ratio"] == 0.45
+    for novel in novels.values():
+        assert novel["reader"]["enabled"] is True
+        assert novel["output_dir"] == "05_Output"
+
+
 def test_hybrid_formatting_uses_provider_when_valid():
     """Configured formatting provider is used when output validates."""
     from novel_pipeline.pipeline import _format_block_with_hybrid_provider

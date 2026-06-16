@@ -8,46 +8,38 @@ const appRoot = path.resolve(scriptRoot, "..");
 const workspaceRoot = path.resolve(appRoot, "..");
 const generatedRoot = path.join(appRoot, "content", "generated");
 const generatedBooksRoot = path.join(generatedRoot, "books");
+const registryPath = path.join(workspaceRoot, "00_Config", "novel_registry.json");
 
-const books = [
-  {
-    slug: "deep-sea-embers",
-    sourceRoot: path.resolve(
-      process.env.DSE_READER_SOURCE_ROOT || path.join(workspaceRoot, "Deep Sea Embers", "05_Output")
-    ),
-    firstChapter: Number(process.env.DSE_READER_FIRST_CHAPTER || "1"),
-    lastChapter: Number(process.env.DSE_READER_LAST_CHAPTER || "80"),
-    legacyDefault: true,
-    novel: {
-      slug: "deep-sea-embers",
-      title: "Deep Sea Embers",
-      thaiTitle: "เถ้าถ่านแห่งทะเลลึก",
-      author: "远瞳 (Yuan Tong)",
-      synopsis:
-        "เมื่อครูมัธยมธรรมดาตื่นขึ้นมาพบว่าตัวเองติดอยู่ในอพาร์ตเมนต์ที่ถูกหมอกปริศนาห่อหุ้ม ประตูห้องเดียวที่เปิดได้กลับนำเขาไปสู่ดาดฟ้าเรือผีตำนานแห่ง \"ทะเลไร้ขอบเขต\" ในร่างของกัปตันดันแคน แอบโนมาร์ ผู้เป็นที่หวาดกลัวของทุกคน เขาต้องเรียนรู้ที่จะเป็นกัปตันเรือผีท่ามกลางโลกที่เต็มไปด้วยเทพเจ้า หมอกลึกลับ และพรมแดนความจริงที่กำลังจะพังทลาย",
-      tags: ["แฟนตาซี", "ลึกลับ", "เดินเรือ", "ผจญภัย"],
-      cover: "/images/deep-sea-embers-cover.png",
-    },
-  },
-  {
-    slug: "horror-game-developer",
-    sourceRoot: path.resolve(
-      process.env.HGD_READER_SOURCE_ROOT || path.join(workspaceRoot, "Horror Game Developers", "05_Output")
-    ),
-    firstChapter: Number(process.env.HGD_READER_FIRST_CHAPTER || "1"),
-    lastChapter: Number(process.env.HGD_READER_LAST_CHAPTER || "80"),
-    novel: {
-      slug: "horror-game-developer",
-      title: "นักพัฒนาเกมสยองขวัญ",
-      thaiTitle: "นักพัฒนาเกมสยองขวัญ",
-      author: "CKtalon",
-      synopsis:
-        "เซ็ธ ธอร์น โปรแกรมเมอร์เกมสุดซวยที่กลัวผีแต่ดันทำเกมสยองขวัญ วันหนึ่งระบบปริศนาบังคับให้เขาเข้าไปในฉากสยองที่เป็นของจริง ต้องเอาชีวิตรอดจากโอเปร่าผีสิง นักดนตรีไร้ดวงตา และผู้เล่นคนอื่นที่ดูจะรู้กฎเกมดีกว่าเขา ภายใต้หน้ากากตัวตลกที่เขาเลือกมาโดยไม่รู้ว่ามันจะเปลี่ยนชะตาของเขาไปตลอดกาล",
-      tags: ["สยองขวัญ", "เกม", "ระบบ", "เอาชีวิตรอด"],
-      cover: "/images/horror-game-developer-cover.png",
-    },
-  },
-];
+function loadRegistryBooks() {
+  const registry = JSON.parse(fs.readFileSync(registryPath, "utf8"));
+  return registry.novels
+    .filter((novel) => novel.reader?.enabled)
+    .map((novel) => {
+      const reader = novel.reader;
+      const sourceRoot = path.resolve(
+        process.env[reader.source_root_env] || path.join(workspaceRoot, novel.folder, novel.output_dir)
+      );
+      return {
+        slug: novel.slug,
+        sourceRoot,
+        firstChapter: Number(process.env[reader.first_chapter_env] || reader.first_chapter || "1"),
+        lastChapter: Number(process.env[reader.last_chapter_env] || reader.last_chapter || "1"),
+        legacyDefault: Boolean(reader.legacy_default),
+        titleNormalizer: novel.title_policy?.normalizer || "",
+        novel: {
+          slug: novel.slug,
+          title: reader.title,
+          thaiTitle: reader.thai_title,
+          author: reader.author,
+          synopsis: reader.synopsis,
+          tags: reader.tags || [],
+          cover: reader.cover,
+        },
+      };
+    });
+}
+
+const books = loadRegistryBooks();
 
 const providerLeakPatterns = [
   /\b(as an ai|i cannot|i can't|here is the translation|translated text)\b/i,
@@ -126,7 +118,7 @@ function translateHgdTitle(title, chapterNumber = null) {
 }
 
 function normalizeBookMarkdown(book, markdown, chapterNumber) {
-  if (book.slug !== "horror-game-developer") return markdown;
+  if (book.titleNormalizer !== "hgd_title_map") return markdown;
   const lines = markdown.replace(/^\uFEFF/, "").split(/\r?\n/);
   if (lines[0]?.startsWith("# ")) {
     lines[0] = `# ${translateHgdTitle(lines[0].replace(/^#\s+/, "").trim(), chapterNumber)}`;
