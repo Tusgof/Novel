@@ -69,6 +69,7 @@ Layering rule:
 - Multi-novel layer: generic policies that should apply to every novel live in `00_Config\novel_registry.json` and shared scripts. Examples: MoonRead import range/source root, final Markdown validation, generic title fallback detection, truncation thresholds, and provider/meta/encoding leakage checks.
 - Novel layer: story-specific policy lives in each novel entry and its vault notes. Examples: DSE Chinese title sidecar requirement, HGD English-title normalization, Seth pronoun policy, required source beats, and known forbidden variants.
 - If a bug pattern can recur across novels, fix it in the multi-novel layer first, then add only the narrow story-specific details to the novel layer.
+- Reader blurb rule: after a novel has at least 60 translated/published chapters, its glossary and style evidence are considered sufficient to translate/adapt the official synopsis, description, or teaser for MoonRead. Store the adapted Thai blurb plus `synopsis_source_url` and `synopsis_source_note` in `00_Config\novel_registry.json`.
 
 ## Current Verified State
 
@@ -97,6 +98,7 @@ Horror Game Developer:
 MoonRead:
 
 - current reader library includes Deep Sea Embers `ch001-ch080` and Horror Game Developer `ch001-ch080`
+- both current novels now pass the 60-chapter reader blurb gate; MoonRead registry includes source-backed Thai synopsis text for both books
 - canonical MoonRead app path is `D:\Fogust\Workspace\Novel\MoonRead`; it is no longer owned by the Deep Sea Embers folder
 - MoonRead imports novels from `00_Config\novel_registry.json`; adding a future novel should start by adding a registry entry, not by hardcoding paths in `MoonRead\scripts\generate-chapters.mjs`
 - MoonRead reads verified Markdown only

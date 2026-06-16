@@ -6,7 +6,9 @@
     "reject_provider_meta": true,
     "reject_han_body_text": true,
     "reject_bad_encoding": true,
-    "title_sidecar_required_for_named_source_title": true
+    "title_sidecar_required_for_named_source_title": true,
+    "reader_blurb_min_translated_chapters": 60,
+    "reader_blurb_rule": "After a novel has at least 60 translated/published chapters, its glossary and style evidence are considered sufficient to translate/adapt the official synopsis, description, or teaser for MoonRead."
   },
   "novels": [
     {
@@ -24,7 +26,9 @@
         "title": "Deep Sea Embers",
         "thai_title": "เถ้าถ่านแห่งทะเลลึก",
         "author": "远瞳 (Yuan Tong)",
-        "synopsis": "เมื่อครูมัธยมธรรมดาตื่นขึ้นมาพบว่าตัวเองติดอยู่ในอพาร์ตเมนต์ที่ถูกหมอกปริศนาห่อหุ้ม ประตูห้องเดียวที่เปิดได้กลับนำเขาไปสู่ดาดฟ้าเรือผีตำนานแห่ง \"ทะเลไร้ขอบเขต\" ในร่างของกัปตันดันแคน แอบโนมาร์ ผู้เป็นที่หวาดกลัวของทุกคน เขาต้องเรียนรู้ที่จะเป็นกัปตันเรือผีท่ามกลางโลกที่เต็มไปด้วยเทพเจ้า หมอกลึกลับ และพรมแดนความจริงที่กำลังจะพังทลาย",
+        "synopsis": "วันที่หมอกหนาปิดกั้นทุกสิ่ง เขากลายเป็นกัปตันของเรือผีและก้าวผ่านม่านหมอกไปเผชิญโลกที่ระเบียบเก่าพังทลาย เหลือเพียงนครรัฐโดดเดี่ยว เรือที่ท้าทายท้องทะเล และความผิดปกติลึกลับที่ครอบงำน่านน้ำไร้ขอบเขต ทว่าในฐานะกัปตันคนใหม่ของเรือผู้ไร้บ้าน คำถามแรกของดันแคนกลับเรียบง่ายกว่านั้นมาก: ใครก็ได้บอกทีว่าเรือลำนี้ขับยังไง?",
+        "synopsis_source_url": "https://weread.qq.com/web/search/books?author=%E8%BF%9C%E7%9E%B3&ii=c01311057ad234037ad6c39",
+        "synopsis_source_note": "Official Chinese blurb surfaced via WeRead/Qidian listing; adapted after 80 translated chapters were available.",
         "tags": ["แฟนตาซี", "ลึกลับ", "เดินเรือ", "ผจญภัย"],
         "cover": "/images/deep-sea-embers-cover.png",
         "source_root_env": "DSE_READER_SOURCE_ROOT",
@@ -53,8 +57,10 @@
         "last_chapter": 80,
         "title": "นักพัฒนาเกมสยองขวัญ",
         "thai_title": "นักพัฒนาเกมสยองขวัญ",
-        "author": "CKtalon",
-        "synopsis": "เซ็ธ ธอร์น โปรแกรมเมอร์เกมสุดซวยที่กลัวผีแต่ดันทำเกมสยองขวัญ วันหนึ่งระบบปริศนาบังคับให้เขาเข้าไปในฉากสยองที่เป็นของจริง ต้องเอาชีวิตรอดจากโอเปร่าผีสิง นักดนตรีไร้ดวงตา และผู้เล่นคนอื่นที่ดูจะรู้กฎเกมดีกว่าเขา ภายใต้หน้ากากตัวตลกที่เขาเลือกมาโดยไม่รู้ว่ามันจะเปลี่ยนชะตาของเขาไปตลอดกาล",
+        "author": "Entrail_JI",
+        "synopsis": "เขาเกลียดเรื่องสยองขวัญทุกอย่าง ตั้งแต่เสียงฝีเท้าที่ไล่หลังไปจนถึงเสียงกระซิบเย็นเยียบข้างหู ถึงขั้นอาเจียนเมื่อความกลัวพุ่งเกินขีดจำกัด แต่กลับเป็นนักพัฒนาเกมสยองขวัญฝีมือห่วยที่กำลังจะลาออก แล้วจู่ๆ ระบบนักพัฒนาเกมสยองขวัญก็เลือกเขา พร้อมเตือนว่าโลกอาจเกิดการเปลี่ยนแปลง ไม่ต้องห่วง...ทั้งหมดเป็นส่วนหนึ่งของเกม",
+        "synopsis_source_url": "https://roliascan.com/manga/horror-game-developer-my-games-aren-t-that-scary-novel/",
+        "synopsis_source_note": "RoliaScan novel page blurb; adapted after 80 translated chapters were available.",
         "tags": ["สยองขวัญ", "เกม", "ระบบ", "เอาชีวิตรอด"],
         "cover": "/images/horror-game-developer-cover.png",
         "source_root_env": "HGD_READER_SOURCE_ROOT",

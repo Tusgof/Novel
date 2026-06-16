@@ -119,6 +119,7 @@ Current implementation:
 
 - MoonRead `scripts/generate-chapters.mjs` reads enabled books from `00_Config/novel_registry.json` instead of a hardcoded DSE/HGD list.
 - `scripts/check_output_quality_guardrails.py` reads the same registry for shared title fallback and truncation checks.
+- Reader-facing synopsis/description/teaser text is also owned by the registry. A novel becomes eligible for source-backed MoonRead blurb translation after 60 translated/published chapters.
 - DSE keeps a per-novel rule requiring translated title sidecars for named Chinese source titles.
 - HGD keeps per-novel title normalization, English-title marker rejection, truncation threshold, and pronoun/required-beat checks.
 
@@ -126,6 +127,7 @@ Rule for future bugs:
 
 - If the failure pattern can affect multiple novels, add the detection/prevention to the multi-novel layer.
 - If the failure depends on character voice, local terminology, source-site quirks, or genre style, add only that detail to the per-novel layer.
+- If a novel reaches the 60-chapter reader blurb gate, find the official/source-site synopsis where possible, adapt it into Thai using the novel glossary/style evidence, and record both the adapted text and source URL/note in the registry.
 
 Done when:
 
@@ -133,6 +135,29 @@ Done when:
 - registry-driven output guardrail passes
 - tests cover the registry contract
 - docs explain where future novel settings belong
+
+### V6.22.1 Reader Blurb Maturity Rule
+
+Goal: prevent MoonRead home pages from using placeholder descriptions after enough translated chapters exist to adapt source-backed descriptions reliably.
+
+Rule:
+
+- At 60 translated/published chapters, a novel is considered to have enough glossary and style evidence for a Thai synopsis, description, or teaser.
+- The source should come from the original/fetch site when available. If the fetch chapter URL does not expose a synopsis, use a reliable official listing and record that choice in `synopsis_source_note`.
+- The adapted Thai blurb must live in `00_Config/novel_registry.json`, not inside MoonRead code.
+- MoonRead generated manifests may expose `synopsisSourceUrl` and `synopsisSourceNote` for auditability, but the reader UI does not need to show source links unless explicitly requested.
+
+Current application:
+
+- Deep Sea Embers has 80 published MoonRead chapters, so the registry now uses a Thai adaptation of the official WeRead/Qidian-style blurb.
+- Horror Game Developer has 80 published MoonRead chapters, so the registry now uses a Thai adaptation of the RoliaScan novel-page blurb.
+
+Done when:
+
+- both registry entries include non-empty `synopsis`, `synopsis_source_url`, and `synopsis_source_note`
+- registry contract tests cover the 60-chapter threshold
+- MoonRead generated library includes the updated Thai blurbs
+- MoonRead generate/lint/build/smoke passes
 
 Current repository state:
 

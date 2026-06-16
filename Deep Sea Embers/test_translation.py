@@ -1533,6 +1533,7 @@ def test_novel_registry_defines_shared_and_per_novel_layers():
     registry = json.loads(registry_path.read_text(encoding="utf-8"))
 
     assert registry["shared_quality"]["title_sidecar_required_for_named_source_title"] is True
+    assert registry["shared_quality"]["reader_blurb_min_translated_chapters"] == 60
     novels = {novel["slug"]: novel for novel in registry["novels"]}
     assert {"deep-sea-embers", "horror-game-developer"}.issubset(novels)
     assert novels["deep-sea-embers"]["title_policy"]["named_chinese_source_titles_require_sidecar"] is True
@@ -1541,6 +1542,10 @@ def test_novel_registry_defines_shared_and_per_novel_layers():
     for novel in novels.values():
         assert novel["reader"]["enabled"] is True
         assert novel["output_dir"] == "05_Output"
+        assert novel["reader"]["last_chapter"] >= registry["shared_quality"]["reader_blurb_min_translated_chapters"]
+        assert novel["reader"]["synopsis"]
+        assert novel["reader"]["synopsis_source_url"].startswith("https://")
+        assert novel["reader"]["synopsis_source_note"]
 
 
 def test_hybrid_formatting_uses_provider_when_valid():
