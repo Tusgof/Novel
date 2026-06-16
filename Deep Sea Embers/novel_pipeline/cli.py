@@ -224,10 +224,12 @@ def build_parser() -> argparse.ArgumentParser:
     scan_p.add_argument("--force", action="store_true", default=argparse.SUPPRESS, help="Rescan even if ledger stage exists.")
 
     # approve-terms command (stub)
-    approve_p = subparsers.add_parser("approve-terms", help="Interactively approve pending terms.")
-    approve_p.add_argument("--chapter-id", required=True, help="Chapter ID.")
+    approve_p = subparsers.add_parser("approve-terms", help="Approve pending terms or commit a reviewed batch glossary gate.")
+    approve_p.add_argument("--chapter-id", required=False, help="Chapter ID.")
     approve_p.add_argument("--run-id", default=argparse.SUPPRESS, help="Optional run ID for ledger commit.")
     approve_p.add_argument("--force", action="store_true", default=argparse.SUPPRESS, help="Re-check approval queue even if committed.")
+    approve_p.add_argument("--batch", action="store_true", default=False, help="Commit glossary_approved for all chapters in a reviewed batch scan artifact.")
+    approve_p.add_argument("--decision-report", default="", help="Decision report path for reviewed batch approval metadata.")
 
     # translate-literal command (stub)
     trans_p = subparsers.add_parser("translate-literal", help="Run literal translation for one block.")
@@ -250,6 +252,9 @@ def build_parser() -> argparse.ArgumentParser:
     qa_p.add_argument("--block-id", required=True, help="Block ID.")
     qa_p.add_argument("--run-id", default=argparse.SUPPRESS, help="Optional run ID for ledger commit.")
     qa_p.add_argument("--style-profile", default=None, help="Style profile key to use.")
+    qa_p.add_argument("--no-auto-refine", action="store_true", default=False, help="Run QA once without re-refining on failure.")
+    qa_p.add_argument("--force-accept-current", action="store_true", default=False, help="Accept the current refined artifact as QA force_accepted without modifying it.")
+    qa_p.add_argument("--reason", default="", help="Required reason for --force-accept-current.")
 
     # format command (stub)
     fmt_p = subparsers.add_parser("format", help="Format a QA-passed block.")
@@ -575,9 +580,11 @@ def cmd_approve_terms(args: argparse.Namespace, config) -> int:
     try:
         approve_terms_command(
             config=config,
-            chapter_id=args.chapter_id,
+            chapter_id=getattr(args, "chapter_id", None),
             run_id=getattr(args, "run_id", None),
             force=getattr(args, "force", False),
+            batch=getattr(args, "batch", False),
+            decision_report=getattr(args, "decision_report", ""),
         )
         return 0
     except Exception as exc:
@@ -633,6 +640,9 @@ def cmd_qa(args: argparse.Namespace, config) -> int:
             block_id=args.block_id,
             run_id=getattr(args, "run_id", None),
             style_profile=args.style_profile,
+            auto_refine=not getattr(args, "no_auto_refine", False),
+            force_accept_current=getattr(args, "force_accept_current", False),
+            force_accept_reason=getattr(args, "reason", ""),
         )
         return 0
     except Exception as exc:

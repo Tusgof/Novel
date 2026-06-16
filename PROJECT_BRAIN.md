@@ -96,6 +96,7 @@ Horror Game Developer:
 - prevention: `scripts/check_output_quality_guardrails.py` checks the HGD `ch022` required source beat, known HGD English leakage terms, and HGD Seth pronoun drift; `test_translation.py` covers the `ch022` and HGD pronoun regressions
 - HGD title/truncation incident closed for MoonRead `ch001-ch080`: `ch036-ch080` lacked title sidecars and new title mappings, while `ch002`, `ch060`, and `ch072` had truncation risks from earlier recovery paths. Prevention: HGD title sidecars through `ch080`, `Horror Game Developers/scripts/normalize_hgd_titles.py`, source-vs-output truncation guardrail, and MoonRead title fallback checks. Repair report: `Horror Game Developers/07_Reports/hgd_title_truncation_repair_20260617.md`
 - HGD `ch081-ch090` completed under run `hgd-ch081-ch090-v1`; ch089 required deterministic recovery because QA retry repeatedly re-refined away source beats. Prevention for this batch: title normalizer now covers `ch036-ch090`, and the recovery metadata records why ch089 used literal-safe manual QA acceptance before AI formatting.
+- HGD continuation is paused before `ch091-ch100` for V6.23 pipeline smoothness. Cause: `ch081-ch090` proved that recovery worked but required too much Codex handwork. Prevention added/being verified: batch glossary approval, QA repair-safe mode that does not auto re-refine over manual repairs, explicit force-accept-current reason metadata, and HGD final-assembly title normalization/fail-fast behavior.
 
 MoonRead:
 
@@ -134,11 +135,11 @@ V6.18 speed work:
 
 Working tree:
 
-- Git repo root: `D:\Fogust\Workspace\Novel\Deep Sea Embers`
+- Git repo root: `D:\Fogust\Workspace\Novel`
 - GitHub: `https://github.com/Tusgof/Novel`
 - branch: `main`
 - commit identity: `Tusgof <124960571+Tusgof@users.noreply.github.com>`
-- latest pushed commit: `96a23a6`
+- latest pushed commit before V6.23 pipeline smoothness work: `3b4808f`
 - latest readiness reports: `Deep Sea Embers/07_Reports/preflight_report_20260616_after_v6_18_gate.md`, `Deep Sea Embers/07_Reports/recovery_drill_20260616_after_v6_18_gate.md`, and `Deep Sea Embers/07_Reports/preflight_recovery_readiness_note_20260616.md`
 - remaining visible untracked queue is intentional: 46 glossary notes and 14 intermediate/probe reports. The 5 durable provider/glossary evidence reports were committed at `0d3187d`. Classification report: `Deep Sea Embers/07_Reports/v6_13_untracked_queue_classification_20260616.md`. Glossary queue review: `Deep Sea Embers/07_Reports/v6_13_glossary_queue_review_20260616.md`. Alias overlap proposal: `Deep Sea Embers/07_Reports/v6_13_glossary_alias_overlap_proposal_20260616.md`. Glossary cleanup execution proposal: `Deep Sea Embers/07_Reports/v6_13_glossary_queue_cleanup_execution_proposal_20260616.md`. Report queue review: `Deep Sea Embers/07_Reports/v6_13_report_queue_review_20260616.md`. Report cleanup proposal: `Deep Sea Embers/07_Reports/v6_13_report_queue_cleanup_proposal_20260616.md`. Do not delete, hide, or commit the remaining queue without a dedicated decision.
 

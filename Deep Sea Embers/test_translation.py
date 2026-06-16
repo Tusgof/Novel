@@ -1050,6 +1050,130 @@ def test_approve_terms_command_revalidates_existing_queue_before_prompting():
         rewritten_items = mock_write_queue.call_args.kwargs["items"]
         assert [item["original_term"] for item in rewritten_items] == ["失乡号"]
 
+
+def test_approve_terms_command_batch_commits_all_scan_chapters():
+    from novel_pipeline.pipeline import _write_glossary_scan_artifact, approve_terms_command
+    from novel_pipeline.ledger import RunLedger
+    from novel_pipeline.types import AppConfig
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        config = Mock(spec=AppConfig)
+        config.workspace = Mock()
+        config.workspace.work = base / "04_Work"
+        config.ledger_path = base / "06_Logs" / "run_ledger.jsonl"
+        run_id = "hgd-ch091-ch100-v1"
+        chapter_ids = ["ch091", "ch092", "ch093"]
+
+        _write_glossary_scan_artifact(
+            config,
+            run_id=run_id,
+            chapter_ids=chapter_ids,
+            items=[{"original_term": "Dreamwalker", "chapter_id": "ch091"}],
+        )
+
+        count = approve_terms_command(
+            config=config,
+            chapter_id=None,
+            run_id=run_id,
+            batch=True,
+            decision_report="07_Reports/example.md",
+        )
+
+        records = RunLedger(config.ledger_path).records(run_id=run_id)
+        approved = [record for record in records if record.stage == "glossary_approved"]
+        assert count == 3
+        assert [record.block_id for record in approved] == chapter_ids
+        assert all(record.metadata["approval_mode"] == "reviewed_batch_gate" for record in approved)
+        assert all(record.metadata["decision_report"] == "07_Reports/example.md" for record in approved)
+
+
+def test_run_qa_with_retries_no_auto_refine_preserves_current_refined_artifact():
+    from types import SimpleNamespace
+    from novel_pipeline.pipeline import _run_qa_with_retries
+    from novel_pipeline.types import AppConfig, LiteralDraft, QAReport, RefinedDraft, TextBlock
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        config = Mock(spec=AppConfig)
+        config.workspace = Mock()
+        config.workspace.work = base / "04_Work"
+        block = TextBlock(
+            block_id="ch091-block-001",
+            chapter_id="ch091",
+            source_text="source",
+            source_language="en",
+        )
+        literal = LiteralDraft(block_id=block.block_id, chapter_id=block.chapter_id, source_text="source")
+        refined = RefinedDraft(block_id=block.block_id, chapter_id=block.chapter_id, refined_text="manual repair")
+        ctx = SimpleNamespace(config=config, ledger=Mock(), run_id="hgd-ch091-ch100-v1")
+        runner = SimpleNamespace(spec=SimpleNamespace(name="qwen"))
+        failed_report = QAReport(
+            block_id=block.block_id,
+            chapter_id=block.chapter_id,
+            passed=False,
+            feedback="Missing internal monologue.",
+            judge_provider="qwen",
+        )
+
+        with patch("novel_pipeline.pipeline._provider_runner_for_stage", return_value=runner), \
+             patch("novel_pipeline.pipeline._fallback_provider_runners_for_stage", return_value=[]), \
+             patch("novel_pipeline.pipeline.run_qa_stage", return_value=failed_report), \
+             patch("novel_pipeline.pipeline._run_refine_with_fallback_chain") as mock_refine:
+            passed = _run_qa_with_retries(
+                ctx=ctx,
+                block=block,
+                literal_draft=literal,
+                refined_draft=refined,
+                glossary_subset=[],
+                style_key="horror_game",
+                auto_refine=False,
+            )
+
+        assert passed is False
+        mock_refine.assert_not_called()
+
+
+def test_hgd_title_resolver_writes_sidecar_and_blocks_unknown_english_titles():
+    from novel_pipeline.pipeline import _resolve_chapter_output_title
+    from novel_pipeline.types import AppConfig, ChapterSource
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        config = Mock(spec=AppConfig)
+        config.workspace = Mock()
+        config.workspace.work = base / "04_Work"
+        config.novel_id = "horror-game-developer"
+
+        source = ChapterSource(
+            novel_id="horror-game-developer",
+            chapter_id="ch085",
+            title="Chapter 85 - Second Order [1]",
+            source_language="en",
+        )
+        title = _resolve_chapter_output_title(config, "ch085", source)
+        sidecar = base / "04_Work" / "ch085" / "title.json"
+
+        assert title == "ตอนที่ 85 - ลำดับที่สอง [1]"
+        assert json.loads(sidecar.read_text(encoding="utf-8"))["thai_title"] == title
+
+        unknown_source = ChapterSource(
+            novel_id="horror-game-developer",
+            chapter_id="ch091",
+            title="Chapter 91 - Unknown New Title",
+            source_language="en",
+        )
+        try:
+            _resolve_chapter_output_title(config, "ch091", unknown_source)
+        except RuntimeError as exc:
+            assert "Missing HGD Thai title mapping" in str(exc)
+        else:
+            raise AssertionError("unknown HGD English title should stop final assembly")
+
+
 def test_stage_routing_parses_timeout_and_retry():
     from novel_pipeline.types import StageRouting
     # Minimal mapping with only provider string (backward compatibility)

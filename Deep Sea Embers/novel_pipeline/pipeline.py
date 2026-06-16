@@ -74,6 +74,30 @@ BLOCK_STAGE_ORDER = [
 
 QA_MAX_RETRIES = 2
 
+HGD_TITLE_MAP = {
+    "Velora Art Museum": "พิพิธภัณฑ์ศิลปะเวลอรา",
+    "Live Stream": "ไลฟ์สตรีม",
+    "The lunatic with the sunglasses": "คนบ้าแว่นกันแดด",
+    "The game that makes you scream": "เกมที่ทำให้กรีดร้อง",
+    "Your account has been reinstated": "บัญชีของคุณถูกคืนสถานะแล้ว",
+    "Return of the Jester": "การกลับมาของตัวตลก",
+    "Masquerade ball": "งานเต้นรำสวมหน้ากาก",
+    "The perfect piece": "ชิ้นงานสมบูรณ์แบบ",
+    "Crying": "เสียงร้องไห้",
+    "Little girl": "เด็กหญิงตัวน้อย",
+    "Little Girl": "เด็กหญิงตัวน้อย",
+    "App Update": "อัปเดตแอป",
+    "Shepherd": "ผู้เลี้ยงแกะ",
+    "Evolution": "วิวัฒนาการ",
+    "Second Order": "ลำดับที่สอง",
+    "The Conductor’s Trial": "บททดสอบของวาทยกร",
+    "The Conductor's Trial": "บททดสอบของวาทยกร",
+    "Guild Dinner": "มื้อค่ำของกิลด์",
+    "First Trauma Patient": "ผู้ป่วยบาดแผลทางใจคนแรก",
+}
+
+HGD_TITLE_RE = re.compile(r"^(?:Chapter|ตอนที่)\s+\d+\s+-\s+(.+?)(\s+\[\d+\])?\s*$")
+
 
 class ManualActionRequired(RuntimeError):
     """Raised when execution must stop for operator action."""
@@ -1375,6 +1399,7 @@ def _run_qa_with_retries(
     glossary_subset: list[GlossaryEntry],
     style_key: str,
     manual_action_mode: str = "interactive",
+    auto_refine: bool = True,
 ) -> bool:
     config = ctx.config
     ledger = ctx.ledger
@@ -1424,6 +1449,10 @@ def _run_qa_with_retries(
             )
             print(f"[{run_id}]     QA passed (retry {retry_count}).")
             return True
+
+        if not auto_refine:
+            print(f"[{run_id}]     QA failed; auto re-refine disabled.")
+            return False
 
         retry_count += 1
         if retry_count > QA_MAX_RETRIES:
@@ -1848,11 +1877,44 @@ def scan_terms_command(
 def approve_terms_command(
     *,
     config: AppConfig,
-    chapter_id: str,
+    chapter_id: str | None,
     run_id: str | None = None,
     force: bool = False,
+    batch: bool = False,
+    decision_report: str = "",
 ) -> int:
     ledger = RunLedger(config.ledger_path)
+    if batch:
+        if not run_id:
+            raise ValueError("--run-id is required for batch glossary approval.")
+        artifact = _read_glossary_scan_artifact(config, run_id=run_id)
+        if artifact is None:
+            raise ValueError(f"Missing batch glossary scan artifact for run_id={run_id}.")
+        chapter_ids = artifact.get("chapter_ids")
+        if not isinstance(chapter_ids, list) or not all(isinstance(item, str) for item in chapter_ids):
+            raise ValueError(f"Batch glossary scan artifact for {run_id} is missing chapter_ids.")
+        committed = 0
+        for batch_chapter_id in chapter_ids:
+            if ledger.has_committed(run_id=run_id, block_id=batch_chapter_id, stage="glossary_approved") and not force:
+                continue
+            _commit_stage(
+                ledger,
+                run_id,
+                batch_chapter_id,
+                "glossary_approved",
+                "completed",
+                provider="local",
+                metadata={
+                    "approval_mode": "reviewed_batch_gate",
+                    "decision_report": decision_report,
+                },
+            )
+            committed += 1
+        print(f"[approve-terms] {run_id}: committed glossary_approved for {committed}/{len(chapter_ids)} batch chapters.")
+        return committed
+
+    if not chapter_id:
+        raise ValueError("--chapter-id is required unless --batch is used.")
     if run_id and ledger.has_committed(run_id=run_id, block_id=chapter_id, stage="glossary_approved") and not force:
         print(f"[{run_id}] glossary approval already committed, skipping. Use --force to re-check queue.")
         return 0
@@ -1980,6 +2042,9 @@ def qa_command(
     block_id: str,
     run_id: str | None = None,
     style_profile: str | None = None,
+    auto_refine: bool = True,
+    force_accept_current: bool = False,
+    force_accept_reason: str = "",
 ) -> Path:
     chapter_source, blocks = _load_chapter_source_and_blocks(config, chapter_id)
     block = _find_block(blocks, block_id)
@@ -1999,6 +2064,24 @@ def qa_command(
     literal_draft = _reconstruct_literal_draft(literal_cached, block_id, chapter_id)
     refined_draft = _reconstruct_refined_draft(refined_cached, block_id, chapter_id)
     glossary_subset = _resolve_glossary_subset([block], ctx.glossary_index)
+    if force_accept_current:
+        if not force_accept_reason.strip():
+            raise ValueError("--reason is required with --force-accept-current.")
+        ctx.ledger.append_stage(
+            run_id=ctx.run_id,
+            block_id=block_id,
+            stage="qa",
+            status="force_accepted",
+            provider="manual",
+            metadata={
+                "escalation": "force-accept-current",
+                "reason": force_accept_reason.strip(),
+                "refined_hash": _sha256(refined_draft.refined_text),
+            },
+        )
+        path = _artifact_block_path(config, chapter_id, block_id, "qa")
+        print(f"[qa] {block_id}: force_accepted current refined artifact -> {path}")
+        return path
     passed = _run_qa_with_retries(
         ctx=ctx,
         block=block,
@@ -2006,6 +2089,7 @@ def qa_command(
         refined_draft=refined_draft,
         glossary_subset=glossary_subset,
         style_key=style_profile or config.default_style_profile,
+        auto_refine=auto_refine,
     )
     if not passed:
         raise RuntimeError(f"QA failed for {block_id}.")
@@ -2705,6 +2789,17 @@ def _resolve_chapter_output_title(
             return thai_title.strip()
 
     source_title = chapter_source.title if chapter_source else ""
+    if getattr(config, "novel_id", "") == "horror-game-developer" and source_title:
+        normalized_title = _normalize_hgd_chapter_title(chapter_id, source_title)
+        if normalized_title:
+            _write_hgd_title_sidecar(config, chapter_id, normalized_title)
+            return normalized_title
+        if _looks_like_hgd_english_title(source_title):
+            raise RuntimeError(
+                f"Missing HGD Thai title mapping for {chapter_id}: {source_title}. "
+                "Update HGD_TITLE_MAP before final assembly."
+            )
+
     if source_title and not _contains_han(source_title):
         return source_title
 
@@ -2718,6 +2813,37 @@ def _resolve_chapter_output_title(
     if chapter_number is not None:
         return f"บทที่ {chapter_number}"
     return chapter_id
+
+
+def _normalize_hgd_chapter_title(chapter_id: str, source_title: str) -> str | None:
+    match = HGD_TITLE_RE.match(source_title.strip().lstrip("\ufeff#").strip())
+    if not match:
+        return None
+    raw_title = match.group(1).strip()
+    suffix = match.group(2) or ""
+    thai_title = HGD_TITLE_MAP.get(raw_title)
+    if not thai_title:
+        return None
+    chapter_number = _chapter_number_from_id(chapter_id)
+    if chapter_number is None:
+        return None
+    return f"ตอนที่ {chapter_number} - {thai_title}{suffix}"
+
+
+def _looks_like_hgd_english_title(source_title: str) -> bool:
+    return bool(HGD_TITLE_RE.match(source_title.strip().lstrip("\ufeff#").strip()))
+
+
+def _write_hgd_title_sidecar(config: AppConfig, chapter_id: str, thai_title: str) -> None:
+    sidecar_path = chapter_dir(config.workspace.work, chapter_id) / "title.json"
+    atomic_write_json(
+        sidecar_path,
+        {
+            "chapter_id": chapter_id,
+            "thai_title": thai_title,
+            "source": "pipeline_hgd_title_normalization",
+        },
+    )
 
 
 def _contains_han(text: str) -> bool:

@@ -1,6 +1,6 @@
 # Implement Plan
 
-Last updated: 2026-06-16
+Last updated: 2026-06-17
 
 This is the active roadmap. It should answer: what is done, what is next, when to stop, and how to verify completion. Long history belongs in `Deep Sea Embers/07_Reports/`, not here.
 
@@ -54,8 +54,35 @@ Current production state:
 - HGD pronoun drift risk guarded by `Horror Game Developers/02_Database_Views/HGD Pronoun Policy.md`, HGD prompt/profile rules, and `scripts/check_output_quality_guardrails.py`
 - HGD title/truncation repair closed for MoonRead `ch001-ch080`: titles normalized, `ch002`/`ch060`/`ch072` truncations repaired, and source-vs-output truncation guardrail added
 - HGD continuation active: `hgd-ch081-ch090-v1` completed and published as the first 10-chapter increment toward `ch200`; next increment is `ch091-ch100`
+- HGD translation is paused before `ch091-ch100` until V6.23 pipeline smoothness fixes are verified. Cause: `ch081-ch090` required too much manual intervention because glossary approval, QA repair, and HGD title fallback were not operator-smooth enough.
 - no current failed blocks are known
 - notable approved Deep Sea Embers terms include `实太阳神` -> `สุริยเทพที่แท้จริง` and `面具神` -> `เทพหน้ากาก`
+
+### Active Milestone: V6.23 Pipeline Smoothness Before HGD ch091-ch100
+
+Goal: make the next HGD increment controllable through bounded commands instead of repeated ad hoc manual edits.
+
+Problem found during `hgd-ch081-ch090-v1`:
+
+- batch glossary approval still pushed the operator toward repeated per-chapter action
+- QA retries could re-refine after a manual artifact repair, overwriting the repaired content
+- HGD source titles are English; without a title sidecar/mapping, final assembly could publish English headings silently
+- recovery was technically possible, but the control flow was not smooth enough for routine production
+
+Required fixes:
+
+- add a batch `approve-terms --batch --run-id ...` path that commits reviewed `glossary_approved` records for all chapters in the batch scan artifact
+- add QA repair-safe controls: run QA without auto re-refine, and force-accept the current repaired refined artifact only with an explicit reason
+- add HGD title assembly protection: known English source titles auto-normalize to Thai sidecars, unknown English title mappings stop final assembly
+- cover all three behaviors with deterministic tests
+
+Done when:
+
+- `python -m compileall novel_pipeline` passes
+- `python test_translation.py` passes
+- output guardrails pass
+- `git diff` shows only bounded pipeline/tests/docs changes
+- HGD `ch091-ch100` is not started until the user explicitly approves continuation
 
 ### V6.17 Incident Lessons: HGD Titles And Format
 
