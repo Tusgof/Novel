@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-16T18:29:50.853Z",
+  "generatedAt": "2026-06-16T19:00:26.710Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -42,12 +42,12 @@
       "latestChapter": {
         "id": "ch080",
         "number": 80,
-        "title": "บทที่ 80",
+        "title": "บทที่ 80: เยี่ยมบ้าน?",
         "status": "available",
         "sourcePath": "ch080/ch080.md",
         "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch080.md",
         "href": "/read/ch080",
-        "charCount": 7713,
+        "charCount": 7725,
         "readingMinutes": 2
       },
       "firstChapter": {

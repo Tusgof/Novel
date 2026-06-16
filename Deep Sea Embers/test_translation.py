@@ -1467,8 +1467,8 @@ def test_validate_formatted_text_blocks_content_changes():
     assert "formatted text content changed" in changed_issues
 
 
-def test_resolve_chapter_output_title_uses_thai_sidecar_or_fallback(tmp_path):
-    """Chapter assembly must not leak Chinese source titles into final headings."""
+def test_resolve_chapter_output_title_requires_sidecar_for_named_chinese_title(tmp_path):
+    """Chapter assembly must not silently replace real Chinese titles with generic fallback headings."""
     from novel_pipeline.pipeline import _resolve_chapter_output_title
     from novel_pipeline.types import ChapterSource
 
@@ -1482,7 +1482,12 @@ def test_resolve_chapter_output_title_uses_thai_sidecar_or_fallback(tmp_path):
         source_language="zh",
     )
 
-    assert _resolve_chapter_output_title(config, "ch001", chapter_source) == "บทที่ 1"
+    try:
+        _resolve_chapter_output_title(config, "ch001", chapter_source)
+    except RuntimeError as exc:
+        assert "Missing translated chapter title sidecar" in str(exc)
+    else:
+        raise AssertionError("named Chinese source titles must require title.json before assembly")
 
     title_dir = config.workspace.work / "ch001"
     title_dir.mkdir(parents=True)
@@ -1492,6 +1497,15 @@ def test_resolve_chapter_output_title_uses_thai_sidecar_or_fallback(tmp_path):
     )
 
     assert _resolve_chapter_output_title(config, "ch001", chapter_source) == "บทที่ 1: วันที่หมอกหนาจัด"
+
+    generic_source = ChapterSource(
+        novel_id="deep-sea-embers",
+        chapter_id="ch002",
+        title="第二章",
+        raw_text="正文",
+        source_language="zh",
+    )
+    assert _resolve_chapter_output_title(config, "ch002", generic_source) == "บทที่ 2"
 
     (title_dir / "title.json").write_text(
         json.dumps({"thai_title": "บทที่ 1: วันที่หมอกหนาจัด"}, ensure_ascii=False),

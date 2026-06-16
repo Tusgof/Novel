@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -145,6 +146,53 @@ def check_hgd_title_fallbacks(issues: list[str]) -> None:
                 issues.append(f"{manifest_path}: {chapter.get('id')}: reader title contains English fallback marker: {marker}")
 
 
+def has_named_chinese_chapter_title(title: str) -> bool:
+    match = re.search(r"第[零〇一二两三四五六七八九十百千\d]+章\s*(.+)$", title or "")
+    return bool(match and re.search(r"[\u3400-\u9fff]", match.group(1).strip()))
+
+
+def check_dse_generic_title_fallbacks(issues: list[str]) -> None:
+    for source_path in sorted((DSE / "03_Raw").glob("ch*/source.json")):
+        chapter = source_path.parent.name
+        output_path = DSE / "05_Output" / chapter / f"{chapter}.md"
+        if not output_path.exists():
+            continue
+
+        source_payload = json.loads(read(source_path))
+        source_title = str(source_payload.get("title", "")).strip()
+        if not has_named_chinese_chapter_title(source_title):
+            continue
+
+        heading = read(output_path).split("\n", 1)[0].strip()
+        number = int(chapter[2:])
+        if heading == f"# บทที่ {number}":
+            issues.append(
+                f"{output_path}: DSE heading uses generic fallback despite named source title: {source_title}"
+            )
+
+    manifest_path = MOONREAD / "content/generated/books/deep-sea-embers/manifest.json"
+    if not manifest_path.exists():
+        return
+    manifest = json.loads(read(manifest_path))
+    for chapter in manifest.get("chapters", []):
+        chapter_id = str(chapter.get("id", ""))
+        source_path = DSE / "03_Raw" / chapter_id / "source.json"
+        if not source_path.exists():
+            continue
+        source_payload = json.loads(read(source_path))
+        source_title = str(source_payload.get("title", "")).strip()
+        if not has_named_chinese_chapter_title(source_title):
+            continue
+        try:
+            number = int(chapter_id[2:])
+        except ValueError:
+            continue
+        if str(chapter.get("title", "")) == f"บทที่ {number}":
+            issues.append(
+                f"{manifest_path}: {chapter_id}: reader title uses generic fallback despite named source title: {source_title}"
+            )
+
+
 def check_hgd_truncation_against_source(issues: list[str]) -> None:
     for source_path in sorted((HGD / "03_Raw").glob("ch*/source.json")):
         chapter = source_path.parent.name
@@ -235,6 +283,7 @@ def main() -> int:
         if generated_path.exists():
             check_absent(generated_path, HGD_FORBIDDEN_ENGLISH_OUTPUT, issues)
     check_hgd_title_fallbacks(issues)
+    check_dse_generic_title_fallbacks(issues)
     check_hgd_required_source_beats(issues)
     check_hgd_pronoun_policy(issues)
     check_hgd_truncation_against_source(issues)

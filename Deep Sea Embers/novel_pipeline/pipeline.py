@@ -2708,6 +2708,12 @@ def _resolve_chapter_output_title(
     if source_title and not _contains_han(source_title):
         return source_title
 
+    if source_title and _contains_han(source_title) and _has_named_chinese_chapter_title(source_title):
+        raise RuntimeError(
+            f"Missing translated chapter title sidecar for {chapter_id}. "
+            "Run scripts/translate_chapter_titles.py for this range before final assembly."
+        )
+
     chapter_number = _chapter_number_from_title(source_title) or _chapter_number_from_id(chapter_id)
     if chapter_number is not None:
         return f"บทที่ {chapter_number}"
@@ -2716,6 +2722,14 @@ def _resolve_chapter_output_title(
 
 def _contains_han(text: str) -> bool:
     return bool(re.search(r"[\u3400-\u9fff]", text))
+
+
+def _has_named_chinese_chapter_title(title: str) -> bool:
+    match = re.search(r"第[零〇一二两三四五六七八九十百千\d]+章\s*(.+)$", title or "")
+    if not match:
+        return False
+    remainder = match.group(1).strip()
+    return bool(re.search(r"[\u3400-\u9fff]", remainder))
 
 
 def _chapter_number_from_id(chapter_id: str) -> int | None:

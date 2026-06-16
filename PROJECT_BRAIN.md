@@ -73,6 +73,7 @@ Deep Sea Embers:
 - no current failed blocks are known
 - final-output checks have covered missing output, Han Chinese body text, provider/meta leakage, quote-only lines, known user-reported variants, paragraph density, and HGD required source beat
 - notable approved terms include `实太阳神` -> `สุริยเทพที่แท้จริง` and `面具神` -> `เทพหน้ากาก`
+- DSE title fallback incident closed for MoonRead `ch052-ch080`: source titles existed in Chinese, but no `04_Work/ch052-ch080/title.json` sidecars had been created, so final assembly silently fell back to generic `บทที่ N` headings. Prevention: final assembly now refuses named Chinese source titles without a translated title sidecar, and `scripts/check_output_quality_guardrails.py` rejects generic DSE headings when the source title has a real named Chinese title.
 
 Horror Game Developer:
 
@@ -185,6 +186,7 @@ Requires explicit user approval:
 | Provider crash, timeout, quota, malformed output | bounded run, fallback chain, stop and report if unsafe |
 | QA false pass | add deterministic guardrails after confirmed misses; inspect risky QA artifacts |
 | Pronoun/name/title drift | add deterministic known-variant checks after user reports |
+| DSE generic title fallback | final assembly requires `title.json` for named Chinese source titles; output guardrail rejects `บทที่ N` when source has a real title |
 | HGD Seth pronoun drift | keep HGD Obsidian pronoun policy, prompt/profile rules, and published-scope guardrail checks aligned |
 | New novel setup without vault | create/open the novel Obsidian vault first, then add profile/glossary/source/output folders inside it |
 | Dense or broken formatting | AI formatting plus deterministic validation; use `C:\Users\ASUS\Downloads\good format.md` as style reference |
