@@ -22,6 +22,11 @@ TITLE_MAP = {
     "App Update": "อัปเดตแอป",
     "Shepherd": "ผู้เลี้ยงแกะ",
     "Evolution": "วิวัฒนาการ",
+    "Second Order": "ลำดับที่สอง",
+    "The Conductor’s Trial": "บททดสอบของวาทยกร",
+    "The Conductor's Trial": "บททดสอบของวาทยกร",
+    "Guild Dinner": "มื้อค่ำของกิลด์",
+    "First Trauma Patient": "ผู้ป่วยบาดแผลทางใจคนแรก",
 }
 
 HEADING_RE = re.compile(r"^\ufeff?#\s*(?:Chapter|ตอนที่)\s+\d+\s+-\s+(.+?)(\s+\[\d+\])?\s*$")
@@ -44,7 +49,7 @@ def main() -> int:
     changed: list[str] = []
     missing_map: dict[str, str] = {}
 
-    for number in range(36, 81):
+    for number in range(36, 91):
         chapter_id = f"ch{number:03d}"
         output_path = ROOT / "05_Output" / chapter_id / f"{chapter_id}.md"
         if not output_path.exists():
@@ -68,7 +73,7 @@ def main() -> int:
         title_payload = {
             "chapter_id": chapter_id,
             "thai_title": new_heading.replace("# ", "", 1),
-            "source": "hgd_title_normalization_ch036_ch080",
+            "source": "hgd_title_normalization_ch036_ch090",
         }
         title_path.write_text(json.dumps(title_payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 

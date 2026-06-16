@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-16T19:31:37.694Z",
+  "generatedAt": "2026-06-16T23:25:55.539Z",
   "sourceRoot": "../Horror Game Developers/05_Output",
-  "targetRange": "ch001-ch080",
+  "targetRange": "ch001-ch090",
   "novel": {
     "slug": "horror-game-developer",
     "title": "นักพัฒนาเกมสยองขวัญ",
@@ -30,8 +30,8 @@
     }
   },
   "summary": {
-    "total": 80,
-    "available": 80,
+    "total": 90,
+    "available": 90,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -915,6 +915,116 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch080.md",
       "href": "/books/horror-game-developer/read/ch080",
       "charCount": 7028,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch081",
+      "number": 81,
+      "title": "ตอนที่ 81 - ลำดับที่สอง [1]",
+      "status": "available",
+      "sourcePath": "ch081/ch081.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch081.md",
+      "href": "/books/horror-game-developer/read/ch081",
+      "charCount": 5357,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch082",
+      "number": 82,
+      "title": "ตอนที่ 82 - ลำดับที่สอง [2]",
+      "status": "available",
+      "sourcePath": "ch082/ch082.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch082.md",
+      "href": "/books/horror-game-developer/read/ch082",
+      "charCount": 5966,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch083",
+      "number": 83,
+      "title": "ตอนที่ 83 - บททดสอบของวาทยกร [1]",
+      "status": "available",
+      "sourcePath": "ch083/ch083.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch083.md",
+      "href": "/books/horror-game-developer/read/ch083",
+      "charCount": 5866,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch084",
+      "number": 84,
+      "title": "ตอนที่ 84 - บททดสอบของวาทยกร [2]",
+      "status": "available",
+      "sourcePath": "ch084/ch084.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch084.md",
+      "href": "/books/horror-game-developer/read/ch084",
+      "charCount": 6346,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch085",
+      "number": 85,
+      "title": "ตอนที่ 85 - มื้อค่ำของกิลด์ [1]",
+      "status": "available",
+      "sourcePath": "ch085/ch085.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch085.md",
+      "href": "/books/horror-game-developer/read/ch085",
+      "charCount": 4273,
+      "readingMinutes": 1
+    },
+    {
+      "id": "ch086",
+      "number": 86,
+      "title": "ตอนที่ 86 - มื้อค่ำของกิลด์ [2]",
+      "status": "available",
+      "sourcePath": "ch086/ch086.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch086.md",
+      "href": "/books/horror-game-developer/read/ch086",
+      "charCount": 5606,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch087",
+      "number": 87,
+      "title": "ตอนที่ 87 - มื้อค่ำของกิลด์ [4]",
+      "status": "available",
+      "sourcePath": "ch087/ch087.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch087.md",
+      "href": "/books/horror-game-developer/read/ch087",
+      "charCount": 6377,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch088",
+      "number": 88,
+      "title": "ตอนที่ 88 - ผู้ป่วยบาดแผลทางใจคนแรก [1]",
+      "status": "available",
+      "sourcePath": "ch088/ch088.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch088.md",
+      "href": "/books/horror-game-developer/read/ch088",
+      "charCount": 5685,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch089",
+      "number": 89,
+      "title": "ตอนที่ 89 - ผู้ป่วยบาดแผลทางใจคนแรก [2]",
+      "status": "available",
+      "sourcePath": "ch089/ch089.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch089.md",
+      "href": "/books/horror-game-developer/read/ch089",
+      "charCount": 6034,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch090",
+      "number": 90,
+      "title": "ตอนที่ 90 - ผู้ป่วยบาดแผลทางใจคนแรก [3]",
+      "status": "available",
+      "sourcePath": "ch090/ch090.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch090.md",
+      "href": "/books/horror-game-developer/read/ch090",
+      "charCount": 5463,
       "readingMinutes": 2
     }
   ]

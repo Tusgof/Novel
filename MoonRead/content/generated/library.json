@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-16T19:31:37.776Z",
+  "generatedAt": "2026-06-16T23:25:55.633Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,8 +11,8 @@
   },
   "summary": {
     "books": 2,
-    "chapters": 160,
-    "available": 160,
+    "chapters": 170,
+    "available": 170,
     "missing": 0,
     "rejected": 0
   },
@@ -80,23 +80,23 @@
       "cover": "/images/horror-game-developer-cover.png",
       "href": "/books/horror-game-developer",
       "chaptersHref": "/books/horror-game-developer/chapters",
-      "targetRange": "ch001-ch080",
+      "targetRange": "ch001-ch090",
       "summary": {
-        "total": 80,
-        "available": 80,
+        "total": 90,
+        "available": 90,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch080",
-        "number": 80,
-        "title": "ตอนที่ 80 - วิวัฒนาการ [3]",
+        "id": "ch090",
+        "number": 90,
+        "title": "ตอนที่ 90 - ผู้ป่วยบาดแผลทางใจคนแรก [3]",
         "status": "available",
-        "sourcePath": "ch080/ch080.md",
-        "generatedPath": "content/generated/books/horror-game-developer/chapters/ch080.md",
-        "href": "/books/horror-game-developer/read/ch080",
-        "charCount": 7028,
+        "sourcePath": "ch090/ch090.md",
+        "generatedPath": "content/generated/books/horror-game-developer/chapters/ch090.md",
+        "href": "/books/horror-game-developer/read/ch090",
+        "charCount": 5463,
         "readingMinutes": 2
       },
       "firstChapter": {

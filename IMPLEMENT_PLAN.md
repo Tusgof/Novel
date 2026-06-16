@@ -47,12 +47,13 @@ Current production state:
 
 - Deep Sea Embers `ch001-ch080` translated and repaired in `05_Output/`
 - MoonRead contains Deep Sea Embers `ch001-ch080`
-- MoonRead contains Horror Game Developer `ch001-ch080`
+- MoonRead contains Horror Game Developer `ch001-ch090`
 - MoonRead app now lives at `D:\Fogust\Workspace\Novel\MoonRead`; `Deep Sea Embers\reader-web` is only a compatibility stub
 - HGD `ch022` missing time-skip issue repaired and guarded
 - HGD title fallback risk guarded by title sidecars for `ch001-ch080`
 - HGD pronoun drift risk guarded by `Horror Game Developers/02_Database_Views/HGD Pronoun Policy.md`, HGD prompt/profile rules, and `scripts/check_output_quality_guardrails.py`
 - HGD title/truncation repair closed for MoonRead `ch001-ch080`: titles normalized, `ch002`/`ch060`/`ch072` truncations repaired, and source-vs-output truncation guardrail added
+- HGD continuation active: `hgd-ch081-ch090-v1` completed and published as the first 10-chapter increment toward `ch200`; next increment is `ch091-ch100`
 - no current failed blocks are known
 - notable approved Deep Sea Embers terms include `实太阳神` -> `สุริยเทพที่แท้จริง` and `面具神` -> `เทพหน้ากาก`
 

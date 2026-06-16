@@ -85,7 +85,8 @@ Deep Sea Embers:
 
 Horror Game Developer:
 
-- MoonRead published scope is `ch001-ch080`
+- MoonRead published scope is `ch001-ch090`
+- active continuation goal: translate and publish HGD through `ch200` in 10-chapter MoonRead increments; latest completed increment is `hgd-ch081-ch090-v1`, next safe increment is `ch091-ch100`
 - HGD source titles are English; Thai reader titles are protected by HGD title normalization and title sidecars
 - `04_Work/ch001/title.json` through `ch080/title.json` exist to prevent single-block reruns from falling back to English titles
 - HGD project folder is now `D:\Fogust\Workspace\Novel\Horror Game Developers`; it has the user-created Obsidian vault and durable pronoun policy at `Horror Game Developers/02_Database_Views/HGD Pronoun Policy.md`
@@ -94,10 +95,11 @@ Horror Game Developer:
 - HGD pronoun incident closed for published scope: Seth-dominant chapters had drifted between `ผม` and `ฉัน`, and Kyle/Seth peer address drifted between `นาย`, `คุณ`, and `เธอ`. Cause: HGD had no durable pronoun policy, and prompts/profile/QA did not pin Seth's Thai voice. Prevention: HGD Obsidian policy note, HGD research/style/prompt/QA pronoun rules, and `scripts/check_output_quality_guardrails.py` Seth-pronoun checks for known high-risk published chapters. Repair report: `Deep Sea Embers/07_Reports/hgd_pronoun_consistency_repair_20260616.md`
 - prevention: `scripts/check_output_quality_guardrails.py` checks the HGD `ch022` required source beat, known HGD English leakage terms, and HGD Seth pronoun drift; `test_translation.py` covers the `ch022` and HGD pronoun regressions
 - HGD title/truncation incident closed for MoonRead `ch001-ch080`: `ch036-ch080` lacked title sidecars and new title mappings, while `ch002`, `ch060`, and `ch072` had truncation risks from earlier recovery paths. Prevention: HGD title sidecars through `ch080`, `Horror Game Developers/scripts/normalize_hgd_titles.py`, source-vs-output truncation guardrail, and MoonRead title fallback checks. Repair report: `Horror Game Developers/07_Reports/hgd_title_truncation_repair_20260617.md`
+- HGD `ch081-ch090` completed under run `hgd-ch081-ch090-v1`; ch089 required deterministic recovery because QA retry repeatedly re-refined away source beats. Prevention for this batch: title normalizer now covers `ch036-ch090`, and the recovery metadata records why ch089 used literal-safe manual QA acceptance before AI formatting.
 
 MoonRead:
 
-- current reader library includes Deep Sea Embers `ch001-ch080` and Horror Game Developer `ch001-ch080`
+- current reader library includes Deep Sea Embers `ch001-ch080` and Horror Game Developer `ch001-ch090`
 - both current novels now pass the 60-chapter reader blurb gate; MoonRead registry includes source-backed Thai synopsis text for both books
 - canonical MoonRead app path is `D:\Fogust\Workspace\Novel\MoonRead`; it is no longer owned by the Deep Sea Embers folder
 - MoonRead imports novels from `00_Config\novel_registry.json`; adding a future novel should start by adding a registry entry, not by hardcoding paths in `MoonRead\scripts\generate-chapters.mjs`
