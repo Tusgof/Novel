@@ -3,7 +3,7 @@ type: glossary-term
 original_term: Jamie Carter
 thai_term: เจมี่ คาร์เตอร์
 status: approved
-aliases: []
+aliases: ['Jamie']
 source_language: en
 category: character
 novel:

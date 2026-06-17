@@ -3,7 +3,7 @@ type: glossary-term
 original_term: Kaelen Jacobs
 thai_term: เคเลน เจคอบส์
 status: approved
-aliases: []
+aliases: ['Kaelen']
 source_language: en
 category: character
 novel: horror-game-developer

@@ -3,7 +3,7 @@ type: glossary-term
 original_term: Serelith Nera
 thai_term: เซเรลิธ เนรา
 status: approved
-aliases: []
+aliases: ['Serelith']
 source_language: en
 category: character
 novel: horror-game-developer
