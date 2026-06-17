@@ -53,9 +53,9 @@ Current production state:
 - HGD title fallback risk guarded by title sidecars for `ch001-ch080`
 - HGD pronoun drift risk guarded by `Horror Game Developers/02_Database_Views/HGD Pronoun Policy.md`, HGD prompt/profile rules, and `scripts/check_output_quality_guardrails.py`
 - HGD title/truncation repair closed for MoonRead `ch001-ch080`: titles normalized, `ch002`/`ch060`/`ch072` truncations repaired, and source-vs-output truncation guardrail added
-- HGD continuation active: `hgd-ch091-ch100-v1` completed and published as the second 10-chapter increment toward `ch200`; next increment is `ch101-ch110`
+- HGD continuation active: `hgd-ch101-ch110-v1` completed as translated output toward `ch200`; MoonRead remains published through `ch100`
 - V6.23 pipeline smoothness fixes were verified during `hgd-ch091-ch100-v1`: batch glossary approval, QA repair-safe reruns, and HGD title fail-fast normalization all worked in production.
-- `hgd-ch101-ch110-v1` is paused after fetch/glossary scan only. No translation/provider stages have started for this run.
+- V6.24 control packet/pre-resume gate was applied to `hgd-ch101-ch110-v1`; two QA hard-fails were recovered with repair-safe `--no-auto-refine` flow (`ch103` missing sound effects, `ch109` missing poem lines/personified pronouns)
 - no current failed blocks are known
 - notable approved Deep Sea Embers terms include `实太阳神` -> `สุริยเทพที่แท้จริง` and `面具神` -> `เทพหน้ากาก`
 
@@ -72,9 +72,9 @@ Why this milestone exists:
 Current paused run:
 
 - run id: `hgd-ch101-ch110-v1`
-- completed stages: `fetched`, `glossary_scanned`
-- next stage: glossary decision, then translation from `ch101-block-001`
-- rule: do not resume translation until V6.24A at least records glossary decisions and stop/recovery expectations for this batch
+- completed stages: all production stages through chapter assembly
+- next stage: checkpoint commit, then scan-only gate for `ch111-ch120`
+- rule: reuse the V6.24 control packet and pre-resume gate pattern for each following increment before provider stages
 
 ### V6.24A: Standard Batch Control Packet
 

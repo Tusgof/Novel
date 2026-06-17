@@ -86,8 +86,8 @@ Deep Sea Embers:
 Horror Game Developer:
 
 - MoonRead published scope is `ch001-ch100`
-- active continuation goal: translate and publish HGD through `ch200` in 10-chapter MoonRead increments; latest completed increment is `hgd-ch091-ch100-v1`, next safe increment is `ch101-ch110`
-- `hgd-ch101-ch110-v1` is paused after fetch/glossary scan only. Translation has not started for this run. Before resuming, create the V6.24 control packet and pre-resume gate so recovery is command-driven rather than memory-driven.
+- active continuation goal: translate HGD through `ch200`, then publish the completed verified range to MoonRead
+- `hgd-ch101-ch110-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead.
 - HGD source titles are English; Thai reader titles are protected by HGD title normalization and title sidecars
 - `04_Work/ch001/title.json` through `ch080/title.json` exist to prevent single-block reruns from falling back to English titles
 - HGD project folder is now `D:\Fogust\Workspace\Novel\Horror Game Developers`; it has the user-created Obsidian vault and durable pronoun policy at `Horror Game Developers/02_Database_Views/HGD Pronoun Policy.md`
@@ -283,7 +283,7 @@ HGD translation is paused before `hgd-ch101-ch110-v1` enters provider stages.
 
 Next safe choices:
 
-1. Create the V6.24 control packet for `hgd-ch101-ch110-v1`.
-2. Run the V6.24 pre-resume gate and confirm glossary approval, title coverage, no current failures, and MoonRead still published only through `ch100`.
-3. Only after the gate is green, resume HGD translation from `ch101-block-001`.
+1. Commit the `hgd-ch101-ch110-v1` checkpoint after deterministic validation.
+2. Start the next bounded HGD increment with scan-only gate for `ch111-ch120`.
+3. Keep MoonRead published scope at `ch001-ch100` until the HGD continuation reaches the approved publish point.
 4. Stop again on manual QA prompt, provider failure, command length failure, validation failure, or unexpected scope expansion.
