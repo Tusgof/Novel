@@ -85,8 +85,8 @@ Deep Sea Embers:
 
 Horror Game Developer:
 
-- MoonRead published scope is `ch001-ch100`
-- active continuation goal: translate HGD through `ch200`, then publish the completed verified range to MoonRead
+- MoonRead published scope is `ch001-ch200`
+- active continuation goal: HGD `ch081-ch200` translation and MoonRead publication is complete; keep future work as new bounded goals
 - `hgd-ch101-ch110-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead.
 - `hgd-ch111-ch120-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. QA omission hard-fails in this range confirmed the root cause: refinement can still drop poems, thoughts, or sound-effect/source-beat blocks after ordinary retries.
 - `hgd-ch121-ch130-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. `ch126` exposed a pipeline smoothness bug: QA retry wrote a newer refined artifact, but formatting could still use an older in-memory refined draft; prevention now reloads the latest refined artifact after QA before formatting.
@@ -96,6 +96,7 @@ Horror Game Developer:
 - `hgd-ch161-ch170-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. QA audit used only `deepseek/deepseek-v4-flash` via `openrouter_reasoning` or `qwen deepseek-reasoner` fallback; no V4 Pro QA route was used.
 - `hgd-ch171-ch180-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. `ch176` needed bounded recovery for Seth pronoun drift plus missing Dreamwalker/Mirelle tail content; QA passed after repair. QA audit used only `deepseek/deepseek-v4-flash` via `openrouter_reasoning` or `qwen deepseek-reasoner` fallback; no V4 Pro QA route was used.
 - `hgd-ch181-ch190-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. Historical failed records came from Codex quota when QA fallback reached emergency fallback on `ch182`/`ch186`; bounded QA reruns recovered both. QA audit used only `deepseek/deepseek-v4-flash` via `openrouter_reasoning` or `qwen deepseek-reasoner` for completed QA records; no V4 Pro QA route was used.
+- `hgd-ch191-ch200-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. `Shepherd Decree`/`Decree Shepherd` mojibake was repaired during the glossary gate, and title mappings were added through `ch200`. QA audit used only `deepseek/deepseek-v4-flash` via `openrouter_reasoning` or `qwen deepseek-reasoner` for completed QA records; no V4 Pro QA route was used.
 - HGD source titles are English; Thai reader titles are protected by HGD title normalization and title sidecars
 - `04_Work/ch001/title.json` through `ch080/title.json` exist to prevent single-block reruns from falling back to English titles
 - HGD project folder is now `D:\Fogust\Workspace\Novel\Horror Game Developers`; it has the user-created Obsidian vault and durable pronoun policy at `Horror Game Developers/02_Database_Views/HGD Pronoun Policy.md`
@@ -109,7 +110,7 @@ Horror Game Developer:
 
 MoonRead:
 
-- current reader library includes Deep Sea Embers `ch001-ch080` and Horror Game Developer `ch001-ch100`
+- current reader library includes Deep Sea Embers `ch001-ch080` and Horror Game Developer `ch001-ch200`
 - both current novels now pass the 60-chapter reader blurb gate; MoonRead registry includes source-backed Thai synopsis text for both books
 - canonical MoonRead app path is `D:\Fogust\Workspace\Novel\MoonRead`; it is no longer owned by the Deep Sea Embers folder
 - MoonRead imports novels from `00_Config\novel_registry.json`; adding a future novel should start by adding a registry entry, not by hardcoding paths in `MoonRead\scripts\generate-chapters.mjs`
@@ -287,11 +288,11 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
-HGD translation has local verified output through `ch190`; MoonRead remains published through `ch100`.
+HGD translation has local verified output through `ch200`; MoonRead is published through `ch200`.
 
 Next safe choices:
 
-1. Commit the `hgd-ch181-ch190-v1` checkpoint after deterministic validation.
-2. Start the next bounded HGD increment with scan-only gate for `ch191-ch200`.
-3. Keep MoonRead published scope at `ch001-ch100` until the HGD continuation reaches the approved publish point.
+1. Commit the `hgd-ch191-ch200-v1` checkpoint and MoonRead publication update.
+2. Treat future HGD continuation or quality work as a new bounded goal.
+3. If deploying externally, redeploy the pushed MoonRead update from the hosting provider.
 4. Stop again on manual QA prompt, provider failure, command length failure, validation failure, or unexpected scope expansion.

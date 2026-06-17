@@ -54,7 +54,7 @@
         "enabled": true,
         "legacy_default": false,
         "first_chapter": 1,
-        "last_chapter": 100,
+        "last_chapter": 200,
         "title": "นักพัฒนาเกมสยองขวัญ",
         "thai_title": "นักพัฒนาเกมสยองขวัญ",
         "author": "Entrail_JI",
@@ -119,7 +119,17 @@
           "Bet",
           "The boy and the crayons",
           "Mr. Jingles",
-          "Mr Jingles"
+          "Mr Jingles",
+          "The basement",
+          "Puzzle",
+          "The Origin",
+          "Not as it seems",
+          "Inside a cartoon",
+          "Rat",
+          "For the future",
+          "Gathering Funds",
+          "Haunting",
+          "Freelancers"
         ]
       },
       "quality": {

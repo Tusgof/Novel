@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-17T00:33:18.226Z",
+  "generatedAt": "2026-06-17T10:47:55.153Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,8 +11,8 @@
   },
   "summary": {
     "books": 2,
-    "chapters": 180,
-    "available": 180,
+    "chapters": 280,
+    "available": 280,
     "missing": 0,
     "rejected": 0
   },
@@ -80,23 +80,23 @@
       "cover": "/images/horror-game-developer-cover.png",
       "href": "/books/horror-game-developer",
       "chaptersHref": "/books/horror-game-developer/chapters",
-      "targetRange": "ch001-ch100",
+      "targetRange": "ch001-ch200",
       "summary": {
-        "total": 100,
-        "available": 100,
+        "total": 200,
+        "available": 200,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch100",
-        "number": 100,
-        "title": "ตอนที่ 100 - หน่วยสำรวจ [1]",
+        "id": "ch200",
+        "number": 200,
+        "title": "ตอนที่ 200 - ฟรีแลนซ์ [2]",
         "status": "available",
-        "sourcePath": "ch100/ch100.md",
-        "generatedPath": "content/generated/books/horror-game-developer/chapters/ch100.md",
-        "href": "/books/horror-game-developer/read/ch100",
-        "charCount": 5564,
+        "sourcePath": "ch200/ch200.md",
+        "generatedPath": "content/generated/books/horror-game-developer/chapters/ch200.md",
+        "href": "/books/horror-game-developer/read/ch200",
+        "charCount": 6532,
         "readingMinutes": 2
       },
       "firstChapter": {
