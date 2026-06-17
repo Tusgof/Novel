@@ -33,6 +33,10 @@ TITLE_MAP = {
     "Silence": "ความเงียบ",
     "Butcher": "คนเชือด",
     "A Twisted Game": "เกมบิดเบี้ยว",
+    "Escape": "หลบหนี",
+    "Aftermath": "ผลพวง",
+    "Game Developer Mode": "โหมดนักพัฒนาเกม",
+    "New Project": "โปรเจกต์ใหม่",
 }
 
 HEADING_RE = re.compile(r"^\ufeff?#\s*(?:Chapter|ตอนที่)\s+\d+\s+-\s+(.+?)(\s+\[\d+\])?\s*$")
@@ -55,7 +59,7 @@ def main() -> int:
     changed: list[str] = []
     missing_map: dict[str, str] = {}
 
-    for number in range(36, 111):
+    for number in range(36, 121):
         chapter_id = f"ch{number:03d}"
         output_path = ROOT / "05_Output" / chapter_id / f"{chapter_id}.md"
         if not output_path.exists():

@@ -3,7 +3,7 @@ type: glossary-term
 original_term: Mirelle
 thai_term: มิเรลล์
 status: approved
-aliases: []
+aliases: ["Mirille"]
 source_language: en
 category: character
 novel: horror-game-developer
@@ -20,4 +20,3 @@ updated_at: 2026-06-17
 ## Summary
 
 Use `มิเรลล์` for the character name.
-

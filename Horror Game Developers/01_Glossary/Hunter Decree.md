@@ -3,7 +3,7 @@ type: glossary-term
 original_term: Hunter Decree
 thai_term: ประกาศิตนักล่า
 status: approved
-aliases: ["Hunter' Decree", "'Hunter' Decree"]
+aliases: ["Hunter' Decree", "'Hunter' Decree", "Hunter’ Decree", "The Hunter Decree"]
 source_language: en
 category: decree
 novel: horror-game-developer

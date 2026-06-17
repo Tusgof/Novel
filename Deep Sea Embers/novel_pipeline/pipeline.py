@@ -100,6 +100,10 @@ HGD_TITLE_MAP = {
     "Silence": "ความเงียบ",
     "Butcher": "คนเชือด",
     "A Twisted Game": "เกมบิดเบี้ยว",
+    "Escape": "หลบหนี",
+    "Aftermath": "ผลพวง",
+    "Game Developer Mode": "โหมดนักพัฒนาเกม",
+    "New Project": "โปรเจกต์ใหม่",
 }
 
 HGD_TITLE_RE = re.compile(r"^(?:Chapter|ตอนที่)\s+\d+\s+-\s+(.+?)(\s+\[\d+\])?\s*$")
