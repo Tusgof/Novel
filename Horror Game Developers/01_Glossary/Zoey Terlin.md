@@ -3,7 +3,7 @@ type: glossary-term
 original_term: Zoey Terlin
 thai_term: โซอี้ เทอร์ลิน
 status: approved
-aliases: ['Zoey Terline', 'Senior Zoey']
+aliases: ['Zoey Terline', 'Senior Zoey', 'Zeoy']
 source_language: en
 category: character
 novel:

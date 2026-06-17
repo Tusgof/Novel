@@ -3,7 +3,7 @@ type: glossary-term
 original_term: Mirror Voice
 thai_term: เสียงกระจก
 status: approved
-aliases: []
+aliases: ['Mirror Voices']
 source_language: en
 category: software
 novel: horror-game-developer

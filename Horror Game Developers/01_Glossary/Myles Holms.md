@@ -3,7 +3,7 @@ type: glossary-term
 original_term: Myles Holms
 thai_term: ไมลส์ โฮล์มส์
 status: approved
-aliases: []
+aliases: ['Uncle Myles']
 source_language: en
 category: character
 novel:

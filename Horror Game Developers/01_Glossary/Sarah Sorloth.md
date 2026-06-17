@@ -3,7 +3,7 @@ type: glossary-term
 original_term: Sarah Sorloth
 thai_term: ซาราห์ ซอร์ลอธ
 status: approved
-aliases: []
+aliases: ['Sarah']
 source_language: en
 category: character
 novel: horror-game-developer
