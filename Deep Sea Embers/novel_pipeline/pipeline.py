@@ -110,6 +110,9 @@ HGD_TITLE_MAP = {
     "Elderglen Junction": "ชุมทางเอลเดอร์เกลน",
     "The other side": "อีกฟากหนึ่ง",
     "Horrifying realization": "การตระหนักอันน่าสยดสยอง",
+    "Horrifying Realization": "การตระหนักอันน่าสยดสยอง",
+    "Return": "การกลับมา",
+    "Testing new game": "ทดสอบเกมใหม่",
 }
 
 HGD_TITLE_RE = re.compile(r"^(?:Chapter|ตอนที่)\s+\d+\s+-\s+(.+?)(\s+\[\d+\])?\s*$")
