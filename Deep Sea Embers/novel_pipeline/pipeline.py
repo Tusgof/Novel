@@ -122,6 +122,9 @@ HGD_TITLE_MAP = {
     "The basement": "ห้องใต้ดิน",
     "Puzzle": "ปริศนา",
     "The Origin": "จุดกำเนิด",
+    "Not as it seems": "ไม่ใช่อย่างที่เห็น",
+    "Inside a cartoon": "ในโลกการ์ตูน",
+    "Rat": "หนู",
 }
 
 HGD_TITLE_RE = re.compile(r"^(?:Chapter|ตอนที่)\s+\d+\s+-\s+(.+?)(\s+\[\d+\])?\s*$")
