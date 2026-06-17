@@ -477,6 +477,58 @@ def _run_refine_with_fallback_chain(
     raise RuntimeError(f"Refinement did not produce a draft for {block.block_id}.")
 
 
+_QA_OMISSION_MARKERS = (
+    "omit",
+    "omitted",
+    "omission",
+    "missing",
+    "skipped",
+    "dropped",
+    "ตกหล่น",
+    "หาย",
+    "ขาด",
+    "ละทิ้ง",
+    "ไม่ได้แปล",
+    "ไม่ได้ใส่",
+)
+
+
+def _qa_report_indicates_omission(qa_report: QAReport) -> bool:
+    text_parts = [qa_report.feedback or ""]
+    for finding in qa_report.findings:
+        text_parts.extend((finding.code, finding.message, finding.details))
+    lowered = "\n".join(text_parts).lower()
+    return any(marker in lowered for marker in _QA_OMISSION_MARKERS)
+
+
+def _literal_safe_refined_draft(
+    *,
+    block: TextBlock,
+    literal_draft: LiteralDraft,
+    qa_report: QAReport,
+) -> RefinedDraft | None:
+    literal_sentences = [
+        pair.literal_sentence.strip()
+        for pair in literal_draft.sentence_pairs
+        if pair.literal_sentence.strip()
+    ]
+    literal_text = "\n\n".join(literal_sentences).strip()
+    if not literal_text:
+        return None
+    return RefinedDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        refined_text=literal_text,
+        provider="local_recovery",
+        style_profile="literal_safe_omission_recovery",
+        source_text=literal_draft.source_text or block.source_text,
+        metadata={
+            "recovery_reason": "qa_omission_literal_safe_refined_text",
+            "qa_feedback": qa_report.feedback,
+        },
+    )
+
+
 def _run_literal_with_fallback_chain(
     *,
     config: AppConfig,
@@ -1418,6 +1470,7 @@ def _run_qa_with_retries(
 
     retry_count = 0
     current_refined = refined_draft
+    literal_safe_recovery_attempted = False
 
     while retry_count <= QA_MAX_RETRIES:
         primary_runner = _provider_runner_for_stage(config, "qa_judge")
@@ -1466,6 +1519,34 @@ def _run_qa_with_retries(
 
         retry_count += 1
         if retry_count > QA_MAX_RETRIES:
+            if not literal_safe_recovery_attempted and _qa_report_indicates_omission(qa_report):
+                recovered_refined = _literal_safe_refined_draft(
+                    block=block,
+                    literal_draft=literal_draft,
+                    qa_report=qa_report,
+                )
+                literal_safe_recovery_attempted = True
+                if recovered_refined is not None:
+                    current_refined = recovered_refined
+                    _write_block_artifact(config, block.chapter_id, block_id, "refined", current_refined.to_dict())
+                    _commit_stage(
+                        ledger,
+                        run_id,
+                        block_id,
+                        "refining",
+                        "completed",
+                        provider=current_refined.provider,
+                        output_hash=_sha256(current_refined.refined_text),
+                        metadata={
+                            "recovery": "qa_omission_literal_safe_refined_text",
+                            "retry_from_qa": retry_count,
+                            "qa_feedback": qa_report.feedback,
+                        },
+                    )
+                    retry_count = QA_MAX_RETRIES
+                    print(f"[{run_id}]     QA omission hard-fail; restored literal-safe refined text for one final QA pass.")
+                    continue
+
             # Hard fail - offer escalation
             print(f"[{run_id}]     QA hard-fail after {QA_MAX_RETRIES} retries.")
             choice = _qa_escalation_prompt(

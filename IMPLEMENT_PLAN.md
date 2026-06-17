@@ -53,9 +53,10 @@ Current production state:
 - HGD title fallback risk guarded by title sidecars for `ch001-ch080`
 - HGD pronoun drift risk guarded by `Horror Game Developers/02_Database_Views/HGD Pronoun Policy.md`, HGD prompt/profile rules, and `scripts/check_output_quality_guardrails.py`
 - HGD title/truncation repair closed for MoonRead `ch001-ch080`: titles normalized, `ch002`/`ch060`/`ch072` truncations repaired, and source-vs-output truncation guardrail added
-- HGD continuation active: `hgd-ch101-ch110-v1` completed as translated output toward `ch200`; MoonRead remains published through `ch100`
+- HGD continuation active: `hgd-ch101-ch120` completed as translated output toward `ch200`; MoonRead remains published through `ch100`
 - V6.23 pipeline smoothness fixes were verified during `hgd-ch091-ch100-v1`: batch glossary approval, QA repair-safe reruns, and HGD title fail-fast normalization all worked in production.
 - V6.24 control packet/pre-resume gate was applied to `hgd-ch101-ch110-v1`; two QA hard-fails were recovered with repair-safe `--no-auto-refine` flow (`ch103` missing sound effects, `ch109` missing poem lines/personified pronouns)
+- V6.24 QA omission recovery automation was added and exercised during `hgd-ch111-ch120-v1`: after ordinary QA retries, omission hard-fails can restore literal-safe refined text once and rerun QA instead of forcing Codex to hand-edit JSON artifacts.
 - no current failed blocks are known
 - notable approved Deep Sea Embers terms include `实太阳神` -> `สุริยเทพที่แท้จริง` and `面具神` -> `เทพหน้ากาก`
 
@@ -69,11 +70,11 @@ Why this milestone exists:
 - V6.23 improved the worst problems, but `hgd-ch081-ch100` still required manual intervention for glossary decisions, QA repair, title sidecars, and final verification.
 - The target behavior is not "never stop." The target is: when the pipeline stops, it should produce a clear diagnosis, a bounded recovery command, and a reportable next safe action.
 
-Current paused run:
+Current verified HGD continuation state:
 
-- run id: `hgd-ch101-ch110-v1`
-- completed stages: all production stages through chapter assembly
-- next stage: checkpoint commit, then scan-only gate for `ch111-ch120`
+- latest completed run id: `hgd-ch111-ch120-v1`
+- completed stages: all production stages through chapter assembly for `ch101-ch120`
+- next stage: checkpoint commit, then scan-only gate for `ch121-ch130`
 - rule: reuse the V6.24 control packet and pre-resume gate pattern for each following increment before provider stages
 
 ### V6.24A: Standard Batch Control Packet
@@ -154,6 +155,26 @@ V6.24 stop conditions:
 - scope expands beyond HGD `ch101-ch110`
 - a fix would weaken QA or skip final-output guardrails
 - dashboard changes become broad UI redesign instead of targeted control-flow smoothness
+
+### V6.24E: QA Omission Auto-Recovery
+
+Problem:
+
+- HGD `ch112`, `ch114`, and `ch117` showed the same failure pattern: refinement retries could omit poems, thoughts, sound effects, or required source beats. QA caught the issue, but Codex still had to inspect artifacts and manually restore missing content.
+
+Implemented mechanism:
+
+- `_run_qa_with_retries` now classifies QA feedback/findings for omission markers after normal retries are exhausted.
+- If the failure is omission-like, the pipeline creates one `local_recovery` refined artifact from the literal translation, commits recovery metadata, and reruns QA once.
+- If that final QA does not pass, the existing manual escalation path remains unchanged.
+
+Acceptance evidence:
+
+- `python -m compileall novel_pipeline` passed.
+- `python test_translation.py` passed.
+- `hgd-ch111-ch120-v1` completed 10/10 blocks with no current failed blocks.
+- `python scripts\check_output_quality_guardrails.py --config "D:\Fogust\Workspace\Novel\Horror Game Developers\.system\config.yaml" --chapters ch111-ch120` passed.
+- checkpoint report: `Horror Game Developers/07_Reports/hgd_ch111_ch120_checkpoint.md`.
 
 ### Completed Milestone: V6.23 Pipeline Smoothness Before HGD ch091-ch100
 

@@ -4,7 +4,18 @@ import json
 from pathlib import Path
 from novel_pipeline.stages.translate import format_glossary_subset, parse_literal_pairs
 from novel_pipeline.artifacts import batch_glossary_scan_artifact_path
-from novel_pipeline.types import GlossaryEntry, ProviderSpec, ProviderRequest, ProviderResponse
+from novel_pipeline.types import (
+    GlossaryEntry,
+    LiteralDraft,
+    LiteralSentencePair,
+    ProviderSpec,
+    ProviderRequest,
+    ProviderResponse,
+    QAFinding,
+    QAReport,
+    TextBlock,
+)
+from novel_pipeline.pipeline import _literal_safe_refined_draft, _qa_report_indicates_omission
 from novel_pipeline.stages.format import format_block_text
 from unittest.mock import Mock, patch, call
 from novel_pipeline.ledger import ResumeState
@@ -1762,6 +1773,46 @@ def test_qa_escalation_stop_raises_without_input():
             assert "ch019-block-003" in str(exc)
             assert "qa" in str(exc)
     mock_input.assert_not_called()
+
+
+def test_qa_omission_recovery_builds_literal_safe_refined_draft():
+    qa_report = QAReport(
+        block_id="ch117-block-001",
+        chapter_id="ch117",
+        passed=False,
+        feedback="FAIL: Refined translation omitted the entire poem and internal thought paragraph.",
+        findings=(
+            QAFinding(
+                severity="high",
+                code="omission",
+                message="Missing poem block",
+            ),
+        ),
+    )
+    block = TextBlock(
+        block_id="ch117-block-001",
+        chapter_id="ch117",
+        source_text="source",
+        source_language="en",
+    )
+    literal = LiteralDraft(
+        block_id="ch117-block-001",
+        chapter_id="ch117",
+        source_text="source",
+        sentence_pairs=(
+            LiteralSentencePair(source_sentence="a", literal_sentence="บทกวีที่ต้องไม่หาย"),
+            LiteralSentencePair(source_sentence="b", literal_sentence="ความคิดภายในที่ต้องไม่หาย"),
+        ),
+    )
+
+    assert _qa_report_indicates_omission(qa_report)
+    recovered = _literal_safe_refined_draft(block=block, literal_draft=literal, qa_report=qa_report)
+
+    assert recovered is not None
+    assert recovered.provider == "local_recovery"
+    assert "บทกวีที่ต้องไม่หาย" in recovered.refined_text
+    assert "ความคิดภายในที่ต้องไม่หาย" in recovered.refined_text
+    assert recovered.metadata["recovery_reason"] == "qa_omission_literal_safe_refined_text"
 
 
 def test_qa_rule_warning_does_not_block_ai_pass():
@@ -6983,6 +7034,7 @@ if __name__ == "__main__":
     test_hybrid_formatting_uses_provider_when_valid()
     test_hybrid_formatting_falls_back_to_local_with_metadata()
     test_qa_escalation_stop_raises_without_input()
+    test_qa_omission_recovery_builds_literal_safe_refined_draft()
     test_qa_rule_warning_does_not_block_ai_pass()
     test_qa_glossary_missing_term_blocks_when_refinement_removed_literal_term()
     test_qa_ai_judge_finding_still_blocks()
