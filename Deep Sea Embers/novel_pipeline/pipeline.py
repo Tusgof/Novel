@@ -1492,8 +1492,10 @@ def _run_qa_with_retries(
         candidates.extend(_fallback_provider_runners_for_stage(config, "qa_judge"))
         qa_report = None
         used_runner: ProviderRunner | None = None
+        used_model = ""
+        used_route_index = 0
         last_output_error: ProviderOutputError | None = None
-        for runner, model in candidates:
+        for route_index, (runner, model) in enumerate(candidates):
             try:
                 qa_report = run_qa_stage(
                     config=config,
@@ -1507,6 +1509,8 @@ def _run_qa_with_retries(
                     style_profile_key=style_key,
                 )
                 used_runner = runner
+                used_model = model or runner.spec.default_model
+                used_route_index = route_index
                 break
             except ProviderOutputError as exc:
                 last_output_error = exc
@@ -1522,6 +1526,7 @@ def _run_qa_with_retries(
             ledger.append_stage(
                 run_id=run_id, block_id=block_id, stage="qa", status="completed",
                 provider=provider_runner.spec.name,
+                metadata={"model": used_model, "route_index": used_route_index},
             )
             print(f"[{run_id}]     QA passed (retry {retry_count}).")
             return True

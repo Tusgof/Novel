@@ -53,8 +53,6 @@ qa_judge:
   fallbacks:
   - provider: qwen
     model: deepseek-reasoner
-  - provider: openrouter
-    model: deepseek/deepseek-v4-pro
   - provider: codex
     model: gpt-5.4
 formatting:
