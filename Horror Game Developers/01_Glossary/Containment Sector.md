@@ -1,9 +1,13 @@
----
+﻿---
 type: glossary-term
 original_term: Containment Sector
 thai_term: ภาคส่วนกักกัน
 status: approved
-aliases: []
+aliases:
+  - Containment Department
+  - Containment Section
+  - The Containment Sector
+  - The Containment Department
 source_language: en
 category: location
 novel:
@@ -50,3 +54,4 @@ Avoid: `sect`, `realm`, `technique`, `cultivation_stage`, `martial_art`.
 - `status = deprecated` means the term should stay searchable but should not be used for new translations.
 - `aliases` should list source spellings or variant forms that the scanner may match.
 - `first_seen_chapter` and `first_seen_block` record where the term was first discovered in the source text.
+

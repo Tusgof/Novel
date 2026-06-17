@@ -104,6 +104,9 @@ HGD_TITLE_MAP = {
     "Aftermath": "ผลพวง",
     "Game Developer Mode": "โหมดนักพัฒนาเกม",
     "New Project": "โปรเจกต์ใหม่",
+    "Exchange": "การแลกเปลี่ยน",
+    "Harmia Island": "เกาะฮาร์เมีย",
+    "Photograph": "ภาพถ่าย",
 }
 
 HGD_TITLE_RE = re.compile(r"^(?:Chapter|ตอนที่)\s+\d+\s+-\s+(.+?)(\s+\[\d+\])?\s*$")

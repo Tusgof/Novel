@@ -1,22 +1,24 @@
----
-type: glossary-term
-original_term: Section Chief
-thai_term: หัวหน้าแผนก
-status: approved
-aliases: ['The Section Chief']
-source_language: en
-category: title
-novel:
-first_seen_chapter: ch008
-first_seen_block: ch008-block-001
-description: Approved by Codex deterministic glossary gate for Horror Game Developer ch001-ch050.
-related: []
-approved_by:
-approval_notes: Approved by Codex deterministic glossary gate for Horror Game Developer ch001-ch050.
-created_at:
-updated_at:
----
-
+﻿---
+type: glossary-term
+original_term: Section Chief
+thai_term: หัวหน้าแผนก
+status: approved
+aliases:
+  - The Section Chief
+  - Section Chiefs
+source_language: en
+category: title
+novel:
+first_seen_chapter: ch008
+first_seen_block: ch008-block-001
+description: Approved by Codex deterministic glossary gate for Horror Game Developer ch001-ch050.
+related: []
+approved_by:
+approval_notes: Approved by Codex deterministic glossary gate for Horror Game Developer ch001-ch050.
+created_at:
+updated_at:
+---
+
 ## Summary
 
 ## Context Examples
@@ -50,3 +52,4 @@ Avoid: `sect`, `realm`, `technique`, `cultivation_stage`, `martial_art`.
 - `status = deprecated` means the term should stay searchable but should not be used for new translations.
 - `aliases` should list source spellings or variant forms that the scanner may match.
 - `first_seen_chapter` and `first_seen_block` record where the term was first discovered in the source text.
+

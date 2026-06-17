@@ -1,9 +1,10 @@
----
+﻿---
 type: glossary-term
 original_term: Queen-Grade Guild
-thai_term: ????????????????
+thai_term: กิลด์ระดับควีน
 status: approved
-aliases: []
+aliases:
+  - Queen Grade Guilds
 source_language: en
 category: organization
 novel: horror-game-developer
@@ -19,8 +20,9 @@ updated_at:
 
 # Queen-Grade Guild
 
-- Thai: ????????????????
+- Thai: กิลด์ระดับควีน
 - Category: organization
 - Status: approved
 - First seen: ch067/ch067-block-001
 - Notes: Guild rank phrase; approved for stable rendering.
+

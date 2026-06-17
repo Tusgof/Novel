@@ -1,9 +1,10 @@
----
+﻿---
 type: glossary-term
 original_term: King-Grade Guild
-thai_term: ??????????????
+thai_term: กิลด์ระดับคิง
 status: approved
-aliases: []
+aliases:
+  - King Grade Guilds
 source_language: en
 category: organization
 novel: horror-game-developer
@@ -19,8 +20,9 @@ updated_at:
 
 # King-Grade Guild
 
-- Thai: ??????????????
+- Thai: กิลด์ระดับคิง
 - Category: organization
 - Status: approved
 - First seen: ch067/ch067-block-001
 - Notes: Guild rank phrase; approved for stable rendering.
+
