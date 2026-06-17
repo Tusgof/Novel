@@ -3,7 +3,7 @@ type: glossary-term
 original_term: Third Order
 thai_term: ลำดับที่สาม
 status: approved
-aliases: []
+aliases: ['Third Order Recruit']
 source_language: en
 category: rank
 novel:

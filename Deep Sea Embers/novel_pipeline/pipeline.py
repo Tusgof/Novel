@@ -97,6 +97,9 @@ HGD_TITLE_MAP = {
     "Expedition": "การสำรวจ",
     "A Twisted Man": "ชายบิดเบี้ยว",
     "Expedition Squad": "หน่วยสำรวจ",
+    "Silence": "ความเงียบ",
+    "Butcher": "คนเชือด",
+    "A Twisted Game": "เกมบิดเบี้ยว",
 }
 
 HGD_TITLE_RE = re.compile(r"^(?:Chapter|ตอนที่)\s+\d+\s+-\s+(.+?)(\s+\[\d+\])?\s*$")

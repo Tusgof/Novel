@@ -55,8 +55,105 @@ Current production state:
 - HGD title/truncation repair closed for MoonRead `ch001-ch080`: titles normalized, `ch002`/`ch060`/`ch072` truncations repaired, and source-vs-output truncation guardrail added
 - HGD continuation active: `hgd-ch091-ch100-v1` completed and published as the second 10-chapter increment toward `ch200`; next increment is `ch101-ch110`
 - V6.23 pipeline smoothness fixes were verified during `hgd-ch091-ch100-v1`: batch glossary approval, QA repair-safe reruns, and HGD title fail-fast normalization all worked in production.
+- `hgd-ch101-ch110-v1` is paused after fetch/glossary scan only. No translation/provider stages have started for this run.
 - no current failed blocks are known
 - notable approved Deep Sea Embers terms include `实太阳神` -> `สุริยเทพที่แท้จริง` and `面具神` -> `เทพหน้ากาก`
+
+## Active Milestone: V6.24 Pipeline Smoothness V2
+
+Goal: make HGD `ch101-ch200` continuation less dependent on Codex manually editing artifacts while keeping the same translation quality bar.
+
+Why this milestone exists:
+
+- The pipeline is currently safe but not smooth. It correctly stops on QA hard-fails, missing title mappings, provider failures, and validation risks, but the recovery flow still pushes Codex into repeated file inspection and artifact edits.
+- V6.23 improved the worst problems, but `hgd-ch081-ch100` still required manual intervention for glossary decisions, QA repair, title sidecars, and final verification.
+- The target behavior is not "never stop." The target is: when the pipeline stops, it should produce a clear diagnosis, a bounded recovery command, and a reportable next safe action.
+
+Current paused run:
+
+- run id: `hgd-ch101-ch110-v1`
+- completed stages: `fetched`, `glossary_scanned`
+- next stage: glossary decision, then translation from `ch101-block-001`
+- rule: do not resume translation until V6.24A at least records glossary decisions and stop/recovery expectations for this batch
+
+### V6.24A: Standard Batch Control Packet
+
+Create a compact control packet for each 10-chapter HGD increment before translation resumes.
+
+Packet must include:
+
+- run id and chapter range
+- current ledger stage counts
+- glossary candidate decisions and rejected noise terms
+- expected title mappings/sidecars for the range
+- provider route and known fallback policy
+- stop conditions
+- exact next safe command
+
+Done when:
+
+- `Horror Game Developers/07_Reports/hgd_ch101_ch110_control_packet.md` exists
+- the packet proves `ch101-ch110` is still pre-translation
+- no providers are called while creating the packet
+
+### V6.24B: Recovery Command Patterns
+
+Convert the common manual repair paths into documented operator commands and, where practical, CLI helpers.
+
+Required patterns:
+
+- QA omission after retry: inspect literal/refined/QA, preserve source beats, run QA with `--no-auto-refine`
+- force-accept current repaired artifact: require explicit reason and write recovery metadata
+- title mapping miss: stop before assembly, add title mapping/sidecar, rerun from assembly or chapter output gate
+- formatting validation failure: rerun formatting first; only use local cleanup for deterministic Markdown issues, not dialogue/thought detection
+- provider timeout/nonzero output: retry bounded stage once, then switch to configured fallback or stop with provider evidence
+
+Done when:
+
+- a report lists the exact command sequence for each pattern
+- `inspect-block`, `qa --no-auto-refine`, `rerun-block`, and `force-accept-current` usage is unambiguous
+- no guidance tells Codex to silently patch final Markdown
+
+### V6.24C: Pre-Resume Gate For HGD ch101-ch110
+
+Before continuing `hgd-ch101-ch110-v1`, run a pre-resume gate.
+
+Gate checks:
+
+- glossary scan artifact exists and has decisions
+- glossary approval ledger records exist for `ch101-ch110`
+- HGD title sidecar/mapping coverage is known for `ch101-ch110`
+- status has no current failed blocks
+- MoonRead remains published only through `ch100`
+- provider preflight is ready or any provider warning is documented
+
+Done when:
+
+- gate report exists
+- the next safe command is either a bounded resume or an explicit blocker
+- translation has not started until the gate is green
+
+### V6.24D: Dashboard/CLI Smoothness Backlog
+
+These are implementation tasks after the current batch control packet is proven useful:
+
+- dashboard should show the same control packet fields: current stage, blocker, recovery command, and next safe action
+- dashboard buttons must call real bounded CLI actions or be visibly disabled with the reason
+- add a "Recover failed block" surface that loads the QA/literal/refined artifacts side by side
+- add a "Generate control packet" action for future batches
+- add one command that summarizes latest-state status instead of making the operator reason from append-only failed records
+
+Done when:
+
+- the user can understand why the run stopped without reading raw JSON
+- Codex can continue a stopped batch by following one packet and one recovery report instead of reconstructing state from memory
+
+V6.24 stop conditions:
+
+- any provider call is needed before the user approves resuming translation
+- scope expands beyond HGD `ch101-ch110`
+- a fix would weaken QA or skip final-output guardrails
+- dashboard changes become broad UI redesign instead of targeted control-flow smoothness
 
 ### Completed Milestone: V6.23 Pipeline Smoothness Before HGD ch091-ch100
 

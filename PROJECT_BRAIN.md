@@ -87,6 +87,7 @@ Horror Game Developer:
 
 - MoonRead published scope is `ch001-ch100`
 - active continuation goal: translate and publish HGD through `ch200` in 10-chapter MoonRead increments; latest completed increment is `hgd-ch091-ch100-v1`, next safe increment is `ch101-ch110`
+- `hgd-ch101-ch110-v1` is paused after fetch/glossary scan only. Translation has not started for this run. Before resuming, create the V6.24 control packet and pre-resume gate so recovery is command-driven rather than memory-driven.
 - HGD source titles are English; Thai reader titles are protected by HGD title normalization and title sidecars
 - `04_Work/ch001/title.json` through `ch080/title.json` exist to prevent single-block reruns from falling back to English titles
 - HGD project folder is now `D:\Fogust\Workspace\Novel\Horror Game Developers`; it has the user-created Obsidian vault and durable pronoun policy at `Horror Game Developers/02_Database_Views/HGD Pronoun Policy.md`
@@ -206,6 +207,7 @@ Requires explicit user approval:
 | Dense or broken formatting | AI formatting plus deterministic validation; use `C:\Users\ASUS\Downloads\good format.md` as style reference |
 | HGD English title fallback | keep HGD title normalization and title sidecars through the published range |
 | HGD final output truncation after force-accept/retry | compare output length against source and reject dangling endings before MoonRead publication |
+| Pipeline requires too much manual artifact repair | create a per-batch control packet, use repair-safe QA commands, and make next safe action explicit before resume |
 | MoonRead rendering mismatch | run reader smoke after generated content changes |
 | Worker false completion | verify disk state, tests, reports, and git diff |
 | Memory doc damage | keep docs short, use `DOC_RECOVERY.md`, avoid worker rewrites of canonical files |
@@ -277,10 +279,11 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
-V6.18 is complete for the first narrow speed slice.
+HGD translation is paused before `hgd-ch101-ch110-v1` enters provider stages.
 
 Next safe choices:
 
-1. If the user wants to continue Deep Sea Embers production translation, start a new explicit scan-only gate after ch051 or for the next approved range.
-2. If the user wants speed work next, decide whether formatting-only concurrency should remain benchmark-only or become an operator-approved config option after one more bounded confirmation.
-3. Do not start a new production batch or enable concurrency/cache/Pre-QA blocking silently.
+1. Create the V6.24 control packet for `hgd-ch101-ch110-v1`.
+2. Run the V6.24 pre-resume gate and confirm glossary approval, title coverage, no current failures, and MoonRead still published only through `ch100`.
+3. Only after the gate is green, resume HGD translation from `ch101-block-001`.
+4. Stop again on manual QA prompt, provider failure, command length failure, validation failure, or unexpected scope expansion.

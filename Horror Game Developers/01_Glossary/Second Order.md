@@ -3,7 +3,7 @@ type: glossary-term
 original_term: Second Order
 thai_term: ลำดับที่สอง
 status: approved
-aliases: ['Second Order Mission']
+aliases: ['Second Order Mission', 'The Second Order']
 source_language: en
 category: rank
 novel:
