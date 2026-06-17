@@ -160,7 +160,7 @@ Current intended routing:
 - literal translation: OpenRouter `google/gemini-3-flash-preview`
 - refinement: OpenRouter `deepseek/deepseek-v4-flash`
 - QA primary: OpenRouter `deepseek/deepseek-v4-flash` with reasoning enabled
-- QA fallback: Qwen `deepseek-reasoner`, then OpenRouter `deepseek/deepseek-v4-pro`, then Codex emergency fallback
+- QA fallback: Qwen `deepseek-reasoner`, then Codex emergency fallback. Do not use OpenRouter `deepseek/deepseek-v4-pro` in normal HGD QA routing unless a future benchmark explicitly re-approves it.
 - formatting primary: OpenRouter `deepseek/deepseek-v4-flash`
 - formatting fallback/cleanup: local deterministic formatter
 
