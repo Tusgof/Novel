@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: Decree Shepherd
-thai_term: ???????????????
+thai_term: เชพเพิร์ดแห่งประกาศิต
 status: approved
 aliases: []
 source_language: en
@@ -19,7 +19,7 @@ updated_at:
 
 # Decree Shepherd
 
-- Thai: ???????????????
+- Thai: เชพเพิร์ดแห่งประกาศิต
 - Category: title
 - Status: approved
 - First seen: ch076/ch076-block-001

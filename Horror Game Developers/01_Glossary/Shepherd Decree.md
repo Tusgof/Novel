@@ -1,9 +1,10 @@
 ---
 type: glossary-term
 original_term: Shepherd Decree
-thai_term: ???????????????
+thai_term: ประกาศิตเชพเพิร์ด
 status: approved
-aliases: []
+aliases:
+  - Shephard Decree
 source_language: en
 category: term
 novel: horror-game-developer
@@ -19,7 +20,7 @@ updated_at:
 
 # Shepherd Decree
 
-- Thai: ???????????????
+- Thai: ประกาศิตเชพเพิร์ด
 - Category: term
 - Status: approved
 - First seen: ch076/ch076-block-001

@@ -125,6 +125,10 @@ HGD_TITLE_MAP = {
     "Not as it seems": "ไม่ใช่อย่างที่เห็น",
     "Inside a cartoon": "ในโลกการ์ตูน",
     "Rat": "หนู",
+    "For the future": "เพื่ออนาคต",
+    "Gathering Funds": "ระดมทุน",
+    "Haunting": "การหลอกหลอน",
+    "Freelancers": "ฟรีแลนซ์",
 }
 
 HGD_TITLE_RE = re.compile(r"^(?:Chapter|ตอนที่)\s+\d+\s+-\s+(.+?)(\s+\[\d+\])?\s*$")
