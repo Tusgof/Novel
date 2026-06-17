@@ -1,9 +1,10 @@
----
+﻿---
 type: glossary-term
 original_term: Twisted Man
 thai_term: ชายบิดเบี้ยว
 status: approved
-aliases: ['The Twisted Man']
+aliases:
+  - Twisted Men
 source_language: en
 category: entity
 novel: horror-game-developer
@@ -20,3 +21,4 @@ updated_at: 2026-06-17
 ## Summary
 
 Use `ชายบิดเบี้ยว` for both `Twisted Man` and `The Twisted Man` unless later context proves it is a formal proper name requiring a different rendering.
+

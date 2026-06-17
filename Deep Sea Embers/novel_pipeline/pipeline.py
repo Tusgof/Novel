@@ -107,6 +107,9 @@ HGD_TITLE_MAP = {
     "Exchange": "การแลกเปลี่ยน",
     "Harmia Island": "เกาะฮาร์เมีย",
     "Photograph": "ภาพถ่าย",
+    "Elderglen Junction": "ชุมทางเอลเดอร์เกลน",
+    "The other side": "อีกฟากหนึ่ง",
+    "Horrifying realization": "การตระหนักอันน่าสยดสยอง",
 }
 
 HGD_TITLE_RE = re.compile(r"^(?:Chapter|ตอนที่)\s+\d+\s+-\s+(.+?)(\s+\[\d+\])?\s*$")
