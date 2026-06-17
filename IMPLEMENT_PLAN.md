@@ -53,11 +53,12 @@ Current production state:
 - HGD title fallback risk guarded by title sidecars for `ch001-ch080`
 - HGD pronoun drift risk guarded by `Horror Game Developers/02_Database_Views/HGD Pronoun Policy.md`, HGD prompt/profile rules, and `scripts/check_output_quality_guardrails.py`
 - HGD title/truncation repair closed for MoonRead `ch001-ch080`: titles normalized, `ch002`/`ch060`/`ch072` truncations repaired, and source-vs-output truncation guardrail added
-- HGD continuation active: `hgd-ch101-ch130` completed as translated output toward `ch200`; MoonRead remains published through `ch100`
+- HGD continuation active: `hgd-ch101-ch140` completed as translated output toward `ch200`; MoonRead remains published through `ch100`
 - V6.23 pipeline smoothness fixes were verified during `hgd-ch091-ch100-v1`: batch glossary approval, QA repair-safe reruns, and HGD title fail-fast normalization all worked in production.
 - V6.24 control packet/pre-resume gate was applied to `hgd-ch101-ch110-v1`; two QA hard-fails were recovered with repair-safe `--no-auto-refine` flow (`ch103` missing sound effects, `ch109` missing poem lines/personified pronouns)
 - V6.24 QA omission recovery automation was added and exercised during `hgd-ch111-ch120-v1`: after ordinary QA retries, omission hard-fails can restore literal-safe refined text once and rerun QA instead of forcing Codex to hand-edit JSON artifacts.
 - V6.24 latest-refined-before-formatting fix was added during `hgd-ch121-ch130-v1`: after QA retry writes a newer refined artifact, formatting reloads that artifact instead of using stale in-memory refined text.
+- `hgd-ch131-ch140-v1` completed with one bounded pronoun repair on `ch136`; QA passed after `--no-auto-refine`, output guardrails passed, and no current failed blocks remain.
 - no current failed blocks are known
 - notable approved Deep Sea Embers terms include `实太阳神` -> `สุริยเทพที่แท้จริง` and `面具神` -> `เทพหน้ากาก`
 
@@ -73,9 +74,9 @@ Why this milestone exists:
 
 Current verified HGD continuation state:
 
-- latest completed run id: `hgd-ch121-ch130-v1`
-- completed stages: all production stages through chapter assembly for `ch101-ch130`
-- next stage: checkpoint commit, then scan-only gate for `ch131-ch140`
+- latest completed run id: `hgd-ch131-ch140-v1`
+- completed stages: all production stages through chapter assembly for `ch101-ch140`
+- next stage: checkpoint commit, then scan-only gate for `ch141-ch150`
 - rule: reuse the V6.24 control packet and pre-resume gate pattern for each following increment before provider stages
 
 ### V6.24A: Standard Batch Control Packet
