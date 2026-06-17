@@ -1,7 +1,7 @@
 ﻿---
 type: glossary-term
 original_term: Team Leader Soran
-thai_term: หัวหน้าทีมโซแรน
+thai_term: หัวหน้ากลุ่มโซแรน
 status: approved
 aliases: []
 source_language: en
@@ -19,8 +19,8 @@ updated_at:
 
 # Team Leader Soran
 
-- Thai: หัวหน้าทีมโซแรน
+- Thai: หัวหน้ากลุ่มโซแรน
 - Category: character
 - Status: approved
 - First seen: ch142/ch142-block-001
-- Notes: Named team leader title/name.
+- Notes: Named team leader title/name. Use หัวหน้ากลุ่ม for Team Leader to stay consistent with HGD title terminology.
