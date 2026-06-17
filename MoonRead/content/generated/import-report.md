@@ -1,11 +1,11 @@
 # Reader Import Report
 
-Generated at: 2026-06-16T23:25:55.633Z
+Generated at: 2026-06-17T00:33:18.226Z
 
 ## Summary
 
 - books: 2
-- available chapters: 170
+- available chapters: 180
 - missing chapters: 0
 - rejected chapters: 0
 
@@ -28,8 +28,8 @@ Generated at: 2026-06-16T23:25:55.633Z
 ## นักพัฒนาเกมสยองขวัญ
 
 - source root: ../Horror Game Developers/05_Output
-- target range: ch001-ch090
-- available: 90
+- target range: ch001-ch100
+- available: 100
 - missing: 0
 - rejected: 0
 

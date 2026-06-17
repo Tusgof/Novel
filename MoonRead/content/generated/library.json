@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-16T23:25:55.633Z",
+  "generatedAt": "2026-06-17T00:33:18.226Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,8 +11,8 @@
   },
   "summary": {
     "books": 2,
-    "chapters": 170,
-    "available": 170,
+    "chapters": 180,
+    "available": 180,
     "missing": 0,
     "rejected": 0
   },
@@ -80,23 +80,23 @@
       "cover": "/images/horror-game-developer-cover.png",
       "href": "/books/horror-game-developer",
       "chaptersHref": "/books/horror-game-developer/chapters",
-      "targetRange": "ch001-ch090",
+      "targetRange": "ch001-ch100",
       "summary": {
-        "total": 90,
-        "available": 90,
+        "total": 100,
+        "available": 100,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch090",
-        "number": 90,
-        "title": "ตอนที่ 90 - ผู้ป่วยบาดแผลทางใจคนแรก [3]",
+        "id": "ch100",
+        "number": 100,
+        "title": "ตอนที่ 100 - หน่วยสำรวจ [1]",
         "status": "available",
-        "sourcePath": "ch090/ch090.md",
-        "generatedPath": "content/generated/books/horror-game-developer/chapters/ch090.md",
-        "href": "/books/horror-game-developer/read/ch090",
-        "charCount": 5463,
+        "sourcePath": "ch100/ch100.md",
+        "generatedPath": "content/generated/books/horror-game-developer/chapters/ch100.md",
+        "href": "/books/horror-game-developer/read/ch100",
+        "charCount": 5564,
         "readingMinutes": 2
       },
       "firstChapter": {

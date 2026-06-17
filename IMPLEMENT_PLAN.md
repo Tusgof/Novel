@@ -47,18 +47,18 @@ Current production state:
 
 - Deep Sea Embers `ch001-ch080` translated and repaired in `05_Output/`
 - MoonRead contains Deep Sea Embers `ch001-ch080`
-- MoonRead contains Horror Game Developer `ch001-ch090`
+- MoonRead contains Horror Game Developer `ch001-ch100`
 - MoonRead app now lives at `D:\Fogust\Workspace\Novel\MoonRead`; `Deep Sea Embers\reader-web` is only a compatibility stub
 - HGD `ch022` missing time-skip issue repaired and guarded
 - HGD title fallback risk guarded by title sidecars for `ch001-ch080`
 - HGD pronoun drift risk guarded by `Horror Game Developers/02_Database_Views/HGD Pronoun Policy.md`, HGD prompt/profile rules, and `scripts/check_output_quality_guardrails.py`
 - HGD title/truncation repair closed for MoonRead `ch001-ch080`: titles normalized, `ch002`/`ch060`/`ch072` truncations repaired, and source-vs-output truncation guardrail added
-- HGD continuation active: `hgd-ch081-ch090-v1` completed and published as the first 10-chapter increment toward `ch200`; next increment is `ch091-ch100`
-- HGD translation is paused before `ch091-ch100` until V6.23 pipeline smoothness fixes are verified. Cause: `ch081-ch090` required too much manual intervention because glossary approval, QA repair, and HGD title fallback were not operator-smooth enough.
+- HGD continuation active: `hgd-ch091-ch100-v1` completed and published as the second 10-chapter increment toward `ch200`; next increment is `ch101-ch110`
+- V6.23 pipeline smoothness fixes were verified during `hgd-ch091-ch100-v1`: batch glossary approval, QA repair-safe reruns, and HGD title fail-fast normalization all worked in production.
 - no current failed blocks are known
 - notable approved Deep Sea Embers terms include `实太阳神` -> `สุริยเทพที่แท้จริง` and `面具神` -> `เทพหน้ากาก`
 
-### Active Milestone: V6.23 Pipeline Smoothness Before HGD ch091-ch100
+### Completed Milestone: V6.23 Pipeline Smoothness Before HGD ch091-ch100
 
 Goal: make the next HGD increment controllable through bounded commands instead of repeated ad hoc manual edits.
 
@@ -76,13 +76,14 @@ Required fixes:
 - add HGD title assembly protection: known English source titles auto-normalize to Thai sidecars, unknown English title mappings stop final assembly
 - cover all three behaviors with deterministic tests
 
-Done when:
+Done:
 
-- `python -m compileall novel_pipeline` passes
-- `python test_translation.py` passes
-- output guardrails pass
-- `git diff` shows only bounded pipeline/tests/docs changes
-- HGD `ch091-ch100` is not started until the user explicitly approves continuation
+- `hgd-ch091-ch100-v1` completed and MoonRead availability is now 100 HGD chapters.
+- `python -m compileall novel_pipeline` passed.
+- `python test_translation.py` passed.
+- output guardrails passed.
+- MoonRead `generate:chapters`, `lint`, `build`, and `smoke` passed.
+- Checkpoint: `Horror Game Developers/07_Reports/hgd_ch091_ch100_checkpoint.md`.
 
 ### V6.17 Incident Lessons: HGD Titles And Format
 

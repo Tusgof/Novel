@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-16T23:25:55.539Z",
+  "generatedAt": "2026-06-17T00:33:18.121Z",
   "sourceRoot": "../Horror Game Developers/05_Output",
-  "targetRange": "ch001-ch090",
+  "targetRange": "ch001-ch100",
   "novel": {
     "slug": "horror-game-developer",
     "title": "นักพัฒนาเกมสยองขวัญ",
@@ -30,8 +30,8 @@
     }
   },
   "summary": {
-    "total": 90,
-    "available": 90,
+    "total": 100,
+    "available": 100,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -1025,6 +1025,116 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch090.md",
       "href": "/books/horror-game-developer/read/ch090",
       "charCount": 5463,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch091",
+      "number": 91,
+      "title": "ตอนที่ 91 - ผู้ป่วยบาดแผลทางใจคนแรก [4]",
+      "status": "available",
+      "sourcePath": "ch091/ch091.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch091.md",
+      "href": "/books/horror-game-developer/read/ch091",
+      "charCount": 6719,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch092",
+      "number": 92,
+      "title": "ตอนที่ 92 - การสำรวจ [1]",
+      "status": "available",
+      "sourcePath": "ch092/ch092.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch092.md",
+      "href": "/books/horror-game-developer/read/ch092",
+      "charCount": 6408,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch093",
+      "number": 93,
+      "title": "ตอนที่ 93 - การสำรวจ [2]",
+      "status": "available",
+      "sourcePath": "ch093/ch093.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch093.md",
+      "href": "/books/horror-game-developer/read/ch093",
+      "charCount": 5979,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch094",
+      "number": 94,
+      "title": "ตอนที่ 94 - การสำรวจ [3]",
+      "status": "available",
+      "sourcePath": "ch094/ch094.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch094.md",
+      "href": "/books/horror-game-developer/read/ch094",
+      "charCount": 6325,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch095",
+      "number": 95,
+      "title": "ตอนที่ 95 - การสำรวจ [4]",
+      "status": "available",
+      "sourcePath": "ch095/ch095.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch095.md",
+      "href": "/books/horror-game-developer/read/ch095",
+      "charCount": 5395,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch096",
+      "number": 96,
+      "title": "ตอนที่ 96 - ชายบิดเบี้ยว [1]",
+      "status": "available",
+      "sourcePath": "ch096/ch096.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch096.md",
+      "href": "/books/horror-game-developer/read/ch096",
+      "charCount": 5822,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch097",
+      "number": 97,
+      "title": "ตอนที่ 97 - ชายบิดเบี้ยว [2]",
+      "status": "available",
+      "sourcePath": "ch097/ch097.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch097.md",
+      "href": "/books/horror-game-developer/read/ch097",
+      "charCount": 5560,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch098",
+      "number": 98,
+      "title": "ตอนที่ 98 - ชายบิดเบี้ยว [3]",
+      "status": "available",
+      "sourcePath": "ch098/ch098.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch098.md",
+      "href": "/books/horror-game-developer/read/ch098",
+      "charCount": 6495,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch099",
+      "number": 99,
+      "title": "ตอนที่ 99 - ชายบิดเบี้ยว [4]",
+      "status": "available",
+      "sourcePath": "ch099/ch099.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch099.md",
+      "href": "/books/horror-game-developer/read/ch099",
+      "charCount": 6481,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch100",
+      "number": 100,
+      "title": "ตอนที่ 100 - หน่วยสำรวจ [1]",
+      "status": "available",
+      "sourcePath": "ch100/ch100.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch100.md",
+      "href": "/books/horror-game-developer/read/ch100",
+      "charCount": 5564,
       "readingMinutes": 2
     }
   ]

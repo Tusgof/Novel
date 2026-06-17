@@ -94,6 +94,9 @@ HGD_TITLE_MAP = {
     "The Conductor's Trial": "บททดสอบของวาทยกร",
     "Guild Dinner": "มื้อค่ำของกิลด์",
     "First Trauma Patient": "ผู้ป่วยบาดแผลทางใจคนแรก",
+    "Expedition": "การสำรวจ",
+    "A Twisted Man": "ชายบิดเบี้ยว",
+    "Expedition Squad": "หน่วยสำรวจ",
 }
 
 HGD_TITLE_RE = re.compile(r"^(?:Chapter|ตอนที่)\s+\d+\s+-\s+(.+?)(\s+\[\d+\])?\s*$")
