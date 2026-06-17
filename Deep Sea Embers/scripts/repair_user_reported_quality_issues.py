@@ -22,6 +22,11 @@ HGD_TITLE_MAP = {
     "Quest Completed": "เควสต์สำเร็จ",
     "Painting": "ภาพวาด",
     "Velora Art Museum": "พิพิธภัณฑ์ศิลปะเวลอรา",
+    "Mr. Jingles": "มิสเตอร์จิงเกิลส์",
+    "Mr Jingles": "มิสเตอร์จิงเกิลส์",
+    "The basement": "ห้องใต้ดิน",
+    "Puzzle": "ปริศนา",
+    "The Origin": "จุดกำเนิด",
 }
 
 

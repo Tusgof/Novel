@@ -119,6 +119,9 @@ HGD_TITLE_MAP = {
     "The boy and the crayons": "เด็กชายกับสีเทียน",
     "Mr. Jingles": "มิสเตอร์จิงเกิลส์",
     "Mr Jingles": "มิสเตอร์จิงเกิลส์",
+    "The basement": "ห้องใต้ดิน",
+    "Puzzle": "ปริศนา",
+    "The Origin": "จุดกำเนิด",
 }
 
 HGD_TITLE_RE = re.compile(r"^(?:Chapter|ตอนที่)\s+\d+\s+-\s+(.+?)(\s+\[\d+\])?\s*$")
