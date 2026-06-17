@@ -113,6 +113,8 @@ HGD_TITLE_MAP = {
     "Horrifying Realization": "การตระหนักอันน่าสยดสยอง",
     "Return": "การกลับมา",
     "Testing new game": "ทดสอบเกมใหม่",
+    "Launch of new game": "เปิดตัวเกมใหม่",
+    "Multiplayer?": "เล่นหลายคน?",
 }
 
 HGD_TITLE_RE = re.compile(r"^(?:Chapter|ตอนที่)\s+\d+\s+-\s+(.+?)(\s+\[\d+\])?\s*$")
