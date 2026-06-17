@@ -93,6 +93,7 @@ Horror Game Developer:
 - `hgd-ch131-ch140-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. `ch136` needed a bounded pronoun repair from `เรา` to `ผม` in Seth internal monologue, then QA passed with `--no-auto-refine`.
 - `hgd-ch141-ch150-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. Repairs during the run exposed recurring smoothness issues: glossary conflict (`Team Leader Soran` needed `หัวหน้ากลุ่มโซแรน`), Seth pronoun drift (`เรา`/`ฉัน` -> `ผม` only in Seth POV), quest-term confusion (`Chain Quest Activated` vs `Continuation Quest Activated`), rank mistranslation (`ระดับ A` where source meant a ranked gate), and stale formatted artifact after local recovery on `ch146`.
 - `hgd-ch151-ch160-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. QA routing was corrected before completion: normal QA now uses `openrouter_reasoning` with `deepseek/deepseek-v4-flash`; `deepseek/deepseek-v4-pro` is no longer in the normal HGD QA fallback path, and new QA ledger records include model metadata.
+- `hgd-ch161-ch170-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. QA audit used only `deepseek/deepseek-v4-flash` via `openrouter_reasoning` or `qwen deepseek-reasoner` fallback; no V4 Pro QA route was used.
 - HGD source titles are English; Thai reader titles are protected by HGD title normalization and title sidecars
 - `04_Work/ch001/title.json` through `ch080/title.json` exist to prevent single-block reruns from falling back to English titles
 - HGD project folder is now `D:\Fogust\Workspace\Novel\Horror Game Developers`; it has the user-created Obsidian vault and durable pronoun policy at `Horror Game Developers/02_Database_Views/HGD Pronoun Policy.md`
@@ -284,11 +285,11 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
-HGD translation has local verified output through `ch160`; MoonRead remains published through `ch100`.
+HGD translation has local verified output through `ch170`; MoonRead remains published through `ch100`.
 
 Next safe choices:
 
-1. Commit the `hgd-ch151-ch160-v1` checkpoint after deterministic validation.
-2. Start the next bounded HGD increment with scan-only gate for `ch161-ch170`.
+1. Commit the `hgd-ch161-ch170-v1` checkpoint after deterministic validation.
+2. Start the next bounded HGD increment with scan-only gate for `ch171-ch180`.
 3. Keep MoonRead published scope at `ch001-ch100` until the HGD continuation reaches the approved publish point.
 4. Stop again on manual QA prompt, provider failure, command length failure, validation failure, or unexpected scope expansion.
