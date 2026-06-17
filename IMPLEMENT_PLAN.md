@@ -53,7 +53,7 @@ Current production state:
 - HGD title fallback risk guarded by title sidecars for `ch001-ch080`
 - HGD pronoun drift risk guarded by `Horror Game Developers/02_Database_Views/HGD Pronoun Policy.md`, HGD prompt/profile rules, and `scripts/check_output_quality_guardrails.py`
 - HGD title/truncation repair closed for MoonRead `ch001-ch080`: titles normalized, `ch002`/`ch060`/`ch072` truncations repaired, and source-vs-output truncation guardrail added
-- HGD continuation active: `hgd-ch101-ch180` completed as translated output toward `ch200`; MoonRead remains published through `ch100`
+- HGD continuation active: `hgd-ch101-ch190` completed as translated output toward `ch200`; MoonRead remains published through `ch100`
 - V6.23 pipeline smoothness fixes were verified during `hgd-ch091-ch100-v1`: batch glossary approval, QA repair-safe reruns, and HGD title fail-fast normalization all worked in production.
 - V6.24 control packet/pre-resume gate was applied to `hgd-ch101-ch110-v1`; two QA hard-fails were recovered with repair-safe `--no-auto-refine` flow (`ch103` missing sound effects, `ch109` missing poem lines/personified pronouns)
 - V6.24 QA omission recovery automation was added and exercised during `hgd-ch111-ch120-v1`: after ordinary QA retries, omission hard-fails can restore literal-safe refined text once and rerun QA instead of forcing Codex to hand-edit JSON artifacts.
@@ -63,6 +63,7 @@ Current production state:
 - `hgd-ch151-ch160-v1` completed with no current failed blocks and output guardrails passed. During this run, QA routing was corrected so normal HGD QA uses `openrouter_reasoning` + `deepseek/deepseek-v4-flash`; `deepseek/deepseek-v4-pro` was removed from the normal fallback path, and new QA ledger records include `metadata.model`.
 - `hgd-ch161-ch170-v1` completed with no current failed blocks and output guardrails passed. QA used only V4 Flash reasoning or Qwen fallback; no V4 Pro QA route was used.
 - `hgd-ch171-ch180-v1` completed with no current failed blocks and output guardrails passed. `ch176` needed bounded recovery for Seth pronoun drift plus missing Dreamwalker/Mirelle tail content; QA passed after repair. QA used only V4 Flash reasoning or Qwen fallback; no V4 Pro QA route was used.
+- `hgd-ch181-ch190-v1` completed with no current failed blocks and output guardrails passed. Historical failed records came from Codex quota when QA fallback reached emergency fallback on `ch182`/`ch186`; bounded QA reruns recovered both. QA used only V4 Flash reasoning or Qwen fallback for completed QA records; no V4 Pro QA route was used.
 - no current failed blocks are known
 - notable approved Deep Sea Embers terms include `实太阳神` -> `สุริยเทพที่แท้จริง` and `面具神` -> `เทพหน้ากาก`
 
@@ -78,9 +79,9 @@ Why this milestone exists:
 
 Current verified HGD continuation state:
 
-- latest completed run id: `hgd-ch171-ch180-v1`
-- completed stages: all production stages through chapter assembly for `ch101-ch180`
-- next stage: checkpoint commit, then scan-only gate for `ch181-ch190`
+- latest completed run id: `hgd-ch181-ch190-v1`
+- completed stages: all production stages through chapter assembly for `ch101-ch190`
+- next stage: checkpoint commit, then scan-only gate for `ch191-ch200`
 - rule: reuse the V6.24 control packet and pre-resume gate pattern for each following increment before provider stages
 
 ### V6.24A: Standard Batch Control Packet
