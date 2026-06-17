@@ -53,10 +53,11 @@ Current production state:
 - HGD title fallback risk guarded by title sidecars for `ch001-ch080`
 - HGD pronoun drift risk guarded by `Horror Game Developers/02_Database_Views/HGD Pronoun Policy.md`, HGD prompt/profile rules, and `scripts/check_output_quality_guardrails.py`
 - HGD title/truncation repair closed for MoonRead `ch001-ch080`: titles normalized, `ch002`/`ch060`/`ch072` truncations repaired, and source-vs-output truncation guardrail added
-- HGD continuation active: `hgd-ch101-ch120` completed as translated output toward `ch200`; MoonRead remains published through `ch100`
+- HGD continuation active: `hgd-ch101-ch130` completed as translated output toward `ch200`; MoonRead remains published through `ch100`
 - V6.23 pipeline smoothness fixes were verified during `hgd-ch091-ch100-v1`: batch glossary approval, QA repair-safe reruns, and HGD title fail-fast normalization all worked in production.
 - V6.24 control packet/pre-resume gate was applied to `hgd-ch101-ch110-v1`; two QA hard-fails were recovered with repair-safe `--no-auto-refine` flow (`ch103` missing sound effects, `ch109` missing poem lines/personified pronouns)
 - V6.24 QA omission recovery automation was added and exercised during `hgd-ch111-ch120-v1`: after ordinary QA retries, omission hard-fails can restore literal-safe refined text once and rerun QA instead of forcing Codex to hand-edit JSON artifacts.
+- V6.24 latest-refined-before-formatting fix was added during `hgd-ch121-ch130-v1`: after QA retry writes a newer refined artifact, formatting reloads that artifact instead of using stale in-memory refined text.
 - no current failed blocks are known
 - notable approved Deep Sea Embers terms include `实太阳神` -> `สุริยเทพที่แท้จริง` and `面具神` -> `เทพหน้ากาก`
 
@@ -72,9 +73,9 @@ Why this milestone exists:
 
 Current verified HGD continuation state:
 
-- latest completed run id: `hgd-ch111-ch120-v1`
-- completed stages: all production stages through chapter assembly for `ch101-ch120`
-- next stage: checkpoint commit, then scan-only gate for `ch121-ch130`
+- latest completed run id: `hgd-ch121-ch130-v1`
+- completed stages: all production stages through chapter assembly for `ch101-ch130`
+- next stage: checkpoint commit, then scan-only gate for `ch131-ch140`
 - rule: reuse the V6.24 control packet and pre-resume gate pattern for each following increment before provider stages
 
 ### V6.24A: Standard Batch Control Packet
@@ -175,6 +176,24 @@ Acceptance evidence:
 - `hgd-ch111-ch120-v1` completed 10/10 blocks with no current failed blocks.
 - `python scripts\check_output_quality_guardrails.py --config "D:\Fogust\Workspace\Novel\Horror Game Developers\.system\config.yaml" --chapters ch111-ch120` passed.
 - checkpoint report: `Horror Game Developers/07_Reports/hgd_ch111_ch120_checkpoint.md`.
+
+### V6.24F: Latest Refined Artifact Before Formatting
+
+Problem:
+
+- `hgd-ch121-ch130-v1` exposed a state bug on `ch126`: QA retry wrote a newer refined artifact, but the downstream formatting step could still use an older in-memory refined draft. The ledger then showed a stale completed output plus a later formatting failure.
+
+Implemented mechanism:
+
+- `_process_block` now reloads the latest refined artifact from disk after QA and before formatting.
+- This keeps formatted output aligned with the refined draft that actually passed the latest QA attempt.
+
+Acceptance evidence:
+
+- `ch126-block-001` was recovered with `rerun-block --from-stage formatting`.
+- `hgd-ch121-ch130-v1` completed 10/10 blocks with no current failed blocks.
+- `python scripts\check_output_quality_guardrails.py --config "D:\Fogust\Workspace\Novel\Horror Game Developers\.system\config.yaml" --chapters ch121-ch130` passed.
+- checkpoint report: `Horror Game Developers/07_Reports/hgd_ch121_ch130_checkpoint.md`.
 
 ### Completed Milestone: V6.23 Pipeline Smoothness Before HGD ch091-ch100
 

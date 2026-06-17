@@ -1292,6 +1292,10 @@ def _process_block(
         print(f"[{run_id}]     QA already committed, skipping.")
         qa_passed = True
 
+    latest_refined = _read_block_artifact(config, block.chapter_id, block_id, "refined")
+    if latest_refined is not None:
+        refined_draft = _reconstruct_refined_draft(latest_refined, block_id, block.chapter_id)
+
     # Stage 7: Format
     print(f"[{run_id}]   Stage: format")
     formatted_text: str | None = None

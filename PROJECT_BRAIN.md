@@ -89,6 +89,7 @@ Horror Game Developer:
 - active continuation goal: translate HGD through `ch200`, then publish the completed verified range to MoonRead
 - `hgd-ch101-ch110-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead.
 - `hgd-ch111-ch120-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. QA omission hard-fails in this range confirmed the root cause: refinement can still drop poems, thoughts, or sound-effect/source-beat blocks after ordinary retries.
+- `hgd-ch121-ch130-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. `ch126` exposed a pipeline smoothness bug: QA retry wrote a newer refined artifact, but formatting could still use an older in-memory refined draft; prevention now reloads the latest refined artifact after QA before formatting.
 - HGD source titles are English; Thai reader titles are protected by HGD title normalization and title sidecars
 - `04_Work/ch001/title.json` through `ch080/title.json` exist to prevent single-block reruns from falling back to English titles
 - HGD project folder is now `D:\Fogust\Workspace\Novel\Horror Game Developers`; it has the user-created Obsidian vault and durable pronoun policy at `Horror Game Developers/02_Database_Views/HGD Pronoun Policy.md`
@@ -208,7 +209,7 @@ Requires explicit user approval:
 | Dense or broken formatting | AI formatting plus deterministic validation; use `C:\Users\ASUS\Downloads\good format.md` as style reference |
 | HGD English title fallback | keep HGD title normalization and title sidecars through the published range |
 | HGD final output truncation after force-accept/retry | compare output length against source and reject dangling endings before MoonRead publication |
-| Pipeline requires too much manual artifact repair | create a per-batch control packet, use repair-safe QA commands, make next safe action explicit before resume, and use the QA omission literal-safe recovery path before escalating to manual prompt |
+| Pipeline requires too much manual artifact repair | create a per-batch control packet, use repair-safe QA commands, make next safe action explicit before resume, use the QA omission literal-safe recovery path before escalating to manual prompt, and format only the latest refined artifact after QA retry |
 | MoonRead rendering mismatch | run reader smoke after generated content changes |
 | Worker false completion | verify disk state, tests, reports, and git diff |
 | Memory doc damage | keep docs short, use `DOC_RECOVERY.md`, avoid worker rewrites of canonical files |
@@ -280,11 +281,11 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
-HGD translation has local verified output through `ch120`; MoonRead remains published through `ch100`.
+HGD translation has local verified output through `ch130`; MoonRead remains published through `ch100`.
 
 Next safe choices:
 
-1. Commit the `hgd-ch111-ch120-v1` checkpoint and QA omission recovery code after deterministic validation.
-2. Start the next bounded HGD increment with scan-only gate for `ch121-ch130`.
+1. Commit the `hgd-ch121-ch130-v1` checkpoint and latest-refined-before-formatting fix after deterministic validation.
+2. Start the next bounded HGD increment with scan-only gate for `ch131-ch140`.
 3. Keep MoonRead published scope at `ch001-ch100` until the HGD continuation reaches the approved publish point.
 4. Stop again on manual QA prompt, provider failure, command length failure, validation failure, or unexpected scope expansion.
