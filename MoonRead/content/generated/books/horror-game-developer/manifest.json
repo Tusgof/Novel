@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-21T19:37:20.180Z",
+  "generatedAt": "2026-06-21T19:52:55.356Z",
   "sourceRoot": "../Horror Game Developers/05_Output",
   "targetRange": "ch001-ch230",
   "novel": {
@@ -31,8 +31,8 @@
   },
   "summary": {
     "total": 230,
-    "available": 227,
-    "missing": 3,
+    "available": 230,
+    "missing": 0,
     "rejected": 0,
     "skipped": 0
   },
@@ -1943,20 +1943,24 @@
     {
       "id": "ch174",
       "number": 174,
-      "title": "บทที่ 174",
-      "status": "missing",
+      "title": "ตอนที่ 174 - สถานเลี้ยงเด็กกำพร้าแฮปปี้คิดส์ [1]",
+      "status": "available",
       "sourcePath": "ch174/ch174.md",
-      "href": null,
-      "reason": "source_file_missing"
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch174.md",
+      "href": "/books/horror-game-developer/read/ch174",
+      "charCount": 5200,
+      "readingMinutes": 2
     },
     {
       "id": "ch175",
       "number": 175,
-      "title": "บทที่ 175",
-      "status": "missing",
+      "title": "ตอนที่ 175 - สถานเลี้ยงเด็กกำพร้าแฮปปี้คิดส์ [2]",
+      "status": "available",
       "sourcePath": "ch175/ch175.md",
-      "href": null,
-      "reason": "source_file_missing"
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch175.md",
+      "href": "/books/horror-game-developer/read/ch175",
+      "charCount": 6433,
+      "readingMinutes": 2
     },
     {
       "id": "ch176",
@@ -1972,11 +1976,13 @@
     {
       "id": "ch177",
       "number": 177,
-      "title": "บทที่ 177",
-      "status": "missing",
+      "title": "ตอนที่ 177 - เด็กชายกับสีเทียน [2]",
+      "status": "available",
       "sourcePath": "ch177/ch177.md",
-      "href": null,
-      "reason": "source_file_missing"
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch177.md",
+      "href": "/books/horror-game-developer/read/ch177",
+      "charCount": 6601,
+      "readingMinutes": 2
     },
     {
       "id": "ch178",
