@@ -1,12 +1,12 @@
 # Reader Import Report
 
-Generated at: 2026-06-21T18:21:36.576Z
+Generated at: 2026-06-21T18:28:08.025Z
 
 ## Summary
 
 - books: 2
-- available chapters: 372
-- missing chapters: 8
+- available chapters: 373
+- missing chapters: 7
 - rejected chapters: 0
 
 ## Deep Sea Embers
@@ -29,8 +29,8 @@ Generated at: 2026-06-21T18:21:36.576Z
 
 - source root: ../Horror Game Developers/05_Output
 - target range: ch001-ch230
-- available: 222
-- missing: 8
+- available: 223
+- missing: 7
 - rejected: 0
 
 ### Rejected
@@ -39,7 +39,6 @@ Generated at: 2026-06-21T18:21:36.576Z
 
 ### Missing
 
-- ch169: source_file_missing
 - ch170: source_file_missing
 - ch171: source_file_missing
 - ch172: source_file_missing
