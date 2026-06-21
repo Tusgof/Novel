@@ -1,0 +1,10 @@
+{
+  "block_id": "ch085-block-001",
+  "chapter_id": "ch085",
+  "feedback": "PASS: preserves all key details, glossary terms and pronouns are consistent, tone and dread maintained; minimal compression and one interpretative clarification (conductor’s warning) do not alter meaning.",
+  "findings": [],
+  "judge_provider": "openrouter",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

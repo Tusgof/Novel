@@ -1,0 +1,10 @@
+{
+  "block_id": "ch096-block-001",
+  "chapter_id": "ch096",
+  "feedback": "PASS: The translation is complete and accurate; all source dialogue and narration are present, no additions or omissions; glossary terms (Dreamwalker, Group Leader, Twisted Man, Mirelle) are correctly applied; Seth's pronouns are stable as ผม/ของผม; the horror-comedy/system tone is preserved; only minor unnecessary paragraph breaks are added, which do not affect meaning.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

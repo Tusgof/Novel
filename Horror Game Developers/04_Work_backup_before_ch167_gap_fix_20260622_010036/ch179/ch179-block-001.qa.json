@@ -1,0 +1,10 @@
+{
+  "block_id": "ch179-block-001",
+  "chapter_id": "ch179",
+  "feedback": "**PASS:** All glossary terms used correctly (ฐานข้อมูลกิลด์, BAU, ถนนกิลมอร์, แม่ผู้ดูแล, คริส, ฯลฯ); Seth's POV maintains ผม consistently; Kyle/Zoey peer address uses นาย appropriately; no omissions, additions, or meaning drift vs source; tone preserves horror-comedy balance. (Minor typo \"ปาดเหเหงื่อ\" carried over from literal — cosmetic, not a translation defect.)",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 2
+}

@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: Miss Terline
-thai_term: ????????????
+thai_term: คุณเทอร์ลิน
 status: approved
 aliases: []
 source_language: en
@@ -19,7 +19,7 @@ updated_at:
 
 # Miss Terline
 
-- Thai: ????????????
+- Thai: คุณเทอร์ลิน
 - Category: character
 - Status: approved
 - First seen: ch057/ch057-block-001

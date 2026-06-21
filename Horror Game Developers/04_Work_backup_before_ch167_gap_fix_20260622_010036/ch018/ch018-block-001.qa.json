@@ -1,0 +1,10 @@
+{
+  "block_id": "ch018-block-001",
+  "chapter_id": "ch018",
+  "feedback": "PASS: Refined translation is identical to faithful literal draft, accurately conveying source meaning, glossary terms, horror-comedy tone, and system messages without errors or omissions.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

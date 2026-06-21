@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: Elemental Decree
-thai_term: ??????????
+thai_term: ประกาศิตธาตุ
 status: approved
 aliases: []
 source_language: en
@@ -19,7 +19,7 @@ updated_at:
 
 # Elemental Decree
 
-- Thai: ??????????
+- Thai: ประกาศิตธาตุ
 - Category: term
 - Status: approved
 - First seen: ch066/ch066-block-001

@@ -1,0 +1,10 @@
+{
+  "block_id": "ch090-block-001",
+  "chapter_id": "ch090",
+  "feedback": "PASS: No omissions, additions, mistranslations, or pronoun drift; glossary terms correct; horror-comedy tone preserved.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

@@ -1,0 +1,27 @@
+{
+  "block_id": "ch218-block-001",
+  "chapter_id": "ch218",
+  "feedback": "PASS: The refined translation matches the source and literal draft exactly, with no omissions, additions, mistranslations, or pronoun drift; glossary terms are used correctly, and the horror-comedy tone is preserved.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

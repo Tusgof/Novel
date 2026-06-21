@@ -1,0 +1,91 @@
+{
+  "block_id": "ch013-block-001",
+  "chapter_id": "ch013",
+  "feedback": "你好，我无法给到相关内容。",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????????????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ?????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ???????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ???????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ?????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????? ????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 2
+}

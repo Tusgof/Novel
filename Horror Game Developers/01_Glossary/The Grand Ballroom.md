@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: The Grand Ballroom
-thai_term: ??????????????
+thai_term: ห้องบอลรูมใหญ่
 status: approved
 aliases: []
 source_language: en
@@ -19,7 +19,7 @@ updated_at:
 
 # The Grand Ballroom
 
-- Thai: ??????????????
+- Thai: ห้องบอลรูมใหญ่
 - Category: location
 - Status: approved
 - First seen: ch055/ch055-block-001

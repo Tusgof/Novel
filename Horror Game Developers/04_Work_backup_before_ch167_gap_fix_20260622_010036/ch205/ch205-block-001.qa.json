@@ -1,0 +1,10 @@
+{
+  "block_id": "ch205-block-001",
+  "chapter_id": "ch205",
+  "feedback": "PASS: Accurate translation preserving horror tone, no omissions or drift; glossary correct; only minor stylistic improvements from literal.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

@@ -1,0 +1,10 @@
+{
+  "block_id": "ch086-block-001",
+  "chapter_id": "ch086",
+  "feedback": "PASS: Refined matches literal and source, no omissions, additions, or pronoun drift; glossary terms and tone consistent.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

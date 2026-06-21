@@ -1,0 +1,10 @@
+{
+  "block_id": "ch214-block-001",
+  "chapter_id": "ch214",
+  "feedback": "PASS: Refined translation matches source text faithfully, no omissions or additions, pronoun usage for Seth (ผม) and Kyle/Seth address (นาย) is correct per policy.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 2
+}

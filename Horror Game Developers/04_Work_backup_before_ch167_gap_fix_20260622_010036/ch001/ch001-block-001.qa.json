@@ -1,0 +1,59 @@
+{
+  "block_id": "ch001-block-001",
+  "chapter_id": "ch001",
+  "feedback": "PASS: The refined translation exactly matches the literal draft, which faithfully renders all source content without omissions, additions, mistranslations, or glossary violations, and preserves the intended tense horror-comedy tone, system-message clarity, and UI panel meaning.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ???????????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ??????????? ?????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ??????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ??????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

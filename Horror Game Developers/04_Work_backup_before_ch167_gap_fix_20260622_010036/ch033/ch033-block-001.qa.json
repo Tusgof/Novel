@@ -1,0 +1,10 @@
+{
+  "block_id": "ch033-block-001",
+  "chapter_id": "ch033",
+  "feedback": "PASS: The refined translation matches the source and literal draft exactly, uses correct glossary terms, preserves tone, and has no omissions, additions, or meaning drift.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

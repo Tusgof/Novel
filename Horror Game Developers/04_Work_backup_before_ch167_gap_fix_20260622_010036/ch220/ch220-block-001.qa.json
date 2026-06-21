@@ -1,0 +1,19 @@
+{
+  "block_id": "ch220-block-001",
+  "chapter_id": "ch220",
+  "feedback": "PASS: The refined translation is complete, matches the source and literal draft, uses correct pronouns (Seth as ผม), maintains glossary terms, and preserves the tense horror-comedy tone with all sound effects and internal monologue.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 2
+}

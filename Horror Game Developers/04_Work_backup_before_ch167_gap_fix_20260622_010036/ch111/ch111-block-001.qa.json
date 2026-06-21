@@ -1,0 +1,10 @@
+{
+  "block_id": "ch111-block-001",
+  "chapter_id": "ch111",
+  "feedback": "PASS: Corrected Seth's pronoun from ฉัน to ผม, all glossary terms used correctly, no omissions or meaning drift, tone preserved.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

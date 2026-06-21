@@ -1,0 +1,10 @@
+{
+  "block_id": "ch124-block-001",
+  "chapter_id": "ch124",
+  "feedback": "PASS: Faithful translation, no omissions or additions, glossary correctly used, Seth's pronouns remain stable as ผม throughout, tone appropriate.",
+  "findings": [],
+  "judge_provider": "openrouter",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

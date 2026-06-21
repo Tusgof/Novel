@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: Quickstitch Outfit Shop
-thai_term: ?????????????????
+thai_term: ร้านชุดเย็บด่วน
 status: approved
 aliases: []
 source_language: en
@@ -19,7 +19,7 @@ updated_at:
 
 # Quickstitch Outfit Shop
 
-- Thai: ?????????????????
+- Thai: ร้านชุดเย็บด่วน
 - Category: location
 - Status: approved
 - First seen: ch075/ch075-block-001

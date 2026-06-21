@@ -1,0 +1,19 @@
+{
+  "block_id": "ch216-block-001",
+  "chapter_id": "ch216",
+  "feedback": "PASS: The refined text matches the source fully, includes all caller dialogue, sound effects, and internal monologue, maintains Seth's stable ผม pronoun, and preserves the tense horror-comedy tone without omissions or drift.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 2
+}

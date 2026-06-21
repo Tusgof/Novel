@@ -1,0 +1,19 @@
+{
+  "block_id": "ch209-block-001",
+  "chapter_id": "ch209",
+  "feedback": "PASS: Refined translation matches source and literal draft, includes all sound effects, correct glossary, appropriate tone, no pronoun drift issues.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ปุ่ม Enter",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 2
+}

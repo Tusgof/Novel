@@ -1,0 +1,19 @@
+{
+  "block_id": "ch147-block-001",
+  "chapter_id": "ch147",
+  "feedback": "PASS: Refined translation preserves all dialogue and meaning, maintains correct pronouns (Seth uses ผม, Section Chief uses ฉัน and นาย), follows glossary (สำนักงาน, มิเรลล์), and keeps horror-comedy tone without omissions or additions.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

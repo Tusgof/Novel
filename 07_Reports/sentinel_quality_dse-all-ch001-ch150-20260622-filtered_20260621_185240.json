@@ -1,0 +1,168 @@
+{
+  "created_at": "2026-06-21T18:52:40.186948+00:00",
+  "scope": "dse-all-ch001-ch150-20260622-filtered",
+  "chapters": "ch001-ch150",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 22,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": [
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Sword"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Dawn"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Silver Grand Alliance"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch024\\ch024.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "KFC"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch026\\ch026.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Q-Coin"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch032\\ch032.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Q-coin"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch037\\ch037.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Anime King Story"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch037\\ch037.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Definitely"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch037\\ch037.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Problem"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch037\\ch037.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "ACG"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch037\\ch037.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Love Live"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch039\\ch039.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Aye Captain"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch051\\ch051.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Kidnapped the Timeline"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch051\\ch051.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Dao Zhan Zhan Zhan"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch076\\ch076.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Packet Loss"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch093\\ch093.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Stand Beneath Billions"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch093\\ch093.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Lives"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch106\\ch106.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Minecraft"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch123\\ch123.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Abyssal"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch128\\ch128.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "wifi"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch135\\ch135.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "K-22"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch142\\ch142.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Prominence"
+    }
+  ]
+}

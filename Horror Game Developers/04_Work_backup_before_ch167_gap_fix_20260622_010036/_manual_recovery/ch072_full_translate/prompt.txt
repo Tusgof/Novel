@@ -1,0 +1,149 @@
+Translate the following Horror Game Developer chapter block from English to Thai.
+
+Rules:
+- Return Thai translation only.
+- Preserve every source beat. Do not summarize. Do not omit any sentence.
+- Preserve Markdown emphasis and system/status message structure.
+- Use these glossary terms exactly where applicable:
+  Basic Node = ???????????
+  Containment Vessel = ???????????
+  Ranked Spirit = ???????????????
+  Mirelle = ???????
+  Seth = ???
+- Keep first-person/narration natural Thai.
+- Important: translate until the final line "<D> Ranked Spirit: Mirelle Acquired." is included.
+
+SOURCE:
+*’Mirelle, you will accomplish great things for this family.’*
+*’...You were born as a great sacrifice for our family. You will help Grandpa become stronger and live for longer. You should be happy about that.’*
+*’What? You don’t want to do it...?’*
+*’Mirelle, you think you have a choice?’*
+*’Be obedient and listen to your family, you ungrateful little wench! This is all for those that birthed you!’*
+*’How dare you try to defy us?! We provide you with food, shelter, and life. And yet, this is how you treat us? See what happens when we don’t give you any of that!’*
+Mirelle hesitated before walking out of the room.
+Her mind flashed with all sorts of memories.
+Voices whispered in her head as she looked towards the servant in front of her.
+He stood tall. Taller than her, casting a large shadow over her little body.
+She took a step back.
+*’Get back in! What are you doing?!’*
+For a moment, she almost heard his voice as he shouted.
+Yes, yes...
+Mirelle tried to step back, but the hand grasping hers stopped her.
+His expression was calm as he looked at her.
+"It’s okay. They won’t hurt you."
+His hand was also warm.
+"...Just trust me. I’m here with you. If you’re scared, you can hold onto the teddy bear. It will protect you."
+Mirelle slowly turned her head to look at the teddy bear in her hand.
+It was soft and big.
+Then...
+She slowly brought it to her chest as she took a step forward, her steps moving past the servant who remained standing still.
+"See? Nothing happened...?"
+The strange man looked at her kindly.
+He was scary, but also kind.
+"I’ll get you out of this place, and I’ll let you eat some good food. All you have to do is follow me."
+"..."
+The darkness within Mirelle’s eyes receded as they continued to walk.
+It was dark, and the sound of their steps was the only thing that echoed throughout.
+They passed several servants along the way, and each time, Mirelle felt herself tense with fear. But the terrifying man beside her kept urging her forward, his presence strangely reassuring despite everything.
+*’If the first one didn’t hurt you, the other one also won’t hurt you.’*
+*’I’ll beat them up if they do something to you.’*
+*’...You can trust me.’*
+His words were as warm as his hand.
+But why was he trembling while saying such words?
+Soon, the two stopped before a large door.
+Mirelle’s entire body tensed at the sight of the door.
+She wasn’t supposed to go in there.
+Absolutely not!
+"Don’t be scared. Hold tightly onto the teddy bear. If you hold on tightly, nothing will hurt you."
+Really?
+Mirelle looked at the teddy bear in her hand.
+Indeed, so far nothing had happened, but...
+"Don’t worry."
+The man brought his hand forward and pushed the door open, light spilling in.
+As the door creaked open, a vast, unfamiliar dining room came into view. A towering chandelier hung above, casting light across the entire space.
+At the far end of the room, a long table stretched out, its surface adorned with plates and utensils.
+Several figures were seated around it, and as the door swung wide, their heads turned in unison, their gazes locking onto them.
+Mirelle froze up.
+"Mirelle?!"
+"What are you doing here? You should be in your room."
+"Get out!"
+The moment they laid eyes on her, they shot up from their seats, their voices erupting in a barrage of shouts, each one louder than the last.
+No, no, no...
+Mirelle’s entire body flinched as she was subjected to the shouts.
+"How are you!?"
+"Get back to your room before I come to you!"
+No, no, no, no...
+Mirelle’s grip over the bear loosened as it fell on the floor, and she let go of the man’s warm hand.
+Mirelle curled into herself, her hands clutching her head as she tried to drown the noise away. Her knees pressed tightly to her chest, her body trembling as she huddled on the floor, trying to make herself as small as possible.
+No, no, please...
+*Rattle! Rattle!*
+The surroundings shook.
+"Mirelle!"
+"Get back now!"
+Stop, make it stop.
+Their shouts continued to echo in her ears as she pressed her hands against her ears.
+She wanted it to stop.
+From the shouting. The noise. Everything.
+"P-please..."
+"Mir—"
+"Here, you dropped this."
+A soft voice whispered in her ear right after, as she felt something soft on her chest.
+The rattling stopped, and when she looked up, she saw a large teddy bear.
+"Hug it tightly."
+The scary man was right beside it as he picked her up from below.
+".....!"
+Mirelle’s body squirmed, but the man didn’t let go as he carried her with both hands.
+"Like I said before. I’m here. Don’t be scared."
+No, but...
+"It’ll be easy."
+It won’t.
+"Just trust me."
+"....."
+Mirelle hugged the teddy bear tighter.
+Eventually, she curled herself into it as the man continued to walk.
+"Mirelle!!!"
+"Get back here!!"
+"What are you doing? I’m counting to ten before I come. You’d better understand the consequences of being disobedient!"
+"One..."
+A countdown started.
+Listening to the familiar countdown, Mirelle hugged the bear even more tightly.
+Rattle! Rattle!
+The surroundings continued to rattle, but the man continued to move.
+He seemed completely oblivious to the shouts.
+"Three..."
+His steps moved slowly across the dining room.
+"Five.
+Almost as if to show he wasn’t scared.
+"Seven."
+That she was safe with him.
+"Nine."
+Soon, the countdown nearly reached ten.
+Once again, Mirelle tensed. So did the surroundings, as everything came to a standstill.
+Everything but the scary man as he continued forward.
+Then—
+"Ten."
+The inevitable ’ten’ came, and Mirelle’s body scrunched up, her arms holding onto the teddy bear tightly as she started to tremble.
+No, please...
+Please...
+But...
+Silence.
+Nothing ever happened even after the countdown reached ten.
+Merille continued to squeeze the bear as the faint echo of the man’s step echoed.
+Soon, he stopped.
+Merille blinked her eyes and raised her head.
+A door appeared in front of her as the man looked at her. He nudged his head behind her, and as she turned her head, she saw her parents looking at her, their bodies still.
+"See?"
+The man’s voice whispered once again.
+"I told you, didn’t I? They won’t do anything to you."
+"...."
+Merille’s grip over the teddy bear loosened as the man brought his hand towards the door.
+"It’s time we leave. It’s time... for us to eat."
+Clank!
+The door opened, and the two entered.
+Merille’s gaze remained on the man as the two crossed the door and the world around them turned bright.
+The light was bright, enveloping the two of them completely.
+By the time the light faded, Merille’s body was long gone.
+*Thud.*
+A teddy bear fell onto the floor, and as Seth lowered his body to pick it up, a faint notification appeared in his vision.
+: [Basic Node : Containment Vessel Activated!]
+<D> Ranked Spirit: Mirelle Acquired.

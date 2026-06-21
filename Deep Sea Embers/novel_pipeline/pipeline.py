@@ -114,8 +114,17 @@ HGD_TITLE_MAP = {
     "Return": "การกลับมา",
     "Testing new game": "ทดสอบเกมใหม่",
     "Launch of new game": "เปิดตัวเกมใหม่",
+    "Multiplayer": "ระบบผู้เล่นหลายคน",
     "Multiplayer?": "เล่นหลายคน?",
+    "Squad Leader": "หัวหน้ากลุ่ม",
+    "Chaos": "ความโกลาหล",
+    "Update": "อัปเดต",
+    "Press Conference": "งานแถลงข่าว",
+    "Phone": "โทรศัพท์",
+    "First day as Squad Leader": "วันแรกในฐานะหัวหน้ากลุ่ม",
     "Bet": "เดิมพัน",
+    "New Mission": "ภารกิจใหม่",
+    "Happy Kids Orphanage": "สถานเลี้ยงเด็กกำพร้าแฮปปี้คิดส์",
     "The boy and the crayons": "เด็กชายกับสีเทียน",
     "Mr. Jingles": "มิสเตอร์จิงเกิลส์",
     "Mr Jingles": "มิสเตอร์จิงเกิลส์",
@@ -1353,17 +1362,37 @@ def _process_block(
             formatted_text = cached.get("text", refined_draft.refined_text)
         validation_issues = validate_formatted_text(formatted_text or "", source_text=refined_draft.refined_text)
         if validation_issues:
+            print(f"[{run_id}]     cached formatted text is stale; rerunning format.")
+            formatted_text, formatter_provider, formatter_metadata = _format_block_with_hybrid_provider(
+                config=config,
+                prompt_store=ctx.prompt_store,
+                refined_text=refined_draft.refined_text,
+            )
+            validation_issues = validate_formatted_text(formatted_text, source_text=refined_draft.refined_text)
+            if validation_issues:
+                _commit_stage(
+                    ledger,
+                    run_id,
+                    block_id,
+                    "formatting",
+                    "failed",
+                    provider=formatter_provider,
+                    metadata={**formatter_metadata, "validation_issues": validation_issues, "stale_cache_reformatted": True},
+                )
+                raise ValueError(
+                    f"Formatted text validation failed for {block_id}: {'; '.join(validation_issues)}"
+                )
+            oh = _sha256(formatted_text)
+            _write_block_artifact(config, block.chapter_id, block_id, "formatted", {"text": formatted_text})
             _commit_stage(
                 ledger,
                 run_id,
                 block_id,
                 "formatting",
-                "failed",
-                provider="local",
-                metadata={"validation_issues": validation_issues},
-            )
-            raise ValueError(
-                f"Formatted text validation failed for {block_id}: {'; '.join(validation_issues)}"
+                "completed",
+                provider=formatter_provider,
+                output_hash=oh,
+                metadata={**formatter_metadata, "stale_cache_reformatted": True},
             )
 
     # Mark block completed

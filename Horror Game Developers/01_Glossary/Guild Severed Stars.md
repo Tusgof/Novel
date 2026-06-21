@@ -3,10 +3,10 @@ type: glossary-term
 original_term: Guild Severed Stars
 thai_term: กิลด์ดวงดาวที่ถูกตัดขาด
 status: approved
-aliases: ['Severed Stars']
+aliases: [Severed Stars, Severed Star Guild, The Severed Stars Guild]
 source_language: en
 category: organization
-novel:
+novel: horror-game-developer
 first_seen_chapter: ch009
 first_seen_block: ch009-block-001
 description: Approved by Codex deterministic glossary gate for Horror Game Developer ch001-ch050.

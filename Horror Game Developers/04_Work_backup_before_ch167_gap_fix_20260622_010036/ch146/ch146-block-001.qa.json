@@ -1,0 +1,10 @@
+{
+  "block_id": "ch146-block-001",
+  "chapter_id": "ch146",
+  "feedback": "PASS: Refined text matches source and literal draft fully, no omissions, pronoun drift, or glossary errors; tone and meaning preserved.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 2
+}

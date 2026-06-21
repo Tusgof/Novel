@@ -1,0 +1,10 @@
+{
+  "block_id": "ch140-block-001",
+  "chapter_id": "ch140",
+  "feedback": "PASS: Accurate translation, stable Seth pronouns (ผม), correct glossary use, no omissions or additions, tense tone preserved.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

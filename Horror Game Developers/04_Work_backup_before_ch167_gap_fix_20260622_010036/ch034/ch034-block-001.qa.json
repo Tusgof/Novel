@@ -1,0 +1,10 @@
+{
+  "block_id": "ch034-block-001",
+  "chapter_id": "ch034",
+  "feedback": "**FAIL: All italicized dialogue lines (chat messages, Zoey's speech, and internal thoughts) have been systematically dropped — the reader never sees what the chat wrote, what Zoey said, or Seth's internal monologue, breaking narrative continuity and removing key dialogue.**",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

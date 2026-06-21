@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: Moonlight Date
-thai_term: ???????????????
+thai_term: เดตใต้แสงจันทร์
 status: approved
 aliases: []
 source_language: en
@@ -19,7 +19,7 @@ updated_at:
 
 # Moonlight Date
 
-- Thai: ???????????????
+- Thai: เดตใต้แสงจันทร์
 - Category: event
 - Status: approved
 - First seen: ch055/ch055-block-001

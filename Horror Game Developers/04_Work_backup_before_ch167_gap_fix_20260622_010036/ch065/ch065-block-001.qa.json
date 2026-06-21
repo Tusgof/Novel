@@ -1,0 +1,19 @@
+{
+  "block_id": "ch065-block-001",
+  "chapter_id": "ch065",
+  "feedback": "FAIL: Omitted multiple internal thoughts (e.g., *’W-what is that...?’*, *’I feel like I’ve lost half of my lifespan.’*, *’Where is the conductor?’*, *’Conductor, do your job...’*) and sound effects (*Tok!*, *Clank!*, *Tok, Tok!*) present in source and literal, weakening the game-system/horror-comedy tone.",
+  "findings": [
+    {
+      "code": "ai_judge",
+      "details": "",
+      "message": "FAIL: Omitted multiple internal thoughts (e.g., *’W-what is that...?’*, *’I feel like I’ve lost half of my lifespan.’*, *’Where is the conductor?’*, *’Conductor, do your job...’*) and sound effects (*Tok!*, *Clank!*, *Tok, Tok!*) present in source and literal, weakening the game-system/horror-comedy tone.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": false,
+  "retry_count": 2
+}

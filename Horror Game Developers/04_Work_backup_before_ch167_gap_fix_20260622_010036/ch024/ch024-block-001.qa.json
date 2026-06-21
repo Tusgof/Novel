@@ -1,0 +1,19 @@
+{
+  "block_id": "ch024-block-001",
+  "chapter_id": "ch024",
+  "feedback": "PASS: Covers all source content including dialogue and internal monologue, uses approved glossary terms correctly (เจ้าหน้าที่ภาคสนาม), maintains the tense/claustrophobic horror tone with natural Thai colloquial flow, and has no omissions or unwarranted additions.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

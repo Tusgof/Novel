@@ -1,0 +1,19 @@
+{
+  "block_id": "ch063-block-001",
+  "chapter_id": "ch063",
+  "feedback": "FAIL: Multiple omissions of italicized internal monologue/sound effects (e.g., *'Who would’ve thought...'*, *'Me..? You think...'*, *'...And you called my piece trash.'*, *Dang—*), dropping essential narrative tone.",
+  "findings": [
+    {
+      "code": "ai_judge",
+      "details": "",
+      "message": "FAIL: Multiple omissions of italicized internal monologue/sound effects (e.g., *'Who would’ve thought...'*, *'Me..? You think...'*, *'...And you called my piece trash.'*, *Dang—*), dropping essential narrative tone.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": false,
+  "retry_count": 2
+}

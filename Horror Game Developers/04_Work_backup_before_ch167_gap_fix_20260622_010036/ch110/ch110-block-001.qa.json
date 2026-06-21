@@ -1,0 +1,10 @@
+{
+  "block_id": "ch110-block-001",
+  "chapter_id": "ch110",
+  "feedback": "PASS: No omissions, additions, mistranslation, or glossary errors; Seth's pronouns consistently use ผม; tone remains tense and ominous; only minor pronoun adjustment (Kyle's internal thought changed from ฉัน to ผม) does not violate given rules.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

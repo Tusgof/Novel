@@ -1,0 +1,10 @@
+{
+  "block_id": "ch049-block-001",
+  "chapter_id": "ch049",
+  "feedback": "PASS: All source content preserved, glossary terms correct, Seth's pronoun stable as ผม, tone matches horror-comedy/game-system style, no omissions or additions.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

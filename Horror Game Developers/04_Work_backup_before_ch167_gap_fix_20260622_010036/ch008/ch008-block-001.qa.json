@@ -1,0 +1,83 @@
+{
+  "block_id": "ch008-block-001",
+  "chapter_id": "ch008",
+  "feedback": "PASS: All content preserved faithfully — no omissions, additions, or meaning drift. Glossary terms (Blank Mask → หน้ากากว่างเปล่า, Spectral Glasses → แว่นตาภูตผี, Containment Vessel → ภาชนะกักกัน, Gentle Whispers → เสียงกระซิบอันอ่อนโยน, etc.) match approved entries. System/UI panel formatting, dialogue, and internal monologue intact. Tone maintains the horror-comedy/game-system balance.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ???????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ??????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ???????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ??????????? ?????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ???????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ??????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

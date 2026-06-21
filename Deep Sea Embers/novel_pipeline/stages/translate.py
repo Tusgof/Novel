@@ -45,6 +45,8 @@ def run_literal_translation_stage(
         try:
             validate_text_script(pair.literal_sentence, "th")
         except ValueError as exc:
+            if _is_short_image_caption_source(block.source_text) and _is_acceptable_image_caption_translation(pair.literal_sentence):
+                continue
             raise ProviderOutputError(
                 response,
                 f"Provider '{response.provider}' returned mojibake Thai output: {exc}"
@@ -59,6 +61,14 @@ def run_literal_translation_stage(
 
 
 def parse_literal_pairs(source_text: str, stdout: str) -> tuple[LiteralSentencePair, ...]:
+    if _is_short_image_caption_source(source_text) and _is_acceptable_image_caption_translation(stdout):
+        return (
+            LiteralSentencePair(
+                source_sentence=source_text.strip(),
+                literal_sentence=stdout.strip(),
+            ),
+        )
+
     source_sentences = split_sentences(source_text)
     # LLMs sometimes output empty lines between sentences even if asked not to.
     lines = [_clean_provider_line(line) for line in stdout.splitlines()]
@@ -104,6 +114,22 @@ def parse_literal_pairs(source_text: str, stdout: str) -> tuple[LiteralSentenceP
 
 def _contains_thai(text: str) -> bool:
     return bool(re.search(r"[\u0e00-\u0e7f]", text))
+
+
+def _contains_cjk(text: str) -> bool:
+    return bool(re.search(r"[\u4e00-\u9fff]", text))
+
+
+def _is_short_image_caption_source(text: str) -> bool:
+    cleaned = text.strip()
+    return len(cleaned) <= 80 and bool(re.search(r"\.(?:jpg|jpeg|png|gif|webp)\s*[。.!！?？]?$", cleaned, re.IGNORECASE))
+
+
+def _is_acceptable_image_caption_translation(text: str) -> bool:
+    cleaned = text.strip()
+    if not cleaned or not _contains_thai(cleaned) or _contains_cjk(cleaned):
+        return False
+    return bool(re.search(r"\.(?:jpg|jpeg|png|gif|webp)\s*[。.!！?？]?$", cleaned, re.IGNORECASE))
 
 
 def _clean_provider_line(line: str) -> str:

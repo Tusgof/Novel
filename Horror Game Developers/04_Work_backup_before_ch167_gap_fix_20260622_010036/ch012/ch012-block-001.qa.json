@@ -1,0 +1,43 @@
+{
+  "block_id": "ch012-block-001",
+  "chapter_id": "ch012",
+  "feedback": "**FAIL: Two major omissions.** The entire *Myles?* dé jà vu paragraph (protagonist's unsettled familiarity with Myles) and the final three reveal lines about Zoey (*\"Of course, I knew her. How could I not? She was one of the characters of one of the games I had previously created.\"*) are both dropped. These aren't minor trims — the Myles internal monologue carries the horror/unsettling tone, and the Zoey reveal is the scene's dramatic punchline.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ???????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????? ????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

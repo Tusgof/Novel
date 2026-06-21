@@ -1,0 +1,10 @@
+{
+  "block_id": "ch162-block-001",
+  "chapter_id": "ch162",
+  "feedback": "PASS: All source content and dialogue preserved, glossary terms correct ([เคลียร์เกมแล้ว], เทคโนโลยีเสมือนจริง, all names), Seth's pronouns stable at ผม throughout, Kyle/Seth casual peer address uses นาย/natural omissions, system UI message kept in brackets, scene-break *** retained, and tone balance between Seth's frustration and Kyle's nonchalance matches the source.",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

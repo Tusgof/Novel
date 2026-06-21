@@ -1,0 +1,10 @@
+{
+  "block_id": "ch073-block-001",
+  "chapter_id": "ch073",
+  "feedback": "PASS: Faithful translation, no omissions, correct glossary usage, pronouns consistent, tone preserved.",
+  "findings": [],
+  "judge_provider": "openrouter",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

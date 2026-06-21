@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: Cognitive Shard
-thai_term: ????????????????
+thai_term: เศษเสี้ยวปัญญา
 status: approved
 aliases: []
 source_language: en
@@ -19,7 +19,7 @@ updated_at:
 
 # Cognitive Shard
 
-- Thai: ????????????????
+- Thai: เศษเสี้ยวปัญญา
 - Category: item
 - Status: approved
 - First seen: ch079/ch079-block-001

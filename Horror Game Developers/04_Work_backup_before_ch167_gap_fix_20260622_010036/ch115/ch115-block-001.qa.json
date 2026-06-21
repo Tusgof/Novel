@@ -1,0 +1,10 @@
+{
+  "block_id": "ch115-block-001",
+  "chapter_id": "ch115",
+  "feedback": "PASS: Refined translation matches literal and source, no omissions/additions, correct glossary, stable Seth pronouns (ผม), and appropriate tense/horror tone.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

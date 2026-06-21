@@ -1,0 +1,10 @@
+{
+  "block_id": "ch182-block-001",
+  "chapter_id": "ch182",
+  "feedback": "PASS: No omissions, additions, mistranslations, or pronoun drift; glossary terms correct; tone and horror-comedy style preserved; literal error \"หัวใจ\" corrected to \"หัว\".",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

@@ -1,0 +1,10 @@
+{
+  "block_id": "ch004-block-001",
+  "chapter_id": "ch004",
+  "feedback": "**PASS:** Faithful to source — all dialogue, internal monologue, and narrative beats preserved. Tone maintains the tense horror-comedy balance. Minor issues (timestamp `[03:43s]`→`[03:34s]` dropped 9s; added \"จี๋\" not in source; \"clear head\"→\"หัวใจ\" slight drift) are non-critical and don't break meaning or atmosphere.",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

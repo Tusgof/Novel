@@ -1,0 +1,10 @@
+{
+  "block_id": "ch163-block-001",
+  "chapter_id": "ch163",
+  "feedback": "**FAIL: Internal monologue markers (asterisks/italics) systematically dropped — 6 thought passages (e.g. *'Some sort of conflict?'*, *'Kaelen, I think...'*, *'Yes, that's possible...'*) lose their visual distinction from narration in the refined, while the literal preserved them.**",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

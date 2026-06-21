@@ -1,0 +1,185 @@
+Translate the COMPLETE English web-novel chapter block into Thai.
+
+Critical rules:
+- Return Thai prose only. No notes, no headings, no explanation.
+- Translate the entire block from beginning to end. Do not summarize. Do not stop early.
+- Preserve every dialogue line, internal thought, sound effect, system notification, bracketed UI line, bullet, and ending action.
+- Preserve markdown emphasis markers for thoughts/sound effects, including *'But how does this make any sense...?'*, *'No, it makes no sense.'*, *Snap!*, and *Bang! Bang!*.
+- Preserve the standalone sound/action line Click! near the office door.
+- Use the exact approved glossary terms. Especially:
+Cognitive Shards => ??????????????
+The Nightwalker => ????????????
+Second Order => ???????????
+Kyle => ????
+Optional Quest Activated => ?????????????????????
+- Use first-person Thai narration with consistent pronoun ?? unless dialogue context clearly requires otherwise.
+
+Approved glossary:
+- Anomalous Entity => สิ่งผิดปกติ
+- Anomalous-Type Gate => ประตูชนิดผิดปกติ
+- Basic Node => โหนดพื้นฐาน
+- Blank Mask => หน้ากากว่างเปล่า
+- Clara => คลารา
+- Cognitive Shards => เศษเสี้ยวปัญญา
+- Containment Group => กลุ่มกักกัน
+- Containment Sector Orientation Day => วันปฐมนิเทศภาคส่วนกักกัน
+- Containment Sector => ภาคส่วนกักกัน
+- Containment Vessel => ภาชนะกักกัน
+- Continuation Quest Activated => เควสต์ต่อเนื่องเริ่มทำงาน
+- Dead Rising => เดดไรซิง
+- Delta Squad => หน่วยเดลตา
+- Developer Seth Thorne => นักพัฒนาเซธ ธอร์น
+- Dock App => แอปด็อก
+- Earplugs => ที่อุดหู
+- Field Agent => เจ้าหน้าที่ภาคสนาม
+- Forest Nights => คืนในป่า
+- Fourth Order => ลำดับที่สี่
+- Game Boy => เกมบอย
+- Game Over => เกมโอเวอร์
+- Gentle Whispers => เสียงกระซิบอ่อนโยน
+- Guild App => แอปกิลด์
+- Guild Severed Stars => กิลด์ดวงดาวที่ถูกตัดขาด
+- Horror Developer System => ระบบนักพัฒนาเกมสยองขวัญ
+- Ivory Hollow District => เขตไอวอรีฮอลโลว์
+- Jamie Carter => เจมี่ คาร์เตอร์
+- Jester => ตัวตลก
+- Kyle => ไคล์
+- Left Click => คลิกซ้าย
+- Live Viewers => ผู้ชมสด
+- Locked Quests => เควสต์ที่ถูกล็อก
+- Mender Decree => โองการผู้เยียวยา
+- Menxylanis => เมนซิลานิส
+- Mind Printer => เครื่องพิมพ์ความคิด
+- Myles Holms => ไมลส์ โฮล์มส์
+- Myst Fragments => ชิ้นส่วนมิสต์
+- Nightmare Forge Studios => สตูดิโอไนต์แมร์ฟอร์จ
+- Optional Quest Activated => เควสต์เสริมเริ่มทำงาน
+- Ranked Spirit => วิญญาณจัดอันดับ
+- Right Click => คลิกขวา
+- Saint Mary => เซนต์แมรี
+- Second Order => ลำดับที่สอง
+- Section Chief => หัวหน้าแผนก
+- Senior Officer => เจ้าหน้าที่อาวุโส
+- Sentriest Island => เกาะเซนทรีสต์
+- Seth Thorne Status => สถานะของเซธ ธอร์น
+- Seventh Order => ลำดับที่เจ็ด
+- Silent Requiem => เรเควียมเงียบงัน
+- Skull => กะโหลก
+- Spectral Glasses => แว่นตาวิญญาณ
+- Starlight Guild => กิลด์สตาร์ไลต์
+- Temporal Decree => โองการกาลเวลา
+- The Fourth Floor => ชั้นใต้ดินที่สี่
+- The Lady => สุภาพสตรี
+- The Nightwalker => นักเดินราตรี
+- The Orchestra => วงออร์เคสตรา
+- The Orchestrator => ผู้บงการ
+- The Painkiller Tattoo => รอยสักยาแก้ปวด
+- The Team Leader => หัวหน้าทีม
+- Third Order => ลำดับที่สาม
+- Time Limit => เวลาจำกัด
+- Unusual Affairs => กิจการผิดปกติ
+- Velora Art Museum => พิพิธภัณฑ์ศิลปะเวโลรา
+- Vesperine Union => สหภาพเวสเพอรีน
+- Walkie-Talkie => วิทยุสื่อสาร
+- Wandering Nightwalker Acquired => ได้รับนักเดินราตรีพเนจร
+- White Umbrella => ร่มสีขาว
+- Zoey Terlin => โซอี้ เทอร์ลิน
+
+SOURCE BLOCK:
+"Cognitive Shards are accumulations of fragments that come from the overuse of nodes."
+Kyle continued to explain without noticing the change in my expression.
+Maybe it was because I was doing a very good job at hiding my face, or he was just distracted, but whatever the case was, I was happy he didn't notice a thing.
+Because right now...
+I was really struggling to keep my expression in check.
+"That's why I don't want you to get in touch with this stuff. If you somehow have the misfortune of forming a Cognitive Shards, then there's really little that I can do to help you. You're essentially doomed to slowly see your entire neurological system fail you. Think of it like Parkinson's or Alzheimer's, but worse."
+"Oh."
+I answered, my mouth just barely flat.
+I was struggling to understand the situation.
+Taking into account what the shop had recommended to me and the medicine I had taken, coupled with the symptoms listed by Kyle, I was almost certain I had whatever this shard thing was.
+*'But how does this make any sense...?'*
+It had only been recently since I had been exposed to this world.
+How could something like this happen?
+*'No, it makes no sense.'*
+I forcibly recomposed myself while looking at Kyle and forcing a few words out of my mouth.
+"So... you're saying that there's no way of curing something like that?"
+"Not really."
+Kyle paused and thought for a moment.
+"Actually, it's more like, only the top brass know how to do it. The resources required are extremely expensive, so the best you can have is mild suppressants to stop the shard from expanding."
+I thought about the small pill I had received from the shop. Could it be?
+"However, that's merely a momentary solution. It's also rather expensive. Hm, well... at least better than just having a Mender help you out. Those bastards will just strip you of everything if you give them the chance."
+Mender?
+What was that?
+"Don't worry too much. It's best if you don't know or get in contact with them."
+"...Are they that bad?"
+"Yes. They're also all lunatics."
+I paused and looked at him. Thinking about this place, they were all lunatics anyway. What difference did it make?
+"You don't seem to believe me."
+Kyle shook his head, his expression worsening.
+"You may think that the Section Chief and some others are bad, but trust me, compared to those guys, they're mild. Anyone who follows the Mender Decree is not sane. They're the type of people to do all sorts of experiments on your body. Before you know it, they might even be trying to rip your hand off to experiment on some stuff."
+"That's..."
+"Yeah, so don't bother looking for them."
+Kyle made sure to emphasize this part. Seeing how serious he was, I could only nod. If he said so...
+"But you said something about a Decree. What's that?"
+"Oh, that."
+Kyle shifted his attention back onto the screen and pointed at the nodes.
+"Look at the nodes. What do you see?"
+"Other nodes...?"
+As far as I saw, it was some sort of neuron link where each node connected through a path to other nodes.
+"You're not wrong, but look carefully."
+Kyle pointed toward the connections between each node. Looking closer, I noticed his nodes followed a distinct pattern across the lattice—each one linked in a precise sequence, all stemming from the smallest node.
+"A Decree is essentially the path that you take while upgrading and joining your nodes. Each path leads to new powers, and you can only follow the path that has synergy with your nodes. In that sense, I follow the Temporal Decree."
+Kyle suddenly tossed a pen in the air, snapping his finger at the same time.
+*Snap!*
+All of a sudden, the pen froze mid-air. My eyes widened as I turned to Kyle, who looked at me with a face that seemed to say, 'Cool, right?'
+He then snapped his fingers again, and just like that, time resumed. The pen dropped with a soft thud.
+"My Decree is rather straightforward. I specialise in time manipulation of time. My nodes are all interconnected to follow that path. And in order to do that, I need to collect certain types of fragments."
+"I see..."
+It was all starting to make sense to me.
+*'If we're talking about it in game terms, then this Decree thing is more like a class? Nodes are the skills in the class, and Order is the ranking system?'*
+If that was the case, what Decree was I? I did recall being in the First Order, alongside having a special skill that allowed me to contain Anomalous entities. And how could I become a Second Order?
+"You know, I'm rather surprised that you're showing interest in this topic. You're not the type of guy to care for this stuff usually."
+Kyle's words brought me out of my thoughts, and as I looked at him, I licked my lips.
+"... I've heard it being mentioned quite often. I thought I could get inspired."
+"Makes sense, but unless you're working in some sort of big game, I doubt it will be of any help."
+"I guess you're right."
+He was right in this aspect. This system was quite complicated, and I knew I had merely scratched the surface of it.
+I was satisfied with what I had learned so far.
+But there was still something that I wanted to know.
+"Is there some sort of book that you have referring to all the different Decrees and requirements to move up?"
+"Eh, why?"
+Kyle's eyes suddenly narrowed as I asked the question, his face filled with suspicion.
+Because I was almost certain the system wouldn't allow me to mention anything relating to the powers I had, and the possible cognitive shard in me, I could only use the same excuse.
+"...Inspiration."
+Kyle's face twitched, his face seemingly ready to say, 'Don't tell me you're planning on adding something like this to your game?'
+I could only wryly smile and answer with an unconvinced 'maybe'.
+"Ah, you..."
+Kyle covered his face with a resigned look. In the end, staring at me, he shook his head and sat down on the chair next to the computer.
+"What's your mail? I'll send it to you."
+My eyes lit up, and I immediately told him my email address. Kyle then proceeded to type a few things before pressing the Enter key.
+He turned his head towards me after he was done.
+"I've sent you the file we all get during our first year. It should have all the information that you need, but.."
+Kyle's eyes narrowed as he looked at me.
+"...I really do hope you won't do something stupid and try to awaken. You're not cut out for this job."
+"I know, you don't have to tell me that."
+I patted Kyle on the shoulder while thanking him. At the same time, I secretly shook my head.
+If only he knew it was already too late for me.
+Without wasting any more time, I bid Kyle goodbye and prepared to head to my office.
+"Oh, right."
+But right as I moved, I recalled something and moved around the area before picking up a couple of items from around. Once I gathered what I needed, I headed to my office and locked the door behind me.
+Click!
+I checked the time.
+It was 9:30 PM.
+"So I still have about three hours and thirty minutes."
+I rolled my sleeves up before turning my attention towards the painting.
+"I've learned quite a few things from Kyle. He said that it isn't impossible for a lower order to beat something of a higher order if they made enough preparations."
+I looked around the room before placing a nail on the wall and slamming the hammer in my hand down.
+*Bang! Bang!*
+With the nail firmly set, I turned to the painting, lifted it with care, and hung it exactly where it belonged.
+"That's good."
+I nodded in satisfaction while staring at the painting.
+Now, more than ever, I understand the importance of completing the quests. And for that reason, I no longer hesitated with my choice.
+"...If preparations are required for me to defeat a Second Order, I have the perfect thing to help me with that."
+I opened the quest window at the same time.
+[Do you wish to accept the quest?]
+▶[Yes] ▷[No]
+I pressed yes.

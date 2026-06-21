@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: Horde-Type Gate
-thai_term: ????????????
+thai_term: เกตประเภทฝูง
 status: approved
 aliases: []
 source_language: en
@@ -19,7 +19,7 @@ updated_at:
 
 # Horde-Type Gate
 
-- Thai: ????????????
+- Thai: เกตประเภทฝูง
 - Category: term
 - Status: approved
 - First seen: ch075/ch075-block-001

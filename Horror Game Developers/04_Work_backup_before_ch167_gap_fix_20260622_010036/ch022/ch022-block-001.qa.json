@@ -1,0 +1,10 @@
+{
+  "block_id": "ch022-block-001",
+  "chapter_id": "ch022",
+  "feedback": "PASS: Accurate translation with no omissions, additions, or mistranslations; glossary terms correct; tone and dread preserved.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

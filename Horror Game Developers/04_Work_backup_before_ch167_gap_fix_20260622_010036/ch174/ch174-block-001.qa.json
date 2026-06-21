@@ -1,0 +1,10 @@
+{
+  "block_id": "ch174-block-001",
+  "chapter_id": "ch174",
+  "feedback": "PASS: Accurate translation matching source and literal, all glossary and pronouns correct.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

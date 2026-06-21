@@ -1,0 +1,19 @@
+{
+  "block_id": "ch048-block-001",
+  "chapter_id": "ch048",
+  "feedback": "FAIL: Missing multiple source chat reaction lines (e.g., *—What the hell did he just say?*, *—Run!*, *—Wait, so the police never came?*) which are present in both source and literal.",
+  "findings": [
+    {
+      "code": "ai_judge",
+      "details": "",
+      "message": "FAIL: Missing multiple source chat reaction lines (e.g., *—What the hell did he just say?*, *—Run!*, *—Wait, so the police never came?*) which are present in both source and literal.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": false,
+  "retry_count": 2
+}

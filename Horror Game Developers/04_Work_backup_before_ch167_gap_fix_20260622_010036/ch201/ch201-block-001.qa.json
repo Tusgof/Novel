@@ -1,0 +1,10 @@
+{
+  "block_id": "ch201-block-001",
+  "chapter_id": "ch201",
+  "feedback": "PASS: No omissions, meaning preserved, glossary terms used correctly (แมทเธียส ซิลเวอร์สโตน for Matthias Silverstone is approved), Seth pronouns consistently ผม, tone matches horror-comedy/game-system style.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

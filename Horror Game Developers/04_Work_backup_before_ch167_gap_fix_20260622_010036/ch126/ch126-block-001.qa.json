@@ -1,0 +1,19 @@
+{
+  "block_id": "ch126-block-001",
+  "chapter_id": "ch126",
+  "feedback": "PASS: Translation is accurate, maintains horror-comedy tone, uses correct pronouns (Seth as ผม, Kyle as นาย), and follows glossary terms. No omissions or additions.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ?????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 2
+}

@@ -1,0 +1,10 @@
+{
+  "block_id": "ch181-block-001",
+  "chapter_id": "ch181",
+  "feedback": "PASS: Faithful translation with no omissions, additions, or meaning drift; Seth's pronoun consistently uses ผม as required; glossary terms correct; tone matches horror-comedy style.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

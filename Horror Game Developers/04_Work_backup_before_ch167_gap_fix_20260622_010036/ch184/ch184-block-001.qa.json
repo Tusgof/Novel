@@ -1,0 +1,10 @@
+{
+  "block_id": "ch184-block-001",
+  "chapter_id": "ch184",
+  "feedback": "PASS: The refined text is faithful to the source, contains no omissions or added content, uses glossary terms correctly (e.g. เกาะอิมมอร์รา, ริชาร์ด พาร์สัน, ดรีมวอล์กเกอร์, แม่ผู้ดูแล), and maintains stable Seth first-person pronouns (ผม/ของผม/ตัวผม) throughout. Tone matches the tense horror-comedy style.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

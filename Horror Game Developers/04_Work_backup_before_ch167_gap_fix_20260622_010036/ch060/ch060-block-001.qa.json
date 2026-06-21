@@ -1,0 +1,10 @@
+{
+  "block_id": "ch060-block-001",
+  "chapter_id": "ch060",
+  "feedback": "PASS: Accurate, no omissions or pronoun drift; tense horror tone preserved.",
+  "findings": [],
+  "judge_provider": "openrouter",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

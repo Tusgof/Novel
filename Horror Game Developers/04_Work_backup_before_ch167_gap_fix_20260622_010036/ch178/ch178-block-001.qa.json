@@ -1,0 +1,10 @@
+{
+  "block_id": "ch178-block-001",
+  "chapter_id": "ch178",
+  "feedback": "PASS: The refined Thai text matches the source in meaning, completeness, and tone; no omissions, additions, or pronoun drift; glossary terms used correctly; Seth's voice consistently uses ผม.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 2
+}

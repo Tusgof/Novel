@@ -1,0 +1,10 @@
+{
+  "block_id": "ch035-block-001",
+  "chapter_id": "ch035",
+  "feedback": "**FAIL: Omits multiple source elements — `*Creak—*`, three `*BANG!*` marker lines, `*Ding! Ding!*`, `*Swoosh!*`, the sentence \"Another crashing sound echoed, this time louder than before.\", the internal thought `*'Focus. Focus!'*`, and the escalation line \"I ignored it, but the more I did, the more restless it became.\" — these dropped game-system sound markers and beat-by-beat escalation erode the horror/game-UI style.**",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

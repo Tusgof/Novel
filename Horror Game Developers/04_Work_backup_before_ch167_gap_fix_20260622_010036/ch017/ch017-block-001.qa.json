@@ -1,0 +1,19 @@
+{
+  "block_id": "ch017-block-001",
+  "chapter_id": "ch017",
+  "feedback": "PASS: All source content, dialogue, sound effects, and system messages preserved. Glossary terms correctly applied (`โหนดพื้นฐาน`, `ภาชนะกักกัน`, `วิญญาณจัดอันดับ`, `นักเดินราตรีพเนจร`). Condensation removes redundant narration but no omissions or meaning drift. Horror tension and game-system clarity intact.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ได้รับนักเดินราตรีพเนจร",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

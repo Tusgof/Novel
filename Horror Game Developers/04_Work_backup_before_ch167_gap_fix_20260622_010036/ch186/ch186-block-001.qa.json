@@ -1,0 +1,10 @@
+{
+  "block_id": "ch186-block-001",
+  "chapter_id": "ch186",
+  "feedback": "PASS: All source content and dialogue preserved; Seth pronouns consistent as ผม throughout (literal's ฉัน drift in \"แตะตัวเธอ\" was correctly corrected); glossary terms (Containment Vessel, Freeze, Dreamwalker, Mirelle, Kyle) used correctly; tone maintains tension and horror-comedy balance.",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

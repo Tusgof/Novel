@@ -1,0 +1,10 @@
+{
+  "block_id": "ch157-block-001",
+  "chapter_id": "ch157",
+  "feedback": "PASS: The refined translation accurately conveys the source meaning, preserves horror-comedy tone, uses correct glossary terms, and maintains Idris's first-person pronoun as ผม with no drift.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

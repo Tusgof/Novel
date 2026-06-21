@@ -1,0 +1,27 @@
+{
+  "block_id": "ch095-block-001",
+  "chapter_id": "ch095",
+  "feedback": "PASS: The refined translation matches the source meaning, uses correct glossary terms, keeps Seth's pronouns stable as ผม, and preserves the tense horror tone without omission or addition.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: หัวหน้ากลุ่ม",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

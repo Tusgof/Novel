@@ -1,0 +1,10 @@
+{
+  "block_id": "ch215-block-001",
+  "chapter_id": "ch215",
+  "feedback": "PASS: All glossary terms correct (เควสต์เสริมเริ่มทำงาน, ลำดับที่สอง/สาม, เศษเสี้ยวทำนอง, พันธนาการประสานเสียง, โคมสะท้อนเสียง, ไคล์, etc.), Seth pronouns stable at ผม throughout, system UI intact with proper formatting, no omissions or additions vs source, and horror-comedy/tension tone preserved. The refined text is identical to the literal (safe recovery from a prior omission).",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 2
+}

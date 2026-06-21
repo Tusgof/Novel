@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: S-Ranked Gate
-thai_term: ???????? S
+thai_term: เกตแรงก์ S
 status: approved
 aliases: []
 source_language: en
@@ -19,7 +19,7 @@ updated_at:
 
 # S-Ranked Gate
 
-- Thai: ???????? S
+- Thai: เกตแรงก์ S
 - Category: term
 - Status: approved
 - First seen: ch075/ch075-block-001

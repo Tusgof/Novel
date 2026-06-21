@@ -1,0 +1,10 @@
+{
+  "block_id": "ch091-block-001",
+  "chapter_id": "ch091",
+  "feedback": "PASS: Translation is accurate, complete, and maintains tone; the only minor addition is parenthetical (Anomaly) for glossary clarity, which does not affect meaning.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

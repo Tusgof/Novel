@@ -1,0 +1,35 @@
+{
+  "block_id": "ch009-block-001",
+  "chapter_id": "ch009",
+  "feedback": "**FAIL: Critical omissions throughout block.**\n- Dropped first `*Ding!*` sequence (elevator entrance, pressing 'G', doors closing) — removes the spatial setup for the music trance.\n- Dropped second `*Ding!*` awakening (\"Oh, crap. I was about to fall asleep.\" / exiting elevator).\n- Dropped internal thought `*'What in the world...?'*` before the billboard reveal.\n- Dropped scrolling news text reading — \"Guild Severed Stars managed to clear their first Ranked Anomalous-Type Gate. Only five members survived, but they...\" appears as blank after \"ข้อความวิ่งว่า:\".\n- Phone conversation severely gutted — at least 6 of Kyle's dialogue lines (the hesitant greeting, \"how are you holding up?\", \"still going to develop games?\", \"Then...\", \"Then what about my offer?\", \"No, I'm not talking about lending you more money... why don't you come to my guild\") are missing, leaving Seth's replies without their prompts, making the exchange incoherent.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ???????????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

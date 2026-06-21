@@ -143,7 +143,8 @@ def parse_ai_feedback(stdout: str) -> tuple[list[QAFinding], str]:
         line = raw_line.strip()
         if not line:
             continue
-        lowered = line.lower()
+        normalized_line = line.strip("*_`> -")
+        lowered = normalized_line.lower()
         if lowered.startswith(("fail", "issue", "finding", "warning", "error")):
             findings.append(QAFinding(severity="warning", code="ai_judge", message=line))
         else:

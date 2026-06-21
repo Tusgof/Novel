@@ -1,0 +1,27 @@
+{
+  "block_id": "ch081-block-001",
+  "chapter_id": "ch081",
+  "feedback": "PASS: All content preserved, pronouns consistent (Seth uses ผม/ของผม), terms match glossary, tone retains horror-comedy dread.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ?????????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ?????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

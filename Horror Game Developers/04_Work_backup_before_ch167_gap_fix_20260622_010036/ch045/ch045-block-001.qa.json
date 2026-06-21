@@ -1,0 +1,19 @@
+{
+  "block_id": "ch045-block-001",
+  "chapter_id": "ch045",
+  "feedback": "FAIL: Omitted multiple chat messages and narrative from source (viewer comments and Jamie's chat reply), breaking dialogue and context.",
+  "findings": [
+    {
+      "code": "ai_judge",
+      "details": "",
+      "message": "FAIL: Omitted multiple chat messages and narrative from source (viewer comments and Jamie's chat reply), breaking dialogue and context.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": false,
+  "retry_count": 2
+}

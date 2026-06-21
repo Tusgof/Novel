@@ -1,0 +1,10 @@
+{
+  "block_id": "ch031-block-001",
+  "chapter_id": "ch031",
+  "feedback": "PASS: The refined Thai translation matches the source and literal draft exactly, uses all glossary terms correctly, preserves all dialogue and system messages, and maintains the required tense horror-comedy tone without omissions or additions.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

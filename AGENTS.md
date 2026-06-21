@@ -80,6 +80,17 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - If a final output is truncated, contains runaway repeated characters, or has missing content, rerun the affected block from the earliest broken stage instead of manually patching around the loss.
 - When a quality issue is fixed, record the cause and prevention mechanism in the project brain or implementation plan if it can recur.
 
+### Major-Run Spot-Check Checklist
+
+After every multi-chapter translation batch, broad repair pass, or MoonRead publication update:
+
+- Confirm latest run status has no current failed blocks, no unresolved manual prompt, and no unexpected chapter-range expansion.
+- Run deterministic output guardrails for the touched range before relying on human reading.
+- Sample at least five chapters: first, last, early-middle, late-middle, and one chapter with known recovery/provider incident if any.
+- In each sampled chapter, inspect the title, opening, middle passage, ending, paragraph density, dialogue/thought formatting, glossary/name consistency, and obvious omission/truncation.
+- If MoonRead content changed, regenerate chapters and run reader lint/build/smoke before claiming it is ready.
+- If the sample exposes a repeated pattern, repair the full affected range and add or extend a guardrail instead of treating it as a one-off.
+
 ---
 
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.

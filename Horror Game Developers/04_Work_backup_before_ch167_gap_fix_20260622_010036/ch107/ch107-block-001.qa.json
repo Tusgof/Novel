@@ -1,0 +1,10 @@
+{
+  "block_id": "ch107-block-001",
+  "chapter_id": "ch107",
+  "feedback": "PASS: All glossary terms correct, Seth pronouns stable as ผม, no omissions or meaning drift, tone preserved.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

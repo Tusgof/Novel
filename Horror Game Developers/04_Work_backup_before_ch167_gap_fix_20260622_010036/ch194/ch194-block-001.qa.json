@@ -1,0 +1,10 @@
+{
+  "block_id": "ch194-block-001",
+  "chapter_id": "ch194",
+  "feedback": "PASS: The refined Thai translation faithfully conveys the source meaning and tone, uses all glossary terms correctly (ประกาศิตเชพเพิร์ด, โนวาสตูดิโอส์, ลำดับที่สอง, โรวัน, ไคล์), maintains Seth's stable ผม pronoun throughout, and preserves the horror-comedy balance without omissions, additions, or meaning drift.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

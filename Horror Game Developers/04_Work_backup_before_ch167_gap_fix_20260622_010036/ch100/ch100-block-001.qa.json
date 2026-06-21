@@ -1,0 +1,19 @@
+{
+  "block_id": "ch100-block-001",
+  "chapter_id": "ch100",
+  "feedback": "PASS: No omissions, additions, mistranslations, or pronoun drift; glossary terms correct; tone and meaning preserved.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: หัวหน้ากลุ่ม",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

@@ -1,0 +1,10 @@
+{
+  "block_id": "ch213-block-001",
+  "chapter_id": "ch213",
+  "feedback": "PASS: All source content and dialogue preserved; glossary terms (กิลด์ดวงดาวที่ถูกตัดขาด, เอ็นซีพีเจไทมส์, กิลด์คราวน์ฟอลล์, ไคล์, ความเป็นจริงเสมือน) used correctly; Seth's pronouns stable as ผม throughout narration and dialogue; Kyle/Seth peer address uses นาย; Zoey uses นาย for Seth; no meaning drift, no additions, no omissions.",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

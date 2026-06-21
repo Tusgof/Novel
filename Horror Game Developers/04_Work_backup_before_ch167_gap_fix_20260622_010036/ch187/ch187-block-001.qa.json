@@ -1,0 +1,10 @@
+{
+  "block_id": "ch187-block-001",
+  "chapter_id": "ch187",
+  "feedback": "I've closely compared the refined text against the source and the literal draft.\nThe refined is identical to the literal — no changes were made. Checking all criteria:\n- **Omissions**: None. All dialogue, narration, sound effects, and system messages from the source are present.\n- **Additions**: None beyond natural Thai prose fill.\n- **Mistranslation/meaning drift**: None. The meaning is faithful throughout.\n- **Glossary usage**: All approved terms used correctly — ภาชนะกักกัน, ดรีมวอล์กเกอร์, วิญญาณจัดอันดับ, ได้รับจิงเกิลส์, โหนดพื้นฐาน, แม่ผู้ดูแล, มิเรลล์, ไคล์.\n- **System/UI messages**: Intact and readable.\n- **Tone**: Horror/tension preserved. No softening of dread.\n- **Pronoun policy**: Seth's internal monologue uses ผม consistently. Kyle/Seth peer address uses นาย. No drift to ฉัน.\nNo issues found.\nPASS: Faithful to source with correct glossary, no omissions, stable Seth/Kyle pronouns, and preserved horror tension.",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

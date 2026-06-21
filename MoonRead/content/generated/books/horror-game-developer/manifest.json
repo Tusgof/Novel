@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-21T18:48:31.115Z",
+  "generatedAt": "2026-06-21T19:37:20.180Z",
   "sourceRoot": "../Horror Game Developers/05_Output",
   "targetRange": "ch001-ch230",
   "novel": {
@@ -31,8 +31,8 @@
   },
   "summary": {
     "total": 230,
-    "available": 225,
-    "missing": 5,
+    "available": 227,
+    "missing": 3,
     "rejected": 0,
     "skipped": 0
   },
@@ -1921,20 +1921,24 @@
     {
       "id": "ch172",
       "number": 172,
-      "title": "บทที่ 172",
-      "status": "missing",
+      "title": "ตอนที่ 172 - ห้องใต้ดิน [1]",
+      "status": "available",
       "sourcePath": "ch172/ch172.md",
-      "href": null,
-      "reason": "source_file_missing"
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch172.md",
+      "href": "/books/horror-game-developer/read/ch172",
+      "charCount": 5645,
+      "readingMinutes": 2
     },
     {
       "id": "ch173",
       "number": 173,
-      "title": "บทที่ 173",
-      "status": "missing",
+      "title": "ตอนที่ 173 - ภารกิจใหม่ [2]",
+      "status": "available",
       "sourcePath": "ch173/ch173.md",
-      "href": null,
-      "reason": "source_file_missing"
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch173.md",
+      "href": "/books/horror-game-developer/read/ch173",
+      "charCount": 4678,
+      "readingMinutes": 2
     },
     {
       "id": "ch174",

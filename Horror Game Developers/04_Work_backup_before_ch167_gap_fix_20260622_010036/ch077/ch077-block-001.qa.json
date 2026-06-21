@@ -1,0 +1,19 @@
+{
+  "block_id": "ch077-block-001",
+  "chapter_id": "ch077",
+  "feedback": "FAIL: Omits the final two sentences of the source (\"All hell broke loose...\" and \"For just the briefest of moments...\").",
+  "findings": [
+    {
+      "code": "ai_judge",
+      "details": "",
+      "message": "FAIL: Omits the final two sentences of the source (\"All hell broke loose...\" and \"For just the briefest of moments...\").",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": false,
+  "retry_count": 2
+}

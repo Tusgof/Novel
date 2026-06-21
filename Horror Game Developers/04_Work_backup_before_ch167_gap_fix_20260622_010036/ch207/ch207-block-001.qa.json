@@ -1,0 +1,35 @@
+{
+  "block_id": "ch207-block-001",
+  "chapter_id": "ch207",
+  "feedback": "**PASS: Faithful translation with stable Seth pronouns (ผมห้วตลอด), correct glossary usage (หัวหน้าหน่วย/ท่านเจ้าสำนัก/สำนักงาน/โจแอนนา), no omissions, no additions, and appropriate tone for the source's tense conversational style.**",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ?????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

@@ -1,0 +1,10 @@
+{
+  "block_id": "ch015-block-001",
+  "chapter_id": "ch015",
+  "feedback": "PASS: Translation is complete and accurate — no omissions, no spurious additions, correct glossary use for \"Section Chief\" → \"หัวหน้าส่วนงาน\", tone preserves the tense horror pacing with appropriate profanity and onomatopoeia. The refined text matches the literal, which is already faithful to the source.",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

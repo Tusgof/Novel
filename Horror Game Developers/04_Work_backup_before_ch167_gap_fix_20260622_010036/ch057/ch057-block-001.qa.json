@@ -1,0 +1,35 @@
+{
+  "block_id": "ch057-block-001",
+  "chapter_id": "ch057",
+  "feedback": "FAIL: Omitted Zoey's internal monologue about dancing and the *Swoosh!* sound effects, losing narrative flow and sensory detail.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ??????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "ai_judge",
+      "details": "",
+      "message": "FAIL: Omitted Zoey's internal monologue about dancing and the *Swoosh!* sound effects, losing narrative flow and sensory detail.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": false,
+  "retry_count": 2
+}

@@ -1,0 +1,10 @@
+{
+  "block_id": "ch032-block-001",
+  "chapter_id": "ch032",
+  "feedback": "PASS: All glossary terms used correctly, no omissions or additions, meaning and tone preserved.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

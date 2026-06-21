@@ -1,0 +1,19 @@
+{
+  "block_id": "ch199-block-001",
+  "chapter_id": "ch199",
+  "feedback": "I've closely compared all three texts against each other and the QA checklist (including the memory about omissions = FAIL).\n**FAIL: Refined strips at least 8 onomatopoeic sound-effect lines (`*จิ้ม~*`, `*ปี๊ด!*`) and one `*` scene divider that are present in both source and literal — pattern confirmed in the refined text: missing `*จิ้ม~ จิ้ม~ จิ้ม~*` before head-turning, both `*ปี๊ด!*` sets (triple + double) around Mr. Jingles' horn, `*จิ้ม~*` before \".....!?\" post-pervert thought, three `*จิ้ม~*` in the final poke→fight sequence, `*ปี๊ด!*` before clown horn for chips, and the `*` scene break after \"ไม่อยากไปเลยจริงๆ\".**",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: วาทยกร",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

@@ -1,0 +1,19 @@
+{
+  "block_id": "ch175-block-001",
+  "chapter_id": "ch175",
+  "feedback": "PASS: Refined corrects pronoun drift (ฉัน→ผม), uses approved glossary terms (เมนซิลานิส, ลูเมนอล, แม่ผู้ดูแล, ไคล์), maintains tense horror-comedy tone, and has no omissions or additions.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

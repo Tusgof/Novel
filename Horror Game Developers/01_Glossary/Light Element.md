@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: Light Element
-thai_term: ???????
+thai_term: ธาตุแสง
 status: approved
 aliases: []
 source_language: en
@@ -19,7 +19,7 @@ updated_at:
 
 # Light Element
 
-- Thai: ???????
+- Thai: ธาตุแสง
 - Category: term
 - Status: approved
 - First seen: ch066/ch066-block-001

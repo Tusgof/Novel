@@ -1,0 +1,67 @@
+{
+  "block_id": "ch076-block-001",
+  "chapter_id": "ch076",
+  "feedback": "FAIL: Missing \"Ding!\" and \"*Swooosh!*\" sound effects from the source; the refined text omits both onomatopoeic cues, which breaks the system-message and horror-comedy style.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????????????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ??????????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ??????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ???????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ???????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "ai_judge",
+      "details": "",
+      "message": "FAIL: Missing \"Ding!\" and \"*Swooosh!*\" sound effects from the source; the refined text omits both onomatopoeic cues, which breaks the system-message and horror-comedy style.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter",
+  "metadata": {},
+  "passed": false,
+  "retry_count": 2
+}

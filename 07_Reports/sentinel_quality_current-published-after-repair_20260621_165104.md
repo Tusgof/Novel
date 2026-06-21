@@ -1,0 +1,93 @@
+# Sentinel Quality Report - current-published-after-repair
+
+- Created: 2026-06-21T16:51:04.603306+00:00
+- Chapters: ch001-ch220
+- Safe to publish: yes
+- Blocker/Major/Minor/Info: 0/0/80/0
+
+## Next Action
+
+- Product surface has no blocker findings under current Sentinel rules.
+
+## Findings
+
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `Sword`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `Dawn`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch004\ch004.md: English token remains in product surface; review if intentional. Evidence: `Silver Grand Alliance`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch024\ch024.md: English token remains in product surface; review if intentional. Evidence: `KFC`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch026\ch026.md: English token remains in product surface; review if intentional. Evidence: `Q-Coin`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch032\ch032.md: English token remains in product surface; review if intentional. Evidence: `Q-coin`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch037\ch037.md: English token remains in product surface; review if intentional. Evidence: `Anime King Story`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch037\ch037.md: English token remains in product surface; review if intentional. Evidence: `Definitely`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch037\ch037.md: English token remains in product surface; review if intentional. Evidence: `Problem`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch037\ch037.md: English token remains in product surface; review if intentional. Evidence: `ACG`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch037\ch037.md: English token remains in product surface; review if intentional. Evidence: `Love Live`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch039\ch039.md: English token remains in product surface; review if intentional. Evidence: `Aye Captain`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch051\ch051.md: English token remains in product surface; review if intentional. Evidence: `Kidnapped the Timeline`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch051\ch051.md: English token remains in product surface; review if intentional. Evidence: `Dao Zhan Zhan Zhan`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch076\ch076.md: English token remains in product surface; review if intentional. Evidence: `Packet Loss`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch093\ch093.md: English token remains in product surface; review if intentional. Evidence: `Stand Beneath Billions`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch093\ch093.md: English token remains in product surface; review if intentional. Evidence: `Lives`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch106\ch106.md: English token remains in product surface; review if intentional. Evidence: `Minecraft`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch123\ch123.md: English token remains in product surface; review if intentional. Evidence: `Abyssal`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch128\ch128.md: English token remains in product surface; review if intentional. Evidence: `wifi`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch135\ch135.md: English token remains in product surface; review if intentional. Evidence: `K-22`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch142\ch142.md: English token remains in product surface; review if intentional. Evidence: `Prominence`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `Log`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch006\ch006.md: English token remains in product surface; review if intentional. Evidence: `Tempo`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch006\ch006.md: English token remains in product surface; review if intentional. Evidence: `Rhythm`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch009\ch009.md: English token remains in product surface; review if intentional. Evidence: `LED`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch010\ch010.md: English token remains in product surface; review if intentional. Evidence: `BUA`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch011\ch011.md: English token remains in product surface; review if intentional. Evidence: `Anomalous entities`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch016\ch016.md: English token remains in product surface; review if intentional. Evidence: `Night-vision`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch018\ch018.md: English token remains in product surface; review if intentional. Evidence: `Talent`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch021\ch021.md: English token remains in product surface; review if intentional. Evidence: `News`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch021\ch021.md: English token remains in product surface; review if intentional. Evidence: `Gate`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch022\ch022.md: English token remains in product surface; review if intentional. Evidence: `U-Engine`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch027\ch027.md: English token remains in product surface; review if intentional. Evidence: `USB`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch027\ch027.md: English token remains in product surface; review if intentional. Evidence: `Game`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch027\ch027.md: English token remains in product surface; review if intentional. Evidence: `Dem`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch028\ch028.md: English token remains in product surface; review if intentional. Evidence: `VHS`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch028\ch028.md: English token remains in product surface; review if intentional. Evidence: `MP3`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch028\ch028.md: English token remains in product surface; review if intentional. Evidence: `Shift`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch029\ch029.md: English token remains in product surface; review if intentional. Evidence: `PTSD`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch029\ch029.md: English token remains in product surface; review if intentional. Evidence: `USB`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch030\ch030.md: English token remains in product surface; review if intentional. Evidence: `USB`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch033\ch033.md: English token remains in product surface; review if intentional. Evidence: `Enter`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch036\ch036.md: English token remains in product surface; review if intentional. Evidence: `Ding`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch036\ch036.md: English token remains in product surface; review if intentional. Evidence: `Ting`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch038\ch038.md: English token remains in product surface; review if intentional. Evidence: `lol`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch038\ch038.md: English token remains in product surface; review if intentional. Evidence: `wtf`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch039\ch039.md: English token remains in product surface; review if intentional. Evidence: `Scout`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch040\ch040.md: English token remains in product surface; review if intentional. Evidence: `BUA`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch043\ch043.md: English token remains in product surface; review if intentional. Evidence: `Regular Day`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch043\ch043.md: English token remains in product surface; review if intentional. Evidence: `the Office`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch043\ch043.md: English token remains in product surface; review if intentional. Evidence: `Dock`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch045\ch045.md: English token remains in product surface; review if intentional. Evidence: `Regular Day`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch045\ch045.md: English token remains in product surface; review if intentional. Evidence: `the Office`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch045\ch045.md: English token remains in product surface; review if intentional. Evidence: `Botting`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch046\ch046.md: English token remains in product surface; review if intentional. Evidence: `Dock`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch046\ch046.md: English token remains in product surface; review if intentional. Evidence: `Botting`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch046\ch046.md: English token remains in product surface; review if intentional. Evidence: `PTSD`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch047\ch047.md: English token remains in product surface; review if intentional. Evidence: `HOIhfioehjfioasdhbuiofha`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch047\ch047.md: English token remains in product surface; review if intentional. Evidence: `Uhahjfksjffuck`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch047\ch047.md: English token remains in product surface; review if intentional. Evidence: `Regular Day`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch047\ch047.md: English token remains in product surface; review if intentional. Evidence: `the Office`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch047\ch047.md: English token remains in product surface; review if intentional. Evidence: `Dock`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch049\ch049.md: English token remains in product surface; review if intentional. Evidence: `III`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch050\ch050.md: English token remains in product surface; review if intentional. Evidence: `Regular Day`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch050\ch050.md: English token remains in product surface; review if intentional. Evidence: `the Office`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch051\ch051.md: English token remains in product surface; review if intentional. Evidence: `U-Engine`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch051\ch051.md: English token remains in product surface; review if intentional. Evidence: `Shift`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch051\ch051.md: English token remains in product surface; review if intentional. Evidence: `MP3`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch051\ch051.md: English token remains in product surface; review if intentional. Evidence: `shift`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch051\ch051.md: English token remains in product surface; review if intentional. Evidence: `Regular Day`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch051\ch051.md: English token remains in product surface; review if intentional. Evidence: `the Office`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch052\ch052.md: English token remains in product surface; review if intentional. Evidence: `Dock`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch052\ch052.md: English token remains in product surface; review if intentional. Evidence: `Robes`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch053\ch053.md: English token remains in product surface; review if intentional. Evidence: `Robes`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch053\ch053.md: English token remains in product surface; review if intentional. Evidence: `Dock`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch053\ch053.md: English token remains in product surface; review if intentional. Evidence: `Bio`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch054\ch054.md: English token remains in product surface; review if intentional. Evidence: `XXXX-12`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch054\ch054.md: English token remains in product surface; review if intentional. Evidence: `D-9341`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch054\ch054.md: English token remains in product surface; review if intentional. Evidence: `SCP-XXXX-1`.

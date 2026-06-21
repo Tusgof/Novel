@@ -1,0 +1,19 @@
+{
+  "block_id": "ch011-block-001",
+  "chapter_id": "ch011",
+  "feedback": "PASS: Faithful translation with correct glossary usage, no omissions or meaning drift, and tone matches horror-comedy style.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

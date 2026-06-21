@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: Shepherd Requirements
-thai_term: ?????????????????
+thai_term: ข้อกำหนดเชพเพิร์ด
 status: approved
 aliases: []
 source_language: en
@@ -19,7 +19,7 @@ updated_at:
 
 # Shepherd Requirements
 
-- Thai: ?????????????????
+- Thai: ข้อกำหนดเชพเพิร์ด
 - Category: term
 - Status: approved
 - First seen: ch075/ch075-block-001

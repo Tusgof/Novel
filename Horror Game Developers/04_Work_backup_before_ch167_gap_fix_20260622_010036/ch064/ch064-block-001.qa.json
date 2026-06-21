@@ -1,0 +1,19 @@
+{
+  "block_id": "ch064-block-001",
+  "chapter_id": "ch064",
+  "feedback": "FAIL: omission of key internal monologue (\"*'It sounds so good.'*\", \"**I started to be afraid. Afraid of making any mistakes.\") and sound effects (\"Dang—\", \"*Dang, Dang!*\") from source/literal.",
+  "findings": [
+    {
+      "code": "ai_judge",
+      "details": "",
+      "message": "FAIL: omission of key internal monologue (\"*'It sounds so good.'*\", \"**I started to be afraid. Afraid of making any mistakes.\") and sound effects (\"Dang—\", \"*Dang, Dang!*\") from source/literal.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": false,
+  "retry_count": 2
+}

@@ -1,0 +1,19 @@
+{
+  "block_id": "ch070-block-001",
+  "chapter_id": "ch070",
+  "feedback": "FAIL: First-person pronoun drift in opening line: Seth's internal monologue uses ฉัน instead of ผม.",
+  "findings": [
+    {
+      "code": "ai_judge",
+      "details": "",
+      "message": "FAIL: First-person pronoun drift in opening line: Seth's internal monologue uses ฉัน instead of ผม.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": false,
+  "retry_count": 2
+}

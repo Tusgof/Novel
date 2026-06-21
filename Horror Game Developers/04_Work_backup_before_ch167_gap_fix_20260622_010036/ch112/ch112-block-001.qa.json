@@ -1,0 +1,10 @@
+{
+  "block_id": "ch112-block-001",
+  "chapter_id": "ch112",
+  "feedback": "PASS: Refined matches source, corrects Seth's pronoun from ฉัน to ผม, uses approved glossary, preserves tone and meaning.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

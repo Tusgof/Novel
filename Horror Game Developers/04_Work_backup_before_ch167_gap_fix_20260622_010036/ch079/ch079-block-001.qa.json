@@ -1,0 +1,35 @@
+{
+  "block_id": "ch079-block-001",
+  "chapter_id": "ch079",
+  "feedback": "PASS: Faithful translation with correct glossary usage, stable pronouns, and maintained tone; minor plural interpretation of ambiguous \"he\" in \"what was he doing...\" is contextually justified and does not distort meaning.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ?????????????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ?????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

@@ -1,0 +1,10 @@
+{
+  "block_id": "ch108-block-001",
+  "chapter_id": "ch108",
+  "feedback": "PASS: Translation is accurate, tone is consistent, glossary terms are correctly used, and no pronoun drift or omissions. The rendering of \"at a loss\" as \"ชะงัก\" is a minor stylistic choice that fits the immediate shock, and all other meaning is preserved.",
+  "findings": [],
+  "judge_provider": "openrouter",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

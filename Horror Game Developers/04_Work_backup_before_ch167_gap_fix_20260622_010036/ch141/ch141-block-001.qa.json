@@ -1,0 +1,10 @@
+{
+  "block_id": "ch141-block-001",
+  "chapter_id": "ch141",
+  "feedback": "PASS: No omissions, additions, or meaning drift; glossary terms (Second Order, Mirelle) correctly used; Seth's pronouns consistently ผม; tone maintains tense horror-comedy.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

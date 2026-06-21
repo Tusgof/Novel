@@ -1,0 +1,19 @@
+{
+  "block_id": "ch189-block-001",
+  "chapter_id": "ch189",
+  "feedback": "PASS: Refined translation matches source meaning and tone, follows glossary, Seth's pronouns are consistently ผม, and Kyle/Seth address uses นาย appropriately.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

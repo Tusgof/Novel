@@ -1,0 +1,10 @@
+{
+  "block_id": "ch204-block-001",
+  "chapter_id": "ch204",
+  "feedback": "**PASS: All content present, accurate glossary usage, Seth's pronouns stable as ผม, no unwanted pronoun drift, Joanna's use of ฉัน/นาย is natural for her character, and horror-comedy tone preserved.**",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

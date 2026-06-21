@@ -1,0 +1,19 @@
+{
+  "block_id": "ch142-block-001",
+  "chapter_id": "ch142",
+  "feedback": "PASS: Refined translation matches source, corrects Seth's pronoun from เรา to ผม, uses glossary term หัวหน้ากลุ่ม for Team Leader, and maintains tone without omissions or additions.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

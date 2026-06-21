@@ -1,0 +1,10 @@
+{
+  "block_id": "ch158-block-001",
+  "chapter_id": "ch158",
+  "feedback": "PASS: The refined translation matches the literal draft exactly, with no omissions, additions, mistranslations, or tone drift; Idris's internal monologue uses ฉัน appropriately (not Seth), and all glossary and style requirements are met.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

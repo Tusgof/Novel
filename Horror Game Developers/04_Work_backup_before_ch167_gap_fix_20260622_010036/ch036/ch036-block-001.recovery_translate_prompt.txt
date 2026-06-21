@@ -1,0 +1,168 @@
+Translate the COMPLETE English web-novel chapter block into Thai.
+
+Critical rules:
+- Return Thai prose only. No notes, no headings, no explanation.
+- Translate the entire block from beginning to end. Do not summarize. Do not stop early.
+- Preserve every dialogue line, phone-call line, internal thought, sound effect, system notification, bracketed UI line, bullet, and ending.
+- Preserve markdown emphasis markers for thoughts/sound effects such as *Ding!*, *Ting!*, *Du. Du.*, and phone-call lines like *?Hello?*.
+- Use the exact approved glossary terms where applicable.
+- Use first-person Thai narration with consistent pronoun ?? unless dialogue context clearly requires otherwise.
+
+Approved glossary:
+- Anomalous Entity => สิ่งผิดปกติ
+- Anomalous-Type Gate => ประตูชนิดผิดปกติ
+- Basic Node => โหนดพื้นฐาน
+- Blank Mask => หน้ากากว่างเปล่า
+- Clara => คลารา
+- Cognitive Shards => เศษเสี้ยวปัญญา
+- Containment Group => กลุ่มกักกัน
+- Containment Sector Orientation Day => วันปฐมนิเทศภาคส่วนกักกัน
+- Containment Sector => ภาคส่วนกักกัน
+- Containment Vessel => ภาชนะกักกัน
+- Continuation Quest Activated => เควสต์ต่อเนื่องเริ่มทำงาน
+- Dead Rising => เดดไรซิง
+- Delta Squad => หน่วยเดลตา
+- Developer Seth Thorne => นักพัฒนาเซธ ธอร์น
+- Dock App => แอปด็อก
+- Earplugs => ที่อุดหู
+- Field Agent => เจ้าหน้าที่ภาคสนาม
+- Forest Nights => คืนในป่า
+- Fourth Order => ลำดับที่สี่
+- Game Boy => เกมบอย
+- Game Over => เกมโอเวอร์
+- Gentle Whispers => เสียงกระซิบอ่อนโยน
+- Guild App => แอปกิลด์
+- Guild Severed Stars => กิลด์ดวงดาวที่ถูกตัดขาด
+- Horror Developer System => ระบบนักพัฒนาเกมสยองขวัญ
+- Ivory Hollow District => เขตไอวอรีฮอลโลว์
+- Jamie Carter => เจมี่ คาร์เตอร์
+- Jester => ตัวตลก
+- Kyle => ไคล์
+- Left Click => คลิกซ้าย
+- Live Viewers => ผู้ชมสด
+- Locked Quests => เควสต์ที่ถูกล็อก
+- Mender Decree => โองการผู้เยียวยา
+- Menxylanis => เมนซิลานิส
+- Mind Printer => เครื่องพิมพ์ความคิด
+- Myles Holms => ไมลส์ โฮล์มส์
+- Myst Fragments => ชิ้นส่วนมิสต์
+- Nightmare Forge Studios => สตูดิโอไนต์แมร์ฟอร์จ
+- Optional Quest Activated => เควสต์เสริมเริ่มทำงาน
+- Ranked Spirit => วิญญาณจัดอันดับ
+- Right Click => คลิกขวา
+- Saint Mary => เซนต์แมรี
+- Second Order => ลำดับที่สอง
+- Section Chief => หัวหน้าแผนก
+- Senior Officer => เจ้าหน้าที่อาวุโส
+- Sentriest Island => เกาะเซนทรีสต์
+- Seth Thorne Status => สถานะของเซธ ธอร์น
+- Seventh Order => ลำดับที่เจ็ด
+- Silent Requiem => เรเควียมเงียบงัน
+- Skull => กะโหลก
+- Spectral Glasses => แว่นตาวิญญาณ
+- Starlight Guild => กิลด์สตาร์ไลต์
+- Temporal Decree => โองการกาลเวลา
+- The Fourth Floor => ชั้นใต้ดินที่สี่
+- The Lady => สุภาพสตรี
+- The Nightwalker => นักเดินราตรี
+- The Orchestra => วงออร์เคสตรา
+- The Orchestrator => ผู้บงการ
+- The Painkiller Tattoo => รอยสักยาแก้ปวด
+- The Team Leader => หัวหน้าทีม
+- Third Order => ลำดับที่สาม
+- Time Limit => เวลาจำกัด
+- Unusual Affairs => กิจการผิดปกติ
+- Velora Art Museum => พิพิธภัณฑ์ศิลปะเวโลรา
+- Vesperine Union => สหภาพเวสเพอรีน
+- Walkie-Talkie => วิทยุสื่อสาร
+- Wandering Nightwalker Acquired => ได้รับนักเดินราตรีพเนจร
+- White Umbrella => ร่มสีขาว
+- Zoey Terlin => โซอี้ เทอร์ลิน
+
+SOURCE BLOCK:
+The information that I managed to gather wasn't much, but it was enough for me to emulate a scenario in my mind.
+What was left for me to figure out was how to use that piece of information to my advantage.
+But there was a problem.
+However hard I tried to think, I realized that while I had gathered some valuable information, it still wasn't enough to form a proper plan. But even if it wasn't enough for a full plan, at least I understood the situation, and that was all that mattered.
+*'Plus, it's not like this is the only thing I can do.'*
+I quickly pulled out my phone and researched the Velora Art Museum.
+Soon, several links appeared.
+*'Since I know where the quest will take place, it would be wise to thoroughly understand the building's layout, as well as its history and the reasons behind its closure. There might even be a connection to the parents of the little girl in the painting.'*
+I became painfully aware of how insignificant my life truly was. Just moments earlier, I'd come terrifyingly close to death. I was completely helpless, unable to fight back.
+I was just like a sitting duck, waiting to be slaughtered.
+Had it not been for the time running out, I would've most likely been dead.
+*'I'd thought the recording would be enough of a safeguard if something like that happened, but clearly, I had severely underestimated the intelligence of the girl in the painting.'*
+She had most likely remembered what had happened the previous day when I covered the painting and played the music to escape.
+As a result, she stopped me from repeating the same action.
+If I hadn't used it before, she probably wouldn't have been able to tell.
+This thought made my heart drop.
+"Is this the difference between a first and second-order anomaly?"
+I thought back to the Nightwalker, then to the little girl. She was clearly much cleverer than it, remembering something like that proved it. But not only that, she was also somehow able to seal all noise within the room while she created all that chaos. I doubted the Nightwalker was capable of remembering something like that.
+The only way it changed was when it died, and most likely lost points of loyalty to me.
+I still didn't know how to increase those, but I wasn't too worried yet.
+I could still use the Nightwalker for as long as it didn't die. Once it died... I wasn't sure if it would follow my commands like before.
+*'I'll have to think of a way to improve its loyalty to me.'*
+But that was for me to think about later.
+For now, I needed to think about the quest at hand.
+Considering that the threats were starting to become stronger and more dangerous, this was starting to become a necessity for me.
+Only by doing this could I afford the tools I needed to defend myself, along with the medicine to keep me alive longer, and at the same time figure out more about my current situation. There was clearly something off about the entire situation, and by completing the quests and earning SP, I'd be able to gain the necessary progress to learn the truth.
+And for that reason, I needed to be extremely prepared for each scenario.
+Only that way would I be able to clear the Quests.
+"Alright."
+I rubbed my eyes, sat down, and clicked on one of the links that appeared on my phone.
+"While I wait for Zoey to give me news on the livestream situation, I'll spend the next few hours doing research."
+And that's exactly what I did until early morning. I dug into everything about the museum — its structure, the history behind its construction, the reason it was abandoned, and more. Not a single detail slipped my mind as I thoroughly researched everything.
+The only time I would stop was the times I had to spend improving my game, adding the finishing touches from the rendering, and so on.
+If I were going to sell the game, it had to at least be completed.
+"Huu."
+By the time I was done, and I was about to pack up and leave, I suddenly received a notification on my phone.
+*Ding!*
+"Hm?"
+─────
+Unknown >
+Hi, this is Jamie Carter. I was advised to reach out to you about a potential collaboration. When would be a good time for us to discuss it?
+Looking forward to hearing from you!
+─────
+"Oh..."
+That was faster than I expected. I guess Zoey was indeed efficient and fast when it came to these matters.
+After a little bit of thought, I dialed the number and brought the phone next to my ear.
+*'Let me sort out this call and then get some sleep.'*
+I hoped I could get this done as fast as possible.
+*—Hello?*
+Soon enough, a voice answered — dry and groggy, as if they'd only just woken up and hadn't expected my call so soon.
+I didn't waste a single second and got straight to the point.
+"You called me about the collaboration, right?"
+*—...Ah, yes!*
+Sobering up, the pitch of the voice rose up.
+*—I sent you a message, but I didn't expect you to see it so soon. In that case, I'll-*
+"When is the fastest time you can do it?"
+I cut him off before he could finish his sentence.
+Then, before he could even answer, I hit him with a barrage of demands. I was too tired to deal with long conversations. It was best if I laid all of my thoughts out at once.
+"Can you do it within the next few days? Even today is good. No, in fact, it would be best if it were today. Next week won't do. For how long can I advertise my game? I need at least five minutes to explain the mechanics. Regarding revenue split from the game, it's not necessary, right? If it's possible, I'd like it if..."
+***
+*Du. Du.*
+As the end-of-call tone echoed, Jamie stared blankly at the ceiling. His desk was cluttered with empty cans, and the glow from his dual monitors illuminated the otherwise dim room.
+He sat there like that for an unknown period of time until he snapped out of it.
+"What sort of fucker is this...!?"
+Jamie almost ended up throwing his phone against his monitor. It took massive self-restraint to prevent himself from doing so.
+However, he had a hard time containing his anger and bafflement.
+"With the way he's acting, it's almost as if he's the one doing me a favour!"
+The worst part of the entire situation was the fact that he never let him speak once, sharing all of his demands before hanging up. Who even did that?!
+And as if that wasn't bad enough...
+*Ting!*
+[Today is good, right?]
+Jamie clenched his teeth. Of course, it wasn't good! Before each stream, he needed to make ample preparations. From research topics to speak about, and so on. He couldn't just go into it blindly.
+*Ting!*
+**[Preferably, I'd like to be back at the Guild before 1 AM. It would be troublesome otherwise.]
+"Hoo."
+Jamie let out a long breath.
+He was so close to throwing his phone away. However, thinking about the possible shoutout from Zoey, he contained himself.
+"Alright."
+He clenched his teeth.
+"I didn't really want to rush things, but fuck it!"
+He scrolled through his phone and looked through several contacts.
+[I have work for you to do. Contact me when you see this.]
+Jamie had originally planned on taking it a little bit easy, considering that he felt a little pity for him, but that no longer appeared to be the case.
+For this stream, he planned on going all out.
+He was going to make him scream until he passed out.
+Of that, he swore.

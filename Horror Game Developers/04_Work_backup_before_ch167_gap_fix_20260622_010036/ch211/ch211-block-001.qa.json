@@ -1,0 +1,27 @@
+{
+  "block_id": "ch211-block-001",
+  "chapter_id": "ch211",
+  "feedback": "FAIL: Meaning drift: \"took a deep breath\" translated as \"ถอนหายใจ\" (sigh) instead of \"หายใจลึก\"; \"buckets of powdered coffee\" as \"หลายช้อน\" (several spoons) instead of \"หลายถัง\".",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: อิดริส ไดอาแมนทิส",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "ai_judge",
+      "details": "",
+      "message": "FAIL: Meaning drift: \"took a deep breath\" translated as \"ถอนหายใจ\" (sigh) instead of \"หายใจลึก\"; \"buckets of powdered coffee\" as \"หลายช้อน\" (several spoons) instead of \"หลายถัง\".",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": false,
+  "retry_count": 2
+}

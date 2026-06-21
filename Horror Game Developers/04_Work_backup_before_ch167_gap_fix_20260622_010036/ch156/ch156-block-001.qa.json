@@ -1,0 +1,19 @@
+{
+  "block_id": "ch156-block-001",
+  "chapter_id": "ch156",
+  "feedback": "PASS: The refined Thai translation accurately conveys all dialogue, narration, and system messages from the source, maintains the unsettling/horror-comedy tone, uses correct glossary terms (Idris Diamantis, Anomalous-Gates), and has no pronoun drift (Seth not present; Idris uses ผม consistently). No omissions, additions, or meaning drift.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ปุ่ม Enter",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

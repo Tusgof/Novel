@@ -1,0 +1,35 @@
+{
+  "block_id": "ch188-block-001",
+  "chapter_id": "ch188",
+  "feedback": "I've reviewed the refined text against the source and literal draft. The refined is a faithful verbatim copy of the literal — no omissions, additions, or meaning drift.\n**PASS:** All source content preserved, glossary terms correct (ภาชนะกักกัน, ดรีมวอล์กเกอร์, วาทยกร, etc.), Seth pronouns stable as ผม throughout, Kyle/Seth peer address uses นาย consistently, and tense/horror-comedy tone intact.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ?????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ?????????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: นักพัฒนาเซธ ธอร์น",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

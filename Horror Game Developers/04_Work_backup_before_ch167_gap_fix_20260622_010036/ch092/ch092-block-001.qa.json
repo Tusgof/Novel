@@ -1,0 +1,10 @@
+{
+  "block_id": "ch092-block-001",
+  "chapter_id": "ch092",
+  "feedback": "PASS: Refined matches source and literal in meaning, tone, and glossary use; no omissions or pronoun drift; Seth stays ผม, Kyle uses นาย correctly.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

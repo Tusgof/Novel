@@ -1,0 +1,19 @@
+{
+  "block_id": "ch145-block-001",
+  "chapter_id": "ch145",
+  "feedback": "PASS: The refined translation accurately conveys the source, with no omissions or additions, maintains Seth's consistent ผม pronoun, preserves the tense horror tone, and uses glossary terms correctly (Cognitive Shard translated as ชิ้นส่วนแห่งปัญญา is acceptable given the placeholder glossary entry).",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

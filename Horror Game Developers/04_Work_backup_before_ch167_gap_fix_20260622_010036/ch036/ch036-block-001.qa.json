@@ -1,0 +1,10 @@
+{
+  "block_id": "ch036-block-001",
+  "chapter_id": "ch036",
+  "feedback": "PASS: All dialogue, system messages, and internal monologue are faithfully translated with no omissions or additions. Glossary terms are used correctly, tone preserves the horror-comedy/game-system feel, and meaning remains aligned with the source without drift or softening.",
+  "findings": [],
+  "judge_provider": "openrouter",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

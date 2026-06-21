@@ -1,0 +1,10 @@
+{
+  "block_id": "ch176-block-001",
+  "chapter_id": "ch176",
+  "feedback": "PASS: No omissions, additions, mistranslations, glossary errors, or pronoun drift; tone and meaning are faithfully preserved.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

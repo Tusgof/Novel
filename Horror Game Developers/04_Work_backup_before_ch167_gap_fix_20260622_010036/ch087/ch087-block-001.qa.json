@@ -1,0 +1,19 @@
+{
+  "block_id": "ch087-block-001",
+  "chapter_id": "ch087",
+  "feedback": "PASS: All glossary terms used correctly, Seth's pronouns stable as ผม, no omissions or additions, meaning and tone preserved.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

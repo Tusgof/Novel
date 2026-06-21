@@ -1,0 +1,128 @@
+# Sentinel Quality Report - current-published-v2
+
+- Created: 2026-06-21T16:46:13.299152+00:00
+- Chapters: ch001-ch220
+- Safe to publish: no
+- Blocker/Major/Minor/Info: 35/0/80/0
+
+## Next Action
+
+- Stop publish. Repair blocker findings, then rerun Sentinel.
+
+## Findings
+
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch001\ch001.md: final_output: approved English remains: Nightmare Forge Studios -> สตูดิโอไนต์แมร์ฟอร์จ. Evidence: `Nightmare Forge Studios.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch001\ch001.md: final_output: approved English remains: Gentle Whispers -> เสียงกระซิบอ่อนโยน. Evidence: `Gentle Whispers.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch010\ch010.md: final_output: approved English remains: Unusual Affairs -> กิจการผิดปกติ. Evidence: `Unusual Affairs.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch010\ch010.md: final_output: approved English remains: Bureau -> สำนักงาน. Evidence: `The Bureau.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch033\ch033.md: final_output: approved English remains: Enter -> ปุ่ม Enter. Evidence: `Enter.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch052\ch052.md: final_output: approved English remains: Trauma Consultant -> ที่ปรึกษาด้านบาดแผลทางใจ. Evidence: `Trauma Consultant.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch055\ch055.md: final_output: approved English remains: Midnight Masquerade -> งานสวมหน้ากากเที่ยงคืน. Evidence: `Midnight Masquerade.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch055\ch055.md: final_output: approved English remains: The Grand Ballroom -> ห้องบอลรูมใหญ่. Evidence: `The Grand Ballroom.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch056\ch056.md: final_output: approved English remains: King-grade Ivory Dominion -> โดมิเนียนงาช้างระดับคิง. Evidence: `King-grade Ivory Dominion.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch075\ch075.md: final_output: approved English remains: Attributeless Fragment -> เศษเสี้ยวไร้คุณลักษณะ. Evidence: `Attributeless Fragment.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch076\ch076.md: final_output: approved English remains: Attributeless Fragment -> เศษเสี้ยวไร้คุณลักษณะ. Evidence: `Attributeless Fragment.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch076\ch076.md: final_output: approved English remains: Conceptualization -> การรังสรรค์. Evidence: `Conceptualization.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch078\ch078.md: final_output: approved English remains: Purity Enhancer -> เครื่องเสริมความบริสุทธิ์. Evidence: `Purity Enhancer.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch080\ch080.md: final_output: approved English remains: Ranked Anomalous Entity -> เอนทิตีผิดปกติจัดแรงก์. Evidence: `Ranked Anomalous Entity.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch080\ch080.md: final_output: approved English remains: Conceptualization -> การรังสรรค์. Evidence: `Conceptualization.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch080\ch080.md: final_output: approved English remains: Anomalous Entity -> สิ่งผิดปกติ. Evidence: `Anomalous Entity.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch080\ch080.md: final_output: approved English remains: Cognitive Shards -> เศษเสี้ยวปัญญา. Evidence: `Cognitive Shards.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch080\ch080.md: final_output: approved English remains: Cognitive Shard -> เศษเสี้ยวปัญญา. Evidence: `Cognitive Shard.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch080\ch080.md: final_output: approved English remains: The Nightwalker -> นักเดินราตรี. Evidence: `The Nightwalker.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch080\ch080.md: final_output: approved English remains: Dreamwalker -> ดรีมวอล์กเกอร์. Evidence: `Dreamwalker.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch080\ch080.md: final_output: approved English remains: Nightwalker -> นักเดินราตรี. Evidence: `The Nightwalker.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch081\ch081.md: final_output: approved English remains: Purity Enhancer -> เครื่องเสริมความบริสุทธิ์. Evidence: `Purity Enhancer.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch109\ch109.md: final_output: approved English remains: Enter -> ปุ่ม Enter. Evidence: `Enter.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch123\ch123.md: final_output: approved English remains: Liminal Entities -> เอนทิตีลิมินัล. Evidence: `Liminal Entities.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch123\ch123.md: final_output: approved English remains: Vaulted Index -> ดัชนีผนึก. Evidence: `Vaulted Index.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch125\ch125.md: final_output: approved English remains: King Grade -> ระดับคิง. Evidence: `King Grade.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch140\ch140.md: final_output: approved English remains: Twisted Man -> ชายบิดเบี้ยว. Evidence: `Twisted Man.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch143\ch143.md: final_output: approved English remains: Cognitive Shard -> เศษเสี้ยวปัญญา. Evidence: `Cognitive Shard.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch161\ch161.md: final_output: approved English remains: Mirror Voices -> เสียงกระจก. Evidence: `Mirror Voice.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch162\ch162.md: final_output: approved English remains: VR -> ความเป็นจริงเสมือน. Evidence: `Virtual Reality.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch188\ch188.md: final_output: approved English remains: Quickstitch Outfit -> ชุดเย็บด่วน. Evidence: `Quickstitch Outfit.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch188\ch188.md: final_output: approved English remains: Purity Enhancer -> เครื่องเสริมความบริสุทธิ์. Evidence: `Purity Enhancer.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch193\ch193.md: final_output: approved English remains: VR -> ความเป็นจริงเสมือน. Evidence: `Virtual Reality.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch195\ch195.md: final_output: approved English remains: Cognitive Shard -> เศษเสี้ยวปัญญา. Evidence: `Cognitive Shard.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch219\ch219.md: final_output: approved English remains: Enter -> ปุ่ม Enter. Evidence: `Enter.md`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `Sword`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `Dawn`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch004\ch004.md: English token remains in product surface; review if intentional. Evidence: `Silver Grand Alliance`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch024\ch024.md: English token remains in product surface; review if intentional. Evidence: `KFC`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch026\ch026.md: English token remains in product surface; review if intentional. Evidence: `Q-Coin`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch032\ch032.md: English token remains in product surface; review if intentional. Evidence: `Q-coin`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch037\ch037.md: English token remains in product surface; review if intentional. Evidence: `Anime King Story`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch037\ch037.md: English token remains in product surface; review if intentional. Evidence: `Definitely`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch037\ch037.md: English token remains in product surface; review if intentional. Evidence: `Problem`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch037\ch037.md: English token remains in product surface; review if intentional. Evidence: `ACG`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch037\ch037.md: English token remains in product surface; review if intentional. Evidence: `Love Live`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch039\ch039.md: English token remains in product surface; review if intentional. Evidence: `Aye Captain`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch051\ch051.md: English token remains in product surface; review if intentional. Evidence: `Kidnapped the Timeline`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch051\ch051.md: English token remains in product surface; review if intentional. Evidence: `Dao Zhan Zhan Zhan`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch076\ch076.md: English token remains in product surface; review if intentional. Evidence: `Packet Loss`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch093\ch093.md: English token remains in product surface; review if intentional. Evidence: `Stand Beneath Billions`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch093\ch093.md: English token remains in product surface; review if intentional. Evidence: `Lives`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch106\ch106.md: English token remains in product surface; review if intentional. Evidence: `Minecraft`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch123\ch123.md: English token remains in product surface; review if intentional. Evidence: `Abyssal`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch128\ch128.md: English token remains in product surface; review if intentional. Evidence: `wifi`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch135\ch135.md: English token remains in product surface; review if intentional. Evidence: `K-22`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\ch142\ch142.md: English token remains in product surface; review if intentional. Evidence: `Prominence`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `Log`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `Gentle Whispers`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `Nightmare Forge Studios`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch006\ch006.md: English token remains in product surface; review if intentional. Evidence: `Tempo`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch006\ch006.md: English token remains in product surface; review if intentional. Evidence: `Rhythm`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch009\ch009.md: English token remains in product surface; review if intentional. Evidence: `LED`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch010\ch010.md: English token remains in product surface; review if intentional. Evidence: `Bureau`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch010\ch010.md: English token remains in product surface; review if intentional. Evidence: `Unusual Affairs`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch010\ch010.md: English token remains in product surface; review if intentional. Evidence: `BUA`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch011\ch011.md: English token remains in product surface; review if intentional. Evidence: `Anomalous entities`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch016\ch016.md: English token remains in product surface; review if intentional. Evidence: `Night-vision`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch018\ch018.md: English token remains in product surface; review if intentional. Evidence: `Talent`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch021\ch021.md: English token remains in product surface; review if intentional. Evidence: `News`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch021\ch021.md: English token remains in product surface; review if intentional. Evidence: `Gate`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch022\ch022.md: English token remains in product surface; review if intentional. Evidence: `U-Engine`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch027\ch027.md: English token remains in product surface; review if intentional. Evidence: `USB`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch027\ch027.md: English token remains in product surface; review if intentional. Evidence: `Game`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch027\ch027.md: English token remains in product surface; review if intentional. Evidence: `Dem`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch028\ch028.md: English token remains in product surface; review if intentional. Evidence: `VHS`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch028\ch028.md: English token remains in product surface; review if intentional. Evidence: `MP3`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch028\ch028.md: English token remains in product surface; review if intentional. Evidence: `Shift`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch029\ch029.md: English token remains in product surface; review if intentional. Evidence: `PTSD`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch029\ch029.md: English token remains in product surface; review if intentional. Evidence: `USB`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch030\ch030.md: English token remains in product surface; review if intentional. Evidence: `USB`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch033\ch033.md: English token remains in product surface; review if intentional. Evidence: `Enter`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch036\ch036.md: English token remains in product surface; review if intentional. Evidence: `Ding`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch036\ch036.md: English token remains in product surface; review if intentional. Evidence: `Ting`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch038\ch038.md: English token remains in product surface; review if intentional. Evidence: `lol`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch038\ch038.md: English token remains in product surface; review if intentional. Evidence: `wtf`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch039\ch039.md: English token remains in product surface; review if intentional. Evidence: `Scout`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch040\ch040.md: English token remains in product surface; review if intentional. Evidence: `BUA`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch043\ch043.md: English token remains in product surface; review if intentional. Evidence: `Regular Day`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch043\ch043.md: English token remains in product surface; review if intentional. Evidence: `the Office`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch043\ch043.md: English token remains in product surface; review if intentional. Evidence: `Dock`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch045\ch045.md: English token remains in product surface; review if intentional. Evidence: `Regular Day`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch045\ch045.md: English token remains in product surface; review if intentional. Evidence: `the Office`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch045\ch045.md: English token remains in product surface; review if intentional. Evidence: `Botting`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch046\ch046.md: English token remains in product surface; review if intentional. Evidence: `Dock`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch046\ch046.md: English token remains in product surface; review if intentional. Evidence: `Botting`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch046\ch046.md: English token remains in product surface; review if intentional. Evidence: `PTSD`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch047\ch047.md: English token remains in product surface; review if intentional. Evidence: `HOIhfioehjfioasdhbuiofha`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch047\ch047.md: English token remains in product surface; review if intentional. Evidence: `Uhahjfksjffuck`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch047\ch047.md: English token remains in product surface; review if intentional. Evidence: `Regular Day`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch047\ch047.md: English token remains in product surface; review if intentional. Evidence: `the Office`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch047\ch047.md: English token remains in product surface; review if intentional. Evidence: `Dock`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch049\ch049.md: English token remains in product surface; review if intentional. Evidence: `III`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch050\ch050.md: English token remains in product surface; review if intentional. Evidence: `Regular Day`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch050\ch050.md: English token remains in product surface; review if intentional. Evidence: `the Office`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch051\ch051.md: English token remains in product surface; review if intentional. Evidence: `U-Engine`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch051\ch051.md: English token remains in product surface; review if intentional. Evidence: `Shift`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch051\ch051.md: English token remains in product surface; review if intentional. Evidence: `MP3`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch051\ch051.md: English token remains in product surface; review if intentional. Evidence: `shift`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch051\ch051.md: English token remains in product surface; review if intentional. Evidence: `Regular Day`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch051\ch051.md: English token remains in product surface; review if intentional. Evidence: `the Office`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch052\ch052.md: English token remains in product surface; review if intentional. Evidence: `Dock`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch052\ch052.md: English token remains in product surface; review if intentional. Evidence: `Robes`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch052\ch052.md: English token remains in product surface; review if intentional. Evidence: `Trauma Consultant`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch053\ch053.md: English token remains in product surface; review if intentional. Evidence: `Robes`.

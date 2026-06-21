@@ -1,0 +1,27 @@
+{
+  "block_id": "ch195-block-001",
+  "chapter_id": "ch195",
+  "feedback": "PASS: All source dialogue, sound effects, and meaning are accurately rendered; Seth's pronouns remain stable as ผม; glossary terms (Cognitive Shard, Order, Decree) are used consistently; tone matches horror-comedy/game-system style.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: หัวหน้ากลุ่ม",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 2
+}

@@ -1,0 +1,10 @@
+{
+  "block_id": "ch212-block-001",
+  "chapter_id": "ch212",
+  "feedback": "PASS: All content present, no omissions/additions, meaning matches source/literal, glossary term (อิดริส ไดอาแมนทิส) used correctly, Seth pronouns stable as ผม, peer address uses นาย consistently, tone balances Idris's horror tension with Section Chief deadpan comedy.",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

@@ -1,0 +1,19 @@
+{
+  "block_id": "ch053-block-001",
+  "chapter_id": "ch053",
+  "feedback": "PASS: All source content is present, glossary terms are correctly used, Seth's pronouns remain ผม throughout, tone balances horror-comedy appropriately, and no meaning drift or additions.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

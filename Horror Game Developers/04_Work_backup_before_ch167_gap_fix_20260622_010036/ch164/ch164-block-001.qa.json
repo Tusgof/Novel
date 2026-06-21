@@ -1,0 +1,10 @@
+{
+  "block_id": "ch164-block-001",
+  "chapter_id": "ch164",
+  "feedback": "[Wafer: response was truncated before the model finished its internal reasoning. Increase max_tokens, or disable thinking on this model (e.g. chat_template_kwargs.enable_thinking=false), then retry.]",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

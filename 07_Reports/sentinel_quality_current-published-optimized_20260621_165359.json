@@ -1,0 +1,574 @@
+{
+  "created_at": "2026-06-21T16:53:59.405917+00:00",
+  "scope": "current-published-optimized",
+  "chapters": "ch001-ch220",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 80,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": [
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Sword"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Dawn"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Silver Grand Alliance"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch024\\ch024.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "KFC"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch026\\ch026.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Q-Coin"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch032\\ch032.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Q-coin"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch037\\ch037.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Anime King Story"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch037\\ch037.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Definitely"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch037\\ch037.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Problem"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch037\\ch037.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "ACG"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch037\\ch037.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Love Live"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch039\\ch039.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Aye Captain"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch051\\ch051.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Kidnapped the Timeline"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch051\\ch051.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Dao Zhan Zhan Zhan"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch076\\ch076.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Packet Loss"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch093\\ch093.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Stand Beneath Billions"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch093\\ch093.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Lives"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch106\\ch106.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Minecraft"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch123\\ch123.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Abyssal"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch128\\ch128.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "wifi"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch135\\ch135.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "K-22"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch142\\ch142.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Prominence"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Log"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch006\\ch006.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Tempo"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch006\\ch006.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Rhythm"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch009\\ch009.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "LED"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch010\\ch010.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "BUA"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch011\\ch011.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Anomalous entities"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch016\\ch016.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Night-vision"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch018\\ch018.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Talent"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch021\\ch021.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "News"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch021\\ch021.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Gate"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch022\\ch022.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "U-Engine"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch027\\ch027.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "USB"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch027\\ch027.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Game"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch027\\ch027.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Dem"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch028\\ch028.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "VHS"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch028\\ch028.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "MP3"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch028\\ch028.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Shift"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch029\\ch029.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "PTSD"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch029\\ch029.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "USB"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch030\\ch030.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "USB"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch033\\ch033.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Enter"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch036\\ch036.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Ding"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch036\\ch036.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Ting"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch038\\ch038.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "lol"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch038\\ch038.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "wtf"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch039\\ch039.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Scout"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch040\\ch040.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "BUA"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch043\\ch043.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Regular Day"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch043\\ch043.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "the Office"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch043\\ch043.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Dock"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch045\\ch045.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Regular Day"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch045\\ch045.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "the Office"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch045\\ch045.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Botting"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch046\\ch046.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Dock"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch046\\ch046.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Botting"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch046\\ch046.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "PTSD"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch047\\ch047.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "HOIhfioehjfioasdhbuiofha"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch047\\ch047.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Uhahjfksjffuck"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch047\\ch047.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Regular Day"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch047\\ch047.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "the Office"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch047\\ch047.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Dock"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch049\\ch049.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "III"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch050\\ch050.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Regular Day"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch050\\ch050.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "the Office"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch051\\ch051.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "U-Engine"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch051\\ch051.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Shift"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch051\\ch051.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "MP3"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch051\\ch051.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "shift"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch051\\ch051.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Regular Day"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch051\\ch051.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "the Office"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch052\\ch052.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Dock"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch052\\ch052.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Robes"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch053\\ch053.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Robes"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch053\\ch053.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Dock"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch053\\ch053.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Bio"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch054\\ch054.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "XXXX-12"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch054\\ch054.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "D-9341"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch054\\ch054.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "SCP-XXXX-1"
+    }
+  ]
+}

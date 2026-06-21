@@ -1,9 +1,9 @@
 ---
 type: glossary-term
 original_term: Crownfall Guild
-thai_term: ????????????????
+thai_term: กิลด์คราวน์ฟอลล์
 status: approved
-aliases: []
+aliases: [Crownfall]
 source_language: en
 category: organization
 novel: horror-game-developer
@@ -19,7 +19,7 @@ updated_at:
 
 # Crownfall Guild
 
-- Thai: ????????????????
+- Thai: กิลด์คราวน์ฟอลล์
 - Category: organization
 - Status: approved
 - First seen: ch066/ch066-block-001

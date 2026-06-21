@@ -1,0 +1,27 @@
+{
+  "block_id": "ch206-block-001",
+  "chapter_id": "ch206",
+  "feedback": "FAIL: Refined text is truncated mid-sentence, omitting a large portion of the source from \"Why?\" onward, including Seth's \"My games... My rules\", the mysterious man's reaction, negotiation, and squad leader offer.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: หัวหน้ากลุ่ม",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "ai_judge",
+      "details": "",
+      "message": "FAIL: Refined text is truncated mid-sentence, omitting a large portion of the source from \"Why?\" onward, including Seth's \"My games... My rules\", the mysterious man's reaction, negotiation, and squad leader offer.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": false,
+  "retry_count": 2
+}

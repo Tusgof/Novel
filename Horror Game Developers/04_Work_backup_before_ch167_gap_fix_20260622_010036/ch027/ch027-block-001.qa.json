@@ -1,0 +1,27 @@
+{
+  "block_id": "ch027-block-001",
+  "chapter_id": "ch027",
+  "feedback": "PASS: The refined translation accurately conveys the source meaning, uses all glossary terms correctly, and maintains the tense horror-comedy tone without omissions or additions.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: โซอี้ เทอร์ลิน",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

@@ -1,0 +1,19 @@
+{
+  "block_id": "ch020-block-001",
+  "chapter_id": "ch020",
+  "feedback": "PASS: Refined Thai matches source meaning, all dialogue and narration present, no omissions or additions, glossaries correct, tone consistent with horror-comedy/game-system style.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

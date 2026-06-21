@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: Squad Leader
-thai_term: ????????????
+thai_term: หัวหน้ากลุ่ม
 status: approved
 aliases: []
 source_language: en
@@ -19,7 +19,7 @@ updated_at:
 
 # Squad Leader
 
-- Thai: ????????????
+- Thai: หัวหน้ากลุ่ม
 - Category: title
 - Status: approved
 - First seen: ch067/ch067-block-001

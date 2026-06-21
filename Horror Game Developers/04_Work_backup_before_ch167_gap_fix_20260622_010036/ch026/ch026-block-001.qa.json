@@ -1,0 +1,10 @@
+{
+  "block_id": "ch026-block-001",
+  "chapter_id": "ch026",
+  "feedback": "**FAIL: Multiple significant omissions.** The refined drops: (1) the entire \"*'I survived.'* / Darkness wrapped around me\" internal monologue/atmosphere paragraph after \"steady myself to breathe\"; (2) the \"*'I'm really starting to lose it.'* / breaking-wrist thought / heavy sigh / resignation to calling Kyle\" transition paragraph before the burning sensation; (3) the \"*'It's back!'*\" italic thought; (4) the \"*Click!*\" sound effect before lights turn on; (5) the \"*'Please work...'*\" thought before pressing play. Also carries over literal's mistranslation of \"my mind\" (source) as \"หัวใจ\" (heart). Glossary usage (นักเดินราตรี, ไคล์) is correct; tone is otherwise fine.",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 2
+}

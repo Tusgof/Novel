@@ -13,6 +13,7 @@ from novel_pipeline.types import (
     ProviderResponse,
     QAFinding,
     QAReport,
+    RunRecord,
     TextBlock,
 )
 from novel_pipeline.pipeline import _literal_safe_refined_draft, _qa_report_indicates_omission
@@ -272,6 +273,26 @@ def test_next_pending_stage_no_records():
     result = state.next_pending_stage("ch001-block-001", stage_order)
     assert result == "translating"
     print("Pending stage test passed")
+
+def test_next_pending_stage_treats_force_accepted_qa_as_done():
+    """Manual QA acceptance is terminal for resume/status pending-stage calculation."""
+    block_id = "ch001-block-001"
+    stage_order = ["translating", "refining", "qa", "formatting", "completed"]
+    records = [
+        RunRecord(run_id="test", block_id=block_id, stage="translating", status="completed"),
+        RunRecord(run_id="test", block_id=block_id, stage="refining", status="completed"),
+        RunRecord(run_id="test", block_id=block_id, stage="qa", status="force_accepted", provider="manual"),
+        RunRecord(run_id="test", block_id=block_id, stage="formatting", status="completed"),
+        RunRecord(run_id="test", block_id=block_id, stage="completed", status="completed"),
+    ]
+    state = ResumeState(
+        run_id="test",
+        records=tuple(records),
+        latest_by_block={block_id: records[-1]},
+        latest_by_stage={(record.block_id, record.stage): record for record in records},
+        records_by_block={block_id: records},
+    )
+    assert state.next_pending_stage(block_id, stage_order) is None
 
 def test_retry_quota_success():
     """Provider retries quota failure and succeeds on second attempt."""
@@ -1969,6 +1990,49 @@ def test_qa_ai_judge_finding_still_blocks():
     assert any(finding.code == "ai_judge" for finding in report.findings)
 
 
+def test_qa_markdown_bold_fail_line_still_blocks():
+    """AI judge fail lines wrapped in markdown still block."""
+    from novel_pipeline.stages.qa import run_qa_stage
+    from novel_pipeline.types import LiteralDraft, LiteralSentencePair, RefinedDraft, TextBlock
+
+    config = Mock()
+    config.workspace.prompts = Path("prompts")
+    block = TextBlock(block_id="ch177-block-001", chapter_id="ch177", source_text="source")
+    literal = LiteralDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        sentence_pairs=(LiteralSentencePair(source_sentence="s1", literal_sentence="l1"),),
+    )
+    refined = RefinedDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        refined_text="ข้อความแปล",
+    )
+    runner = Mock()
+    runner.spec.name = "qwen"
+    runner.run_with_retry.return_value = ProviderResponse(
+        provider="qwen",
+        command=("qwen",),
+        stdout="**FAIL: pronoun drift remains.**",
+        returncode=0,
+    )
+
+    with patch("novel_pipeline.stages.qa.PromptStore.render", return_value="qa prompt"):
+        report = run_qa_stage(
+            config=config,
+            block=block,
+            literal_draft=literal,
+            refined_draft=refined,
+            glossary_subset=[],
+            provider_runner=runner,
+            model="deepseek-reasoner",
+            retry_count=0,
+        )
+
+    assert report.passed is False
+    assert any(finding.code == "ai_judge" for finding in report.findings)
+
+
 def test_format_command_rejects_invalid_formatted_text():
     """format_command refuses to commit a formatted artifact when validation fails."""
     from novel_pipeline.pipeline import format_command
@@ -3644,6 +3708,41 @@ def test_literal_translation_stage_uses_research_context():
 
     assert result.provider == "gemini"
     assert mock_render.call_args.kwargs["research_context"] == research_context
+
+
+def test_literal_translation_accepts_short_image_caption_filename():
+    """Short meme/image-caption lines ending in .jpg are valid source text, not mojibake."""
+    from novel_pipeline.stages.translate import run_literal_translation_stage
+    from novel_pipeline.types import TextBlock
+
+    config = Mock()
+    config.workspace.prompts = Path("prompts")
+    config.research_context_text = Mock(return_value="")
+    block = TextBlock(
+        block_id="ch096-block-006",
+        chapter_id="ch096",
+        source_text="\u5e7d\u7075\u8239\u957f\u5927\u53d7\u9707\u64bc.jpg\u3002",
+        source_language="zh",
+    )
+    provider_runner = Mock()
+    provider_runner.spec.name = "openrouter"
+    provider_runner.run_with_retry.return_value = ProviderResponse(
+        provider="openrouter",
+        command=("openrouter",),
+        stdout="\u0e01\u0e31\u0e1b\u0e15\u0e31\u0e19\u0e40\u0e23\u0e37\u0e2d\u0e1c\u0e35\u0e16\u0e36\u0e07\u0e01\u0e31\u0e1a\u0e0a\u0e47\u0e2d\u0e01.jpg\u3002",
+        returncode=0,
+    )
+
+    with patch("novel_pipeline.stages.translate.PromptStore.render", return_value="literal prompt"):
+        result = run_literal_translation_stage(
+            config=config,
+            block=block,
+            glossary_subset=[],
+            provider_runner=provider_runner,
+        )
+
+    assert result.sentence_pairs[0].literal_sentence.endswith(".jpg\u3002")
+    assert "\u5e7d\u7075" not in result.sentence_pairs[0].literal_sentence
 
 
 def test_refine_stage_uses_research_context():
@@ -6113,6 +6212,288 @@ def test_hgd_title_fallback_guardrail_flags_english_titles():
     assert any("reader title contains English fallback marker" in issue for issue in issues)
 
 
+def test_hgd_forbidden_term_guardrail_flags_known_leakage():
+    """Output guardrail catches HGD glossary leakage reported in published chapters."""
+    import importlib.util
+    import sys
+    import tempfile
+
+    script_path = Path("scripts/check_output_quality_guardrails.py")
+    spec = importlib.util.spec_from_file_location("check_output_quality_guardrails_leakage_test", script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["check_output_quality_guardrails_leakage_test"] = module
+    spec.loader.exec_module(module)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_root = Path(tmp)
+        module.HGD = tmp_root / "Horror Game Developer"
+        output_path = module.HGD / "05_Output" / "ch149" / "ch149.md"
+        output_path.parent.mkdir(parents=True)
+        output_path.write_text(
+            "# ตอนที่ 149\n\nทวิสเต็ดแมน (Twisted Man) เป็น อโนมาลี (Anomaly) และ Squad Leader ยังหลุดอังกฤษ ไคลน์ควรเป็นเคเลน",
+            encoding="utf-8",
+        )
+
+        issues: list[str] = []
+        module.check_absent(output_path, module.HGD_FORBIDDEN_ENGLISH_OUTPUT, issues)
+
+    assert any("ทวิสเต็ดแมน" in issue for issue in issues)
+    assert any("(Twisted Man)" in issue for issue in issues)
+    assert any("อโนมาลี" in issue for issue in issues)
+    assert any("Squad Leader" in issue for issue in issues)
+    assert any("ไคลน์" in issue for issue in issues)
+
+
+def test_output_guardrail_flags_metadata_and_broken_ui_markers():
+    """Output guardrail catches leaked category labels and broken UI bracket formatting."""
+    import importlib.util
+    import sys
+    import tempfile
+
+    script_path = Path("scripts/check_output_quality_guardrails.py")
+    spec = importlib.util.spec_from_file_location("check_output_quality_guardrails_marker_test", script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["check_output_quality_guardrails_marker_test"] = module
+    spec.loader.exec_module(module)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        output_path = root / "ch219" / "ch219.md"
+        output_path.parent.mkdir(parents=True)
+        output_path.write_text(
+            "# ตอนที่ 219\n\nไคล์ (character) เดินมา\n\n(ประตูโค้งสูญค่า)]**",
+            encoding="utf-8",
+        )
+
+        issues: list[str] = []
+        module.check_translation_metadata_leakage(root, issues)
+        module.check_malformed_markdown_artifacts(root, issues)
+
+    assert any("leaked translation metadata label" in issue for issue in issues)
+    assert any("broken UI bracket wrapper" in issue for issue in issues)
+
+
+def test_hgd_approved_glossary_guardrail_flags_english_alias_leakage():
+    """Approved HGD glossary terms must not remain as English parentheticals or UI labels."""
+    import importlib.util
+    import sys
+    import tempfile
+
+    script_path = Path("scripts/check_output_quality_guardrails.py")
+    spec = importlib.util.spec_from_file_location("check_output_quality_guardrails_glossary_test", script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["check_output_quality_guardrails_glossary_test"] = module
+    spec.loader.exec_module(module)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_root = Path(tmp)
+        module.HGD = tmp_root / "Horror Game Developers"
+        glossary_path = module.HGD / "01_Glossary" / "Dreamwalker.md"
+        glossary_path.parent.mkdir(parents=True)
+        glossary_path.write_text(
+            "---\n"
+            "original_term: Dreamwalker\n"
+            "thai_term: ดรีมวอล์กเกอร์\n"
+            "status: approved\n"
+            "aliases: ['Dream Walker']\n"
+            "---\n",
+            encoding="utf-8",
+        )
+        bad_glossary_path = module.HGD / "01_Glossary" / "Broken.md"
+        bad_glossary_path.write_text(
+            "---\n"
+            "original_term: Broken\n"
+            "thai_term: ?????\n"
+            "status: approved\n"
+            "---\n",
+            encoding="utf-8",
+        )
+        output_path = module.HGD / "05_Output" / "ch001" / "ch001.md"
+        output_path.parent.mkdir(parents=True)
+        output_path.write_text(
+            "# ตอนที่ 1\n\nดรีมวอล์กเกอร์ (Dreamwalker)\n\n**[Dream Walker]**",
+            encoding="utf-8",
+        )
+
+        issues: list[str] = []
+        module.check_hgd_approved_glossary_leakage(module.HGD / "05_Output", issues)
+
+    assert any("approved glossary English remains: Dreamwalker" in issue for issue in issues)
+    assert any("approved glossary English remains: Dream Walker" in issue for issue in issues)
+    assert any("approved glossary term has unusable thai_term" in issue for issue in issues)
+
+
+def test_sentinel_quality_report_flags_known_glossary_leakage_fixture():
+    """Sentinel catches approved glossary leakage and unusable Thai glossary terms."""
+    import importlib.util
+    import sys
+    import tempfile
+
+    script_path = Path("scripts/sentinel_quality_report.py")
+    spec = importlib.util.spec_from_file_location("sentinel_quality_report_test", script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["sentinel_quality_report_test"] = module
+    spec.loader.exec_module(module)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_root = Path(tmp)
+        module.WORKSPACE_ROOT = tmp_root
+        module.MOONREAD_ROOT = tmp_root / "MoonRead"
+        novel_root = tmp_root / "Fixture Novel"
+        glossary_root = novel_root / "01_Glossary"
+        output_root = novel_root / "05_Output" / "ch001"
+        reader_root = module.MOONREAD_ROOT / "content/generated/books/fixture-novel/chapters"
+        glossary_root.mkdir(parents=True)
+        output_root.mkdir(parents=True)
+        reader_root.mkdir(parents=True)
+        (glossary_root / "Dreamwalker.md").write_text(
+            "---\n"
+            "original_term: Dreamwalker\n"
+            "thai_term: ดรีมวอล์กเกอร์\n"
+            "status: approved\n"
+            "aliases: ['Dream Walker']\n"
+            "---\n",
+            encoding="utf-8",
+        )
+        (glossary_root / "Broken.md").write_text(
+            "---\n"
+            "original_term: Broken\n"
+            "thai_term: ?????\n"
+            "status: approved\n"
+            "---\n",
+            encoding="utf-8",
+        )
+        (output_root / "ch001.md").write_text("# ตอนที่ 1\n\nดรีมวอล์กเกอร์ (Dreamwalker)", encoding="utf-8")
+        (reader_root / "ch001.md").write_text("# ตอนที่ 1\n\n**[Dream Walker]**", encoding="utf-8")
+        registry = {
+            "novels": [
+                {
+                    "slug": "fixture-novel",
+                    "folder": "Fixture Novel",
+                    "output_dir": "05_Output",
+                }
+            ]
+        }
+
+        findings = module.scan_approved_glossary_leakage(registry, {"ch001"})
+
+    assert any(f.category == "glossary_health" and f.severity == "blocker" for f in findings)
+    assert any("Dreamwalker" in f.message and f.severity == "blocker" for f in findings)
+    assert any(f.category == "approved_glossary_leakage" and f.severity == "blocker" for f in findings)
+
+
+def test_sentinel_glossary_coverage_flags_source_term_missing_in_output():
+    """Libra coverage catches source glossary terms that disappear from translated output."""
+    import importlib.util
+    import sys
+    import tempfile
+
+    script_path = Path("scripts/sentinel_quality_report.py")
+    spec = importlib.util.spec_from_file_location("sentinel_quality_report_coverage_test", script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["sentinel_quality_report_coverage_test"] = module
+    spec.loader.exec_module(module)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_root = Path(tmp)
+        module.WORKSPACE_ROOT = tmp_root
+        module.MOONREAD_ROOT = tmp_root / "MoonRead"
+        novel_root = tmp_root / "Fixture Novel"
+        glossary_root = novel_root / "01_Glossary"
+        source_root = novel_root / "03_Raw" / "ch164"
+        output_root = novel_root / "05_Output" / "ch164"
+        glossary_root.mkdir(parents=True)
+        source_root.mkdir(parents=True)
+        output_root.mkdir(parents=True)
+        (glossary_root / "Kaelen Jacobs.md").write_text(
+            "---\n"
+            "original_term: Kaelen Jacobs\n"
+            "thai_term: เคเลน เจคอบส์\n"
+            "status: approved\n"
+            "category: character\n"
+            "aliases: ['Kaelen']\n"
+            "---\n",
+            encoding="utf-8",
+        )
+        (source_root / "source.json").write_text(
+            json.dumps({"raw_text": "Kaelen looked at Kyle."}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        (output_root / "ch164.md").write_text("# ตอนที่ 164\n\nไคลน์มองไคล์", encoding="utf-8")
+        registry = {
+            "novels": [
+                {
+                    "slug": "fixture-novel",
+                    "folder": "Fixture Novel",
+                    "raw_dir": "03_Raw",
+                    "output_dir": "05_Output",
+                }
+            ]
+        }
+
+        findings = module.scan_glossary_source_coverage(registry, {"ch164"})
+
+    assert any(
+        f.category == "glossary_coverage_missing"
+        and f.severity == "blocker"
+        and "Kaelen -> เคเลน" in f.evidence
+        and "near_miss=ไคลน์" in f.evidence
+        for f in findings
+    )
+
+
+def test_hgd_paragraph_density_guardrail_checks_late_chapters():
+    """Output guardrail catches dense HGD paragraphs beyond the old ch001-ch035 range."""
+    import importlib.util
+    import sys
+    import tempfile
+
+    script_path = Path("scripts/check_output_quality_guardrails.py")
+    spec = importlib.util.spec_from_file_location("check_output_quality_guardrails_density_test", script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["check_output_quality_guardrails_density_test"] = module
+    spec.loader.exec_module(module)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_root = Path(tmp)
+        module.HGD = tmp_root / "Horror Game Developer"
+        output_path = module.HGD / "05_Output" / "ch177" / "ch177.md"
+        output_path.parent.mkdir(parents=True)
+        output_path.write_text("# ตอนที่ 177\n\n" + ("ยาว" * 300), encoding="utf-8")
+
+        issues: list[str] = []
+        module.check_paragraph_density(module.HGD / "05_Output", issues, max_chars=module.MAX_HGD_PARAGRAPH_CHARS)
+
+    assert any("ch177" in issue and "too dense" in issue for issue in issues)
+
+
+def test_output_guardrail_compacts_runaway_repeats_for_truncation_ratio():
+    """Runaway scream length should not make a capped readable output look truncated."""
+    import importlib.util
+    import sys
+
+    script_path = Path("scripts/check_output_quality_guardrails.py")
+    spec = importlib.util.spec_from_file_location("check_output_quality_guardrails_repeat_test", script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["check_output_quality_guardrails_repeat_test"] = module
+    spec.loader.exec_module(module)
+
+    source = "เสียงเริ่มขึ้น " + ("ฮ" * 4000) + " แล้วทุกคนหยุดนิ่ง"
+    output = "เสียงเริ่มขึ้น " + ("ฮ" * 24) + " แล้วทุกคนหยุดนิ่ง"
+
+    comparable_source = module.compact_runaway_repeats(source)
+    comparable_output = module.compact_runaway_repeats(output)
+
+    assert len(comparable_output) / len(comparable_source) > 0.9
+
+
 def test_hgd_required_source_beat_guardrail_flags_missing_time_skip():
     """Output guardrail catches the HGD ch022 short time-skip omission."""
     import importlib.util
@@ -7038,6 +7419,8 @@ if __name__ == "__main__":
     test_qa_rule_warning_does_not_block_ai_pass()
     test_qa_glossary_missing_term_blocks_when_refinement_removed_literal_term()
     test_qa_ai_judge_finding_still_blocks()
+    test_qa_markdown_bold_fail_line_still_blocks()
+    test_literal_translation_accepts_short_image_caption_filename()
     test_format_command_rejects_invalid_formatted_text()
     # New tests for scan-level circuit breaker
     test_stage_routing_parses_scan_budget_fields()
@@ -7113,6 +7496,13 @@ if __name__ == "__main__":
     test_operator_dashboard_v66_docs_and_assets_exist()
     test_hgd_semantic_format_audit_flags_layout_warnings_without_mutation()
     test_hgd_title_fallback_guardrail_flags_english_titles()
+    test_hgd_forbidden_term_guardrail_flags_known_leakage()
+    test_output_guardrail_flags_metadata_and_broken_ui_markers()
+    test_hgd_approved_glossary_guardrail_flags_english_alias_leakage()
+    test_sentinel_quality_report_flags_known_glossary_leakage_fixture()
+    test_sentinel_glossary_coverage_flags_source_term_missing_in_output()
+    test_hgd_paragraph_density_guardrail_checks_late_chapters()
+    test_output_guardrail_compacts_runaway_repeats_for_truncation_ratio()
     test_hgd_required_source_beat_guardrail_flags_missing_time_skip()
     test_hgd_pronoun_policy_guardrail_flags_seth_drift()
     test_hgd_ai_format_sample_report_is_sample_only()

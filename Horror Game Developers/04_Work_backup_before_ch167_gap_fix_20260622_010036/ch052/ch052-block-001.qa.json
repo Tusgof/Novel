@@ -1,0 +1,19 @@
+{
+  "block_id": "ch052-block-001",
+  "chapter_id": "ch052",
+  "feedback": "PASS: Faithful to source, correct pronouns and glossary usage, no omissions or additions.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ????????????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

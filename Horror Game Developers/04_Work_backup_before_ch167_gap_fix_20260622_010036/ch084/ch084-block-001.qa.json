@@ -1,0 +1,10 @@
+{
+  "block_id": "ch084-block-001",
+  "chapter_id": "ch084",
+  "feedback": "PASS: Refined matches source content and tone, uses correct glossary terms, keeps Seth's pronoun as ผม consistently, and preserves horror-comedy atmosphere without drift.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

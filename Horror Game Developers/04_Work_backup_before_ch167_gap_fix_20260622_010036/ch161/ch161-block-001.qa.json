@@ -1,0 +1,10 @@
+{
+  "block_id": "ch161-block-001",
+  "chapter_id": "ch161",
+  "feedback": "After comparing the refined text against the source and literal across all checklist criteria:\n**FAIL: \"Twisted Man\" inconsistently translated — \"ชายบิดเบี้ยว\" correct but 2 of 4 occurrences drift to \"เจ้าชายบิดเบี้ยว\" (lit. \"Twisted Prince\"), a meaning drift not present in source. No other issues found (pronouns, omissions, system messages, glossary all clean).**",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

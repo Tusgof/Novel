@@ -1,0 +1,27 @@
+{
+  "block_id": "ch050-block-001",
+  "chapter_id": "ch050",
+  "feedback": "FAIL: Missing *ติ๊ง!* sound effect, Karl's internal thought *'115 คน? ก็ไม่เลวนะ...'*, and the line \"A Regular Day in the Office.\" with \"ห้าคน?\" reaction.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: เควสต์เสริมเริ่มทำงาน",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "ai_judge",
+      "details": "",
+      "message": "FAIL: Missing *ติ๊ง!* sound effect, Karl's internal thought *'115 คน? ก็ไม่เลวนะ...'*, and the line \"A Regular Day in the Office.\" with \"ห้าคน?\" reaction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": false,
+  "retry_count": 2
+}

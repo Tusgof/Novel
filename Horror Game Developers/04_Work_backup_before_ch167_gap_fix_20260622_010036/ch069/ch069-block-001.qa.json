@@ -1,0 +1,19 @@
+{
+  "block_id": "ch069-block-001",
+  "chapter_id": "ch069",
+  "feedback": "FAIL: The refined translation omits the source's internal monologue line \"*’...What sort of sick situation is this?’*\" and the sound effect \"*Hick... hick...*\" before the crying intensifies. Additionally, the family head's dialogue shifts from the required casual peer address (นาย) to เธอ, and the refined text incorrectly changes \"forcing me to breathe from my nose\" to \"บังคับให้ผมต้องหายใจทางจมูกแทน\" (the source says he was forced to breathe from his nose, not his mouth).",
+  "findings": [
+    {
+      "code": "ai_judge",
+      "details": "",
+      "message": "FAIL: The refined translation omits the source's internal monologue line \"*’...What sort of sick situation is this?’*\" and the sound effect \"*Hick... hick...*\" before the crying intensifies. Additionally, the family head's dialogue shifts from the required casual peer address (นาย) to เธอ, and the refined text incorrectly changes \"forcing me to breathe from my nose\" to \"บังคับให้ผมต้องหายใจทางจมูกแทน\" (the source says he was forced to breathe from his nose, not his mouth).",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter",
+  "metadata": {},
+  "passed": false,
+  "retry_count": 2
+}

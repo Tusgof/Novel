@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: Tempo Ring
-thai_term: ??????????????
+thai_term: แหวนจังหวะ
 status: approved
 aliases: []
 source_language: en
@@ -19,7 +19,7 @@ updated_at:
 
 # Tempo Ring
 
-- Thai: ??????????????
+- Thai: แหวนจังหวะ
 - Category: item
 - Status: approved
 - First seen: ch057/ch057-block-001

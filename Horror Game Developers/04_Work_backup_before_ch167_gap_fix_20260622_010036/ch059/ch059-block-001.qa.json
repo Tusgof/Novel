@@ -1,0 +1,10 @@
+{
+  "block_id": "ch059-block-001",
+  "chapter_id": "ch059",
+  "feedback": "PASS: Refined matches source meaning, no omissions, glossary terms correct, Seth pronouns stable as ผม, tone appropriately tense.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

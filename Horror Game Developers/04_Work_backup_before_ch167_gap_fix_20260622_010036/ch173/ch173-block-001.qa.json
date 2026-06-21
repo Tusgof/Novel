@@ -1,0 +1,10 @@
+{
+  "block_id": "ch173-block-001",
+  "chapter_id": "ch173",
+  "feedback": "**FAIL:** Omissions — dropped first `*Ding!*` and the narrative of the chime/looking at phone/friend-request surprise (reader jumps from \"not looking forward\" straight to `\"อิดริส?\"` with no transition); also dropped second `Ding!` before Idris's message, both `*Click!*` sounds for door and light switch, and the box/shadow description after opening the basement door. All are present in source and literal. Per QA baseline, sound effects and narrative tension paragraphs are structurally required. Other criteria (pronouns, glossary, tone) are clean.",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

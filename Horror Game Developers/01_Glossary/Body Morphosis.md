@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: Body Morphosis
-thai_term: ?????????????????
+thai_term: การแปรสัณฐานร่างกาย
 status: approved
 aliases: []
 source_language: en
@@ -19,7 +19,7 @@ updated_at:
 
 # Body Morphosis
 
-- Thai: ?????????????????
+- Thai: การแปรสัณฐานร่างกาย
 - Category: term
 - Status: approved
 - First seen: ch080/ch080-block-001

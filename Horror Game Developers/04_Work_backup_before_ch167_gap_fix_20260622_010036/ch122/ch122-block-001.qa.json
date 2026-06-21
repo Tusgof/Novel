@@ -1,0 +1,10 @@
+{
+  "block_id": "ch122-block-001",
+  "chapter_id": "ch122",
+  "feedback": "PASS: Refined translation matches source and literal, no omissions/additions/mistranslations, glossary correct, Seth pronouns stable as ผม, tone preserved.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

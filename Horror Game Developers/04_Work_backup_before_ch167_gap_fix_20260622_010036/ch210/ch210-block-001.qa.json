@@ -1,0 +1,10 @@
+{
+  "block_id": "ch210-block-001",
+  "chapter_id": "ch210",
+  "feedback": "PASS: Complete, accurate, and conforms to all criteria — no omissions, no additions beyond standard gloss conventions, correct glossary usage (ดรีมวอล์กเกอร์, แมทเธียส ซิลเวอร์สโตน, อิดริส ไดอาแมนทิส), Seth pronouns stable at ผม throughout, and the Matthias/CEO confrontation maintains appropriate pronoun tension (คุณ→แก escalation). The refined is identical to the literal, which was already faithful.",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

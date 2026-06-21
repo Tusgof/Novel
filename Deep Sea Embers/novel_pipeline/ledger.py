@@ -43,6 +43,13 @@ class ResumeState:
         committed_status: str = "completed",
     ) -> str | None:
         for stage in stage_order:
+            record = self.latest_by_stage.get((block_id, stage))
+            if record is None:
+                return stage
+            if record.status == committed_status:
+                continue
+            if stage == "qa" and record.status in {"force_accepted", "skipped"}:
+                continue
             if not self.committed(block_id, stage, committed_status):
                 return stage
         return None

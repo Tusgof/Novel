@@ -1,0 +1,27 @@
+{
+  "block_id": "ch094-block-001",
+  "chapter_id": "ch094",
+  "feedback": "PASS: Refined matches source and literal draft, uses correct glossary terms, maintains Seth's ผม pronoun, uses นาย for peer address, and preserves horror-comedy tone without omissions or additions.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: หัวหน้ากลุ่ม",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

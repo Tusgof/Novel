@@ -1,0 +1,19 @@
+{
+  "block_id": "ch068-block-001",
+  "chapter_id": "ch068",
+  "feedback": "PASS: Accurate translation with no omissions, additions, or pronoun drift; system messages and horror tone preserved; glossary items handled appropriately.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ?????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

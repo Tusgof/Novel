@@ -63,6 +63,20 @@ HGD_FORBIDDEN_ENGLISH_OUTPUT = [
     "[Scenario]",
     "[Section Chief]",
     "(Section Chief)",
+    "(Scenario)",
+    "(Hidden Scenario)",
+    "(Jester)",
+    "(Crownfall Guild)",
+    "(Twisted Man)",
+    "(Anomaly)",
+    "(anomaly)",
+    "(Anomalies)",
+    "(anomalies)",
+    "Squad Leader",
+    "Game Developer System",
+    "ทวิสเต็ดแมน",
+    "อโนมาลี",
+    "ไคลน์",
     "*Click!*",
     "*Takakakakaka—*",
     "*Tak!*",
@@ -96,6 +110,50 @@ def read(path: Path) -> str:
     return path.read_text(encoding="utf-8").replace("\r\n", "\n")
 
 
+def compact_runaway_repeats(text: str, *, limit: int = 24) -> str:
+    """Normalize runaway repeated non-whitespace characters for length comparisons."""
+    return re.sub(r"(\S)\1{" + str(limit) + r",}", lambda match: match.group(1) * limit, text)
+
+
+def normalize_chapter_id(value: str) -> str:
+    value = value.strip()
+    if not value:
+        return value
+    if value.startswith("ch"):
+        return value
+    if value.isdigit():
+        return f"ch{int(value):03d}"
+    return value
+
+
+def parse_requested_chapters(argv: list[str]) -> set[str] | None:
+    if "--chapters" not in argv:
+        return None
+    index = argv.index("--chapters")
+    if index + 1 >= len(argv):
+        return set()
+
+    chapters: set[str] = set()
+    for token in argv[index + 1].split(","):
+        token = token.strip()
+        if not token:
+            continue
+        if "-" in token:
+            start_raw, end_raw = token.split("-", 1)
+            start = normalize_chapter_id(start_raw)
+            end = normalize_chapter_id(end_raw)
+            if start.startswith("ch") and end.startswith("ch") and start[2:].isdigit() and end[2:].isdigit():
+                for number in range(int(start[2:]), int(end[2:]) + 1):
+                    chapters.add(f"ch{number:03d}")
+                continue
+        chapters.add(normalize_chapter_id(token))
+    return chapters
+
+
+def in_scope(chapter: str, scoped_chapters: set[str] | None) -> bool:
+    return scoped_chapters is None or chapter in scoped_chapters
+
+
 def novel_root(novel: dict) -> Path:
     return NOVEL_ROOT / str(novel.get("folder", ""))
 
@@ -122,10 +180,18 @@ def check_absent(path: Path, terms: list[str], issues: list[str]) -> None:
             issues.append(f"{path}: forbidden variant remains: {term}")
 
 
-def check_paragraph_density(root: Path, issues: list[str], *, max_chars: int = MAX_PARAGRAPH_CHARS) -> None:
+def check_paragraph_density(
+    root: Path,
+    issues: list[str],
+    *,
+    max_chars: int = MAX_PARAGRAPH_CHARS,
+    scoped_chapters: set[str] | None = None,
+) -> None:
     if not root.exists():
         return
     for path in sorted(root.glob("ch*/ch*.md")):
+        if not in_scope(path.parent.name, scoped_chapters):
+            continue
         text = read(path)
         for index, paragraph in enumerate(text.split("\n\n"), start=1):
             stripped = paragraph.strip()
@@ -133,6 +199,160 @@ def check_paragraph_density(root: Path, issues: list[str], *, max_chars: int = M
                 continue
             if len(stripped) > max_chars:
                 issues.append(f"{path}: paragraph {index} too dense ({len(stripped)} chars)")
+
+
+def check_malformed_markdown_artifacts(
+    root: Path,
+    issues: list[str],
+    *,
+    scoped_chapters: set[str] | None = None,
+) -> None:
+    """Catch formatter marker residue that renders badly in MoonRead."""
+    if not root.exists():
+        return
+    paths = sorted(root.glob("ch*/ch*.md"))
+    if not paths:
+        paths = sorted(root.glob("ch*.md"))
+    for path in paths:
+        chapter = path.parent.name if path.parent.name.startswith("ch") else path.stem
+        if not in_scope(chapter, scoped_chapters):
+            continue
+        for line_number, line in enumerate(read(path).splitlines(), start=1):
+            stripped = line.strip()
+            if not stripped:
+                continue
+            if re.match(r"^\[[^\]\n]+\]\*\*$", stripped):
+                issues.append(f"{path}:{line_number}: malformed markdown missing opening bold marker")
+            elif stripped.endswith("***") and stripped != "***" and not stripped.startswith("***"):
+                issues.append(f"{path}:{line_number}: malformed markdown has trailing extra emphasis markers")
+            elif re.match(r"^::?\*", stripped):
+                issues.append(f"{path}:{line_number}: malformed markdown has stray colon before emphasis")
+            elif stripped in {"*", "* *"}:
+                issues.append(f"{path}:{line_number}: malformed markdown empty emphasis marker")
+            elif re.match(r"^\*\s+.+\s+\*$", stripped):
+                issues.append(f"{path}:{line_number}: malformed markdown has spaced emphasis wrapper")
+            elif re.match(r"^\).+\]\*\*$", stripped) or re.match(r"^\(.+\)\]\*\*$", stripped):
+                issues.append(f"{path}:{line_number}: malformed markdown has broken UI bracket wrapper")
+
+
+def check_translation_metadata_leakage(
+    root: Path,
+    issues: list[str],
+    *,
+    scoped_chapters: set[str] | None = None,
+) -> None:
+    """Reject leaked glossary/category labels that are not reader-facing prose."""
+    if not root.exists():
+        return
+    paths = sorted(root.glob("ch*/ch*.md"))
+    if not paths:
+        paths = sorted(root.glob("ch*.md"))
+    metadata_pattern = re.compile(r"\((?:character|entity|rank|system|term)\)")
+    for path in paths:
+        chapter = path.parent.name if path.parent.name.startswith("ch") else path.stem
+        if not in_scope(chapter, scoped_chapters):
+            continue
+        for line_number, line in enumerate(read(path).splitlines(), start=1):
+            if metadata_pattern.search(line):
+                issues.append(f"{path}:{line_number}: leaked translation metadata label")
+
+
+def _parse_simple_frontmatter(path: Path) -> dict[str, str]:
+    text = read(path).lstrip("\ufeff")
+    match = re.match(r"^---\n(.*?)\n---", text, re.DOTALL)
+    if not match:
+        return {}
+    values: dict[str, str] = {}
+    for line in match.group(1).splitlines():
+        if ":" not in line:
+            continue
+        key, value = line.split(":", 1)
+        values[key.strip()] = value.strip().strip("'\"")
+    return values
+
+
+def _parse_inline_aliases(raw: str) -> list[str]:
+    raw = raw.strip()
+    if not raw.startswith("[") or not raw.endswith("]"):
+        return []
+    return [part.strip().strip("'\"") for part in raw[1:-1].split(",") if part.strip()]
+
+
+def _approved_hgd_glossary_terms(issues: list[str]) -> list[tuple[str, str, Path]]:
+    terms: list[tuple[str, str, Path]] = []
+    glossary_root = HGD / "01_Glossary"
+    if not glossary_root.exists():
+        return terms
+    for path in sorted(glossary_root.glob("*.md")):
+        meta = _parse_simple_frontmatter(path)
+        if meta.get("status") != "approved":
+            continue
+        thai = meta.get("thai_term", "").strip()
+        if not thai or "?" in thai:
+            issues.append(f"{path}: approved glossary term has unusable thai_term")
+            continue
+        originals = [meta.get("original_term", "").strip(), *_parse_inline_aliases(meta.get("aliases", ""))]
+        for original in originals:
+            if original and original != thai and re.search(r"[A-Za-z]", original):
+                terms.append((original, thai, path))
+    terms.sort(key=lambda item: len(item[0]), reverse=True)
+    return terms
+
+
+def check_hgd_approved_glossary_leakage(
+    root: Path,
+    issues: list[str],
+    *,
+    scoped_chapters: set[str] | None = None,
+) -> None:
+    """Approved HGD glossary terms should not remain as English parentheticals/UI labels."""
+    if not root.exists():
+        return
+    terms = _approved_hgd_glossary_terms(issues)
+    paths = sorted(root.glob("ch*/ch*.md"))
+    if not paths:
+        paths = sorted(root.glob("ch*.md"))
+    for path in paths:
+        chapter = path.parent.name if path.parent.name.startswith("ch") else path.stem
+        if not in_scope(chapter, scoped_chapters):
+            continue
+        text = read(path)
+        for original, thai, source in terms:
+            escaped = re.escape(original)
+            patterns = [
+                rf"\({escaped}\)",
+                rf"\({escaped}\]",
+                rf"\[{escaped}\]",
+                rf"\*\*\[{escaped}\]\*\*",
+            ]
+            if any(re.search(pattern, text) for pattern in patterns):
+                issues.append(
+                    f"{path}: approved glossary English remains: {original} -> {thai} ({source.name})"
+                )
+
+
+def check_duplicate_title_paragraphs(
+    root: Path,
+    issues: list[str],
+    *,
+    scoped_chapters: set[str] | None = None,
+) -> None:
+    """Reject plain title paragraphs repeated immediately below the H1 heading."""
+    if not root.exists():
+        return
+    paths = sorted(root.glob("ch*/ch*.md"))
+    if not paths:
+        paths = sorted(root.glob("ch*.md"))
+    title_line_re = re.compile(r"^(ตอนที่|บทที่)\s+\d+")
+    for path in paths:
+        chapter = path.parent.name if path.parent.name.startswith("ch") else path.stem
+        if not in_scope(chapter, scoped_chapters):
+            continue
+        lines = read(path).splitlines()
+        if len(lines) >= 3 and lines[0].startswith("# ") and not lines[1].strip():
+            candidate = lines[2].strip()
+            if title_line_re.match(candidate):
+                issues.append(f"{path}: duplicate plain title paragraph under H1: {candidate}")
 
 
 def check_hgd_title_fallbacks(issues: list[str]) -> None:
@@ -308,11 +528,13 @@ def check_hgd_truncation_against_source(issues: list[str]) -> None:
         if len(source_text) < 3000:
             continue
 
-        ratio = len(output_body) / max(1, len(source_text))
+        comparable_source = compact_runaway_repeats(source_text)
+        comparable_output = compact_runaway_repeats(output_body)
+        ratio = len(comparable_output) / max(1, len(comparable_source))
         if ratio < 0.45:
             issues.append(
                 f"{output_path}: output appears truncated versus source "
-                f"(source chars={len(source_text)}, output chars={len(output_body)}, ratio={ratio:.2f})"
+                f"(source chars={len(comparable_source)}, output chars={len(comparable_output)}, ratio={ratio:.2f})"
             )
 
         tail = output_body.rstrip()
@@ -345,11 +567,13 @@ def check_registry_truncation_against_source(issues: list[str]) -> None:
             if len(source_text) < min_source_chars:
                 continue
 
-            ratio = len(output_body) / max(1, len(source_text))
+            comparable_source = compact_runaway_repeats(source_text)
+            comparable_output = compact_runaway_repeats(output_body)
+            ratio = len(comparable_output) / max(1, len(comparable_source))
             if ratio < min_ratio:
                 issues.append(
                     f"{output_path}: {slug} output appears truncated versus source "
-                    f"(source chars={len(source_text)}, output chars={len(output_body)}, ratio={ratio:.2f})"
+                    f"(source chars={len(comparable_source)}, output chars={len(comparable_output)}, ratio={ratio:.2f})"
                 )
 
             tail = output_body.rstrip()
@@ -394,24 +618,33 @@ def check_hgd_pronoun_policy(issues: list[str]) -> None:
 
 def main() -> int:
     issues: list[str] = []
+    scoped_chapters = parse_requested_chapters(sys.argv)
 
-    check_absent(DSE / "05_Output/ch001/ch001.md", ["ตั้งเครื่องหมายคำถาม"], issues)
-    check_absent(
-        DSE / "05_Output/ch014/ch014.md",
-        ["กักขังเจ้า", "ข้านึกว่าเจ้าจะ", "ตอนนี้เจ้าจะ"],
-        issues,
-    )
-    for chapter in ["ch029", "ch030", "ch031"]:
+    if in_scope("ch001", scoped_chapters):
+        check_absent(DSE / "05_Output/ch001/ch001.md", ["ตั้งเครื่องหมายคำถาม"], issues)
+    if in_scope("ch014", scoped_chapters):
         check_absent(
-            DSE / "05_Output" / chapter / f"{chapter}.md",
-            ["อินควิสิเตอร์", "ผู้พิพากษา", "วันนา", "วานนา"],
+            DSE / "05_Output/ch014/ch014.md",
+            ["กักขังเจ้า", "ข้านึกว่าเจ้าจะ", "ตอนนี้เจ้าจะ"],
             issues,
         )
+    for chapter in ["ch029", "ch030", "ch031"]:
+        if in_scope(chapter, scoped_chapters):
+            check_absent(
+                DSE / "05_Output" / chapter / f"{chapter}.md",
+                ["อินควิสิเตอร์", "ผู้พิพากษา", "วันนา", "วานนา"],
+                issues,
+            )
 
-    check_absent(HGD / "01_Glossary/Section Chief.md", ["thai_term: หัวหน้าส่วนงาน"], issues)
-    for number in range(1, 36):
-        chapter = f"ch{number:03d}"
-        path = HGD / "05_Output" / chapter / f"{chapter}.md"
+    if scoped_chapters is None:
+        check_absent(HGD / "01_Glossary/Section Chief.md", ["thai_term: หัวหน้าส่วนงาน"], issues)
+    for output_dir in sorted((HGD / "05_Output").glob("ch*")):
+        if not output_dir.is_dir():
+            continue
+        chapter = output_dir.name
+        if not in_scope(chapter, scoped_chapters):
+            continue
+        path = output_dir / f"{chapter}.md"
         if not path.exists():
             continue
         check_absent(path, ["หัวหน้าส่วนงาน"], issues)
@@ -425,10 +658,43 @@ def main() -> int:
     check_hgd_pronoun_policy(issues)
     check_registry_truncation_against_source(issues)
 
-    check_paragraph_density(DSE / "05_Output", issues)
-    for number in range(1, 36):
-        chapter = f"ch{number:03d}"
-        check_paragraph_density(HGD / "05_Output" / chapter, issues, max_chars=MAX_HGD_PARAGRAPH_CHARS)
+    check_paragraph_density(DSE / "05_Output", issues, scoped_chapters=scoped_chapters)
+    check_duplicate_title_paragraphs(DSE / "05_Output", issues, scoped_chapters=scoped_chapters)
+    check_translation_metadata_leakage(DSE / "05_Output", issues, scoped_chapters=scoped_chapters)
+    check_duplicate_title_paragraphs(
+        MOONREAD / "content/generated/books/deep-sea-embers/chapters",
+        issues,
+        scoped_chapters=scoped_chapters,
+    )
+    check_translation_metadata_leakage(
+        MOONREAD / "content/generated/books/deep-sea-embers/chapters",
+        issues,
+        scoped_chapters=scoped_chapters,
+    )
+    check_paragraph_density(
+        HGD / "05_Output",
+        issues,
+        max_chars=MAX_HGD_PARAGRAPH_CHARS,
+        scoped_chapters=scoped_chapters,
+    )
+    check_malformed_markdown_artifacts(HGD / "05_Output", issues, scoped_chapters=scoped_chapters)
+    check_translation_metadata_leakage(HGD / "05_Output", issues, scoped_chapters=scoped_chapters)
+    check_hgd_approved_glossary_leakage(HGD / "05_Output", issues, scoped_chapters=scoped_chapters)
+    check_malformed_markdown_artifacts(
+        MOONREAD / "content/generated/books/horror-game-developer/chapters",
+        issues,
+        scoped_chapters=scoped_chapters,
+    )
+    check_translation_metadata_leakage(
+        MOONREAD / "content/generated/books/horror-game-developer/chapters",
+        issues,
+        scoped_chapters=scoped_chapters,
+    )
+    check_hgd_approved_glossary_leakage(
+        MOONREAD / "content/generated/books/horror-game-developer/chapters",
+        issues,
+        scoped_chapters=scoped_chapters,
+    )
 
     if issues:
         for issue in issues:

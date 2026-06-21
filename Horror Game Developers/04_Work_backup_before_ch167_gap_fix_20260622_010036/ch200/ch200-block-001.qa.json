@@ -1,0 +1,10 @@
+{
+  "block_id": "ch200-block-001",
+  "chapter_id": "ch200",
+  "feedback": "PASS: All source content present (whisper line and sound effects restored from literal), no omissions, glossary terms correct, tone matches horror-comedy, and Seth/Kyle pronoun rules don't apply (these characters aren't Seth or Kyle).",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 2
+}

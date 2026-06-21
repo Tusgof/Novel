@@ -1,0 +1,10 @@
+{
+  "block_id": "ch177-block-001",
+  "chapter_id": "ch177",
+  "feedback": "**FAIL: Seth/Kyle casual peer exchanges use คุณ throughout instead of นาย (e.g., \"คุณรู้อะไรบางอย่างแล้วใช่ไหม?\" / \"คุณฉลาดไม่เบาเลยนะ\"), drifting from the specified casual peer tone. Otherwise glossary, omissions, Seth's ผม pronoun, and system messages are all correct.**",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

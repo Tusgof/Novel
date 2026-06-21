@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: Tom Tucker
-thai_term: ??? ????????
+thai_term: ทอม ทักเกอร์
 status: approved
 aliases: []
 source_language: en
@@ -19,7 +19,7 @@ updated_at:
 
 # Tom Tucker
 
-- Thai: ??? ????????
+- Thai: ทอม ทักเกอร์
 - Category: character
 - Status: approved
 - First seen: ch056/ch056-block-001

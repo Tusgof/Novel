@@ -1,0 +1,19 @@
+{
+  "block_id": "ch123-block-001",
+  "chapter_id": "ch123",
+  "feedback": "PASS: All glossary terms match, Seth's pronouns consistently use ผม, no additions/omissions, tone is appropriately tense and ominous, and dialogue is complete.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

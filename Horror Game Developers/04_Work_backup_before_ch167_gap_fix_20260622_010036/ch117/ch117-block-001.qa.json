@@ -1,0 +1,10 @@
+{
+  "block_id": "ch117-block-001",
+  "chapter_id": "ch117",
+  "feedback": "PASS: The refined translation matches the source fully with no omissions, additions, or mistranslations; all glossary terms are correct; Seth's pronouns remain consistent as ผม; tone maintains the tense horror-comedy style.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

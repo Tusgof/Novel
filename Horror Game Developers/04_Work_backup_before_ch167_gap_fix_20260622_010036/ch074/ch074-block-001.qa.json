@@ -1,0 +1,19 @@
+{
+  "block_id": "ch074-block-001",
+  "chapter_id": "ch074",
+  "feedback": "PASS: No omissions, additions, mistranslations, glossary errors, or pronoun drift; tone and horror-comedy style preserved, Seth's voice stays ผม, Kyle/Seth address uses นาย.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

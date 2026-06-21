@@ -1,0 +1,19 @@
+{
+  "block_id": "ch192-block-001",
+  "chapter_id": "ch192",
+  "feedback": "PASS: Refined text follows source meaning accurately, preserves horror-comedy tone, uses correct glossary terms (แบรู, สำนักงาน, ดรีมวอล์กเกอร์, ไคล์), maintains stable Seth pronoun (ผม) throughout, no omissions or additions, and keeps the tense/suspenseful atmosphere.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

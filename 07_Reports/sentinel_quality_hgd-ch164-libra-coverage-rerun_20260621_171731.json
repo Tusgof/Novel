@@ -1,0 +1,28 @@
+{
+  "created_at": "2026-06-21T17:17:31.389527+00:00",
+  "scope": "hgd-ch164-libra-coverage-rerun",
+  "chapters": "ch164",
+  "counts": {
+    "blocker": 2,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch164\\ch164.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sarah -> ซาราห์ ซอร์ลอธ; glossary=Sarah Sorloth.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch164.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sarah -> ซาราห์ ซอร์ลอธ; glossary=Sarah Sorloth.md"
+    }
+  ]
+}

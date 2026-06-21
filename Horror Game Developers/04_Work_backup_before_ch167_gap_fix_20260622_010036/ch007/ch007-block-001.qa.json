@@ -1,0 +1,19 @@
+{
+  "block_id": "ch007-block-001",
+  "chapter_id": "ch007",
+  "feedback": "**FAIL: Refined text is byte-identical to literal — no refinement was applied. The typo `แต` (missing tone mark, should be `แต่`) from the literal is carried over uncorrected. Additionally, `ศตวรรษ` (century) drifts from source `future` (`อนาคต`).**",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ???????????????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

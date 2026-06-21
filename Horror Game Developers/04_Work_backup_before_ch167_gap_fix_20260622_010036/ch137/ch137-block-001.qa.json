@@ -1,0 +1,10 @@
+{
+  "block_id": "ch137-block-001",
+  "chapter_id": "ch137",
+  "feedback": "PASS: Refined translation matches source and literal draft exactly; no omissions, additions, or pronoun drift; glossary terms correct; tone preserved.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 2
+}

@@ -1,0 +1,10 @@
+{
+  "block_id": "ch171-block-001",
+  "chapter_id": "ch171",
+  "feedback": "**FAIL: Two major omissions gut the horror suspense.** The entire *Scrrr—* / kid doodling / balloon / *BANG!* / thunder passage (~10 sentences after *'Something is definitely wrong.'*) is dropped, and the entire *Scrrr— Scrrr—* / hand speeding up / eyes pitch black / weight on chest / \"And then—\" / \".....\" / raised head / breath thinning / waiting buildup (~10 sentences before \"His lips parted.\") is also dropped. These omissions remove the core tension that makes the \"I am hungry\" punchline work. Also omits *Creaak!* and final *Bzzz! Bzzz!* sound effects, and minor meaning drift: \"แดงสะใจ\" (satisfyingly red) ≠ \"unnervingly red\" from source.",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

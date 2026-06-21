@@ -1,0 +1,10 @@
+{
+  "block_id": "ch103-block-001",
+  "chapter_id": "ch103",
+  "feedback": "PASS: All glossary terms correct, Seth's pronoun stays ผม, no omissions or additions, tone matches horror-comedy.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

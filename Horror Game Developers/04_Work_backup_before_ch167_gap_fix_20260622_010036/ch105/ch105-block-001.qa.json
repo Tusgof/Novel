@@ -1,0 +1,10 @@
+{
+  "block_id": "ch105-block-001",
+  "chapter_id": "ch105",
+  "feedback": "PASS: Maintains Seth's ผม pronoun, glossary terms correct (ชายบิดเบี้ยว, ดรีมวอล์กเกอร์), tone matches tense horror-comedy, no omissions or additions, poem preserved.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

@@ -1,0 +1,10 @@
+{
+  "block_id": "ch082-block-001",
+  "chapter_id": "ch082",
+  "feedback": "PASS: All dialogue present, no omissions/addition issues; Seth's pronouns consistently use ผม, Kyle address uses นาย as required; glossary terms correct; tone matches horror-comedy.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

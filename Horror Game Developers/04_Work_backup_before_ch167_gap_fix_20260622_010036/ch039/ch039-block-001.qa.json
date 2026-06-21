@@ -1,0 +1,27 @@
+{
+  "block_id": "ch039-block-001",
+  "chapter_id": "ch039",
+  "feedback": "FAIL: Refined text omits the opening *Clank!*, narration of figures filing out, Kyle's suit, gloves, internal thoughts, chat comments, and team leader's detailed entrance—missing large portions of source content.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "ai_judge",
+      "details": "",
+      "message": "FAIL: Refined text omits the opening *Clank!*, narration of figures filing out, Kyle's suit, gloves, internal thoughts, chat comments, and team leader's detailed entrance—missing large portions of source content.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": false,
+  "retry_count": 2
+}

@@ -1,0 +1,10 @@
+{
+  "block_id": "ch151-block-001",
+  "chapter_id": "ch151",
+  "feedback": "PASS: No omissions, additions, mistranslations, pronoun drift, or glossary errors; tone and meaning match source.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 2
+}

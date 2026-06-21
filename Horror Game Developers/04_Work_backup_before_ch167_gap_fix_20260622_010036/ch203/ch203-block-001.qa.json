@@ -1,0 +1,10 @@
+{
+  "block_id": "ch203-block-001",
+  "chapter_id": "ch203",
+  "feedback": "PASS: The refined text exactly matches the literal draft, which is a faithful, complete translation of the source with no omissions, additions, or mistranslations; all glossary terms are used correctly, Seth's pronoun is consistently ผม, and the tone is appropriately tense and neutral.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 2
+}

@@ -1,0 +1,35 @@
+{
+  "block_id": "ch089-block-001",
+  "chapter_id": "ch089",
+  "feedback": "FAIL: Dropped key internal monologues (e.g., \"*So she really doesn’t like him...*\" and \"*No security, huh?*\") and the sound effect \"Flick!\" from the scene, breaking character insight and horror atmosphere.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ??????????????",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "ai_judge",
+      "details": "",
+      "message": "FAIL: Dropped key internal monologues (e.g., \"*So she really doesn’t like him...*\" and \"*No security, huh?*\") and the sound effect \"Flick!\" from the scene, breaking character insight and horror atmosphere.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter",
+  "metadata": {},
+  "passed": false,
+  "retry_count": 2
+}

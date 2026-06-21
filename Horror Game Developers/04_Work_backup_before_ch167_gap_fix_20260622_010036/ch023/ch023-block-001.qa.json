@@ -1,0 +1,19 @@
+{
+  "block_id": "ch023-block-001",
+  "chapter_id": "ch023",
+  "feedback": "PASS: All glossary terms used correctly, no omissions, additions, or meaning drift; system UI and tone preserved.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: นักพัฒนาเซธ ธอร์น",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: Conceptualization
-thai_term: ??????????????
+thai_term: การรังสรรค์
 status: approved
 aliases: []
 source_language: en
@@ -19,7 +19,7 @@ updated_at:
 
 # Conceptualization
 
-- Thai: ??????????????
+- Thai: การรังสรรค์
 - Category: term
 - Status: approved
 - First seen: ch080/ch080-block-001

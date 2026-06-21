@@ -1,0 +1,10 @@
+{
+  "block_id": "ch180-block-001",
+  "chapter_id": "ch180",
+  "feedback": "**FAIL: 4 omissions from source — `*Flick!*`, `*Tap. Tap. Tap...*`, `*Tatata~*` sound effects and the Mr. Jingles visual description (\"bright red hair, red nose, pale face\") all present in source and literal but dropped from refined.**",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

@@ -1,0 +1,10 @@
+{
+  "block_id": "ch190-block-001",
+  "chapter_id": "ch190",
+  "feedback": "**FAIL: Multiple omissions — all italicized internal monologue passages (`*'...'*`) dropped (Kyle+Zoey distraction rationale, \"ผมยังต้องพูดอะไรสักอย่าง\", two bus-rat closing thoughts, two Malovia exploration thoughts, Dock-app check thought, multiplayer plan thought, curse thought, \"เดี๋วนะ ถ้าเกิดว่า...?\"), plus sound effect `*แกร๊ก—*` and `*` section break. These are not minor trim — they remove Seth's narrative voice lines that carry characterization and plot reasoning.**",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 2
+}

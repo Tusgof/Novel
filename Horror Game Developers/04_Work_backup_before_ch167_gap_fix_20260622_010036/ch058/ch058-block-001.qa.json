@@ -1,0 +1,10 @@
+{
+  "block_id": "ch058-block-001",
+  "chapter_id": "ch058",
+  "feedback": "PASS: Accurate, complete, maintains ผม pronouns, preserves horror-tension tone, no omissions or drift.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

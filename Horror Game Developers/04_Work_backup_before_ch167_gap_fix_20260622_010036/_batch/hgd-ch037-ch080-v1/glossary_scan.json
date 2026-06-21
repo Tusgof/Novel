@@ -1,0 +1,677 @@
+{
+  "chapter_ids": [
+    "ch037",
+    "ch038",
+    "ch039",
+    "ch040",
+    "ch041",
+    "ch042",
+    "ch043",
+    "ch044",
+    "ch045",
+    "ch046",
+    "ch047",
+    "ch048",
+    "ch049",
+    "ch050",
+    "ch051",
+    "ch052",
+    "ch053",
+    "ch054",
+    "ch055",
+    "ch056",
+    "ch057",
+    "ch058",
+    "ch059",
+    "ch060",
+    "ch061",
+    "ch062",
+    "ch063",
+    "ch064",
+    "ch065",
+    "ch066",
+    "ch067",
+    "ch068",
+    "ch069",
+    "ch070",
+    "ch071",
+    "ch072",
+    "ch073",
+    "ch074",
+    "ch075",
+    "ch076",
+    "ch077",
+    "ch078",
+    "ch079",
+    "ch080"
+  ],
+  "items": [],
+  "schema_version": 1,
+  "scope": {
+    "id": "hgd-ch037-ch080-v1",
+    "type": "batch"
+  },
+  "decisions": [
+    {
+      "original_term": "Seth",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "character",
+      "chapter_id": "ch038",
+      "first_seen_block": "ch038-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Jamie",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "character",
+      "chapter_id": "ch038",
+      "first_seen_block": "ch038-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Myles",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "character",
+      "chapter_id": "ch039",
+      "first_seen_block": "ch039-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Zoey",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "character",
+      "chapter_id": "ch039",
+      "first_seen_block": "ch039-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Gate",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "character",
+      "chapter_id": "ch039",
+      "first_seen_block": "ch039-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Chat",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "character",
+      "chapter_id": "ch041",
+      "first_seen_block": "ch041-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Dock",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "character",
+      "chapter_id": "ch043",
+      "first_seen_block": "ch043-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Nightwalker",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "character",
+      "chapter_id": "ch043",
+      "first_seen_block": "ch043-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Guild",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "character",
+      "chapter_id": "ch044",
+      "first_seen_block": "ch044-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Ramille Niel",
+      "decision": "approve",
+      "thai_term": "??????? ???",
+      "category": "character",
+      "chapter_id": "ch051",
+      "first_seen_block": "ch051-block-001",
+      "note": "Named person; approved for stable transliteration."
+    },
+    {
+      "original_term": "Horror Game Developer",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch052",
+      "first_seen_block": "ch052-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Trauma Consultant",
+      "decision": "approve",
+      "thai_term": "????????????????????????",
+      "category": "title",
+      "chapter_id": "ch052",
+      "first_seen_block": "ch052-block-001",
+      "note": "Role/title; approved for stable rendering."
+    },
+    {
+      "original_term": "Quest Completed",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch053",
+      "first_seen_block": "ch053-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "REDACTED",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "character",
+      "chapter_id": "ch054",
+      "first_seen_block": "ch054-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "The Guild",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch054",
+      "first_seen_block": "ch054-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Test XXXX-",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch054",
+      "first_seen_block": "ch054-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "MTF Operative Gamma-",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch054",
+      "first_seen_block": "ch054-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "You Are Cordially Invited",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch055",
+      "first_seen_block": "ch055-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Midnight Masquerade",
+      "decision": "approve",
+      "thai_term": "???????????????????????????????",
+      "category": "event",
+      "chapter_id": "ch055",
+      "first_seen_block": "ch055-block-001",
+      "note": "Named event; approved for stable rendering."
+    },
+    {
+      "original_term": "Moonlight Date",
+      "decision": "approve",
+      "thai_term": "???????????????",
+      "category": "event",
+      "chapter_id": "ch055",
+      "first_seen_block": "ch055-block-001",
+      "note": "Named event/quest phrase; approved for stable rendering."
+    },
+    {
+      "original_term": "Midnight Venue",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch055",
+      "first_seen_block": "ch055-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "The Grand Ballroom",
+      "decision": "approve",
+      "thai_term": "??????????????",
+      "category": "location",
+      "chapter_id": "ch055",
+      "first_seen_block": "ch055-block-001",
+      "note": "Specific venue; approved for stable rendering."
+    },
+    {
+      "original_term": "Ravenshade Manor Dress Code",
+      "decision": "approve",
+      "thai_term": "???????????????????????????????????",
+      "category": "term",
+      "chapter_id": "ch055",
+      "first_seen_block": "ch055-block-001",
+      "note": "Specific invitation/dress-code heading; approved for stable rendering."
+    },
+    {
+      "original_term": "Formal Attire",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch055",
+      "first_seen_block": "ch055-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Mask Required Beneath",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch055",
+      "first_seen_block": "ch055-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "The Host",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch056",
+      "first_seen_block": "ch056-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Tom Tucker",
+      "decision": "approve",
+      "thai_term": "??? ????????",
+      "category": "character",
+      "chapter_id": "ch056",
+      "first_seen_block": "ch056-block-001",
+      "note": "Named person; approved for stable transliteration."
+    },
+    {
+      "original_term": "King-grade Ivory Dominion",
+      "decision": "approve",
+      "thai_term": "?????????????????????",
+      "category": "term",
+      "chapter_id": "ch056",
+      "first_seen_block": "ch056-block-001",
+      "note": "System/lore rank phrase; approved for stable rendering."
+    },
+    {
+      "original_term": "Tempo Ring",
+      "decision": "approve",
+      "thai_term": "??????????????",
+      "category": "item",
+      "chapter_id": "ch057",
+      "first_seen_block": "ch057-block-001",
+      "note": "Specific item; approved for stable rendering."
+    },
+    {
+      "original_term": "Miss Terline",
+      "decision": "approve",
+      "thai_term": "????????????",
+      "category": "character",
+      "chapter_id": "ch057",
+      "first_seen_block": "ch057-block-001",
+      "note": "Named address/title; approved for stable rendering."
+    },
+    {
+      "original_term": "Guild Members",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch065",
+      "first_seen_block": "ch065-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Conceptualization Decree",
+      "decision": "approve",
+      "thai_term": "????????????????????????",
+      "category": "term",
+      "chapter_id": "ch066",
+      "first_seen_block": "ch066-block-001",
+      "note": "System/lore decree; approved for stable rendering."
+    },
+    {
+      "original_term": "Temperal Decree",
+      "decision": "approve",
+      "thai_term": "?????????????????",
+      "category": "term",
+      "chapter_id": "ch066",
+      "first_seen_block": "ch066-block-001",
+      "note": "System/lore decree; source spelling kept as scanned."
+    },
+    {
+      "original_term": "Elemental Decree",
+      "decision": "approve",
+      "thai_term": "??????????",
+      "category": "term",
+      "chapter_id": "ch066",
+      "first_seen_block": "ch066-block-001",
+      "note": "System/lore decree; approved for stable rendering."
+    },
+    {
+      "original_term": "Light Element",
+      "decision": "approve",
+      "thai_term": "???????",
+      "category": "term",
+      "chapter_id": "ch066",
+      "first_seen_block": "ch066-block-001",
+      "note": "System/lore element; approved for stable rendering."
+    },
+    {
+      "original_term": "Pulling Zoey",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch066",
+      "first_seen_block": "ch066-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Crownfall Guild",
+      "decision": "approve",
+      "thai_term": "????????????????",
+      "category": "organization",
+      "chapter_id": "ch066",
+      "first_seen_block": "ch066-block-001",
+      "note": "Named guild; approved for stable rendering."
+    },
+    {
+      "original_term": "Team Leader",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch066",
+      "first_seen_block": "ch066-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Squad Leader",
+      "decision": "approve",
+      "thai_term": "????????????",
+      "category": "title",
+      "chapter_id": "ch067",
+      "first_seen_block": "ch067-block-001",
+      "note": "Position title; approved to reduce title drift."
+    },
+    {
+      "original_term": "King-Grade Guild",
+      "decision": "approve",
+      "thai_term": "??????????????",
+      "category": "organization",
+      "chapter_id": "ch067",
+      "first_seen_block": "ch067-block-001",
+      "note": "Guild rank phrase; approved for stable rendering."
+    },
+    {
+      "original_term": "Queen-Grade Guild",
+      "decision": "approve",
+      "thai_term": "????????????????",
+      "category": "organization",
+      "chapter_id": "ch067",
+      "first_seen_block": "ch067-block-001",
+      "note": "Guild rank phrase; approved for stable rendering."
+    },
+    {
+      "original_term": "King-Grade Guilds",
+      "decision": "approve",
+      "thai_term": "??????????????",
+      "category": "organization",
+      "chapter_id": "ch067",
+      "first_seen_block": "ch067-block-001",
+      "note": "Plural source variant of King-Grade Guild."
+    },
+    {
+      "original_term": "Shop",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "character",
+      "chapter_id": "ch068",
+      "first_seen_block": "ch068-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Quickstitch Outfit",
+      "decision": "approve",
+      "thai_term": "?????????????",
+      "category": "item",
+      "chapter_id": "ch068",
+      "first_seen_block": "ch068-block-001",
+      "note": "Shop/item name; approved for stable rendering."
+    },
+    {
+      "original_term": "Mirelle Acquired",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch072",
+      "first_seen_block": "ch072-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Cra Crack",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch073",
+      "first_seen_block": "ch073-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "See More",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch075",
+      "first_seen_block": "ch075-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Description",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "character",
+      "chapter_id": "ch075",
+      "first_seen_block": "ch075-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "S-Ranked Gate",
+      "decision": "approve",
+      "thai_term": "???????? S",
+      "category": "term",
+      "chapter_id": "ch075",
+      "first_seen_block": "ch075-block-001",
+      "note": "System rank phrase; approved for stable rendering."
+    },
+    {
+      "original_term": "Horde-Type Gate",
+      "decision": "approve",
+      "thai_term": "????????????",
+      "category": "term",
+      "chapter_id": "ch075",
+      "first_seen_block": "ch075-block-001",
+      "note": "System gate type; approved for stable rendering."
+    },
+    {
+      "original_term": "Update Complete",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch075",
+      "first_seen_block": "ch075-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Quickstitch Outfit Shop",
+      "decision": "approve",
+      "thai_term": "?????????????????",
+      "category": "location",
+      "chapter_id": "ch075",
+      "first_seen_block": "ch075-block-001",
+      "note": "Shop name; approved for stable rendering."
+    },
+    {
+      "original_term": "Open Quests",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch075",
+      "first_seen_block": "ch075-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Developed Games",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch075",
+      "first_seen_block": "ch075-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Ranked Anomalous Entity",
+      "decision": "approve",
+      "thai_term": "??????????????????????",
+      "category": "entity",
+      "chapter_id": "ch075",
+      "first_seen_block": "ch075-block-001",
+      "note": "System/entity phrase; approved for stable rendering."
+    },
+    {
+      "original_term": "Shepherd Requirements",
+      "decision": "approve",
+      "thai_term": "?????????????????",
+      "category": "term",
+      "chapter_id": "ch075",
+      "first_seen_block": "ch075-block-001",
+      "note": "System requirement heading; approved for stable rendering."
+    },
+    {
+      "original_term": "Attributeless Fragments Purity",
+      "decision": "approve",
+      "thai_term": "????????????????????????????????????",
+      "category": "term",
+      "chapter_id": "ch075",
+      "first_seen_block": "ch075-block-001",
+      "note": "System material/stat phrase; approved for stable rendering."
+    },
+    {
+      "original_term": "Attributeless Fragment",
+      "decision": "approve",
+      "thai_term": "????????????????????",
+      "category": "item",
+      "chapter_id": "ch076",
+      "first_seen_block": "ch076-block-001",
+      "note": "System material; approved for stable rendering."
+    },
+    {
+      "original_term": "Decree Shepherd",
+      "decision": "approve",
+      "thai_term": "???????????????",
+      "category": "title",
+      "chapter_id": "ch076",
+      "first_seen_block": "ch076-block-001",
+      "note": "Class/title; approved for stable rendering."
+    },
+    {
+      "original_term": "Shepherd Decree",
+      "decision": "approve",
+      "thai_term": "???????????????",
+      "category": "term",
+      "chapter_id": "ch076",
+      "first_seen_block": "ch076-block-001",
+      "note": "System ability/decree phrase; approved for stable rendering."
+    },
+    {
+      "original_term": "Item You",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch078",
+      "first_seen_block": "ch078-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Purity Enhancer",
+      "decision": "approve",
+      "thai_term": "?????????????????????",
+      "category": "item",
+      "chapter_id": "ch078",
+      "first_seen_block": "ch078-block-001",
+      "note": "System item; approved for stable rendering."
+    },
+    {
+      "original_term": "Item Place",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch078",
+      "first_seen_block": "ch078-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "The Guild Master",
+      "decision": "approve",
+      "thai_term": "?????????????",
+      "category": "title",
+      "chapter_id": "ch079",
+      "first_seen_block": "ch079-block-001",
+      "note": "Position title; approved for stable rendering."
+    },
+    {
+      "original_term": "Thrall Class Anomalous Entity",
+      "decision": "approve",
+      "thai_term": "?????????????????????????",
+      "category": "entity",
+      "chapter_id": "ch079",
+      "first_seen_block": "ch079-block-001",
+      "note": "Entity class; approved for stable rendering."
+    },
+    {
+      "original_term": "Cognitive Shard",
+      "decision": "approve",
+      "thai_term": "????????????????",
+      "category": "item",
+      "chapter_id": "ch079",
+      "first_seen_block": "ch079-block-001",
+      "note": "System/material item; approved for stable rendering."
+    },
+    {
+      "original_term": "Since Kyle",
+      "decision": "reject",
+      "thai_term": "",
+      "category": "term",
+      "chapter_id": "ch079",
+      "first_seen_block": "ch079-block-001",
+      "note": "Rejected by Codex deterministic batch gate as generic, noisy, existing, or context-only wording."
+    },
+    {
+      "original_term": "Conceptualization",
+      "decision": "approve",
+      "thai_term": "??????????????",
+      "category": "term",
+      "chapter_id": "ch080",
+      "first_seen_block": "ch080-block-001",
+      "note": "System concept; approved for stable rendering."
+    },
+    {
+      "original_term": "Body Morphosis",
+      "decision": "approve",
+      "thai_term": "?????????????????",
+      "category": "term",
+      "chapter_id": "ch080",
+      "first_seen_block": "ch080-block-001",
+      "note": "System concept; approved for stable rendering."
+    }
+  ]
+}

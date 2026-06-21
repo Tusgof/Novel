@@ -1,0 +1,10 @@
+{
+  "block_id": "ch166-block-001",
+  "chapter_id": "ch166",
+  "feedback": "**FAIL:** Dropped `*Tak. Tak. Tak—*`, `*WHIM!*`, and `*Crack!*` sound effects — atmospheric horror beats present in source and literal are omitted. Also dropped `***` scene break between Seth's departure and Kyle's scene.",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

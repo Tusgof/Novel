@@ -1,0 +1,206 @@
+Translate the COMPLETE English web-novel chapter block into Thai.
+
+Critical rules:
+- Return Thai prose only. No notes, no headings, no explanation.
+- Translate the entire block from beginning to end. Do not summarize. Do not stop early.
+- Preserve every dialogue line, internal thought, sound effect, system notification, bracketed UI line, bullet, and ending reveal.
+- Keep markdown emphasis markers for thoughts/sound effects where present, such as *Click!* and *'Shit!'*.
+- Use the exact approved glossary terms. Especially:
+Optional Quest Activated => ?????????????????????
+Ivory Hollow District => ????????????????
+Velora Art Museum => ?????????????????????
+The Nightwalker => ????????????
+Second Order => ???????????
+Time Limit => ?????????
+Kyle => ????
+Game Over => ??????????
+- The final Thai output must include the painting ending: the woman in the painting is closer than before.
+- Use first-person Thai narration with consistent pronoun ?? unless dialogue context clearly requires otherwise.
+
+Approved glossary:
+- Anomalous Entity => สิ่งผิดปกติ
+- Anomalous-Type Gate => ประตูชนิดผิดปกติ
+- Basic Node => โหนดพื้นฐาน
+- Blank Mask => หน้ากากว่างเปล่า
+- Clara => คลารา
+- Cognitive Shards => เศษเสี้ยวปัญญา
+- Containment Group => กลุ่มกักกัน
+- Containment Sector Orientation Day => วันปฐมนิเทศภาคส่วนกักกัน
+- Containment Sector => ภาคส่วนกักกัน
+- Containment Vessel => ภาชนะกักกัน
+- Continuation Quest Activated => เควสต์ต่อเนื่องเริ่มทำงาน
+- Dead Rising => เดดไรซิง
+- Delta Squad => หน่วยเดลตา
+- Developer Seth Thorne => นักพัฒนาเซธ ธอร์น
+- Dock App => แอปด็อก
+- Earplugs => ที่อุดหู
+- Field Agent => เจ้าหน้าที่ภาคสนาม
+- Forest Nights => คืนในป่า
+- Fourth Order => ลำดับที่สี่
+- Game Boy => เกมบอย
+- Game Over => เกมโอเวอร์
+- Gentle Whispers => เสียงกระซิบอ่อนโยน
+- Guild App => แอปกิลด์
+- Guild Severed Stars => กิลด์ดวงดาวที่ถูกตัดขาด
+- Horror Developer System => ระบบนักพัฒนาเกมสยองขวัญ
+- Ivory Hollow District => เขตไอวอรีฮอลโลว์
+- Jamie Carter => เจมี่ คาร์เตอร์
+- Jester => ตัวตลก
+- Kyle => ไคล์
+- Left Click => คลิกซ้าย
+- Live Viewers => ผู้ชมสด
+- Locked Quests => เควสต์ที่ถูกล็อก
+- Mender Decree => โองการผู้เยียวยา
+- Menxylanis => เมนซิลานิส
+- Mind Printer => เครื่องพิมพ์ความคิด
+- Myles Holms => ไมลส์ โฮล์มส์
+- Myst Fragments => ชิ้นส่วนมิสต์
+- Nightmare Forge Studios => สตูดิโอไนต์แมร์ฟอร์จ
+- Optional Quest Activated => เควสต์เสริมเริ่มทำงาน
+- Ranked Spirit => วิญญาณจัดอันดับ
+- Right Click => คลิกขวา
+- Saint Mary => เซนต์แมรี
+- Second Order => ลำดับที่สอง
+- Section Chief => หัวหน้าแผนก
+- Senior Officer => เจ้าหน้าที่อาวุโส
+- Sentriest Island => เกาะเซนทรีสต์
+- Seth Thorne Status => สถานะของเซธ ธอร์น
+- Seventh Order => ลำดับที่เจ็ด
+- Silent Requiem => เรเควียมเงียบงัน
+- Skull => กะโหลก
+- Spectral Glasses => แว่นตาวิญญาณ
+- Starlight Guild => กิลด์สตาร์ไลต์
+- Temporal Decree => โองการกาลเวลา
+- The Fourth Floor => ชั้นใต้ดินที่สี่
+- The Lady => สุภาพสตรี
+- The Nightwalker => นักเดินราตรี
+- The Orchestra => วงออร์เคสตรา
+- The Orchestrator => ผู้บงการ
+- The Painkiller Tattoo => รอยสักยาแก้ปวด
+- The Team Leader => หัวหน้าทีม
+- Third Order => ลำดับที่สาม
+- Time Limit => เวลาจำกัด
+- Unusual Affairs => กิจการผิดปกติ
+- Velora Art Museum => พิพิธภัณฑ์ศิลปะเวโลรา
+- Vesperine Union => สหภาพเวสเพอรีน
+- Walkie-Talkie => วิทยุสื่อสาร
+- Wandering Nightwalker Acquired => ได้รับนักเดินราตรีพเนจร
+- White Umbrella => ร่มสีขาว
+- Zoey Terlin => โซอี้ เทอร์ลิน
+
+SOURCE BLOCK:
+Did someone enter my room...?
+That was my first thought the moment I saw the strange black cloth draped over what looked like a square-shaped object.
+My body tensed as I scanned the room, eyes darting for any sign.
+For anything out of place.
+*'Could the fact that I found my USB in front of my office not be a coincidence?'*
+At first, it struck me as odd, but considering how exhausted I'd been earlier that morning after finishing my work, accidentally dropping my USB didn't seem all that far-fetched.
+But now...?
+I swallowed hard, staring at the draped object.
+A thought seeped into my mind.
+*'...Could it be something by the conductor?'*
+I raised my head to stare at the large V on the wall and felt that it was more than just likely. I drew a cold breath and stared at my arm.
+Then, walking over to the switch—
+*Click!*
+The lights turned off, and the darkness swallowed me.
+All the sounds around me seemed to sharpen in that moment as I tried to stay composed, instinctively rubbing my forearm.
+"Come out."
+A presence stirred in front of me. Though I couldn't see it, I felt it all too well.
+As I was about to open my mouth to speak, my mouth stopped, and I stepped back. Something about the Nightwalker's gaze... It didn't feel right.
+It felt... almost similar to the time in the trial.
+*'...Oh, shit.'*
+This wasn't the first time I had seen that gaze from it. It first happened right after the conductor killed it, and ever since that incident, its behavior had changed.
+It no longer felt... obedient.
+*'Could it be that it lost some affinity with me as a result of its death to the conductor?'*
+The thought clicked into place.
+Indeed, something like this could explain the Nightwalker's sudden change in attitude. It was just a pity that I couldn't confirm my thoughts since there was no window for me to reference.
+"Unfurl the black cloth."
+I still decided to have the Nightwalker unfurl the black cloth by the end of the room. As of now, although it was defiant, it still listened to me.
+On the off chance that it did die again, I could just not summon it again.
+"....."
+The Nightwalker stared at me silently. Its eyes pressed down on me.
+Then, wordlessly, it turned towards the covered object.
+Step. Step.
+Each step echoed through the room like a drumbeat, eventually coming to a stop before the object.
+The room felt silent.
+It felt dragging, and then...
+*Swoosh!*
+**It pulled the cloth away.
+Immediately, I recalled it into my arm and flicked the lights on, hand braced against the door, ready to run.
+*Click!*
+However...
+"Uh?"
+What stood in the middle of the room wasn't what I expected.
+I blinked, once... twice.
+And my expression changed.
+"A painting?"
+Hidden behind the cloth was none other than a painting.
+I stepped closer to get a better look, still in disbelief.
+"...This doesn't seem like something the conductor would have."
+Then.. who placed it here?
+I frowned, studying the painting. Its simplicity was deceiving—beautiful, yet unsettling in its minute detail. A woman in white, walking along a narrow path flanked by lush greenery, heading toward the edge of a vast forest. The sky was clear, a brilliant blue, with sunlight pouring down from above. Her face was concealed beneath the shade of a large white umbrella, making it hard to see her features.
+"There doesn't seem to be anything strange with this..."
+I turned the painting over, expecting the same: a simple wooden frame. And for a moment, that's exactly what I saw. But then, a small marking in the corner caught my eye.
+"What's this?"
+I leaned my head took a closer look at the mark. It was there that I managed to spot several words. I carefully read them.
+[No. 12 Ivory Hollow District - Velora Art Museum]
+"An address?"
+To a museum, none other?
+I was confused. How did something like this end up in my office?
+Just as I was about to pull out my phone to do some research, something flashed across my vision.
+*Ding!*
+[Optional Quest Activated!]
+• Difficulty: Second Order • Reward: 5,000 SP • Objective: Investigate the painting's origins. • Location: Velora Art Museum
+Description: Clues hide within the museum's halls. Travel to the Velora Art Museum and uncover the story behind the mysterious painting.
+Time Limit: 2 days
+[Do you wish to accept the quest?]
+▶[Yes] ▷[No]
+An optional quest?
+"Wait, what? What the hell...?"
+I stared at the window, still trying to process the sudden appearance of this new objective. Then, as the realization hit me, my confusion shifted into something else.
+"Wait, could it be that the one who sent me the painting was the system?!"
+It all made sense now. If it were the system, it would explain the strange timing of the appearance.
+At least, it made me feel a little more at ease.
+But still, there was no guarantee that it was the system. I then looked around the room and eyed each corner of the room.
+"Just in case, I should probably install some cameras so that I can see if anyone tries to enter my office."
+The only issue with this thought was that it cost quite a bit of money, and I was severely lacking in that aspect. Therefore, I quickly brushed those thoughts aside and focused my attention back onto the quest.
+"Difficulty, Second Order..."
+I frowned as my eyes lingered on that part. Once again, I was staring at a familiar set of words. It wasn't the first time I had seen them, and now, more than ever, I felt an undeniable urge to find out what they meant.
+*'Right, I did say I was going to ask Kyle about it. I should do that now.'*
+I grabbed the cloth from the floor, about to cover the painting again. But before I could, another notification flashed across my screen.
+[Do not cover the painting]
+The notification appeared suddenly, catching me off guard. By the time I registered it, the cloth had already been draped over the painting.
+"Crap!"
+I instantly grew alarmed, pulling at the cloth in an attempt to remove it from the painting. But the moment I tried to, the cloth moved, shifting unnaturally, twisting into the shape of a hand that latched onto my wrist.
+"....!?"
+The hand gripped onto my wrist tightly, its grip extremely strong as my entire body stiffened.
+Immediately, I tried to pull my hand away, but the grip seemed stronger than me as I felt my hand slowly get pulled into the painting.
+*'No, no, no...!'*
+My heart pressed tightly against my chest as I saw this, anxiety gnawing at me as I desperately looked around for anything, any way to escape.
+But it was no use.
+Everything was too far.
+The desk, the lights—they were all out of reach!
+I couldn't even call for the Nightwalker.
+*'Shit!'*
+In my restlessness, I reached for my pocket with my free hand, fumbling for my phone. I opened the recording app with trembling fingers, scrolling through the list of previous recordings.
+An idea had occurred to me as I scrolled down the numerous recordings I had.
+*'Where is it? Where is it...? Come on, come on!'*
+"There!"
+The moment I found the right recording, I hit play.
+A tune flowed out almost immediately after.
+Ting~
+It began with the soft, comforting melody of a violin, soon joined by the rich resonance of a cello.
+The familiar tune began to play as I nervously looked at the hand, hoping for a reaction.
+'It's reacting!'
+And it did.
+The hand froze almost immediately, shivering, as if suddenly frightened by the tune echoing through the air. It still refused to release my wrist, but the hesitation was enough.
+"Ukh!"
+I yanked my hand back, tearing the cloth away with it. I fell back on the floor at the same time, breathing heavily as the cloth dropped next to me.
+"Haa... Crap!"
+At the same time, I turned off the recording while staring in the direction of the painting.
+It was...
+The same as it was before.
+No.
+I narrowed my eyes.
+The woman in the painting—
+She was closer than before.

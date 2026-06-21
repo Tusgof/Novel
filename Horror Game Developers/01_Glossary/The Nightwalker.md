@@ -3,7 +3,7 @@ type: glossary-term
 original_term: The Nightwalker
 thai_term: นักเดินราตรี
 status: approved
-aliases: []
+aliases: ['Nightwalker']
 source_language: en
 category: entity
 novel:

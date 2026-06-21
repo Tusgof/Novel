@@ -1,0 +1,27 @@
+{
+  "block_id": "ch098-block-001",
+  "chapter_id": "ch098",
+  "feedback": "PASS: The refined translation matches the literal draft exactly, with no omissions, additions, mistranslations, glossary errors, or pronoun drift; tone and meaning are preserved.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    },
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: หัวหน้ากลุ่ม",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

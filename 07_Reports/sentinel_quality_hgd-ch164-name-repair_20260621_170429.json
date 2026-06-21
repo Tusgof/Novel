@@ -1,0 +1,21 @@
+{
+  "created_at": "2026-06-21T17:04:29.308793+00:00",
+  "scope": "hgd-ch164-name-repair",
+  "chapters": "ch164",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": [
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch164\\ch164.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "LAN"
+    }
+  ]
+}

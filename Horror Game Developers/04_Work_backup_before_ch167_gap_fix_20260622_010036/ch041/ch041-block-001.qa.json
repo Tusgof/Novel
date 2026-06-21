@@ -1,0 +1,19 @@
+{
+  "block_id": "ch041-block-001",
+  "chapter_id": "ch041",
+  "feedback": "FAIL: Omitted three source elements: *Rattle~* sound effect, *'Stop...'* and *'That's...!'* internal monologue lines.",
+  "findings": [
+    {
+      "code": "ai_judge",
+      "details": "",
+      "message": "FAIL: Omitted three source elements: *Rattle~* sound effect, *'Stop...'* and *'That's...!'* internal monologue lines.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": false,
+  "retry_count": 2
+}

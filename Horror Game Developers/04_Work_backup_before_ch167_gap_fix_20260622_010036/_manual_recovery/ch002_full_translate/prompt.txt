@@ -1,0 +1,165 @@
+Translate the following Horror Game Developer chapter block from English to Thai.
+
+Rules:
+- Return Thai translation only.
+- Preserve every source beat. Do not summarize. Do not omit any sentence.
+- Preserve Markdown emphasis, dialogue, sound effects, and system/status message structure.
+- Keep first-person/narration natural Thai.
+- Important: translate until the final walkie-talkie line "Should we get rid of the variable?" is included.
+
+SOURCE:
+[Welcome, new developer!]
+"....Uh?!"
+The moment my eyes snapped open, a translucent notification appeared before me.
+Beyond it, I found myself seated in the center of a grand opera-style theater.
+The lights were off. The heavy curtains were drawn. Rows of empty seats stretched into darkness, the balconies above just as lifeless.
+Most unsettling of all?
+I was soaked in sweat.
+"....."
+Have I overworked myself?
+I tried to pinch my cheek, but the pain was there.
+Then...?
+[This is not an illusion, nor a dream! This is a real scenario from the Horror Developer System!]
+A new notification flashed, and my stomach sank.
+[You are the lucky fellow selected by the Horror Developer System!]
+[In short, we'll help you make good horror games!]
+"No, I don't want it. Let me out."
+Whatever this was, I wanted no part of it.
+I could already feel my stomach churning.
+*'Ah... I feel like puking already.'*
+[Please don't worry! If you are unsatisfied with our service, you can always quit!]
+[We always strive to provide the best service]
+Oh, good.
+Let me quit now.
+For just a brief moment, my stomach started to settle down.
+But it was only for a brief moment.
+[But before you decide, we will have you run a scenario]
+"Ah."
+The rumblings returned. More powerful than before.
+I could feel a wave of unease wash over me.
+[But please don't worry!]
+[As a welcome gift, we will provide you with a beginner starter pack]
+[Not only that, but we'll also provide you with exclusive information regarding the scenario!]
+[This is all to make you a better game developer!]
+*Poof!*
+Several items magically appeared out of thin air.
+I quickly caught on to them.
+"What is this...?"
+Looking down, I noticed four items: a white mask, a blank sheet of paper, a walkie-talkie, and a pair of earplugs.
+A small window appeared on top of each item.
+Upon closer inspection, I noticed that each item had a name and a small description written on it.
+─────
+[Blank Mask]**
+*A simple mask used to hide your identity. There are many different styles you can try.***
+: Non-consumable.
+[Mind Printer]**
+*Draws whatever your mind is thinking.***
+: [1] Consumable
+[Earplugs]**
+*Blocks all music for ten minutes.***
+: [1] Consumable
+[Walkie-Talkie]**
+*Just a regular walkie-talkie.***
+: Non-consumable.**
+─────
+...One usage?
+Earplugs? Mask? Mind Printer? Walkie-Talkie? This was the starter pack?
+Was this some sort of joke?
+How was I even going to use these items? In what way could these four items help me? To add insult to injury, I read the description of the Walkie-Talkie.
+Was it mocking me?
+*Click!*
+Pressing on the walkie-talkie, all I got back was a faint static noise.
+"What bullshit..."
+If that wasn't pointless enough, my gaze landed on the blank mask before me. Plain white, featureless, with nothing but two empty eye holes. That was it—no markings, no details, just a blank mask.
+"Why would I even need to hide my identity? Wait..."
+**A thought suddenly occurred to me, and my heart sank.
+"Don't tell me....? The things will remember me?"
+Ah, shit.
+I really felt like throwing up.
+[The scenario will begin shortly. Please get ready~]
+I instinctively tried to stand, but my body refused to move. It was as if I were glued to the chair.
+...This was bad.
+My stomach churned.
+I needed to get out of here.
+But—
+"No, I need to calm down."
+I had played my fair share of horror games. This was no different.
+The system did say I could quit. I just had to survive long enough to finish the scenario.
+Yeah. That's all.
+"Wait, one second."
+I suddenly looked up at the floating notification in front of me.
+"What's going to happen to me if I fail the scenario? Will I just be sent back home?"
+If it was like that, then...
+[No]
+A suffocating silence followed.
+Then, another notification followed.
+This time...
+[You will die if you fail]
+It was completely red.
+".....!"
+Every muscle in my body went rigid as my eyes shot wide open.
+"What sort of—!?"
+[The scenario is now starting...]
+[Operation: Silent Requiem]
+Class : ■■■
+:*A self-conducting orchestra, capable of producing the most beautiful yet haunting melodies. The Orchestrator, renowned for his relentless pursuit of perfection, has never failed to bewitch a single spectator. One must be careful not to become too entranced by the music, lest they lose their very sense of self.*
+The words on the floating window sent an eerie shiver down my spine.
+[Scenario candidates will be joining shortly. Do you wish to use any item?]
+[You have ten seconds]
+"Scenario candidates?"
+My stomach clenched.
+"Wait, other people are in this, too?"
+No response.
+Just an ominous silence.
+Gritting my teeth, I glanced down at the items in my hand. Instinct took over. I reached for the mask and brought it to my face.
+Immediately, a strange interface appeared in front of me.
+It displayed all sorts of designs for the mask.
+▶ [Jester]
+▷ [Clown]
+▷ [Skull]
+.
+.
+.
+*'Why are they all creepy masks?'*
+There were all sorts of nice designs, but there was only one problem.
+They were all creepy.
+[5 Seconds]
+"Ugh."
+I scrolled down the list faster.
+[2 Seconds]
+"Screw it."
+▶ [Jester]
+[You have selected Jester. The mask will now morph.]
+The mask shrank and fused to my face.
+"—!!"
+I tried to rip it off, but the moment I raised my hands, a series of bells materialized in my vision—each attached to a strand of red fabric.
+A soft jingling filled the air as the bells chimed together.
+Then—
+*Boom!***
+The theater flared to life.
+The once-empty seats were suddenly filled on all sides.
+Applause erupted from all sides, startling me. What's going on...!? My breath hitched as I turned my head—
+"...!?"
+A cold wave of nausea crashed over me.
+The person beside me had no features. No eyes, no mouth—just a smooth, empty canvas where a face should have been.
+*Swoosh, swoosh—!*
+Just when I thought the surprises had ended, more figures emerged from out of thin air, scattered across the theater.
+Unlike the faceless spectators, these individuals had faces. Each was clad in a sleek black uniform, a golden insignia gleaming on their chests—an emblem that felt somewhat familiar.
+*'But where exactly have I seen it before?'*
+They each took a seat shortly after.
+To make matters even stranger, I noticed them exchanging glances, and it became obvious to me shortly after.
+They knew each other.
+From the fluid and familiar way they moved and exchanged glances... it was as if they were well-accustomed to this routine. But the moment their eyes landed on me, everything stopped.
+For a brief, unsettling moment, they froze, their stares directed my way. They were looking at me as if I were some sort of variable that they hadn't expected.
+Then, almost as if on cue, they quickly averted their gazes and took their seats.
+I clenched my fist.
+They knew something I didn't.
+I was just about to speak when—
+*Beep!*
+A subtle, yet audible sound crackled in my hand.
+A soft husky voice came through shortly after.
+*—Captain, who in the world is that?! I don't remember the previous clearance squad mentioning something about a Jester being present?*
+I lowered my head and stared at my hand.
+Or more precisely, the walkie-talkie I held.
+*—Should we get rid of the variable?*
+What in the world...?

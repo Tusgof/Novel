@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: Ramille Niel
-thai_term: ??????? ???
+thai_term: รามิล นีล
 status: approved
 aliases: []
 source_language: en
@@ -19,7 +19,7 @@ updated_at:
 
 # Ramille Niel
 
-- Thai: ??????? ???
+- Thai: รามิล นีล
 - Category: character
 - Status: approved
 - First seen: ch051/ch051-block-001

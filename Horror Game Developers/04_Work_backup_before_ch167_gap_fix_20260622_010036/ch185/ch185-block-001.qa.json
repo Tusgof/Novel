@@ -1,0 +1,10 @@
+{
+  "block_id": "ch185-block-001",
+  "chapter_id": "ch185",
+  "feedback": "**FAIL: Mistranslation — \"หัวใจของผมพยักหน้า\" (my heart nodded) where source has \"My head nodded right after\" (should be หัวของผม). Critical meaning drift inherited from literal and not corrected in refinement; heart cannot nod in Thai.**",
+  "findings": [],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 2
+}

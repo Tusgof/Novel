@@ -1,0 +1,10 @@
+{
+  "block_id": "ch042-block-001",
+  "chapter_id": "ch042",
+  "feedback": "PASS: The refined translation stays faithful to the source, preserves all dialogue and internal monologue, maintains Seth’s pronouns as ผม throughout, uses นาย for peer address consistently, correctly applies the glossary term \"Second Order\" as \"ภารกิจลำดับที่สอง,\" and keeps the horror-comedy tone with tense, sharp imagery and no inappropriate additions or omissions.",
+  "findings": [],
+  "judge_provider": "openrouter",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

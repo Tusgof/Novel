@@ -1,0 +1,19 @@
+{
+  "block_id": "ch028-block-001",
+  "chapter_id": "ch028",
+  "feedback": "PASS: All source content faithfully rendered, UI and horror-comedic tone intact, glossary terms correctly applied.",
+  "findings": [
+    {
+      "code": "genre_drift",
+      "details": "",
+      "message": "Refined output may have drifted into wuxia/xianxia diction.",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}

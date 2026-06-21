@@ -1,0 +1,8 @@
+# HGD Layout Projection Apply ch001-ch200
+
+Backup root: `D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output_backup_before_ch001_ch200_layout_repair_20260618_140709`
+Dry-run root: `D:\Fogust\Workspace\Novel\Deep Sea Embers\04_Work\_experiments\hgd_layout_projection_dry_run_ch001_ch200_20260618`
+Applied valid chapters: 194
+Skipped invalid chapters: ch002, ch066, ch119, ch128, ch148, ch174
+
+ch001, ch003, ch004, ch005, ch006, ch007, ch008, ch009, ch010, ch011, ch012, ch013, ch014, ch015, ch016, ch017, ch018, ch019, ch020, ch021, ch022, ch023, ch024, ch025, ch026, ch027, ch028, ch029, ch030, ch031, ch032, ch033, ch034, ch035, ch036, ch037, ch038, ch039, ch040, ch041, ch042, ch043, ch044, ch045, ch046, ch047, ch048, ch049, ch050, ch051, ch052, ch053, ch054, ch055, ch056, ch057, ch058, ch059, ch060, ch061, ch062, ch063, ch064, ch065, ch067, ch068, ch069, ch070, ch071, ch072, ch073, ch074, ch075, ch076, ch077, ch078, ch079, ch080, ch081, ch082, ch083, ch084, ch085, ch086, ch087, ch088, ch089, ch090, ch091, ch092, ch093, ch094, ch095, ch096, ch097, ch098, ch099, ch100, ch101, ch102, ch103, ch104, ch105, ch106, ch107, ch108, ch109, ch110, ch111, ch112, ch113, ch114, ch115, ch116, ch117, ch118, ch120, ch121, ch122, ch123, ch124, ch125, ch126, ch127, ch129, ch130, ch131, ch132, ch133, ch134, ch135, ch136, ch137, ch138, ch139, ch140, ch141, ch142, ch143, ch144, ch145, ch146, ch147, ch149, ch150, ch151, ch152, ch153, ch154, ch155, ch156, ch157, ch158, ch159, ch160, ch161, ch162, ch163, ch164, ch165, ch166, ch167, ch168, ch169, ch170, ch171, ch172, ch173, ch175, ch176, ch177, ch178, ch179, ch180, ch181, ch182, ch183, ch184, ch185, ch186, ch187, ch188, ch189, ch190, ch191, ch192, ch193, ch194, ch195, ch196, ch197, ch198, ch199, ch200

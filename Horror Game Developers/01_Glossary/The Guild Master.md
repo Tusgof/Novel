@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: The Guild Master
-thai_term: ?????????????
+thai_term: มาสเตอร์กิลด์
 status: approved
 aliases: []
 source_language: en
@@ -19,7 +19,7 @@ updated_at:
 
 # The Guild Master
 
-- Thai: ?????????????
+- Thai: มาสเตอร์กิลด์
 - Category: title
 - Status: approved
 - First seen: ch079/ch079-block-001

@@ -1,0 +1,19 @@
+{
+  "block_id": "ch169-block-001",
+  "chapter_id": "ch169",
+  "feedback": "PASS: Retains all source content and meaning, preserves Seth's ผม voice, Kyle's นาย address, glossary terms (แม่ผู้ดูแล, ไมลส์ โฮล์มส์), and horror-comedy tone throughout. No pronoun drift, no additions, no tone errors.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ปุ่ม Enter",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "qwen",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 2
+}

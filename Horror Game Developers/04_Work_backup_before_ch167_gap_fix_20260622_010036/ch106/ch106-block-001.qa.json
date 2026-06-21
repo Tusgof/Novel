@@ -1,0 +1,19 @@
+{
+  "block_id": "ch106-block-001",
+  "chapter_id": "ch106",
+  "feedback": "PASS: Refined translation is faithful to source, no omissions or additions, glossary terms correct, Seth pronouns stable as ผม, tone matches horror-comedy, and only minor pronoun adjustments for other characters that are natural.",
+  "findings": [
+    {
+      "code": "glossary_inconsistency",
+      "details": "",
+      "message": "Expected term not found: ปุ่ม Enter",
+      "metadata": {},
+      "severity": "warning",
+      "source_span": ""
+    }
+  ],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 1
+}

@@ -1,0 +1,10 @@
+{
+  "block_id": "ch030-block-001",
+  "chapter_id": "ch030",
+  "feedback": "PASS: The refined translation matches the source and literal draft exactly, uses all glossary terms correctly, and preserves the tense horror-comedy tone with no omissions or meaning drift.",
+  "findings": [],
+  "judge_provider": "openrouter_reasoning",
+  "metadata": {},
+  "passed": true,
+  "retry_count": 0
+}
