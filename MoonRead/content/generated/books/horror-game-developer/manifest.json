@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-21T18:28:07.791Z",
+  "generatedAt": "2026-06-21T18:33:55.372Z",
   "sourceRoot": "../Horror Game Developers/05_Output",
   "targetRange": "ch001-ch230",
   "novel": {
@@ -31,8 +31,8 @@
   },
   "summary": {
     "total": 230,
-    "available": 223,
-    "missing": 7,
+    "available": 224,
+    "missing": 6,
     "rejected": 0,
     "skipped": 0
   },
@@ -1899,11 +1899,13 @@
     {
       "id": "ch170",
       "number": 170,
-      "title": "บทที่ 170",
-      "status": "missing",
+      "title": "ตอนที่ 170 - ติดเทรนด์ [2]",
+      "status": "available",
       "sourcePath": "ch170/ch170.md",
-      "href": null,
-      "reason": "source_file_missing"
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch170.md",
+      "href": "/books/horror-game-developer/read/ch170",
+      "charCount": 6299,
+      "readingMinutes": 2
     },
     {
       "id": "ch171",
