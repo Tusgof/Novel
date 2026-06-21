@@ -3,7 +3,7 @@ type: glossary-term
 original_term: Carmen Johansberg
 thai_term: คาร์เมน โยฮันส์เบิร์ก
 status: approved
-aliases: []
+aliases: ['Carmen']
 source_language: en
 category: character
 novel: horror-game-developer
@@ -23,4 +23,4 @@ updated_at:
 - Category: character
 - Status: approved
 - First seen: ch126/ch126-block-001
-- Notes: Named character.
+- Notes: Named character. Use the full Thai name when the source uses the full name; use `คาร์เมน` when the source says only `Carmen`.

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-21T18:33:55.372Z",
+  "generatedAt": "2026-06-21T18:48:31.115Z",
   "sourceRoot": "../Horror Game Developers/05_Output",
   "targetRange": "ch001-ch230",
   "novel": {
@@ -31,8 +31,8 @@
   },
   "summary": {
     "total": 230,
-    "available": 224,
-    "missing": 6,
+    "available": 225,
+    "missing": 5,
     "rejected": 0,
     "skipped": 0
   },
@@ -1910,11 +1910,13 @@
     {
       "id": "ch171",
       "number": 171,
-      "title": "บทที่ 171",
-      "status": "missing",
+      "title": "ตอนที่ 171 - ติดเทรนด์ [3]",
+      "status": "available",
       "sourcePath": "ch171/ch171.md",
-      "href": null,
-      "reason": "source_file_missing"
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch171.md",
+      "href": "/books/horror-game-developer/read/ch171",
+      "charCount": 5863,
+      "readingMinutes": 2
     },
     {
       "id": "ch172",

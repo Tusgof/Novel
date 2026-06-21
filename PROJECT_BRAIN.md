@@ -1,6 +1,6 @@
 # Project Brain: Novel Translation System
 
-Last updated: 2026-06-17
+Last updated: 2026-06-22
 
 This is the durable memory for the workspace. Keep it compact. Put long evidence, experiments, and historical detail in `Deep Sea Embers/07_Reports/`.
 
@@ -71,6 +71,13 @@ Layering rule:
 - If a bug pattern can recur across novels, fix it in the multi-novel layer first, then add only the narrow story-specific details to the novel layer.
 - Reader blurb rule: after a novel has at least 60 translated/published chapters, its glossary and style evidence are considered sufficient to translate/adapt the official synopsis, description, or teaser for MoonRead. Store the adapted Thai blurb plus `synopsis_source_url` and `synopsis_source_note` in `00_Config\novel_registry.json`.
 
+Sentinel layer policy:
+
+- Level 0, multi-novel Sentinel: checks every novel with rules that are always product-safe. Add rules here only when they do not depend on a specific story voice or glossary choice. Examples: provider/meta leakage, bad encoding/mojibake, Han leakage in Thai body text, quote-only lines, missing generated MoonRead files, obvious truncation, approved-glossary English original leakage, and source-vs-output approved glossary coverage.
+- Level 1, novel Sentinel: checks one novel using that novel's policy, glossary, aliases, pronouns, title rules, known false positives, and source-site quirks. Examples: HGD Seth pronoun policy, HGD `Kaelen`/`Kyle` near-miss variants, HGD English title normalization, DSE named Chinese chapter-title sidecars.
+- Rule promotion policy: start a recurring user-reported defect at Level 1 if it depends on one novel's vocabulary or voice. Promote to Level 0 only after the same defect class is proven novel-agnostic and has low false-positive risk.
+- Rule addition policy: every new Sentinel rule must record scope, severity, evidence path, false-positive risk, and repair action. If a rule can lower translation quality by over-constraining style, keep it advisory until measured.
+
 ## Current Verified State
 
 Deep Sea Embers:
@@ -82,11 +89,13 @@ Deep Sea Embers:
 - final-output checks have covered missing output, Han Chinese body text, provider/meta leakage, quote-only lines, known user-reported variants, paragraph density, and HGD required source beat
 - notable approved terms include `实太阳神` -> `สุริยเทพที่แท้จริง` and `面具神` -> `เทพหน้ากาก`
 - DSE title fallback incident closed for MoonRead `ch052-ch080`: source titles existed in Chinese, but no `04_Work/ch052-ch080/title.json` sidecars had been created, so final assembly silently fell back to generic `บทที่ N` headings. Prevention: final assembly now refuses named Chinese source titles without a translated title sidecar, and `scripts/check_output_quality_guardrails.py` rejects generic DSE headings when the source title has a real named Chinese title.
+- `dse-ch081-ch120-v1` completed: Deep Sea Embers `ch081-ch120` translated/refined/QA-passed/formatted/assembled, no current failed blocks remain, output guardrails passed, and MoonRead now publishes DSE through `ch120`. `ch110-block-004` needed a final format-stage ledger repair because a valid formatted artifact existed but the latest ledger record was a stale formatting failure. `ch120` displays `บทที่ 121` because the source file `ch120/source.json` itself is titled `第121章 救援`.
+- `dse-ch121-ch150-v1` completed: Deep Sea Embers `ch121-ch150` translated/refined/QA-passed/formatted/assembled, no current failed blocks remain, output guardrails passed, duplicate title paragraphs were removed, and MoonRead now publishes DSE through `ch150`.
 
 Horror Game Developer:
 
-- MoonRead published scope is `ch001-ch200`
-- active continuation goal: HGD `ch081-ch200` translation and MoonRead publication is complete; keep future work as new bounded goals
+- MoonRead published scope is `ch001-ch220`
+- active continuation goal: HGD `ch201-ch220` translation and MoonRead publication is complete; keep future work as new bounded goals
 - `hgd-ch101-ch110-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead.
 - `hgd-ch111-ch120-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. QA omission hard-fails in this range confirmed the root cause: refinement can still drop poems, thoughts, or sound-effect/source-beat blocks after ordinary retries.
 - `hgd-ch121-ch130-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. `ch126` exposed a pipeline smoothness bug: QA retry wrote a newer refined artifact, but formatting could still use an older in-memory refined draft; prevention now reloads the latest refined artifact after QA before formatting.
@@ -97,20 +106,28 @@ Horror Game Developer:
 - `hgd-ch171-ch180-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. `ch176` needed bounded recovery for Seth pronoun drift plus missing Dreamwalker/Mirelle tail content; QA passed after repair. QA audit used only `deepseek/deepseek-v4-flash` via `openrouter_reasoning` or `qwen deepseek-reasoner` fallback; no V4 Pro QA route was used.
 - `hgd-ch181-ch190-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. Historical failed records came from Codex quota when QA fallback reached emergency fallback on `ch182`/`ch186`; bounded QA reruns recovered both. QA audit used only `deepseek/deepseek-v4-flash` via `openrouter_reasoning` or `qwen deepseek-reasoner` for completed QA records; no V4 Pro QA route was used.
 - `hgd-ch191-ch200-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. `Shepherd Decree`/`Decree Shepherd` mojibake was repaired during the glossary gate, and title mappings were added through `ch200`. QA audit used only `deepseek/deepseek-v4-flash` via `openrouter_reasoning` or `qwen deepseek-reasoner` for completed QA records; no V4 Pro QA route was used.
+- `hgd-ch201-ch220-v1` completed: all 20 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. `ch206` and `ch211` used manual QA force-accept after deterministic repair, which exposed a status bug: `qa force_accepted` was not treated as terminal QA success for pending-stage calculation. Prevention: `ResumeState.next_pending_stage()` now treats `qa force_accepted` and `qa skipped` as QA-done states.
 - HGD source titles are English; Thai reader titles are protected by HGD title normalization and title sidecars
 - `04_Work/ch001/title.json` through `ch080/title.json` exist to prevent single-block reruns from falling back to English titles
 - HGD project folder is now `D:\Fogust\Workspace\Novel\Horror Game Developers`; it has the user-created Obsidian vault and durable pronoun policy at `Horror Game Developers/02_Database_Views/HGD Pronoun Policy.md`
 - V6.17 title/format incident is closed for published scope: `ch022-block-001` dropped the source beat "Like that, four days passed."; it was restored as `*และแล้ว สี่วันก็ผ่านไป*`
 - V6.17.1 found and repaired narrow English leakage in HGD output: `Horror Developer System`, `Developer Seth Thorne`, `Jump Scare`, `Scenario`, `Section Chief`, selected sound effects in `ch022`, and `Seth's USB stick`
+- HGD `ch149` terminology leakage incident closed: user found `ทวิสเต็ดแมน`, `อโนมาลี`, and English parentheticals such as `(Twisted Man)` / `(Anomaly)` in published output even though earlier chapters had used natural Thai. Cause: `The Anomaly.md` approved a transliteration, `Squad Leader.md` had mojibake, and the HGD forbidden-output guardrail did not yet include these variants. Prevention: glossary notes now use `ความผิดปกติ` and `หัวหน้ากลุ่ม`, HGD output/MoonRead generated chapters were repaired for the repeated leakage set, `HGD_FORBIDDEN_ENGLISH_OUTPUT` rejects the known variants, and `test_translation.py` covers the regression. Repair report: `Horror Game Developers/07_Reports/hgd_english_leakage_repair_20260621.md`
+- Full translated-output audit after the HGD `ch149` report closed additional hard failures across the current published scope: leaked category labels such as `(character)`, `(entity)`, `(rank)`, `(system)`, `(term)`, DSE English explanatory leftovers `(Anomaly)` / `(Vision)`, and broken UI Markdown in HGD `ch208`/`ch219`. Prevention: output guardrails now reject leaked metadata labels and broken UI bracket wrappers. Audit report: `07_Reports/full_translated_output_quality_audit_20260621.md`
+- Glossary policy clarified after the HGD leakage audit: approved glossary entries are not soft bilingual display. Final output and MoonRead must use the approved `thai_term`; approved English originals/aliases must not remain as parentheticals or UI labels unless a future explicit glossary field allows bilingual display. Prevention: HGD approved-glossary leakage guardrail now scans final output and MoonRead generated chapters, and regression tests cover English alias leakage plus unusable `thai_term` placeholders.
+- V6.25 Sentinel Quality Gate initial slice completed: `scripts/sentinel_quality_report.py` now produces JSON/Markdown blocker/major/minor reports, reuses existing guardrails, enforces approved glossary leakage across registered novels, and records advisory English-token findings for feedback review. First strict run exposed 35 HGD approved-glossary blockers; deterministic repair removed them from final output/formatted artifacts, MoonRead was regenerated/deployed, and optimized Sentinel now reports blocker/major/minor/info `0/0/80/0` for current published scope. Latest report: `07_Reports/sentinel_quality_current-published-optimized_20260621_165359.md`
+- HGD `ch164` Kaelen/Kyle name drift closed: source has distinct characters `Kaelen` and `Kyle`, and the approved glossary says `Kaelen Jacobs` -> `เคเลน เจคอบส์`, but output used `ไคลน์`, which was visually too close to `ไคล์` and confused speakers. Repair: changed `ไคลน์` to `เคเลน` in ch164 final/formatted/refined product path and regenerated MoonRead. Prevention: HGD output guardrail now rejects `ไคลน์`, and `test_translation.py` covers the regression.
+- Libra - Glossary Bot coverage added to Sentinel after the HGD `ch164` name drift: Sentinel now compares approved glossary originals/aliases found in `03_Raw/chXXX/source.json` against final output and MoonRead, so missing approved Thai terms are caught even when no known wrong variant is listed yet. Character full-name entries may pass with the approved Thai first name in prose, but wrong near-miss variants such as `ไคลน์` remain blockers. The first scoped run also caught `Sarah` -> `ซาร่า` and `Kaelen` -> `เคลเลน`/`คาเลน` drift across `ch164-ch166`; repair changed them to approved `ซาราห์` and `เคเลน`. Prevention: run Sentinel coverage for touched ranges after major translation/repair/publish work, and keep provider glossary context scoped by Libra rather than passing the entire growing glossary blindly.
 - HGD pronoun incident closed for published scope: Seth-dominant chapters had drifted between `ผม` and `ฉัน`, and Kyle/Seth peer address drifted between `นาย`, `คุณ`, and `เธอ`. Cause: HGD had no durable pronoun policy, and prompts/profile/QA did not pin Seth's Thai voice. Prevention: HGD Obsidian policy note, HGD research/style/prompt/QA pronoun rules, and `scripts/check_output_quality_guardrails.py` Seth-pronoun checks for known high-risk published chapters. Repair report: `Deep Sea Embers/07_Reports/hgd_pronoun_consistency_repair_20260616.md`
 - prevention: `scripts/check_output_quality_guardrails.py` checks the HGD `ch022` required source beat, known HGD English leakage terms, and HGD Seth pronoun drift; `test_translation.py` covers the `ch022` and HGD pronoun regressions
 - HGD title/truncation incident closed for MoonRead `ch001-ch080`: `ch036-ch080` lacked title sidecars and new title mappings, while `ch002`, `ch060`, and `ch072` had truncation risks from earlier recovery paths. Prevention: HGD title sidecars through `ch080`, `Horror Game Developers/scripts/normalize_hgd_titles.py`, source-vs-output truncation guardrail, and MoonRead title fallback checks. Repair report: `Horror Game Developers/07_Reports/hgd_title_truncation_repair_20260617.md`
+- HGD formatting audit closed for MoonRead `ch001-ch200`: `ch177` exposed a broader layout problem where refinement/formatting collapsed dialogue, thoughts, UI text, and action beats into dense paragraphs. Prevention: QA now strips common Markdown wrappers before detecting fail lines, `scripts/check_output_quality_guardrails.py` checks HGD paragraph density beyond `ch001-ch035` while respecting `--chapters`, catches malformed Markdown residue in both HGD output and MoonRead generated chapters, and truncation checks normalize runaway repeated characters before length comparison. Repairs: validated layout projection was applied to safe chapters, `ch047` was retranslated/repaired after runaway scream text masked truncation, and `ch072` was rerun through literal-safe QA recovery after a truncated refined artifact. Follow-up repair also removed marker residue such as `]**`, `***`, `:*`, and lone `*` lines from affected HGD chapters after `ch177` review.
 - HGD `ch081-ch090` completed under run `hgd-ch081-ch090-v1`; ch089 required deterministic recovery because QA retry repeatedly re-refined away source beats. Prevention for this batch: title normalizer covers `ch036-ch090`, and the recovery metadata records why ch089 used literal-safe manual QA acceptance before AI formatting.
 - HGD `ch091-ch100` completed under run `hgd-ch091-ch100-v1` and published to MoonRead. V6.23 smoothness fixes were exercised in production: batch glossary approval worked, HGD title gate stopped missing title mappings before publishing English titles, and QA repair-safe mode recovered ch091/ch093/ch095/ch097 without retry refinement overwriting repairs. Checkpoint: `Horror Game Developers/07_Reports/hgd_ch091_ch100_checkpoint.md`.
 
 MoonRead:
 
-- current reader library includes Deep Sea Embers `ch001-ch080` and Horror Game Developer `ch001-ch200`
+- current reader library includes Deep Sea Embers `ch001-ch150` and Horror Game Developer `ch001-ch220`
 - both current novels now pass the 60-chapter reader blurb gate; MoonRead registry includes source-backed Thai synopsis text for both books
 - canonical MoonRead app path is `D:\Fogust\Workspace\Novel\MoonRead`; it is no longer owned by the Deep Sea Embers folder
 - MoonRead imports novels from `00_Config\novel_registry.json`; adding a future novel should start by adding a registry entry, not by hardcoding paths in `MoonRead\scripts\generate-chapters.mjs`
@@ -188,8 +205,18 @@ Always:
 - keep runs bounded by explicit chapter/block ranges
 - stop on manual QA prompt, provider failure, command length failure, validation failure, or unexpected scope expansion
 - validate final outputs for provider/meta text, unintended Chinese body text, wrong glossary variants, quote-only lines, paragraph density, and formatting drift
+- after any major run or MoonRead publication, run the major-run spot-check checklist before claiming done
 - preserve exact source meaning over style polish
 - record recurring quality issues and prevention mechanisms here or in `IMPLEMENT_PLAN.md`
+
+Major-run spot-check checklist:
+
+- Applies to multi-chapter translation batches, broad repair passes, and MoonRead publication updates.
+- Sample at least 5 chapters: first, last, one early-middle, one late-middle, and one chapter with known recovery/provider incident if any.
+- For each sample, inspect H1 title, first paragraphs, one middle section, ending, paragraph density, dialogue/thought formatting, glossary/name consistency, and obvious omission/truncation.
+- Run deterministic guardrails for the touched chapter range, then run MoonRead `generate:chapters`, `lint`, `build`, and `smoke` if reader content changed.
+- If a sampled issue is systematic, repair the full affected range, add or extend a deterministic guardrail, regenerate MoonRead if needed, and record the cause/prevention in the relevant report.
+- A worker or provider QA report does not satisfy this checklist by itself; Codex must verify disk output and reader behavior.
 
 Requires explicit user approval:
 
@@ -215,6 +242,7 @@ Requires explicit user approval:
 | New novel setup without vault | create/open the novel Obsidian vault first, then add profile/glossary/source/output folders inside it |
 | Dense or broken formatting | AI formatting plus deterministic validation; use `C:\Users\ASUS\Downloads\good format.md` as style reference |
 | HGD English title fallback | keep HGD title normalization and title sidecars through the published range |
+| HGD English/glossary leakage in final output | keep approved glossary notes natural Thai, reject known leakage variants with output guardrails, and add regression tests whenever a user reports a repeated term leak |
 | HGD final output truncation after force-accept/retry | compare output length against source and reject dangling endings before MoonRead publication |
 | Pipeline requires too much manual artifact repair | create a per-batch control packet, use repair-safe QA commands, make next safe action explicit before resume, use the QA omission literal-safe recovery path before escalating to manual prompt, and format only the latest refined artifact after QA retry |
 | MoonRead rendering mismatch | run reader smoke after generated content changes |
@@ -288,11 +316,11 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
-HGD translation has local verified output through `ch200`; MoonRead is published through `ch200`.
+HGD translation has local verified output through `ch220`; MoonRead is published through `ch220`. Deep Sea Embers is published through `ch150`.
 
 Next safe choices:
 
-1. Commit the `hgd-ch191-ch200-v1` checkpoint and MoonRead publication update.
+1. Commit the `dse-ch121-ch150-v1` / `hgd-ch201-ch220-v1` checkpoint and MoonRead publication update.
 2. Treat future HGD continuation or quality work as a new bounded goal.
 3. If deploying externally, redeploy the pushed MoonRead update from the hosting provider.
 4. Stop again on manual QA prompt, provider failure, command length failure, validation failure, or unexpected scope expansion.

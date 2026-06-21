@@ -3,7 +3,7 @@ type: glossary-term
 original_term: Section Chief
 thai_term: หัวหน้าแผนก
 status: approved
-aliases: []
+aliases: ['The Section Chief']
 source_language: en
 category: title
 novel: horror-game-developer
@@ -19,5 +19,4 @@ updated_at:
 
 ## Summary
 
-Use `หัวหน้าแผนก` for Section Chief.
-
+Use `หัวหน้าแผนก` for Section Chief / The Section Chief.

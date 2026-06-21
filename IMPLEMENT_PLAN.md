@@ -1,6 +1,6 @@
 # Implement Plan
 
-Last updated: 2026-06-17
+Last updated: 2026-06-19
 
 This is the active roadmap. It should answer: what is done, what is next, when to stop, and how to verify completion. Long history belongs in `Deep Sea Embers/07_Reports/`, not here.
 
@@ -45,9 +45,9 @@ Completed:
 
 Current production state:
 
-- Deep Sea Embers `ch001-ch080` translated and repaired in `05_Output/`
-- MoonRead contains Deep Sea Embers `ch001-ch080`
-- MoonRead contains Horror Game Developer `ch001-ch200`
+- Deep Sea Embers `ch001-ch150` translated and repaired in `05_Output/`
+- MoonRead contains Deep Sea Embers `ch001-ch150`
+- MoonRead contains Horror Game Developer `ch001-ch220`
 - MoonRead app now lives at `D:\Fogust\Workspace\Novel\MoonRead`; `Deep Sea Embers\reader-web` is only a compatibility stub
 - HGD `ch022` missing time-skip issue repaired and guarded
 - HGD title fallback risk guarded by title sidecars for `ch001-ch080`
@@ -65,10 +65,155 @@ Current production state:
 - `hgd-ch171-ch180-v1` completed with no current failed blocks and output guardrails passed. `ch176` needed bounded recovery for Seth pronoun drift plus missing Dreamwalker/Mirelle tail content; QA passed after repair. QA used only V4 Flash reasoning or Qwen fallback; no V4 Pro QA route was used.
 - `hgd-ch181-ch190-v1` completed with no current failed blocks and output guardrails passed. Historical failed records came from Codex quota when QA fallback reached emergency fallback on `ch182`/`ch186`; bounded QA reruns recovered both. QA used only V4 Flash reasoning or Qwen fallback for completed QA records; no V4 Pro QA route was used.
 - `hgd-ch191-ch200-v1` completed with no current failed blocks and output guardrails passed. `Shepherd Decree`/`Decree Shepherd` mojibake was repaired during the glossary gate, and title mappings were added through `ch200`. QA used only V4 Flash reasoning or Qwen fallback for completed QA records; no V4 Pro QA route was used.
+- `dse-ch081-ch120-v1` completed with no current failed blocks and output guardrails passed. MoonRead registry now publishes Deep Sea Embers through `ch120`; `npm run generate:chapters`, `lint`, `build`, and `smoke` passed after publication.
+- `dse-ch121-ch150-v1` completed with no current failed blocks and output guardrails passed. Duplicate title paragraphs under H1 headings were repaired before MoonRead publication.
+- `hgd-ch201-ch220-v1` completed with no current failed blocks and output guardrails passed. Manual QA force-accept on repaired `ch206`/`ch211` exposed a status calculation bug; `ResumeState.next_pending_stage()` now treats `qa force_accepted` and `qa skipped` as QA-done states.
+- HGD English/glossary leakage repair completed after user report on `ch149`: `ทวิสเต็ดแมน` -> `ชายบิดเบี้ยว`, `อโนมาลี` / `(Anomaly)` -> `ความผิดปกติ`, `Squad Leader` -> `หัวหน้ากลุ่ม`, and related English parenthetical leakage variants were removed from HGD output and regenerated MoonRead content. Prevention is now in glossary notes, `scripts/check_output_quality_guardrails.py`, and regression tests.
+- Full translated-output quality audit completed for current published scope: DSE `ch001-ch150`, HGD `ch001-ch220`, and MoonRead generated content pass deterministic guardrails. Hard artifact leaks found during the audit were repaired and promoted into guardrails/tests. Approved glossary entries are now treated as Thai-only product text by default: final output and MoonRead must not keep approved English originals/aliases as parentheticals or UI labels unless a future explicit glossary field allows bilingual display.
+- V6.25 Sentinel Quality Gate initial slice completed: Sentinel report generation exists, current published scope was measured, 35 approved-glossary blockers were found and repaired, optimized runtime dropped from about 113 seconds to about 36 seconds, and latest result is blocker/major/minor/info `0/0/80/0`. The 80 minor English-token findings are a review queue, not publish blockers.
+- MoonRead was regenerated, linted, built, smoked, and deployed after DSE `ch150` / HGD `ch220` publication.
 - no current failed blocks are known
 - notable approved Deep Sea Embers terms include `实太阳神` -> `สุริยเทพที่แท้จริง` and `面具神` -> `เทพหน้ากาก`
 
-## Active Milestone: V6.24 Pipeline Smoothness V2
+## Active Milestone: V6.25 Sentinel Quality Gate
+
+Goal: add a measurable post-output quality gate before MoonRead publication so repeated translation defects are caught by deterministic checks instead of by user spot checks after publishing.
+
+Why this milestone exists:
+
+- Recent HGD issues (`ทวิสเต็ดแมน`, `อโนมาลี`, English parentheticals, broken Markdown, dense formatting, and title fallback) were real product defects even when provider stages had passed.
+- Existing guardrails are useful but scattered and mostly pass/fail. The operator needs one report that says whether a range is safe to publish and why.
+- The first implementation should avoid adding another always-on AI worker. Deterministic checks are faster, cheaper, repeatable, and easier to regression-test. AI audit can be added later only for high-risk chapters.
+
+### V6.25A: Sentinel Actor And Report
+
+Add `008 Sentinel` as the post-output quality gate.
+
+Responsibilities:
+
+- inspect final Markdown and MoonRead generated content after translation/repair
+- classify findings as `blocker`, `major`, `minor`, or `info`
+- write both JSON and Markdown reports under `07_Reports/`
+- recommend publish/no-publish based on blocker count
+
+Done when:
+
+- a Sentinel report command exists
+- the report includes scope, counts, findings, and next action
+- current DSE/HGD published scopes can be checked without provider calls
+
+### V6.25B: Deterministic Quality Signals
+
+Initial signals:
+
+- reuse existing output guardrail results
+- generic approved glossary enforcement across registered novels
+- glossary note health check for unusable `thai_term` values
+- suspicious English token/parenthetical scan as advisory signal
+- MoonRead generated content scan for the same product-surface issues
+
+Done when:
+
+- approved glossary English leakage is a blocker
+- mojibake/placeholder approved glossary Thai terms are blockers
+- advisory English leakage is reported without blocking by default
+- known bad fixtures prove the Sentinel catches recurring issues
+
+### V6.25C: Measurement And Feedback Loop
+
+Metrics:
+
+- blocker count for current publish scope
+- major/minor count by issue type
+- known-regression fixture detection rate
+- false-positive review notes for advisory English leakage
+- recurrence count for issues already promoted into guardrails
+
+Feedback loop:
+
+1. Run Sentinel after each multi-chapter batch or broad repair.
+2. If blocker > 0, stop publish and repair the full affected pattern.
+3. If major > 0, inspect sampled chapters before publish.
+4. If a user-reported issue recurs, add a fixture and promote the rule.
+5. Re-run Sentinel and MoonRead validation before deploy.
+
+Done when:
+
+- current published scope has blocker = 0
+- report records the validation commands used
+- regression tests include Sentinel fixture coverage
+
+### V6.25D: Libra - Glossary Bot Coverage
+
+Goal: make glossary consistency permanent by checking source glossary usage against final translated output, not only by searching for known wrong variants after the fact.
+
+Libra role:
+
+- `Libra` remains the glossary librarian before translation.
+- `Libra - Glossary Bot` is the deterministic coverage sub-check inside Sentinel after translation.
+- It is not a new always-on AI provider. Use algorithms first; optional AI review can be added later only for high-risk unresolved findings.
+
+Sentinel layer model:
+
+- Level 0, multi-novel: generic product-surface checks that should apply to every novel. Examples: provider/meta leakage, bad encoding, unintended source-language body text, quote-only lines, missing MoonRead generated files, truncation, approved-glossary English leakage, and source-vs-output approved glossary coverage.
+- Level 1, per-novel: rules that depend on a specific novel's voice, glossary, title policy, source quirks, or known false positives. Examples: HGD Seth pronouns, HGD Kaelen/Kyle near-miss names, HGD English-title normalization, and DSE Chinese title sidecar requirements.
+- Add a new rule at the lowest layer that safely catches the defect. Promote Level 1 rules to Level 0 only after the defect class is proven to recur across novels and the false-positive risk is low.
+- Every new rule must document: layer, severity, trigger evidence, repair action, false-positive risk, and whether it blocks publish or only creates a review queue item.
+
+Coverage rule:
+
+- Load approved glossary terms and aliases for the novel.
+- For each chapter/block source, find approved originals/aliases that appear in the source.
+- In the final output and MoonRead output for that chapter, verify that the approved `thai_term` appears.
+- If source contains an approved glossary term but output has no approved Thai term, report `glossary_coverage_missing`.
+- Category severity:
+  - `blocker`: character, entity, title, system, skill, rank
+  - `major`: organization, location, item, technique, event
+  - `minor`: generic/common terms or terms explicitly marked context-sensitive
+- Do not require equal occurrence counts. Thai may legitimately use pronouns after first mention.
+- If source count is high but Thai count is very low, report a major ratio warning instead of exact-count failure.
+
+Near-miss rule:
+
+- If expected Thai is missing and a known wrong variant appears, report it as blocker evidence.
+- Start with deterministic prior incidents (`ไคลน์` for `Kaelen`, `ทวิสเต็ดแมน`, `อโนมาลี`) before adding fuzzy matching.
+- Add fuzzy Thai-name matching only if deterministic variants are insufficient; keep false positives below 10% for blocker findings.
+
+Glossary scan/context budget policy:
+
+- Glossary scan should run per bounded batch, but candidate extraction should be chunked by source size instead of feeding a whole large range at once.
+- Initial practical chunk limits:
+  - Chinese source: about 3,000-5,000 Han characters per scan chunk
+  - English source: about 4,000-7,000 words or roughly 20,000-35,000 characters per scan chunk
+  - Prefer chapter/block boundaries; do not split inside dialogue/UI snippets when avoidable.
+- The scan artifact should record chunk id, chapter ids, source size, candidate count, and removed noise count.
+- If candidate count is unusually low for a large chunk, rerun scan or flag for human review.
+
+Glossary context selection for providers:
+
+- Do not pass the entire growing glossary to translate/refine/QA.
+- Before each provider stage, Libra should build a scoped glossary subset:
+  - terms found in the current source block
+  - aliases/substrings that match the block
+  - recently active chapter-level terms from the same batch
+  - high-priority novel constants such as protagonist names, system names, core ranks, and recurring organizations
+- Keep the provider glossary context bounded and relevant. If the subset is too large, prioritize character/entity/system/skill/rank first.
+- The selected subset should be saved or reportable so later failures can prove whether the provider saw the needed term.
+
+Done when:
+
+- Sentinel reports source-vs-output glossary coverage findings.
+- A fixture proves `source: Kaelen`, glossary `Kaelen -> เคเลน`, output `ไคลน์` is caught as a blocker.
+- Current HGD `ch164-ch166` pass the coverage check after repair.
+- Future batches have a documented rule: Libra selects relevant glossary context; providers should not receive the whole glossary blindly.
+
+Stop conditions:
+
+- Sentinel reports blocker findings in current product output
+- report generation mutates source/artifacts unexpectedly
+- advisory scanner creates noisy blocker-level false positives
+
+## Completed Milestone: V6.24 Pipeline Smoothness V2
 
 Goal: make HGD `ch101-ch200` continuation less dependent on Codex manually editing artifacts while keeping the same translation quality bar.
 
@@ -706,11 +851,21 @@ A milestone is not done until:
 
 - relevant tests/checks pass
 - generated output is inspected when UI or reader content changed
+- major translation/repair/publication runs pass the major-run spot-check checklist
 - provider calls are only made when the milestone explicitly needs them
 - no forbidden files are modified
 - `git diff` matches intended scope
 - docs mention any new operational rule or recurring risk
 - user-facing report is clear enough to resume later
+
+Major-run spot-check checklist:
+
+- Applies to multi-chapter translation batches, broad repair passes, and MoonRead publication updates.
+- Sample at least 5 chapters: first, last, one early-middle, one late-middle, and one chapter with known recovery/provider incident if any.
+- For each sample, inspect H1 title, first paragraphs, one middle section, ending, paragraph density, dialogue/thought formatting, glossary/name consistency, and obvious omission/truncation.
+- Run deterministic output guardrails for the touched range.
+- If MoonRead content changed, run `npm.cmd run generate:chapters`, `npm.cmd run lint`, `npm.cmd run build`, and `npm.cmd run smoke`.
+- If the sample exposes a repeated pattern, repair the full affected range, add or extend a deterministic guardrail, regenerate MoonRead if needed, and record cause/prevention in the run report.
 
 ## Do Not Do Without Explicit Approval
 
