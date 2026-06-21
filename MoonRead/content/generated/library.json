@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-17T10:47:55.153Z",
+  "generatedAt": "2026-06-21T18:12:45.021Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,9 +11,9 @@
   },
   "summary": {
     "books": 2,
-    "chapters": 280,
-    "available": 280,
-    "missing": 0,
+    "chapters": 380,
+    "available": 371,
+    "missing": 9,
     "rejected": 0
   },
   "books": [
@@ -33,23 +33,23 @@
       "cover": "/images/deep-sea-embers-cover.png",
       "href": "/book",
       "chaptersHref": "/chapters",
-      "targetRange": "ch001-ch080",
+      "targetRange": "ch001-ch150",
       "summary": {
-        "total": 80,
-        "available": 80,
+        "total": 150,
+        "available": 150,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch080",
-        "number": 80,
-        "title": "บทที่ 80: เยี่ยมบ้าน?",
+        "id": "ch150",
+        "number": 150,
+        "title": "บทที่ 151: ความลับในวิหารใต้ดิน",
         "status": "available",
-        "sourcePath": "ch080/ch080.md",
-        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch080.md",
-        "href": "/read/ch080",
-        "charCount": 7725,
+        "sourcePath": "ch150/ch150.md",
+        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch150.md",
+        "href": "/read/ch150",
+        "charCount": 8525,
         "readingMinutes": 2
       },
       "firstChapter": {
@@ -80,23 +80,23 @@
       "cover": "/images/horror-game-developer-cover.png",
       "href": "/books/horror-game-developer",
       "chaptersHref": "/books/horror-game-developer/chapters",
-      "targetRange": "ch001-ch200",
+      "targetRange": "ch001-ch230",
       "summary": {
-        "total": 200,
-        "available": 200,
-        "missing": 0,
+        "total": 230,
+        "available": 221,
+        "missing": 9,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch200",
-        "number": 200,
-        "title": "ตอนที่ 200 - ฟรีแลนซ์ [2]",
+        "id": "ch230",
+        "number": 230,
+        "title": "ตอนที่ 230 - วันแรกในฐานะหัวหน้ากลุ่ม",
         "status": "available",
-        "sourcePath": "ch200/ch200.md",
-        "generatedPath": "content/generated/books/horror-game-developer/chapters/ch200.md",
-        "href": "/books/horror-game-developer/read/ch200",
-        "charCount": 6532,
+        "sourcePath": "ch230/ch230.md",
+        "generatedPath": "content/generated/books/horror-game-developer/chapters/ch230.md",
+        "href": "/books/horror-game-developer/read/ch230",
+        "charCount": 5322,
         "readingMinutes": 2
       },
       "firstChapter": {
@@ -107,7 +107,7 @@
         "sourcePath": "ch001/ch001.md",
         "generatedPath": "content/generated/books/horror-game-developer/chapters/ch001.md",
         "href": "/books/horror-game-developer/read/ch001",
-        "charCount": 6203,
+        "charCount": 6206,
         "readingMinutes": 2
       }
     }

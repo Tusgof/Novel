@@ -22,14 +22,19 @@
         "enabled": true,
         "legacy_default": true,
         "first_chapter": 1,
-        "last_chapter": 80,
+        "last_chapter": 150,
         "title": "Deep Sea Embers",
         "thai_title": "เถ้าถ่านแห่งทะเลลึก",
         "author": "远瞳 (Yuan Tong)",
         "synopsis": "วันที่หมอกหนาปิดกั้นทุกสิ่ง เขากลายเป็นกัปตันของเรือผีและก้าวผ่านม่านหมอกไปเผชิญโลกที่ระเบียบเก่าพังทลาย เหลือเพียงนครรัฐโดดเดี่ยว เรือที่ท้าทายท้องทะเล และความผิดปกติลึกลับที่ครอบงำน่านน้ำไร้ขอบเขต ทว่าในฐานะกัปตันคนใหม่ของเรือผู้ไร้บ้าน คำถามแรกของดันแคนกลับเรียบง่ายกว่านั้นมาก: ใครก็ได้บอกทีว่าเรือลำนี้ขับยังไง?",
         "synopsis_source_url": "https://weread.qq.com/web/search/books?author=%E8%BF%9C%E7%9E%B3&ii=c01311057ad234037ad6c39",
         "synopsis_source_note": "Official Chinese blurb surfaced via WeRead/Qidian listing; adapted after 80 translated chapters were available.",
-        "tags": ["แฟนตาซี", "ลึกลับ", "เดินเรือ", "ผจญภัย"],
+        "tags": [
+          "แฟนตาซี",
+          "ลึกลับ",
+          "เดินเรือ",
+          "ผจญภัย"
+        ],
         "cover": "/images/deep-sea-embers-cover.png",
         "source_root_env": "DSE_READER_SOURCE_ROOT",
         "first_chapter_env": "DSE_READER_FIRST_CHAPTER",
@@ -54,14 +59,19 @@
         "enabled": true,
         "legacy_default": false,
         "first_chapter": 1,
-        "last_chapter": 200,
+        "last_chapter": 230,
         "title": "นักพัฒนาเกมสยองขวัญ",
         "thai_title": "นักพัฒนาเกมสยองขวัญ",
         "author": "Entrail_JI",
         "synopsis": "เขาเกลียดเรื่องสยองขวัญทุกอย่าง ตั้งแต่เสียงฝีเท้าที่ไล่หลังไปจนถึงเสียงกระซิบเย็นเยียบข้างหู ถึงขั้นอาเจียนเมื่อความกลัวพุ่งเกินขีดจำกัด แต่กลับเป็นนักพัฒนาเกมสยองขวัญฝีมือห่วยที่กำลังจะลาออก แล้วจู่ๆ ระบบนักพัฒนาเกมสยองขวัญก็เลือกเขา พร้อมเตือนว่าโลกอาจเกิดการเปลี่ยนแปลง ไม่ต้องห่วง...ทั้งหมดเป็นส่วนหนึ่งของเกม",
         "synopsis_source_url": "https://roliascan.com/manga/horror-game-developer-my-games-aren-t-that-scary-novel/",
         "synopsis_source_note": "RoliaScan novel page blurb; adapted after 80 translated chapters were available.",
-        "tags": ["สยองขวัญ", "เกม", "ระบบ", "เอาชีวิตรอด"],
+        "tags": [
+          "สยองขวัญ",
+          "เกม",
+          "ระบบ",
+          "เอาชีวิตรอด"
+        ],
         "cover": "/images/horror-game-developer-cover.png",
         "source_root_env": "HGD_READER_SOURCE_ROOT",
         "first_chapter_env": "HGD_READER_FIRST_CHAPTER",
@@ -136,7 +146,16 @@
         "max_paragraph_chars": 520,
         "truncation_min_source_chars": 3000,
         "truncation_min_ratio": 0.45,
-        "dangling_endings": ["แต่", "และ", "กับ", "ของ", "ที่", "ใน", "ก่อนจะ", "มือเธอ"]
+        "dangling_endings": [
+          "แต่",
+          "และ",
+          "กับ",
+          "ของ",
+          "ที่",
+          "ใน",
+          "ก่อนจะ",
+          "มือเธอ"
+        ]
       }
     }
   ]
