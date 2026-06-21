@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-21T18:12:44.815Z",
+  "generatedAt": "2026-06-21T18:21:36.369Z",
   "sourceRoot": "../Horror Game Developers/05_Output",
   "targetRange": "ch001-ch230",
   "novel": {
@@ -31,8 +31,8 @@
   },
   "summary": {
     "total": 230,
-    "available": 221,
-    "missing": 9,
+    "available": 222,
+    "missing": 8,
     "rejected": 0,
     "skipped": 0
   },
@@ -1877,11 +1877,13 @@
     {
       "id": "ch168",
       "number": 168,
-      "title": "บทที่ 168",
-      "status": "missing",
+      "title": "ตอนที่ 168 - เดิมพัน [5]",
+      "status": "available",
       "sourcePath": "ch168/ch168.md",
-      "href": null,
-      "reason": "source_file_missing"
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch168.md",
+      "href": "/books/horror-game-developer/read/ch168",
+      "charCount": 6585,
+      "readingMinutes": 2
     },
     {
       "id": "ch169",

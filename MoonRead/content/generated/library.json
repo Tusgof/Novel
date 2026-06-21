@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-21T18:12:45.021Z",
+  "generatedAt": "2026-06-21T18:21:36.576Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -12,8 +12,8 @@
   "summary": {
     "books": 2,
     "chapters": 380,
-    "available": 371,
-    "missing": 9,
+    "available": 372,
+    "missing": 8,
     "rejected": 0
   },
   "books": [
@@ -83,8 +83,8 @@
       "targetRange": "ch001-ch230",
       "summary": {
         "total": 230,
-        "available": 221,
-        "missing": 9,
+        "available": 222,
+        "missing": 8,
         "rejected": 0,
         "skipped": 0
       },
