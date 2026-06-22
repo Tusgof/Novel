@@ -89,6 +89,14 @@ def main() -> int:
             f"{current_number} ({current_title})"
         )
 
+    for chapter_id, number, title in rows:
+        expected = int(chapter_id.removeprefix("ch"))
+        if number != expected:
+            errors.append(
+                f"{chapter_id}: local id points to source Chapter {number}, "
+                f"expected Chapter {expected} ({title})"
+            )
+
     if errors:
         print("source_chapter_sequence: failed")
         for error in errors:

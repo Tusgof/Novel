@@ -3,7 +3,8 @@ type: glossary-term
 original_term: BAU
 thai_term: BAU
 status: approved
-aliases: []
+aliases:
+  - The BAU
 source_language: en
 category: organization
 novel: horror-game-developer
@@ -14,7 +15,7 @@ related: []
 approved_by: codex_batch_gate
 approval_notes: Approved during HGD ch171-ch180 glossary gate.
 created_at:
-updated_at:
+updated_at: 2026-06-23
 ---
 
 # BAU

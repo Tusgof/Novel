@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-22T05:20:42.656Z",
+  "generatedAt": "2026-06-22T20:53:53.093Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,8 +11,8 @@
   },
   "summary": {
     "books": 2,
-    "chapters": 386,
-    "available": 386,
+    "chapters": 410,
+    "available": 410,
     "missing": 0,
     "rejected": 0
   },
@@ -33,23 +33,23 @@
       "cover": "/images/deep-sea-embers-cover.png",
       "href": "/book",
       "chaptersHref": "/chapters",
-      "targetRange": "ch001-ch150",
+      "targetRange": "ch001-ch160",
       "summary": {
-        "total": 150,
-        "available": 150,
+        "total": 160,
+        "available": 160,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch150",
-        "number": 150,
-        "title": "บทที่ 151: ความลับในวิหารใต้ดิน",
+        "id": "ch160",
+        "number": 160,
+        "title": "บทที่ 161: ช่างทำตุ๊กตาที่โดดเด่นที่สุด",
         "status": "available",
-        "sourcePath": "ch150/ch150.md",
-        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch150.md",
-        "href": "/read/ch150",
-        "charCount": 8525,
+        "sourcePath": "ch160/ch160.md",
+        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch160.md",
+        "href": "/read/ch160",
+        "charCount": 7980,
         "readingMinutes": 2
       },
       "firstChapter": {
@@ -80,23 +80,23 @@
       "cover": "/images/horror-game-developer-cover.png",
       "href": "/books/horror-game-developer",
       "chaptersHref": "/books/horror-game-developer/chapters",
-      "targetRange": "ch001-ch236",
+      "targetRange": "ch001-ch250",
       "summary": {
-        "total": 236,
-        "available": 236,
+        "total": 250,
+        "available": 250,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch236",
-        "number": 236,
-        "title": "ตอนที่ 236 - วันแรกในฐานะหัวหน้ากลุ่ม",
+        "id": "ch250",
+        "number": 250,
+        "title": "ตอนที่ 250 - VILE - 2013 [ตัวตลก]",
         "status": "available",
-        "sourcePath": "ch236/ch236.md",
-        "generatedPath": "content/generated/books/horror-game-developer/chapters/ch236.md",
-        "href": "/books/horror-game-developer/read/ch236",
-        "charCount": 5322,
+        "sourcePath": "ch250/ch250.md",
+        "generatedPath": "content/generated/books/horror-game-developer/chapters/ch250.md",
+        "href": "/books/horror-game-developer/read/ch250",
+        "charCount": 6307,
         "readingMinutes": 2
       },
       "firstChapter": {

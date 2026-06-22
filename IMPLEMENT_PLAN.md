@@ -46,8 +46,8 @@ Completed:
 Current production state:
 
 - Deep Sea Embers `ch001-ch150` translated and repaired in `05_Output/`
-- MoonRead contains Deep Sea Embers `ch001-ch150`
-- MoonRead contains Horror Game Developer `ch001-ch236`; HGD local ids now match source chapter numbers after the source-number migration
+- MoonRead contains Deep Sea Embers `ch001-ch160`
+- MoonRead contains Horror Game Developer `ch001-ch250`; HGD local ids now match source chapter numbers after the source-number migration and the HGD fetch resolver now prefers `metadata.site_chapter` over manifest ordinal IDs.
 - MoonRead app now lives at `D:\Fogust\Workspace\Novel\MoonRead`; `Deep Sea Embers\reader-web` is only a compatibility stub
 - HGD `ch022` missing time-skip issue repaired and guarded
 - HGD title fallback risk guarded by title sidecars for `ch001-ch080`
@@ -73,6 +73,7 @@ Current production state:
 - Full translated-output quality audit completed for current published scope: DSE `ch001-ch150`, HGD `ch001-ch220`, and MoonRead generated content pass deterministic guardrails. Hard artifact leaks found during the audit were repaired and promoted into guardrails/tests. Approved glossary entries are now treated as Thai-only product text by default: final output and MoonRead must not keep approved English originals/aliases as parentheticals or UI labels unless a future explicit glossary field allows bilingual display.
 - V6.25 Sentinel Quality Gate initial slice completed: Sentinel report generation exists, current published scope was measured, 35 approved-glossary blockers were found and repaired, optimized runtime dropped from about 113 seconds to about 36 seconds, and latest result is blocker/major/minor/info `0/0/80/0`. The 80 minor English-token findings are a review queue, not publish blockers.
 - MoonRead was regenerated, built, and smoked after DSE `ch150` / HGD `ch236` source-number migration publication.
+- DSE `dse-ch151-ch160-v1` and HGD `hgd-ch237-ch250-v2` completed and published to MoonRead. Output guardrails passed for both touched ranges, Sentinel final reports passed with blocker/major/minor/info `0/0/0/0`, and MoonRead `generate:chapters`, `lint`, `build`, and `smoke` passed with 410 available chapters.
 - no current failed blocks are known
 - notable approved Deep Sea Embers terms include `实太阳神` -> `สุริยเทพที่แท้จริง` and `面具神` -> `เทพหน้ากาก`
 

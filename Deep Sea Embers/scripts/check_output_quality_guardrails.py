@@ -154,6 +154,19 @@ def in_scope(chapter: str, scoped_chapters: set[str] | None) -> bool:
     return scoped_chapters is None or chapter in scoped_chapters
 
 
+def requested_novel_slug(argv: list[str]) -> str | None:
+    for index, arg in enumerate(argv):
+        if arg != "--config" or index + 1 >= len(argv):
+            continue
+        config_path = Path(argv[index + 1]).resolve()
+        parts = {part.lower() for part in config_path.parts}
+        if "horror game developers" in parts:
+            return "horror-game-developer"
+        if "deep sea embers" in parts:
+            return "deep-sea-embers"
+    return None
+
+
 def novel_root(novel: dict) -> Path:
     return NOVEL_ROOT / str(novel.get("folder", ""))
 
@@ -542,8 +555,15 @@ def check_hgd_truncation_against_source(issues: list[str]) -> None:
             issues.append(f"{output_path}: output appears to end mid-sentence: {tail[-80:]}")
 
 
-def check_registry_truncation_against_source(issues: list[str]) -> None:
+def check_registry_truncation_against_source(
+    issues: list[str],
+    scoped_chapters: set[str] | None = None,
+    requested_novel: str | None = None,
+) -> None:
     for novel in REGISTERED_NOVELS:
+        slug = str(novel.get("slug", ""))
+        if requested_novel is not None and slug != requested_novel:
+            continue
         quality = novel.get("quality", {}) or {}
         min_source_chars = int(quality.get("truncation_min_source_chars") or 0)
         min_ratio = float(quality.get("truncation_min_ratio") or 0)
@@ -553,9 +573,10 @@ def check_registry_truncation_against_source(issues: list[str]) -> None:
         raw_root = novel_raw_root(novel)
         output_root = novel_output_root(novel)
         dangling_endings = tuple(quality.get("dangling_endings") or ())
-        slug = str(novel.get("slug", ""))
         for source_path in sorted(raw_root.glob("ch*/source.json")):
             chapter = source_path.parent.name
+            if not in_scope(chapter, scoped_chapters):
+                continue
             output_path = output_root / chapter / f"{chapter}.md"
             if not output_path.exists():
                 continue
@@ -581,9 +602,14 @@ def check_registry_truncation_against_source(issues: list[str]) -> None:
                 issues.append(f"{output_path}: {slug} output appears to end mid-sentence: {tail[-80:]}")
 
 
-def check_hgd_required_source_beats(issues: list[str]) -> None:
+def check_hgd_required_source_beats(
+    issues: list[str],
+    scoped_chapters: set[str] | None = None,
+) -> None:
     for rule in HGD_REQUIRED_SOURCE_BEATS:
         chapter = rule["chapter"]
+        if not in_scope(chapter, scoped_chapters):
+            continue
         source_path = HGD / "03_Raw" / chapter / "source.json"
         output_path = HGD / "05_Output" / chapter / f"{chapter}.md"
         if not source_path.exists() or not output_path.exists():
@@ -599,8 +625,13 @@ def check_hgd_required_source_beats(issues: list[str]) -> None:
             )
 
 
-def check_hgd_pronoun_policy(issues: list[str]) -> None:
+def check_hgd_pronoun_policy(
+    issues: list[str],
+    scoped_chapters: set[str] | None = None,
+) -> None:
     for chapter in sorted(HGD_SETH_PRONOUN_CHAPTERS):
+        if not in_scope(chapter, scoped_chapters):
+            continue
         path = HGD / "05_Output" / chapter / f"{chapter}.md"
         if not path.exists():
             continue
@@ -609,7 +640,7 @@ def check_hgd_pronoun_policy(issues: list[str]) -> None:
             issues.append(f"{path}: Seth-dominant HGD chapter still contains first-person drift marker: ฉัน")
 
     ch033_path = HGD / "05_Output/ch033/ch033.md"
-    if ch033_path.exists():
+    if in_scope("ch033", scoped_chapters) and ch033_path.exists():
         text = read(ch033_path)
         for phrase in ["เธอเห็นอะไร", "เธอไม่ผิดหรอก", "ฉันว่าเธอพูดถูก", "ผมว่าเธอพูดถูก"]:
             if phrase in text:
@@ -619,82 +650,93 @@ def check_hgd_pronoun_policy(issues: list[str]) -> None:
 def main() -> int:
     issues: list[str] = []
     scoped_chapters = parse_requested_chapters(sys.argv)
+    requested_novel = requested_novel_slug(sys.argv)
+    include_dse = requested_novel in (None, "deep-sea-embers")
+    include_hgd = requested_novel in (None, "horror-game-developer")
 
-    if in_scope("ch001", scoped_chapters):
+    if include_dse and in_scope("ch001", scoped_chapters):
         check_absent(DSE / "05_Output/ch001/ch001.md", ["ตั้งเครื่องหมายคำถาม"], issues)
-    if in_scope("ch014", scoped_chapters):
+    if include_dse and in_scope("ch014", scoped_chapters):
         check_absent(
             DSE / "05_Output/ch014/ch014.md",
             ["กักขังเจ้า", "ข้านึกว่าเจ้าจะ", "ตอนนี้เจ้าจะ"],
             issues,
         )
     for chapter in ["ch029", "ch030", "ch031"]:
-        if in_scope(chapter, scoped_chapters):
+        if include_dse and in_scope(chapter, scoped_chapters):
             check_absent(
                 DSE / "05_Output" / chapter / f"{chapter}.md",
                 ["อินควิสิเตอร์", "ผู้พิพากษา", "วันนา", "วานนา"],
                 issues,
             )
 
-    if scoped_chapters is None:
+    if include_hgd and scoped_chapters is None:
         check_absent(HGD / "01_Glossary/Section Chief.md", ["thai_term: หัวหน้าส่วนงาน"], issues)
-    for output_dir in sorted((HGD / "05_Output").glob("ch*")):
-        if not output_dir.is_dir():
-            continue
-        chapter = output_dir.name
-        if not in_scope(chapter, scoped_chapters):
-            continue
-        path = output_dir / f"{chapter}.md"
-        if not path.exists():
-            continue
-        check_absent(path, ["หัวหน้าส่วนงาน"], issues)
-        check_absent(path, HGD_FORBIDDEN_ENGLISH_OUTPUT, issues)
+    if include_hgd:
+        for output_dir in sorted((HGD / "05_Output").glob("ch*")):
+            if not output_dir.is_dir():
+                continue
+            chapter = output_dir.name
+            if not in_scope(chapter, scoped_chapters):
+                continue
+            path = output_dir / f"{chapter}.md"
+            if not path.exists():
+                continue
+            check_absent(path, ["หัวหน้าส่วนงาน"], issues)
+            check_absent(path, HGD_FORBIDDEN_ENGLISH_OUTPUT, issues)
 
-        generated_path = MOONREAD / "content/generated/books/horror-game-developer/chapters" / f"{chapter}.md"
-        if generated_path.exists():
-            check_absent(generated_path, HGD_FORBIDDEN_ENGLISH_OUTPUT, issues)
+            generated_path = MOONREAD / "content/generated/books/horror-game-developer/chapters" / f"{chapter}.md"
+            if generated_path.exists():
+                check_absent(generated_path, HGD_FORBIDDEN_ENGLISH_OUTPUT, issues)
     check_registry_title_policies(issues)
-    check_hgd_required_source_beats(issues)
-    check_hgd_pronoun_policy(issues)
-    check_registry_truncation_against_source(issues)
+    if include_hgd:
+        check_hgd_required_source_beats(issues, scoped_chapters=scoped_chapters)
+        check_hgd_pronoun_policy(issues, scoped_chapters=scoped_chapters)
+    check_registry_truncation_against_source(
+        issues,
+        scoped_chapters=scoped_chapters,
+        requested_novel=requested_novel,
+    )
 
-    check_paragraph_density(DSE / "05_Output", issues, scoped_chapters=scoped_chapters)
-    check_duplicate_title_paragraphs(DSE / "05_Output", issues, scoped_chapters=scoped_chapters)
-    check_translation_metadata_leakage(DSE / "05_Output", issues, scoped_chapters=scoped_chapters)
-    check_duplicate_title_paragraphs(
-        MOONREAD / "content/generated/books/deep-sea-embers/chapters",
-        issues,
-        scoped_chapters=scoped_chapters,
-    )
-    check_translation_metadata_leakage(
-        MOONREAD / "content/generated/books/deep-sea-embers/chapters",
-        issues,
-        scoped_chapters=scoped_chapters,
-    )
-    check_paragraph_density(
-        HGD / "05_Output",
-        issues,
-        max_chars=MAX_HGD_PARAGRAPH_CHARS,
-        scoped_chapters=scoped_chapters,
-    )
-    check_malformed_markdown_artifacts(HGD / "05_Output", issues, scoped_chapters=scoped_chapters)
-    check_translation_metadata_leakage(HGD / "05_Output", issues, scoped_chapters=scoped_chapters)
-    check_hgd_approved_glossary_leakage(HGD / "05_Output", issues, scoped_chapters=scoped_chapters)
-    check_malformed_markdown_artifacts(
-        MOONREAD / "content/generated/books/horror-game-developer/chapters",
-        issues,
-        scoped_chapters=scoped_chapters,
-    )
-    check_translation_metadata_leakage(
-        MOONREAD / "content/generated/books/horror-game-developer/chapters",
-        issues,
-        scoped_chapters=scoped_chapters,
-    )
-    check_hgd_approved_glossary_leakage(
-        MOONREAD / "content/generated/books/horror-game-developer/chapters",
-        issues,
-        scoped_chapters=scoped_chapters,
-    )
+    if include_dse:
+        check_paragraph_density(DSE / "05_Output", issues, scoped_chapters=scoped_chapters)
+        check_duplicate_title_paragraphs(DSE / "05_Output", issues, scoped_chapters=scoped_chapters)
+        check_translation_metadata_leakage(DSE / "05_Output", issues, scoped_chapters=scoped_chapters)
+        check_duplicate_title_paragraphs(
+            MOONREAD / "content/generated/books/deep-sea-embers/chapters",
+            issues,
+            scoped_chapters=scoped_chapters,
+        )
+        check_translation_metadata_leakage(
+            MOONREAD / "content/generated/books/deep-sea-embers/chapters",
+            issues,
+            scoped_chapters=scoped_chapters,
+        )
+    if include_hgd:
+        check_paragraph_density(
+            HGD / "05_Output",
+            issues,
+            max_chars=MAX_HGD_PARAGRAPH_CHARS,
+            scoped_chapters=scoped_chapters,
+        )
+        check_malformed_markdown_artifacts(HGD / "05_Output", issues, scoped_chapters=scoped_chapters)
+        check_translation_metadata_leakage(HGD / "05_Output", issues, scoped_chapters=scoped_chapters)
+        check_hgd_approved_glossary_leakage(HGD / "05_Output", issues, scoped_chapters=scoped_chapters)
+        check_malformed_markdown_artifacts(
+            MOONREAD / "content/generated/books/horror-game-developer/chapters",
+            issues,
+            scoped_chapters=scoped_chapters,
+        )
+        check_translation_metadata_leakage(
+            MOONREAD / "content/generated/books/horror-game-developer/chapters",
+            issues,
+            scoped_chapters=scoped_chapters,
+        )
+        check_hgd_approved_glossary_leakage(
+            MOONREAD / "content/generated/books/horror-game-developer/chapters",
+            issues,
+            scoped_chapters=scoped_chapters,
+        )
 
     if issues:
         for issue in issues:

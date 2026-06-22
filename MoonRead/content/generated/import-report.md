@@ -1,19 +1,19 @@
 # Reader Import Report
 
-Generated at: 2026-06-22T05:20:42.656Z
+Generated at: 2026-06-22T20:53:53.093Z
 
 ## Summary
 
 - books: 2
-- available chapters: 386
+- available chapters: 410
 - missing chapters: 0
 - rejected chapters: 0
 
 ## Deep Sea Embers
 
 - source root: ../Deep Sea Embers/05_Output
-- target range: ch001-ch150
-- available: 150
+- target range: ch001-ch160
+- available: 160
 - missing: 0
 - rejected: 0
 
@@ -28,8 +28,8 @@ Generated at: 2026-06-22T05:20:42.656Z
 ## นักพัฒนาเกมสยองขวัญ
 
 - source root: ../Horror Game Developers/05_Output
-- target range: ch001-ch236
-- available: 236
+- target range: ch001-ch250
+- available: 250
 - missing: 0
 - rejected: 0
 

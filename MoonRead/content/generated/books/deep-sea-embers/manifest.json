@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-22T05:20:41.700Z",
+  "generatedAt": "2026-06-22T20:53:51.821Z",
   "sourceRoot": "../Deep Sea Embers/05_Output",
-  "targetRange": "ch001-ch150",
+  "targetRange": "ch001-ch160",
   "novel": {
     "slug": "deep-sea-embers",
     "title": "Deep Sea Embers",
@@ -30,8 +30,8 @@
     }
   },
   "summary": {
-    "total": 150,
-    "available": 150,
+    "total": 160,
+    "available": 160,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -1685,6 +1685,116 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch150.md",
       "href": "/read/ch150",
       "charCount": 8525,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch151",
+      "number": 151,
+      "title": "บทที่ 152: ความหวาดกลัวของอสูรเร้นลึก",
+      "status": "available",
+      "sourcePath": "ch151/ch151.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch151.md",
+      "href": "/read/ch151",
+      "charCount": 8293,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch152",
+      "number": 152,
+      "title": "บทที่ 153: เมื่อตัดสินใจไม่ได้...",
+      "status": "available",
+      "sourcePath": "ch152/ch152.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch152.md",
+      "href": "/read/ch152",
+      "charCount": 9332,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch153",
+      "number": 153,
+      "title": "บทที่ 154: การปิดกั้นห้วงมิติเวลา",
+      "status": "available",
+      "sourcePath": "ch153/ch153.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch153.md",
+      "href": "/read/ch153",
+      "charCount": 8599,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch154",
+      "number": 154,
+      "title": "บทที่ 155: หอจดหมายเหตุ",
+      "status": "available",
+      "sourcePath": "ch154/ch154.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch154.md",
+      "href": "/read/ch154",
+      "charCount": 8717,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch155",
+      "number": 155,
+      "title": "บทที่ 156: เมฆหมอกแห่งความสงสัย",
+      "status": "available",
+      "sourcePath": "ch155/ch155.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch155.md",
+      "href": "/read/ch155",
+      "charCount": 8872,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch156",
+      "number": 156,
+      "title": "บทที่ 157: ปีที่หายไป",
+      "status": "available",
+      "sourcePath": "ch156/ch156.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch156.md",
+      "href": "/read/ch156",
+      "charCount": 9251,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch157",
+      "number": 157,
+      "title": "บทที่ 158: การซื้อครั้งใหญ่ของกัปตัน",
+      "status": "available",
+      "sourcePath": "ch157/ch157.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch157.md",
+      "href": "/read/ch157",
+      "charCount": 8426,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch158",
+      "number": 158,
+      "title": "บทที่ 159: คฤหาสน์ตุ๊กตากุหลาบ",
+      "status": "available",
+      "sourcePath": "ch158/ch158.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch158.md",
+      "href": "/read/ch158",
+      "charCount": 9046,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch159",
+      "number": 159,
+      "title": "บทที่ 160: ใครไม่ได้ข่มเหงใคร",
+      "status": "available",
+      "sourcePath": "ch159/ch159.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch159.md",
+      "href": "/read/ch159",
+      "charCount": 8026,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch160",
+      "number": 160,
+      "title": "บทที่ 161: ช่างทำตุ๊กตาที่โดดเด่นที่สุด",
+      "status": "available",
+      "sourcePath": "ch160/ch160.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch160.md",
+      "href": "/read/ch160",
+      "charCount": 7980,
       "readingMinutes": 2
     }
   ]

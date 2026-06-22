@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: The Team Leader
-thai_term: หัวหน้าทีม
+thai_term: หัวหน้ากลุ่ม
 status: approved
 aliases: []
 source_language: en
@@ -14,7 +14,7 @@ related: []
 approved_by:
 approval_notes: Approved by Codex deterministic glossary gate for Horror Game Developer ch001-ch050.
 created_at:
-updated_at:
+updated_at: 2026-06-23
 ---
 
 ## Summary
@@ -22,6 +22,8 @@ updated_at:
 ## Context Examples
 
 ## Translation Notes
+
+Use `หัวหน้ากลุ่ม` for the HGD gate-team role in the Squad Leader / Team Leader context.
 
 ## Related Terms
 

@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: The Guild Master
-thai_term: มาสเตอร์กิลด์
+thai_term: หัวหน้ากิลด์
 status: approved
 aliases: []
 source_language: en
@@ -14,13 +14,13 @@ related: []
 approved_by: codex_batch_gate
 approval_notes: Position title; approved for stable rendering.
 created_at:
-updated_at:
+updated_at: 2026-06-23
 ---
 
 # The Guild Master
 
-- Thai: มาสเตอร์กิลด์
+- Thai: หัวหน้ากิลด์
 - Category: title
 - Status: approved
 - First seen: ch079/ch079-block-001
-- Notes: Position title; approved for stable rendering.
+- Notes: Position title; keep aligned with `Guild Master` -> `หัวหน้ากิลด์`.

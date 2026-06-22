@@ -31,7 +31,24 @@ def resolve_chapter_meta(
     manifest: list[ChapterMeta],
     chapter_id: str,
 ) -> ChapterMeta:
-    """Find a ChapterMeta by chapter_id. Raises ValueError if not found."""
+    """Find a ChapterMeta by chapter_id. Raises ValueError if not found.
+
+    Some source adapters keep local chapter IDs by TOC position while also
+    storing the real website chapter number in metadata.site_chapter. When a
+    caller asks for ch237, prefer a real site_chapter=237 entry over a TOC
+    ordinal ch237 entry so local output numbering follows the source chapter.
+    """
+    numeric_id = chapter_id.removeprefix("ch")
+    if numeric_id.isdigit():
+        target_number = int(numeric_id)
+        for meta in manifest:
+            site_chapter = meta.metadata.get("site_chapter")
+            if isinstance(site_chapter, int) and site_chapter == target_number:
+                return meta
+            if isinstance(site_chapter, str) and site_chapter.isdigit():
+                if int(site_chapter) == target_number:
+                    return meta
+
     for meta in manifest:
         if meta.chapter_id == chapter_id:
             return meta

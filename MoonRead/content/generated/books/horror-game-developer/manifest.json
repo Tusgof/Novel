@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-22T05:20:42.449Z",
+  "generatedAt": "2026-06-22T20:53:52.746Z",
   "sourceRoot": "../Horror Game Developers/05_Output",
-  "targetRange": "ch001-ch236",
+  "targetRange": "ch001-ch250",
   "novel": {
     "slug": "horror-game-developer",
     "title": "นักพัฒนาเกมสยองขวัญ",
@@ -30,8 +30,8 @@
     }
   },
   "summary": {
-    "total": 236,
-    "available": 236,
+    "total": 250,
+    "available": 250,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -2631,6 +2631,160 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch236.md",
       "href": "/books/horror-game-developer/read/ch236",
       "charCount": 5322,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch237",
+      "number": 237,
+      "title": "ตอนที่ 237 - วันแรกในฐานะหัวหน้ากลุ่ม [4]",
+      "status": "available",
+      "sourcePath": "ch237/ch237.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch237.md",
+      "href": "/books/horror-game-developer/read/ch237",
+      "charCount": 5942,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch238",
+      "number": 238,
+      "title": "ตอนที่ 238 - กระดาน [1]",
+      "status": "available",
+      "sourcePath": "ch238/ch238.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch238.md",
+      "href": "/books/horror-game-developer/read/ch238",
+      "charCount": 5792,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch239",
+      "number": 239,
+      "title": "ตอนที่ 239 - กระดาน [2]",
+      "status": "available",
+      "sourcePath": "ch239/ch239.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch239.md",
+      "href": "/books/horror-game-developer/read/ch239",
+      "charCount": 6035,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch240",
+      "number": 240,
+      "title": "ตอนที่ 240 - กระดาน [3]",
+      "status": "available",
+      "sourcePath": "ch240/ch240.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch240.md",
+      "href": "/books/horror-game-developer/read/ch240",
+      "charCount": 5752,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch241",
+      "number": 241,
+      "title": "ตอนที่ 241 - กระดาน [4]",
+      "status": "available",
+      "sourcePath": "ch241/ch241.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch241.md",
+      "href": "/books/horror-game-developer/read/ch241",
+      "charCount": 5554,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch242",
+      "number": 242,
+      "title": "ตอนที่ 242 - กระดาน [5]",
+      "status": "available",
+      "sourcePath": "ch242/ch242.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch242.md",
+      "href": "/books/horror-game-developer/read/ch242",
+      "charCount": 6182,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch243",
+      "number": 243,
+      "title": "ตอนที่ 243 - กระดาน [6]",
+      "status": "available",
+      "sourcePath": "ch243/ch243.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch243.md",
+      "href": "/books/horror-game-developer/read/ch243",
+      "charCount": 6179,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch244",
+      "number": 244,
+      "title": "ตอนที่ 244 - กระดาน [7]",
+      "status": "available",
+      "sourcePath": "ch244/ch244.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch244.md",
+      "href": "/books/horror-game-developer/read/ch244",
+      "charCount": 6386,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch245",
+      "number": 245,
+      "title": "ตอนที่ 245 - มื้อค่ำกับหัวหน้ากลุ่ม [1]",
+      "status": "available",
+      "sourcePath": "ch245/ch245.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch245.md",
+      "href": "/books/horror-game-developer/read/ch245",
+      "charCount": 6206,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch246",
+      "number": 246,
+      "title": "ตอนที่ 246 - มื้อค่ำกับหัวหน้ากลุ่ม [2]",
+      "status": "available",
+      "sourcePath": "ch246/ch246.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch246.md",
+      "href": "/books/horror-game-developer/read/ch246",
+      "charCount": 6204,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch247",
+      "number": 247,
+      "title": "ตอนที่ 247 - จัดฉาก [1]",
+      "status": "available",
+      "sourcePath": "ch247/ch247.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch247.md",
+      "href": "/books/horror-game-developer/read/ch247",
+      "charCount": 6256,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch248",
+      "number": 248,
+      "title": "ตอนที่ 248 - จัดฉาก [2]",
+      "status": "available",
+      "sourcePath": "ch248/ch248.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch248.md",
+      "href": "/books/horror-game-developer/read/ch248",
+      "charCount": 5197,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch249",
+      "number": 249,
+      "title": "ตอนที่ 249 - จัดฉาก [3]",
+      "status": "available",
+      "sourcePath": "ch249/ch249.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch249.md",
+      "href": "/books/horror-game-developer/read/ch249",
+      "charCount": 5493,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch250",
+      "number": 250,
+      "title": "ตอนที่ 250 - VILE - 2013 [ตัวตลก]",
+      "status": "available",
+      "sourcePath": "ch250/ch250.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch250.md",
+      "href": "/books/horror-game-developer/read/ch250",
+      "charCount": 6307,
       "readingMinutes": 2
     }
   ]
