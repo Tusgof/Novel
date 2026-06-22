@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-22T04:08:41.882Z",
+  "generatedAt": "2026-06-22T05:20:42.656Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,8 +11,8 @@
   },
   "summary": {
     "books": 2,
-    "chapters": 380,
-    "available": 380,
+    "chapters": 386,
+    "available": 386,
     "missing": 0,
     "rejected": 0
   },
@@ -80,22 +80,22 @@
       "cover": "/images/horror-game-developer-cover.png",
       "href": "/books/horror-game-developer",
       "chaptersHref": "/books/horror-game-developer/chapters",
-      "targetRange": "ch001-ch230",
+      "targetRange": "ch001-ch236",
       "summary": {
-        "total": 230,
-        "available": 230,
+        "total": 236,
+        "available": 236,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch230",
-        "number": 230,
-        "title": "ตอนที่ 230 - วันแรกในฐานะหัวหน้ากลุ่ม",
+        "id": "ch236",
+        "number": 236,
+        "title": "ตอนที่ 236 - วันแรกในฐานะหัวหน้ากลุ่ม",
         "status": "available",
-        "sourcePath": "ch230/ch230.md",
-        "generatedPath": "content/generated/books/horror-game-developer/chapters/ch230.md",
-        "href": "/books/horror-game-developer/read/ch230",
+        "sourcePath": "ch236/ch236.md",
+        "generatedPath": "content/generated/books/horror-game-developer/chapters/ch236.md",
+        "href": "/books/horror-game-developer/read/ch236",
         "charCount": 5322,
         "readingMinutes": 2
       },
@@ -107,7 +107,7 @@
         "sourcePath": "ch001/ch001.md",
         "generatedPath": "content/generated/books/horror-game-developer/chapters/ch001.md",
         "href": "/books/horror-game-developer/read/ch001",
-        "charCount": 6206,
+        "charCount": 6153,
         "readingMinutes": 2
       }
     }

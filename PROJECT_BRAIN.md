@@ -94,7 +94,7 @@ Deep Sea Embers:
 
 Horror Game Developer:
 
-- MoonRead published scope is `ch001-ch220`
+- MoonRead published scope is `ch001-ch236`, with HGD local ids now matching source chapter numbers
 - active continuation goal: HGD `ch201-ch220` translation and MoonRead publication is complete; keep future work as new bounded goals
 - `hgd-ch101-ch110-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead.
 - `hgd-ch111-ch120-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. QA omission hard-fails in this range confirmed the root cause: refinement can still drop poems, thoughts, or sound-effect/source-beat blocks after ordinary retries.
@@ -108,7 +108,7 @@ Horror Game Developer:
 - `hgd-ch191-ch200-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. `Shepherd Decree`/`Decree Shepherd` mojibake was repaired during the glossary gate, and title mappings were added through `ch200`. QA audit used only `deepseek/deepseek-v4-flash` via `openrouter_reasoning` or `qwen deepseek-reasoner` for completed QA records; no V4 Pro QA route was used.
 - `hgd-ch201-ch220-v1` completed: all 20 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. `ch206` and `ch211` used manual QA force-accept after deterministic repair, which exposed a status bug: `qa force_accepted` was not treated as terminal QA success for pending-stage calculation. Prevention: `ResumeState.next_pending_stage()` now treats `qa force_accepted` and `qa skipped` as QA-done states.
 - HGD source titles are English; Thai reader titles are protected by HGD title normalization and title sidecars
-- HGD source-sequence incident closed for local `ch172`: raw source had been overwritten by stale RoliaScan `Chapter 187 - The basement [1]`, causing `ch171` -> `ch172` continuity break. Repair restored NovelLive `Chapter 177 - New Mission [1]`, regenerated MoonRead, and added `Deep Sea Embers/scripts/check_source_chapter_sequence.py` for source-number continuity checks. Run it after HGD source repair/fetch work; it also exposed older source jumps at local `ch029`, `ch052`, `ch087`, and `ch216`, which need a dedicated source-number migration/repair pass before claiming HGD source continuity is fully clean.
+- HGD source-sequence incident closed: local ids were migrated to source chapter numbers, missing source chapters `29`, `30`, `54`, `55`, `91`, and `221` were inserted/translated, `ch172` now correctly points to source `Chapter 172` after the full renumbering, and MoonRead publishes HGD through `ch236`. Prevention: run `Deep Sea Embers/scripts/check_source_chapter_sequence.py` after HGD fetch/repair/publish work.
 - `04_Work/ch001/title.json` through `ch080/title.json` exist to prevent single-block reruns from falling back to English titles
 - HGD project folder is now `D:\Fogust\Workspace\Novel\Horror Game Developers`; it has the user-created Obsidian vault and durable pronoun policy at `Horror Game Developers/02_Database_Views/HGD Pronoun Policy.md`
 - V6.17 title/format incident is closed for published scope: `ch022-block-001` dropped the source beat "Like that, four days passed."; it was restored as `*และแล้ว สี่วันก็ผ่านไป*`
@@ -128,7 +128,7 @@ Horror Game Developer:
 
 MoonRead:
 
-- current reader library includes Deep Sea Embers `ch001-ch150` and Horror Game Developer `ch001-ch220`
+- current reader library includes Deep Sea Embers `ch001-ch150` and Horror Game Developer `ch001-ch236`
 - both current novels now pass the 60-chapter reader blurb gate; MoonRead registry includes source-backed Thai synopsis text for both books
 - canonical MoonRead app path is `D:\Fogust\Workspace\Novel\MoonRead`; it is no longer owned by the Deep Sea Embers folder
 - MoonRead imports novels from `00_Config\novel_registry.json`; adding a future novel should start by adding a registry entry, not by hardcoding paths in `MoonRead\scripts\generate-chapters.mjs`

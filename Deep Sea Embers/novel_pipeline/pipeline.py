@@ -79,6 +79,8 @@ HGD_TITLE_MAP = {
     "Live Stream": "ไลฟ์สตรีม",
     "The lunatic with the sunglasses": "คนบ้าแว่นกันแดด",
     "The game that makes you scream": "เกมที่ทำให้กรีดร้อง",
+    "Scream": "เสียงกรีดร้อง",
+    "Quest Completed": "เควสต์สำเร็จ",
     "Your account has been reinstated": "บัญชีของคุณถูกคืนสถานะแล้ว",
     "Return of the Jester": "การกลับมาของตัวตลก",
     "Masquerade ball": "งานเต้นรำสวมหน้ากาก",

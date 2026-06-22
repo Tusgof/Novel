@@ -47,7 +47,7 @@ Current production state:
 
 - Deep Sea Embers `ch001-ch150` translated and repaired in `05_Output/`
 - MoonRead contains Deep Sea Embers `ch001-ch150`
-- MoonRead contains Horror Game Developer `ch001-ch220`
+- MoonRead contains Horror Game Developer `ch001-ch236`; HGD local ids now match source chapter numbers after the source-number migration
 - MoonRead app now lives at `D:\Fogust\Workspace\Novel\MoonRead`; `Deep Sea Embers\reader-web` is only a compatibility stub
 - HGD `ch022` missing time-skip issue repaired and guarded
 - HGD title fallback risk guarded by title sidecars for `ch001-ch080`
@@ -68,10 +68,11 @@ Current production state:
 - `dse-ch081-ch120-v1` completed with no current failed blocks and output guardrails passed. MoonRead registry now publishes Deep Sea Embers through `ch120`; `npm run generate:chapters`, `lint`, `build`, and `smoke` passed after publication.
 - `dse-ch121-ch150-v1` completed with no current failed blocks and output guardrails passed. Duplicate title paragraphs under H1 headings were repaired before MoonRead publication.
 - `hgd-ch201-ch220-v1` completed with no current failed blocks and output guardrails passed. Manual QA force-accept on repaired `ch206`/`ch211` exposed a status calculation bug; `ResumeState.next_pending_stage()` now treats `qa force_accepted` and `qa skipped` as QA-done states.
+- HGD source-number migration completed: missing source chapters `29`, `30`, `54`, `55`, `91`, and `221` were inserted/translated; HGD `03_Raw`, `04_Work`, `05_Output`, and MoonRead generated content now use source-number ids through `ch236`. Evidence: `07_Reports/hgd_source_number_migration_20260622.md`.
 - HGD English/glossary leakage repair completed after user report on `ch149`: `ทวิสเต็ดแมน` -> `ชายบิดเบี้ยว`, `อโนมาลี` / `(Anomaly)` -> `ความผิดปกติ`, `Squad Leader` -> `หัวหน้ากลุ่ม`, and related English parenthetical leakage variants were removed from HGD output and regenerated MoonRead content. Prevention is now in glossary notes, `scripts/check_output_quality_guardrails.py`, and regression tests.
 - Full translated-output quality audit completed for current published scope: DSE `ch001-ch150`, HGD `ch001-ch220`, and MoonRead generated content pass deterministic guardrails. Hard artifact leaks found during the audit were repaired and promoted into guardrails/tests. Approved glossary entries are now treated as Thai-only product text by default: final output and MoonRead must not keep approved English originals/aliases as parentheticals or UI labels unless a future explicit glossary field allows bilingual display.
 - V6.25 Sentinel Quality Gate initial slice completed: Sentinel report generation exists, current published scope was measured, 35 approved-glossary blockers were found and repaired, optimized runtime dropped from about 113 seconds to about 36 seconds, and latest result is blocker/major/minor/info `0/0/80/0`. The 80 minor English-token findings are a review queue, not publish blockers.
-- MoonRead was regenerated, linted, built, smoked, and deployed after DSE `ch150` / HGD `ch220` publication.
+- MoonRead was regenerated, built, and smoked after DSE `ch150` / HGD `ch236` source-number migration publication.
 - no current failed blocks are known
 - notable approved Deep Sea Embers terms include `实太阳神` -> `สุริยเทพที่แท้จริง` and `面具神` -> `เทพหน้ากาก`
 
