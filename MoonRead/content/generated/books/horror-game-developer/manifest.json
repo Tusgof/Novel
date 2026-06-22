@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-21T19:52:55.356Z",
+  "generatedAt": "2026-06-22T04:08:41.655Z",
   "sourceRoot": "../Horror Game Developers/05_Output",
   "targetRange": "ch001-ch230",
   "novel": {
@@ -1921,12 +1921,12 @@
     {
       "id": "ch172",
       "number": 172,
-      "title": "ตอนที่ 172 - ห้องใต้ดิน [1]",
+      "title": "ตอนที่ 172 - ภารกิจใหม่ [1]",
       "status": "available",
       "sourcePath": "ch172/ch172.md",
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch172.md",
       "href": "/books/horror-game-developer/read/ch172",
-      "charCount": 5645,
+      "charCount": 5332,
       "readingMinutes": 2
     },
     {
