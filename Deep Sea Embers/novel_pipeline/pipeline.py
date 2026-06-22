@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import json
 import re
 import sys
@@ -62,6 +63,7 @@ STAGE_ORDER = [
     "qa",
     "formatting",
     "completed",
+    "sentinel",
 ]
 
 BLOCK_STAGE_ORDER = [
@@ -1126,7 +1128,7 @@ def run_pipeline(
 
     # Write final chapter output
     if formatted_blocks:
-        _write_chapter_output(config, chapter_id, formatted_blocks, ctx.chapter_source)
+        _write_chapter_output_with_sentinel_gate(config, ledger, run_id, chapter_id, formatted_blocks, ctx.chapter_source)
 
     print(f"[{run_id}] Pipeline completed for chapter {chapter_id}.")
     return ctx
@@ -1932,7 +1934,7 @@ def resume_pipeline(
         raise ValueError(f"Bounded block '{until_block}' was not found in chapter '{chapter_id}'.")
 
     if formatted_blocks:
-        _write_chapter_output(config, chapter_id, formatted_blocks, ctx.chapter_source)
+        _write_chapter_output_with_sentinel_gate(config, ledger, run_id, chapter_id, formatted_blocks, ctx.chapter_source)
 
     print(f"[{run_id}] Resume completed.")
     return ctx
@@ -2010,7 +2012,7 @@ def rerun_block_pipeline(
         if missing:
             print(f"[{run_id}] Rerun complete. Final chapter output not rewritten; missing formatted blocks: {', '.join(missing)}")
         else:
-            _write_chapter_output(config, chapter_id, formatted_blocks, chapter_source)
+            _write_chapter_output_with_sentinel_gate(config, ledger, run_id, chapter_id, formatted_blocks, chapter_source)
             print(f"[{run_id}] Rerun complete. Final chapter output rewritten.")
     return ctx
 
@@ -2873,7 +2875,7 @@ def run_batch_pipeline(
                 break
 
         if formatted_blocks:
-            _write_chapter_output(config, chapter_id, formatted_blocks, ctx.chapter_source)
+            _write_chapter_output_with_sentinel_gate(config, ledger, run_id, chapter_id, formatted_blocks, ctx.chapter_source)
 
         if chapter_failed:
             print(f"[{run_id}]   Chapter {chapter_id} had a block failure.")
@@ -2931,6 +2933,82 @@ def _write_chapter_output(
     content = f"{header}{body}\n"
     output_path = output_dir / f"{chapter_id}.md"
     atomic_write_text(output_path, content)
+    return output_path
+
+
+def _run_sentinel_gate_for_chapter(
+    *,
+    config: AppConfig,
+    ledger: RunLedger,
+    run_id: str,
+    chapter_id: str,
+) -> None:
+    mode = getattr(config.execution, "sentinel_mode", "report_only")
+    if mode != "blocking":
+        return
+
+    script_path = Path(__file__).resolve().parents[1] / "scripts" / "sentinel_quality_report.py"
+    spec = importlib.util.spec_from_file_location("sentinel_quality_report_runtime", script_path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"Cannot load Sentinel gate script: {script_path}")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["sentinel_quality_report_runtime"] = module
+    spec.loader.exec_module(module)
+
+    fail_on = getattr(config.execution, "sentinel_fail_on", "major")
+    result = module.generate_sentinel_report(
+        scope=f"{run_id}_{chapter_id}_sentinel",
+        novel=config.novel_id,
+        chapters=chapter_id,
+        fail_on=fail_on,
+        skip_advisory_english=True,
+    )
+    counts = result["counts"]
+    metadata = {
+        "mode": mode,
+        "fail_on": fail_on,
+        "report": str(result["md_path"]),
+        "json_report": str(result["json_path"]),
+        "blocker": counts.get("blocker", 0),
+        "major": counts.get("major", 0),
+        "minor": counts.get("minor", 0),
+        "info": counts.get("info", 0),
+    }
+    if result["failed"]:
+        ledger.append_stage(
+            run_id=run_id,
+            block_id=chapter_id,
+            stage="sentinel",
+            status="failed",
+            provider="local",
+            metadata=metadata,
+        )
+        raise RuntimeError(
+            f"Sentinel gate blocked {chapter_id}: "
+            f"blocker/major/minor/info {metadata['blocker']}/{metadata['major']}/{metadata['minor']}/{metadata['info']}. "
+            f"Report: {metadata['report']}"
+        )
+
+    ledger.append_stage(
+        run_id=run_id,
+        block_id=chapter_id,
+        stage="sentinel",
+        status="completed",
+        provider="local",
+        metadata=metadata,
+    )
+
+
+def _write_chapter_output_with_sentinel_gate(
+    config: AppConfig,
+    ledger: RunLedger,
+    run_id: str,
+    chapter_id: str,
+    formatted_blocks: list[str],
+    chapter_source: ChapterSource | None,
+) -> Path:
+    output_path = _write_chapter_output(config, chapter_id, formatted_blocks, chapter_source)
+    _run_sentinel_gate_for_chapter(config=config, ledger=ledger, run_id=run_id, chapter_id=chapter_id)
     return output_path
 
 
@@ -3300,7 +3378,7 @@ def _resume_chapter(
     if until_block is not None and not found_bound_block:
         raise ValueError(f"Bounded block '{until_block}' was not found in chapter '{chapter_id}'.")
     if formatted_blocks:
-        _write_chapter_output(config, chapter_id, formatted_blocks, ctx.chapter_source)
+        _write_chapter_output_with_sentinel_gate(config, ledger, run_id, chapter_id, formatted_blocks, ctx.chapter_source)
     return stopped_early
 
 

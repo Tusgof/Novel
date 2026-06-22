@@ -215,6 +215,27 @@ Stop conditions:
 - report generation mutates source/artifacts unexpectedly
 - advisory scanner creates noisy blocker-level false positives
 
+### V6.25E: Runtime Blocking Stage
+
+Goal: make Sentinel a real pipeline gate, not only a report that Codex remembers to run later.
+
+Implementation:
+
+- Add `execution.sentinel.mode` and `execution.sentinel.fail_on` to config parsing.
+- Production DSE/HGD configs use `mode: blocking` and `fail_on: major`.
+- After a chapter output is assembled, run Sentinel scoped to that chapter and novel.
+- Append a `sentinel` ledger record with status `completed` or `failed`.
+- Stop the run when scoped Sentinel reports blocker/major findings.
+- Skip advisory English-token findings at runtime; keep them for manual feedback reports.
+- Keep MoonRead postgenerate Sentinel manual/scoped for now. Do not run whole-workspace Sentinel automatically until historical backlog outside the touched range is intentionally cleaned.
+
+Done when:
+
+- `run`, `resume`, `rerun-block`, and batch final assembly all pass through the same Sentinel gate.
+- Sentinel failures are visible in the ledger and include report paths.
+- Unit tests still pass.
+- A known clean scoped range passes Sentinel with blocker/major/minor/info `0/0/0/0`.
+
 ## Completed Milestone: V6.24 Pipeline Smoothness V2
 
 Goal: make HGD `ch101-ch200` continuation less dependent on Codex manually editing artifacts while keeping the same translation quality bar.

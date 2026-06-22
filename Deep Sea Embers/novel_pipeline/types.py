@@ -154,6 +154,8 @@ class ExecutionPolicy(JsonSerializable):
     artifact_cache_stages: tuple[str, ...] = ()
     pre_qa_guardrail_mode: str = "report_only"
     pre_qa_dense_paragraph_warning_chars: int = 900
+    sentinel_mode: str = "report_only"
+    sentinel_fail_on: str = "major"
 
     @classmethod
     def from_mapping(cls, data: Mapping[str, Any] | None) -> ExecutionPolicy:
@@ -176,6 +178,15 @@ class ExecutionPolicy(JsonSerializable):
         pre_qa_mode = str(pre_qa_payload.get("mode", payload.get("pre_qa_guardrail_mode", "report_only"))).strip().lower()
         if pre_qa_mode not in {"off", "report_only", "blocking"}:
             raise ValueError("pre_qa_guardrail mode must be one of: off, report_only, blocking")
+        sentinel_payload = payload.get("sentinel")
+        if not isinstance(sentinel_payload, Mapping):
+            sentinel_payload = {}
+        sentinel_mode = str(sentinel_payload.get("mode", payload.get("sentinel_mode", "report_only"))).strip().lower()
+        if sentinel_mode not in {"off", "report_only", "blocking"}:
+            raise ValueError("sentinel mode must be one of: off, report_only, blocking")
+        sentinel_fail_on = str(sentinel_payload.get("fail_on", payload.get("sentinel_fail_on", "major"))).strip().lower()
+        if sentinel_fail_on not in {"blocker", "major", "minor"}:
+            raise ValueError("sentinel fail_on must be one of: blocker, major, minor")
         return cls(
             concurrency_enabled=bool(payload.get("concurrency_enabled", False)),
             stop_on_first_hard_failure=bool(payload.get("stop_on_first_hard_failure", True)),
@@ -187,6 +198,8 @@ class ExecutionPolicy(JsonSerializable):
                 1,
                 int(pre_qa_payload.get("dense_paragraph_warning_chars", payload.get("pre_qa_dense_paragraph_warning_chars", 900))),
             ),
+            sentinel_mode=sentinel_mode,
+            sentinel_fail_on=sentinel_fail_on,
         )
 
     def limit_for_stage(self, stage: str) -> int:
@@ -196,6 +209,9 @@ class ExecutionPolicy(JsonSerializable):
 
     def pre_qa_blocks_runtime(self) -> bool:
         return self.pre_qa_guardrail_mode == "blocking"
+
+    def sentinel_blocks_runtime(self) -> bool:
+        return self.sentinel_mode == "blocking"
 
     def cache_skips_runtime(self) -> bool:
         return self.artifact_cache_mode == "enabled"

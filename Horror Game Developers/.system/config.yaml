@@ -7,6 +7,10 @@ default_style_profile: horror
 chunking:
   chinese_character_limit: 600
   non_chinese_word_limit: 5000
+execution:
+  sentinel:
+    mode: blocking
+    fail_on: major
 source:
   adapter: roliascan
   toc_url: https://roliascan.com/manga/horror-game-developer-my-games-aren-t-that-scary-novel/

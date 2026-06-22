@@ -26,6 +26,9 @@ execution:
   pre_qa_guardrail:
     mode: report_only
     dense_paragraph_warning_chars: 900
+  sentinel:
+    mode: blocking
+    fail_on: major
 
 source:
   adapter: piaotia

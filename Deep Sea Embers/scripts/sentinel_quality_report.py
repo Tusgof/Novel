@@ -526,6 +526,46 @@ def write_reports(findings: list[Finding], *, scope: str, chapters: str | None) 
     return json_path, md_path
 
 
+def collect_findings(*, novel: str | None = None, chapters: str | None = None, skip_advisory_english: bool = False) -> list[Finding]:
+    scoped = parse_chapter_scope(chapters)
+    registry = filter_registry(load_registry(), novel)
+    findings: list[Finding] = []
+    findings.extend(collect_existing_guardrails(scoped))
+    findings = filter_findings_by_registry(findings, registry)
+    findings.extend(scan_approved_glossary_leakage(registry, scoped))
+    findings.extend(scan_glossary_source_coverage(registry, scoped))
+    if not skip_advisory_english:
+        findings.extend(scan_suspicious_english(registry, scoped))
+    return findings
+
+
+def generate_sentinel_report(
+    *,
+    scope: str = "current",
+    novel: str | None = None,
+    chapters: str | None = None,
+    fail_on: str = "blocker",
+    skip_advisory_english: bool = False,
+) -> dict[str, object]:
+    findings = collect_findings(novel=novel, chapters=chapters, skip_advisory_english=skip_advisory_english)
+    json_path, md_path = write_reports(findings, scope=scope, chapters=chapters)
+    counts = summarize(findings)
+    thresholds = {
+        "blocker": counts.get("blocker", 0),
+        "major": counts.get("blocker", 0) + counts.get("major", 0),
+        "minor": counts.get("blocker", 0) + counts.get("major", 0) + counts.get("minor", 0),
+    }
+    failed = bool(thresholds[fail_on])
+    return {
+        "findings": findings,
+        "counts": counts,
+        "json_path": json_path,
+        "md_path": md_path,
+        "failed": failed,
+        "fail_on": fail_on,
+    }
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Generate Sentinel post-output quality report.")
     parser.add_argument("--scope", default="current", help="Short scope label for the report filename.")
@@ -535,27 +575,18 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--skip-advisory-english", action="store_true")
     args = parser.parse_args(argv)
 
-    scoped = parse_chapter_scope(args.chapters)
-    registry = filter_registry(load_registry(), args.novel)
-    findings: list[Finding] = []
-    findings.extend(collect_existing_guardrails(scoped))
-    findings = filter_findings_by_registry(findings, registry)
-    findings.extend(scan_approved_glossary_leakage(registry, scoped))
-    findings.extend(scan_glossary_source_coverage(registry, scoped))
-    if not args.skip_advisory_english:
-        findings.extend(scan_suspicious_english(registry, scoped))
-
-    json_path, md_path = write_reports(findings, scope=args.scope, chapters=args.chapters)
-    counts = summarize(findings)
+    result = generate_sentinel_report(
+        scope=args.scope,
+        novel=args.novel,
+        chapters=args.chapters,
+        fail_on=args.fail_on,
+        skip_advisory_english=args.skip_advisory_english,
+    )
+    md_path = result["md_path"]
+    counts = result["counts"]
     print(f"sentinel_quality_report: {md_path}")
     print(f"blocker/major/minor/info: {counts.get('blocker', 0)}/{counts.get('major', 0)}/{counts.get('minor', 0)}/{counts.get('info', 0)}")
-
-    thresholds = {
-        "blocker": counts.get("blocker", 0),
-        "major": counts.get("blocker", 0) + counts.get("major", 0),
-        "minor": counts.get("blocker", 0) + counts.get("major", 0) + counts.get("minor", 0),
-    }
-    return 1 if thresholds[args.fail_on] else 0
+    return 1 if result["failed"] else 0
 
 
 if __name__ == "__main__":

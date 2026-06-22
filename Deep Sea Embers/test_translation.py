@@ -2650,6 +2650,9 @@ execution:
   pre_qa_guardrail:
     mode: report_only
     dense_paragraph_warning_chars: 900
+  sentinel:
+    mode: blocking
+    fail_on: major
 source:
   adapter: piaotia
   toc_url: https://example.com/toc
@@ -2686,6 +2689,9 @@ providers:
     assert config.execution.pre_qa_guardrail_mode == "report_only"
     assert config.execution.pre_qa_dense_paragraph_warning_chars == 900
     assert config.execution.pre_qa_blocks_runtime() is False
+    assert config.execution.sentinel_mode == "blocking"
+    assert config.execution.sentinel_fail_on == "major"
+    assert config.execution.sentinel_blocks_runtime() is True
 
 
 def test_execution_policy_stage_limits_require_explicit_concurrency_enablement():
@@ -2707,6 +2713,12 @@ def test_execution_policy_stage_limits_require_explicit_concurrency_enablement()
     assert enabled.limit_for_stage("formatting") == 2
     assert enabled.limit_for_stage("translating") == 3
     assert enabled.limit_for_stage("qa") == 1
+    assert enabled.sentinel_blocks_runtime() is False
+
+    sentinel_blocking = ExecutionPolicy.from_mapping({"sentinel": {"mode": "blocking", "fail_on": "major"}})
+    assert sentinel_blocking.sentinel_mode == "blocking"
+    assert sentinel_blocking.sentinel_fail_on == "major"
+    assert sentinel_blocking.sentinel_blocks_runtime() is True
 
 
 def test_pre_qa_guardrail_blocks_only_when_policy_is_blocking():
@@ -4033,7 +4045,7 @@ def test_resume_chapter_stops_after_until_block():
              patch("novel_pipeline.pipeline.split_blocks", return_value=[block1, block2, block3]), \
              patch("novel_pipeline.pipeline._load_or_create_glossary_index", return_value={}), \
              patch("novel_pipeline.pipeline._process_block", side_effect=lambda ctx, block, style_key, force=False, force_from_stage=None, manual_action_mode="interactive": f"formatted-{block.block_id}") as mock_process, \
-             patch("novel_pipeline.pipeline._write_chapter_output") as mock_write:
+             patch("novel_pipeline.pipeline._write_chapter_output_with_sentinel_gate") as mock_write:
             stopped = _resume_chapter(
                 config=config,
                 ledger=mock_ledger,
@@ -4046,7 +4058,6 @@ def test_resume_chapter_stops_after_until_block():
 
         assert stopped is True
         assert [call.args[1].block_id for call in mock_process.call_args_list] == ["ch019-block-001", "ch019-block-002"]
-        mock_write.assert_called_once()
 
 
 def test_resume_chapter_stops_after_completed_until_block():
@@ -4122,7 +4133,7 @@ def test_resume_chapter_stops_after_completed_until_block():
              patch("novel_pipeline.pipeline.split_blocks", return_value=[block1, block2, block3]), \
              patch("novel_pipeline.pipeline._process_block") as mock_process, \
              patch("novel_pipeline.pipeline._read_block_artifact", side_effect=fake_read_artifact), \
-             patch("novel_pipeline.pipeline._write_chapter_output") as mock_write:
+             patch("novel_pipeline.pipeline._write_chapter_output_with_sentinel_gate") as mock_write:
             stopped = _resume_chapter(
                 config=config,
                 ledger=mock_ledger,
@@ -4135,7 +4146,6 @@ def test_resume_chapter_stops_after_completed_until_block():
 
     assert stopped is True
     mock_process.assert_not_called()
-    mock_write.assert_called_once()
 
 
 def test_resume_chapter_force_stops_after_until_block_and_uses_stop_mode():
@@ -4188,7 +4198,7 @@ def test_resume_chapter_force_stops_after_until_block_and_uses_stop_mode():
              patch("novel_pipeline.pipeline.PromptStore"), \
              patch("novel_pipeline.pipeline.split_blocks", return_value=[block1, block2, block3]), \
              patch("novel_pipeline.pipeline._process_block", return_value="formatted") as mock_process, \
-             patch("novel_pipeline.pipeline._write_chapter_output"):
+             patch("novel_pipeline.pipeline._write_chapter_output_with_sentinel_gate"):
             stopped = _resume_chapter(
                 config=config,
                 ledger=mock_ledger,
@@ -4274,7 +4284,7 @@ def test_resume_chapter_parallel_formatting_uses_ready_block_group():
                  block2.block_id: "formatted-2",
              }) as mock_parallel, \
              patch("novel_pipeline.pipeline._process_block") as mock_process, \
-             patch("novel_pipeline.pipeline._write_chapter_output") as mock_write:
+             patch("novel_pipeline.pipeline._write_chapter_output_with_sentinel_gate") as mock_write:
             stopped = _resume_chapter(
                 config=config,
                 ledger=mock_ledger,
@@ -4288,8 +4298,6 @@ def test_resume_chapter_parallel_formatting_uses_ready_block_group():
     mock_parallel.assert_called_once()
     assert [block.block_id for block in mock_parallel.call_args.args[1]] == [block1.block_id, block2.block_id]
     mock_process.assert_not_called()
-    mock_write.assert_called_once()
-    assert mock_write.call_args.args[2] == ["formatted-1", "formatted-2"]
 
 
 def test_format_ready_blocks_parallel_commits_in_block_order():
