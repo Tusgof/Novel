@@ -330,6 +330,20 @@ def output_has_glossary_translation(term: GlossaryTerm, text: str) -> bool:
     return False
 
 
+def covered_by_longer_source_term(term: GlossaryTerm, matched_terms: list[GlossaryTerm], translated_text: str) -> bool:
+    """Avoid double-reporting subterms when the longer approved term is already rendered."""
+    for longer in matched_terms:
+        if longer is term:
+            continue
+        if len(longer.original) <= len(term.original):
+            continue
+        if term.original not in longer.original:
+            continue
+        if output_has_glossary_translation(longer, translated_text):
+            return True
+    return False
+
+
 def scan_glossary_source_coverage(registry: dict, scoped: set[str] | None) -> list[Finding]:
     findings: list[Finding] = []
     for novel in registry.get("novels", []):
@@ -344,18 +358,21 @@ def scan_glossary_source_coverage(registry: dict, scoped: set[str] | None) -> li
             source_text = source_text_for_chapter(root, raw_dir, chapter)
             if not source_text:
                 continue
+            matched_terms = [term for term in terms if source_contains_term(source_text, term.original)]
+            if not matched_terms:
+                continue
             surfaces = [
                 ("final_output", final_output_path_for_chapter(root, output_dir, chapter)),
                 ("moonread", reader_output_path_for_chapter(slug, chapter)),
             ]
-            for term in terms:
-                if not source_contains_term(source_text, term.original):
+            for surface, path in surfaces:
+                if not path.exists():
                     continue
-                for surface, path in surfaces:
-                    if not path.exists():
-                        continue
-                    translated_text = read_text(path)
+                translated_text = read_text(path)
+                for term in matched_terms:
                     if output_has_glossary_translation(term, translated_text):
+                        continue
+                    if covered_by_longer_source_term(term, matched_terms, translated_text):
                         continue
                     findings.append(
                         Finding(

@@ -6231,7 +6231,8 @@ def test_hgd_forbidden_term_guardrail_flags_known_leakage():
         output_path = module.HGD / "05_Output" / "ch149" / "ch149.md"
         output_path.parent.mkdir(parents=True)
         output_path.write_text(
-            "# ตอนที่ 149\n\nทวิสเต็ดแมน (Twisted Man) เป็น อโนมาลี (Anomaly) และ Squad Leader ยังหลุดอังกฤษ ไคลน์ควรเป็นเคเลน",
+            "# ตอนที่ 149\n\nทวิสเต็ดแมน (Twisted Man) เป็น อโนมาลี (Anomaly) และ Squad Leader ยังหลุดอังกฤษ ไคลน์ควรเป็นเคเลน\n\n"
+            "ผมว่าแล้วเชียว ไม่ใช่กูว่าแล้วเชียว และเกมของผมต้องไม่กลายเป็นขกมของผม หรือเป็นต้องไม่กลายเป็นขป็น",
             encoding="utf-8",
         )
 
@@ -6243,6 +6244,9 @@ def test_hgd_forbidden_term_guardrail_flags_known_leakage():
     assert any("อโนมาลี" in issue for issue in issues)
     assert any("Squad Leader" in issue for issue in issues)
     assert any("ไคลน์" in issue for issue in issues)
+    assert any("กู" in issue for issue in issues)
+    assert any("ขกมของ" in issue for issue in issues)
+    assert any("ขป็น" in issue for issue in issues)
 
 
 def test_output_guardrail_flags_metadata_and_broken_ui_markers():
@@ -6445,6 +6449,69 @@ def test_sentinel_glossary_coverage_flags_source_term_missing_in_output():
         and "near_miss=ไคลน์" in f.evidence
         for f in findings
     )
+
+
+def test_sentinel_glossary_coverage_ignores_covered_subterm():
+    """Libra coverage does not double-report a subterm when its longer approved term is rendered."""
+    import importlib.util
+    import sys
+    import tempfile
+
+    script_path = Path("scripts/sentinel_quality_report.py")
+    spec = importlib.util.spec_from_file_location("sentinel_quality_report_overlap_test", script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["sentinel_quality_report_overlap_test"] = module
+    spec.loader.exec_module(module)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_root = Path(tmp)
+        module.WORKSPACE_ROOT = tmp_root
+        module.MOONREAD_ROOT = tmp_root / "MoonRead"
+        novel_root = tmp_root / "Fixture Novel"
+        glossary_root = novel_root / "01_Glossary"
+        source_root = novel_root / "03_Raw" / "ch001"
+        output_root = novel_root / "05_Output" / "ch001"
+        glossary_root.mkdir(parents=True)
+        source_root.mkdir(parents=True)
+        output_root.mkdir(parents=True)
+        (glossary_root / "Conductor.md").write_text(
+            "---\n"
+            "original_term: Conductor\n"
+            "thai_term: วาทยกร\n"
+            "status: approved\n"
+            "category: entity\n"
+            "---\n",
+            encoding="utf-8",
+        )
+        (glossary_root / "Conductor Quest.md").write_text(
+            "---\n"
+            "original_term: Conductor Quest\n"
+            "thai_term: เควสต์คอนดักเตอร์\n"
+            "status: approved\n"
+            "category: system\n"
+            "---\n",
+            encoding="utf-8",
+        )
+        (source_root / "source.json").write_text(
+            json.dumps({"raw_text": "The Conductor Quest is active."}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        (output_root / "ch001.md").write_text("# ตอนที่ 1\n\nเควสต์คอนดักเตอร์เริ่มขึ้นแล้ว", encoding="utf-8")
+        registry = {
+            "novels": [
+                {
+                    "slug": "fixture-novel",
+                    "folder": "Fixture Novel",
+                    "raw_dir": "03_Raw",
+                    "output_dir": "05_Output",
+                }
+            ]
+        }
+
+        findings = module.scan_glossary_source_coverage(registry, {"ch001"})
+
+    assert not findings
 
 
 def test_hgd_paragraph_density_guardrail_checks_late_chapters():
@@ -7501,6 +7568,7 @@ if __name__ == "__main__":
     test_hgd_approved_glossary_guardrail_flags_english_alias_leakage()
     test_sentinel_quality_report_flags_known_glossary_leakage_fixture()
     test_sentinel_glossary_coverage_flags_source_term_missing_in_output()
+    test_sentinel_glossary_coverage_ignores_covered_subterm()
     test_hgd_paragraph_density_guardrail_checks_late_chapters()
     test_output_guardrail_compacts_runaway_repeats_for_truncation_ratio()
     test_hgd_required_source_beat_guardrail_flags_missing_time_skip()
