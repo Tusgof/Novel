@@ -8,6 +8,8 @@
     "build:with-content": "npm run generate:chapters && next build",
     "lint": "eslint .",
     "generate:chapters": "node scripts/generate-chapters.mjs",
+    "sentinel:gate": "node scripts/run-sentinel-gate.mjs",
+    "publish:verify": "npm run generate:chapters && npm run sentinel:gate && npm run lint && npm run build && npm run smoke",
     "smoke": "node scripts/smoke-reader.mjs"
   },
   "dependencies": {

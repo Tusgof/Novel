@@ -6240,7 +6240,7 @@ def test_hgd_forbidden_term_guardrail_flags_known_leakage():
         output_path.parent.mkdir(parents=True)
         output_path.write_text(
             "# ตอนที่ 149\n\nทวิสเต็ดแมน (Twisted Man) เป็น อโนมาลี (Anomaly) และ Squad Leader ยังหลุดอังกฤษ ไคลน์ควรเป็นเคเลน\n\n"
-            "โองการ บัญญัติ วาทยากร หัวหน้าหน่วย เจ้าสำนัก โซรัน ????? และคอนดักเตอร์เดี่ยวต้องถูกจับ แต่เควสต์คอนดักเตอร์เป็นคำระบบที่ใช้ได้\n\n"
+            "โองการ บัญญัติ วาทยากร หัวหน้าหน่วย เจ้าสำนัก โซรัน และคอนดักเตอร์เดี่ยวต้องถูกจับ แต่เควสต์คอนดักเตอร์เป็นคำระบบที่ใช้ได้\n\n"
             "ผมว่าแล้วเชียว ไม่ใช่กูว่าแล้วเชียว และเกมของผมต้องไม่กลายเป็นขกมของผม หรือเป็นต้องไม่กลายเป็นขป็น",
             encoding="utf-8",
         )
@@ -6260,12 +6260,51 @@ def test_hgd_forbidden_term_guardrail_flags_known_leakage():
     assert any("หัวหน้าหน่วย" in issue for issue in issues)
     assert any("เจ้าสำนัก" in issue for issue in issues)
     assert any("โซรัน" in issue for issue in issues)
-    assert any("?????" in issue for issue in issues)
     assert any("คอนดักเตอร์" in issue for issue in issues)
     assert not any("เควสต์คอนดักเตอร์" in issue for issue in issues)
     assert any("กู" in issue for issue in issues)
     assert any("ขกมของ" in issue for issue in issues)
     assert any("ขป็น" in issue for issue in issues)
+
+
+def test_hgd_question_placeholder_guardrail_is_source_aware():
+    """Question placeholders are allowed only when the source intentionally contains them."""
+    import importlib.util
+    import sys
+    import tempfile
+
+    script_path = Path("scripts/check_output_quality_guardrails.py")
+    spec = importlib.util.spec_from_file_location("check_output_quality_guardrails_placeholder_test", script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["check_output_quality_guardrails_placeholder_test"] = module
+    spec.loader.exec_module(module)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_root = Path(tmp)
+        module.HGD = tmp_root / "Horror Game Developer"
+        novel = {"folder": "Horror Game Developer", "raw_dir": "03_Raw"}
+
+        blocked_output = module.HGD / "05_Output" / "ch224" / "ch224.md"
+        blocked_output.parent.mkdir(parents=True)
+        blocked_output.write_text("# ตอนที่ 224\n\n?????????????\n", encoding="utf-8")
+        blocked_source = module.HGD / "03_Raw" / "ch224" / "source.json"
+        blocked_source.parent.mkdir(parents=True)
+        blocked_source.write_text(json.dumps({"raw_text": "Guild Master"}), encoding="utf-8")
+
+        allowed_output = module.HGD / "05_Output" / "ch085" / "ch085.md"
+        allowed_output.parent.mkdir(parents=True)
+        allowed_output.write_text("# ตอนที่ 85\n\n[?????]\n", encoding="utf-8")
+        allowed_source = module.HGD / "03_Raw" / "ch085" / "source.json"
+        allowed_source.parent.mkdir(parents=True)
+        allowed_source.write_text(json.dumps({"raw_text": "[?????]"}), encoding="utf-8")
+
+        issues: list[str] = []
+        module.check_unapproved_question_placeholders(blocked_output, novel, "ch224", issues)
+        module.check_unapproved_question_placeholders(allowed_output, novel, "ch085", issues)
+
+    assert any("ch224" in issue and "source has no matching placeholder" in issue for issue in issues)
+    assert not any("ch085" in issue for issue in issues)
 
 
 def test_output_guardrail_flags_metadata_and_broken_ui_markers():

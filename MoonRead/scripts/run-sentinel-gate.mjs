@@ -17,6 +17,14 @@ const failOn = process.env.SENTINEL_FAIL_ON || "major";
 const scope = process.env.SENTINEL_SCOPE || "moonread-generated";
 const chapters = process.env.SENTINEL_CHAPTERS;
 const novel = process.env.SENTINEL_NOVEL;
+const allowFullScope = process.env.SENTINEL_ALLOW_FULL === "1";
+
+if (!chapters && !allowFullScope) {
+  console.error(
+    "Refusing to run full-workspace Sentinel by default. Set SENTINEL_NOVEL and SENTINEL_CHAPTERS for touched scope, or set SENTINEL_ALLOW_FULL=1 intentionally."
+  );
+  process.exit(1);
+}
 
 const args = [
   sentinelScript,

@@ -92,7 +92,6 @@ HGD_FORBIDDEN_ENGLISH_OUTPUT = [
     "หัวหน้าหน่วย",
     "เจ้าสำนัก",
     "โซรัน",
-    "?????",
     "กู",
     "ขกมของ",
     "ขกมและ",
@@ -231,6 +230,36 @@ def check_absent_patterns(path: Path, patterns: list[tuple[re.Pattern[str], str]
     for pattern, label in patterns:
         if pattern.search(text):
             issues.append(f"{path}: forbidden variant remains: {label}")
+
+
+def source_allows_question_placeholder(novel: dict, chapter: str) -> bool:
+    source_path = novel_raw_root(novel) / chapter / "source.json"
+    if not source_path.exists():
+        return False
+    try:
+        payload = json.loads(read(source_path))
+    except (OSError, json.JSONDecodeError):
+        return False
+    source_text = "\n".join(
+        str(payload.get(key, ""))
+        for key in ("title", "raw_title", "raw_text", "source_text", "text")
+    )
+    return "?????" in source_text
+
+
+def check_unapproved_question_placeholders(
+    path: Path,
+    novel: dict,
+    chapter: str,
+    issues: list[str],
+) -> None:
+    """Reject generated placeholders unless the source intentionally contains them."""
+    if not path.exists():
+        issues.append(f"missing file: {path}")
+        return
+    text = read(path)
+    if "?????" in text and not source_allows_question_placeholder(novel, chapter):
+        issues.append(f"{path}: repeated question-mark placeholder remains but source has no matching placeholder")
 
 
 def check_paragraph_density(
@@ -725,11 +754,13 @@ def main() -> int:
             check_absent(path, ["หัวหน้าส่วนงาน"], issues)
             check_absent(path, HGD_FORBIDDEN_ENGLISH_OUTPUT, issues)
             check_absent_patterns(path, HGD_FORBIDDEN_REGEX_OUTPUT, issues)
+            check_unapproved_question_placeholders(path, HGD_POLICY, chapter, issues)
 
             generated_path = MOONREAD / "content/generated/books/horror-game-developer/chapters" / f"{chapter}.md"
             if generated_path.exists():
                 check_absent(generated_path, HGD_FORBIDDEN_ENGLISH_OUTPUT, issues)
                 check_absent_patterns(generated_path, HGD_FORBIDDEN_REGEX_OUTPUT, issues)
+                check_unapproved_question_placeholders(generated_path, HGD_POLICY, chapter, issues)
     check_registry_title_policies(issues)
     if include_hgd:
         check_hgd_required_source_beats(issues, scoped_chapters=scoped_chapters)

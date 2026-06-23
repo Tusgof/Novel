@@ -74,6 +74,7 @@ Current production state:
 - V6.25 Sentinel Quality Gate initial slice completed: Sentinel report generation exists, current published scope was measured, 35 approved-glossary blockers were found and repaired, optimized runtime dropped from about 113 seconds to about 36 seconds, and latest result is blocker/major/minor/info `0/0/80/0`. The 80 minor English-token findings are a review queue, not publish blockers.
 - MoonRead was regenerated, built, and smoked after DSE `ch150` / HGD `ch236` source-number migration publication.
 - DSE `dse-ch151-ch160-v1` and HGD `hgd-ch237-ch250-v2` completed and published to MoonRead. Output guardrails passed for both touched ranges, Sentinel final reports passed with blocker/major/minor/info `0/0/0/0`, and MoonRead `generate:chapters`, `lint`, `build`, and `smoke` passed with 410 available chapters.
+- Post-ch224 recurrence hardening added: HGD touched-scope cleanup repaired `ch091`, `ch222`, `ch235`, `ch236`, and `ch224` product-surface defects; MoonRead now has scoped `publish:verify` (`generate:chapters` -> scoped Sentinel -> lint -> build -> smoke); `run-sentinel-gate.mjs` refuses accidental full-workspace scans unless `SENTINEL_ALLOW_FULL=1`; generator validation rejects known fatal HGD product terms before reader import succeeds.
 - no current failed blocks are known
 - notable approved Deep Sea Embers terms include `实太阳神` -> `สุริยเทพที่แท้จริง` and `面具神` -> `เทพหน้ากาก`
 
@@ -138,6 +139,7 @@ Feedback loop:
 3. If major > 0, inspect sampled chapters before publish.
 4. If a user-reported issue recurs, add a fixture and promote the rule.
 5. Re-run Sentinel and MoonRead validation before deploy.
+6. For MoonRead publication, prefer scoped `npm run publish:verify` with `SENTINEL_NOVEL` and `SENTINEL_CHAPTERS` set to the touched range. Do not run unscoped full-workspace Sentinel as the default until the historical backlog is intentionally cleaned.
 
 Done when:
 

@@ -1,4 +1,4 @@
----
+﻿---
 type: glossary-term
 original_term: Sarah
 thai_term: ซาราห์

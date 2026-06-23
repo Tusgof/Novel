@@ -19,9 +19,11 @@ function loadRegistryBooks() {
       const sourceRoot = path.resolve(
         process.env[reader.source_root_env] || path.join(workspaceRoot, novel.folder, novel.output_dir)
       );
+      const rawRoot = path.resolve(path.join(workspaceRoot, novel.folder, novel.raw_dir || "03_Raw"));
       return {
         slug: novel.slug,
         sourceRoot,
+        rawRoot,
         firstChapter: Number(process.env[reader.first_chapter_env] || reader.first_chapter || "1"),
         lastChapter: Number(process.env[reader.last_chapter_env] || reader.last_chapter || "1"),
         legacyDefault: Boolean(reader.legacy_default),
@@ -53,6 +55,19 @@ const hanPattern = /[\u3400-\u9fff\uf900-\ufaff]/;
 const badEncodingPattern = /[\ufffd\u0080-\u009f\u20ac]/;
 const thaiPattern = /[\u0e00-\u0e7f]/g;
 const mojibakeClusterPattern = /\u0e40\u0e18|\u0e40\u0e19|\u0e42\u20ac|[\ufffd\u0080-\u009f]/g;
+const fatalHgdProductTerms = [
+  "เจ้าสำนัก",
+  "โซรัน",
+  "หัวหน้าหน่วย",
+  "ทวิสเต็ดแมน",
+  "อโนมาลี",
+  "(Twisted Man)",
+  "(Anomaly)",
+  "Squad Leader",
+  "Section Chief",
+  "Developer Seth Thorne",
+  "Horror Developer System",
+];
 
 function chapterId(number) {
   return `ch${String(number).padStart(3, "0")}`;
@@ -145,7 +160,20 @@ function bodyWithoutTitle(markdown) {
   return markdown.replace(/^\uFEFF/, "").split(/\r?\n/).slice(1).join("\n");
 }
 
-function validateMarkdown(markdown) {
+function sourceAllowsQuestionPlaceholder(book, id) {
+  const sourcePath = path.join(book.rawRoot, id, "source.json");
+  if (!fs.existsSync(sourcePath)) return false;
+  try {
+    const payload = JSON.parse(fs.readFileSync(sourcePath, "utf8"));
+    return ["title", "raw_title", "raw_text", "source_text", "text"].some((key) =>
+      String(payload[key] || "").includes("?????")
+    );
+  } catch {
+    return false;
+  }
+}
+
+function validateMarkdown(book, id, markdown) {
   const reasons = [];
   const trimmed = markdown.trim();
 
@@ -159,6 +187,16 @@ function validateMarkdown(markdown) {
     if (pattern.test(markdown)) {
       reasons.push("provider_or_meta_text");
       break;
+    }
+  }
+  if (markdown.includes("?????") && !sourceAllowsQuestionPlaceholder(book, id)) {
+    reasons.push("unapproved_question_placeholder");
+  }
+  if (book.slug === "horror-game-developer") {
+    for (const term of fatalHgdProductTerms) {
+      if (markdown.includes(term)) {
+        reasons.push(`fatal_hgd_product_term:${term}`);
+      }
     }
   }
 
@@ -215,7 +253,7 @@ function buildBookManifest(book) {
 
     const sourceMarkdown = fs.readFileSync(sourcePath, "utf8").replace(/\r\n/g, "\n");
     const markdown = normalizeBookMarkdown(book, trimTrailingWhitespace(repairThaiMojibake(sourceMarkdown)), number);
-    const validationReasons = validateMarkdown(markdown);
+    const validationReasons = validateMarkdown(book, id, markdown);
     const title = titleFromMarkdown(markdown, id);
     const charCount = markdown.replace(/\s/g, "").length;
     const readingMinutes = Math.max(1, Math.ceil(charCount / 4500));
