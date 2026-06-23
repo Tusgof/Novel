@@ -6240,7 +6240,7 @@ def test_hgd_forbidden_term_guardrail_flags_known_leakage():
         output_path.parent.mkdir(parents=True)
         output_path.write_text(
             "# ตอนที่ 149\n\nทวิสเต็ดแมน (Twisted Man) เป็น อโนมาลี (Anomaly) และ Squad Leader ยังหลุดอังกฤษ ไคลน์ควรเป็นเคเลน\n\n"
-            "โองการ บัญญัติ วาทยากร หัวหน้าหน่วย และคอนดักเตอร์เดี่ยวต้องถูกจับ แต่เควสต์คอนดักเตอร์เป็นคำระบบที่ใช้ได้\n\n"
+            "โองการ บัญญัติ วาทยากร หัวหน้าหน่วย เจ้าสำนัก โซรัน และคอนดักเตอร์เดี่ยวต้องถูกจับ แต่เควสต์คอนดักเตอร์เป็นคำระบบที่ใช้ได้\n\n"
             "ผมว่าแล้วเชียว ไม่ใช่กูว่าแล้วเชียว และเกมของผมต้องไม่กลายเป็นขกมของผม หรือเป็นต้องไม่กลายเป็นขป็น",
             encoding="utf-8",
         )
@@ -6258,6 +6258,8 @@ def test_hgd_forbidden_term_guardrail_flags_known_leakage():
     assert any("บัญญัติ" in issue for issue in issues)
     assert any("วาทยากร" in issue for issue in issues)
     assert any("หัวหน้าหน่วย" in issue for issue in issues)
+    assert any("เจ้าสำนัก" in issue for issue in issues)
+    assert any("โซรัน" in issue for issue in issues)
     assert any("คอนดักเตอร์" in issue for issue in issues)
     assert not any("เควสต์คอนดักเตอร์" in issue for issue in issues)
     assert any("กู" in issue for issue in issues)
