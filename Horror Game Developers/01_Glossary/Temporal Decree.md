@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: Temporal Decree
-thai_term: โองการกาลเวลา
+thai_term: ประกาศิตกาลเวลา
 status: approved
 aliases: []
 source_language: en
@@ -18,6 +18,8 @@ updated_at:
 ---
 
 ## Summary
+
+Use `ประกาศิตกาลเวลา`. `โองการกาลเวลา` is deprecated; keep all Decree terms in the `ประกาศิต...` family.
 
 ## Context Examples
 

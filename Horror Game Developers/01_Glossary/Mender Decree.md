@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: Mender Decree
-thai_term: โองการผู้เยียวยา
+thai_term: ประกาศิตผู้เยียวยา
 status: approved
 aliases: []
 source_language: en
@@ -18,6 +18,8 @@ updated_at:
 ---
 
 ## Summary
+
+Use `ประกาศิตผู้เยียวยา`. `โองการผู้เยียวยา` is deprecated; keep all Decree terms in the `ประกาศิต...` family.
 
 ## Context Examples
 

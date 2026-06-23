@@ -6240,18 +6240,25 @@ def test_hgd_forbidden_term_guardrail_flags_known_leakage():
         output_path.parent.mkdir(parents=True)
         output_path.write_text(
             "# ตอนที่ 149\n\nทวิสเต็ดแมน (Twisted Man) เป็น อโนมาลี (Anomaly) และ Squad Leader ยังหลุดอังกฤษ ไคลน์ควรเป็นเคเลน\n\n"
+            "โองการ บัญญัติ วาทยากร และคอนดักเตอร์เดี่ยวต้องถูกจับ แต่เควสต์คอนดักเตอร์เป็นคำระบบที่ใช้ได้\n\n"
             "ผมว่าแล้วเชียว ไม่ใช่กูว่าแล้วเชียว และเกมของผมต้องไม่กลายเป็นขกมของผม หรือเป็นต้องไม่กลายเป็นขป็น",
             encoding="utf-8",
         )
 
         issues: list[str] = []
         module.check_absent(output_path, module.HGD_FORBIDDEN_ENGLISH_OUTPUT, issues)
+        module.check_absent_patterns(output_path, module.HGD_FORBIDDEN_REGEX_OUTPUT, issues)
 
     assert any("ทวิสเต็ดแมน" in issue for issue in issues)
     assert any("(Twisted Man)" in issue for issue in issues)
     assert any("อโนมาลี" in issue for issue in issues)
     assert any("Squad Leader" in issue for issue in issues)
     assert any("ไคลน์" in issue for issue in issues)
+    assert any("โองการ" in issue for issue in issues)
+    assert any("บัญญัติ" in issue for issue in issues)
+    assert any("วาทยากร" in issue for issue in issues)
+    assert any("คอนดักเตอร์" in issue for issue in issues)
+    assert not any("เควสต์คอนดักเตอร์" in issue for issue in issues)
     assert any("กู" in issue for issue in issues)
     assert any("ขกมของ" in issue for issue in issues)
     assert any("ขป็น" in issue for issue in issues)

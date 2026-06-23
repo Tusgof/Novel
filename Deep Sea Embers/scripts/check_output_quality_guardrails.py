@@ -86,6 +86,9 @@ HGD_FORBIDDEN_ENGLISH_OUTPUT = [
     "ทวิสเต็ดแมน",
     "อโนมาลี",
     "ไคลน์",
+    "โองการ",
+    "บัญญัติ",
+    "วาทยากร",
     "กู",
     "ขกมของ",
     "ขกมและ",
@@ -102,6 +105,9 @@ HGD_FORBIDDEN_ENGLISH_OUTPUT = [
     "*Tak!*",
     "*To Tok—*",
     "[Seth's USB stick]",
+]
+HGD_FORBIDDEN_REGEX_OUTPUT = [
+    (re.compile(r"(?<!เควสต์)คอนดักเตอร์"), "คอนดักเตอร์"),
 ]
 HGD_SETH_PRONOUN_CHAPTERS = {
     "ch002",
@@ -211,6 +217,16 @@ def check_absent(path: Path, terms: list[str], issues: list[str]) -> None:
     for term in terms:
         if term in text:
             issues.append(f"{path}: forbidden variant remains: {term}")
+
+
+def check_absent_patterns(path: Path, patterns: list[tuple[re.Pattern[str], str]], issues: list[str]) -> None:
+    if not path.exists():
+        issues.append(f"missing file: {path}")
+        return
+    text = read(path)
+    for pattern, label in patterns:
+        if pattern.search(text):
+            issues.append(f"{path}: forbidden variant remains: {label}")
 
 
 def check_paragraph_density(
@@ -704,10 +720,12 @@ def main() -> int:
                 continue
             check_absent(path, ["หัวหน้าส่วนงาน"], issues)
             check_absent(path, HGD_FORBIDDEN_ENGLISH_OUTPUT, issues)
+            check_absent_patterns(path, HGD_FORBIDDEN_REGEX_OUTPUT, issues)
 
             generated_path = MOONREAD / "content/generated/books/horror-game-developer/chapters" / f"{chapter}.md"
             if generated_path.exists():
                 check_absent(generated_path, HGD_FORBIDDEN_ENGLISH_OUTPUT, issues)
+                check_absent_patterns(generated_path, HGD_FORBIDDEN_REGEX_OUTPUT, issues)
     check_registry_title_policies(issues)
     if include_hgd:
         check_hgd_required_source_beats(issues, scoped_chapters=scoped_chapters)
