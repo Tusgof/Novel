@@ -7481,7 +7481,6 @@ def test_production_provider_routing_enables_ai_scan_and_formatting():
     qa_routes = config.fallback_routes_for_stage("qa_judge")
     assert [(spec.name, model) for spec, model in qa_routes] == [
         ("qwen", "deepseek-reasoner"),
-        ("openrouter", "deepseek/deepseek-v4-pro"),
         ("codex", "gpt-5.4"),
     ]
     qa_provider = config.provider_for_stage("qa_judge")

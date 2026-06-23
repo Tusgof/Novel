@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:with-content": "npm run generate:chapters && next build",
+    "build:with-content": "npm run publish:verify",
     "lint": "eslint .",
     "generate:chapters": "node scripts/generate-chapters.mjs",
     "sentinel:gate": "node scripts/run-sentinel-gate.mjs",

@@ -1,6 +1,6 @@
 # Project Brain: Novel Translation System
 
-Last updated: 2026-06-22
+Last updated: 2026-06-23
 
 This is the durable memory for the workspace. Keep it compact. Put long evidence, experiments, and historical detail in `Deep Sea Embers/07_Reports/`.
 
@@ -97,21 +97,21 @@ Deep Sea Embers:
 Horror Game Developer:
 
 - MoonRead published scope is `ch001-ch250`, with HGD local ids now matching source chapter numbers
-- active continuation goal: HGD `ch201-ch220` translation and MoonRead publication is complete; keep future work as new bounded goals
-- `hgd-ch101-ch110-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead.
-- `hgd-ch111-ch120-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. QA omission hard-fails in this range confirmed the root cause: refinement can still drop poems, thoughts, or sound-effect/source-beat blocks after ordinary retries.
-- `hgd-ch121-ch130-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. `ch126` exposed a pipeline smoothness bug: QA retry wrote a newer refined artifact, but formatting could still use an older in-memory refined draft; prevention now reloads the latest refined artifact after QA before formatting.
-- `hgd-ch131-ch140-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. `ch136` needed a bounded pronoun repair from `เรา` to `ผม` in Seth internal monologue, then QA passed with `--no-auto-refine`.
-- `hgd-ch141-ch150-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. Repairs during the run exposed recurring smoothness issues: glossary conflict (`Team Leader Soran` needed `หัวหน้ากลุ่มโซแรน`), Seth pronoun drift (`เรา`/`ฉัน` -> `ผม` only in Seth POV), quest-term confusion (`Chain Quest Activated` vs `Continuation Quest Activated`), rank mistranslation (`ระดับ A` where source meant a ranked gate), and stale formatted artifact after local recovery on `ch146`.
-- `hgd-ch151-ch160-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. QA routing was corrected before completion: normal QA now uses `openrouter_reasoning` with `deepseek/deepseek-v4-flash`; `deepseek/deepseek-v4-pro` is no longer in the normal HGD QA fallback path, and new QA ledger records include model metadata.
-- `hgd-ch161-ch170-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. QA audit used only `deepseek/deepseek-v4-flash` via `openrouter_reasoning` or `qwen deepseek-reasoner` fallback; no V4 Pro QA route was used.
-- `hgd-ch171-ch180-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. `ch176` needed bounded recovery for Seth pronoun drift plus missing Dreamwalker/Mirelle tail content; QA passed after repair. QA audit used only `deepseek/deepseek-v4-flash` via `openrouter_reasoning` or `qwen deepseek-reasoner` fallback; no V4 Pro QA route was used.
-- `hgd-ch181-ch190-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. Historical failed records came from Codex quota when QA fallback reached emergency fallback on `ch182`/`ch186`; bounded QA reruns recovered both. QA audit used only `deepseek/deepseek-v4-flash` via `openrouter_reasoning` or `qwen deepseek-reasoner` for completed QA records; no V4 Pro QA route was used.
-- `hgd-ch191-ch200-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is not yet published to MoonRead. `Shepherd Decree`/`Decree Shepherd` mojibake was repaired during the glossary gate, and title mappings were added through `ch200`. QA audit used only `deepseek/deepseek-v4-flash` via `openrouter_reasoning` or `qwen deepseek-reasoner` for completed QA records; no V4 Pro QA route was used.
+- active continuation goal: none; HGD translation and MoonRead publication are complete through `ch250`. Keep future work as new bounded goals
+- `hgd-ch101-ch110-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is published to MoonRead.
+- `hgd-ch111-ch120-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is published to MoonRead. QA omission hard-fails in this range confirmed the root cause: refinement can still drop poems, thoughts, or sound-effect/source-beat blocks after ordinary retries.
+- `hgd-ch121-ch130-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is published to MoonRead. `ch126` exposed a pipeline smoothness bug: QA retry wrote a newer refined artifact, but formatting could still use an older in-memory refined draft; prevention now reloads the latest refined artifact after QA before formatting.
+- `hgd-ch131-ch140-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is published to MoonRead. `ch136` needed a bounded pronoun repair from `เรา` to `ผม` in Seth internal monologue, then QA passed with `--no-auto-refine`.
+- `hgd-ch141-ch150-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is published to MoonRead. Repairs during the run exposed recurring smoothness issues: glossary conflict (`Team Leader Soran` needed `หัวหน้ากลุ่มโซแรน`), Seth pronoun drift (`เรา`/`ฉัน` -> `ผม` only in Seth POV), quest-term confusion (`Chain Quest Activated` vs `Continuation Quest Activated`), rank mistranslation (`ระดับ A` where source meant a ranked gate), and stale formatted artifact after local recovery on `ch146`.
+- `hgd-ch151-ch160-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is published to MoonRead. QA routing was corrected before completion: normal QA now uses `openrouter_reasoning` with `deepseek/deepseek-v4-flash`; `deepseek/deepseek-v4-pro` is no longer in the normal HGD QA fallback path, and new QA ledger records include model metadata.
+- `hgd-ch161-ch170-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is published to MoonRead. QA audit used only `deepseek/deepseek-v4-flash` via `openrouter_reasoning` or `qwen deepseek-reasoner` fallback; no V4 Pro QA route was used.
+- `hgd-ch171-ch180-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is published to MoonRead. `ch176` needed bounded recovery for Seth pronoun drift plus missing Dreamwalker/Mirelle tail content; QA passed after repair. QA audit used only `deepseek/deepseek-v4-flash` via `openrouter_reasoning` or `qwen deepseek-reasoner` fallback; no V4 Pro QA route was used.
+- `hgd-ch181-ch190-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is published to MoonRead. Historical failed records came from Codex quota when QA fallback reached emergency fallback on `ch182`/`ch186`; bounded QA reruns recovered both. QA audit used only `deepseek/deepseek-v4-flash` via `openrouter_reasoning` or `qwen deepseek-reasoner` for completed QA records; no V4 Pro QA route was used.
+- `hgd-ch191-ch200-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is published to MoonRead. `Shepherd Decree`/`Decree Shepherd` mojibake was repaired during the glossary gate, and title mappings were added through `ch200`. QA audit used only `deepseek/deepseek-v4-flash` via `openrouter_reasoning` or `qwen deepseek-reasoner` for completed QA records; no V4 Pro QA route was used.
 - `hgd-ch201-ch220-v1` completed: all 20 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. `ch206` and `ch211` used manual QA force-accept after deterministic repair, which exposed a status bug: `qa force_accepted` was not treated as terminal QA success for pending-stage calculation. Prevention: `ResumeState.next_pending_stage()` now treats `qa force_accepted` and `qa skipped` as QA-done states.
 - HGD `ch201-ch220` post-publication quality incident closed: user found Seth voice drift in `ch203` (`กู`) and English/glossary leakage in `ch206`. Cause: Sentinel was available as a post-run/report gate but was not yet a mandatory blocking pipeline/publish stage for this historical published range, and the deterministic forbidden-output list did not include these exact variants. Repair: `ch203`, `ch206`, and related Sentinel findings in `ch202`, `ch208`, `ch210`, `ch211`, `ch212`, `ch214`, `ch216`, `ch217`, `ch218`, and `ch219` were corrected in final output/MoonRead. Prevention: HGD output guardrail now rejects `กู`, common English parenthetical leftovers, approved glossary leakage such as `A Twisted Game`, and observed Thai encoding corruption patterns; Sentinel glossary coverage now uses longest-match overlap handling so terms like `Conductor Quest` do not falsely require both the long system term and its shorter subterm. Latest strict report: `07_Reports/sentinel_quality_hgd-ch201-ch220-final-clean_20260622_233211.md` with blocker/major/minor/info `0/0/0/0`.
 - HGD source titles are English; Thai reader titles are protected by HGD title normalization and title sidecars
-- HGD source-sequence incident closed: local ids were migrated to source chapter numbers, missing source chapters `29`, `30`, `54`, `55`, `91`, and `221` were inserted/translated, `ch172` now correctly points to source `Chapter 172` after the full renumbering, and MoonRead publishes HGD through `ch236`. Prevention: run `Deep Sea Embers/scripts/check_source_chapter_sequence.py` after HGD fetch/repair/publish work.
+- HGD source-sequence incident closed: local ids were migrated to source chapter numbers, missing source chapters `29`, `30`, `54`, `55`, `91`, and `221` were inserted/translated, `ch172` now correctly points to source `Chapter 172` after the full renumbering, and MoonRead publishes HGD through `ch250`. Prevention: run `Deep Sea Embers/scripts/check_source_chapter_sequence.py` after HGD fetch/repair/publish work.
 - `04_Work/ch001/title.json` through `ch080/title.json` exist to prevent single-block reruns from falling back to English titles
 - HGD project folder is now `D:\Fogust\Workspace\Novel\Horror Game Developers`; it has the user-created Obsidian vault and durable pronoun policy at `Horror Game Developers/02_Database_Views/HGD Pronoun Policy.md`
 - V6.17 title/format incident is closed for published scope: `ch022-block-001` dropped the source beat "Like that, four days passed."; it was restored as `*และแล้ว สี่วันก็ผ่านไป*`
@@ -138,13 +138,14 @@ Horror Game Developer:
 
 MoonRead:
 
-- current reader library includes Deep Sea Embers `ch001-ch160` and Horror Game Developer `ch001-ch250`
+- current reader library includes published Deep Sea Embers `ch001-ch160` and published Horror Game Developer `ch001-ch250`
 - both current novels now pass the 60-chapter reader blurb gate; MoonRead registry includes source-backed Thai synopsis text for both books
 - canonical MoonRead app path is `D:\Fogust\Workspace\Novel\MoonRead`; it is no longer owned by the Deep Sea Embers folder
 - MoonRead imports novels from `00_Config\novel_registry.json`; adding a future novel should start by adding a registry entry, not by hardcoding paths in `MoonRead\scripts\generate-chapters.mjs`
 - MoonRead reads verified Markdown only
 - MoonRead must not call providers, edit glossary/source/artifacts, or modify ledger
 - latest relevant checks: `generate:chapters`, `lint`, `build`, and `smoke` passed after V6.19.1 UX/UI polish and cover art integration
+- MoonRead `publish:verify` is the scoped publish gate for generated chapters and reader validation
 - V6.19 handoff report: `Deep Sea Embers/07_Reports/v6_19_moonread_ux_handoff_20260616.md`
 - V6.19.1 completed: Thai UI labels, active nav, SiteFooter, synopsis line-clamp, localStorage key migration, cover art for both novels, conditional logo-cover class
 - V6.20 completed: nav simplified to single "หน้าแรก" link (removed DSE-only "Deep Sea Embers" and "สารบัญ" links); footer DSE-only link removed; nav overlap fix (`min-width: 0`); homepage card spacing via `.library-grid`; mobile nav grid adapts to any link count
@@ -177,9 +178,9 @@ Working tree:
 - GitHub: `https://github.com/Tusgof/Novel`
 - branch: `main`
 - commit identity: `Tusgof <124960571+Tusgof@users.noreply.github.com>`
-- latest pushed commit before V6.23 pipeline smoothness work: `3b4808f`
+- latest pushed commit is current git HEAD: `f816bd0`
 - latest readiness reports: `Deep Sea Embers/07_Reports/preflight_report_20260616_after_v6_18_gate.md`, `Deep Sea Embers/07_Reports/recovery_drill_20260616_after_v6_18_gate.md`, and `Deep Sea Embers/07_Reports/preflight_recovery_readiness_note_20260616.md`
-- remaining visible untracked queue is intentional: 46 glossary notes and 14 intermediate/probe reports. The 5 durable provider/glossary evidence reports were committed at `0d3187d`. Classification report: `Deep Sea Embers/07_Reports/v6_13_untracked_queue_classification_20260616.md`. Glossary queue review: `Deep Sea Embers/07_Reports/v6_13_glossary_queue_review_20260616.md`. Alias overlap proposal: `Deep Sea Embers/07_Reports/v6_13_glossary_alias_overlap_proposal_20260616.md`. Glossary cleanup execution proposal: `Deep Sea Embers/07_Reports/v6_13_glossary_queue_cleanup_execution_proposal_20260616.md`. Report queue review: `Deep Sea Embers/07_Reports/v6_13_report_queue_review_20260616.md`. Report cleanup proposal: `Deep Sea Embers/07_Reports/v6_13_report_queue_cleanup_proposal_20260616.md`. Do not delete, hide, or commit the remaining queue without a dedicated decision.
+- no current untracked queue is present; verify with `git status --short --untracked-files=all` before treating any future queue text as current state.
 
 ## Provider Routing
 
@@ -257,6 +258,10 @@ Requires explicit user approval:
 | HGD final output truncation after force-accept/retry | compare output length against source and reject dangling endings before MoonRead publication |
 | HGD local chapter id diverging from source chapter number | run `python "Deep Sea Embers\scripts\check_source_chapter_sequence.py" --novel-dir "Horror Game Developers" --chapters chXXX-chYYY` after fetch/repair/publish; decide separately whether to migrate HGD display/routing to source chapter numbers |
 | Pipeline requires too much manual artifact repair | create a per-batch control packet, use repair-safe QA commands, make next safe action explicit before resume, use the QA omission literal-safe recovery path before escalating to manual prompt, and format only the latest refined artifact after QA retry |
+| MoonRead generator contains HGD-specific title/term policy in code | keep changes surgical for now; move policy into registry/shared quality config in a dedicated refactor |
+| Full unscoped Sentinel scan is slow | use scoped Sentinel gates for publication and only run full scans intentionally with explicit range/all confirmation |
+| Full unscoped output guardrail hits historical HGD backlog | run output guardrails against the touched chapter range before publication; clean broad historical backlog as a dedicated quality pass |
+| Codex provider config is tied to the Deep Sea Embers cwd/read-only sandbox | use explicit novel paths for setup/fetch work until provider config is generalized for multi-novel routing |
 | MoonRead rendering mismatch | run reader smoke after generated content changes |
 | Worker false completion | verify disk state, tests, reports, and git diff |
 | Memory doc damage | keep docs short, use `DOC_RECOVERY.md`, avoid worker rewrites of canonical files |
@@ -276,7 +281,7 @@ Validate pipeline:
 python -m compileall novel_pipeline
 python test_translation.py
 novel-pipeline --config ".system/config.yaml" preflight
-python scripts\check_output_quality_guardrails.py
+python scripts\check_output_quality_guardrails.py --chapters chXXX-chYYY
 ```
 
 Open dashboard:
@@ -321,6 +326,7 @@ MoonRead:
 ```powershell
 cd "D:\Fogust\Workspace\Novel\MoonRead"
 npm.cmd run generate:chapters
+npm.cmd run publish:verify
 npm.cmd run lint
 npm.cmd run build
 npm.cmd run smoke
@@ -328,11 +334,11 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
-HGD translation has local verified output through `ch220`; MoonRead is published through `ch220`. Deep Sea Embers is published through `ch150`.
+Current reader state: Deep Sea Embers is published through `ch160`; Horror Game Developer is published through `ch250`. No active translation batch is in progress.
 
 Next safe choices:
 
-1. Commit the `dse-ch121-ch150-v1` / `hgd-ch201-ch220-v1` checkpoint and MoonRead publication update.
-2. Treat future HGD continuation or quality work as a new bounded goal.
+1. Start any future translation, repair, or MoonRead change as a new bounded goal with an explicit chapter range.
+2. Before publishing reader changes, run scoped Sentinel/MoonRead `publish:verify`.
 3. If deploying externally, redeploy the pushed MoonRead update from the hosting provider.
 4. Stop again on manual QA prompt, provider failure, command length failure, validation failure, or unexpected scope expansion.
