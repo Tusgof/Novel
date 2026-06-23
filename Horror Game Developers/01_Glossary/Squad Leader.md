@@ -23,4 +23,4 @@ updated_at:
 - Category: title
 - Status: approved
 - First seen: ch067/ch067-block-001
-- Notes: Position title; approved to reduce title drift.
+- Notes: Position title; approved to reduce title drift. Use `หัวหน้ากลุ่ม`; `หัวหน้าหน่วย` is a rejected older variant for this HGD gate-team role.
