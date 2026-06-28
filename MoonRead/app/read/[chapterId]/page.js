@@ -16,9 +16,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { chapterId } = await params;
   const chapter = getChapter(chapterId);
-  return {
-    title: chapter ? `${chapter.title} | MoonRead` : "MoonRead",
-  };
+  return { title: chapter ? `${chapter.title} | MoonRead` : "MoonRead" };
 }
 
 export default async function ReadChapterPage({ params }) {
@@ -26,9 +24,7 @@ export default async function ReadChapterPage({ params }) {
   const chapter = getChapter(chapterId);
   const markdown = getChapterMarkdown(chapterId);
 
-  if (!chapter || !markdown) {
-    notFound();
-  }
+  if (!chapter || !markdown) notFound();
 
   return (
     <ReaderShell

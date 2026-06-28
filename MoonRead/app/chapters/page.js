@@ -1,49 +1,52 @@
+import Link from "next/link";
+import { Clock3, CheckCircle2, Lock, XCircle } from "lucide-react";
+import AppHeader from "../../components/AppHeader";
+import BottomNav from "../../components/BottomNav";
 import SiteFooter from "../../components/SiteFooter";
-import SiteHeader from "../../components/SiteHeader";
-import ChapterList from "../../components/ChapterList";
 import { getManifest } from "../../lib/chapters";
+
+function icon(status) {
+  if (status === "available") return <CheckCircle2 size={18} />;
+  if (status === "rejected") return <XCircle size={18} />;
+  return <Lock size={18} />;
+}
+
+export const metadata = { title: "สารบัญ | MoonRead" };
 
 export default function ChaptersPage() {
   const manifest = getManifest();
-  const pending = manifest.summary.missing + manifest.summary.rejected;
+  const { novel, summary, chapters } = manifest;
 
   return (
-    <main className="site-shell">
-      <SiteHeader />
+    <>
+      <AppHeader />
+      <div className="page shell">
+        <section className="page-title">
+          <span className="eyebrow gold">สารบัญ</span>
+          <h1>สารบัญ {novel.title}</h1>
+          <p>รวม {summary.available} ตอนที่พร้อมอ่าน — ตอนที่ยังไม่พร้อมจะแสดงเป็นรายการปิดไว้จนกว่าจะเข้าคลัง</p>
+        </section>
 
-      <section className="page-title">
-        <span className="eyebrow">สารบัญ</span>
-        <h1>สารบัญ {manifest.novel.title}</h1>
-        <p>
-          รวม {manifest.summary.available} ตอนที่พร้อมอ่าน
-          ตอนที่ยังไม่พร้อมจะแสดงเป็นรายการปิดไว้จนกว่าจะเข้าคลัง
-        </p>
-      </section>
-
-      <section className="status-band toc-band" aria-label="สถานะตอนทั้งหมด">
-        <div>
-          <strong>{manifest.summary.available}</strong>
-          <span>ตอนที่พร้อมอ่าน</span>
+        <div className="toc-list" style={{ marginTop: 8 }}>
+          {chapters.map((c) => {
+            const disabled = c.status !== "available";
+            const label = `ตอน ${String(c.number).padStart(3, "0")}`;
+            const inner = (
+              <>
+                <span className="num">{String(c.number).padStart(3, "0")}</span>
+                <span className="ct"><small>{label}</small><strong>{disabled ? `${label} ยังไม่พร้อมอ่าน` : c.title}</strong></span>
+                <span className="cm"><Clock3 size={13} /> {disabled ? (c.status === "rejected" ? "รอตรวจไฟล์" : "เร็วๆ นี้") : `${c.readingMinutes} น.`}</span>
+                <span className={`ch-state ${c.status}`}>{icon(c.status)}</span>
+              </>
+            );
+            return disabled
+              ? <div className="ch-row disabled" key={c.id} aria-disabled="true">{inner}</div>
+              : <Link className="ch-row" key={c.id} href={c.href}>{inner}</Link>;
+          })}
         </div>
-        <div>
-          <strong>{pending}</strong>
-          <span>ตอนที่ยังไม่พร้อมอ่าน</span>
-        </div>
-        <div>
-          <strong>{manifest.summary.rejected}</strong>
-          <span>ตอนที่ยังไม่เผยแพร่</span>
-        </div>
-        <div>
-          <strong>{manifest.summary.total}</strong>
-          <span>จำนวนตอนทั้งหมด</span>
-        </div>
-      </section>
-
-      <section className="toc-section">
-        <ChapterList chapters={manifest.chapters} />
-      </section>
-
+      </div>
       <SiteFooter />
-    </main>
+      <BottomNav />
+    </>
   );
 }
