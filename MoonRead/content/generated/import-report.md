@@ -25,7 +25,7 @@ Generated at: 2026-06-22T23:31:56.962Z
 
 - none
 
-## นักพัฒนาเกมสยองขวัญ
+## Horror Game Developer: My Games Aren't That Scary!
 
 - source root: ../Horror Game Developers/05_Output
 - target range: ch001-ch250

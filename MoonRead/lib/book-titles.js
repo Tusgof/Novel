@@ -1,7 +1,7 @@
 const titleOverrides = {
   "horror-game-developer": {
     title: "Horror Game Developer: My Games Aren't That Scary!",
-    thaiTitle: "นักพัฒนาเกมสยองขวัญ",
+    thaiTitle: "นักพัฒนาเกมสยองขวัญ: เกมของผมไม่ได้น่ากลัวขนาดนั้นซะหน่อย!",
   },
 };
 
