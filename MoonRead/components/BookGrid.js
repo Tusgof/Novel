@@ -4,15 +4,18 @@ import Link from "next/link";
 import Image from "next/image";
 import { BookOpen, Sparkles, Heart, Clock3 } from "lucide-react";
 import { useReaderStore } from "../lib/reader-store";
+import { getBookTitlePair } from "../lib/book-titles";
 
 function isLogo(cover) { return !cover || cover.includes("logo"); }
 
 export function Cover({ book }) {
+  const { title } = getBookTitlePair(book);
+
   if (isLogo(book.cover)) {
     return (
       <div className="cover-fallback" style={{ background: `linear-gradient(155deg, ${book.accent || "#1d2740"}, #0d1320)` }}>
         <Image src="/icon.svg" alt="" width={52} height={52} />
-        <span className="ft">{book.title}</span>
+        <span className="ft">{title}</span>
       </div>
     );
   }
@@ -28,6 +31,7 @@ export function BookCard({ book }) {
   const fav = store.isFavorite(book.slug);
   const prog = store.getProgress(book.slug);
   const available = book.summary?.available ?? 0;
+  const { title, thaiTitle } = getBookTitlePair(book);
 
   return (
     <Link className="book-card" href={book.href}>
@@ -43,8 +47,8 @@ export function BookCard({ book }) {
         </button>
       </div>
       <div className="info">
-        <div className="t">{book.title}</div>
-        {book.thaiTitle && book.thaiTitle !== book.title ? <div className="th">{book.thaiTitle}</div> : null}
+        <div className="t">{title}</div>
+        {thaiTitle ? <div className="th">{thaiTitle}</div> : null}
         <div className="meta">
           <span><BookOpen size={13} /> {available} ตอน</span>
           {book.tags?.[0] ? <span><Sparkles size={13} /> {book.tags[0]}</span> : null}
@@ -65,11 +69,13 @@ function timeAgo(ts) {
 }
 
 export function ResumeCard({ book, entry }) {
+  const { title } = getBookTitlePair(book);
+
   return (
     <Link className="resume" href={entry.href}>
       <div className="thumb"><Cover book={book} /></div>
       <div className="meta">
-        <div className="t">{book.title}</div>
+        <div className="t">{title}</div>
         <div className="c">ตอน {String(entry.number).padStart(3, "0")} · {entry.title}</div>
         <div className="spacer" />
         <ProgressBar percent={entry.percent} />

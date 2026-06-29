@@ -6,6 +6,7 @@ import {
   ArrowRight, BookOpenText, BellRing, Check, Clock3, Search, Bookmark,
 } from "lucide-react";
 import { useReaderStore } from "../lib/reader-store";
+import { getBookTitlePair } from "../lib/book-titles";
 import { Cover, EmptyState } from "./BookGrid";
 
 function chLabel(n) { return `ตอน ${String(n).padStart(3, "0")}`; }
@@ -50,6 +51,7 @@ export default function BookDetail({ book, chapters }) {
     ? chapters.filter((c) => (c.title || "").toLowerCase().includes(q.toLowerCase()) || String(c.number).includes(q))
     : chapters;
   const marks = store.bookmarksFor(book.slug);
+  const { title, thaiTitle } = getBookTitlePair(book);
 
   return (
     <div className="page shell">
@@ -59,8 +61,8 @@ export default function BookDetail({ book, chapters }) {
           <div className="detail-cover"><Cover book={book} /></div>
           <div className="detail-info">
             <span className="eyebrow gold">{(book.tags || []).join(" · ")}</span>
-            <h1>{book.title}</h1>
-            <div className="sub">{book.thaiTitle}{book.author && book.author !== "—" ? ` · ${book.author}` : ""}</div>
+            <h1>{title}</h1>
+            <div className="sub">{thaiTitle}{book.author && book.author !== "—" ? ` · ${book.author}` : ""}</div>
             <div className="detail-stats">
               <div className="st"><b>{soon ? book.summary?.total ?? chapters.length : available.length}</b><span>{soon ? "ตอน (เร็วๆ นี้)" : "ตอนพร้อมอ่าน"}</span></div>
               {prog ? <div className="st"><b>{prog.percent}%</b><span>อ่านถึง {chLabel(prog.number)}</span></div> : null}

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Heart, Bookmark, BookOpen, History as HistoryIcon, BookmarkX } from "lucide-react";
 import { useReaderStore } from "../lib/reader-store";
+import { getBookTitlePair } from "../lib/book-titles";
 import { BookCard, ResumeCard, EmptyState } from "./BookGrid";
 
 function chLabel(n) { return `ตอน ${String(n).padStart(3, "0")}`; }
@@ -29,24 +30,28 @@ export function ShelfView({ books }) {
 
       <section className="section">
         <div className="section-head"><h2><Bookmark size={20} /> ที่คั่นตอน</h2></div>
-        {marked.length ? marked.map(({ book, marks }) => (
-          <div key={book.slug} className="mark-group">
-            <div className="mark-group-head"><BookOpen size={16} /> {book.title}</div>
-            <div className="toc-list">
-              {marks.map((m) => (
-                <Link key={m.id} className="ch-row" href={m.href}>
-                  <span className="num">{String(m.number).padStart(3, "0")}</span>
-                  <span className="ct"><small>{chLabel(m.number)}</small><strong>{m.title}</strong></span>
-                  <span className="cm" />
-                  <button className="ch-star on" type="button" aria-label="นำที่คั่นออก"
-                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); store.toggleBookmark(book.slug, m); }}>
-                    <BookmarkX size={16} />
-                  </button>
-                </Link>
-              ))}
+        {marked.length ? marked.map(({ book, marks }) => {
+          const { title } = getBookTitlePair(book);
+
+          return (
+            <div key={book.slug} className="mark-group">
+              <div className="mark-group-head"><BookOpen size={16} /> {title}</div>
+              <div className="toc-list">
+                {marks.map((m) => (
+                  <Link key={m.id} className="ch-row" href={m.href}>
+                    <span className="num">{String(m.number).padStart(3, "0")}</span>
+                    <span className="ct"><small>{chLabel(m.number)}</small><strong>{m.title}</strong></span>
+                    <span className="cm" />
+                    <button className="ch-star on" type="button" aria-label="นำที่คั่นออก"
+                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); store.toggleBookmark(book.slug, m); }}>
+                      <BookmarkX size={16} />
+                    </button>
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
-        )) : <p className="muted-line">ยังไม่มีตอนที่คั่นไว้</p>}
+          );
+        }) : <p className="muted-line">ยังไม่มีตอนที่คั่นไว้</p>}
       </section>
 
       {nothing ? (
