@@ -545,7 +545,7 @@ Done when:
 
 ### V6.34C: In-Sample Treatment
 
-Status: active. IRS scan-only substep complete; translation treatment has not started. Evidence: `01_Research_Log/2026-06-30_novel_pipeline_libra_blind_pilot_v6_34c_irs_scan.md`.
+Status: active. IRS scan-only and classification substeps are complete; glossary approval and translation treatment have not started. Evidence: `01_Research_Log/2026-06-30_novel_pipeline_libra_blind_pilot_v6_34c_irs_scan.md`, `01_Research_Log/2026-06-30_novel_pipeline_libra_blind_pilot_v6_34c_irs_glossary_classification.md`, and `07_Reports/v6_34c_irs_glossary_classification_20260701.md`.
 
 Run only the 30 in-sample chapters first, bounded by novel and glossary batch:
 
@@ -571,8 +571,9 @@ Done when:
 Next V6.34C action:
 
 - Classify and approve/reject IRS experiment glossary candidates from `Infinite Regressor Stories/04_Work/_experiments/v6_34c_irs_insample_v1/04_Work/_batch/v6-34c-irs-insample-v1/glossary_scan.json`.
-- After experiment-local glossary approval records exist, resume `v6-34c-irs-insample-v1` from translating.
-- Record translation treatment as a separate research log round.
+- Review the 53 ask-human/source-aware terms before approval.
+- After experiment-local glossary notes/aliases and approval records exist, resume `v6-34c-irs-insample-v1` from translating.
+- Record approval and translation treatment as separate research log rounds.
 
 ### V6.34D: Out-Of-Sample Proof
 

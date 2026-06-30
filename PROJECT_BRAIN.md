@@ -122,6 +122,7 @@ Cross-novel experiment state:
 - V6.34A sampling-only round is recorded at `01_Research_Log/2026-06-30_novel_pipeline_libra_blind_pilot_source_pool.md`; no provider calls or production translation were started during this round.
 - V6.34B read-only baseline is recorded at `01_Research_Log/2026-06-30_novel_pipeline_libra_blind_pilot_baseline_v6_34b.md`; risk data lives in `07_Reports/v6_34b_cross_novel_baseline_risk_table_20260630_203000.json` and `.md`. Result: all 60 raw-source chapters exist; IRS is the highest-risk stress target due to long/very-long chapters, bracket/system density, repeated-character risk, embedded CJK/Hangul risk, and high glossary density.
 - V6.34C IRS in-sample scan-only gate completed in isolated experiment vault `Infinite Regressor Stories/04_Work/_experiments/v6_34c_irs_insample_v1`: run `v6-34c-irs-insample-v1` scanned `ch009,ch076,ch086,ch157,ch183,ch201,ch252,ch300,ch338,ch381`, produced 175 glossary candidate items, wrote only `fetched`/`glossary_scanned` ledger records, created no final outputs, and has no current failed blocks. Research log: `01_Research_Log/2026-06-30_novel_pipeline_libra_blind_pilot_v6_34c_irs_scan.md`.
+- V6.34C IRS glossary classification completed without approval writes: 62 approve-new candidates, 19 alias-to-existing candidates, 41 reject/noise candidates, and 53 ask-human/source-aware candidates. Translation remains paused until source-aware review and experiment-local `glossary_approved` records exist. Report: `07_Reports/v6_34c_irs_glossary_classification_20260701.md`; research log: `01_Research_Log/2026-06-30_novel_pipeline_libra_blind_pilot_v6_34c_irs_glossary_classification.md`.
 
 MoonRead:
 
@@ -340,9 +341,10 @@ V6.33 translation-output and reader-publication phase is complete:
 
 Next safe choices:
 
-1. Continue V6.34C by classifying the 175 IRS glossary candidates in `Infinite Regressor Stories/04_Work/_experiments/v6_34c_irs_insample_v1/04_Work/_batch/v6-34c-irs-insample-v1/glossary_scan.json`.
-2. Do not resume translation for `v6-34c-irs-insample-v1` until experiment-local glossary approval records exist.
-3. Do not run all 30 in-sample chapters at once; keep IRS, DSE, and HGD waves separate for layer classification.
-4. Do not publish experiment output to MoonRead unless a separate production publication gate approves it.
-5. Before any future reader changes, run scoped Sentinel/MoonRead publish checks, then `lint`, `build`, and `smoke`.
-6. Stop again on manual QA prompt, provider failure, command length failure, validation failure, source extraction failure, or unexpected scope expansion.
+1. Continue V6.34C by reviewing the 53 ask-human/source-aware IRS glossary candidates from `07_Reports/v6_34c_irs_glossary_classification_20260701.md`.
+2. Create experiment-local glossary notes/aliases and append `glossary_approved` records only after that review.
+3. Do not resume translation for `v6-34c-irs-insample-v1` until experiment-local glossary approval records exist.
+4. Do not run all 30 in-sample chapters at once; keep IRS, DSE, and HGD waves separate for layer classification.
+5. Do not publish experiment output to MoonRead unless a separate production publication gate approves it.
+6. Before any future reader changes, run scoped Sentinel/MoonRead publish checks, then `lint`, `build`, and `smoke`.
+7. Stop again on manual QA prompt, provider failure, command length failure, validation failure, source extraction failure, or unexpected scope expansion.
