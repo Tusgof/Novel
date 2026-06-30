@@ -183,6 +183,10 @@ def in_scope(chapter: str, scoped_chapters: set[str] | None) -> bool:
     return scoped_chapters is None or chapter in scoped_chapters
 
 
+def is_chapter_id(value: str) -> bool:
+    return bool(re.fullmatch(r"ch\d+", value))
+
+
 def requested_novel_slug(argv: list[str]) -> str | None:
     for index, arg in enumerate(argv):
         if arg != "--config" or index + 1 >= len(argv):
@@ -193,6 +197,8 @@ def requested_novel_slug(argv: list[str]) -> str | None:
             return "horror-game-developer"
         if "deep sea embers" in parts:
             return "deep-sea-embers"
+        if "infinite regressor stories" in parts:
+            return "infinite-regressor-stories"
     return None
 
 
@@ -337,6 +343,52 @@ def check_translation_metadata_leakage(
         for line_number, line in enumerate(read(path).splitlines(), start=1):
             if metadata_pattern.search(line):
                 issues.append(f"{path}:{line_number}: leaked translation metadata label")
+
+
+def check_registry_forbidden_output_patterns(
+    issues: list[str],
+    *,
+    scoped_chapters: set[str] | None = None,
+    requested_novel: str | None = None,
+) -> None:
+    for novel in REGISTERED_NOVELS:
+        slug = str(novel.get("slug", ""))
+        if requested_novel is not None and slug != requested_novel:
+            continue
+
+        pattern_specs = (novel.get("quality", {}) or {}).get("forbidden_output_patterns") or []
+        compiled: list[tuple[re.Pattern[str], str]] = []
+        for spec in pattern_specs:
+            if not isinstance(spec, dict):
+                continue
+            pattern_text = str(spec.get("pattern", ""))
+            if not pattern_text:
+                continue
+            label = str(spec.get("label") or pattern_text)
+            compiled.append((re.compile(pattern_text), label))
+        if not compiled:
+            continue
+
+        roots = [novel_output_root(novel)]
+        reader_root = MOONREAD / "content/generated/books" / slug / "chapters"
+        if reader_root.exists():
+            roots.append(reader_root)
+
+        for root in roots:
+            if not root.exists():
+                continue
+            paths = sorted(root.glob("ch*/ch*.md"))
+            if not paths:
+                paths = sorted(root.glob("ch*.md"))
+            for path in paths:
+                chapter = path.parent.name if is_chapter_id(path.parent.name) else path.stem
+                if not in_scope(chapter, scoped_chapters):
+                    continue
+                text = read(path)
+                for pattern, label in compiled:
+                    match = pattern.search(text)
+                    if match:
+                        issues.append(f"{path}: {slug} forbidden output pattern remains: {label} ({match.group(0)!r})")
 
 
 def _parse_simple_frontmatter(path: Path) -> dict[str, str]:
@@ -774,6 +826,11 @@ def main() -> int:
         check_hgd_required_source_beats(issues, scoped_chapters=scoped_chapters)
         check_hgd_pronoun_policy(issues, scoped_chapters=scoped_chapters)
     check_registry_truncation_against_source(
+        issues,
+        scoped_chapters=scoped_chapters,
+        requested_novel=requested_novel,
+    )
+    check_registry_forbidden_output_patterns(
         issues,
         scoped_chapters=scoped_chapters,
         requested_novel=requested_novel,

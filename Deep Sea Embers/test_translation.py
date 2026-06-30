@@ -6428,6 +6428,75 @@ def test_hgd_forbidden_term_guardrail_flags_known_leakage():
     assert any("ขป็น" in issue for issue in issues)
 
 
+def test_registry_forbidden_output_pattern_guardrail_flags_irs_thai_numerals():
+    """Registry-driven output guardrail catches IRS Thai numerals in output and MoonRead."""
+    import importlib.util
+    import sys
+    import tempfile
+
+    script_path = Path("scripts/check_output_quality_guardrails.py")
+    spec = importlib.util.spec_from_file_location("check_output_quality_guardrails_registry_pattern_test", script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["check_output_quality_guardrails_registry_pattern_test"] = module
+    spec.loader.exec_module(module)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_root = Path(tmp)
+        module.NOVEL_ROOT = tmp_root
+        module.MOONREAD = tmp_root / "MoonRead"
+        module.REGISTERED_NOVELS = [
+            {
+                "slug": "infinite-regressor-stories",
+                "folder": "Infinite Regressor Stories",
+                "output_dir": "05_Output",
+                "quality": {
+                    "forbidden_output_patterns": [
+                        {"pattern": "[๐-๙]", "label": "Thai numeral; IRS output must use Arabic digits"}
+                    ]
+                },
+            }
+        ]
+
+        output_path = tmp_root / "Infinite Regressor Stories" / "05_Output" / "ch004" / "ch004.md"
+        output_path.parent.mkdir(parents=True)
+        output_path.write_text("# บทที่ 4\n\nรอบที่ ๗ และ ๑๐ นาที\n", encoding="utf-8")
+
+        reader_path = tmp_root / "MoonRead" / "content/generated/books/infinite-regressor-stories/chapters/ch004.md"
+        reader_path.parent.mkdir(parents=True)
+        reader_path.write_text("# บทที่ 4\n\nรอบที่ ๗\n", encoding="utf-8")
+
+        issues: list[str] = []
+        module.check_registry_forbidden_output_patterns(
+            issues,
+            scoped_chapters={"ch004"},
+            requested_novel="infinite-regressor-stories",
+        )
+
+    assert len(issues) == 2
+    assert all("Thai numeral; IRS output must use Arabic digits" in issue for issue in issues)
+
+
+def test_output_guardrail_scopes_infinite_regressor_config_path():
+    """IRS config paths should not accidentally trigger full multi-novel guardrail scans."""
+    import importlib.util
+    import sys
+
+    script_path = Path("scripts/check_output_quality_guardrails.py")
+    spec = importlib.util.spec_from_file_location("check_output_quality_guardrails_irs_scope_test", script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["check_output_quality_guardrails_irs_scope_test"] = module
+    spec.loader.exec_module(module)
+
+    slug = module.requested_novel_slug([
+        "--config",
+        str(Path("D:/Fogust/Workspace/Novel/Infinite Regressor Stories/.system/config.yaml")),
+    ])
+
+    assert slug == "infinite-regressor-stories"
+
+
 def test_hgd_question_placeholder_guardrail_is_source_aware():
     """Question placeholders are allowed only when the source intentionally contains them."""
     import importlib.util
@@ -7849,6 +7918,8 @@ if __name__ == "__main__":
     test_hgd_semantic_format_audit_flags_layout_warnings_without_mutation()
     test_hgd_title_fallback_guardrail_flags_english_titles()
     test_hgd_forbidden_term_guardrail_flags_known_leakage()
+    test_registry_forbidden_output_pattern_guardrail_flags_irs_thai_numerals()
+    test_output_guardrail_scopes_infinite_regressor_config_path()
     test_output_guardrail_flags_metadata_and_broken_ui_markers()
     test_hgd_approved_glossary_guardrail_flags_english_alias_leakage()
     test_sentinel_quality_report_flags_known_glossary_leakage_fixture()

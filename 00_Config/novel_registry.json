@@ -195,7 +195,13 @@
       "quality": {
         "max_paragraph_chars": 650,
         "truncation_min_source_chars": 2500,
-        "truncation_min_ratio": 0.45
+        "truncation_min_ratio": 0.45,
+        "forbidden_output_patterns": [
+          {
+            "pattern": "[๐-๙]",
+            "label": "Thai numeral; IRS output must use Arabic digits"
+          }
+        ]
       }
     }
   ]
