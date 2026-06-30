@@ -15,7 +15,7 @@ Current progress:
 
 - Milestone 1 complete: experiment charter, measurement contract, stop/no-production rules, and charter research log are in place.
 - Milestone 2 complete: raw source pools were audited for DSE, HGD, and IRS; fixed-seed sample manifest was created from raw source only.
-- Next milestone: Milestone 3 full baseline round on the 30 in-sample chapters.
+- Milestone 3 in progress: isolated experiment vaults, scan-only gates, and baseline glossary gates are complete; baseline translation has not started.
 
 ---
 
@@ -134,6 +134,8 @@ Status: complete. Evidence: `07_Reports/v6_34_m2_source_pool_and_sample_manifest
 | 3.5 | Write and push a research log for the baseline round | S | ✅ | `01_Research_Log/` log exists, has 6 sections, and git push succeeds |
 
 **Milestone complete when**: The in-sample baseline round is complete or safely stopped with a documented unrecoverable reason, and all observed failures are recorded before fixes.
+
+Status: in progress. Scan-only and baseline glossary gates are complete. Evidence: `01_Research_Log/2026-06-30_novel_pipeline_v6_34_m3_scan_glossary_gate.md` and `07_Reports/v6_34_m3_baseline_glossary_gate_decisions_20260701.md`. Translation/refinement/QA/format/Sentinel baseline has not started.
 
 ---
 
