@@ -19,6 +19,7 @@ REGISTRY = json.loads(REGISTRY_PATH.read_text(encoding="utf-8")) if REGISTRY_PAT
 REGISTERED_NOVELS = list(REGISTRY.get("novels", []))
 MAX_PARAGRAPH_CHARS = 900
 MAX_HGD_PARAGRAPH_CHARS = 520
+THAI_NUMERAL_PATTERN = re.compile(r"[๐-๙]")
 HGD_POLICY = next((novel for novel in REGISTERED_NOVELS if novel.get("slug") == "horror-game-developer"), {})
 HGD_ENGLISH_TITLE_MARKERS = HGD_POLICY.get("title_policy", {}).get("forbidden_title_markers") or [
     "Horror Game Developer",
@@ -350,6 +351,49 @@ def check_translation_metadata_leakage(
                 issues.append(f"{path}:{line_number}: leaked translation metadata label")
 
 
+def reader_chapter_roots(slug: str, novel: dict[str, object]) -> list[Path]:
+    roots = [MOONREAD / "content/generated/books" / slug / "chapters"]
+    reader = novel.get("reader", {}) or {}
+    if reader.get("legacy_default"):
+        roots.append(MOONREAD / "content/generated/chapters")
+    return roots
+
+
+def check_thai_numeral_leakage(
+    issues: list[str],
+    *,
+    scoped_chapters: set[str] | None = None,
+    requested_novel: str | None = None,
+) -> None:
+    """Reject Thai numerals in final product surfaces.
+
+    Current product policy uses Arabic digits for chapter numbers, loop counts,
+    minutes, rounds, and system text across all registered novels.
+    """
+    for novel in REGISTERED_NOVELS:
+        slug = str(novel.get("slug", ""))
+        if requested_novel is not None and slug != requested_novel:
+            continue
+
+        roots = [novel_output_root(novel), *reader_chapter_roots(slug, novel)]
+        for root in roots:
+            if not root.exists():
+                continue
+            paths = sorted(root.glob("ch*/ch*.md"))
+            if not paths:
+                paths = sorted(root.glob("ch*.md"))
+            for path in paths:
+                chapter = path.parent.name if is_chapter_id(path.parent.name) else path.stem
+                if not in_scope(chapter, scoped_chapters):
+                    continue
+                for line_number, line in enumerate(read(path).splitlines(), start=1):
+                    match = THAI_NUMERAL_PATTERN.search(line)
+                    if match:
+                        issues.append(
+                            f"{path}:{line_number}: Thai numeral remains in product output ({match.group(0)!r}); use Arabic digits"
+                        )
+
+
 def check_registry_forbidden_output_patterns(
     issues: list[str],
     *,
@@ -374,10 +418,7 @@ def check_registry_forbidden_output_patterns(
         if not compiled:
             continue
 
-        roots = [novel_output_root(novel)]
-        reader_root = MOONREAD / "content/generated/books" / slug / "chapters"
-        if reader_root.exists():
-            roots.append(reader_root)
+        roots = [novel_output_root(novel), *reader_chapter_roots(slug, novel)]
 
         for root in roots:
             if not root.exists():
@@ -476,13 +517,13 @@ def check_duplicate_title_paragraphs(
     *,
     scoped_chapters: set[str] | None = None,
 ) -> None:
-    """Reject plain title paragraphs repeated immediately below the H1 heading."""
+    """Reject title-like paragraphs repeated inside the body after the H1 heading."""
     if not root.exists():
         return
     paths = sorted(root.glob("ch*/ch*.md"))
     if not paths:
         paths = sorted(root.glob("ch*.md"))
-    title_line_re = re.compile(r"^(ตอนที่|บทที่)\s+\d+")
+    title_line_re = re.compile(r"^(ตอนที่|บทที่)\s+[\d๐-๙]+\b")
     for path in paths:
         chapter = path.parent.name if path.parent.name.startswith("ch") else path.stem
         if not in_scope(chapter, scoped_chapters):
@@ -492,6 +533,14 @@ def check_duplicate_title_paragraphs(
             candidate = lines[2].strip()
             if title_line_re.match(candidate):
                 issues.append(f"{path}: duplicate plain title paragraph under H1: {candidate}")
+        for line_number, line in enumerate(lines[1:], start=2):
+            candidate = line.strip()
+            if candidate.startswith("**") and candidate.endswith("**"):
+                candidate = candidate[2:-2].strip()
+            if candidate.startswith("[") and candidate.endswith("]"):
+                candidate = candidate[1:-1].strip()
+            if title_line_re.match(candidate):
+                issues.append(f"{path}:{line_number}: duplicate title-like body paragraph: {line.strip()}")
 
 
 def check_hgd_title_fallbacks(issues: list[str]) -> None:
@@ -848,6 +897,11 @@ def main() -> int:
         check_hgd_required_source_beats(issues, scoped_chapters=scoped_chapters)
         check_hgd_pronoun_policy(issues, scoped_chapters=scoped_chapters)
     check_registry_truncation_against_source(
+        issues,
+        scoped_chapters=scoped_chapters,
+        requested_novel=requested_novel,
+    )
+    check_thai_numeral_leakage(
         issues,
         scoped_chapters=scoped_chapters,
         requested_novel=requested_novel,

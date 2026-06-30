@@ -6477,6 +6477,80 @@ def test_registry_forbidden_output_pattern_guardrail_flags_irs_thai_numerals():
     assert all("Thai numeral; IRS output must use Arabic digits" in issue for issue in issues)
 
 
+def test_global_thai_numeral_guardrail_flags_product_and_legacy_reader_paths():
+    """Thai numerals are rejected across registered final output and reader surfaces."""
+    import importlib.util
+    import sys
+    import tempfile
+
+    script_path = Path("scripts/check_output_quality_guardrails.py")
+    spec = importlib.util.spec_from_file_location("check_output_quality_guardrails_global_thai_numeral_test", script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["check_output_quality_guardrails_global_thai_numeral_test"] = module
+    spec.loader.exec_module(module)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_root = Path(tmp)
+        module.NOVEL_ROOT = tmp_root
+        module.MOONREAD = tmp_root / "MoonRead"
+        module.REGISTERED_NOVELS = [
+            {
+                "slug": "deep-sea-embers",
+                "folder": "Deep Sea Embers",
+                "output_dir": "05_Output",
+                "reader": {"legacy_default": True},
+            }
+        ]
+
+        output_path = tmp_root / "Deep Sea Embers" / "05_Output" / "ch175" / "ch175.md"
+        output_path.parent.mkdir(parents=True)
+        output_path.write_text("# บทที่ 176\n\nรอบที่ ๑๗๕\n", encoding="utf-8")
+
+        reader_path = tmp_root / "MoonRead" / "content/generated/chapters/ch175.md"
+        reader_path.parent.mkdir(parents=True)
+        reader_path.write_text("# บทที่ 176\n\nรอบที่ ๑๗๕\n", encoding="utf-8")
+
+        issues: list[str] = []
+        module.check_thai_numeral_leakage(
+            issues,
+            scoped_chapters={"ch175"},
+            requested_novel="deep-sea-embers",
+        )
+
+    assert len(issues) == 2
+    assert all("Thai numeral remains" in issue for issue in issues)
+
+
+def test_duplicate_title_guardrail_flags_title_like_body_tail():
+    """Duplicate chapter-title tails are rejected even when they appear late in the body."""
+    import importlib.util
+    import sys
+    import tempfile
+
+    script_path = Path("scripts/check_output_quality_guardrails.py")
+    spec = importlib.util.spec_from_file_location("check_output_quality_guardrails_title_tail_test", script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["check_output_quality_guardrails_title_tail_test"] = module
+    spec.loader.exec_module(module)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        output_path = root / "ch175" / "ch175.md"
+        output_path.parent.mkdir(parents=True)
+        output_path.write_text(
+            "# บทที่ 176: เมฆดำปกคลุมเมือง\n\nเนื้อเรื่องปกติ\n\n**[บทที่ 175 เมฆดำปกคลุมเมือง]**\n",
+            encoding="utf-8",
+        )
+
+        issues: list[str] = []
+        module.check_duplicate_title_paragraphs(root, issues, scoped_chapters={"ch175"})
+
+    assert len(issues) == 1
+    assert "duplicate title-like body paragraph" in issues[0]
+
+
 def test_output_guardrail_scopes_infinite_regressor_config_path():
     """IRS config paths should not accidentally trigger full multi-novel guardrail scans."""
     import importlib.util
@@ -7978,6 +8052,8 @@ if __name__ == "__main__":
     test_hgd_title_fallback_guardrail_flags_english_titles()
     test_hgd_forbidden_term_guardrail_flags_known_leakage()
     test_registry_forbidden_output_pattern_guardrail_flags_irs_thai_numerals()
+    test_global_thai_numeral_guardrail_flags_product_and_legacy_reader_paths()
+    test_duplicate_title_guardrail_flags_title_like_body_tail()
     test_output_guardrail_scopes_infinite_regressor_config_path()
     test_output_guardrail_flags_metadata_and_broken_ui_markers()
     test_hgd_approved_glossary_guardrail_flags_english_alias_leakage()
