@@ -1,0 +1,28 @@
+{
+  "created_at": "2026-06-30T17:40:56.769777+00:00",
+  "scope": "dse-ch140-ch160-user-review",
+  "chapters": "ch140-ch160",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 2,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": [
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch142\\ch142.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Prominence"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch152\\ch152.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "DND"
+    }
+  ]
+}

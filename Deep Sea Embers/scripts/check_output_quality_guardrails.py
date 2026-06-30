@@ -738,6 +738,14 @@ def main() -> int:
                 ["อินควิสิเตอร์", "ผู้พิพากษา", "วันนา", "วานนา"],
                 issues,
             )
+    for number in range(140, 161):
+        chapter = f"ch{number:03d}"
+        if include_dse and in_scope(chapter, scoped_chapters):
+            check_absent(
+                DSE / "05_Output" / chapter / f"{chapter}.md",
+                ["อินควิสิเตอร์", "ผู้พิพากษา", "(Prominence)"],
+                issues,
+            )
 
     if include_hgd and scoped_chapters is None:
         check_absent(HGD / "01_Glossary/Section Chief.md", ["thai_term: หัวหน้าส่วนงาน"], issues)
