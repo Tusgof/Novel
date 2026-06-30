@@ -513,6 +513,19 @@ Done when:
 
 ### V6.34B: Baseline Read-Only Analysis
 
+Status: complete. Evidence:
+
+- `07_Reports/v6_34b_cross_novel_baseline_risk_table_20260630_203000.json`
+- `07_Reports/v6_34b_cross_novel_baseline_risk_table_20260630_203000.md`
+- `01_Research_Log/2026-06-30_novel_pipeline_libra_blind_pilot_baseline_v6_34b.md`
+
+Key findings:
+
+- All 60 selected raw-source chapters exist.
+- IRS is the highest-risk stress target: long/very-long sources, bracket/system density, repeated-character risk, embedded CJK/Hangul risk, and high glossary density.
+- DSE has expected title-sidecar pressure on every sampled chapter.
+- HGD mainly stresses glossary density, with smaller bracket/system and long-source risk.
+
 For the 60 selected chapters, run read-only analyzers before any provider call:
 
 - source length and block-risk estimate
@@ -534,9 +547,9 @@ Done when:
 
 Run only the 30 in-sample chapters first, bounded by novel and glossary batch:
 
-1. DSE in-sample as isolated experiment runs.
-2. HGD in-sample as isolated experiment runs.
-3. IRS in-sample as isolated experiment runs.
+1. IRS high-risk in-sample wave first: `ch009,ch076,ch086,ch157,ch183,ch201,ch252,ch300,ch338,ch381`.
+2. DSE in-sample as isolated experiment runs.
+3. HGD in-sample as isolated experiment runs.
 
 Rules:
 
