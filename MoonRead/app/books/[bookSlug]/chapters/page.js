@@ -26,11 +26,12 @@ export default async function BookChaptersPage({ params }) {
     notFound();
   }
 
+  const bookCount = getBooks().length;
   const pending = manifest.summary.missing + manifest.summary.rejected;
 
   return (
     <main className="site-shell">
-      <SiteHeader />
+      <SiteHeader bookCount={bookCount} />
 
       <section className="page-title">
         <span className="eyebrow">สารบัญ</span>

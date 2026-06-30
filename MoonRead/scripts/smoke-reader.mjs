@@ -85,6 +85,7 @@ async function main() {
   const first = available[0];
   const latest = available.at(-1);
   const horrorBook = library.books.find((book) => book.slug === "horror-game-developer");
+  const infiniteBook = library.books.find((book) => book.slug === "infinite-regressor-stories");
   const horrorBookTitle = "นักพัฒนาเกมสยองขวัญ";
   let strongChapter = first;
   let emChapter = first;
@@ -179,6 +180,17 @@ async function main() {
       horrorEvidence.available = horrorBook.summary.available;
     }
 
+    let infiniteChaptersEvidence = { hasToc: false, hasFirstChapter: false, hasAvailableCount: false, hasLibraryCount: false };
+    if (infiniteBook?.firstChapter) {
+      await page.goto(`${baseUrl}${infiniteBook.chaptersHref}`, { waitUntil: "networkidle" });
+      infiniteChaptersEvidence = await page.evaluate(({ chapterTitle, available }) => ({
+        hasToc: document.body.innerText.includes("สารบัญ I'm an Infinite Regressor"),
+        hasFirstChapter: document.body.innerText.includes(chapterTitle),
+        hasAvailableCount: document.body.innerText.includes(`${available} ตอนที่พร้อมอ่าน`),
+        hasLibraryCount: document.body.innerText.includes("3 เรื่อง"),
+      }), { chapterTitle: infiniteBook.firstChapter.title, available: infiniteBook.summary.available });
+    }
+
     const ogEvidence = await page.evaluate(() => ({
       hasOgTitle: Boolean(document.querySelector('meta[property="og:title"]')),
       hasOgImage: Boolean(document.querySelector('meta[property="og:image"]')),
@@ -237,6 +249,10 @@ async function main() {
         horrorEvidence.hasFirstChapter &&
         horrorEvidence.hasReader &&
         horrorEvidence.available === horrorBook.summary.available &&
+        infiniteChaptersEvidence.hasToc &&
+        infiniteChaptersEvidence.hasFirstChapter &&
+        infiniteChaptersEvidence.hasAvailableCount &&
+        infiniteChaptersEvidence.hasLibraryCount &&
         mobileEvidence.hasTopbar &&
         !mobileEvidence.overflowX &&
         ogEvidence.hasOgTitle &&
@@ -255,6 +271,7 @@ async function main() {
       readerEvidence,
       emphasisEvidence,
       horrorEvidence,
+      infiniteChaptersEvidence,
       mobileEvidence,
       ogEvidence,
       notFoundEvidence,
