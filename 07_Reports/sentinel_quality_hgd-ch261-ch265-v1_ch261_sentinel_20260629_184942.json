@@ -1,0 +1,42 @@
+{
+  "created_at": "2026-06-29T18:49:42.132903+00:00",
+  "scope": "hgd-ch261-ch265-v1_ch261_sentinel",
+  "chapters": "ch261",
+  "counts": {
+    "blocker": 4,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch261\\ch261.md",
+      "message": "final_output: approved English remains: Cognitive Shard -> เศษเสี้ยวปัญญา",
+      "evidence": "Cognitive Shard.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch261\\ch261.md",
+      "message": "final_output: approved English remains: The Bureau -> สำนักงาน",
+      "evidence": "The Bureau.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch261\\ch261.md",
+      "message": "final_output: approved English remains: Jester -> ตัวตลก",
+      "evidence": "Jester.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch261\\ch261.md",
+      "message": "final_output: approved English remains: Bureau -> สำนักงาน",
+      "evidence": "The Bureau.md"
+    }
+  ]
+}

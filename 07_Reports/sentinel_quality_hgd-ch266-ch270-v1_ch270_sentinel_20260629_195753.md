@@ -1,0 +1,16 @@
+# Sentinel Quality Report - hgd-ch266-ch270-v1_ch270_sentinel
+
+- Created: 2026-06-29T19:57:53.849143+00:00
+- Chapters: ch270
+- Safe to publish: no
+- Blocker/Major/Minor/Info: 3/0/0/0
+
+## Next Action
+
+- Stop publish. Repair blocker findings, then rerun Sentinel.
+
+## Findings
+
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch270\ch270.md: final_output: approved English remains: Dreamwalker -> ดรีมวอล์กเกอร์. Evidence: `Dreamwalker.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch270\ch270.md: final_output: approved English remains: Mr. Jingles -> มิสเตอร์จิงเกิลส์. Evidence: `Mr. Jingles.md`.
+- **blocker** `approved_glossary_leakage` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch270\ch270.md: final_output: approved English remains: Jingles -> มิสเตอร์จิงเกิลส์. Evidence: `Mr. Jingles.md`.

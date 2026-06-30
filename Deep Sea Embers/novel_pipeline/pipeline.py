@@ -27,7 +27,7 @@ from novel_pipeline.ledger import ResumeState, RunLedger
 from novel_pipeline.prompts import PromptStore
 from novel_pipeline.providers.base import ProviderExecutionError, ProviderOutputError, ProviderRunner, ensure_provider_response
 from novel_pipeline.stages.fetch import run_fetch_stage
-from novel_pipeline.stages.format import cleanup_provider_formatted_text, format_block_text
+from novel_pipeline.stages.format import cleanup_provider_formatted_text, format_block_text, _split_long_paragraphs
 from novel_pipeline.stages.glossary import (
     build_glossary_scan_queue,
     build_term_suggestion,
@@ -84,9 +84,12 @@ HGD_TITLE_MAP = {
     "Scream": "เสียงกรีดร้อง",
     "Quest Completed": "เควสต์สำเร็จ",
     "Your account has been reinstated": "บัญชีของคุณถูกคืนสถานะแล้ว",
+    "Exit": "ทางออก",
+    "Orientation Day": "วันปฐมนิเทศ",
     "Return of the Jester": "การกลับมาของตัวตลก",
     "Masquerade ball": "งานเต้นรำสวมหน้ากาก",
     "The perfect piece": "ชิ้นงานสมบูรณ์แบบ",
+    "The world has changed": "โลกเปลี่ยนไปแล้ว",
     "Crying": "เสียงร้องไห้",
     "Little girl": "เด็กหญิงตัวน้อย",
     "Little Girl": "เด็กหญิงตัวน้อย",
@@ -147,6 +150,11 @@ HGD_TITLE_MAP = {
     "Gathering Funds": "ระดมทุน",
     "Haunting": "การหลอกหลอน",
     "Freelancers": "ฟรีแลนซ์",
+    "Virtual Reality": "ความเป็นจริงเสมือน",
+    "Hourglass": "นาฬิกาทราย",
+    "Loop": "ลูป",
+    "Till my fingers fall off": "จนกว่านิ้วของผมจะหลุด",
+    "Despair in perfection": "ความสิ้นหวังในความสมบูรณ์แบบ",
 }
 
 HGD_TITLE_RE = re.compile(r"^(?:Chapter|ตอนที่)\s+\d+\s+-\s+(.+?)(\s+\[\d+\])?\s*$")
@@ -191,6 +199,39 @@ class _FormattingResult:
 
 def _sha256(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def _apply_glossary_rejected_variant_repairs(text: str, glossary_subset: list[GlossaryEntry]) -> tuple[str, list[dict[str, str]]]:
+    repairs: list[dict[str, str]] = []
+    updated = text
+    for entry in glossary_subset:
+        if entry.status != "approved" or not entry.thai_term:
+            continue
+        for variant in entry.rejected_variants:
+            if not variant or variant == entry.thai_term or variant not in updated:
+                continue
+            updated = updated.replace(variant, entry.thai_term)
+            repairs.append(
+                {
+                    "original_term": entry.original_term,
+                    "variant": variant,
+                    "thai_term": entry.thai_term,
+                }
+            )
+    return updated, repairs
+
+
+def _apply_source_footnote_marker_repairs(text: str, source_text: str) -> tuple[str, list[dict[str, str]]]:
+    match = re.search(r"(?:^|\s)Footnotes:\s*\n(?P<markers>(?:\s*\[\d+\]\s*\n?)+)\s*$", source_text, re.I)
+    if not match:
+        return text, []
+    if re.search(r"(?:^|\n)(?:Footnotes|เชิงอรรถ)\s*:", text, re.I):
+        return text, []
+    markers = re.findall(r"\[\d+\]", match.group("markers"))
+    if not markers:
+        return text, []
+    footnote_text = "เชิงอรรถ:\n" + "\n".join(markers)
+    return text.rstrip() + "\n\n" + footnote_text, [{"markers": ",".join(markers)}]
 
 
 _FORMATTING_PROVIDER_META_MARKERS = (
@@ -1243,6 +1284,28 @@ def _process_block(
                 metadata=_exception_metadata(error),
             )
             raise error
+        repaired_text, glossary_repairs = _apply_glossary_rejected_variant_repairs(
+            refined_draft.refined_text,
+            glossary_subset,
+        )
+        repaired_text, footnote_repairs = _apply_source_footnote_marker_repairs(
+            repaired_text,
+            block.source_text,
+        )
+        if glossary_repairs or footnote_repairs:
+            refined_draft = RefinedDraft(
+                block_id=refined_draft.block_id,
+                chapter_id=refined_draft.chapter_id,
+                refined_text=repaired_text,
+                provider=refined_draft.provider,
+                style_profile=refined_draft.style_profile,
+                source_text=refined_draft.source_text,
+                metadata={
+                    **refined_draft.metadata,
+                    "glossary_rejected_variant_repairs": glossary_repairs,
+                    "source_footnote_marker_repairs": footnote_repairs,
+                },
+            )
         oh = _sha256(refined_draft.refined_text)
         _write_block_artifact(config, block.chapter_id, block_id, "refined", refined_draft.to_dict())
         _commit_stage(ledger, run_id, block_id, "refining", "completed",
@@ -1600,6 +1663,28 @@ def _run_qa_with_retries(
                 literal_safe_recovery_attempted = True
                 if recovered_refined is not None:
                     current_refined = recovered_refined
+                    repaired_text, glossary_repairs = _apply_glossary_rejected_variant_repairs(
+                        current_refined.refined_text,
+                        glossary_subset,
+                    )
+                    repaired_text, footnote_repairs = _apply_source_footnote_marker_repairs(
+                        repaired_text,
+                        block.source_text,
+                    )
+                    if glossary_repairs or footnote_repairs:
+                        current_refined = RefinedDraft(
+                            block_id=current_refined.block_id,
+                            chapter_id=current_refined.chapter_id,
+                            refined_text=repaired_text,
+                            provider=current_refined.provider,
+                            style_profile=current_refined.style_profile,
+                            source_text=current_refined.source_text,
+                            metadata={
+                                **current_refined.metadata,
+                                "glossary_rejected_variant_repairs": glossary_repairs,
+                                "source_footnote_marker_repairs": footnote_repairs,
+                            },
+                        )
                     _write_block_artifact(config, block.chapter_id, block_id, "refined", current_refined.to_dict())
                     _commit_stage(
                         ledger,
@@ -1613,6 +1698,8 @@ def _run_qa_with_retries(
                             "recovery": "qa_omission_literal_safe_refined_text",
                             "retry_from_qa": retry_count,
                             "qa_feedback": qa_report.feedback,
+                            "glossary_rejected_variant_repairs": glossary_repairs,
+                            "source_footnote_marker_repairs": footnote_repairs,
                         },
                     )
                     retry_count = QA_MAX_RETRIES
@@ -1660,6 +1747,28 @@ def _run_qa_with_retries(
             retry_feedback=qa_report.feedback,
             failure_metadata={"retry_from_qa": retry_count},
         )
+        repaired_text, glossary_repairs = _apply_glossary_rejected_variant_repairs(
+            current_refined.refined_text,
+            glossary_subset,
+        )
+        repaired_text, footnote_repairs = _apply_source_footnote_marker_repairs(
+            repaired_text,
+            block.source_text,
+        )
+        if glossary_repairs or footnote_repairs:
+            current_refined = RefinedDraft(
+                block_id=current_refined.block_id,
+                chapter_id=current_refined.chapter_id,
+                refined_text=repaired_text,
+                provider=current_refined.provider,
+                style_profile=current_refined.style_profile,
+                source_text=current_refined.source_text,
+                metadata={
+                    **current_refined.metadata,
+                    "glossary_rejected_variant_repairs": glossary_repairs,
+                    "source_footnote_marker_repairs": footnote_repairs,
+                },
+            )
         _write_block_artifact(config, block.chapter_id, block_id, "refined", current_refined.to_dict())
         _commit_stage(
             ledger,
@@ -1669,7 +1778,11 @@ def _run_qa_with_retries(
             "completed",
             provider=refine_provider_name,
             output_hash=_sha256(current_refined.refined_text),
-            metadata={"retry_from_qa": retry_count},
+            metadata={
+                "retry_from_qa": retry_count,
+                "glossary_rejected_variant_repairs": glossary_repairs,
+                "source_footnote_marker_repairs": footnote_repairs,
+            },
         )
 
     return False
@@ -2928,12 +3041,26 @@ def _write_chapter_output(
 
     title = _resolve_chapter_output_title(config, chapter_id, chapter_source)
     header = f"# {title}\n\n" if title else ""
-    body = "\n\n".join(formatted_blocks)
+    body = _remove_duplicate_title_paragraph("\n\n".join(formatted_blocks), has_header=bool(header))
+    body = _split_long_paragraphs(body, max_len=850)
 
     content = f"{header}{body}\n"
     output_path = output_dir / f"{chapter_id}.md"
     atomic_write_text(output_path, content)
     return output_path
+
+
+def _remove_duplicate_title_paragraph(body: str, *, has_header: bool) -> str:
+    """Drop title-like first paragraphs that duplicate the assembled H1."""
+    if not has_header:
+        return body
+    paragraphs = re.split(r"\n\s*\n", body.strip())
+    if not paragraphs:
+        return body
+    first = paragraphs[0].strip()
+    if re.match(r"^(ตอนที่|บทที่)\s+\d+(?:\s|:|：|-|$)", first):
+        return "\n\n".join(paragraphs[1:]).strip()
+    return body
 
 
 def _run_sentinel_gate_for_chapter(
@@ -3039,6 +3166,12 @@ def _resolve_chapter_output_title(
                 "Update HGD_TITLE_MAP before final assembly."
             )
 
+    if getattr(config, "novel_id", "") == "infinite-regressor-stories" and _looks_like_irs_english_title(source_title):
+        raise RuntimeError(
+            f"Missing IRS Thai title sidecar for {chapter_id}: {source_title}. "
+            "Create 04_Work/<chapter>/title.json before final assembly."
+        )
+
     if source_title and not _contains_han(source_title):
         return source_title
 
@@ -3071,6 +3204,10 @@ def _normalize_hgd_chapter_title(chapter_id: str, source_title: str) -> str | No
 
 def _looks_like_hgd_english_title(source_title: str) -> bool:
     return bool(HGD_TITLE_RE.match(source_title.strip().lstrip("\ufeff#").strip()))
+
+
+def _looks_like_irs_english_title(source_title: str) -> bool:
+    return bool(re.match(r"^Chapter\s+\d+\s+-\s+\S+", source_title.strip().lstrip("\ufeff#").strip(), flags=re.IGNORECASE))
 
 
 def _write_hgd_title_sidecar(config: AppConfig, chapter_id: str, thai_title: str) -> None:

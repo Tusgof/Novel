@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import unicodedata
 from collections import OrderedDict
 
 from novel_pipeline.types import TextBlock
@@ -415,6 +416,44 @@ def normalize_whitespace(text: str) -> str:
     return text.strip()
 
 
+def normalize_source_risk_tokens(text: str) -> str:
+    """Normalize provider-hostile source noise without changing normal prose.
+
+    Some web novels encode monster sounds with heavy Unicode combining marks
+    (Zalgo text). Providers can copy or amplify those marks into runaway output.
+    Keep the sound-effect line, but strip only heavily marked lines and compact
+    absurd repeated characters before provider prompts see them.
+    """
+    if sum(1 for char in text if unicodedata.category(char).startswith("M")) < 8:
+        return text
+
+    normalized_lines: list[str] = []
+    for line in text.splitlines():
+        mark_count = sum(1 for char in line if unicodedata.category(char).startswith("M"))
+        if mark_count >= 4:
+            line = "".join(char for char in line if not unicodedata.category(char).startswith("M"))
+            line = re.sub(r"(.)\1{16,}", lambda match: match.group(1) * 8, line)
+        normalized_lines.append(line)
+    return "\n".join(normalized_lines)
+
+
+def normalize_embedded_cjk_glosses(text: str, source_language: str) -> str:
+    """Replace embedded CJK phrases with nearby English glosses in non-CJK source.
+
+    English-source novels sometimes include a Chinese/Japanese/Korean quote followed
+    by its English translation, e.g. ``有朋自遠方來 ("friends come from afar")``.
+    Passing both to providers has repeatedly leaked CJK into Thai output. Use the
+    existing English gloss as the source phrase for translation.
+    """
+    if source_language.startswith(("zh", "ja", "ko")):
+        return text
+    cjk = r"[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uac00-\ud7af]+"
+    pattern = re.compile(
+        rf"{cjk}(?:\s*{cjk})*\s*\(\s*[\"“]?([A-Za-z][^)]*?)[\"”]?\s*\)"
+    )
+    return pattern.sub(lambda match: match.group(1).strip(), text)
+
+
 def split_sentences(text: str) -> list[str]:
     text = normalize_whitespace(text)
     if not text:
@@ -436,6 +475,8 @@ def split_blocks(
     non_zh_limit: int = 5000,
 ) -> list[TextBlock]:
     text = normalize_whitespace(text)
+    text = normalize_embedded_cjk_glosses(text, source_language)
+    text = normalize_source_risk_tokens(text)
     if not text:
         return []
 

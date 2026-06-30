@@ -148,8 +148,24 @@ def _split_long_paragraphs(text: str, max_len: int = 550) -> str:
         # Use regex to split at sentence punctuation followed by space
         sentences = re.split(r'(?<=[.?!。？！…])\s+', para)
         if len(sentences) <= 1:
-            # No safe split point
-            new_paragraphs.append(para)
+            # No sentence punctuation boundary. Split at whitespace without changing words.
+            words = para.split()
+            if len(words) <= 1:
+                new_paragraphs.append(para)
+                continue
+            current_chunk = []
+            current_len = 0
+            for word in words:
+                word_len = len(word)
+                if current_len + word_len + (1 if current_chunk else 0) > max_len and current_chunk:
+                    new_paragraphs.append(' '.join(current_chunk))
+                    current_chunk = [word]
+                    current_len = word_len
+                else:
+                    current_chunk.append(word)
+                    current_len += word_len + (1 if current_chunk else 0)
+            if current_chunk:
+                new_paragraphs.append(' '.join(current_chunk))
             continue
         # Recombine sentences into paragraphs
         current_chunk = []

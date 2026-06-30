@@ -2,7 +2,7 @@
 
 Reads a prompt from stdin or a prompt file, calls OpenRouter chat completions,
 and writes only the assistant message content to stdout. The script never logs
-or prints bearer tokens. It can retry with the User-scope OPENROUTER_API_KEY on
+or prints bearer tokens. It can retry with the User-scope NOVEL_OPENROUTER_API on
 Windows when the current process environment still contains a stale key.
 """
 
@@ -46,11 +46,11 @@ def _read_user_env(name: str) -> str:
 def _key_candidates() -> list[KeyCandidate]:
     candidates: list[KeyCandidate] = []
     seen: set[str] = set()
-    process_value = os.environ.get("OPENROUTER_API_KEY", "").strip()
+    process_value = os.environ.get("NOVEL_OPENROUTER_API", "").strip()
     if process_value:
         candidates.append(KeyCandidate(process_value, "process"))
         seen.add(process_value)
-    user_value = _read_user_env("OPENROUTER_API_KEY").strip()
+    user_value = _read_user_env("NOVEL_OPENROUTER_API").strip()
     if user_value and user_value not in seen:
         candidates.append(KeyCandidate(user_value, "user"))
     return candidates
@@ -116,7 +116,7 @@ def _safe_error_preview(value: str) -> str:
     text = value.replace("\r", " ").replace("\n", " ").strip()
     for candidate in _key_candidates():
         if candidate.value:
-            text = text.replace(candidate.value, "<OPENROUTER_API_KEY>")
+            text = text.replace(candidate.value, "<NOVEL_OPENROUTER_API>")
     return text[:1000]
 
 
@@ -143,7 +143,7 @@ def main(argv: list[str]) -> int:
 
     candidates = _key_candidates()
     if not candidates:
-        print("OpenRouter shim error: OPENROUTER_API_KEY is not set in process or User environment.", file=sys.stderr)
+        print("OpenRouter shim error: NOVEL_OPENROUTER_API is not set in process or User environment.", file=sys.stderr)
         return 2
 
     last_error = ""

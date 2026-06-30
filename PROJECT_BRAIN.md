@@ -1,6 +1,6 @@
 # Project Brain: Novel Translation System
 
-Last updated: 2026-06-23
+Last updated: 2026-07-01
 
 This is the durable memory for the workspace. Keep it compact. Put long evidence, experiments, and historical detail in `Deep Sea Embers/07_Reports/`.
 
@@ -25,59 +25,16 @@ Project-level control files live at `D:\Fogust\Workspace\Novel`:
 - `AGENTS.md`: work policy and behavior rules
 - `PROJECT_BRAIN.md`: durable project memory and guardrails
 - `IMPLEMENT_PLAN.md`: active roadmap and next milestones
+- `ARCHITECTURE.md`: system structure, boundaries, flows, and ownership
 - `DOC_RECOVERY.md`: integrity hashes and recovery steps for the canonical docs
 
 Novel-specific folders may keep compatibility stubs, reports, artifacts, and runtime files. Do not put durable cross-novel planning content inside a single-novel folder.
 
 ## Architecture
 
-Pipeline:
+System structure, source-of-truth ownership, layer rules, pipeline flow, actor map, provider routing, guardrail stack, recovery model, and new-novel setup flow live in `ARCHITECTURE.md`.
 
-```text
-source adapter
-  -> source validation
-  -> block splitting
-  -> glossary scan
-  -> glossary approval
-  -> literal translation
-  -> refinement
-  -> QA
-  -> formatting
-  -> chapter assembly
-  -> reports
-  -> MoonRead import
-```
-
-Important paths:
-
-- `D:\Fogust\Workspace\Novel\00_Config\novel_registry.json`: shared multi-novel registry plus per-novel reader/title/quality policy
-- `D:\Fogust\Workspace\Novel\Deep Sea Embers\novel_pipeline\`: Python package and CLI
-- `D:\Fogust\Workspace\Novel\Deep Sea Embers\.system\`: config, providers, style profiles
-- `D:\Fogust\Workspace\Novel\Deep Sea Embers\01_Glossary\`: glossary notes
-- `D:\Fogust\Workspace\Novel\Deep Sea Embers\03_Raw\`: fetched source cache
-- `D:\Fogust\Workspace\Novel\Deep Sea Embers\04_Work\`: block and batch artifacts
-- `D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\`: final translated Markdown
-- `D:\Fogust\Workspace\Novel\Deep Sea Embers\06_Logs\run_ledger.jsonl`: append-only ledger
-- `D:\Fogust\Workspace\Novel\Deep Sea Embers\07_Reports\`: reports and evidence
-- `D:\Fogust\Workspace\Novel\MoonRead\`: workspace-level MoonRead reader app
-- `D:\Fogust\Workspace\Novel\Deep Sea Embers\reader-web\`: compatibility stub for older MoonRead commands only
-
-Ledger rule: historical failed records remain. Current status must be inferred from latest valid state, not raw failed-record counts.
-
-Layering rule:
-
-- Multi-novel layer: generic policies that should apply to every novel live in `00_Config\novel_registry.json` and shared scripts. Examples: MoonRead import range/source root, final Markdown validation, generic title fallback detection, truncation thresholds, and provider/meta/encoding leakage checks.
-- Novel layer: story-specific policy lives in each novel entry and its vault notes. Examples: DSE Chinese title sidecar requirement, HGD English-title normalization, Seth pronoun policy, required source beats, and known forbidden variants.
-- If a bug pattern can recur across novels, fix it in the multi-novel layer first, then add only the narrow story-specific details to the novel layer.
-- Reader blurb rule: after a novel has at least 60 translated/published chapters, its glossary and style evidence are considered sufficient to translate/adapt the official synopsis, description, or teaser for MoonRead. Store the adapted Thai blurb plus `synopsis_source_url` and `synopsis_source_note` in `00_Config\novel_registry.json`.
-
-Sentinel layer policy:
-
-- Level 0, multi-novel Sentinel: checks every novel with rules that are always product-safe. Add rules here only when they do not depend on a specific story voice or glossary choice. Examples: provider/meta leakage, bad encoding/mojibake, Han leakage in Thai body text, quote-only lines, missing generated MoonRead files, obvious truncation, approved-glossary English original leakage, and source-vs-output approved glossary coverage.
-- Level 1, novel Sentinel: checks one novel using that novel's policy, glossary, aliases, pronouns, title rules, known false positives, and source-site quirks. Examples: HGD Seth pronoun policy, HGD `Kaelen`/`Kyle` near-miss variants, HGD English title normalization, DSE named Chinese chapter-title sidecars.
-- Rule promotion policy: start a recurring user-reported defect at Level 1 if it depends on one novel's vocabulary or voice. Promote to Level 0 only after the same defect class is proven novel-agnostic and has low false-positive risk.
-- Rule addition policy: every new Sentinel rule must record scope, severity, evidence path, false-positive risk, and repair action. If a rule can lower translation quality by over-constraining style, keep it advisory until measured.
-- Recurrence root cause: repeated HGD defects came from historical output produced before Sentinel became blocking, glossary notes corrected after publication, and MoonRead publication steps that could regenerate/build without a scoped quality gate. Current prevention is layered: pipeline Sentinel blocks newly assembled chapters, MoonRead has scoped `npm run publish:verify`, generator validation rejects known fatal HGD product terms, and source-aware placeholder checks reject `?????` only when the source does not intentionally contain a hidden placeholder.
+Keep this section short. Update `PROJECT_BRAIN.md` for current state, active risks, current routing summary, active guardrails, and next safe action only.
 
 ## Current Verified State
 
@@ -93,11 +50,14 @@ Deep Sea Embers:
 - `dse-ch081-ch120-v1` completed: Deep Sea Embers `ch081-ch120` translated/refined/QA-passed/formatted/assembled, no current failed blocks remain, output guardrails passed, and MoonRead now publishes DSE through `ch120`. `ch110-block-004` needed a final format-stage ledger repair because a valid formatted artifact existed but the latest ledger record was a stale formatting failure. `ch120` displays `บทที่ 121` because the source file `ch120/source.json` itself is titled `第121章 救援`.
 - `dse-ch121-ch150-v1` completed: Deep Sea Embers `ch121-ch150` translated/refined/QA-passed/formatted/assembled, no current failed blocks remain, output guardrails passed, duplicate title paragraphs were removed, and MoonRead now publishes DSE through `ch150`.
 - `dse-ch151-ch160-v1` completed: Deep Sea Embers `ch151-ch160` translated/refined/QA-passed/formatted/assembled, no current failed blocks remain, output guardrails passed, Sentinel blocker/major/minor/info `0/0/0/0`, and MoonRead now publishes DSE through `ch160`.
+- V6.33 DSE continuation completed and published: `ch161-ch180` translated/refined/QA-passed/formatted/assembled, outputs exist, Sentinel final report `07_Reports/sentinel_quality_dse-v6-33-ch161-ch180-final_20260630_005304.md` reports blocker/major/minor/info `0/0/0/0`, and MoonRead now publishes DSE through `ch180`.
+- Libra - Pilot Gate DSE completed on 2026-06-29 in isolated experiment vault `Deep Sea Embers/04_Work/_experiments/libra_pilot_dse_v1`. Raw sampling used fetched `03_Raw/ch001-ch160` with seed `632160`; in-sample `dse-libra-pilot-insample-v1` completed 54/54 blocks and OOS `dse-libra-pilot-oos-v1` completed 56/56 blocks. Current failed blocks: none. Output guardrails passed and Sentinel blocker/major/minor/info was `0/0/0/0`. Report: `Deep Sea Embers/07_Reports/libra_pilot_gate_dse_completion_20260629.md`.
 
 Horror Game Developer:
 
-- MoonRead published scope is `ch001-ch250`, with HGD local ids now matching source chapter numbers
-- active continuation goal: none; HGD translation and MoonRead publication are complete through `ch250`. Keep future work as new bounded goals
+- MoonRead published scope is `ch001-ch270`, with HGD local ids now matching source chapter numbers
+- active continuation goal: none; HGD translation and MoonRead publication are complete through `ch270`. Keep future work as new bounded goals
+- V6.33 HGD continuation completed and published: `ch251-ch270` translated/refined/QA-passed/formatted/assembled, outputs exist, Sentinel final report `07_Reports/sentinel_quality_hgd-v6-33-ch251-ch270-final_20260629_200006.md` reports blocker/major/minor/info `0/0/0/0`, and MoonRead now publishes HGD through `ch270`.
 - `hgd-ch101-ch110-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is published to MoonRead.
 - `hgd-ch111-ch120-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is published to MoonRead. QA omission hard-fails in this range confirmed the root cause: refinement can still drop poems, thoughts, or sound-effect/source-beat blocks after ordinary retries.
 - `hgd-ch121-ch130-v1` completed: all 10 blocks translated/refined/QA-passed/formatted/assembled, outputs exist, output guardrails passed, and no current failed blocks remain. This range is published to MoonRead. `ch126` exposed a pipeline smoothness bug: QA retry wrote a newer refined artifact, but formatting could still use an older in-memory refined draft; prevention now reloads the latest refined artifact after QA before formatting.
@@ -121,6 +81,7 @@ Horror Game Developer:
 - Glossary policy clarified after the HGD leakage audit: approved glossary entries are not soft bilingual display. Final output and MoonRead must use the approved `thai_term`; approved English originals/aliases must not remain as parentheticals or UI labels unless a future explicit glossary field allows bilingual display. Prevention: HGD approved-glossary leakage guardrail now scans final output and MoonRead generated chapters, and regression tests cover English alias leakage plus unusable `thai_term` placeholders.
 - V6.25 Sentinel Quality Gate initial slice completed: `scripts/sentinel_quality_report.py` now produces JSON/Markdown blocker/major/minor reports, reuses existing guardrails, enforces approved glossary leakage across registered novels, and records advisory English-token findings for feedback review. First strict run exposed 35 HGD approved-glossary blockers; deterministic repair removed them from final output/formatted artifacts, MoonRead was regenerated/deployed, and optimized Sentinel now reports blocker/major/minor/info `0/0/80/0` for current published scope. Latest report: `07_Reports/sentinel_quality_current-published-optimized_20260621_165359.md`
 - Sentinel is now a blocking production pipeline stage for DSE and HGD via `execution.sentinel.mode: blocking` and `fail_on: major`. After a chapter output is assembled, the pipeline runs scoped Sentinel for that chapter, writes a `sentinel` ledger record, and blocks the run on blocker/major findings. Runtime Sentinel skips advisory English-token review so only product-safety failures stop translation. Do not wire Sentinel as an unscoped MoonRead postgenerate hook until historical backlog outside the touched range is intentionally cleaned.
+- Sentinel also blocks glossary/category note leakage such as `คำ: ชื่อตัวละคร`, `คำ: สิ่งมีชีวิต/ศัตรู`, `คำ: ฉายา/ตำแหน่ง`, and `คำ: คำเรียก...` after IRS ch020 exposed a leaked glossary tail in final output.
 - HGD Decree/Conductor terminology drift closed for published output: user found `ประกาศิต` / `โองการ` / `บัญญัติ` and `คอนดักเตอร์` / `ผู้บงการ` / `วาทยกร` drift around `ch208-ch210`. Cause: older glossary notes disagreed (`Temporal Decree` and `Mender Decree` used `โองการ...` while most Decree terms used `ประกาศิต...`), and old output used both `วาทยากร` misspelling and `คอนดักเตอร์` for the entity. Repair: final/MoonRead product text now uses `ประกาศิต` for Decree-family terms, `วาทยกร` for The Conductor entity, keeps `เควสต์คอนดักเตอร์` only for `Conductor Quest`, and leaves `ผู้บงการ` only for `The Orchestrator`. Prevention: HGD guardrail now rejects `โองการ`, `บัญญัติ`, `วาทยากร`, and standalone `คอนดักเตอร์`; regression test covers the allowed `เควสต์คอนดักเตอร์` exception.
 - HGD Squad/Team Leader title drift closed for published output: user found `หัวหน้ากลุ่ม` and `หัวหน้าหน่วย` used for the same `Squad Leader` / `Team Leader` role. Canonical is `หัวหน้ากลุ่ม` for the HGD gate-team role, including `Team Leader Soran` -> `หัวหน้ากลุ่มโซแรน`. Repair: final output, formatting artifacts, and MoonRead generated chapters were normalized from `หัวหน้าหน่วย` to `หัวหน้ากลุ่ม`. Prevention: `Squad Leader.md` documents `หัวหน้าหน่วย` as a rejected older variant, and HGD guardrail/regression now rejects `หัวหน้าหน่วย`.
 - HGD `ch223` role confusion closed: source has `Section Chief` and `Guild Master`, but output drifted to `หัวหน้ากลุ่ม` and `ท่านเจ้าสำนัก`, making the `หัวหน้าแผนก` disappear. Repair: `ch223` final/artifact/MoonRead text now uses `หัวหน้าแผนก` for `Section Chief`, `หัวหน้ากิลด์` for `Guild Master`, and `หัวหน้ากลุ่มโซแรน` for `Team Leader Soran`. Prevention: HGD guardrail/regression now rejects `เจ้าสำนัก` and `โซรัน`; Sentinel glossary coverage should be run on touched chapters after role/name repairs.
@@ -135,16 +96,30 @@ Horror Game Developer:
 - HGD `ch081-ch090` completed under run `hgd-ch081-ch090-v1`; ch089 required deterministic recovery because QA retry repeatedly re-refined away source beats. Prevention for this batch: title normalizer covers `ch036-ch090`, and the recovery metadata records why ch089 used literal-safe manual QA acceptance before AI formatting.
 - HGD `ch091-ch100` completed under run `hgd-ch091-ch100-v1` and published to MoonRead. V6.23 smoothness fixes were exercised in production: batch glossary approval worked, HGD title gate stopped missing title mappings before publishing English titles, and QA repair-safe mode recovered ch091/ch093/ch095/ch097 without retry refinement overwriting repairs. Checkpoint: `Horror Game Developers/07_Reports/hgd_ch091_ch100_checkpoint.md`.
 - `hgd-ch237-ch250-v2` completed and published to MoonRead. `hgd-ch237-ch250-v1` was abandoned because HGD fetch resolved local `ch237` by manifest ordinal and fetched source Chapter 253; prevention now prefers `metadata.site_chapter` in fetch resolution and `check_source_chapter_sequence.py` fails when local id and source chapter number differ. During v2, bounded repairs fixed Seth pronoun drift, hallucinated ranks, Team Leader/Squad Leader title drift, and approved-glossary English leakage. Output guardrails and Sentinel final report pass with blocker/major/minor/info `0/0/0/0`.
+- Libra - Pilot Gate HGD completed on 2026-06-29 in isolated experiment vault `Horror Game Developers/04_Work/_experiments/libra_pilot_hgd_v1`. Raw sampling used fetched `03_Raw/ch001-ch250` with seed `632250`; in-sample `hgd-libra-pilot-insample-v1` completed 10/10 chapters; out-of-sample used two 5-chapter glossary batches and completed 10/10 chapters. Current failed blocks: none. Output guardrails passed and aggregate Sentinel blocker/major/minor/info was `0/0/0/0`. Report: `Horror Game Developers/07_Reports/libra_pilot_gate_hgd_completion_20260629.md`.
+
+Infinite Regressor Stories:
+
+- new novel vault created at `D:\Fogust\Workspace\Novel\Infinite Regressor Stories`
+- profile/config created for `infinite-regressor-stories`; source language for pipeline input is English from WeTried TLS, target is Thai
+- new `wetriedtls` adapter extracts chapter bodies from escaped Next.js `self.__next_f` payloads
+- source fetch completed for `ch001-ch394`: `394/394` raw `source.json` files exist and validation found `0` issues
+- `ch395+` is not currently fetch-ready from WeTried TLS: checked pages return metadata/shell without body payload or server error
+- registry entry exists with `reader.enabled: true`; MoonRead publishes IRS clean `ch001-ch050`.
+- V6.32 IRS setup experiment completed for IRS on 2026-06-29. In-sample run `irs-v6-32-insample-treatment-v3` completed `34/34` blocks; out-of-sample run `irs-v6-32-oos-v1` completed `32/32` blocks. Current failed blocks: none. Scoped deterministic output audit passed for all 20 sampled chapters. Completion report: `Infinite Regressor Stories/07_Reports/v6_32_irs_experiment_completion_20260629.md`
+- V6.33 IRS clean production retranslation completed and published for `ch001-ch050` using 5-chapter glossary batches. All 10 clean batch run IDs report current failed blocks: none and manual actions needed: none. Final outputs exist for all 50 chapters. Blocking Sentinel report `07_Reports/sentinel_quality_irs-clean-ch001-ch050-final-after-leakage-rule_20260630_101639.md` reports `0/0/0/0`; advisory report `07_Reports/sentinel_quality_irs-clean-ch001-ch050-final-advisory-review-after-leakage-rule_20260630_101829.md` reports `0/0/80/0` suspicious-English minor review items. Completion report: `Infinite Regressor Stories/07_Reports/irs_clean_retranslate_ch001_ch050_completion_20260630.md`. MoonRead publish Sentinel report `07_Reports/sentinel_quality_moonread-irs-ch001-ch050-publish_20260630_172648.md` reports `0/0/0/0`.
+- current IRS production recommendation: safe for the next bounded sequential IRS production pilot, but not approved for long unmonitored parallel production. Reasoning-enabled OpenRouter QA returned empty assistant messages on long QA prompts; isolated IRS experiment routing used non-reasoning `deepseek/deepseek-v4-flash` QA with Gemini Flash fallback.
+- setup/fetch evidence: `Infinite Regressor Stories/07_Reports/setup_fetch_20260624.md`
 
 MoonRead:
 
-- current reader library includes published Deep Sea Embers `ch001-ch160` and published Horror Game Developer `ch001-ch250`
+- current reader library includes published Deep Sea Embers `ch001-ch180`, Horror Game Developer `ch001-ch270`, and Infinite Regressor Stories `ch001-ch050`
 - both current novels now pass the 60-chapter reader blurb gate; MoonRead registry includes source-backed Thai synopsis text for both books
 - canonical MoonRead app path is `D:\Fogust\Workspace\Novel\MoonRead`; it is no longer owned by the Deep Sea Embers folder
 - MoonRead imports novels from `00_Config\novel_registry.json`; adding a future novel should start by adding a registry entry, not by hardcoding paths in `MoonRead\scripts\generate-chapters.mjs`
 - MoonRead reads verified Markdown only
 - MoonRead must not call providers, edit glossary/source/artifacts, or modify ledger
-- latest relevant checks: `generate:chapters`, `lint`, `build`, and `smoke` passed after V6.19.1 UX/UI polish and cover art integration
+- latest relevant checks: `generate:chapters` produced 3 books / 500 available chapters / 0 missing / 0 rejected; scoped Sentinel publish reports passed for DSE `ch161-ch180`, HGD `ch251-ch270`, and IRS `ch001-ch050`; MoonRead `lint`, `build`, and `smoke` passed.
 - MoonRead `publish:verify` is the scoped publish gate for generated chapters and reader validation
 - V6.19 handoff report: `Deep Sea Embers/07_Reports/v6_19_moonread_ux_handoff_20260616.md`
 - V6.19.1 completed: Thai UI labels, active nav, SiteFooter, synopsis line-clamp, localStorage key migration, cover art for both novels, conditional logo-cover class
@@ -192,9 +167,10 @@ Current intended routing:
 - literal translation: OpenRouter `google/gemini-3-flash-preview`
 - refinement: OpenRouter `deepseek/deepseek-v4-flash`
 - QA primary: OpenRouter `deepseek/deepseek-v4-flash` with reasoning enabled
-- QA fallback: Qwen `deepseek-reasoner`, then Codex emergency fallback. Do not use OpenRouter `deepseek/deepseek-v4-pro` in normal HGD QA routing unless a future benchmark explicitly re-approves it.
+- QA fallback: OpenRouter reasoning `deepseek/deepseek-v4-pro` only. Qwen and Codex are not automatic QA fallbacks because recent IRS evidence showed qwen headless empty stdout on Windows and Codex quota failures.
 - formatting primary: OpenRouter `deepseek/deepseek-v4-flash`
 - formatting fallback/cleanup: local deterministic formatter
+- OpenRouter API key env var: `NOVEL_OPENROUTER_API`; do not use the legacy OpenRouter env var name for current work.
 
 Provider warning: the cost-priority QA route did not fully clear the original benchmark gate. Inspect QA artifacts closely on the next bounded production run.
 
@@ -250,6 +226,9 @@ Requires explicit user approval:
 | Pronoun/name/title drift | add deterministic known-variant checks after user reports |
 | DSE generic title fallback | final assembly requires `title.json` for named Chinese source titles; output guardrail rejects `บทที่ N` when source has a real title |
 | Same bug recurring in another novel | promote the generic part into `00_Config\novel_registry.json` and shared guardrail code, then keep only story-specific details in the novel layer |
+| New novel pipeline not tuned before scaling | before sampling, fetch the intended source scope into `03_Raw/`; if the site is partially unavailable, record the verified fetchable scope first. Then run **Libra - Pilot Gate**: randomly sample 20 chapters from that fetched scope with a recorded seed, use 10 in-sample chapters to tune, use 10 out-of-sample chapters to prove generalization, then classify fixes by multi-novel/language/novel/run layer before long production batches |
+| Provider formatting can leave duplicate title paragraphs or dense thought/prose paragraphs | final assembly now removes an immediate title-like first body paragraph below the H1 and applies conservative long-paragraph reflow after AI formatting; keep output guardrails active for duplicate title and paragraph density |
+| Long pilot or production runs are too slow under serial translate/refine/QA | keep current work bounded; treat translation/refinement/QA parallelism as a dedicated milestone with ledger safety and provider isolation instead of enabling broad concurrency casually |
 | HGD Seth pronoun drift | keep HGD Obsidian pronoun policy, prompt/profile rules, and published-scope guardrail checks aligned |
 | New novel setup without vault | create/open the novel Obsidian vault first, then add profile/glossary/source/output folders inside it |
 | Dense or broken formatting | AI formatting plus deterministic validation; use `C:\Users\ASUS\Downloads\good format.md` as style reference |
@@ -262,6 +241,8 @@ Requires explicit user approval:
 | Full unscoped Sentinel scan is slow | use scoped Sentinel gates for publication and only run full scans intentionally with explicit range/all confirmation |
 | Full unscoped output guardrail hits historical HGD backlog | run output guardrails against the touched chapter range before publication; clean broad historical backlog as a dedicated quality pass |
 | Codex provider config is tied to the Deep Sea Embers cwd/read-only sandbox | use explicit novel paths for setup/fetch work until provider config is generalized for multi-novel routing |
+| Infinite Regressor Stories `ch395+` unavailable from WeTried TLS | keep fetched source scope at `ch001-ch394` until the source page exposes body payload; do not create placeholder source chapters |
+| IRS long-run reliability is not stable enough for unmonitored parallel production | use bounded sequential IRS production pilots; keep reasoning-enabled OpenRouter QA disabled for long QA prompts until a later probe proves it no longer returns empty assistant messages; promote long repeated-character detection before scaling |
 | MoonRead rendering mismatch | run reader smoke after generated content changes |
 | Worker false completion | verify disk state, tests, reports, and git diff |
 | Memory doc damage | keep docs short, use `DOC_RECOVERY.md`, avoid worker rewrites of canonical files |
@@ -334,11 +315,18 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
-Current reader state: Deep Sea Embers is published through `ch160`; Horror Game Developer is published through `ch250`. No active translation batch is in progress.
+Current reader state: Deep Sea Embers is published through `ch180`; Horror Game Developer is published through `ch270`; Infinite Regressor Stories is published through clean `ch050`. Libra - Pilot Gate is complete for IRS, DSE, and HGD. V6.33 translation output and MoonRead publication are complete for DSE `ch161-ch180`, HGD `ch251-ch270`, and IRS clean `ch001-ch050`.
+
+V6.33 translation-output and reader-publication phase is complete:
+
+- HGD: `ch251-ch270` output complete, publish Sentinel `0/0/0/0`, MoonRead through `ch270`.
+- DSE: `ch161-ch180` output complete, publish Sentinel `0/0/0/0`, MoonRead through `ch180`.
+- IRS: clean `ch001-ch050` output complete, publish Sentinel `0/0/0/0`, MoonRead through `ch050`; advisory English review queue remains minor-only.
+- All three used glossary batches of 5 chapters.
 
 Next safe choices:
 
-1. Start any future translation, repair, or MoonRead change as a new bounded goal with an explicit chapter range.
-2. Before publishing reader changes, run scoped Sentinel/MoonRead `publish:verify`.
-3. If deploying externally, redeploy the pushed MoonRead update from the hosting provider.
-4. Stop again on manual QA prompt, provider failure, command length failure, validation failure, or unexpected scope expansion.
+1. If deploying externally, redeploy the pushed MoonRead update from the hosting provider.
+2. Start any future translation, repair, or MoonRead change as a new bounded goal with an explicit chapter range.
+3. Before any future reader changes, run scoped Sentinel/MoonRead publish checks, then `lint`, `build`, and `smoke`.
+4. Stop again on manual QA prompt, provider failure, command length failure, validation failure, source extraction failure, or unexpected scope expansion.

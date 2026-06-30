@@ -11,6 +11,7 @@ For this workspace, the project-level control files live at `D:\Fogust\Workspace
 - `AGENTS.md`: work policy and behavior rules.
 - `PROJECT_BRAIN.md`: durable project memory, current state, risks, and guardrails.
 - `IMPLEMENT_PLAN.md`: active roadmap and next milestones.
+- `ARCHITECTURE.md`: system structure, boundaries, flows, and ownership.
 
 Novel-specific folders such as `Deep Sea Embers` may keep short compatibility stubs for older tools, tests, or dashboard links. Do not put durable cross-novel planning content in a single-novel folder.
 

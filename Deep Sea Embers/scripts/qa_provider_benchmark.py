@@ -139,7 +139,7 @@ def _read_user_env(name: str) -> str:
 def _openrouter_key_candidates() -> list[str]:
     values: list[str] = []
     seen: set[str] = set()
-    for value in (os.environ.get("OPENROUTER_API_KEY", ""), _read_user_env("OPENROUTER_API_KEY")):
+    for value in (os.environ.get("NOVEL_OPENROUTER_API", ""), _read_user_env("NOVEL_OPENROUTER_API")):
         stripped = value.strip()
         if stripped and stripped not in seen:
             values.append(stripped)
@@ -159,8 +159,8 @@ def _safe_error_preview(value: str) -> str:
     text = value.replace("\r", " ").replace("\n", " ").strip()
     for key in _openrouter_key_candidates():
         if key:
-            text = text.replace(key, "<OPENROUTER_API_KEY>")
-    text = re.sub(r"sk-or-[A-Za-z0-9_-]+", "<OPENROUTER_API_KEY>", text)
+            text = text.replace(key, "<NOVEL_OPENROUTER_API>")
+    text = re.sub(r"sk-or-[A-Za-z0-9_-]+", "<NOVEL_OPENROUTER_API>", text)
     return text[:1000]
 
 

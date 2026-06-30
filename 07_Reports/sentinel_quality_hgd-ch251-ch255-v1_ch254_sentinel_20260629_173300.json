@@ -1,0 +1,49 @@
+{
+  "created_at": "2026-06-29T17:33:00.986733+00:00",
+  "scope": "hgd-ch251-ch255-v1_ch254_sentinel",
+  "chapters": "ch254",
+  "counts": {
+    "blocker": 5,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch254\\ch254.md",
+      "message": "final_output: approved English remains: Virtual Reality -> ความเป็นจริงเสมือน",
+      "evidence": "Virtual Reality.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch254\\ch254.md",
+      "message": "final_output: approved English remains: The Conductor -> วาทยกร",
+      "evidence": "The Conductor.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch254\\ch254.md",
+      "message": "final_output: approved English remains: The Hourglass -> นาฬิกาทราย",
+      "evidence": "The Hourglass.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch254\\ch254.md",
+      "message": "final_output: approved English remains: Conductor -> วาทยกร",
+      "evidence": "The Conductor.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch254\\ch254.md",
+      "message": "final_output: approved English remains: Hourglass -> นาฬิกาทราย",
+      "evidence": "The Hourglass.md"
+    }
+  ]
+}

@@ -73,7 +73,7 @@ def _safe_write_text(path: Path, text: str) -> None:
 
 
 def _assert_no_secret(text: str, path: Path) -> None:
-    keys = [os.environ.get("OPENROUTER_API_KEY", "").strip(), _read_user_env("OPENROUTER_API_KEY").strip()]
+    keys = [os.environ.get("NOVEL_OPENROUTER_API", "").strip(), _read_user_env("NOVEL_OPENROUTER_API").strip()]
     for key in keys:
         if key and key in text:
             raise RuntimeError(f"Refusing to write API key to {path}")

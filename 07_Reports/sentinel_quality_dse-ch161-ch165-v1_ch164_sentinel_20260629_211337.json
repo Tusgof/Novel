@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-06-29T21:13:37.024887+00:00",
+  "scope": "dse-ch161-ch165-v1_ch164_sentinel",
+  "chapters": "ch164",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

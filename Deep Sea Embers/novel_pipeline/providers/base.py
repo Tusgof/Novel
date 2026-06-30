@@ -165,22 +165,13 @@ class ProviderRunner:
         if getattr(self.spec, 'prompt_transport', 'argv') == 'stdin':
             stdin_input = request.prompt
         try:
-            subprocess_kwargs = {
-                'args': command,
-                'cwd': str(cwd) if cwd is not None else None,
-                'env': env,
-                'capture_output': True,
-                'text': True,
-                'encoding': 'utf-8',
-                'timeout': timeout,
-                'check': False,
-            }
-            if stdin_input is not None:
-                subprocess_kwargs['input'] = stdin_input
-            completed = subprocess.run(**subprocess_kwargs)
-            returncode = int(completed.returncode)
-            stdout = completed.stdout or ""
-            stderr = completed.stderr or ""
+            returncode, stdout, stderr = _run_provider_process(
+                command=command,
+                cwd=cwd,
+                env=env,
+                stdin_input=stdin_input,
+                timeout=timeout,
+            )
         except subprocess.TimeoutExpired as exc:
             returncode = 124
             stdout = exc.stdout or ""
@@ -328,6 +319,68 @@ def _needs_windows_unicode_wrapper(spec: ProviderSpec, request: ProviderRequest)
     if spec.prompt_position == "flag" and not spec.prompt_flag:
         return False
     return any(ord(char) > 127 for char in request.prompt)
+
+
+def _run_provider_process(
+    *,
+    command: list[str],
+    cwd: Path | None,
+    env: Mapping[str, str],
+    stdin_input: str | None,
+    timeout: float,
+) -> tuple[int, str, str]:
+    creationflags = 0
+    if os.name == "nt":
+        creationflags = getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0)
+    process = subprocess.Popen(
+        command,
+        cwd=str(cwd) if cwd is not None else None,
+        env=dict(env),
+        stdin=subprocess.PIPE if stdin_input is not None else None,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        encoding="utf-8",
+        creationflags=creationflags,
+    )
+    try:
+        stdout, stderr = process.communicate(input=stdin_input, timeout=timeout)
+        return int(process.returncode), stdout or "", stderr or ""
+    except subprocess.TimeoutExpired as exc:
+        _terminate_process_tree(process)
+        stdout = exc.stdout or ""
+        stderr = exc.stderr or f"Timeout after {timeout} seconds."
+        if isinstance(stdout, bytes):
+            stdout = stdout.decode("utf-8", errors="replace")
+        if isinstance(stderr, bytes):
+            stderr = stderr.decode("utf-8", errors="replace")
+        return 124, stdout, stderr
+
+
+def _terminate_process_tree(process: subprocess.Popen[str]) -> None:
+    if process.poll() is not None:
+        return
+    if os.name == "nt":
+        try:
+            subprocess.run(
+                ["taskkill", "/PID", str(process.pid), "/T", "/F"],
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                timeout=10,
+                check=False,
+            )
+            return
+        except (OSError, subprocess.TimeoutExpired):
+            pass
+    try:
+        process.kill()
+    except OSError:
+        pass
+    try:
+        process.communicate(timeout=5)
+    except (OSError, subprocess.TimeoutExpired):
+        pass
 
 
 def _build_windows_unicode_wrapper(spec: ProviderSpec, request: ProviderRequest) -> tuple[list[str], Path]:

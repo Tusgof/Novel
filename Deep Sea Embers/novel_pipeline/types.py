@@ -554,6 +554,7 @@ class GlossaryEntry(JsonSerializable):
     file_name: str = ""
     status: str = "proposed"
     aliases: tuple[str, ...] = ()
+    rejected_variants: tuple[str, ...] = ()
     description: str = ""
     related: tuple[str, ...] = ()
     source_language: str = ""

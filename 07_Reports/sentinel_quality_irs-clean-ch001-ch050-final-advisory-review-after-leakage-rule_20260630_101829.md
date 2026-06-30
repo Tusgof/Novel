@@ -1,0 +1,93 @@
+# Sentinel Quality Report - irs-clean-ch001-ch050-final-advisory-review-after-leakage-rule
+
+- Created: 2026-06-30T10:18:29.591904+00:00
+- Chapters: ch001-ch050
+- Safe to publish: yes
+- Blocker/Major/Minor/Info: 0/0/80/0
+
+## Next Action
+
+- Product surface has no blocker findings under current Sentinel rules.
+
+## Findings
+
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `Resume`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `The World`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `Will and Representation`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `K-pop`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `The Scream`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `LiteraryGirl`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `dolLHoUse`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch007\ch007.md: English token remains in product surface; review if intentional. Evidence: `S-class`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch007\ch007.md: English token remains in product surface; review if intentional. Evidence: `Net`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch007\ch007.md: English token remains in product surface; review if intentional. Evidence: `Star`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch007\ch007.md: English token remains in product surface; review if intentional. Evidence: `Ground`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch007\ch007.md: English token remains in product surface; review if intentional. Evidence: `Hi-Tel`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch008\ch008.md: English token remains in product surface; review if intentional. Evidence: `Net`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch008\ch008.md: English token remains in product surface; review if intentional. Evidence: `dolLHoUse`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch009\ch009.md: English token remains in product surface; review if intentional. Evidence: `ASMR`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch010\ch010.md: English token remains in product surface; review if intentional. Evidence: `Net`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch010\ch010.md: English token remains in product surface; review if intentional. Evidence: `dolLHoUse`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch011\ch011.md: English token remains in product surface; review if intentional. Evidence: `Net`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch011\ch011.md: English token remains in product surface; review if intentional. Evidence: `AAA`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Net`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `dolLHoUse`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `LiteraryGirl`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch013\ch013.md: English token remains in product surface; review if intentional. Evidence: `Net`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch013\ch013.md: English token remains in product surface; review if intentional. Evidence: `Noona`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch014\ch014.md: English token remains in product surface; review if intentional. Evidence: `Net`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch014\ch014.md: English token remains in product surface; review if intentional. Evidence: `dolLHoUse`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch014\ch014.md: English token remains in product surface; review if intentional. Evidence: `USB`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch014\ch014.md: English token remains in product surface; review if intentional. Evidence: `Notepad`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch014\ch014.md: English token remains in product surface; review if intentional. Evidence: `CLA`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch015\ch015.md: English token remains in product surface; review if intentional. Evidence: `Net`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch016\ch016.md: English token remains in product surface; review if intentional. Evidence: `Net`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch016\ch016.md: English token remains in product surface; review if intentional. Evidence: `HunCo`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch017\ch017.md: English token remains in product surface; review if intentional. Evidence: `d'Yquem`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch018\ch018.md: English token remains in product surface; review if intentional. Evidence: `KTX`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch020\ch020.md: English token remains in product surface; review if intentional. Evidence: `KTX`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch021\ch021.md: English token remains in product surface; review if intentional. Evidence: `Net`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch021\ch021.md: English token remains in product surface; review if intentional. Evidence: `BadEndingLover`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch021\ch021.md: English token remains in product surface; review if intentional. Evidence: `NovelCampus`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch021\ch021.md: English token remains in product surface; review if intentional. Evidence: `RighteousHeavenlyDemonMartial`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch021\ch021.md: English token remains in product surface; review if intentional. Evidence: `NureongiBapsang`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch021\ch021.md: English token remains in product surface; review if intentional. Evidence: `MarlovHorseLover`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch021\ch021.md: English token remains in product surface; review if intentional. Evidence: `Omniscient Reader`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch021\ch021.md: English token remains in product surface; review if intentional. Evidence: `Viewpoint`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch021\ch021.md: English token remains in product surface; review if intentional. Evidence: `nureongi`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch022\ch022.md: English token remains in product surface; review if intentional. Evidence: `Canned Hotel`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch023\ch023.md: English token remains in product surface; review if intentional. Evidence: `Shift`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch023\ch023.md: English token remains in product surface; review if intentional. Evidence: `Shit`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch023\ch023.md: English token remains in product surface; review if intentional. Evidence: `Net`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch023\ch023.md: English token remains in product surface; review if intentional. Evidence: `SwordMarquess`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch023\ch023.md: English token remains in product surface; review if intentional. Evidence: `dolLHoUse`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch023\ch023.md: English token remains in product surface; review if intentional. Evidence: `Baekhwa`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch023\ch023.md: English token remains in product surface; review if intentional. Evidence: `SixthGrader`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch023\ch023.md: English token remains in product surface; review if intentional. Evidence: `LiteraryGirl`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch023\ch023.md: English token remains in product surface; review if intentional. Evidence: `Lieutenant`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch023\ch023.md: English token remains in product surface; review if intentional. Evidence: `Niche`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch023\ch023.md: English token remains in product surface; review if intentional. Evidence: `BadEndingLover`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch023\ch023.md: English token remains in product surface; review if intentional. Evidence: `Return`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch023\ch023.md: English token remains in product surface; review if intentional. Evidence: `the Blossoming Blade`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch023\ch023.md: English token remains in product surface; review if intentional. Evidence: `The Reason Why Raeliana`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch023\ch023.md: English token remains in product surface; review if intentional. Evidence: `Ended`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch023\ch023.md: English token remains in product surface; review if intentional. Evidence: `the Duke's Mansion`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch023\ch023.md: English token remains in product surface; review if intentional. Evidence: `Hiding`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch023\ch023.md: English token remains in product surface; review if intentional. Evidence: `House`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch023\ch023.md: English token remains in product surface; review if intentional. Evidence: `the Apocalypse`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch025\ch025.md: English token remains in product surface; review if intentional. Evidence: `S-class`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch026\ch026.md: English token remains in product surface; review if intentional. Evidence: `Net`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch027\ch027.md: English token remains in product surface; review if intentional. Evidence: `Lycoris radiata`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch028\ch028.md: English token remains in product surface; review if intentional. Evidence: `Net`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch028\ch028.md: English token remains in product surface; review if intentional. Evidence: `Flower Garland School`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch028\ch028.md: English token remains in product surface; review if intentional. Evidence: `Flower Garland Sutra`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch030\ch030.md: English token remains in product surface; review if intentional. Evidence: `Mission Impossible`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch030\ch030.md: English token remains in product surface; review if intentional. Evidence: `Guten Morgen`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch030\ch030.md: English token remains in product surface; review if intentional. Evidence: `Deutschland`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch030\ch030.md: English token remains in product surface; review if intentional. Evidence: `Germany`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch030\ch030.md: English token remains in product surface; review if intentional. Evidence: `Okay`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch030\ch030.md: English token remains in product surface; review if intentional. Evidence: `OneStep`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch030\ch030.md: English token remains in product surface; review if intentional. Evidence: `Land Camera`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch030\ch030.md: English token remains in product surface; review if intentional. Evidence: `SX-70 Time-Zero`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch030\ch030.md: English token remains in product surface; review if intentional. Evidence: `Nikon`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch030\ch030.md: English token remains in product surface; review if intentional. Evidence: `Net`.

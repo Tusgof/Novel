@@ -1,7 +1,7 @@
 ---
 type: glossary-term
 original_term: Developer Seth Thorne
-thai_term: นักพัฒนาเซธ ธอร์น
+thai_term: เซธ ธอร์น
 status: approved
 aliases: ['Seth Thorne']
 source_language: en
@@ -9,7 +9,7 @@ category: character
 novel:
 first_seen_chapter: ch001
 first_seen_block: ch001-block-001
-description: Approved by Codex deterministic glossary gate for Horror Game Developer ch001-ch050.
+description: Character full name; role/title may be translated contextually outside the name.
 related: []
 approved_by:
 approval_notes: Approved by Codex deterministic glossary gate for Horror Game Developer ch001-ch050.

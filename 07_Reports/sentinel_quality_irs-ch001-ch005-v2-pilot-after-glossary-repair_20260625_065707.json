@@ -1,0 +1,1246 @@
+{
+  "created_at": "2026-06-25T06:57:07.688506+00:00",
+  "scope": "irs-ch001-ch005-v2-pilot-after-glossary-repair",
+  "chapters": "ch001-ch005",
+  "counts": {
+    "blocker": 79,
+    "major": 7,
+    "minor": 90,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "final_output: approved English remains: Infinite Regression -> การย้อนกลับไม่สิ้นสุด",
+      "evidence": "Infinite Regression.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "final_output: approved English remains: Emit Schopenhauer -> เอมิต โชเพนเฮาเออร์",
+      "evidence": "Emit Schopenhauer.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "final_output: approved English remains: Schopenhauer -> เอมิต โชเพนเฮาเออร์",
+      "evidence": "Emit Schopenhauer.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "final_output: approved English remains: Old Man Scho -> ตาแก่โช",
+      "evidence": "Old Man Scho.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "final_output: approved English remains: South Korea -> เกาหลีใต้",
+      "evidence": "South Korea.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "final_output: approved English remains: Swordmaster -> จ้าวดาบ",
+      "evidence": "Swordmaster.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "final_output: approved English remains: The Partner -> คู่หู",
+      "evidence": "The Partner.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "final_output: approved English remains: Han River -> แม่น้ำฮัน",
+      "evidence": "Han River.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "final_output: approved English remains: regressor -> ผู้ย้อนกลับ",
+      "evidence": "regressor.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "final_output: approved English remains: Ten Legs -> สิบขา",
+      "evidence": "Ten Legs.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "final_output: approved English remains: Busan -> ปูซาน",
+      "evidence": "Busan.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "final_output: approved English remains: Seoul -> โซล",
+      "evidence": "Seoul.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "final_output: approved English remains: Scho -> ตาแก่โช",
+      "evidence": "Old Man Scho.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: approved English remains: Emit Schopenhauer -> เอมิต โชเพนเฮาเออร์",
+      "evidence": "Emit Schopenhauer.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: approved English remains: Baekje Hospital -> โรงพยาบาลแพ็กเจ",
+      "evidence": "Baekje Hospital.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: approved English remains: Busan Station -> สถานีปูซาน",
+      "evidence": "Busan Station.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: approved English remains: Schopenhauer -> เอมิต โชเพนเฮาเออร์",
+      "evidence": "Emit Schopenhauer.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: approved English remains: Old Man Scho -> ตาแก่โช",
+      "evidence": "Old Man Scho.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: approved English remains: Sword Star -> จ้าวดาบ",
+      "evidence": "Swordmaster.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: approved English remains: regressor -> ผู้ย้อนกลับ",
+      "evidence": "regressor.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: approved English remains: Time Seal -> ผนึกเวลา",
+      "evidence": "Time Seal.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: approved English remains: Busan -> ปูซาน",
+      "evidence": "Busan.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: approved English remains: Seoul -> โซล",
+      "evidence": "Seoul.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: approved English remains: Scho -> ตาแก่โช",
+      "evidence": "Old Man Scho.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "final_output: approved English remains: National Assembly Building -> อาคารรัฐสภา",
+      "evidence": "National Assembly Building.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "final_output: approved English remains: Busan Station -> สถานีปูซาน",
+      "evidence": "Busan Station.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "final_output: approved English remains: Constellation -> กลุ่มดาว",
+      "evidence": "Constellation.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "final_output: approved English remains: Old Man Scho -> ตาแก่โช",
+      "evidence": "Old Man Scho.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "final_output: approved English remains: The Saintess -> นักบุญหญิง",
+      "evidence": "Saintess.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "final_output: approved English remains: The Observer -> ผู้สังเกตการณ์",
+      "evidence": "The Observer.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "final_output: approved English remains: Swordmaster -> จ้าวดาบ",
+      "evidence": "Swordmaster.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "final_output: approved English remains: Undertaker -> สัปเหร่อ",
+      "evidence": "Undertaker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "final_output: approved English remains: regressor -> ผู้ย้อนกลับ",
+      "evidence": "regressor.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "final_output: approved English remains: Awakener -> ผู้ตื่นรู้",
+      "evidence": "Awakener.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "final_output: approved English remains: Saintess -> นักบุญหญิง",
+      "evidence": "Saintess.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "final_output: approved English remains: Yeouido -> ยออีโด",
+      "evidence": "Yeouido.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "final_output: approved English remains: Busan -> ปูซาน",
+      "evidence": "Busan.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "final_output: approved English remains: Seoul -> โซล",
+      "evidence": "Seoul.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "final_output: approved English remains: Scho -> ตาแก่โช",
+      "evidence": "Old Man Scho.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: approved English remains: Resurrection Church -> โบสถ์คืนชีพ",
+      "evidence": "Resurrection Church.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: approved English remains: Infinite Metagame -> เมตาเกมไม่สิ้นสุด",
+      "evidence": "Infinite Metagame.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: approved English remains: New Buddha Cult -> ลัทธิพระพุทธเจ้าองค์ใหม่",
+      "evidence": "New Buddha Cult.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: approved English remains: Administrator -> ผู้ดูแล",
+      "evidence": "Administrator.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: approved English remains: Constellation -> กลุ่มดาว",
+      "evidence": "Constellation.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: approved English remains: Undertaker -> สัปเหร่อ",
+      "evidence": "Undertaker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: approved English remains: regressor -> ผู้ย้อนกลับ",
+      "evidence": "regressor.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: approved English remains: Awakener -> ผู้ตื่นรู้",
+      "evidence": "Awakener.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: approved English remains: Saintess -> นักบุญหญิง",
+      "evidence": "Saintess.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: approved English remains: Samcheon -> ซัมชอน",
+      "evidence": "Samcheon.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: approved English remains: The Hero -> ผู้กล้า",
+      "evidence": "The Hero.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: approved English remains: Baekwha -> แพ็กฮวา",
+      "evidence": "Baekwha.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: approved English remains: Hero -> ผู้กล้า",
+      "evidence": "The Hero.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: approved English remains: Namgung Muncheong -> นัมกุงมุนชอง",
+      "evidence": "Namgung Muncheong.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: approved English remains: Returnee Syndrome -> กลุ่มอาการผู้หวนคืน",
+      "evidence": "Returnee Syndrome.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: approved English remains: Korean Peninsula -> คาบสมุทรเกาหลี",
+      "evidence": "Korean Peninsula.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: approved English remains: Constellation -> กลุ่มดาว",
+      "evidence": "Constellation.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: approved English remains: Gate incident -> เหตุการณ์ประตู",
+      "evidence": "Gate incident.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: approved English remains: Hero Syndrome -> กลุ่มอาการผู้กล้า",
+      "evidence": "Hero Syndrome.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: approved English remains: Kim Jun-young -> คิมจุนยอง",
+      "evidence": "Kim Jun-young.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: approved English remains: Demon King -> ราชาปีศาจ",
+      "evidence": "Demon King.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: approved English remains: Undertaker -> สัปเหร่อ",
+      "evidence": "Undertaker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: approved English remains: regressor -> ผู้ย้อนกลับ",
+      "evidence": "regressor.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: approved English remains: Awakener -> ผู้ตื่นรู้",
+      "evidence": "Awakener.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: approved English remains: Saintess -> นักบุญหญิง",
+      "evidence": "Saintess.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: approved English remains: Samcheon -> ซัมชอน",
+      "evidence": "Samcheon.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: approved English remains: The Hero -> ผู้กล้า",
+      "evidence": "The Hero.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: approved English remains: Baekwha -> แพ็กฮวา",
+      "evidence": "Baekwha.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: approved English remains: Hero -> ผู้กล้า",
+      "evidence": "The Hero.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Infinite Regression -> การย้อนกลับไม่สิ้นสุด; glossary=Infinite Regression.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "infinite regression -> การย้อนกลับไม่สิ้นสุด; glossary=Infinite Regression.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Emit Schopenhauer -> เอมิต โชเพนเฮาเออร์; glossary=Emit Schopenhauer.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Swordmaster -> จ้าวดาบ; glossary=Swordmaster.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Emit Schopenhauer -> เอมิต โชเพนเฮาเออร์; glossary=Emit Schopenhauer.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Baekje Hospital -> โรงพยาบาลแพ็กเจ; glossary=Baekje Hospital.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Schopenhauer -> เอมิต โชเพนเฮาเออร์; glossary=Emit Schopenhauer.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sword Star -> จ้าวดาบ; glossary=Swordmaster.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "regressor -> ผู้ย้อนกลับ; glossary=regressor.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "The Busan Station Gate -> ประตูสถานีปูซาน; glossary=Busan Station Gate.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Busan Station Gate -> ประตูสถานีปูซาน; glossary=Busan Station Gate.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Old Man Scho -> ตาแก่โช; glossary=Old Man Scho.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Swordmaster -> จ้าวดาบ; glossary=Swordmaster.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Scho -> ตาแก่โช; glossary=Old Man Scho.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Resurrection Church -> โบสถ์คืนชีพ; glossary=Resurrection Church.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Infinite Metagame -> เมตาเกมไม่สิ้นสุด; glossary=Infinite Metagame.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "New Buddha Cult -> ลัทธิพระพุทธเจ้าองค์ใหม่; glossary=New Buddha Cult.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Old Man Scho -> ตาแก่โช; glossary=Old Man Scho.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Awakeners -> ผู้ตื่นรู้; glossary=Awakener.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Awakener -> ผู้ตื่นรู้; glossary=Awakener.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Baekwha -> แพ็กฮวา; glossary=Baekwha.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Scho -> ตาแก่โช; glossary=Old Man Scho.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Returnee Syndrome -> กลุ่มอาการผู้หวนคืน; glossary=Returnee Syndrome.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Gate incident -> เหตุการณ์ประตู; glossary=Gate incident.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Demon King -> ราชาปีศาจ; glossary=Demon King.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Awakeners -> ผู้ตื่นรู้; glossary=Awakener.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Awakener -> ผู้ตื่นรู้; glossary=Awakener.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Baekwha -> แพ็กฮวา; glossary=Baekwha.md"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "The Partner"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Infinite Regression"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Old Man Scho"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Resume"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "regressor"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Ten Legs"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Seoul"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "South Korea"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Han River"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Busan"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Emit Schopenhauer"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Swordmaster"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "The World"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Will and Representation"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Baekje Hospital"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "lait"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Time Seal"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Seoul"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Sword Star"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Busan Station"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "regressor"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Emit Schopenhauer"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Old Man Scho"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "The Observer"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Old Man Scho"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Saintess"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Gate"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Seoul"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "National Assembly Building"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Yeouido"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Awakener"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "The Saintess"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "National Salvation"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Busan Station"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "The Chancellor"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "the Red Cape"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Constellation"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "The Conqueror"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "the Alps"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "K-pop"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Swordmaster"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "infinite regressor"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Undertaker"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Awakened"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Saintess"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Undertaker"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Awakener"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Constellation"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Clairvoyance"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Telepathy"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Samcheon"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Baekhwa"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "regressor"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "New Buddha Cult"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Resurrection Church"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "The Hero"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Administrator"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "the Infinite Metagame"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Baekwha"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "The Hero"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Saintess"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Gate incident"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Korean Peninsula"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "regressor"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Demon King"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Undertaker"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Awakener"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "The Scream"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Kim Jun-young"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Namgung Muncheong"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Returnee Syndrome"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Hero Syndrome"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "COVID"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "SYSTEM"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Samcheon"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "LiteraryGirl"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Baekwha"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "dolLHoUse"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Constellation"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "ZERO_SUGAR"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "created_at": "2026-06-29T17:12:31.516426+00:00",
+  "scope": "hgd-ch251-ch255-v1_ch252_sentinel",
+  "chapters": "ch252",
+  "counts": {
+    "blocker": 5,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch252\\ch252.md",
+      "message": "final_output: approved English remains: Virtual Reality -> ความเป็นจริงเสมือน",
+      "evidence": "Virtual Reality.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch252\\ch252.md",
+      "message": "final_output: approved English remains: Guild Database -> ฐานข้อมูลกิลด์",
+      "evidence": "Guild Database.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch252\\ch252.md",
+      "message": "final_output: approved English remains: Section Chief -> หัวหน้าแผนก",
+      "evidence": "Section Chief.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch252\\ch252.md",
+      "message": "final_output: approved English remains: Third Order -> ลำดับที่สาม",
+      "evidence": "Third Order.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch252\\ch252.md",
+      "message": "final_output: approved English remains: Trait Swap -> สลับคุณลักษณะ",
+      "evidence": "Trait Swap.md"
+    }
+  ]
+}

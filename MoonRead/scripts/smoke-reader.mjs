@@ -124,19 +124,19 @@ async function main() {
 
     await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
     await page.screenshot({ path: path.join(outputDir, "moonread-home-desktop.png"), fullPage: true });
-    const hasHomeNavLink = await page.locator('nav[aria-label="Primary navigation"]').getByRole("link", { name: "หน้าแรก" }).isVisible();
+    const hasHomeNavLink = await page.locator('nav[aria-label="Primary navigation"]').getByRole("link", { name: "ค้นพบ" }).isVisible();
     const homeEvidence = await page.evaluate(({ hBookTitle }) => ({
       title: document.title,
       hasMoonRead: document.body.textContent.includes("MoonRead"),
       hasBookName: document.body.innerText.includes("Deep Sea Embers"),
       hasHorrorBook: document.body.innerText.includes(hBookTitle),
-      hasLibraryHero: Boolean(document.querySelector(".library-hero")),
+      hasLibraryHero: Boolean(document.querySelector(".hero")),
       siteTheme: document.documentElement.dataset.siteTheme,
-      logoSrc: document.querySelector(".brand-logo-img")?.getAttribute("src") || "",
+      logoSrc: document.querySelector(".brand img")?.getAttribute("src") || "",
     }), { hBookTitle: horrorBookTitle });
     homeEvidence.hasHomeNavLink = hasHomeNavLink;
 
-    await page.getByRole("button", { name: "สลับเป็นโหมดมืด" }).click();
+    await page.getByRole("button", { name: /^(สลับเป็นโหมดมืด|โหมดมืด)$/ }).click();
     const darkTheme = await page.evaluate(() => document.documentElement.dataset.siteTheme);
 
     await page.goto(`${baseUrl}/chapters`, { waitUntil: "networkidle" });
@@ -151,12 +151,12 @@ async function main() {
 
     await page.goto(`${baseUrl}/read/${first.id}`, { waitUntil: "networkidle" });
     await page.locator(".reader-topbar").waitFor({ state: "visible", timeout: 15000 });
-    await page.getByRole("button", { name: "ตั้งค่าการอ่าน" }).click();
+    await page.locator(".reader-topbar").getByRole("button", { name: "ตั้งค่าการอ่าน" }).click();
     await page.getByRole("button", { name: "กลางคืน" }).click();
     const readerEvidence = await page.evaluate(({ chapterTitle }) => ({
       hasSettings: document.body.innerText.includes("ตั้งค่าการอ่าน"),
       hasChapterTitle: document.body.innerText.includes(chapterTitle),
-      readerThemePersisted: localStorage.getItem("moonread-reader-settings")?.includes('"theme":"night"') || false,
+      readerThemePersisted: localStorage.getItem("moonread-state-v1")?.includes('"theme":"night"') || false,
     }), { chapterTitle: first.title });
 
     await page.goto(`${baseUrl}/read/${strongChapter.id}`, { waitUntil: "networkidle" });

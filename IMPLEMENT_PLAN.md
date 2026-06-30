@@ -1,6 +1,6 @@
 # Implement Plan
 
-Last updated: 2026-06-19
+Last updated: 2026-07-01
 
 This is the active roadmap. It should answer: what is done, what is next, when to stop, and how to verify completion. Long history belongs in `Deep Sea Embers/07_Reports/`, not here.
 
@@ -41,6 +41,7 @@ Completed:
 - V6.16/V6.16.5/V6.17/V6.17.1: HGD title/format audit and repair gate closed for published scope
 - V6.18: first narrow speed slice complete; formatting/openrouter concurrency=2 was benchmarked on ch051 and passed without enabling global concurrency by default
 - V6.22: multi-novel / per-novel quality layer split introduced through `00_Config/novel_registry.json`, MoonRead registry import, and registry-driven output guardrails
+- V6.31: root `ARCHITECTURE.md` created; architecture duplication was pruned from `PROJECT_BRAIN.md`, and `AGENTS.md` / `PROJECT_BRAIN.md` now reference the architecture source
 - HGD pronoun consistency repair closed for published scope: Seth-dominant chapters now use `ผม` consistently, HGD has an Obsidian pronoun policy note, prompts/profile/QA include the rule, and output guardrails cover known high-risk chapters
 
 Current production state:
@@ -77,6 +78,383 @@ Current production state:
 - Post-ch224 recurrence hardening added: HGD touched-scope cleanup repaired `ch091`, `ch222`, `ch235`, `ch236`, and `ch224` product-surface defects; MoonRead now has scoped `publish:verify` (`generate:chapters` -> scoped Sentinel -> lint -> build -> smoke); `run-sentinel-gate.mjs` refuses accidental full-workspace scans unless `SENTINEL_ALLOW_FULL=1`; generator validation rejects known fatal HGD product terms before reader import succeeds.
 - no current failed blocks are known
 - notable approved Deep Sea Embers terms include `实太阳神` -> `สุริยเทพที่แท้จริง` and `面具神` -> `เทพหน้ากาก`
+
+## Planned Milestone: V6.32 IRS Parallel-Ready Translation Experiment
+
+Goal: run a measured 20-chapter IRS translation experiment before committing to long parallel IRS batches. This gate is named **Libra - Pilot Gate**. It becomes the mandatory setup gate for every future novel: before a new novel is allowed to scale past pilot translation, it must randomly sample 20 chapters from fetched raw source, expose pipeline failure modes, classify each fix as multi-novel or novel-only, and prove that the improved workflow is faster and safer than the current manual recovery-heavy flow.
+
+Execution status:
+
+- 2026-06-29: In-sample treatment iteration failed gate before out-of-sample. Report: `Infinite Regressor Stories/07_Reports/v6_32_irs_experiment_iteration_20260629.md`.
+- Completed evidence before stop: isolated experiment vault created, baseline/sample report generated, IRS source-risk normalization added, embedded CJK gloss normalization added, rejected glossary variant repair/check added, IRS block size reduced from 1500 to 900 words, and tests passed.
+- Failed evidence: `irs-v6-32-insample-treatment-v2` completed 8/34 in-sample blocks and stopped at `ch019-block-002` QA after fallback chain reached Codex quota; Qwen fallback also hung once and required manual child-process cleanup.
+- 2026-06-29: V6.32.1 QA fallback hardening applied. Report: `Infinite Regressor Stories/07_Reports/v6_32_1_qa_fallback_hardening_20260629.md`.
+- Completed evidence in V6.32.1: Codex and qwen were removed from automatic QA fallback; provider timeout now kills process trees; source footnote marker preservation was added; `ch019-block-002` recovered from QA; compile and tests passed.
+- Failed evidence after V6.32.1: `irs-v6-32-insample-treatment-v3` progressed to 12 completed blocks / 3 completed chapters, then stopped at `ch006-block-003` QA because both `deepseek/deepseek-v4-flash` reasoning and `deepseek/deepseek-v4-pro` reasoning returned empty assistant messages.
+- 2026-06-29: Provider isolation showed reasoning-enabled OpenRouter Flash/Pro returned empty assistant messages on the full `ch006-block-003` QA prompt, while non-reasoning `deepseek/deepseek-v4-flash` and `google/gemini-3-flash-preview` returned usable PASS output.
+- 2026-06-29: V6.32 IRS experiment completed for IRS. In-sample `irs-v6-32-insample-treatment-v3` completed 34/34 blocks; out-of-sample `irs-v6-32-oos-v1` completed 32/32 blocks; current failed blocks are none; scoped deterministic output audit passed for all 20 sampled chapters. Completion report: `Infinite Regressor Stories/07_Reports/v6_32_irs_experiment_completion_20260629.md`.
+- Current decision: V6.32 passed as a mandatory setup experiment for IRS, but did not approve long unmonitored parallel production. Next IRS work should be a bounded sequential production pilot unless a dedicated parallelism milestone implements stronger concurrency controls.
+- 2026-06-29: V6.32G DSE repeat completed. DSE raw pool was fetched through `ch160`; sample seed `632160`; in-sample `dse-libra-pilot-insample-v1` completed 54/54 blocks; out-of-sample `dse-libra-pilot-oos-v1` completed 56/56 blocks; current failed blocks are none; output guardrails and Sentinel passed for all 20 sampled chapters. Completion report: `Deep Sea Embers/07_Reports/libra_pilot_gate_dse_completion_20260629.md`.
+- Current decision: DSE passed Libra - Pilot Gate, but the run confirmed translate/refine/QA throughput is still too slow under serial execution. Keep DSE production work bounded; treat broader parallelism as a dedicated milestone.
+- 2026-06-29: V6.32G HGD repeat completed. HGD raw pool was verified through `ch250`; sample seed `632250`; in-sample `hgd-libra-pilot-insample-v1` completed 10/10 chapters; out-of-sample was split into two 5-chapter glossary batches (`hgd-libra-pilot-oos-a-v1`, `hgd-libra-pilot-oos-b-v1`) and completed 10/10 chapters; current failed blocks are none; output guardrails and aggregate Sentinel passed for all 20 sampled chapters. Completion report: `Horror Game Developers/07_Reports/libra_pilot_gate_hgd_completion_20260629.md`.
+- Current decision: IRS, DSE, and HGD have all passed Libra - Pilot Gate. Production continuation may proceed only as bounded batches with glossary batch size 5, blocking Sentinel, and post-run guardrails. Long unmonitored parallel production remains unapproved.
+
+Why this exists:
+
+- IRS is the first English-source novel with unusual paragraph pacing, footnotes, Constellation/system messages, Korean names, and distorted/Zalgo sound effects.
+- The current IRS pilot exposed slow recovery paths: title sidecar requirements, glossary/title setup, provider timeouts, CJK/name leakage, English parenthetical leakage, runaway sound effects, local-recovery truncation, and manual artifact repair.
+- We should not scale to long parallel runs until the pipeline can survive representative IRS chapters without Codex repeatedly hand-editing artifacts.
+
+Experiment principle:
+
+- Treat this as a controlled pipeline experiment, not production publication.
+- Treat this as a required new-novel setup stage, not an optional optimization. The purpose is to tune the pipeline for the novel before long production batches begin.
+- Use isolated run IDs and reports so failed attempts do not pollute the intended production continuation.
+- Do not publish experiment output to MoonRead unless a later production gate explicitly approves it.
+- Preserve IRS source pacing by default; formatting changes must be minimal and must not collapse paragraphs.
+
+### V6.32A: Baseline And Hypotheses
+
+Baseline:
+
+- Use existing IRS pilot evidence from `ch001-ch015` and the interrupted `irs-ch016-ch020-v1` work as the current baseline.
+- Record current baseline metrics before changing runtime behavior:
+  - wall-clock time per chapter and per block
+  - provider calls per stage
+  - retry count by stage
+  - QA hard-fail count
+  - provider timeout / empty-output / mojibake count
+  - manual artifact repair count
+  - Sentinel blocker/major/minor count
+  - output guardrail failures
+  - MoonRead publish-readiness status, if generated
+
+Hypotheses to test:
+
+1. **Pre-normalizing source risk tokens improves reliability.**
+   - If Zalgo/distorted sound effects are normalized before provider calls, translation/refinement should stop producing runaway repeated characters and truncation.
+   - Expected measurable result: zero runaway-repeat failures and no local-recovery truncation in the 20-chapter test.
+
+2. **Risk-aware block splitting improves completion rate.**
+   - If long/high-risk blocks are split before translation or recovery, provider omission and empty-output rates should fall.
+   - Expected measurable result: lower QA omission hard-fails versus baseline, and no block requiring manual full-artifact rewrite.
+
+3. **Scoped Libra context improves glossary consistency without bloating prompts.**
+   - If each block receives only relevant glossary terms plus high-priority constants, approved-term coverage should improve without increasing provider failures.
+   - Expected measurable result: no blocker-level missing glossary coverage on character/entity/title/system terms.
+
+4. **Parallelism must start at the safest stages.**
+   - Formatting-only parallelism is already benchmarked; translation/refinement/QA parallelism should be tested only after source normalization and scoped glossary are stable.
+   - Expected measurable result: any enabled parallel slice improves wall-clock time by at least 25% while keeping blocker/major findings at zero.
+
+5. **Deterministic pre-QA checks reduce wasted provider calls.**
+   - If obvious failures are caught before provider QA, rerun loops should be shorter and cheaper.
+   - Expected measurable result: fewer provider QA calls per completed block without reducing final quality.
+
+### V6.32B: Sample Design
+
+Total experiment size: 20 IRS chapters.
+
+Sampling rule:
+
+- Libra - Pilot Gate requires the intended source scope to be fetched into `03_Raw/` before sampling. If the site cannot provide every chapter, record the verified fetchable scope first, then sample only from that complete fetchable scope.
+- Libra - Pilot Gate samples from fetched `03_Raw/` source chapters, not from only chapters that were already translated, already touched, or already known to be problematic.
+- The sample must be selected with a recorded fixed seed and must be reproducible from the raw-source chapter list.
+- Previously translated/problem chapters may appear only if the random raw-source sample selects them, or if they are explicitly added as a separate diagnostic add-on outside the 20-chapter gate.
+- This prevents the setup experiment from overfitting to old incidents and makes it reveal real source-distribution problems for the novel.
+
+In-sample set: 10 chapters used to tune and validate the fixes.
+
+- Choose 10 chapters from the recorded raw-source sample. Prefer stratified random sampling when metadata/risk tags are available, so the set includes representative risk types such as:
+  - distorted/Zalgo monster sounds
+  - footnotes
+  - Constellation/system bracket messages
+  - dense glossary use
+  - title sidecar requirements
+  - prior QA recovery incidents, if randomly selected
+- Candidate pool: fetched `03_Raw/` chapters only. For IRS that means the currently fetched source scope, not only the early pilot chapters.
+- These chapters must run under experiment run IDs; do not overwrite production-approved output without an explicit repair gate.
+
+Out-of-sample set: 10 held-back chapters used only after the in-sample fixes pass.
+
+- Choose the 10 held-back chapters from the same recorded raw-source sample process, excluding the in-sample chapters.
+- Selection seed, raw-source pool, exclusions, and final chapter IDs must be saved in the experiment report.
+- Do not tune rules after looking at out-of-sample failures unless the run is explicitly marked as a failed iteration and a new out-of-sample set is selected.
+
+Sample stratification:
+
+- At least 2 chapters with action/sound-effect-heavy content.
+- At least 2 chapters with system/Constellation/UI-style messages.
+- At least 2 chapters with heavy named-character or organization glossary usage.
+- At least 1 chapter with footnotes or translator-note risk.
+- At least 1 normal low-risk chapter to measure overhead.
+
+### V6.32C: Experiment Protocol
+
+Step 1: Freeze the baseline.
+
+- Save current IRS state report:
+  - fetched source scope
+  - existing translated scope
+  - current failed blocks
+  - current provider routing
+  - known IRS glossary/title sidecars
+  - known unresolved artifacts such as `ch019-block-002`, if still present
+- Generate a baseline report under `Infinite Regressor Stories/07_Reports/`.
+
+Step 2: Build preflight analyzers before running providers.
+
+- Add read-only analyzers first:
+  - source risk scanner: long block, Zalgo/distorted text, footnotes, bracket messages, repeated characters, likely title sidecar need
+  - block split recommender: report-only until approved
+  - glossary context preview: terms Libra would pass to each block
+  - parallel safety planner: which stages can safely run in parallel for the selected sample
+- Done when analyzers can run without provider calls and produce a per-chapter risk table.
+
+Step 3: Run in-sample baseline or baseline-equivalent pass.
+
+- Use bounded experiment run IDs, for example `irs-v6-32-insample-baseline-v1`.
+- Stop on manual QA prompt, provider failure, command length failure, validation failure, unexpected scope expansion, or artifact truncation.
+- Record every stop reason as a data point, not just as an operational blocker.
+
+Step 4: Implement the smallest fixes that address measured failures.
+
+Classify every fix by layer:
+
+- **Layer 0 multi-novel:** safe for all novels, such as repeated-character runaway detection, provider empty-output detection, stage timing metrics, scoped report generation, and no-token-leak logging.
+- **Layer 1 language:** English-to-Thai rules, such as parenthetical English leakage, bracketed system-message translation, and English sound-effect normalization.
+- **Layer 2 IRS novel:** IRS pacing preservation, IRS title style, Constellation term policy, and story-specific Korean/name rules.
+- **Layer 3 run/batch:** one-off recovery decisions for a specific block.
+
+Rule: implement at the lowest layer that catches the failure safely. Promote upward only after the same failure class appears outside IRS or outside English-source novels.
+
+Step 5: Rerun in-sample after fixes.
+
+- Use a new run ID, for example `irs-v6-32-insample-treatment-v1`.
+- Compare against baseline metrics.
+- Do not proceed to out-of-sample unless in-sample has:
+  - zero current failed blocks
+  - zero Sentinel blocker/major findings
+  - zero runaway/truncation findings
+  - no manual artifact rewrite required
+  - at least 25% wall-clock improvement if parallelism was enabled
+
+Step 6: Run out-of-sample.
+
+- Use the held-back out-of-sample chapters selected from the recorded fetched `03_Raw/` source pool.
+- Use a new run ID, for example `irs-v6-32-outsample-v1`.
+- No rule tuning during the run except emergency stop/recovery.
+- If out-of-sample fails, write a failure analysis before changing rules.
+
+Step 7: Decide production readiness.
+
+- Production IRS continuation can resume only if out-of-sample meets the acceptance gates below.
+- If not, loop back with a new hypothesis and rerun a smaller experiment; do not scale to long parallel batches.
+
+### V6.32D: Metrics And Acceptance Gates
+
+Primary metrics:
+
+- completion rate: target 20/20 chapters complete in experiment scope
+- current failed blocks: target 0
+- manual artifact rewrites: target 0; deterministic artifact regeneration is allowed only if scripted and verified
+- Sentinel blocker/major: target 0/0
+- output guardrail blockers: target 0
+- glossary coverage blockers: target 0
+- runaway repeated-character findings: target 0
+- source-vs-output truncation findings: target 0
+- provider timeout/empty-output rate: must be lower than baseline or have automatic safe retry/fallback
+- wall-clock speed: at least 25% faster than sequential baseline if any parallelism is enabled
+
+Secondary metrics:
+
+- average provider calls per block
+- QA retry count per block
+- formatting validation fallback rate
+- prompt glossary term count per block
+- average block size and split count
+- report generation time
+- false-positive count in deterministic checks
+
+Acceptance gates:
+
+- In-sample treatment passes all primary quality metrics before out-of-sample starts.
+- Out-of-sample passes all primary quality metrics before any production parallel batch is approved.
+- Any speed improvement is rejected if it increases blocker/major findings, truncation, glossary misses, or manual repair count.
+- If the result is faster but less reliable, the milestone fails and the change stays disabled.
+- If the result is reliable but not faster, keep the quality improvements and defer parallelism.
+
+### V6.32E: Feedback Loop
+
+For each failed block or rejected output:
+
+1. Identify the earliest broken stage: source/fetch, split, glossary, translate, refine, QA, format, Sentinel, or MoonRead.
+2. Record the failure class:
+   - provider timeout
+   - empty output
+   - command length
+   - mojibake
+   - runaway repeated characters
+   - omission/truncation
+   - glossary miss
+   - title sidecar miss
+   - English leakage
+   - formatting/pacing drift
+   - false positive guardrail
+3. Decide the layer for the fix: multi-novel, language, IRS novel, or run-local.
+4. Add the smallest deterministic check or scripted recovery that prevents recurrence.
+5. Add or update a test/fixture when the failure class can recur.
+6. Rerun only the affected sample, then rerun the full in-sample gate.
+7. Promote to out-of-sample only after the in-sample gate is clean.
+
+Feedback loop stops only when:
+
+- out-of-sample passes acceptance gates, or
+- the same provider/infrastructure blocker repeats three times and requires user decision, or
+- measured quality degrades versus the current safe sequential workflow.
+
+### V6.32F: Parallel Batch Readiness Decision
+
+Parallelism levels:
+
+1. **Level P0: no runtime parallelism.**
+   - Only analyzers and report generation may run independently.
+   - Use this if provider instability dominates.
+
+2. **Level P1: formatting-only parallelism.**
+   - Already benchmarked as the safest speed slice.
+   - Can be reused if AI formatting validation remains strict.
+
+3. **Level P2: chapter-level pipeline parallelism with stage locks.**
+   - Different chapters may run in parallel only if provider rate limits, ledger writes, artifact paths, and report generation are isolated.
+   - Must preserve append-only ledger safety and chapter output assembly order.
+
+4. **Level P3: block-level translation/refinement/QA parallelism.**
+   - Highest risk. Only consider after P2 works.
+   - Requires provider concurrency limits, per-block locks, deterministic merge order, and clear resume semantics.
+
+Initial recommendation:
+
+- Start V6.32 with P0/P1 only.
+- Use experiment evidence to decide whether P2 is worth implementing.
+- Do not attempt P3 until IRS out-of-sample passes cleanly with P2 or until a dedicated concurrency design milestone is approved.
+
+Done when:
+
+- `IMPLEMENT_PLAN.md` contains this experiment protocol.
+- `ARCHITECTURE.md` records the 20-chapter randomized experiment as a mandatory new-novel setup gate before scaled production translation.
+- An experiment report exists with baseline, in-sample, out-of-sample, metrics, failures, fixes, and production recommendation. IRS evidence: `Infinite Regressor Stories/07_Reports/v6_32_irs_experiment_completion_20260629.md`.
+- Any implemented fixes are classified by layer and verified by tests or deterministic checks.
+- The final recommendation says one of:
+  - safe to run IRS production sequentially only
+  - safe to run IRS with formatting-only parallelism
+  - safe to implement/test chapter-level parallelism next
+  - not safe to continue until a specific blocker is fixed
+
+Current IRS recommendation: safe to run IRS production sequentially only. Long unmonitored parallel production is not approved because retries/recoveries, timeout cleanup, reasoning-QA empty output, and a repeated-character truncation incident still require stronger shared guardrails.
+
+Stop conditions:
+
+- experiment output would overwrite production-approved chapters without explicit approval
+- provider output contains token/API key or meta text
+- current failed block is unresolved
+- manual QA prompt appears
+- source range expands beyond the selected 10 chapters
+- MoonRead publication is attempted before production approval
+
+### V6.32G: Repeat Experiment For Existing Novels
+
+After IRS passes V6.32 in-sample and out-of-sample gates, repeat the same 20-chapter randomized experiment on the existing production novels to prove the pipeline improvements generalize.
+
+Order:
+
+1. Deep Sea Embers - complete, report `Deep Sea Embers/07_Reports/libra_pilot_gate_dse_completion_20260629.md`
+2. Horror Game Developer - complete, report `Horror Game Developers/07_Reports/libra_pilot_gate_hgd_completion_20260629.md`
+
+Rules:
+
+- Use each novel's own vault/profile/glossary/source quirks.
+- Use 10 in-sample chapters and 10 out-of-sample chapters.
+- Sample from each novel's fetched `03_Raw/` source pool with a recorded seed. Already translated chapters may appear only if selected by the raw-source sample, or as a clearly separate diagnostic add-on outside the 20-chapter gate.
+- Do not publish experiment output to MoonRead unless a separate publication gate approves it.
+- Classify every finding by layer: multi-novel, language, novel, or run-local.
+
+Done when:
+
+- IRS, DSE, and HGD each have a V6.32 experiment report.
+- All three reports show zero current failed blocks, zero Sentinel blocker/major findings, and no manual artifact rewrite requirement.
+- Any recurring cross-novel failure has a shared guardrail or documented rule in the correct layer.
+
+Current status:
+
+- IRS: complete.
+- DSE: complete.
+- HGD: complete.
+
+## Active Milestone: V6.33 Post-Pilot Production Continuation
+
+Goal: continue production translation after all three active novels have passed Libra - Pilot Gate, without mixing experiment artifacts into production output.
+
+Current status as of 2026-07-01:
+
+- HGD `ch251-ch270` translation output is complete and published to MoonRead. Sentinel final report `07_Reports/sentinel_quality_hgd-v6-33-ch251-ch270-final_20260629_200006.md` reports blocker/major/minor/info `0/0/0/0`; publish Sentinel report `07_Reports/sentinel_quality_moonread-hgd-ch251-ch270-publish_20260630_172638.md` reports `0/0/0/0`.
+- DSE `ch161-ch180` translation output is complete and published to MoonRead. Sentinel final report `07_Reports/sentinel_quality_dse-v6-33-ch161-ch180-final_20260630_005304.md` reports blocker/major/minor/info `0/0/0/0`; publish Sentinel report `07_Reports/sentinel_quality_moonread-dse-ch161-ch180-publish_20260630_172640.md` reports `0/0/0/0`.
+- IRS clean `ch001-ch050` translation output is complete and published to MoonRead. All 10 clean 5-chapter batch statuses report current failed blocks: none and manual actions needed: none. Blocking Sentinel report `07_Reports/sentinel_quality_irs-clean-ch001-ch050-final-after-leakage-rule_20260630_101639.md` reports `0/0/0/0`. Advisory report `07_Reports/sentinel_quality_irs-clean-ch001-ch050-final-advisory-review-after-leakage-rule_20260630_101829.md` reports `0/0/80/0` minor suspicious-English review items. Publish Sentinel report `07_Reports/sentinel_quality_moonread-irs-ch001-ch050-publish_20260630_172648.md` reports `0/0/0/0`. Completion report: `Infinite Regressor Stories/07_Reports/irs_clean_retranslate_ch001_ch050_completion_20260630.md`.
+- A new Sentinel regression prevents glossary/category note tails from leaking into final output after IRS ch020 exposed that failure mode.
+- MoonRead `generate:chapters` produced 3 books / 500 available chapters / 0 missing / 0 rejected; `lint`, `build`, and `smoke` passed after publication.
+
+Requested scope:
+
+1. Horror Game Developer: translate 20 additional source-number chapters after the current published scope.
+2. Deep Sea Embers: translate 20 additional chapters after the current published scope.
+3. Infinite Regressor Stories: discard old translation attempts for production purposes and start a clean retranslation from `ch001-ch050`.
+
+Hard rules:
+
+- Use glossary batches of 5 chapters for all three novels.
+- Do not reuse experiment run IDs for production.
+- Do not publish a range until output guardrails, aggregate Sentinel, and MoonRead publish verification pass for that touched range.
+- Keep production sequential/bounded unless a later parallelism milestone explicitly approves broader concurrency.
+
+V6.33A: Production Planning
+
+- Confirm available raw source scope for each novel before choosing exact ranges.
+- For HGD, do not assume chapters beyond `ch250` are fetched or available; fetch/verify the next source scope first.
+- For DSE, fetch/verify the next 20-chapter raw scope before glossary scan.
+- For IRS, define a clean production run family for `ch001-ch050`; isolate or archive old pilot outputs so production status is not confused.
+
+Done when:
+
+- exact chapter ranges and run IDs are written in a short production command packet
+- source sequence/fetch checks pass for those ranges
+- no run starts before glossary batch 1 is defined
+
+V6.33B: Batch Execution Pattern
+
+For each novel:
+
+1. Run scan-only for 5 chapters.
+2. Review/approve glossary decisions.
+3. Translate/refine/QA/format/Sentinel for those 5 chapters.
+4. Run output guardrails and aggregate Sentinel for the touched range.
+5. Repeat until the requested scope completes.
+
+Done when:
+
+- HGD requested continuation scope completes or the available source scope is exhausted and documented: done for `ch251-ch270`
+- DSE requested continuation scope completes or the available source scope is exhausted and documented: done for `ch161-ch180`
+- IRS `ch001-ch050` clean production retranslation completes: done
+- MoonRead publication is updated only after each novel's verification passes: done for DSE through `ch180`, HGD through `ch270`, and IRS through `ch050`
+
+V6.33 Stop Conditions:
+
+- source range is missing or source numbering diverges
+- glossary approval is incomplete
+- current failed block exists
+- manual QA prompt appears
+- provider timeout/empty output repeats for the same stage
+- Sentinel blocker/major appears
+- MoonRead publish verification fails
 
 ## Active Milestone: V6.25 Sentinel Quality Gate
 
@@ -859,16 +1237,216 @@ Required before starting:
 
 Do not start this milestone without explicit user approval.
 
+## Planned Milestone: V6.30 Language Playbooks
+
+Goal: create reusable language-level operating notes so a new novel in a known source language starts with fewer repeated mistakes.
+
+Why this exists:
+
+- The project has now handled Chinese-to-Thai and English-to-Thai production output.
+- Some recurring failures are language-specific, not only novel-specific: Chinese chapter-title sidecars and named terms; English UI/game terms, parenthetical leakage, pronoun voice, and sound effects.
+- A language playbook should sit between the multi-novel policy layer and each novel profile. It should reduce setup risk without becoming a long history file.
+
+Scope:
+
+- Create `00_Config/language_playbooks/chinese_to_thai.md`.
+- Create `00_Config/language_playbooks/english_to_thai.md`.
+- Link both files from the new-novel setup flow and documentation.
+- Keep novel-specific glossary, pronoun policy, title mappings, and source-site quirks in the novel profile/vault, not in the language playbook.
+
+Each playbook must include:
+
+- title translation rules
+- pronoun and register risks
+- name transliteration risks
+- glossary candidate policy
+- dialogue, thought, UI, skill, and sound-effect formatting expectations
+- common false positives and false negatives
+- QA/Sentinel checks that should be enabled for that language
+- short examples of bad output -> preferred output
+
+Language-specific starting points:
+
+- Chinese-to-Thai: require translated title sidecars for named Chinese chapter titles; watch for compact proper nouns, honorific/title terms, cultivation/lore terms, and source-language leakage in body text.
+- English-to-Thai: watch for English original leakage, parenthetical bilingual leftovers, game/system UI terms, rank/role drift, sound-effect translation, markdown emphasis, and first-person pronoun consistency.
+
+Done when:
+
+- both playbook files exist and are short enough to be read during setup
+- `PROJECT_BRAIN.md` mentions language playbooks as part of the multi-novel operating model
+- `IMPLEMENT_PLAN.md` and setup docs explain that new novel setup should choose a language playbook before glossary scan
+- no provider routing, translation artifacts, ledger, glossary notes, or MoonRead generated content are changed
+- deterministic verification passes: `git diff --check`, doc UTF-8 read, and working tree contains only intended docs/playbook files
+
+Feedback loop:
+
+1. When a language-specific issue recurs, add a compact rule or example to the relevant playbook.
+2. If the rule is actually novel-specific, record it in that novel's profile/vault instead.
+3. If the rule is safe across all languages, promote it to the multi-novel Sentinel or registry layer.
+4. After every new-novel setup, note which playbook was used and whether it prevented or missed any setup defects.
+
+## Completed Milestone: V6.31 Architecture Map
+
+Completed: 2026-06-23
+
+Goal: create one compact architecture document that explains how the whole translation product works today, where each source of truth lives, and how future agents should reason about boundaries before editing.
+
+Why this exists:
+
+- The system now spans pipeline code, provider routing, language/novel policy, glossary workflow, Sentinel, dashboard, MoonRead, reports, and recovery.
+- `PROJECT_BRAIN.md` should not carry the entire architecture. It should stay focused on current state, risks, and guardrails.
+- `IMPLEMENT_PLAN.md` should not become an architecture manual. It should describe milestones and acceptance gates.
+- Future workers need a stable map so they do not accidentally fix the wrong layer, duplicate policy, or treat generated reader files as source of truth.
+
+Primary artifact:
+
+- Create `ARCHITECTURE.md` at `D:\Fogust\Workspace\Novel\ARCHITECTURE.md`.
+
+Document shape:
+
+1. System Purpose
+   - what the product does
+   - what it explicitly does not do
+   - who uses it: user, Codex architect, bounded worker, dashboard operator
+
+2. Source Of Truth Map
+   - `AGENTS.md`: work policy
+   - `PROJECT_BRAIN.md`: current state, risks, guardrails
+   - `IMPLEMENT_PLAN.md`: roadmap and milestone acceptance
+   - `ARCHITECTURE.md`: system structure and boundaries
+   - `DOC_RECOVERY.md`: canonical doc recovery hashes
+   - `00_Config/novel_registry.json`: registered novels, reader scope, shared quality metadata
+   - `00_Config/language_playbooks/*.md`: reusable language-level translation rules
+   - `.system/config.yaml` and `.system/providers.yaml`: pipeline and provider routing for the current runtime
+   - `03_Raw/`: fetched source
+   - `04_Work/`: intermediate artifacts
+   - `05_Output/`: final translated Markdown product
+   - `06_Logs/run_ledger.jsonl`: append-only execution history
+   - `07_Reports/`: evidence and handoff reports
+   - `MoonRead/content/generated/`: generated reader copy, not translation source of truth
+
+3. Layer Model
+   - Layer 0: multi-novel shared policy, registry, shared guardrails, Sentinel base rules
+   - Layer 1: language playbook, such as Chinese-to-Thai and English-to-Thai
+   - Layer 2: novel profile/vault, glossary, pronoun policy, title policy, source-site quirks
+   - Layer 3: run/batch artifacts, ledger, reports, recovery state
+   - Layer 4: MoonRead reader surface and generated content
+   - rule: fix a recurring issue at the lowest layer that catches it safely; promote only after evidence proves the rule is general
+
+4. Pipeline Flow
+   - setup/fetch
+   - source validation and chapter numbering check
+   - split/blocking
+   - glossary scan
+   - glossary approval
+   - literal translation
+   - refinement
+   - QA
+   - AI formatting
+   - deterministic output validation
+   - Sentinel
+   - final assembly
+   - report generation
+   - MoonRead generation and scoped publish verification
+
+5. Actor / Employee Map
+   - Ferryman: setup, fetch, project entry
+   - Libra: glossary scan/approval and glossary coverage
+   - Quill: literal translation
+   - Vesper: refinement
+   - Corvus: QA
+   - Loom: formatting
+   - Sentinel: post-output quality gate
+   - Archivist: reports and output records
+   - Warden: recovery and rerun flow
+   - note that employee names are dashboard/docs aliases; ledger/config stage names remain authoritative
+
+6. Provider Routing Map
+   - role -> provider/model -> fallback chain
+   - note which routes are production, fallback, benchmark-only, or explicitly banned
+   - document that provider routing changes require explicit user approval and tests
+
+7. Guardrail Stack
+   - provider output validation
+   - QA stage
+   - output quality guardrail
+   - Libra glossary coverage
+   - Sentinel report/gate
+   - MoonRead generator validation
+   - MoonRead scoped `publish:verify`
+   - major-run spot-check checklist
+
+8. Failure And Recovery Model
+   - provider failure
+   - command length failure
+   - QA hard-fail
+   - formatting validation failure
+   - Sentinel blocker/major finding
+   - source chapter numbering mismatch
+   - MoonRead generation/build/smoke failure
+   - rule: stop, inspect, repair from earliest broken stage, rerun scoped verification, then record cause/prevention
+
+9. New Novel Setup Flow
+   - create/open novel vault
+   - register novel
+   - choose language playbook
+   - research novel and save profile
+   - configure/fix fetch adapter
+   - run source/fetch validation
+   - scan glossary
+   - approve glossary terms
+   - run bounded translation
+   - publish verified MoonRead output
+
+10. Boundaries And Non-Goals
+   - MoonRead does not edit translation artifacts
+   - ledger is append-only
+   - generated reader content is disposable/regenerable
+   - worker reports are claims until verified
+   - do not store cross-novel durable policy inside one novel folder
+   - do not add provider calls to docs-only or architecture-only tasks
+
+Implementation steps:
+
+1. Read `AGENTS.md`, `PROJECT_BRAIN.md`, `IMPLEMENT_PLAN.md`, `DOC_RECOVERY.md`, `00_Config/novel_registry.json`, `MoonRead/package.json`, and current provider config.
+2. Draft `ARCHITECTURE.md` with the sections above.
+3. Keep it compact enough for Codex/workers to read before work. Target about 150-250 lines.
+4. Prune architecture duplication from `PROJECT_BRAIN.md` after `ARCHITECTURE.md` exists:
+   - move durable structure into `ARCHITECTURE.md`
+   - leave only current verified state, current risks, short current routing summary, active guardrails, and next safe action in `PROJECT_BRAIN.md`
+   - replace removed sections with a short pointer to `ARCHITECTURE.md`
+   - do not remove current incidents or risks that still affect operations
+5. Add a short reference to `ARCHITECTURE.md` in `PROJECT_BRAIN.md` and `AGENTS.md`.
+6. Do not move files, change runtime behavior, edit generated MoonRead content, or change provider routing in this milestone.
+
+Done when:
+
+- `ARCHITECTURE.md` exists at repo root
+- it clearly separates source of truth, layers, pipeline flow, actors, provider routing, guardrails, recovery, and new-novel setup
+- architecture-level duplication is removed from `PROJECT_BRAIN.md` after being preserved in `ARCHITECTURE.md`
+- `PROJECT_BRAIN.md` and `AGENTS.md` reference it as the architecture source
+- `PROJECT_BRAIN.md` remains compact and current-state focused, not a second architecture manual
+- no code/config/runtime artifacts are modified
+- deterministic verification passes: `git diff --check`, UTF-8 read of all touched docs, and `git status --short --untracked-files=all`
+
+Feedback loop:
+
+1. When a future incident shows confusion about layer/source-of-truth ownership, update `ARCHITECTURE.md` with the smallest clarifying rule.
+2. If the update is about current state, put it in `PROJECT_BRAIN.md` instead.
+3. If the update is about future work, put it in `IMPLEMENT_PLAN.md` instead.
+4. If the update is about agent behavior, put it in `AGENTS.md` instead.
+
 ## Backlog
 
 Use this order unless the user changes priorities:
 
-1. Continue Deep Sea Embers from a new scan-only gate if the user approves production translation beyond ch050.
-2. Decide whether formatting-only concurrency should remain benchmark-only or become an operator-approved option.
-3. Improve provider QA reliability if false passes or parse failures recur.
-4. Decide visible untracked glossary/report queue: resolve the `真实的太阳神` / `实太阳神` shared-Thai rendering question, then archive the 14 intermediate/probe reports if a cleaner report directory is needed; discard only by explicit decision.
-5. Expand multi-novel support when a second full novel workflow is actively needed.
-6. Polish dashboard UX only where it reduces operator errors.
+1. Implement V6.30 Language Playbooks before onboarding another novel in Chinese or English.
+2. Continue Deep Sea Embers from a new scan-only gate if the user approves production translation beyond ch050.
+3. Decide whether formatting-only concurrency should remain benchmark-only or become an operator-approved option.
+4. Improve provider QA reliability if false passes or parse failures recur.
+5. Decide visible untracked glossary/report queue: resolve the `真实的太阳神` / `实太阳神` shared-Thai rendering question, then archive the 14 intermediate/probe reports if a cleaner report directory is needed; discard only by explicit decision.
+6. Expand multi-novel support when a second full novel workflow is actively needed.
+7. Polish dashboard UX only where it reduces operator errors.
 
 ## Acceptance Gates For Any Milestone
 

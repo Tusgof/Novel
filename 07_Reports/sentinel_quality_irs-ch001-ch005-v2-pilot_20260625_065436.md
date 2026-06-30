@@ -1,0 +1,171 @@
+# Sentinel Quality Report - irs-ch001-ch005-v2-pilot
+
+- Created: 2026-06-25T06:54:36.402579+00:00
+- Chapters: ch001-ch005
+- Safe to publish: no
+- Blocker/Major/Minor/Info: 78/0/80/0
+
+## Next Action
+
+- Stop publish. Repair blocker findings, then rerun Sentinel.
+
+## Findings
+
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Administrator.md: approved glossary term has unusable thai_term. Evidence: `???????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Arthur Schopenhauer.md: approved glossary term has unusable thai_term. Evidence: `????????? ?????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Awakener.md: approved glossary term has unusable thai_term. Evidence: `??????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Baekje Hospital.md: approved glossary term has unusable thai_term. Evidence: `???????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Baekwha.md: approved glossary term has unusable thai_term. Evidence: `???????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Busan Station Gate.md: approved glossary term has unusable thai_term. Evidence: `???????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Busan Station.md: approved glossary term has unusable thai_term. Evidence: `??????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Busan.md: approved glossary term has unusable thai_term. Evidence: `?????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Constellation.md: approved glossary term has unusable thai_term. Evidence: `????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Demon King.md: approved glossary term has unusable thai_term. Evidence: `?????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Emit Schopenhauer.md: approved glossary term has unusable thai_term. Evidence: `????? ?????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Gate incident.md: approved glossary term has unusable thai_term. Evidence: `??????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Han River.md: approved glossary term has unusable thai_term. Evidence: `?????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Hero Syndrome.md: approved glossary term has unusable thai_term. Evidence: `?????????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Infinite Metagame.md: approved glossary term has unusable thai_term. Evidence: `?????????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Infinite Regression.md: approved glossary term has unusable thai_term. Evidence: `?????????????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Jamsu Bridge.md: approved glossary term has unusable thai_term. Evidence: `??????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Kim Jun-young.md: approved glossary term has unusable thai_term. Evidence: `?????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Korean Peninsula.md: approved glossary term has unusable thai_term. Evidence: `??????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Moral Law.md: approved glossary term has unusable thai_term. Evidence: `?????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Namgung Muncheong.md: approved glossary term has unusable thai_term. Evidence: `????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\National Assembly Building.md: approved glossary term has unusable thai_term. Evidence: `???????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\New Buddha Cult.md: approved glossary term has unusable thai_term. Evidence: `????????????????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Old Man Scho.md: approved glossary term has unusable thai_term. Evidence: `???????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\regressor.md: approved glossary term has unusable thai_term. Evidence: `???????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Resurrection Church.md: approved glossary term has unusable thai_term. Evidence: `???????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Returnee Syndrome.md: approved glossary term has unusable thai_term. Evidence: `???????????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Saintess.md: approved glossary term has unusable thai_term. Evidence: `??????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Samcheon.md: approved glossary term has unusable thai_term. Evidence: `??????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Seoul.md: approved glossary term has unusable thai_term. Evidence: `???`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\South Korea.md: approved glossary term has unusable thai_term. Evidence: `?????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Swordmaster.md: approved glossary term has unusable thai_term. Evidence: `???????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Ten Legs.md: approved glossary term has unusable thai_term. Evidence: `?????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\The Hero.md: approved glossary term has unusable thai_term. Evidence: `???????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\The Observer.md: approved glossary term has unusable thai_term. Evidence: `??????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\The Partner.md: approved glossary term has unusable thai_term. Evidence: `?????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Time Seal.md: approved glossary term has unusable thai_term. Evidence: `????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Undertaker.md: approved glossary term has unusable thai_term. Evidence: `????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Yeouido.md: approved glossary term has unusable thai_term. Evidence: `??????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Administrator.md: approved glossary term has unusable thai_term. Evidence: `???????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Arthur Schopenhauer.md: approved glossary term has unusable thai_term. Evidence: `????????? ?????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Awakener.md: approved glossary term has unusable thai_term. Evidence: `??????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Baekje Hospital.md: approved glossary term has unusable thai_term. Evidence: `???????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Baekwha.md: approved glossary term has unusable thai_term. Evidence: `???????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Busan Station Gate.md: approved glossary term has unusable thai_term. Evidence: `???????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Busan Station.md: approved glossary term has unusable thai_term. Evidence: `??????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Busan.md: approved glossary term has unusable thai_term. Evidence: `?????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Constellation.md: approved glossary term has unusable thai_term. Evidence: `????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Demon King.md: approved glossary term has unusable thai_term. Evidence: `?????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Emit Schopenhauer.md: approved glossary term has unusable thai_term. Evidence: `????? ?????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Gate incident.md: approved glossary term has unusable thai_term. Evidence: `??????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Han River.md: approved glossary term has unusable thai_term. Evidence: `?????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Hero Syndrome.md: approved glossary term has unusable thai_term. Evidence: `?????????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Infinite Metagame.md: approved glossary term has unusable thai_term. Evidence: `?????????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Infinite Regression.md: approved glossary term has unusable thai_term. Evidence: `?????????????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Jamsu Bridge.md: approved glossary term has unusable thai_term. Evidence: `??????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Kim Jun-young.md: approved glossary term has unusable thai_term. Evidence: `?????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Korean Peninsula.md: approved glossary term has unusable thai_term. Evidence: `??????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Moral Law.md: approved glossary term has unusable thai_term. Evidence: `?????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Namgung Muncheong.md: approved glossary term has unusable thai_term. Evidence: `????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\National Assembly Building.md: approved glossary term has unusable thai_term. Evidence: `???????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\New Buddha Cult.md: approved glossary term has unusable thai_term. Evidence: `????????????????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Old Man Scho.md: approved glossary term has unusable thai_term. Evidence: `???????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\regressor.md: approved glossary term has unusable thai_term. Evidence: `???????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Resurrection Church.md: approved glossary term has unusable thai_term. Evidence: `???????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Returnee Syndrome.md: approved glossary term has unusable thai_term. Evidence: `???????????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Saintess.md: approved glossary term has unusable thai_term. Evidence: `??????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Samcheon.md: approved glossary term has unusable thai_term. Evidence: `??????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Seoul.md: approved glossary term has unusable thai_term. Evidence: `???`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\South Korea.md: approved glossary term has unusable thai_term. Evidence: `?????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Swordmaster.md: approved glossary term has unusable thai_term. Evidence: `???????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Ten Legs.md: approved glossary term has unusable thai_term. Evidence: `?????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\The Hero.md: approved glossary term has unusable thai_term. Evidence: `???????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\The Observer.md: approved glossary term has unusable thai_term. Evidence: `??????????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\The Partner.md: approved glossary term has unusable thai_term. Evidence: `?????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Time Seal.md: approved glossary term has unusable thai_term. Evidence: `????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Undertaker.md: approved glossary term has unusable thai_term. Evidence: `????????`.
+- **blocker** `glossary_health` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\01_Glossary\Yeouido.md: approved glossary term has unusable thai_term. Evidence: `??????`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `The Partner`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `Infinite Regression`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `Old Man Scho`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `Resume`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `regressor`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `Ten Legs`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `Seoul`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `South Korea`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `Han River`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `Busan`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `Emit Schopenhauer`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `Swordmaster`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `The World`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `Will and Representation`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch002\ch002.md: English token remains in product surface; review if intentional. Evidence: `Baekje Hospital`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch002\ch002.md: English token remains in product surface; review if intentional. Evidence: `lait`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch002\ch002.md: English token remains in product surface; review if intentional. Evidence: `Time Seal`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch002\ch002.md: English token remains in product surface; review if intentional. Evidence: `Seoul`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch002\ch002.md: English token remains in product surface; review if intentional. Evidence: `Sword Star`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch002\ch002.md: English token remains in product surface; review if intentional. Evidence: `Busan Station`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch002\ch002.md: English token remains in product surface; review if intentional. Evidence: `regressor`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch002\ch002.md: English token remains in product surface; review if intentional. Evidence: `Emit Schopenhauer`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch002\ch002.md: English token remains in product surface; review if intentional. Evidence: `Old Man Scho`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `The Observer`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `Old Man Scho`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `Saintess`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `Gate`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `Seoul`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `National Assembly Building`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `Yeouido`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `Awakener`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `The Saintess`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `National Salvation`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `Busan Station`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `The Chancellor`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `the Red Cape`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `Constellation`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `The Conqueror`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `the Alps`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `K-pop`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `Swordmaster`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `infinite regressor`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `Undertaker`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch004\ch004.md: English token remains in product surface; review if intentional. Evidence: `Awakened`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch004\ch004.md: English token remains in product surface; review if intentional. Evidence: `Saintess`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch004\ch004.md: English token remains in product surface; review if intentional. Evidence: `Undertaker`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch004\ch004.md: English token remains in product surface; review if intentional. Evidence: `Awakener`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch004\ch004.md: English token remains in product surface; review if intentional. Evidence: `Constellation`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch004\ch004.md: English token remains in product surface; review if intentional. Evidence: `Clairvoyance`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch004\ch004.md: English token remains in product surface; review if intentional. Evidence: `Telepathy`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch004\ch004.md: English token remains in product surface; review if intentional. Evidence: `Samcheon`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch004\ch004.md: English token remains in product surface; review if intentional. Evidence: `Baekhwa`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch004\ch004.md: English token remains in product surface; review if intentional. Evidence: `regressor`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch004\ch004.md: English token remains in product surface; review if intentional. Evidence: `New Buddha Cult`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch004\ch004.md: English token remains in product surface; review if intentional. Evidence: `Resurrection Church`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch004\ch004.md: English token remains in product surface; review if intentional. Evidence: `The Hero`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch004\ch004.md: English token remains in product surface; review if intentional. Evidence: `Administrator`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch004\ch004.md: English token remains in product surface; review if intentional. Evidence: `the Infinite Metagame`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch004\ch004.md: English token remains in product surface; review if intentional. Evidence: `Baekwha`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `The Hero`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `Saintess`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `Gate incident`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `Korean Peninsula`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `regressor`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `Demon King`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `Undertaker`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `Awakener`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `The Scream`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `Kim Jun-young`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `Namgung Muncheong`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `Returnee Syndrome`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `Hero Syndrome`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `COVID`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `SYSTEM`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `Samcheon`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `LiteraryGirl`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `Baekwha`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `dolLHoUse`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `Constellation`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Infinite Regressor Stories\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `ZERO_SUGAR`.

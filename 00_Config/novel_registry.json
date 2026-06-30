@@ -22,7 +22,7 @@
         "enabled": true,
         "legacy_default": true,
         "first_chapter": 1,
-        "last_chapter": 160,
+        "last_chapter": 180,
         "title": "Deep Sea Embers",
         "thai_title": "เถ้าถ่านแห่งทะเลลึก",
         "author": "远瞳 (Yuan Tong)",
@@ -59,7 +59,7 @@
         "enabled": true,
         "legacy_default": false,
         "first_chapter": 1,
-        "last_chapter": 250,
+        "last_chapter": 270,
         "title": "Horror Game Developer: My Games Aren't That Scary!",
         "thai_title": "นักพัฒนาเกมสยองขวัญ: เกมของผมไม่ได้น่ากลัวขนาดนั้นซะหน่อย!",
         "author": "Entrail_JI",
@@ -156,6 +156,46 @@
           "ก่อนจะ",
           "มือเธอ"
         ]
+      }
+    },
+    {
+      "slug": "infinite-regressor-stories",
+      "folder": "Infinite Regressor Stories",
+      "source_language": "en",
+      "raw_dir": "03_Raw",
+      "work_dir": "04_Work",
+      "output_dir": "05_Output",
+      "reader": {
+        "enabled": true,
+        "legacy_default": false,
+        "first_chapter": 1,
+        "last_chapter": 50,
+        "title": "I'm an Infinite Regressor, But I've Got Stories to Tell",
+        "thai_title": "ผมเป็นผู้ย้อนกลับอนันต์ แต่มีเรื่องจะเล่า",
+        "author": "Sinnoa (신노아)",
+        "synopsis": "ผู้ย้อนกลับที่ผ่านจุดจบซ้ำแล้วซ้ำเล่าไม่ได้มีแค่ชัยชนะหรือหายนะให้จดจำ แต่ยังมีเรื่องราวของผู้คน ยุคสมัย และโลกที่พังทลายให้เล่าต่อ นี่คือบันทึกจากคนที่วนกลับมาไม่รู้จบ และยังไม่ยอมปล่อยให้เรื่องเหล่านั้นหายไป",
+        "synopsis_source_url": "https://www.novelupdates.com/series/im-an-infinite-regressor-but-ive-got-stories-to-tell/",
+        "synopsis_source_note": "Reader blurb is deferred until the novel has enough translated chapters for the 60-chapter blurb gate.",
+        "tags": [
+          "ย้อนเวลา",
+          "วันสิ้นโลก",
+          "แฟนตาซี",
+          "จิตวิทยา",
+          "ดราม่า"
+        ],
+        "cover": "",
+        "source_root_env": "IRS_READER_SOURCE_ROOT",
+        "first_chapter_env": "IRS_READER_FIRST_CHAPTER",
+        "last_chapter_env": "IRS_READER_LAST_CHAPTER"
+      },
+      "title_policy": {
+        "english_source_titles_require_thai_output": true,
+        "generic_title_prefix": "บทที่"
+      },
+      "quality": {
+        "max_paragraph_chars": 650,
+        "truncation_min_source_chars": 2500,
+        "truncation_min_ratio": 0.45
       }
     }
   ]

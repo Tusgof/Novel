@@ -330,16 +330,26 @@ def output_has_glossary_translation(term: GlossaryTerm, text: str) -> bool:
     return False
 
 
-def covered_by_longer_source_term(term: GlossaryTerm, matched_terms: list[GlossaryTerm], translated_text: str) -> bool:
-    """Avoid double-reporting subterms when the longer approved term is already rendered."""
-    for longer in matched_terms:
-        if longer is term:
+def source_terms_overlap(shorter: str, longer: str) -> bool:
+    if shorter == longer:
+        return False
+    if shorter in longer:
+        return True
+    if re.search(r"[A-Za-z]", shorter + longer):
+        shorter_tokens = set(re.findall(r"[A-Za-z]+", shorter.lower()))
+        longer_tokens = set(re.findall(r"[A-Za-z]+", longer.lower()))
+        return bool(shorter_tokens and shorter_tokens.issubset(longer_tokens))
+    return False
+
+
+def covered_by_related_source_term(term: GlossaryTerm, matched_terms: list[GlossaryTerm], translated_text: str) -> bool:
+    """Avoid double-reporting aliases/subterms when a related approved term is already rendered."""
+    for related in matched_terms:
+        if related is term:
             continue
-        if len(longer.original) <= len(term.original):
+        if not source_terms_overlap(term.original, related.original):
             continue
-        if term.original not in longer.original:
-            continue
-        if output_has_glossary_translation(longer, translated_text):
+        if output_has_glossary_translation(related, translated_text):
             return True
     return False
 
@@ -372,7 +382,7 @@ def scan_glossary_source_coverage(registry: dict, scoped: set[str] | None) -> li
                 for term in matched_terms:
                     if output_has_glossary_translation(term, translated_text):
                         continue
-                    if covered_by_longer_source_term(term, matched_terms, translated_text):
+                    if covered_by_related_source_term(term, matched_terms, translated_text):
                         continue
                     findings.append(
                         Finding(
@@ -420,6 +430,35 @@ def scan_approved_glossary_leakage(registry: dict, scoped: set[str] | None) -> l
                                 term.path.name,
                             )
                         )
+    return findings
+
+
+GLOSSARY_NOTE_LEAKAGE_RE = re.compile(
+    r"(?m)^[^\n:]{1,80}:\s*(?:ชื่อตัวละคร|สิ่งมีชีวิต/ศัตรู|ฉายา/ตำแหน่ง|คำเรียกผู้ที่[^\n]*)\s*$"
+)
+
+
+def scan_glossary_note_leakage(registry: dict, scoped: set[str] | None) -> list[Finding]:
+    findings: list[Finding] = []
+    for novel in registry.get("novels", []):
+        slug = str(novel.get("slug", ""))
+        root = WORKSPACE_ROOT / str(novel.get("folder", ""))
+        output_root = root / str(novel.get("output_dir", "05_Output"))
+        reader_root = MOONREAD_ROOT / "content/generated/books" / slug / "chapters"
+        for surface, surface_root in [("final_output", output_root), ("moonread", reader_root)]:
+            for path in iter_markdown_files(surface_root, scoped):
+                text = read_text(path)
+                match = GLOSSARY_NOTE_LEAKAGE_RE.search(text)
+                if match:
+                    findings.append(
+                        Finding(
+                            "blocker",
+                            "glossary_note_leakage",
+                            str(path),
+                            f"{surface}: glossary/category note leaked into product surface",
+                            match.group(0),
+                        )
+                    )
     return findings
 
 
@@ -534,6 +573,7 @@ def collect_findings(*, novel: str | None = None, chapters: str | None = None, s
     findings = filter_findings_by_registry(findings, registry)
     findings.extend(scan_approved_glossary_leakage(registry, scoped))
     findings.extend(scan_glossary_source_coverage(registry, scoped))
+    findings.extend(scan_glossary_note_leakage(registry, scoped))
     if not skip_advisory_english:
         findings.extend(scan_suspicious_english(registry, scoped))
     return findings

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-22T23:31:56.962Z",
+  "generatedAt": "2026-06-30T17:33:15.446Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -10,9 +10,9 @@
     }
   },
   "summary": {
-    "books": 2,
-    "chapters": 410,
-    "available": 410,
+    "books": 3,
+    "chapters": 500,
+    "available": 500,
     "missing": 0,
     "rejected": 0
   },
@@ -33,23 +33,23 @@
       "cover": "/images/deep-sea-embers-cover.png",
       "href": "/book",
       "chaptersHref": "/chapters",
-      "targetRange": "ch001-ch160",
+      "targetRange": "ch001-ch180",
       "summary": {
-        "total": 160,
-        "available": 160,
+        "total": 180,
+        "available": 180,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch160",
-        "number": 160,
-        "title": "บทที่ 161: ช่างทำตุ๊กตาที่โดดเด่นที่สุด",
+        "id": "ch180",
+        "number": 180,
+        "title": "บทที่ 181: นักประวัติศาสตร์พูดถึงประวัติศาสตร์",
         "status": "available",
-        "sourcePath": "ch160/ch160.md",
-        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch160.md",
-        "href": "/read/ch160",
-        "charCount": 7980,
+        "sourcePath": "ch180/ch180.md",
+        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch180.md",
+        "href": "/read/ch180",
+        "charCount": 8669,
         "readingMinutes": 2
       },
       "firstChapter": {
@@ -80,23 +80,23 @@
       "cover": "/images/horror-game-developer-cover.png",
       "href": "/books/horror-game-developer",
       "chaptersHref": "/books/horror-game-developer/chapters",
-      "targetRange": "ch001-ch250",
+      "targetRange": "ch001-ch270",
       "summary": {
-        "total": 250,
-        "available": 250,
+        "total": 270,
+        "available": 270,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch250",
-        "number": 250,
-        "title": "ตอนที่ 250 - VILE - 2013 [ตัวตลก]",
+        "id": "ch270",
+        "number": 270,
+        "title": "ตอนที่ 270 - ความสิ้นหวังในความสมบูรณ์แบบ [5]",
         "status": "available",
-        "sourcePath": "ch250/ch250.md",
-        "generatedPath": "content/generated/books/horror-game-developer/chapters/ch250.md",
-        "href": "/books/horror-game-developer/read/ch250",
-        "charCount": 6307,
+        "sourcePath": "ch270/ch270.md",
+        "generatedPath": "content/generated/books/horror-game-developer/chapters/ch270.md",
+        "href": "/books/horror-game-developer/read/ch270",
+        "charCount": 6508,
         "readingMinutes": 2
       },
       "firstChapter": {
@@ -109,6 +109,54 @@
         "href": "/books/horror-game-developer/read/ch001",
         "charCount": 6153,
         "readingMinutes": 2
+      }
+    },
+    {
+      "slug": "infinite-regressor-stories",
+      "title": "I'm an Infinite Regressor, But I've Got Stories to Tell",
+      "thaiTitle": "ผมเป็นผู้ย้อนกลับอนันต์ แต่มีเรื่องจะเล่า",
+      "synopsis": "ผู้ย้อนกลับที่ผ่านจุดจบซ้ำแล้วซ้ำเล่าไม่ได้มีแค่ชัยชนะหรือหายนะให้จดจำ แต่ยังมีเรื่องราวของผู้คน ยุคสมัย และโลกที่พังทลายให้เล่าต่อ นี่คือบันทึกจากคนที่วนกลับมาไม่รู้จบ และยังไม่ยอมปล่อยให้เรื่องเหล่านั้นหายไป",
+      "synopsisSourceUrl": "https://www.novelupdates.com/series/im-an-infinite-regressor-but-ive-got-stories-to-tell/",
+      "synopsisSourceNote": "Reader blurb is deferred until the novel has enough translated chapters for the 60-chapter blurb gate.",
+      "tags": [
+        "ย้อนเวลา",
+        "วันสิ้นโลก",
+        "แฟนตาซี",
+        "จิตวิทยา",
+        "ดราม่า"
+      ],
+      "cover": "",
+      "href": "/books/infinite-regressor-stories",
+      "chaptersHref": "/books/infinite-regressor-stories/chapters",
+      "targetRange": "ch001-ch050",
+      "summary": {
+        "total": 50,
+        "available": 50,
+        "missing": 0,
+        "rejected": 0,
+        "skipped": 0
+      },
+      "latestChapter": {
+        "id": "ch050",
+        "number": 50,
+        "title": "ผู้รอดชีวิต 3",
+        "status": "available",
+        "sourcePath": "ch050/ch050.md",
+        "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch050.md",
+        "href": "/books/infinite-regressor-stories/read/ch050",
+        "charCount": 11973,
+        "readingMinutes": 3
+      },
+      "firstChapter": {
+        "id": "ch001",
+        "number": 1,
+        "title": "คู่หู 1",
+        "status": "available",
+        "sourcePath": "ch001/ch001.md",
+        "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch001.md",
+        "href": "/books/infinite-regressor-stories/read/ch001",
+        "charCount": 9787,
+        "readingMinutes": 3
       }
     }
   ]

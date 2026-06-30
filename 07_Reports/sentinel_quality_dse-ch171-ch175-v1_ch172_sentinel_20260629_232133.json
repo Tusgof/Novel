@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-06-29T23:21:33.450990+00:00",
+  "scope": "dse-ch171-ch175-v1_ch172_sentinel",
+  "chapters": "ch172",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

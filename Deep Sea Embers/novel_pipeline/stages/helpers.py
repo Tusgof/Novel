@@ -9,7 +9,8 @@ def format_glossary_subset(entries: list[GlossaryEntry]) -> str:
     pairs = []
     for entry in sorted(entries, key=lambda e: e.original_term):
         category = f" ({entry.category})" if entry.category else ""
-        pairs.append(f"{entry.original_term}={entry.thai_term}{category}")
+        rejected = f"; rejected variants: {', '.join(entry.rejected_variants)}" if entry.rejected_variants else ""
+        pairs.append(f"{entry.original_term}={entry.thai_term}{category}{rejected}")
     return "; ".join(pairs)
 
 

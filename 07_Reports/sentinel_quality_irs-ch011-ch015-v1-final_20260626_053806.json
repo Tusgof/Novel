@@ -1,0 +1,273 @@
+{
+  "created_at": "2026-06-26T05:38:06.375581+00:00",
+  "scope": "irs-ch011-ch015-v1-final",
+  "chapters": "ch011-ch015",
+  "counts": {
+    "blocker": 4,
+    "major": 0,
+    "minor": 33,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch012\\ch012.md",
+      "message": "final_output: approved English remains: CookingQueen -> โกยูรี",
+      "evidence": "Go Yuri.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch013\\ch013.md",
+      "message": "final_output: approved English remains: CookingQueen -> โกยูรี",
+      "evidence": "Go Yuri.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch014\\ch014.md",
+      "message": "final_output: approved English remains: CookingQueen -> โกยูรี",
+      "evidence": "Go Yuri.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch015\\ch015.md",
+      "message": "final_output: approved English remains: regressor -> ผู้ย้อนกลับ",
+      "evidence": "regressor.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch011\\ch011.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Pocheon -> โพชอน; glossary=Pocheon.md"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch011\\ch011.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "OldManGoryeo"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch011\\ch011.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Net"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch011\\ch011.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "iJoinedToday"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch011\\ch011.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "ZERO_SUGAR"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch011\\ch011.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "AAA"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch012\\ch012.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "OldManGoryeo"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch012\\ch012.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Net"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch012\\ch012.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Aggro"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch012\\ch012.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "iJoinedToday"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch012\\ch012.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "CookingQueen"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch012\\ch012.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "dolLHoUse"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch012\\ch012.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "OldManGoryeoHam"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch012\\ch012.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "LiteraryGirl"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch012\\ch012.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "ZERO_SUGAR"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch013\\ch013.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Net"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch013\\ch013.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "CookingQueen"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch014\\ch014.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Net"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch014\\ch014.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "dolLHoUse"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch014\\ch014.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "OldManGoryeo"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch014\\ch014.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "SwordMarquess"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch014\\ch014.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "USB"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch014\\ch014.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Notepad"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch014\\ch014.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "CLA"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch014\\ch014.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "CookingQueen"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch015\\ch015.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "RePoRe"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch015\\ch015.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Regression"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch015\\ch015.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Possession"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch015\\ch015.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Reincarnation"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch015\\ch015.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Net"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch015\\ch015.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "regressor"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch015\\ch015.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "possessor"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch015\\ch015.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "reincarnator"
+    }
+  ]
+}

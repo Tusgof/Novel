@@ -1,0 +1,2415 @@
+{
+  "created_at": "2026-06-23T10:04:30.240085+00:00",
+  "scope": "full-current-all-after-sentinel-overlap-20260623",
+  "chapters": "all configured/current",
+  "counts": {
+    "blocker": 160,
+    "major": 63,
+    "minor": 120,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Horror Developer System -> ระบบนักพัฒนาเกมสยองขวัญ; glossary=Horror Developer System.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "The Orchestrator -> ผู้บงการ; glossary=The Orchestrator.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Silent Requiem -> เรเควียมเงียบงัน; glossary=Silent Requiem.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Blank Mask -> หน้ากากว่างเปล่า; glossary=Blank Mask.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch002.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Horror Developer System -> ระบบนักพัฒนาเกมสยองขวัญ; glossary=Horror Developer System.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch002.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "The Orchestrator -> ผู้บงการ; glossary=The Orchestrator.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch002.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Silent Requiem -> เรเควียมเงียบงัน; glossary=Silent Requiem.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch002.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Blank Mask -> หน้ากากว่างเปล่า; glossary=Blank Mask.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous-Type Gates -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous-Type Gate -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Clara -> คลารา; glossary=Clara.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch005.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous-Type Gates -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch005.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous-Type Gate -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch005.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Clara -> คลารา; glossary=Clara.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch008\\ch008.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Spectral Glasses -> แว่นตาวิญญาณ; glossary=Spectral Glasses.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch008\\ch008.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Gentle Whispers -> เสียงกระซิบอ่อนโยน; glossary=Gentle Whispers.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch008\\ch008.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Seth Thorne -> นักพัฒนาเซธ ธอร์น; glossary=Developer Seth Thorne.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch008.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Spectral Glasses -> แว่นตาวิญญาณ; glossary=Spectral Glasses.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch008.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Gentle Whispers -> เสียงกระซิบอ่อนโยน; glossary=Gentle Whispers.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch008.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Seth Thorne -> นักพัฒนาเซธ ธอร์น; glossary=Developer Seth Thorne.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch009\\ch009.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Ranked Anomalous-Type Gate -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch009\\ch009.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous-Type Gate -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch009\\ch009.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Guild Severed Stars -> กิลด์ดวงดาวที่ถูกตัดขาด; glossary=Guild Severed Stars.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch009\\ch009.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Severed Stars -> กิลด์ดวงดาวที่ถูกตัดขาด; glossary=Guild Severed Stars.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch009.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Ranked Anomalous-Type Gate -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch009.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous-Type Gate -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch009.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Guild Severed Stars -> กิลด์ดวงดาวที่ถูกตัดขาด; glossary=Guild Severed Stars.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch009.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Severed Stars -> กิลด์ดวงดาวที่ถูกตัดขาด; glossary=Guild Severed Stars.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch010\\ch010.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Severed Stars -> กิลด์ดวงดาวที่ถูกตัดขาด; glossary=Guild Severed Stars.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch010.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Severed Stars -> กิลด์ดวงดาวที่ถูกตัดขาด; glossary=Guild Severed Stars.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch013\\ch013.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Containment Sector Orientation Day -> วันปฐมนิเทศภาคส่วนกักกัน; glossary=Containment Sector Orientation Day.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch013\\ch013.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightmare Forge Studios -> สตูดิโอไนต์แมร์ฟอร์จ; glossary=Nightmare Forge Studios.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch013\\ch013.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous-Type Gates -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch013\\ch013.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous Type Gates -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch013\\ch013.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous-Type Gate -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch013\\ch013.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Containment Sector -> ภาคส่วนกักกัน; glossary=Containment Sector.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch013\\ch013.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sentriest Island -> เกาะเซนทรีสต์; glossary=Sentriest Island.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch013\\ch013.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous Gates -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch013\\ch013.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Forest Nights -> คืนในป่า; glossary=Forest Nights.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch013.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Containment Sector Orientation Day -> วันปฐมนิเทศภาคส่วนกักกัน; glossary=Containment Sector Orientation Day.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch013.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightmare Forge Studios -> สตูดิโอไนต์แมร์ฟอร์จ; glossary=Nightmare Forge Studios.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch013.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous-Type Gates -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch013.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous Type Gates -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch013.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous-Type Gate -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch013.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Containment Sector -> ภาคส่วนกักกัน; glossary=Containment Sector.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch013.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sentriest Island -> เกาะเซนทรีสต์; glossary=Sentriest Island.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch013.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous Gates -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch013.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Forest Nights -> คืนในป่า; glossary=Forest Nights.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch017\\ch017.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Wandering Nightwalker Acquired -> ได้รับนักเดินราตรีพเนจร; glossary=Wandering Nightwalker Acquired.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch017.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Wandering Nightwalker Acquired -> ได้รับนักเดินราตรีพเนจร; glossary=Wandering Nightwalker Acquired.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch023\\ch023.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Seth Thorne -> นักพัฒนาเซธ ธอร์น; glossary=Developer Seth Thorne.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch023\\ch023.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch023.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Seth Thorne -> นักพัฒนาเซธ ธอร์น; glossary=Developer Seth Thorne.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch023.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch024\\ch024.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch024.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch030\\ch030.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Available Points -> แต้มที่ใช้ได้; glossary=Available Points.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch030.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Available Points -> แต้มที่ใช้ได้; glossary=Available Points.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch032\\ch032.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Difficulty -> ระดับความยาก; glossary=Difficulty.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch032.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Difficulty -> ระดับความยาก; glossary=Difficulty.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch033\\ch033.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch033\\ch033.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Conductor -> วาทยกร; glossary=The Conductor.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch033.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch033.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Conductor -> วาทยกร; glossary=The Conductor.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch036\\ch036.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Velora Art Museum -> พิพิธภัณฑ์ศิลปะเวโลรา; glossary=Velora Art Museum.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch036\\ch036.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Art Museum -> พิพิธภัณฑ์ศิลปะเวโลรา; glossary=Velora Art Museum.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch036.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Velora Art Museum -> พิพิธภัณฑ์ศิลปะเวโลรา; glossary=Velora Art Museum.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch036.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Art Museum -> พิพิธภัณฑ์ศิลปะเวโลรา; glossary=Velora Art Museum.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch037\\ch037.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Velora Art Museum -> พิพิธภัณฑ์ศิลปะเวโลรา; glossary=Velora Art Museum.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch037\\ch037.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Art Museum -> พิพิธภัณฑ์ศิลปะเวโลรา; glossary=Velora Art Museum.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch037.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Velora Art Museum -> พิพิธภัณฑ์ศิลปะเวโลรา; glossary=Velora Art Museum.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch037.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Art Museum -> พิพิธภัณฑ์ศิลปะเวโลรา; glossary=Velora Art Museum.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch041\\ch041.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Bureau -> สำนักงาน; glossary=The Bureau.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch041.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Bureau -> สำนักงาน; glossary=The Bureau.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch042\\ch042.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch042.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch044\\ch044.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch044.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch049\\ch049.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Saint Marie -> เซนต์แมรี; glossary=Saint Mary.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch049.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Saint Marie -> เซนต์แมรี; glossary=Saint Mary.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch052\\ch052.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Optional Quest Completed -> เควสต์เสริมเริ่มทำงาน; glossary=Optional Quest Activated.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch052\\ch052.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Difficulty -> ระดับความยาก; glossary=Difficulty.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch052.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Optional Quest Completed -> เควสต์เสริมเริ่มทำงาน; glossary=Optional Quest Activated.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch052.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Difficulty -> ระดับความยาก; glossary=Difficulty.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch055\\ch055.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "The Guild Master -> หัวหน้ากิลด์; glossary=The Guild Master.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch055\\ch055.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Guild Master -> หัวหน้ากิลด์; glossary=Guild Master.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch055.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "The Guild Master -> หัวหน้ากิลด์; glossary=The Guild Master.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch055.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Guild Master -> หัวหน้ากิลด์; glossary=Guild Master.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch058\\ch058.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Trauma Consultant -> ที่ปรึกษาด้านบาดแผลทางใจ; glossary=Trauma Consultant.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch058\\ch058.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Crownfall -> กิลด์คราวน์ฟอลล์; glossary=Crownfall Guild.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch058.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Trauma Consultant -> ที่ปรึกษาด้านบาดแผลทางใจ; glossary=Trauma Consultant.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch058.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Crownfall -> กิลด์คราวน์ฟอลล์; glossary=Crownfall Guild.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch060\\ch060.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Crownfall -> กิลด์คราวน์ฟอลล์; glossary=Crownfall Guild.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch060.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Crownfall -> กิลด์คราวน์ฟอลล์; glossary=Crownfall Guild.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch061\\ch061.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Miss Terline -> คุณเทอร์ลิน; glossary=Miss Terline.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch061.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Miss Terline -> คุณเทอร์ลิน; glossary=Miss Terline.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch064\\ch064.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch064.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch070\\ch070.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Conceptualization Decree -> ประกาศิตแห่งการรังสรรค์; glossary=Conceptualization Decree.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch070\\ch070.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Conceptualization -> การรังสรรค์; glossary=Conceptualization.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch070\\ch070.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Elemental Decree -> ประกาศิตธาตุ; glossary=Elemental Decree.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch070\\ch070.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Temperal Decree -> ประกาศิตกาลเวลา; glossary=Temperal Decree.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch070.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Conceptualization Decree -> ประกาศิตแห่งการรังสรรค์; glossary=Conceptualization Decree.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch070.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Conceptualization -> การรังสรรค์; glossary=Conceptualization.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch070.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Elemental Decree -> ประกาศิตธาตุ; glossary=Elemental Decree.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch070.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Temperal Decree -> ประกาศิตกาลเวลา; glossary=Temperal Decree.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch071\\ch071.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "King-Grade Guilds -> กิลด์ระดับคิง; glossary=King-Grade Guilds.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch071\\ch071.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Queen-Grade Guild -> กิลด์ระดับควีน; glossary=Queen-Grade Guild.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch071\\ch071.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "King-Grade Guild -> กิลด์ระดับคิง; glossary=King-Grade Guild.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch071\\ch071.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Crownfall -> กิลด์คราวน์ฟอลล์; glossary=Crownfall Guild.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch071.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "King-Grade Guilds -> กิลด์ระดับคิง; glossary=King-Grade Guilds.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch071.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Queen-Grade Guild -> กิลด์ระดับควีน; glossary=Queen-Grade Guild.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch071.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "King-Grade Guild -> กิลด์ระดับคิง; glossary=King-Grade Guild.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch071.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Crownfall -> กิลด์คราวน์ฟอลล์; glossary=Crownfall Guild.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch074\\ch074.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch074.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch077\\ch077.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Crownfall -> กิลด์คราวน์ฟอลล์; glossary=Crownfall Guild.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch077.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Crownfall -> กิลด์คราวน์ฟอลล์; glossary=Crownfall Guild.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch078\\ch078.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Bureau -> สำนักงาน; glossary=The Bureau.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch078\\ch078.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sigil -> ซิจิล; glossary=Sigil.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch078.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Bureau -> สำนักงาน; glossary=The Bureau.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch078.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sigil -> ซิจิล; glossary=Sigil.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch079\\ch079.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Ranked Anomalous Entity -> เอนทิตีผิดปกติจัดแรงก์; glossary=Ranked Anomalous Entity.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch079\\ch079.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Horde-Type Gate -> เกตประเภทฝูง; glossary=Horde-Type Gate.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch079\\ch079.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "S-Ranked Gate -> เกตแรงก์ S; glossary=S-Ranked Gate.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch079\\ch079.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch079\\ch079.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Mirelle -> มิเรลล์; glossary=Mirelle.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch079.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Ranked Anomalous Entity -> เอนทิตีผิดปกติจัดแรงก์; glossary=Ranked Anomalous Entity.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch079.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Horde-Type Gate -> เกตประเภทฝูง; glossary=Horde-Type Gate.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch079.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "S-Ranked Gate -> เกตแรงก์ S; glossary=S-Ranked Gate.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch079.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch079.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Mirelle -> มิเรลล์; glossary=Mirelle.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch080\\ch080.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Conceptualization Decree -> ประกาศิตแห่งการรังสรรค์; glossary=Conceptualization Decree.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch080\\ch080.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Ranked Anomalous Entity -> เอนทิตีผิดปกติจัดแรงก์; glossary=Ranked Anomalous Entity.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch080\\ch080.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous Entity -> สิ่งผิดปกติ; glossary=Anomalous Entity.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch080\\ch080.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Decree Shepherd -> เชพเพิร์ดแห่งประกาศิต; glossary=Decree Shepherd.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch080\\ch080.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Shepherd Decree -> ประกาศิตเชพเพิร์ด; glossary=Shepherd Decree.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch080\\ch080.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch080.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Conceptualization Decree -> ประกาศิตแห่งการรังสรรค์; glossary=Conceptualization Decree.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch080.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Ranked Anomalous Entity -> เอนทิตีผิดปกติจัดแรงก์; glossary=Ranked Anomalous Entity.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch080.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous Entity -> สิ่งผิดปกติ; glossary=Anomalous Entity.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch080.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Decree Shepherd -> เชพเพิร์ดแห่งประกาศิต; glossary=Decree Shepherd.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch080.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Shepherd Decree -> ประกาศิตเชพเพิร์ด; glossary=Shepherd Decree.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch080.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch081\\ch081.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch081.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch082\\ch082.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch082.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch083\\ch083.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Thrall Class Anomalous Entity -> เอนทิตีผิดปกติคลาสบริวาร; glossary=Thrall Class Anomalous Entity.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch083\\ch083.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous Entity -> สิ่งผิดปกติ; glossary=Anomalous Entity.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch083\\ch083.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "The Guild Master -> หัวหน้ากิลด์; glossary=The Guild Master.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch083\\ch083.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Guild Master -> หัวหน้ากิลด์; glossary=Guild Master.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch083\\ch083.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Thrall Class -> เอนทิตีผิดปกติคลาสบริวาร; glossary=Thrall Class Anomalous Entity.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch083.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Thrall Class Anomalous Entity -> เอนทิตีผิดปกติคลาสบริวาร; glossary=Thrall Class Anomalous Entity.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch083.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous Entity -> สิ่งผิดปกติ; glossary=Anomalous Entity.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch083.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "The Guild Master -> หัวหน้ากิลด์; glossary=The Guild Master.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch083.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Guild Master -> หัวหน้ากิลด์; glossary=Guild Master.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch083.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Thrall Class -> เอนทิตีผิดปกติคลาสบริวาร; glossary=Thrall Class Anomalous Entity.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch085\\ch085.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch085.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch088\\ch088.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Difficulty -> ระดับความยาก; glossary=Difficulty.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch088.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Difficulty -> ระดับความยาก; glossary=Difficulty.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch090\\ch090.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Rowan -> โรวัน; glossary=Rowan.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch090.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Rowan -> โรวัน; glossary=Rowan.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch092\\ch092.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Bureau -> สำนักงาน; glossary=The Bureau.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch093\\ch093.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Quit -> ออกจากเกม; glossary=Quit.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch093.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Quit -> ออกจากเกม; glossary=Quit.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch094\\ch094.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Rowan -> โรวัน; glossary=Rowan.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch094.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Rowan -> โรวัน; glossary=Rowan.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch095\\ch095.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Rowan -> โรวัน; glossary=Rowan.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch095.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Rowan -> โรวัน; glossary=Rowan.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch128\\ch128.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "The Section Chief -> หัวหน้าแผนก; glossary=Section Chief.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch128\\ch128.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Section Chief -> หัวหน้าแผนก; glossary=Section Chief.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch128\\ch128.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Guild Master -> หัวหน้ากิลด์; glossary=Guild Master.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch128.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "The Section Chief -> หัวหน้าแผนก; glossary=Section Chief.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch128.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Section Chief -> หัวหน้าแผนก; glossary=Section Chief.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch128.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Guild Master -> หัวหน้ากิลด์; glossary=Guild Master.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch129\\ch129.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sentient Guide -> ไกด์มีสำนึก; glossary=Sentient Guide.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch129\\ch129.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Memory Leak -> เมมโมรีลีค; glossary=Memory Leak.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch129.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sentient Guide -> ไกด์มีสำนึก; glossary=Sentient Guide.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch129.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Memory Leak -> เมมโมรีลีค; glossary=Memory Leak.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch130\\ch130.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Containment Sector -> ภาคส่วนกักกัน; glossary=Containment Sector.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch130.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Containment Sector -> ภาคส่วนกักกัน; glossary=Containment Sector.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch132\\ch132.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Collection Department -> แผนกรวบรวม; glossary=Collection Department.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch132\\ch132.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Hoarding Department -> แผนกกักเก็บ; glossary=Hoarding Department.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch132\\ch132.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen Jacobs -> เคเลน เจคอบส์; glossary=Kaelen Jacobs.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch132\\ch132.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sarah Sorloth -> ซาราห์ ซอร์ลอธ; glossary=Sarah Sorloth.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch132\\ch132.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen -> เคเลน เจคอบส์; glossary=Kaelen Jacobs.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch132\\ch132.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen -> เคเลน; glossary=Kaelen.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch132\\ch132.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sarah -> ซาราห์ ซอร์ลอธ; glossary=Sarah Sorloth.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch132\\ch132.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sarah -> ซาราห์; glossary=Sarah.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch132.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Collection Department -> แผนกรวบรวม; glossary=Collection Department.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch132.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Hoarding Department -> แผนกกักเก็บ; glossary=Hoarding Department.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch132.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen Jacobs -> เคเลน เจคอบส์; glossary=Kaelen Jacobs.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch132.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sarah Sorloth -> ซาราห์ ซอร์ลอธ; glossary=Sarah Sorloth.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch132.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen -> เคเลน เจคอบส์; glossary=Kaelen Jacobs.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch132.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen -> เคเลน; glossary=Kaelen.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch132.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sarah -> ซาราห์ ซอร์ลอธ; glossary=Sarah Sorloth.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch132.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sarah -> ซาราห์; glossary=Sarah.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch133\\ch133.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Chain Quest Activated -> เควสต์ลูกโซ่เปิดใช้งานแล้ว; glossary=Chain Quest Activated.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch133\\ch133.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Quest Activated -> เควสต์เริ่มทำงาน; glossary=Quest Activated.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch133.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Chain Quest Activated -> เควสต์ลูกโซ่เปิดใช้งานแล้ว; glossary=Chain Quest Activated.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch133.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Quest Activated -> เควสต์เริ่มทำงาน; glossary=Quest Activated.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch142\\ch142.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Available Points -> แต้มที่ใช้ได้; glossary=Available Points.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch142\\ch142.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Chameleon Cloak -> ผ้าคลุมคาเมเลียน; glossary=Chameleon Cloak.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch142\\ch142.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Echo Compass -> เข็มทิศสะท้อนเสียง; glossary=Echo Compass.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch142\\ch142.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Quantum Deck -> เด็คควอนตัม; glossary=Quantum Deck.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch142.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Available Points -> แต้มที่ใช้ได้; glossary=Available Points.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch142.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Chameleon Cloak -> ผ้าคลุมคาเมเลียน; glossary=Chameleon Cloak.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch142.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Echo Compass -> เข็มทิศสะท้อนเสียง; glossary=Echo Compass.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch142.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Quantum Deck -> เด็คควอนตัม; glossary=Quantum Deck.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch150\\ch150.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Cognitive Shard -> เศษเสี้ยวปัญญา; glossary=Cognitive Shard.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch150\\ch150.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch150.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Cognitive Shard -> เศษเสี้ยวปัญญา; glossary=Cognitive Shard.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch150.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch151\\ch151.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Second Order Shepherd -> เชพเพิร์ดลำดับที่สอง; glossary=Second Order Shepherd.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch151.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Second Order Shepherd -> เชพเพิร์ดลำดับที่สอง; glossary=Second Order Shepherd.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch154\\ch154.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch154\\ch154.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Continue -> ดำเนินการต่อ; glossary=Continue.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch154.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch154.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Continue -> ดำเนินการต่อ; glossary=Continue.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch155\\ch155.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Collection Department -> แผนกรวบรวม; glossary=Collection Department.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch155\\ch155.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen -> เคเลน เจคอบส์; glossary=Kaelen Jacobs.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch155\\ch155.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen -> เคเลน; glossary=Kaelen.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch155\\ch155.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sarah -> ซาราห์ ซอร์ลอธ; glossary=Sarah Sorloth.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch155\\ch155.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sarah -> ซาราห์; glossary=Sarah.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch155.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Collection Department -> แผนกรวบรวม; glossary=Collection Department.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch155.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen -> เคเลน เจคอบส์; glossary=Kaelen Jacobs.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch155.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen -> เคเลน; glossary=Kaelen.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch155.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sarah -> ซาราห์ ซอร์ลอธ; glossary=Sarah Sorloth.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch155.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sarah -> ซาราห์; glossary=Sarah.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch156\\ch156.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen -> เคเลน เจคอบส์; glossary=Kaelen Jacobs.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch156\\ch156.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen -> เคเลน; glossary=Kaelen.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch156.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen -> เคเลน เจคอบส์; glossary=Kaelen Jacobs.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch156.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen -> เคเลน; glossary=Kaelen.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch158\\ch158.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen -> เคเลน เจคอบส์; glossary=Kaelen Jacobs.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch158\\ch158.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen -> เคเลน; glossary=Kaelen.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch158.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen -> เคเลน เจคอบส์; glossary=Kaelen Jacobs.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch158.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen -> เคเลน; glossary=Kaelen.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch167\\ch167.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen -> เคเลน เจคอบส์; near_miss=ไคล์น; glossary=Kaelen Jacobs.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch167\\ch167.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen -> เคเลน; near_miss=ไคล์น; glossary=Kaelen.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch167.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen -> เคเลน เจคอบส์; near_miss=ไคล์น; glossary=Kaelen Jacobs.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch167.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Kaelen -> เคเลน; near_miss=ไคล์น; glossary=Kaelen.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch176\\ch176.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Twisted Man -> ชายบิดเบี้ยว; glossary=Twisted Man.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch176.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Twisted Man -> ชายบิดเบี้ยว; glossary=Twisted Man.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch190\\ch190.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Cognitive Shard -> เศษเสี้ยวปัญญา; glossary=Cognitive Shard.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch190.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Cognitive Shard -> เศษเสี้ยวปัญญา; glossary=Cognitive Shard.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch221\\ch221.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Continue -> ดำเนินการต่อ; glossary=Continue.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch221.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Continue -> ดำเนินการต่อ; glossary=Continue.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch228\\ch228.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Guild Master -> หัวหน้ากิลด์; glossary=Guild Master.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch228.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Guild Master -> หัวหน้ากิลด์; glossary=Guild Master.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch229\\ch229.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Guild Master -> หัวหน้ากิลด์; glossary=Guild Master.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch229\\ch229.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "King Grade -> ระดับคิง; glossary=King Grade.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch229.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Guild Master -> หัวหน้ากิลด์; glossary=Guild Master.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch229.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "King Grade -> ระดับคิง; glossary=King Grade.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch233\\ch233.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sarah -> ซาราห์ ซอร์ลอธ; glossary=Sarah Sorloth.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch233\\ch233.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sarah -> ซาราห์; glossary=Sarah.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch233.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sarah -> ซาราห์ ซอร์ลอธ; glossary=Sarah Sorloth.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch233.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sarah -> ซาราห์; glossary=Sarah.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch234\\ch234.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sarah -> ซาราห์ ซอร์ลอธ; glossary=Sarah Sorloth.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch234\\ch234.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sarah -> ซาราห์; glossary=Sarah.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch234.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sarah -> ซาราห์ ซอร์ลอธ; glossary=Sarah Sorloth.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch234.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sarah -> ซาราห์; glossary=Sarah.md"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Sword"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Dawn"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Silver Grand Alliance"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch024\\ch024.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "KFC"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch026\\ch026.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Q-Coin"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch032\\ch032.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Q-coin"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch037\\ch037.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Anime King Story"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch037\\ch037.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Definitely"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch037\\ch037.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Problem"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch037\\ch037.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "ACG"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch037\\ch037.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Love Live"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch039\\ch039.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Aye Captain"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch051\\ch051.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Kidnapped the Timeline"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch051\\ch051.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Dao Zhan Zhan Zhan"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch076\\ch076.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Packet Loss"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch093\\ch093.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Stand Beneath Billions"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch093\\ch093.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Lives"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch106\\ch106.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Minecraft"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch123\\ch123.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Abyssal"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch128\\ch128.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "wifi"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch135\\ch135.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "K-22"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch142\\ch142.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Prominence"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch152\\ch152.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "DND"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Sword"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Dawn"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Silver Grand Alliance"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch024.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "KFC"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch026.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Q-Coin"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch032.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Q-coin"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch037.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Anime King Story"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch037.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Definitely"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch037.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Problem"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch037.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "ACG"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch037.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Love Live"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch039.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Aye Captain"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch051.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Kidnapped the Timeline"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch051.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Dao Zhan Zhan Zhan"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch076.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Packet Loss"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch093.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Stand Beneath Billions"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch093.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Lives"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch106.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Minecraft"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch123.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Abyssal"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch128.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "wifi"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch135.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "K-22"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch142.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Prominence"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch152.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "DND"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Log"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Jump Scare"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch006\\ch006.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Tempo"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch006\\ch006.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Rhythm"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch009\\ch009.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "LED"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch010\\ch010.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "BUA"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch011\\ch011.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Anomalous entities"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch015\\ch015.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Scenario"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch016\\ch016.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Night-vision"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch018\\ch018.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Talent"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch021\\ch021.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "News"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch022\\ch022.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Click"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch022\\ch022.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "U-Engine"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch022\\ch022.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Takakakakaka"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch022\\ch022.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Tak"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch022\\ch022.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Tok"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch027\\ch027.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Jump Scare"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch027\\ch027.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "USB"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch027\\ch027.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Seth's USB stick"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch027\\ch027.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Game"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch027\\ch027.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Dem"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch028\\ch028.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "VHS"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch028\\ch028.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "MP3"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch028\\ch028.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Shift"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch029\\ch029.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "MP3"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch029\\ch029.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "shift"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch030\\ch030.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Fractures"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch030\\ch030.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Cognate Shard"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch031\\ch031.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "PTSD"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch031\\ch031.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "USB"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch032\\ch032.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "USB"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch035\\ch035.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Enter"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch038\\ch038.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Ding"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch038\\ch038.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Ting"
+    }
+  ]
+}

@@ -3,7 +3,7 @@ type: glossary-term
 original_term: Anomalous-Type Gate
 thai_term: ประตูชนิดผิดปกติ
 status: approved
-aliases: ['Anomalous-Type Gates', 'Anomalous Gates', 'Anomalous Type Gates', 'Ranked Anomalous-Type Gate']
+aliases: ['Anomalous-Type Gates', 'Anomalous Gate', 'Anomalous Gates', 'Anomalous Type Gates', 'Ranked Anomalous-Type Gate']
 source_language: en
 category: term
 novel:

@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-22T23:31:56.064Z",
+  "generatedAt": "2026-06-30T17:33:13.909Z",
   "sourceRoot": "../Deep Sea Embers/05_Output",
-  "targetRange": "ch001-ch160",
+  "targetRange": "ch001-ch180",
   "novel": {
     "slug": "deep-sea-embers",
     "title": "Deep Sea Embers",
@@ -30,8 +30,8 @@
     }
   },
   "summary": {
-    "total": 160,
-    "available": 160,
+    "total": 180,
+    "available": 180,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -1795,6 +1795,226 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch160.md",
       "href": "/read/ch160",
       "charCount": 7980,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch161",
+      "number": 161,
+      "title": "บทที่ 162: ความเชื่อมโยงอีกชั้นหนึ่ง",
+      "status": "available",
+      "sourcePath": "ch161/ch161.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch161.md",
+      "href": "/read/ch161",
+      "charCount": 7463,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch162",
+      "number": 162,
+      "title": "บทที่ 163: “นีลู”",
+      "status": "available",
+      "sourcePath": "ch162/ch162.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch162.md",
+      "href": "/read/ch162",
+      "charCount": 8279,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch163",
+      "number": 163,
+      "title": "บทที่ 164: การสื่อสารที่เหนื่อยล้าทั้งกายและใจ",
+      "status": "available",
+      "sourcePath": "ch163/ch163.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch163.md",
+      "href": "/read/ch163",
+      "charCount": 7757,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch164",
+      "number": 164,
+      "title": "บทที่ 165: การโทรที่ไม่มีผู้รับ",
+      "status": "available",
+      "sourcePath": "ch164/ch164.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch164.md",
+      "href": "/read/ch164",
+      "charCount": 8319,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch165",
+      "number": 165,
+      "title": "บทที่ 166: ความกดดันของลูเครเซีย",
+      "status": "available",
+      "sourcePath": "ch165/ch165.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch165.md",
+      "href": "/read/ch165",
+      "charCount": 7925,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch166",
+      "number": 166,
+      "title": "บทที่ 167: กัปตันโหวหรู่เข้าสู่ฝัน",
+      "status": "available",
+      "sourcePath": "ch166/ch166.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch166.md",
+      "href": "/read/ch166",
+      "charCount": 8689,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch167",
+      "number": 167,
+      "title": "บทที่ 168: การรายงานระดับสูง",
+      "status": "available",
+      "sourcePath": "ch167/ch167.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch167.md",
+      "href": "/read/ch167",
+      "charCount": 8497,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch168",
+      "number": 168,
+      "title": "บทที่ 169: สัญญาณเตือนภัยแพร่กระจาย",
+      "status": "available",
+      "sourcePath": "ch168/ch168.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch168.md",
+      "href": "/read/ch168",
+      "charCount": 8918,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch169",
+      "number": 169,
+      "title": "บทที่ 170: ก้าวเข้าสู่ม่าน",
+      "status": "available",
+      "sourcePath": "ch169/ch169.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch169.md",
+      "href": "/read/ch169",
+      "charCount": 7723,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch170",
+      "number": 170,
+      "title": "บทที่ 171: การคลายตัว",
+      "status": "available",
+      "sourcePath": "ch170/ch170.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch170.md",
+      "href": "/read/ch170",
+      "charCount": 8943,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch171",
+      "number": 171,
+      "title": "บทที่ 172: ทางแยกแห่งประวัติศาสตร์",
+      "status": "available",
+      "sourcePath": "ch171/ch171.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch171.md",
+      "href": "/read/ch171",
+      "charCount": 8754,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch172",
+      "number": 172,
+      "title": "บทที่ 173: การค้นพบของฟานน่า",
+      "status": "available",
+      "sourcePath": "ch172/ch172.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch172.md",
+      "href": "/read/ch172",
+      "charCount": 8202,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch173",
+      "number": 173,
+      "title": "บทที่ 174: เปลวไฟลุกลาม",
+      "status": "available",
+      "sourcePath": "ch173/ch173.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch173.md",
+      "href": "/read/ch173",
+      "charCount": 8209,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch174",
+      "number": 174,
+      "title": "บทที่ 175: ก่อนพายุจะมา",
+      "status": "available",
+      "sourcePath": "ch174/ch174.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch174.md",
+      "href": "/read/ch174",
+      "charCount": 8103,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch175",
+      "number": 175,
+      "title": "บทที่ 176: เมฆดำปกคลุมเมือง",
+      "status": "available",
+      "sourcePath": "ch175/ch175.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch175.md",
+      "href": "/read/ch175",
+      "charCount": 8140,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch176",
+      "number": 176,
+      "title": "บทที่ 177: ครอบครัวที่อบอุ่น",
+      "status": "available",
+      "sourcePath": "ch176/ch176.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch176.md",
+      "href": "/read/ch176",
+      "charCount": 8092,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch177",
+      "number": 177,
+      "title": "บทที่ 178: ขีดจำกัดแห่งความบ้าคลั่ง",
+      "status": "available",
+      "sourcePath": "ch177/ch177.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch177.md",
+      "href": "/read/ch177",
+      "charCount": 8065,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch178",
+      "number": 178,
+      "title": "บทที่ 179: เป็นมิตร",
+      "status": "available",
+      "sourcePath": "ch178/ch178.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch178.md",
+      "href": "/read/ch178",
+      "charCount": 8037,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch179",
+      "number": 179,
+      "title": "บทที่ 180: ควรจะรู้จักตัวเองบ้าง",
+      "status": "available",
+      "sourcePath": "ch179/ch179.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch179.md",
+      "href": "/read/ch179",
+      "charCount": 8075,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch180",
+      "number": 180,
+      "title": "บทที่ 181: นักประวัติศาสตร์พูดถึงประวัติศาสตร์",
+      "status": "available",
+      "sourcePath": "ch180/ch180.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch180.md",
+      "href": "/read/ch180",
+      "charCount": 8669,
       "readingMinutes": 2
     }
   ]

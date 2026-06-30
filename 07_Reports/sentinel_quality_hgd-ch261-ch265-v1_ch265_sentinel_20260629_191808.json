@@ -1,0 +1,21 @@
+{
+  "created_at": "2026-06-29T19:18:08.907756+00:00",
+  "scope": "hgd-ch261-ch265-v1_ch265_sentinel",
+  "chapters": "ch265",
+  "counts": {
+    "blocker": 1,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch265\\ch265.md",
+      "message": "final_output: approved English remains: Mirelle -> มิเรลล์",
+      "evidence": "Mirelle.md"
+    }
+  ]
+}

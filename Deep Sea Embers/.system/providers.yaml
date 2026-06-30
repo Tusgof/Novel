@@ -51,10 +51,10 @@ qa_judge:
   provider: openrouter_reasoning
   model: deepseek/deepseek-v4-flash
   fallbacks:
-    - provider: qwen
-      model: deepseek-reasoner
-    - provider: codex
-      model: gpt-5.4
+    - provider: openrouter_reasoning
+      model: deepseek/deepseek-v4-pro
+    - provider: openrouter
+      model: google/gemini-3-flash-preview
 formatting:
   provider: openrouter
   model: deepseek/deepseek-v4-flash

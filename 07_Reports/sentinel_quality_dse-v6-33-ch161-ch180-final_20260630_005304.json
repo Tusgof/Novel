@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-06-30T00:53:04.664785+00:00",
+  "scope": "dse-v6-33-ch161-ch180-final",
+  "chapters": "ch161,ch162,ch163,ch164,ch165,ch166,ch167,ch168,ch169,ch170,ch171,ch172,ch173,ch174,ch175,ch176,ch177,ch178,ch179,ch180",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

@@ -10,6 +10,27 @@ from novel_pipeline.text_utils import normalize_whitespace
 from novel_pipeline.types import AppConfig, ChapterMeta, ChapterSource
 
 
+def _derive_title_from_body_if_generic(title: str, raw_text: str) -> str:
+    """Use early body subtitle when the adapter only knows a generic Chapter N."""
+    cleaned_title = title.strip()
+    if not cleaned_title:
+        return title
+    lines = [line.strip() for line in raw_text.splitlines() if line.strip()]
+    if len(lines) < 3:
+        return title
+    if not lines[0].lower().startswith("chapter "):
+        return title
+    if lines[0] != cleaned_title:
+        return title
+    separator_chars = set("─-—_=*")
+    if not lines[1] or any(ch not in separator_chars for ch in lines[1]):
+        return title
+    subtitle = lines[2].strip()
+    if not subtitle or subtitle.lower().startswith("chapter "):
+        return title
+    return f"{cleaned_title} - {subtitle}"
+
+
 def load_or_build_manifest(
     *,
     config: AppConfig,
@@ -91,6 +112,8 @@ def run_fetch_stage(
     else:
         raise ValueError("Provide adapter+chapter_meta, input_file, or text.")
 
+    raw_text = normalize_whitespace(raw_text)
+    title = _derive_title_from_body_if_generic(title, raw_text)
     chapter = ChapterSource(
         novel_id=config.novel_id,
         chapter_id=chapter_id,
@@ -98,7 +121,7 @@ def run_fetch_stage(
         source_language=config.source_language,
         source_path=source_path,
         source_url=source_url,
-        raw_text=normalize_whitespace(raw_text),
+        raw_text=raw_text,
     )
     target_dir = chapter_dir(config.workspace.raw, chapter_id)
     target_dir.mkdir(parents=True, exist_ok=True)

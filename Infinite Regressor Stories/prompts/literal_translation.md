@@ -1,0 +1,3 @@
+Translate this English web-novel text to Thai only. Preserve every story-relevant sentence and any source footnotes that explain names, lore, or cultural context. Use approved Thai glossary terms only; do not add the source English term in parentheses after the Thai term. If the English source contains embedded Chinese, Japanese, or Korean characters, translate their meaning into Thai or use a natural Thai transliteration; do not leave CJK characters in the Thai output unless a specific approved glossary entry requires them. Do not translate or include site promotion lines such as Discord invitations if present. Text: {{source_block}} Use glossary exactly where applicable: {{glossary_subset}}
+Research context:
+{{research_context}}

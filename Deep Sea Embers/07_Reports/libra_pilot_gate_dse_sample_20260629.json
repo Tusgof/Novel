@@ -1,0 +1,193 @@
+{
+  "gate_name": "Libra - Pilot Gate",
+  "novel": "Deep Sea Embers",
+  "seed": 632160,
+  "raw_pool_count": 160,
+  "raw_pool_first": "ch001",
+  "raw_pool_last": "ch160",
+  "selection_rule": "random.sample from fetched 03_Raw source chapters; first 10 are in-sample, last 10 are out-of-sample",
+  "in_sample": [
+    {
+      "chapter_id": "ch129",
+      "title": "第130章 黑夜",
+      "chars": 3531,
+      "has_han_title": true,
+      "has_brackets": false,
+      "has_quotes": false,
+      "has_long_repeat": false
+    },
+    {
+      "chapter_id": "ch033",
+      "title": "第三十三章 鱼",
+      "chars": 2759,
+      "has_han_title": true,
+      "has_brackets": false,
+      "has_quotes": false,
+      "has_long_repeat": false
+    },
+    {
+      "chapter_id": "ch012",
+      "title": "第十二章 幽灵船长与诅咒人偶",
+      "chars": 2666,
+      "has_han_title": true,
+      "has_brackets": false,
+      "has_quotes": false,
+      "has_long_repeat": false
+    },
+    {
+      "chapter_id": "ch084",
+      "title": "第八十四章 邓肯船长的儿女们",
+      "chars": 2706,
+      "has_han_title": true,
+      "has_brackets": false,
+      "has_quotes": false,
+      "has_long_repeat": false
+    },
+    {
+      "chapter_id": "ch111",
+      "title": "第112章 大佬的说教",
+      "chars": 2868,
+      "has_han_title": true,
+      "has_brackets": false,
+      "has_quotes": false,
+      "has_long_repeat": false
+    },
+    {
+      "chapter_id": "ch036",
+      "title": "第三十六章 昼夜交替之时",
+      "chars": 2865,
+      "has_han_title": true,
+      "has_brackets": false,
+      "has_quotes": false,
+      "has_long_repeat": false
+    },
+    {
+      "chapter_id": "ch150",
+      "title": "第151章 地下圣堂中的秘密",
+      "chars": 3038,
+      "has_han_title": true,
+      "has_brackets": false,
+      "has_quotes": false,
+      "has_long_repeat": false
+    },
+    {
+      "chapter_id": "ch047",
+      "title": "第四十七章 在圣像前",
+      "chars": 2815,
+      "has_han_title": true,
+      "has_brackets": false,
+      "has_quotes": false,
+      "has_long_repeat": false
+    },
+    {
+      "chapter_id": "ch043",
+      "title": "第四十三章 早上好，邓肯先生",
+      "chars": 2840,
+      "has_han_title": true,
+      "has_brackets": false,
+      "has_quotes": false,
+      "has_long_repeat": false
+    },
+    {
+      "chapter_id": "ch040",
+      "title": "第四十章 “登陆”",
+      "chars": 2780,
+      "has_han_title": true,
+      "has_brackets": false,
+      "has_quotes": false,
+      "has_long_repeat": false
+    }
+  ],
+  "out_of_sample": [
+    {
+      "chapter_id": "ch027",
+      "title": "第二十七章 生活常识储备不足",
+      "chars": 2782,
+      "has_han_title": true,
+      "has_brackets": false,
+      "has_quotes": false,
+      "has_long_repeat": false
+    },
+    {
+      "chapter_id": "ch124",
+      "title": "第125章 碎片的倒影",
+      "chars": 2988,
+      "has_han_title": true,
+      "has_brackets": false,
+      "has_quotes": false,
+      "has_long_repeat": false
+    },
+    {
+      "chapter_id": "ch126",
+      "title": "第127章 你看到了什么",
+      "chars": 2838,
+      "has_han_title": true,
+      "has_brackets": false,
+      "has_quotes": false,
+      "has_long_repeat": false
+    },
+    {
+      "chapter_id": "ch141",
+      "title": "第142章 诚实可靠邓肯先生",
+      "chars": 3122,
+      "has_han_title": true,
+      "has_brackets": false,
+      "has_quotes": false,
+      "has_long_repeat": false
+    },
+    {
+      "chapter_id": "ch085",
+      "title": "第八十五章 报酬",
+      "chars": 2877,
+      "has_han_title": true,
+      "has_brackets": false,
+      "has_quotes": false,
+      "has_long_repeat": false
+    },
+    {
+      "chapter_id": "ch114",
+      "title": "第115章 被抹去的痕迹",
+      "chars": 2753,
+      "has_han_title": true,
+      "has_brackets": false,
+      "has_quotes": false,
+      "has_long_repeat": false
+    },
+    {
+      "chapter_id": "ch122",
+      "title": "第123章 广场边缘的身影",
+      "chars": 2943,
+      "has_han_title": true,
+      "has_brackets": false,
+      "has_quotes": false,
+      "has_long_repeat": false
+    },
+    {
+      "chapter_id": "ch060",
+      "title": "第六十章 门对面",
+      "chars": 3121,
+      "has_han_title": true,
+      "has_brackets": false,
+      "has_quotes": false,
+      "has_long_repeat": false
+    },
+    {
+      "chapter_id": "ch003",
+      "title": "第三章 边境迷航",
+      "chars": 2843,
+      "has_han_title": true,
+      "has_brackets": false,
+      "has_quotes": false,
+      "has_long_repeat": false
+    },
+    {
+      "chapter_id": "ch050",
+      "title": "第五十章 公开的异象",
+      "chars": 2812,
+      "has_han_title": true,
+      "has_brackets": false,
+      "has_quotes": false,
+      "has_long_repeat": false
+    }
+  ]
+}

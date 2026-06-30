@@ -68,13 +68,13 @@ def _strip_code_fence(text: str) -> str:
 
 def _safe_write_json(path: Path, data: Any) -> None:
     text = json.dumps(data, ensure_ascii=False, indent=2)
-    if os.environ.get("OPENROUTER_API_KEY") and os.environ["OPENROUTER_API_KEY"] in text:
+    if os.environ.get("NOVEL_OPENROUTER_API") and os.environ["NOVEL_OPENROUTER_API"] in text:
         raise RuntimeError(f"Refusing to write API key to {path}")
     path.write_text(text + "\n", encoding="utf-8")
 
 
 def _safe_write_text(path: Path, text: str) -> None:
-    if os.environ.get("OPENROUTER_API_KEY") and os.environ["OPENROUTER_API_KEY"] in text:
+    if os.environ.get("NOVEL_OPENROUTER_API") and os.environ["NOVEL_OPENROUTER_API"] in text:
         raise RuntimeError(f"Refusing to write API key to {path}")
     path.write_text(text, encoding="utf-8")
 
@@ -364,7 +364,7 @@ def summarize(results: list[dict[str, Any]]) -> list[str]:
             "",
             "## Safety",
             "",
-            "- API key was read from `OPENROUTER_API_KEY` only.",
+            "- API key was read from `NOVEL_OPENROUTER_API` only.",
             "- No production ledger, glossary, source, work chapter artifacts, outputs, or provider config are edited by this script.",
             "- Raw responses are stored under the experiment directory for review.",
         ]
@@ -384,9 +384,9 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 
 def main(argv: list[str]) -> int:
     args = parse_args(argv)
-    api_key = os.environ.get("OPENROUTER_API_KEY")
+    api_key = os.environ.get("NOVEL_OPENROUTER_API")
     if not api_key:
-        print("OPENROUTER_API_KEY is not set.", file=sys.stderr)
+        print("NOVEL_OPENROUTER_API is not set.", file=sys.stderr)
         return 2
     models = [item.strip() for item in args.models.split(",") if item.strip()]
     roles = {item.strip() for item in args.roles.split(",") if item.strip()}

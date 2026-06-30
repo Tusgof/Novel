@@ -1,0 +1,35 @@
+{
+  "created_at": "2026-06-29T19:57:53.849143+00:00",
+  "scope": "hgd-ch266-ch270-v1_ch270_sentinel",
+  "chapters": "ch270",
+  "counts": {
+    "blocker": 3,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch270\\ch270.md",
+      "message": "final_output: approved English remains: Dreamwalker -> ดรีมวอล์กเกอร์",
+      "evidence": "Dreamwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch270\\ch270.md",
+      "message": "final_output: approved English remains: Mr. Jingles -> มิสเตอร์จิงเกิลส์",
+      "evidence": "Mr. Jingles.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch270\\ch270.md",
+      "message": "final_output: approved English remains: Jingles -> มิสเตอร์จิงเกิลส์",
+      "evidence": "Mr. Jingles.md"
+    }
+  ]
+}

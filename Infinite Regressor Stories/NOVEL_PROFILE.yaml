@@ -1,0 +1,24 @@
+schema_version: 1
+novel_id: infinite-regressor-stories
+title: I'm an Infinite Regressor, But I've Got Stories to Tell
+aliases:
+- The Tales of an Infinite Regressor
+- 무한 회귀자인데 썰 푼다
+- 무회썰
+languages:
+  source: en
+  target: th
+genre: modern urban fantasy
+style_profile: modern_urban
+source:
+  adapter: wetriedtls
+  toc_url: https://wetriedtls.com/series/im-an-infinite-regressor-but-ive-got-stories-to-tell
+research:
+  status: active
+  profile_path: RESEARCH_PROFILE.yaml
+  title: I'm an Infinite Regressor, But I've Got Stories to Tell
+  source_url: https://wetriedtls.com/series/im-an-infinite-regressor-but-ive-got-stories-to-tell
+setup:
+  created_at: '2026-06-24T03:44:44.879229+00:00'
+  created_from_workspace: D:\Fogust\Workspace\Novel\Deep Sea Embers
+notes: ''

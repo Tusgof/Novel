@@ -1,5 +1,6 @@
 
 import json
+import re
 
 from pathlib import Path
 from novel_pipeline.stages.translate import format_glossary_subset, parse_literal_pairs
@@ -16,8 +17,9 @@ from novel_pipeline.types import (
     RunRecord,
     TextBlock,
 )
-from novel_pipeline.pipeline import _literal_safe_refined_draft, _qa_report_indicates_omission
+from novel_pipeline.pipeline import _apply_glossary_rejected_variant_repairs, _apply_source_footnote_marker_repairs, _literal_safe_refined_draft, _qa_report_indicates_omission
 from novel_pipeline.stages.format import format_block_text
+from novel_pipeline.text_utils import split_blocks
 from unittest.mock import Mock, patch, call
 from novel_pipeline.ledger import ResumeState
 from novel_pipeline.providers.base import ProviderRunner, classify_provider_response
@@ -70,6 +72,24 @@ def test_format_glossary_subset():
     assert "ดันแคน" in formatted
     assert "ซากเรืออับปาง" in formatted
     assert "character" in formatted
+
+def test_split_blocks_normalizes_zalgo_sound_effect_source():
+    source = "Before.\n\n-G̸̢̰͂r̸̗͈͘o̶̻͚̫͊ǫ̴̰̈́̉ȯ̶̻̎̓ö̶̧͖̒ụ̴͔̆͗̕u̶̘̗͓̐ṵ̸͈̀̓̚ȕ̸̺̬͝g̶͖̉̔͗ĥ̴̡̬̳̆! ̶̨̞͖͝\n\nAfter."
+    blocks = split_blocks("ch999", source, "en", non_zh_limit=1500)
+    combined = "\n\n".join(block.source_text for block in blocks)
+    assert "Before." in combined
+    assert "After." in combined
+    assert not any("\u0300" <= char <= "\u036f" for char in combined)
+    assert not re.search(r"(.)\1{20,}", combined)
+
+
+def test_split_blocks_uses_embedded_english_gloss_for_cjk_in_english_source():
+    source = "He wrote '有朋自遠方來 (\"friends come from afar\")' with a brush."
+    blocks = split_blocks("ch999", source, "en", non_zh_limit=1500)
+    combined = "\n\n".join(block.source_text for block in blocks)
+    assert "friends come from afar" in combined
+    assert "有朋自遠方來" not in combined
+
 
 def test_parse_literal_pairs():
     source_text = "你好。我很忙。"
@@ -210,6 +230,17 @@ def test_format_long_paragraph_splitting():
     if len(paragraphs) > 1:
         for para in paragraphs:
             assert len(para) <= 600  # Allow some extra for spaces
+
+def test_format_long_paragraph_splits_at_whitespace_without_sentence_punctuation():
+    """Long Thai prose without punctuation still splits at whitespace without changing words."""
+    from novel_pipeline.stages.format import _split_long_paragraphs
+
+    text = " ".join([f"คำทดสอบ{i}" for i in range(80)])
+    result = _split_long_paragraphs(text, max_len=120)
+    paragraphs = [para for para in result.split("\n\n") if para.strip()]
+    assert len(paragraphs) > 1
+    assert " ".join(paragraphs).split() == text.split()
+    assert all(len(para) <= 140 for para in paragraphs)
 
 def test_format_no_quote_only_lines():
     """Final output must have no lines whose stripped content is exactly a quote character."""
@@ -641,6 +672,16 @@ def test_roliascan_manifest_uses_endpoint_and_dedupes_chapter_numbers():
     assert manifest[0].title == "Chapter 1 - Prologue"
     assert manifest[1].url == "https://example.test/ch2a"
     assert manifest[1].metadata["site_chapter"] == "2"
+
+
+def test_fetch_derives_subtitle_when_adapter_title_is_generic_chapter():
+    from novel_pipeline.stages.fetch import _derive_title_from_body_if_generic
+
+    raw_text = "Chapter 1\n──────\nThe Partner Ⅰ\nInfinite Regression. There is a genre by that name."
+
+    assert _derive_title_from_body_if_generic("Chapter 1", raw_text) == "Chapter 1 - The Partner Ⅰ"
+    assert _derive_title_from_body_if_generic("Chapter 1 - Existing", raw_text) == "Chapter 1 - Existing"
+
 
 def test_piaotia_extract_rejects_mojibake():
     """Thai mojibake in raw HTML must be caught by validation."""
@@ -1204,6 +1245,49 @@ def test_hgd_title_resolver_writes_sidecar_and_blocks_unknown_english_titles():
             assert "Missing HGD Thai title mapping" in str(exc)
         else:
             raise AssertionError("unknown HGD English title should stop final assembly")
+
+
+def test_irs_title_resolver_requires_thai_sidecar_for_english_titles():
+    from novel_pipeline.pipeline import _resolve_chapter_output_title
+    from novel_pipeline.types import AppConfig, ChapterSource
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        config = Mock(spec=AppConfig)
+        config.workspace = Mock()
+        config.workspace.work = base / "04_Work"
+        config.novel_id = "infinite-regressor-stories"
+
+        source = ChapterSource(
+            novel_id="infinite-regressor-stories",
+            chapter_id="ch001",
+            title="Chapter 1 - The Partner Ⅰ",
+            source_language="en",
+        )
+
+        try:
+            _resolve_chapter_output_title(config, "ch001", source)
+        except RuntimeError as exc:
+            assert "Missing IRS Thai title sidecar" in str(exc)
+        else:
+            raise AssertionError("IRS English source titles must require title.json before assembly")
+
+        title_dir = base / "04_Work" / "ch001"
+        title_dir.mkdir(parents=True)
+        (title_dir / "title.json").write_text(
+            json.dumps({"thai_title": "ตอนที่ 1 - คู่หู Ⅰ"}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        assert _resolve_chapter_output_title(config, "ch001", source) == "ตอนที่ 1 - คู่หู Ⅰ"
+
+
+def test_chapter_output_removes_duplicate_plain_title_paragraph():
+    from novel_pipeline.pipeline import _remove_duplicate_title_paragraph
+
+    body = "ตอนที่ 112 คำสั่งสอนของผู้ยิ่งใหญ่\n\nเนื้อหาจริงย่อหน้าแรก"
+    assert _remove_duplicate_title_paragraph(body, has_header=True) == "เนื้อหาจริงย่อหน้าแรก"
+    assert _remove_duplicate_title_paragraph(body, has_header=False) == body
 
 
 def test_stage_routing_parses_timeout_and_retry():
@@ -1940,6 +2024,83 @@ def test_qa_glossary_missing_term_blocks_when_refinement_removed_literal_term():
     assert any(finding.code == "glossary_inconsistency" for finding in report.findings)
     assert "SHIP -> GLOSSARY_TERM" in report.feedback
     runner.run_with_retry.assert_not_called()
+
+
+def test_qa_blocks_rejected_glossary_variant():
+    from novel_pipeline.stages.qa import run_qa_stage
+    from novel_pipeline.types import GlossaryEntry, LiteralDraft, LiteralSentencePair, RefinedDraft, TextBlock
+
+    config = Mock()
+    config.workspace.prompts = Path("prompts")
+    block = TextBlock(block_id="ch009-block-001", chapter_id="ch009", source_text="Yellow Sea")
+    literal = LiteralDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        sentence_pairs=(LiteralSentencePair(source_sentence="Yellow Sea", literal_sentence="ทะเลตะวันตก"),),
+    )
+    refined = RefinedDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        refined_text="พวกเขาข้ามทะเลเหลืองไป",
+    )
+    runner = Mock()
+    runner.spec.name = "qwen"
+    report = run_qa_stage(
+        config=config,
+        block=block,
+        literal_draft=literal,
+        refined_draft=refined,
+        glossary_subset=[
+            GlossaryEntry(
+                original_term="West Sea",
+                thai_term="ทะเลตะวันตก",
+                category="location",
+                status="approved",
+                aliases=("Yellow Sea",),
+                rejected_variants=("ทะเลเหลือง",),
+            )
+        ],
+        provider_runner=runner,
+    )
+
+    assert report.passed is False
+    assert any(finding.code == "rejected_glossary_variant" for finding in report.findings)
+    runner.run_with_retry.assert_not_called()
+
+
+def test_refine_applies_rejected_glossary_variant_repair():
+    repaired, repairs = _apply_glossary_rejected_variant_repairs(
+        "พวกเขาข้ามทะเลเหลืองไป",
+        [
+            GlossaryEntry(
+                original_term="West Sea",
+                thai_term="ทะเลตะวันตก",
+                category="location",
+                status="approved",
+                aliases=("Yellow Sea",),
+                rejected_variants=("ทะเลเหลือง",),
+            )
+        ],
+    )
+
+    assert repaired == "พวกเขาข้ามทะเลตะวันตกไป"
+    assert repairs == [
+        {
+            "original_term": "West Sea",
+            "variant": "ทะเลเหลือง",
+            "thai_term": "ทะเลตะวันตก",
+        }
+    ]
+
+
+def test_refine_preserves_source_footnote_marker_section():
+    repaired, repairs = _apply_source_footnote_marker_repairs(
+        "เนื้อหาจบลงตรงนี้",
+        "The story ends here. Footnotes:\n[1]\n",
+    )
+
+    assert repaired.endswith("เชิงอรรถ:\n[1]")
+    assert repairs == [{"markers": "[1]"}]
 
 
 def test_qa_ai_judge_finding_still_blocks():
@@ -6448,6 +6609,50 @@ def test_sentinel_quality_report_flags_known_glossary_leakage_fixture():
     assert any(f.category == "approved_glossary_leakage" and f.severity == "blocker" for f in findings)
 
 
+def test_sentinel_flags_glossary_note_leakage_without_flagging_story_ability_lists():
+    """Sentinel catches leaked glossary category notes without blocking story/system lists."""
+    import importlib.util
+    import sys
+    import tempfile
+
+    script_path = Path("scripts/sentinel_quality_report.py")
+    spec = importlib.util.spec_from_file_location("sentinel_quality_report_note_leakage_test", script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["sentinel_quality_report_note_leakage_test"] = module
+    spec.loader.exec_module(module)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_root = Path(tmp)
+        module.WORKSPACE_ROOT = tmp_root
+        module.MOONREAD_ROOT = tmp_root / "MoonRead"
+        output_root = tmp_root / "Fixture Novel" / "05_Output" / "ch001"
+        output_root.mkdir(parents=True)
+        (output_root / "ch001.md").write_text(
+            "# ตอนที่ 1\n\n"
+            "หยุดเวลา: ความสามารถที่ช่วยให้เธอหยุดโลกชั่วขณะ\n\n"
+            "การร่ายเพลงสาป: ความสามารถ\n"
+            "ดังซอริน: ชื่อตัวละคร\n",
+            encoding="utf-8",
+        )
+        registry = {
+            "novels": [
+                {
+                    "slug": "fixture-novel",
+                    "folder": "Fixture Novel",
+                    "output_dir": "05_Output",
+                }
+            ]
+        }
+
+        findings = module.scan_glossary_note_leakage(registry, {"ch001"})
+
+    assert len(findings) == 1
+    assert findings[0].category == "glossary_note_leakage"
+    assert findings[0].severity == "blocker"
+    assert "ชื่อตัวละคร" in findings[0].evidence
+
+
 def test_sentinel_glossary_coverage_flags_source_term_missing_in_output():
     """Libra coverage catches source glossary terms that disappear from translated output."""
     import importlib.util
@@ -7282,11 +7487,11 @@ def test_preflight_blocks_long_argv_prompt():
     )
     # Patch os.name to be Windows
     with patch("os.name", "nt"):
-        # Patch subprocess.run to ensure it's not called
-        with patch("subprocess.run") as mock_subprocess:
+        # Patch process launcher to ensure it's not called
+        with patch("novel_pipeline.providers.base._run_provider_process") as mock_process:
             response = runner.run(request, check=False)
-            # subprocess.run should NOT be called
-            mock_subprocess.assert_not_called()
+            # Provider process should NOT be launched
+            mock_process.assert_not_called()
             # Verify response indicates command_too_long
             assert response.returncode == 126
             assert "command line would exceed" in response.stderr.lower()
@@ -7322,10 +7527,10 @@ def test_preflight_blocks_before_unicode_wrapper():
     )
     with patch("os.name", "nt"), \
          patch("novel_pipeline.providers.base._build_windows_unicode_wrapper") as mock_wrapper, \
-         patch("subprocess.run") as mock_subprocess:
+         patch("novel_pipeline.providers.base._run_provider_process") as mock_process:
         response = runner.run(request, check=False)
         mock_wrapper.assert_not_called()
-        mock_subprocess.assert_not_called()
+        mock_process.assert_not_called()
         assert response.returncode == 126
         assert "command line would exceed" in response.stderr.lower()
         assert any("OMITTED" in str(arg) for arg in response.command)
@@ -7355,29 +7560,49 @@ def test_stdin_providers_not_blocked():
         stage="refinement",
         model="sonnet",
     )
-    # Mock subprocess.run to return success
-    with patch("subprocess.run") as mock_subprocess:
-        mock_completed = Mock()
-        mock_completed.returncode = 0
-        mock_completed.stdout = "mock output"
-        mock_completed.stderr = ""
-        mock_subprocess.return_value = mock_completed
+    # Mock provider process launcher to return success
+    with patch("novel_pipeline.providers.base._run_provider_process", return_value=(0, "mock output", "")) as mock_process:
         # Run on Windows (os.name nt)
         with patch("os.name", "nt"):
             response = runner.run(request, check=False)
-            # subprocess.run should have been called
-            mock_subprocess.assert_called_once()
+            # provider process should have been launched
+            mock_process.assert_called_once()
             # Verify prompt was passed via stdin (input parameter)
-            call_kwargs = mock_subprocess.call_args[1]
-            assert "input" in call_kwargs
-            assert call_kwargs["input"] == request.prompt
+            call_kwargs = mock_process.call_args[1]
+            assert call_kwargs["stdin_input"] == request.prompt
             # Verify command includes prompt_flag but not prompt in argv
-            command_args = call_kwargs["args"]
+            command_args = call_kwargs["command"]
             assert "-p" in command_args
             assert request.prompt not in command_args
             # Ensure response is successful
             assert response.returncode == 0
     print("✓ stdin_providers_not_blocked passes")
+
+
+def test_provider_timeout_is_classified_and_process_tree_cleaned():
+    """ProviderRunner timeout path returns a timeout response through the process-tree cleanup path."""
+    import sys
+    from novel_pipeline.providers.base import ProviderRunner, ProviderSpec, ProviderRequest, classify_provider_response
+
+    spec = ProviderSpec(
+        name="slow_provider",
+        executable=(sys.executable, "-c", "import time; time.sleep(5)"),
+        prompt_transport="stdin",
+        timeout_seconds=0.2,
+    )
+    runner = ProviderRunner(spec)
+    response = runner.run(
+        ProviderRequest(
+            prompt="hello",
+            provider="slow_provider",
+            stage="qa_judge",
+            timeout_seconds=0.2,
+        ),
+        check=False,
+    )
+    assert response.returncode == 124
+    assert classify_provider_response(response) == "timeout"
+    print("✓ provider_timeout_is_classified_and_process_tree_cleaned passes")
 
 
 def test_config_parses_max_command_chars():
@@ -7479,10 +7704,10 @@ def test_production_provider_routing_enables_ai_scan_and_formatting():
     assert qa_routing.provider == "openrouter_reasoning"
     assert qa_routing.model == "deepseek/deepseek-v4-flash"
     qa_routes = config.fallback_routes_for_stage("qa_judge")
-    assert [(spec.name, model) for spec, model in qa_routes] == [
-        ("qwen", "deepseek-reasoner"),
-        ("codex", "gpt-5.4"),
+    assert [(spec.name, model) for spec, model in qa_routes][:1] == [
+        ("openrouter_reasoning", "deepseek/deepseek-v4-pro"),
     ]
+    assert all(spec.name not in {"codex", "qwen"} for spec, _ in qa_routes)
     qa_provider = config.provider_for_stage("qa_judge")
     assert "--reasoning-enabled" in qa_provider.extra_args
     assert "--reasoning-exclude" in qa_provider.extra_args
@@ -7542,6 +7767,9 @@ if __name__ == "__main__":
     test_qa_omission_recovery_builds_literal_safe_refined_draft()
     test_qa_rule_warning_does_not_block_ai_pass()
     test_qa_glossary_missing_term_blocks_when_refinement_removed_literal_term()
+    test_qa_blocks_rejected_glossary_variant()
+    test_refine_applies_rejected_glossary_variant_repair()
+    test_refine_preserves_source_footnote_marker_section()
     test_qa_ai_judge_finding_still_blocks()
     test_qa_markdown_bold_fail_line_still_blocks()
     test_literal_translation_accepts_short_image_caption_filename()
@@ -7624,6 +7852,7 @@ if __name__ == "__main__":
     test_output_guardrail_flags_metadata_and_broken_ui_markers()
     test_hgd_approved_glossary_guardrail_flags_english_alias_leakage()
     test_sentinel_quality_report_flags_known_glossary_leakage_fixture()
+    test_sentinel_flags_glossary_note_leakage_without_flagging_story_ability_lists()
     test_sentinel_glossary_coverage_flags_source_term_missing_in_output()
     test_sentinel_glossary_coverage_ignores_covered_subterm()
     test_hgd_paragraph_density_guardrail_checks_late_chapters()
@@ -7644,6 +7873,7 @@ if __name__ == "__main__":
     test_preflight_blocks_long_argv_prompt()
     test_preflight_blocks_before_unicode_wrapper()
     test_stdin_providers_not_blocked()
+    test_provider_timeout_is_classified_and_process_tree_cleaned()
     test_config_parses_max_command_chars()
     test_openrouter_shim_sends_reasoning_payload()
     test_production_provider_routing_enables_ai_scan_and_formatting()

@@ -1,0 +1,21 @@
+{
+  "created_at": "2026-06-30T01:45:31.284856+00:00",
+  "scope": "irs-clean-ch001-ch005-v1-final-after-undertaker-repair",
+  "chapters": "ch001,ch002,ch003,ch004,ch005",
+  "counts": {
+    "blocker": 1,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch003\\ch003.md",
+      "message": "final_output: approved English remains: Undertaker -> สัปเหร่อ",
+      "evidence": "Undertaker.md"
+    }
+  ]
+}

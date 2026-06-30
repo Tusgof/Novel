@@ -1,0 +1,15 @@
+novel_id: infinite-regressor-stories
+vault_root: .
+source_language: en
+default_batch_size: 10
+chapter_unit: chapters
+default_style_profile: modern_urban
+chunking:
+  chinese_character_limit: 600
+  non_chinese_word_limit: 900
+source:
+  adapter: wetriedtls
+  toc_url: https://wetriedtls.com/series/im-an-infinite-regressor-but-ive-got-stories-to-tell
+  delay_seconds: 0.2
+  encoding: utf-8
+  max_chapter: 394

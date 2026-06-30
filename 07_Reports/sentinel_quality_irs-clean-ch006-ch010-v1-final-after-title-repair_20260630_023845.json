@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-06-30T02:38:45.672454+00:00",
+  "scope": "irs-clean-ch006-ch010-v1-final-after-title-repair",
+  "chapters": "ch006,ch007,ch008,ch009,ch010",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

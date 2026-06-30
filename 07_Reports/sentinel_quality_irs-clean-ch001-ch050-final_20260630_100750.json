@@ -1,0 +1,105 @@
+{
+  "created_at": "2026-06-30T10:07:50.469348+00:00",
+  "scope": "irs-clean-ch001-ch050-final",
+  "chapters": "ch001,ch002,ch003,ch004,ch005,ch006,ch007,ch008,ch009,ch010,ch011,ch012,ch013,ch014,ch015,ch016,ch017,ch018,ch019,ch020,ch021,ch022,ch023,ch024,ch025,ch026,ch027,ch028,ch029,ch030,ch031,ch032,ch033,ch034,ch035,ch036,ch037,ch038,ch039,ch040,ch041,ch042,ch043,ch044,ch045,ch046,ch047,ch048,ch049,ch050",
+  "counts": {
+    "blocker": 6,
+    "major": 3,
+    "minor": 4,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: approved English remains: ZERO_SUGAR -> ซีโร่ชูการ์",
+      "evidence": "ZERO_SUGAR.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch010\\ch010.md",
+      "message": "final_output: approved English remains: iJoinedToday -> เพิ่งสมัครวันนี้",
+      "evidence": "iJoinedToday.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch010\\ch010.md",
+      "message": "final_output: approved English remains: ZERO_SUGAR -> ซีโร่ชูการ์",
+      "evidence": "ZERO_SUGAR.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "New Buddha Cult -> ลัทธิพุทธะองค์ใหม่; glossary=New Buddha Cult.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch004\\ch004.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Prophecy -> คำพยากรณ์; glossary=Prophecy.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch005\\ch005.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "ZERO_SUGAR -> ซีโร่ชูการ์; glossary=ZERO_SUGAR.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch010\\ch010.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "iJoinedToday -> เพิ่งสมัครวันนี้; glossary=iJoinedToday.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch010\\ch010.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "ZERO_SUGAR -> ซีโร่ชูการ์; glossary=ZERO_SUGAR.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch012\\ch012.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Silver Bells -> ระฆังเงิน; glossary=Silver Bells.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch015\\ch015.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Silver Bells -> ระฆังเงิน; glossary=Silver Bells.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch018\\ch018.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Samcheon World -> โลกสามพัน; glossary=Samcheon World.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch020\\ch020.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Samcheon World -> โลกสามพัน; glossary=Samcheon World.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch033\\ch033.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "National Road Management Corps -> หน่วยจัดการถนนแห่งชาติ; glossary=National Road Management Corps.md"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-06-30T04:26:33.312726+00:00",
+  "scope": "irs-clean-ch016-ch020-v1-final-after-complete-memory-repair",
+  "chapters": "ch016,ch017,ch018,ch019,ch020",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

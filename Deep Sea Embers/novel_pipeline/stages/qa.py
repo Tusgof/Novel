@@ -90,6 +90,15 @@ def run_rule_checks(*, literal_draft: LiteralDraft, refined_draft: RefinedDraft,
     elif literal_sentence_count and refined_sentence_count < max(1, literal_sentence_count // 2):
         findings.append(QAFinding(severity="warning", code="sentence_drop", message="Refined output may have dropped too many sentence boundaries."))
     for entry in glossary_subset:
+        for variant in entry.rejected_variants:
+            if variant and variant in refined_text:
+                findings.append(
+                    QAFinding(
+                        severity="error",
+                        code="rejected_glossary_variant",
+                        message=f"Rejected glossary variant present: {variant} -> {entry.thai_term}",
+                    )
+                )
         if entry.thai_term and entry.thai_term not in refined_text:
             findings.append(QAFinding(severity="warning", code="glossary_inconsistency", message=f"Expected term not found: {entry.thai_term}"))
             if _should_block_glossary_inconsistency(literal_draft, refined_text, entry):

@@ -3,7 +3,7 @@ type: glossary-term
 original_term: Trauma Consultant
 thai_term: ที่ปรึกษาด้านบาดแผลทางใจ
 status: approved
-aliases: []
+aliases: ['Trauma Counsellor', 'Trauma Counselor']
 source_language: en
 category: title
 novel: horror-game-developer

@@ -3,7 +3,7 @@ type: glossary-term
 original_term: King Grade
 thai_term: ระดับคิง
 status: approved
-aliases: []
+aliases: ['King-Grade']
 source_language: en
 category: title
 novel: horror-game-developer

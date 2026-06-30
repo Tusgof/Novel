@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-06-29T18:36:55.763022+00:00",
+  "scope": "hgd-ch256-ch260-v1_ch260_sentinel",
+  "chapters": "ch260",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

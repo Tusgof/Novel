@@ -27,8 +27,10 @@ def get_adapter(source_config: SourceConfig) -> FetchAdapter:
 # -- register built-in adapters on import --
 from novel_pipeline.adapters.piaotia import PiaotiaAdapter  # noqa: E402
 from novel_pipeline.adapters.roliascan import RoliascanAdapter  # noqa: E402
+from novel_pipeline.adapters.wetriedtls import WetriedtlsAdapter  # noqa: E402
 
 register_adapter("piaotia", PiaotiaAdapter)
 register_adapter("roliascan", RoliascanAdapter)
+register_adapter("wetriedtls", WetriedtlsAdapter)
 
 __all__ = ["FetchAdapter", "get_adapter", "register_adapter"]

@@ -3,7 +3,7 @@ type: glossary-term
 original_term: Guild Severed Stars
 thai_term: กิลด์ดวงดาวที่ถูกตัดขาด
 status: approved
-aliases: [Severed Stars, Severed Star Guild, The Severed Stars Guild]
+aliases: [Severed Stars, Severed Star Guild, The Severed Stars Guild, Severed Star Guild First Squad]
 source_language: en
 category: organization
 novel: horror-game-developer

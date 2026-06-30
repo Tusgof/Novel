@@ -1,0 +1,30 @@
+schema_version: 1
+title: I'm an Infinite Regressor, But I've Got Stories to Tell
+aliases:
+- The Tales of an Infinite Regressor
+- 무한 회귀자인데 썰 푼다
+- 무회썰
+source_url: https://wetriedtls.com/series/im-an-infinite-regressor-but-ive-got-stories-to-tell
+status: active
+synopsis: '[The Infinite Regression Genre] Look in any fantasy novel, and you’ll find that regression is a guaranteed cheat code. The protagonist dies, returns before death, and keeps trying until every bad ending becomes a happy ending. But the narrator, a man with 1,183 runs of experience, calls that myth vile propaganda. This is not a success story; it is a story about the aftermath of failures.'
+tags:
+- Korean web novel
+- regression
+- apocalypse
+- fantasy
+- psychological
+- tragedy
+- dark comedy
+style_notes: 'Contemporary first-person regression/apocalypse fiction. Thai should stay readable, dry, and reflective, preserving deadpan humor and fatigue from repeated failed loops. Avoid cultivation/wuxia register unless the source explicitly invokes genre parody.'
+reader_expectations: 'Readers expect clever regression premise deconstruction, accumulated trauma from many loops, apocalypse survival, character stories, and dry humor rather than simple power fantasy wish fulfillment.'
+review_summary: 'NovelUpdates lists the Korean original as 485 chapters completed: 439 main-story chapters plus 46 side-story chapters. English release is not fully translated; WeTried TLS currently exposes body content through chapter 394 in source-page checks.'
+last_reviewed_at: '2026-06-24'
+reviewed_by: codex
+terminology:
+- Infinite Regression
+- regressor
+- regression
+- anomaly
+- Constellation
+reference_links: []
+notes: 'Fetch source is WeTried TLS English translation. NovelUpdates is used for identity, synopsis, author, tags, and original completion status. Preserve the source paragraph rhythm and pacing by default; do not restyle IRS into the denser HGD or DSE layout.'

@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-06-29T19:58:27.483174+00:00",
+  "scope": "hgd-ch266-ch270-v1-final-after-repair",
+  "chapters": "ch266,ch267,ch268,ch269,ch270",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

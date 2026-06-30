@@ -1,0 +1,21 @@
+{
+  "created_at": "2026-06-30T04:23:40.289761+00:00",
+  "scope": "irs-clean-ch016-ch020-v1-final",
+  "chapters": "ch016,ch017,ch018,ch019,ch020",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 1,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": [
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch020\\ch020.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Complete Memory -> ความทรงจำสมบูรณ์; glossary=Complete Memory.md"
+    }
+  ]
+}
