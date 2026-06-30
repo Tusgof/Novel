@@ -16,6 +16,7 @@ Current progress:
 - Milestone 1 complete: experiment charter, measurement contract, stop/no-production rules, and charter research log are in place.
 - Milestone 2 complete: raw source pools were audited for DSE, HGD, and IRS; fixed-seed sample manifest was created from raw source only.
 - Milestone 3 stopped at a valid baseline gate: HGD baseline reached `ch037`, then Sentinel found major glossary coverage failures in experiment output. The next step is Milestone 4 analysis, not manual repair.
+- Milestone 4 initial analysis complete: HGD `ch037` failure is title sidecar/glossary inconsistency, not body translation loss.
 
 ---
 
@@ -153,6 +154,8 @@ Status: safely stopped at gate. Scan-only and baseline glossary gates are comple
 | 4.5 | Decide which fixes are allowed in the treatment round and which are deferred | S | ✅ | Treatment scope is explicitly listed |
 
 **Milestone complete when**: There is a reviewed treatment plan that maps each selected fix to evidence, layer, expected metric improvement, and verification method.
+
+Status: initial analysis complete, treatment selection pending. Evidence: `07_Reports/v6_34_m4_initial_defect_analysis_hgd_ch037_20260701.md` and `01_Research_Log/2026-06-30_novel_pipeline_v6_34_m4_initial_analysis.md`.
 
 ---
 
