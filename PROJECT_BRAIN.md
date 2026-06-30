@@ -125,6 +125,7 @@ Cross-novel experiment state:
 - V6.34C IRS glossary classification completed without approval writes: 62 approve-new candidates, 19 alias-to-existing candidates, 41 reject/noise candidates, and 53 ask-human/source-aware candidates. Translation remains paused until source-aware review and experiment-local `glossary_approved` records exist. Report: `07_Reports/v6_34c_irs_glossary_classification_20260701.md`; research log: `01_Research_Log/2026-06-30_novel_pipeline_libra_blind_pilot_v6_34c_irs_glossary_classification.md`.
 - V6.34C IRS experiment-local glossary approval completed: 73 notes created in the isolated experiment vault, 7 alias updates made there, 10 `glossary_approved` records appended for `v6-34c-irs-insample-v1`, no production glossary/output/MoonRead files changed, and translation/refinement/QA/formatting records remain `0`. Report: `07_Reports/v6_34c_irs_glossary_approval_decisions_20260701.md`; research log: `01_Research_Log/2026-06-30_novel_pipeline_libra_blind_pilot_v6_34c_irs_glossary_approval.md`.
 - V6.34 Milestone 1 charter lock completed: `IMPLEMENT_PLAN.md` was rewritten around a measured cross-novel research loop, the old plan was archived at `Backup_IMPLEMENT_PLAN/01072026_IMPLEMENT_PLAN.md`, and the charter research log is `01_Research_Log/2026-06-30_novel_pipeline_v6_34_charter.md`. Current V6.34 next step is Milestone 2 source-pool and sampling gate, not production translation.
+- V6.34 Milestone 2 source-pool/sampling gate completed: DSE `ch001-ch180`, HGD `ch001-ch270`, and IRS `ch001-ch394` raw pools have no gaps, missing `source.json`, or unreadable `source.json` within verified boundaries. Seed `634001` produced a 60-chapter cross-novel manifest: 20 chapters per novel, split into 10 in-sample and 10 out-of-sample chapters. Report: `07_Reports/v6_34_m2_source_pool_and_sample_manifest_20260701.md`; research log: `01_Research_Log/2026-06-30_novel_pipeline_v6_34_source_pool_sampling.md`.
 
 MoonRead:
 
@@ -343,10 +344,9 @@ V6.33 translation-output and reader-publication phase is complete:
 
 Next safe choices:
 
-1. Continue V6.34 Milestone 2: verify/fetch raw source pools for DSE, HGD, and IRS before any new sampling.
-2. Create a source-pool audit report under `07_Reports/`, including count, min/max chapter, gaps, unreadable files, and any upstream boundary.
-3. Generate a fixed-seed cross-novel sample manifest from raw source only: 20 chapters per novel, 10 in-sample and 10 out-of-sample.
+1. Continue V6.34 Milestone 3: run the full baseline round on the 30 in-sample chapters from `07_Reports/v6_34_m2_source_pool_and_sample_manifest_20260701.md`.
+2. Start with scan-only and glossary approval gates in isolated experiment state for DSE, HGD, and IRS.
+3. Do not apply systemic fixes during the baseline round; record failures as data for Milestone 4 analysis.
 4. Keep experiment output isolated from production `05_Output`, production glossary, production ledger intent, and MoonRead.
-5. Do not resume IRS-only treatment until the new cross-novel source-pool/sampling gate is complete or explicitly superseded.
-6. Record each completed experiment round in `01_Research_Log/` and push it immediately.
-7. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.
+5. Record each completed experiment round in `01_Research_Log/` and push it immediately.
+6. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.

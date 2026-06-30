@@ -11,6 +11,12 @@ Last updated: 2026-07-01
 
 This plan is research-first. Experiment output is not production output and must not be published to MoonRead unless a separate production publication gate approves it.
 
+Current progress:
+
+- Milestone 1 complete: experiment charter, measurement contract, stop/no-production rules, and charter research log are in place.
+- Milestone 2 complete: raw source pools were audited for DSE, HGD, and IRS; fixed-seed sample manifest was created from raw source only.
+- Next milestone: Milestone 3 full baseline round on the 30 in-sample chapters.
+
 ---
 
 ## V6.34 Measurement Contract
@@ -91,6 +97,8 @@ Do not parallelize provider translation/refinement/QA as part of this plan unles
 
 **Milestone complete when**: The experiment has a written question, metrics, stop rule, no-production rule, and research-log evidence.
 
+Status: complete. Evidence: `01_Research_Log/2026-06-30_novel_pipeline_v6_34_charter.md`.
+
 ---
 
 ## Milestone 2: Cross-Novel Raw Source And Sampling Gate
@@ -107,6 +115,8 @@ Do not parallelize provider translation/refinement/QA as part of this plan unles
 | 2.5 | Create isolated experiment vaults/run IDs for all sampled chapters, separated from production `05_Output`, production MoonRead, and production ledger intent | M | ⚠️ | Experiment paths and run IDs are listed; production output is unchanged |
 
 **Milestone complete when**: A reproducible cross-novel sample manifest exists and every sampled chapter comes from verified raw source.
+
+Status: complete. Evidence: `07_Reports/v6_34_m2_source_pool_and_sample_manifest_20260701.md` and `01_Research_Log/2026-06-30_novel_pipeline_v6_34_source_pool_sampling.md`.
 
 ---
 
