@@ -15,7 +15,7 @@ Current progress:
 
 - Milestone 1 complete: experiment charter, measurement contract, stop/no-production rules, and charter research log are in place.
 - Milestone 2 complete: raw source pools were audited for DSE, HGD, and IRS; fixed-seed sample manifest was created from raw source only.
-- Milestone 3 in progress: isolated experiment vaults, scan-only gates, and baseline glossary gates are complete; baseline translation has not started.
+- Milestone 3 stopped at a valid baseline gate: HGD baseline reached `ch037`, then Sentinel found major glossary coverage failures in experiment output. The next step is Milestone 4 analysis, not manual repair.
 
 ---
 
@@ -135,7 +135,7 @@ Status: complete. Evidence: `07_Reports/v6_34_m2_source_pool_and_sample_manifest
 
 **Milestone complete when**: The in-sample baseline round is complete or safely stopped with a documented unrecoverable reason, and all observed failures are recorded before fixes.
 
-Status: in progress. Scan-only and baseline glossary gates are complete. Evidence: `01_Research_Log/2026-06-30_novel_pipeline_v6_34_m3_scan_glossary_gate.md` and `07_Reports/v6_34_m3_baseline_glossary_gate_decisions_20260701.md`. Translation/refinement/QA/format/Sentinel baseline has not started.
+Status: safely stopped at gate. Scan-only and baseline glossary gates are complete. HGD baseline translation reached `ch037`, then stopped on Sentinel major findings for missing `Velora Art Museum` glossary coverage. Evidence: `01_Research_Log/2026-06-30_novel_pipeline_v6_34_m3_scan_glossary_gate.md`, `01_Research_Log/2026-06-30_novel_pipeline_v6_34_m3_hgd_baseline_stop.md`, and `07_Reports/v6_34_m3_baseline_glossary_gate_decisions_20260701.md`. This is sufficient baseline failure data to start Milestone 4 analysis without repairing the baseline output.
 
 ---
 

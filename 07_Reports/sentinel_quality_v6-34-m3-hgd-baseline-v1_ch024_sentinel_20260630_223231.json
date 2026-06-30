@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-06-30T22:32:31.482602+00:00",
+  "scope": "v6-34-m3-hgd-baseline-v1_ch024_sentinel",
+  "chapters": "ch024",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

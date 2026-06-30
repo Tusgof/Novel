@@ -127,6 +127,7 @@ Cross-novel experiment state:
 - V6.34 Milestone 1 charter lock completed: `IMPLEMENT_PLAN.md` was rewritten around a measured cross-novel research loop, the old plan was archived at `Backup_IMPLEMENT_PLAN/01072026_IMPLEMENT_PLAN.md`, and the charter research log is `01_Research_Log/2026-06-30_novel_pipeline_v6_34_charter.md`. Current V6.34 next step is Milestone 2 source-pool and sampling gate, not production translation.
 - V6.34 Milestone 2 source-pool/sampling gate completed: DSE `ch001-ch180`, HGD `ch001-ch270`, and IRS `ch001-ch394` raw pools have no gaps, missing `source.json`, or unreadable `source.json` within verified boundaries. Seed `634001` produced a 60-chapter cross-novel manifest: 20 chapters per novel, split into 10 in-sample and 10 out-of-sample chapters. Report: `07_Reports/v6_34_m2_source_pool_and_sample_manifest_20260701.md`; research log: `01_Research_Log/2026-06-30_novel_pipeline_v6_34_source_pool_sampling.md`.
 - V6.34 Milestone 3 scan/glossary gate completed for the 30 in-sample chapters in isolated experiment vaults: DSE `v6-34-m3-dse-baseline-v1`, HGD `v6-34-m3-hgd-baseline-v1`, and IRS `v6-34-m3-irs-baseline-v1` each have 10 `fetched`, 10 `glossary_scanned`, and 10 `glossary_approved` records, with translation/refinement/QA/formatting records still `0`. Baseline policy holds all newly scanned candidates to avoid tuning before measurement. Decision report: `07_Reports/v6_34_m3_baseline_glossary_gate_decisions_20260701.md`; research log: `01_Research_Log/2026-06-30_novel_pipeline_v6_34_m3_scan_glossary_gate.md`.
+- V6.34 Milestone 3 baseline translation stopped at a valid gate: HGD `v6-34-m3-hgd-baseline-v1` completed `ch024` and `ch037` blocks, then Sentinel found true experiment-output major glossary coverage failures on `ch037` (`Velora Art Museum` / `Art Museum` missing approved Thai term). A separate instrumentation bug was fixed so experiment Sentinel uses local registry/workspace overrides instead of production output/MoonRead. Research log: `01_Research_Log/2026-06-30_novel_pipeline_v6_34_m3_hgd_baseline_stop.md`. Next step is Milestone 4 defect analysis; do not repair `ch037` as a one-off before classification.
 
 MoonRead:
 
@@ -345,9 +346,9 @@ V6.33 translation-output and reader-publication phase is complete:
 
 Next safe choices:
 
-1. Continue V6.34 Milestone 3: run baseline translation/refinement/QA/format/Sentinel on the 30 in-sample chapters from the three isolated experiment vaults.
-2. Start with one novel at a time to keep provider failures attributable; DSE/HGD/IRS run IDs are recorded in the Milestone 3 scan/glossary research log.
-3. Do not apply systemic fixes during the baseline round; record failures as data for Milestone 4 analysis.
+1. Continue V6.34 Milestone 4: analyze the HGD `ch037` baseline stop and classify defects by layer before any repair.
+2. Treat the `Velora Art Museum` miss as baseline glossary coverage evidence, not a one-off output patch.
+3. Decide whether the treatment belongs in Layer 0 shared guardrail, Layer 1 English-to-Thai playbook, Layer 2 HGD glossary/profile, or Layer 3 run-local recovery.
 4. Keep experiment output isolated from production `05_Output`, production glossary, production ledger intent, and MoonRead.
 5. Record each completed experiment round in `01_Research_Log/` and push it immediately.
 6. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.

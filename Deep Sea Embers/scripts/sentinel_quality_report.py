@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import json
+import os
 import re
 import sys
 from dataclasses import asdict, dataclass
@@ -13,10 +14,12 @@ from typing import Iterable
 
 SCRIPT_PATH = Path(__file__).resolve()
 DSE_ROOT = SCRIPT_PATH.parents[1]
-WORKSPACE_ROOT = DSE_ROOT.parent
-REGISTRY_PATH = WORKSPACE_ROOT / "00_Config" / "novel_registry.json"
-MOONREAD_ROOT = WORKSPACE_ROOT / "MoonRead"
-REPORT_ROOT = WORKSPACE_ROOT / "07_Reports"
+WORKSPACE_ROOT = Path(os.environ.get("NOVEL_SENTINEL_WORKSPACE_ROOT", str(DSE_ROOT.parent))).resolve()
+REGISTRY_PATH = Path(
+    os.environ.get("NOVEL_SENTINEL_REGISTRY_PATH", str(WORKSPACE_ROOT / "00_Config" / "novel_registry.json"))
+).resolve()
+MOONREAD_ROOT = Path(os.environ.get("NOVEL_SENTINEL_MOONREAD_ROOT", str(WORKSPACE_ROOT / "MoonRead"))).resolve()
+REPORT_ROOT = Path(os.environ.get("NOVEL_SENTINEL_REPORT_ROOT", str(WORKSPACE_ROOT / "07_Reports"))).resolve()
 KNOWN_GLOSSARY_NEAR_MISSES = {
     "Kaelen": ["ไคลน์", "ไคล์น"],
     "Kaelen Jacobs": ["ไคลน์", "ไคล์น"],
@@ -48,7 +51,7 @@ def read_text(path: Path) -> str:
 
 
 def load_registry() -> dict:
-    return json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
+    return json.loads(REGISTRY_PATH.read_text(encoding="utf-8-sig"))
 
 
 def filter_registry(registry: dict, novel_filter: str | None) -> dict:
@@ -167,6 +170,8 @@ def load_guardrail_module():
 
 
 def collect_existing_guardrails(scoped: set[str] | None) -> list[Finding]:
+    if os.environ.get("NOVEL_SENTINEL_SKIP_EXISTING_GUARDRAILS") == "1":
+        return []
     module = load_guardrail_module()
     issues: list[str] = []
     module.check_registry_title_policies(issues)

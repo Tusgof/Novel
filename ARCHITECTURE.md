@@ -220,6 +220,7 @@ Use this gate when testing whether a pipeline improvement generalizes across act
 - Use stratified random sampling across the verified raw range so the sample covers early, middle, late, and unseen chapters.
 - Keep in-sample and out-of-sample sets separate. Tune only on in-sample; use out-of-sample as the generalization proof.
 - Run treatment waves from isolated experiment vaults unless the milestone is explicitly a production run. Production `05_Output`, MoonRead generated content, and the production ledger must not be overwritten by exploratory evidence.
+- Isolated experiment vaults that run Sentinel must include a local `00_Config/novel_registry.json`; runtime Sentinel must scan the experiment vault's `03_Raw` and `05_Output`, not production output or MoonRead.
 - Start each treatment wave with a scan-only/glossary approval gate before translation. Translation without experiment-local glossary approval is an invalid treatment run.
 - For glossary experiments, classify scan candidates before approval into approve-new, alias-to-existing, reject/noise, and ask-human/source-aware. Alias-to-existing should not create duplicate glossary notes.
 - Record seed, source pool, selected chapters, commands, metrics, failures, fixes, and decisions in `01_Research_Log/` using `RESEARCH_LOG_FORMAT.md`.

@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+import os
 import re
 import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -3074,22 +3075,44 @@ def _run_sentinel_gate_for_chapter(
     if mode != "blocking":
         return
 
+    env_override: dict[str, str] = {}
+    workspace_root = config.workspace.root.resolve()
+    if "_experiments" in workspace_root.parts:
+        registry_path = workspace_root / "00_Config" / "novel_registry.json"
+        if registry_path.exists():
+            env_override = {
+                "NOVEL_SENTINEL_WORKSPACE_ROOT": str(workspace_root),
+                "NOVEL_SENTINEL_REGISTRY_PATH": str(registry_path),
+                "NOVEL_SENTINEL_MOONREAD_ROOT": str(workspace_root / "MoonRead"),
+                "NOVEL_SENTINEL_REPORT_ROOT": str(workspace_root / "07_Reports"),
+                "NOVEL_SENTINEL_SKIP_EXISTING_GUARDRAILS": "1",
+            }
+    previous_env = {key: os.environ.get(key) for key in env_override}
     script_path = Path(__file__).resolve().parents[1] / "scripts" / "sentinel_quality_report.py"
-    spec = importlib.util.spec_from_file_location("sentinel_quality_report_runtime", script_path)
-    if spec is None or spec.loader is None:
-        raise RuntimeError(f"Cannot load Sentinel gate script: {script_path}")
-    module = importlib.util.module_from_spec(spec)
-    sys.modules["sentinel_quality_report_runtime"] = module
-    spec.loader.exec_module(module)
+    try:
+        for key, value in env_override.items():
+            os.environ[key] = value
+        spec = importlib.util.spec_from_file_location("sentinel_quality_report_runtime", script_path)
+        if spec is None or spec.loader is None:
+            raise RuntimeError(f"Cannot load Sentinel gate script: {script_path}")
+        module = importlib.util.module_from_spec(spec)
+        sys.modules["sentinel_quality_report_runtime"] = module
+        spec.loader.exec_module(module)
 
-    fail_on = getattr(config.execution, "sentinel_fail_on", "major")
-    result = module.generate_sentinel_report(
-        scope=f"{run_id}_{chapter_id}_sentinel",
-        novel=config.novel_id,
-        chapters=chapter_id,
-        fail_on=fail_on,
-        skip_advisory_english=True,
-    )
+        fail_on = getattr(config.execution, "sentinel_fail_on", "major")
+        result = module.generate_sentinel_report(
+            scope=f"{run_id}_{chapter_id}_sentinel",
+            novel=config.novel_id,
+            chapters=chapter_id,
+            fail_on=fail_on,
+            skip_advisory_english=True,
+        )
+    finally:
+        for key, previous in previous_env.items():
+            if previous is None:
+                os.environ.pop(key, None)
+            else:
+                os.environ[key] = previous
     counts = result["counts"]
     metadata = {
         "mode": mode,
