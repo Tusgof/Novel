@@ -183,7 +183,7 @@
           "จิตวิทยา",
           "ดราม่า"
         ],
-        "cover": "",
+        "cover": "/images/infinite-regressor-stories-cover.png",
         "source_root_env": "IRS_READER_SOURCE_ROOT",
         "first_chapter_env": "IRS_READER_FIRST_CHAPTER",
         "last_chapter_env": "IRS_READER_LAST_CHAPTER"
