@@ -110,6 +110,7 @@ Infinite Regressor Stories:
 - V6.32 IRS setup experiment completed for IRS on 2026-06-29. In-sample run `irs-v6-32-insample-treatment-v3` completed `34/34` blocks; out-of-sample run `irs-v6-32-oos-v1` completed `32/32` blocks. Current failed blocks: none. Scoped deterministic output audit passed for all 20 sampled chapters. Completion report: `Infinite Regressor Stories/07_Reports/v6_32_irs_experiment_completion_20260629.md`
 - V6.33 IRS clean production retranslation completed and published for `ch001-ch050` using 5-chapter glossary batches. All 10 clean batch run IDs report current failed blocks: none and manual actions needed: none. Final outputs exist for all 50 chapters. Blocking Sentinel report `07_Reports/sentinel_quality_irs-clean-ch001-ch050-final-after-leakage-rule_20260630_101639.md` reports `0/0/0/0`; advisory report `07_Reports/sentinel_quality_irs-clean-ch001-ch050-final-advisory-review-after-leakage-rule_20260630_101829.md` reports `0/0/80/0` suspicious-English minor review items. Completion report: `Infinite Regressor Stories/07_Reports/irs_clean_retranslate_ch001_ch050_completion_20260630.md`. MoonRead publish Sentinel report `07_Reports/sentinel_quality_moonread-irs-ch001-ch050-publish_20260630_172648.md` reports `0/0/0/0`.
 - IRS Thai numeral drift closed for published `ch001-ch050`: `ch004` and `ch006` contained Thai digits from AI refinement/formatting. Final output, current work artifacts, and MoonRead generated chapters were normalized to Arabic digits. Cause: providers can stylistically rewrite Arabic numerals into Thai numerals, and old archive/experiment artifacts still preserve pre-normalized drafts. Prevention: IRS registry quality policy now rejects `[๐-๙]`; output guardrails/test coverage verify the rule for both `05_Output` and MoonRead generated content; scoped IRS guardrails now honor `--novel infinite-regressor-stories` so unrelated HGD backlog cannot mask IRS-only verification.
+- 2026-07-01 IRS Thai numeral audit reconfirmed current product state: IRS `05_Output/ch001-ch050` and MoonRead generated IRS chapters contain no Thai numerals, scoped Sentinel reports `0/0/0/0`, and Thai numerals remain only in old `_archive` artifacts from the pre-repair run. Report: `07_Reports/irs_thai_numeral_audit_20260701.md`.
 - current IRS production recommendation: safe for the next bounded sequential IRS production pilot, but not approved for long unmonitored parallel production. Reasoning-enabled OpenRouter QA returned empty assistant messages on long QA prompts; isolated IRS experiment routing used non-reasoning `deepseek/deepseek-v4-flash` QA with Gemini Flash fallback.
 - setup/fetch evidence: `Infinite Regressor Stories/07_Reports/setup_fetch_20260624.md`
 
@@ -120,6 +121,7 @@ Cross-novel experiment state:
 - First V6.34 sample seed: `634001`; design is 10 strata per novel, 1 in-sample and 1 out-of-sample chapter per stratum, total 60 chapters across 3 novels.
 - V6.34A sampling-only round is recorded at `01_Research_Log/2026-06-30_novel_pipeline_libra_blind_pilot_source_pool.md`; no provider calls or production translation were started during this round.
 - V6.34B read-only baseline is recorded at `01_Research_Log/2026-06-30_novel_pipeline_libra_blind_pilot_baseline_v6_34b.md`; risk data lives in `07_Reports/v6_34b_cross_novel_baseline_risk_table_20260630_203000.json` and `.md`. Result: all 60 raw-source chapters exist; IRS is the highest-risk stress target due to long/very-long chapters, bracket/system density, repeated-character risk, embedded CJK/Hangul risk, and high glossary density.
+- V6.34C IRS in-sample scan-only gate completed in isolated experiment vault `Infinite Regressor Stories/04_Work/_experiments/v6_34c_irs_insample_v1`: run `v6-34c-irs-insample-v1` scanned `ch009,ch076,ch086,ch157,ch183,ch201,ch252,ch300,ch338,ch381`, produced 175 glossary candidate items, wrote only `fetched`/`glossary_scanned` ledger records, created no final outputs, and has no current failed blocks. Research log: `01_Research_Log/2026-06-30_novel_pipeline_libra_blind_pilot_v6_34c_irs_scan.md`.
 
 MoonRead:
 
@@ -338,8 +340,9 @@ V6.33 translation-output and reader-publication phase is complete:
 
 Next safe choices:
 
-1. Continue V6.34C with a bounded IRS high-risk in-sample wave: `ch009,ch076,ch086,ch157,ch183,ch201,ch252,ch300,ch338,ch381`.
-2. Do not run all 30 in-sample chapters at once; keep IRS, DSE, and HGD waves separate for layer classification.
-3. Do not publish experiment output to MoonRead unless a separate production publication gate approves it.
-4. Before any future reader changes, run scoped Sentinel/MoonRead publish checks, then `lint`, `build`, and `smoke`.
-5. Stop again on manual QA prompt, provider failure, command length failure, validation failure, source extraction failure, or unexpected scope expansion.
+1. Continue V6.34C by classifying the 175 IRS glossary candidates in `Infinite Regressor Stories/04_Work/_experiments/v6_34c_irs_insample_v1/04_Work/_batch/v6-34c-irs-insample-v1/glossary_scan.json`.
+2. Do not resume translation for `v6-34c-irs-insample-v1` until experiment-local glossary approval records exist.
+3. Do not run all 30 in-sample chapters at once; keep IRS, DSE, and HGD waves separate for layer classification.
+4. Do not publish experiment output to MoonRead unless a separate production publication gate approves it.
+5. Before any future reader changes, run scoped Sentinel/MoonRead publish checks, then `lint`, `build`, and `smoke`.
+6. Stop again on manual QA prompt, provider failure, command length failure, validation failure, source extraction failure, or unexpected scope expansion.

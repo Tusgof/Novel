@@ -219,6 +219,8 @@ Use this gate when testing whether a pipeline improvement generalizes across act
 - Audit the fetched raw-source pool before sampling. If the upstream novel has more chapters than the local raw pool, either fetch/validate the broader scope first or explicitly record the verified local scope as the experiment boundary.
 - Use stratified random sampling across the verified raw range so the sample covers early, middle, late, and unseen chapters.
 - Keep in-sample and out-of-sample sets separate. Tune only on in-sample; use out-of-sample as the generalization proof.
+- Run treatment waves from isolated experiment vaults unless the milestone is explicitly a production run. Production `05_Output`, MoonRead generated content, and the production ledger must not be overwritten by exploratory evidence.
+- Start each treatment wave with a scan-only/glossary approval gate before translation. Translation without experiment-local glossary approval is an invalid treatment run.
 - Record seed, source pool, selected chapters, commands, metrics, failures, fixes, and decisions in `01_Research_Log/` using `RESEARCH_LOG_FORMAT.md`.
 - Classify every fix by layer before implementation:
   - Layer 0 multi-novel shared rule

@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-06-30T20:36:54.785623+00:00",
+  "scope": "irs-thai-numeral-audit-ch001-ch050",
+  "chapters": "ch001-ch050",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

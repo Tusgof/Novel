@@ -545,6 +545,8 @@ Done when:
 
 ### V6.34C: In-Sample Treatment
 
+Status: active. IRS scan-only substep complete; translation treatment has not started. Evidence: `01_Research_Log/2026-06-30_novel_pipeline_libra_blind_pilot_v6_34c_irs_scan.md`.
+
 Run only the 30 in-sample chapters first, bounded by novel and glossary batch:
 
 1. IRS high-risk in-sample wave first: `ch009,ch076,ch086,ch157,ch183,ch201,ch252,ch300,ch338,ch381`.
@@ -565,6 +567,12 @@ Done when:
 - Sentinel blocker/major is `0/0`
 - no manual artifact rewrite is required
 - every fix has a test, guardrail, prompt rule, skill rule, or documented novel-layer policy
+
+Next V6.34C action:
+
+- Classify and approve/reject IRS experiment glossary candidates from `Infinite Regressor Stories/04_Work/_experiments/v6_34c_irs_insample_v1/04_Work/_batch/v6-34c-irs-insample-v1/glossary_scan.json`.
+- After experiment-local glossary approval records exist, resume `v6-34c-irs-insample-v1` from translating.
+- Record translation treatment as a separate research log round.
 
 ### V6.34D: Out-Of-Sample Proof
 
