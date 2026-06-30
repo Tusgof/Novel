@@ -16,6 +16,7 @@ TITLE_MAP = {
     "Return of the Jester": "การกลับมาของตัวตลก",
     "Masquerade ball": "งานเต้นรำสวมหน้ากาก",
     "The perfect piece": "ชิ้นงานสมบูรณ์แบบ",
+    "The missing piece": "ชิ้นส่วนที่หายไป",
     "Crying": "เสียงร้องไห้",
     "Little girl": "เด็กหญิงตัวน้อย",
     "Little Girl": "เด็กหญิงตัวน้อย",

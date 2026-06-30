@@ -29,6 +29,7 @@ Current progress:
 - Milestone 3 stopped at a valid baseline gate: HGD baseline reached `ch037`, then Sentinel found major glossary coverage failures in experiment output. The next step is Milestone 4 analysis, not manual repair.
 - Milestone 4 initial analysis complete: HGD `ch037` failure is title sidecar/glossary inconsistency, not body translation loss.
 - Milestone 4 treatment selected: add deterministic title/H1 glossary validation and correct the HGD `Velora Art Museum` title map to the approved glossary term. Milestone 5 treatment rerun is next.
+- Milestone 5 started and safely stopped: HGD treatment vault reached `ch024`, then Sentinel blocked approved glossary English parenthetical leakage. This is new treatment evidence, not production output.
 
 ---
 
@@ -187,7 +188,7 @@ Status: complete. Evidence: `07_Reports/v6_34_m4_initial_defect_analysis_hgd_ch0
 
 **Milestone complete when**: Treatment produces measurable evidence of improvement or clear evidence that the hypothesis failed.
 
-Status: started. Layer 0 title/H1 glossary validation and Layer 2 HGD `Velora Art Museum` title-map correction are implemented and unit-tested. Treatment rerun is pending.
+Status: started and safely stopped at a new blocker. Layer 0 title/H1 glossary validation, Layer 2 HGD `Velora Art Museum` title-map correction, and Layer 2 `The missing piece` title-map completion are implemented and unit-tested. HGD treatment rerun stopped at `ch024` because Sentinel found approved glossary English parenthetical leakage. Evidence: `07_Reports/v6_34_m5_hgd_treatment_early_stop_20260701.md` and `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_hgd_treatment_early_stop.md`.
 
 ---
 

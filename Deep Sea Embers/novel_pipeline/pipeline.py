@@ -90,6 +90,7 @@ HGD_TITLE_MAP = {
     "Return of the Jester": "การกลับมาของตัวตลก",
     "Masquerade ball": "งานเต้นรำสวมหน้ากาก",
     "The perfect piece": "ชิ้นงานสมบูรณ์แบบ",
+    "The missing piece": "ชิ้นส่วนที่หายไป",
     "The world has changed": "โลกเปลี่ยนไปแล้ว",
     "Crying": "เสียงร้องไห้",
     "Little girl": "เด็กหญิงตัวน้อย",
