@@ -180,14 +180,23 @@ async function main() {
       horrorEvidence.available = horrorBook.summary.available;
     }
 
-    let infiniteChaptersEvidence = { hasToc: false, hasFirstChapter: false, hasAvailableCount: false, hasLibraryCount: false };
+    let infiniteChaptersEvidence = {
+      hasToc: false,
+      hasFirstChapter: false,
+      hasAvailableCount: false,
+      hasAppbar: false,
+      hasTocRows: false,
+      hasLegacyHeader: false,
+    };
     if (infiniteBook?.firstChapter) {
       await page.goto(`${baseUrl}${infiniteBook.chaptersHref}`, { waitUntil: "networkidle" });
       infiniteChaptersEvidence = await page.evaluate(({ chapterTitle, available }) => ({
         hasToc: document.body.innerText.includes("สารบัญ I'm an Infinite Regressor"),
         hasFirstChapter: document.body.innerText.includes(chapterTitle),
         hasAvailableCount: document.body.innerText.includes(`${available} ตอนที่พร้อมอ่าน`),
-        hasLibraryCount: document.body.innerText.includes("3 เรื่อง"),
+        hasAppbar: Boolean(document.querySelector(".appbar")),
+        hasTocRows: document.querySelectorAll(".toc-list .ch-row").length === available,
+        hasLegacyHeader: Boolean(document.querySelector(".site-header")),
       }), { chapterTitle: infiniteBook.firstChapter.title, available: infiniteBook.summary.available });
     }
 
@@ -252,7 +261,9 @@ async function main() {
         infiniteChaptersEvidence.hasToc &&
         infiniteChaptersEvidence.hasFirstChapter &&
         infiniteChaptersEvidence.hasAvailableCount &&
-        infiniteChaptersEvidence.hasLibraryCount &&
+        infiniteChaptersEvidence.hasAppbar &&
+        infiniteChaptersEvidence.hasTocRows &&
+        !infiniteChaptersEvidence.hasLegacyHeader &&
         mobileEvidence.hasTopbar &&
         !mobileEvidence.overflowX &&
         ogEvidence.hasOgTitle &&
