@@ -2,7 +2,7 @@
 
 Last updated: 2026-07-01
 
-This is the active roadmap. It should answer: what is done, what is next, when to stop, and how to verify completion. Long history belongs in `Deep Sea Embers/07_Reports/`, not here.
+This is the active roadmap. It should answer: what is done, what is next, when to stop, and how to verify completion. Long history belongs in root-level `07_Reports/` or `01_Research_Log/`, not here.
 
 ## Finish Line
 
@@ -455,6 +455,136 @@ V6.33 Stop Conditions:
 - provider timeout/empty output repeats for the same stage
 - Sentinel blocker/major appears
 - MoonRead publish verification fails
+
+## Active Milestone: V6.34 Cross-Novel Libra - Blind Pilot Gate
+
+Goal: run a new Libra - Pilot experiment across Deep Sea Embers, Horror Game Developer, and Infinite Regressor Stories using raw-source sampling that is not limited to previously translated or previously problematic chapters. The purpose is to improve the whole translation pipeline: skills, code, prompts, glossary workflow, provider routing, guardrails, reports, and operator policy.
+
+Why this exists:
+
+- Earlier Libra - Pilot evidence is useful, but it still overrepresents ranges that were already translated or already operationally familiar.
+- Production bugs kept recurring after local fixes because some rules were not promoted to the correct multi-novel/language/novel layer.
+- Glossary quality cannot be proven from early translated ranges only; it needs pressure from late, unseen, and story-distribution-wide source chapters.
+
+Current source-pool audit as of 2026-07-01:
+
+| Novel | Fetched raw source pool | Continuity | Published/translated scope |
+| --- | --- | --- | --- |
+| Deep Sea Embers | `03_Raw/ch001-ch180` (`180` chapters) | no gaps detected | MoonRead through `ch180` |
+| Horror Game Developer | `03_Raw/ch001-ch270` (`270` chapters) | no gaps detected | MoonRead through `ch270` |
+| Infinite Regressor Stories | `03_Raw/ch001-ch394` (`394` chapters) | no gaps detected | MoonRead through `ch050` |
+
+Important limitation: DSE source has more chapters upstream than the current local raw pool. V6.34 may sample only from the verified local `03_Raw` pool unless Ferryman first fetches and validates a broader DSE source scope. If broader fetch fails, record the verified fetchable scope and sample only from that scope.
+
+### V6.34A: Research Log And Sampling Manifest
+
+Rules:
+
+- Every V6.34 experiment round must create or update a log using `RESEARCH_LOG_FORMAT.md`.
+- Store logs in `01_Research_Log/`.
+- One experiment round equals one research log. Do not merge multiple experiment rounds into one reconstructed summary.
+- Raw data paths, sample seed, source pool, selected chapters, metrics, fixes, and decisions must be recorded.
+
+Sampling design:
+
+- Use only chapters that exist in each novel's `03_Raw/` source pool.
+- Use seed `634001` for the first cross-novel blind pilot.
+- Use 10 strata per novel across the verified raw-source range.
+- From each stratum, pick 1 in-sample chapter and 1 out-of-sample chapter.
+- Total first-round sample: 60 chapters: 20 per novel, 10 in-sample and 10 out-of-sample per novel.
+- Previously translated chapters are allowed only if selected by the raw-source sample. They must not be hand-picked.
+
+First-round selected sample:
+
+| Novel | In-sample chapters | Out-of-sample chapters |
+| --- | --- | --- |
+| DSE | `ch008,ch033,ch051,ch061,ch077,ch098,ch110,ch143,ch150,ch176` | `ch016,ch027,ch044,ch072,ch089,ch099,ch125,ch132,ch154,ch180` |
+| HGD | `ch005,ch046,ch059,ch083,ch131,ch155,ch187,ch205,ch239,ch262` | `ch027,ch041,ch067,ch097,ch124,ch160,ch186,ch204,ch242,ch252` |
+| IRS | `ch009,ch076,ch086,ch157,ch183,ch201,ch252,ch300,ch338,ch381` | `ch030,ch073,ch093,ch133,ch165,ch236,ch244,ch278,ch348,ch361` |
+
+Done when:
+
+- source-pool audit is recorded
+- sample seed and selected chapters are recorded
+- research log exists for the source-pool/sampling round
+- no provider calls or production translation are started during the sampling-only round
+
+### V6.34B: Baseline Read-Only Analysis
+
+For the 60 selected chapters, run read-only analyzers before any provider call:
+
+- source length and block-risk estimate
+- title-sidecar risk
+- glossary candidate density
+- approved glossary coverage prediction
+- bracket/system-message density
+- sound-effect/repeated-character risk
+- footnote/author-note risk
+- raw-source language leakage risk
+
+Done when:
+
+- a per-chapter risk table exists
+- each finding is classified by layer: multi-novel, language, novel, or run-local
+- the research log is updated with measured baseline data
+
+### V6.34C: In-Sample Treatment
+
+Run only the 30 in-sample chapters first, bounded by novel and glossary batch:
+
+1. DSE in-sample as isolated experiment runs.
+2. HGD in-sample as isolated experiment runs.
+3. IRS in-sample as isolated experiment runs.
+
+Rules:
+
+- Use glossary batches of 5 chapters.
+- Do not publish experiment output to MoonRead.
+- Stop on provider failure, manual QA prompt, command length failure, Sentinel blocker/major, output guardrail failure, source mismatch, or unexpected scope expansion.
+- Any fix must be classified by layer before rerun.
+
+Done when:
+
+- all in-sample runs have zero current failed blocks
+- output guardrails pass for the touched experiment outputs
+- Sentinel blocker/major is `0/0`
+- no manual artifact rewrite is required
+- every fix has a test, guardrail, prompt rule, skill rule, or documented novel-layer policy
+
+### V6.34D: Out-Of-Sample Proof
+
+Run the 30 held-back out-of-sample chapters only after V6.34C passes.
+
+Rules:
+
+- No tuning after seeing out-of-sample failures unless the run is marked failed and a new OOS sample is selected.
+- OOS is the proof that fixes generalize beyond the tuned sample.
+- If OOS fails, write a failure log before implementing fixes.
+
+Done when:
+
+- OOS has zero current failed blocks
+- Sentinel blocker/major is `0/0`
+- output guardrails pass
+- glossary coverage blockers are zero
+- the research log includes metrics comparing baseline, in-sample, and OOS
+
+### V6.34E: Pipeline Improvement Decision
+
+After OOS:
+
+- Promote recurring safe fixes to Layer 0 shared guardrails or registry policy.
+- Put language-specific rules into language playbooks.
+- Put story-specific terminology/voice rules into the relevant novel vault/profile.
+- Update skills only when the workflow should be reusable across future novels.
+- Update code only when deterministic validation or automation can prevent recurrence.
+- Update prompts only when the provider instruction itself caused or failed to prevent the issue.
+
+Acceptance:
+
+- V6.34 report/log explains what improved, what did not, and what must remain bounded.
+- Any production-routing change is backed by measured improvement and does not reduce quality.
+- Long unmonitored parallel translation remains disabled unless the experiment proves it is safe.
 
 ## Active Milestone: V6.25 Sentinel Quality Gate
 

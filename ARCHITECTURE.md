@@ -211,6 +211,23 @@ Recurring failures need cause/prevention recorded in the right document.
 12. Run the first production bounded translation batch only after the experiment recommends a safe execution mode.
 13. Verify output, Sentinel, reports, and MoonRead before scaling further.
 
+## Cross-Novel Experiment Gate
+
+Use this gate when testing whether a pipeline improvement generalizes across active novels.
+
+- Sampling source is always `03_Raw/`, never `05_Output/`, MoonRead generated content, or only previously translated chapters.
+- Audit the fetched raw-source pool before sampling. If the upstream novel has more chapters than the local raw pool, either fetch/validate the broader scope first or explicitly record the verified local scope as the experiment boundary.
+- Use stratified random sampling across the verified raw range so the sample covers early, middle, late, and unseen chapters.
+- Keep in-sample and out-of-sample sets separate. Tune only on in-sample; use out-of-sample as the generalization proof.
+- Record seed, source pool, selected chapters, commands, metrics, failures, fixes, and decisions in `01_Research_Log/` using `RESEARCH_LOG_FORMAT.md`.
+- Classify every fix by layer before implementation:
+  - Layer 0 multi-novel shared rule
+  - Layer 1 language playbook
+  - Layer 2 novel profile/vault
+  - Layer 3 run-local recovery
+  - Layer 4 MoonRead reader surface
+- Do not publish experiment output unless a separate production publication gate approves it.
+
 ## Boundaries And Non-Goals
 
 - `PROJECT_BRAIN.md` is current memory, not architecture.

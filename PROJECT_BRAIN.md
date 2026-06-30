@@ -2,7 +2,7 @@
 
 Last updated: 2026-07-01
 
-This is the durable memory for the workspace. Keep it compact. Put long evidence, experiments, and historical detail in `Deep Sea Embers/07_Reports/`.
+This is the durable memory for the workspace. Keep it compact. Put long evidence, experiments, and historical detail in root-level `07_Reports/` or `01_Research_Log/` as appropriate.
 
 ## Purpose
 
@@ -112,6 +112,13 @@ Infinite Regressor Stories:
 - IRS Thai numeral drift closed for published `ch001-ch050`: `ch004` and `ch006` contained Thai digits from AI refinement/formatting. Final output, current work artifacts, and MoonRead generated chapters were normalized to Arabic digits. Cause: providers can stylistically rewrite Arabic numerals into Thai numerals, and old archive/experiment artifacts still preserve pre-normalized drafts. Prevention: IRS registry quality policy now rejects `[๐-๙]`; output guardrails/test coverage verify the rule for both `05_Output` and MoonRead generated content; scoped IRS guardrails now honor `--novel infinite-regressor-stories` so unrelated HGD backlog cannot mask IRS-only verification.
 - current IRS production recommendation: safe for the next bounded sequential IRS production pilot, but not approved for long unmonitored parallel production. Reasoning-enabled OpenRouter QA returned empty assistant messages on long QA prompts; isolated IRS experiment routing used non-reasoning `deepseek/deepseek-v4-flash` QA with Gemini Flash fallback.
 - setup/fetch evidence: `Infinite Regressor Stories/07_Reports/setup_fetch_20260624.md`
+
+Cross-novel experiment state:
+
+- V6.34 Cross-Novel Libra - Blind Pilot Gate is active. Purpose: re-test the pipeline across DSE, HGD, and IRS using raw-source sampling that is not hand-picked from previously translated/problem chapters.
+- Verified local raw source pools as of 2026-07-01: DSE `ch001-ch180` (`180`, no gaps), HGD `ch001-ch270` (`270`, no gaps), IRS `ch001-ch394` (`394`, no gaps).
+- First V6.34 sample seed: `634001`; design is 10 strata per novel, 1 in-sample and 1 out-of-sample chapter per stratum, total 60 chapters across 3 novels.
+- V6.34 sampling-only round must write a research log under `01_Research_Log/` using `RESEARCH_LOG_FORMAT.md`; no provider calls or production translation should start before the sampling/source-pool log exists.
 
 MoonRead:
 
@@ -229,6 +236,7 @@ Requires explicit user approval:
 | DSE generic title fallback | final assembly requires `title.json` for named Chinese source titles; output guardrail rejects `บทที่ N` when source has a real title |
 | Same bug recurring in another novel | promote the generic part into `00_Config\novel_registry.json` and shared guardrail code, then keep only story-specific details in the novel layer |
 | New novel pipeline not tuned before scaling | before sampling, fetch the intended source scope into `03_Raw/`; if the site is partially unavailable, record the verified fetchable scope first. Then run **Libra - Pilot Gate**: randomly sample 20 chapters from that fetched scope with a recorded seed, use 10 in-sample chapters to tune, use 10 out-of-sample chapters to prove generalization, then classify fixes by multi-novel/language/novel/run layer before long production batches |
+| Cross-novel experiments overfit to familiar translated ranges | sample from verified `03_Raw/` source pools with a fixed seed and stratified coverage; keep translated chapters only if the raw-source sample selects them naturally; record every experiment round in `01_Research_Log/` |
 | Provider formatting can leave duplicate title paragraphs or dense thought/prose paragraphs | final assembly now removes an immediate title-like first body paragraph below the H1 and applies conservative long-paragraph reflow after AI formatting; keep output guardrails active for duplicate title and paragraph density |
 | Long pilot or production runs are too slow under serial translate/refine/QA | keep current work bounded; treat translation/refinement/QA parallelism as a dedicated milestone with ledger safety and provider isolation instead of enabling broad concurrency casually |
 | HGD Seth pronoun drift | keep HGD Obsidian pronoun policy, prompt/profile rules, and published-scope guardrail checks aligned |
@@ -318,7 +326,7 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
-Current reader state: Deep Sea Embers is published through `ch180`; Horror Game Developer is published through `ch270`; Infinite Regressor Stories is published through clean `ch050`. Libra - Pilot Gate is complete for IRS, DSE, and HGD. V6.33 translation output and MoonRead publication are complete for DSE `ch161-ch180`, HGD `ch251-ch270`, and IRS clean `ch001-ch050`.
+Current reader state: Deep Sea Embers is published through `ch180`; Horror Game Developer is published through `ch270`; Infinite Regressor Stories is published through clean `ch050`. Libra - Pilot Gate is complete for IRS, DSE, and HGD as per V6.32/V6.33, but V6.34 is now active to run a stricter cross-novel blind pilot from verified raw source pools.
 
 V6.33 translation-output and reader-publication phase is complete:
 
@@ -329,7 +337,8 @@ V6.33 translation-output and reader-publication phase is complete:
 
 Next safe choices:
 
-1. If deploying externally, redeploy the pushed MoonRead update from the hosting provider.
-2. Start any future translation, repair, or MoonRead change as a new bounded goal with an explicit chapter range.
-3. Before any future reader changes, run scoped Sentinel/MoonRead publish checks, then `lint`, `build`, and `smoke`.
-4. Stop again on manual QA prompt, provider failure, command length failure, validation failure, source extraction failure, or unexpected scope expansion.
+1. Continue V6.34A: create the source-pool/sampling research log for the 60-chapter cross-novel blind sample using seed `634001`.
+2. Continue V6.34B: run read-only baseline analyzers on the selected raw-source chapters before any provider calls.
+3. Do not start V6.34C provider-backed in-sample translation until the sampling log and baseline risk table exist.
+4. Before any future reader changes, run scoped Sentinel/MoonRead publish checks, then `lint`, `build`, and `smoke`.
+5. Stop again on manual QA prompt, provider failure, command length failure, validation failure, source extraction failure, or unexpected scope expansion.
