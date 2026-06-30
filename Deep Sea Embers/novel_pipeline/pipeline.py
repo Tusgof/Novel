@@ -223,6 +223,32 @@ def _apply_glossary_rejected_variant_repairs(text: str, glossary_subset: list[Gl
     return updated, repairs
 
 
+def _apply_glossary_parenthetical_leakage_repairs(text: str, glossary_subset: list[GlossaryEntry]) -> tuple[str, list[dict[str, str]]]:
+    repairs: list[dict[str, str]] = []
+    updated = text
+    for entry in glossary_subset:
+        if entry.status != "approved" or not entry.thai_term:
+            continue
+        source_terms = [entry.original_term, *entry.aliases]
+        for source_term in source_terms:
+            if not source_term or source_term == entry.thai_term:
+                continue
+            pattern = re.compile(
+                rf"(?P<thai>{re.escape(entry.thai_term)})\s*[\(（]\s*{re.escape(source_term)}\s*[\)）]"
+            )
+            updated, count = pattern.subn(r"\g<thai>", updated)
+            if count:
+                repairs.append(
+                    {
+                        "original_term": entry.original_term,
+                        "leaked_term": source_term,
+                        "thai_term": entry.thai_term,
+                        "count": str(count),
+                    }
+                )
+    return updated, repairs
+
+
 def _apply_source_footnote_marker_repairs(text: str, source_text: str) -> tuple[str, list[dict[str, str]]]:
     match = re.search(r"(?:^|\s)Footnotes:\s*\n(?P<markers>(?:\s*\[\d+\]\s*\n?)+)\s*$", source_text, re.I)
     if not match:
@@ -1411,7 +1437,20 @@ def _process_block(
             prompt_store=ctx.prompt_store,
             refined_text=refined_draft.refined_text,
         )
-        validation_issues = validate_formatted_text(formatted_text, source_text=refined_draft.refined_text)
+        formatted_text, parenthetical_repairs = _apply_glossary_parenthetical_leakage_repairs(
+            formatted_text,
+            glossary_subset,
+        )
+        if parenthetical_repairs:
+            formatter_metadata = {
+                **formatter_metadata,
+                "glossary_parenthetical_leakage_repairs": parenthetical_repairs,
+            }
+        validation_source_text, _ = _apply_glossary_parenthetical_leakage_repairs(
+            refined_draft.refined_text,
+            glossary_subset,
+        )
+        validation_issues = validate_formatted_text(formatted_text, source_text=validation_source_text)
         if validation_issues:
             _commit_stage(
                 ledger,
@@ -1442,7 +1481,20 @@ def _process_block(
                 prompt_store=ctx.prompt_store,
                 refined_text=refined_draft.refined_text,
             )
-            validation_issues = validate_formatted_text(formatted_text, source_text=refined_draft.refined_text)
+            formatted_text, parenthetical_repairs = _apply_glossary_parenthetical_leakage_repairs(
+                formatted_text,
+                glossary_subset,
+            )
+            if parenthetical_repairs:
+                formatter_metadata = {
+                    **formatter_metadata,
+                    "glossary_parenthetical_leakage_repairs": parenthetical_repairs,
+                }
+            validation_source_text, _ = _apply_glossary_parenthetical_leakage_repairs(
+                refined_draft.refined_text,
+                glossary_subset,
+            )
+            validation_issues = validate_formatted_text(formatted_text, source_text=validation_source_text)
             if validation_issues:
                 _commit_stage(
                     ledger,
@@ -1521,12 +1573,24 @@ def _format_ready_blocks_parallel(
 
     def format_one(block: TextBlock) -> _FormattingResult:
         refined = refined_by_block[block.block_id]
+        glossary_index = ctx.glossary_index if isinstance(ctx.glossary_index, dict) else {}
+        glossary_subset = _resolve_glossary_subset([block], glossary_index)
         text, provider, metadata = _format_block_with_hybrid_provider(
             config=config,
             prompt_store=ctx.prompt_store,
             refined_text=refined.refined_text,
         )
-        validation_issues = validate_formatted_text(text, source_text=refined.refined_text)
+        text, parenthetical_repairs = _apply_glossary_parenthetical_leakage_repairs(text, glossary_subset)
+        if parenthetical_repairs:
+            metadata = {
+                **metadata,
+                "glossary_parenthetical_leakage_repairs": parenthetical_repairs,
+            }
+        validation_source_text, _ = _apply_glossary_parenthetical_leakage_repairs(
+            refined.refined_text,
+            glossary_subset,
+        )
+        validation_issues = validate_formatted_text(text, source_text=validation_source_text)
         if validation_issues:
             raise ValueError(
                 f"Formatted text validation failed for {block.block_id}: {'; '.join(validation_issues)}"

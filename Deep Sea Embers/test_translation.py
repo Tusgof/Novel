@@ -17,7 +17,7 @@ from novel_pipeline.types import (
     RunRecord,
     TextBlock,
 )
-from novel_pipeline.pipeline import _apply_glossary_rejected_variant_repairs, _apply_source_footnote_marker_repairs, _literal_safe_refined_draft, _qa_report_indicates_omission
+from novel_pipeline.pipeline import _apply_glossary_parenthetical_leakage_repairs, _apply_glossary_rejected_variant_repairs, _apply_source_footnote_marker_repairs, _literal_safe_refined_draft, _qa_report_indicates_omission
 from novel_pipeline.stages.format import format_block_text
 from novel_pipeline.text_utils import split_blocks
 from unittest.mock import Mock, patch, call
@@ -72,6 +72,39 @@ def test_format_glossary_subset():
     assert "ดันแคน" in formatted
     assert "ซากเรืออับปาง" in formatted
     assert "character" in formatted
+
+
+def test_glossary_parenthetical_leakage_repairs_only_thai_term_parentheses():
+    entries = [
+        GlossaryEntry(
+            original_term="The Nightwalker",
+            thai_term="นักเดินราตรี",
+            category="entity",
+            status="approved",
+            aliases=("Nightwalker",),
+        ),
+        GlossaryEntry(
+            original_term="Field Agent",
+            thai_term="เจ้าหน้าที่ภาคสนาม",
+            category="title",
+            status="approved",
+        ),
+    ]
+    text = (
+        "**[นักเดินราตรี (The Nightwalker)]** ปรากฏตัวขึ้น\n\n"
+        "เขาเดินผ่านพื้นที่ของ **[เจ้าหน้าที่ภาคสนาม (Field Agent)]**\n\n"
+        "Standalone Field Agent should stay for Sentinel to catch."
+    )
+
+    repaired, repairs = _apply_glossary_parenthetical_leakage_repairs(text, entries)
+
+    assert "นักเดินราตรี (The Nightwalker)" not in repaired
+    assert "เจ้าหน้าที่ภาคสนาม (Field Agent)" not in repaired
+    assert "**[นักเดินราตรี]**" in repaired
+    assert "**[เจ้าหน้าที่ภาคสนาม]**" in repaired
+    assert "Standalone Field Agent should stay" in repaired
+    assert len(repairs) == 2
+
 
 def test_split_blocks_normalizes_zalgo_sound_effect_source():
     source = "Before.\n\n-G̸̢̰͂r̸̗͈͘o̶̻͚̫͊ǫ̴̰̈́̉ȯ̶̻̎̓ö̶̧͖̒ụ̴͔̆͗̕u̶̘̗͓̐ṵ̸͈̀̓̚ȕ̸̺̬͝g̶͖̉̔͗ĥ̴̡̬̳̆! ̶̨̞͖͝\n\nAfter."
