@@ -478,6 +478,8 @@ Important limitation: DSE source has more chapters upstream than the current loc
 
 ### V6.34A: Research Log And Sampling Manifest
 
+Status: complete for the first source-pool/sampling round. Evidence: `01_Research_Log/2026-06-30_novel_pipeline_libra_blind_pilot_source_pool.md`.
+
 Rules:
 
 - Every V6.34 experiment round must create or update a log using `RESEARCH_LOG_FORMAT.md`.

@@ -118,7 +118,7 @@ Cross-novel experiment state:
 - V6.34 Cross-Novel Libra - Blind Pilot Gate is active. Purpose: re-test the pipeline across DSE, HGD, and IRS using raw-source sampling that is not hand-picked from previously translated/problem chapters.
 - Verified local raw source pools as of 2026-07-01: DSE `ch001-ch180` (`180`, no gaps), HGD `ch001-ch270` (`270`, no gaps), IRS `ch001-ch394` (`394`, no gaps).
 - First V6.34 sample seed: `634001`; design is 10 strata per novel, 1 in-sample and 1 out-of-sample chapter per stratum, total 60 chapters across 3 novels.
-- V6.34 sampling-only round must write a research log under `01_Research_Log/` using `RESEARCH_LOG_FORMAT.md`; no provider calls or production translation should start before the sampling/source-pool log exists.
+- V6.34A sampling-only round is recorded at `01_Research_Log/2026-06-30_novel_pipeline_libra_blind_pilot_source_pool.md`; no provider calls or production translation were started during this round.
 
 MoonRead:
 
@@ -337,8 +337,8 @@ V6.33 translation-output and reader-publication phase is complete:
 
 Next safe choices:
 
-1. Continue V6.34A: create the source-pool/sampling research log for the 60-chapter cross-novel blind sample using seed `634001`.
-2. Continue V6.34B: run read-only baseline analyzers on the selected raw-source chapters before any provider calls.
-3. Do not start V6.34C provider-backed in-sample translation until the sampling log and baseline risk table exist.
+1. Continue V6.34B: run read-only baseline analyzers on the selected 60 raw-source chapters before any provider calls.
+2. Record per-chapter risk metrics in `01_Research_Log/2026-06-30_novel_pipeline_libra_blind_pilot_source_pool.md` or a new V6.34B research log if treated as a separate experiment round.
+3. Do not start V6.34C provider-backed in-sample translation until the baseline risk table exists.
 4. Before any future reader changes, run scoped Sentinel/MoonRead publish checks, then `lint`, `build`, and `smoke`.
 5. Stop again on manual QA prompt, provider failure, command length failure, validation failure, source extraction failure, or unexpected scope expansion.

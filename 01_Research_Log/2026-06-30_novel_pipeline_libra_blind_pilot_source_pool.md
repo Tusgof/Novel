@@ -6,7 +6,7 @@
 - โครงการ: Novel Translation Pipeline
 - หัวข้อ: V6.34 source-pool audit and cross-novel blind sampling manifest
 - ผู้บันทึก: Codex
-- สถานะ: อยู่ระหว่างดำเนินการ
+- สถานะ: เสร็จสิ้น
 - Artifact หลัก:
   - `PROJECT_BRAIN.md`
   - `IMPLEMENT_PLAN.md`
@@ -116,7 +116,7 @@ for slug, (lo, hi) in novels.items():
 
 ## 6. ข้อสรุปและก้าวต่อไป
 
-ข้อสรุป: V6.34 source-pool and sampling round is defined but not complete as a full experiment because provider-backed baseline/in-sample/OOS runs have not started.
+ข้อสรุป: V6.34 source-pool and sampling round is complete, while the full provider-backed V6.34 experiment remains incomplete because baseline/in-sample/OOS runs have not started.
 
 - The sampling source is now `03_Raw/`, not translated output.
 - The sample is distributed across each novel's verified raw range.
