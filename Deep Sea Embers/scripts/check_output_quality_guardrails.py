@@ -188,6 +188,11 @@ def is_chapter_id(value: str) -> bool:
 
 
 def requested_novel_slug(argv: list[str]) -> str | None:
+    if "--novel" in argv:
+        index = argv.index("--novel")
+        if index + 1 < len(argv):
+            return argv[index + 1].strip() or None
+
     for index, arg in enumerate(argv):
         if arg != "--config" or index + 1 >= len(argv):
             continue
@@ -567,9 +572,16 @@ def check_dse_generic_title_fallbacks(issues: list[str]) -> None:
             )
 
 
-def check_registry_title_policies(issues: list[str]) -> None:
+def check_registry_title_policies(
+    issues: list[str],
+    *,
+    scoped_chapters: set[str] | None = None,
+    requested_novel: str | None = None,
+) -> None:
     for novel in REGISTERED_NOVELS:
         slug = str(novel.get("slug", ""))
+        if requested_novel is not None and slug != requested_novel:
+            continue
         title_policy = novel.get("title_policy", {}) or {}
         reader = novel.get("reader", {}) or {}
         output_root = novel_output_root(novel)
@@ -581,6 +593,8 @@ def check_registry_title_policies(issues: list[str]) -> None:
                 if not output_dir.is_dir():
                     continue
                 chapter = output_dir.name
+                if not in_scope(chapter, scoped_chapters):
+                    continue
                 path = output_root / chapter / f"{chapter}.md"
                 if not path.exists():
                     continue
@@ -592,6 +606,8 @@ def check_registry_title_policies(issues: list[str]) -> None:
         if title_policy.get("named_chinese_source_titles_require_sidecar"):
             for source_path in sorted(raw_root.glob("ch*/source.json")):
                 chapter = source_path.parent.name
+                if not in_scope(chapter, scoped_chapters):
+                    continue
                 output_path = output_root / chapter / f"{chapter}.md"
                 if not output_path.exists():
                     continue
@@ -625,6 +641,8 @@ def check_registry_title_policies(issues: list[str]) -> None:
 
         for chapter in manifest.get("chapters", []):
             chapter_id = str(chapter.get("id", ""))
+            if not in_scope(chapter_id, scoped_chapters):
+                continue
             title = str(chapter.get("title", ""))
             for marker in forbidden_markers:
                 if marker in title:
@@ -821,7 +839,11 @@ def main() -> int:
                 check_absent(generated_path, HGD_FORBIDDEN_ENGLISH_OUTPUT, issues)
                 check_absent_patterns(generated_path, HGD_FORBIDDEN_REGEX_OUTPUT, issues)
                 check_unapproved_question_placeholders(generated_path, HGD_POLICY, chapter, issues)
-    check_registry_title_policies(issues)
+    check_registry_title_policies(
+        issues,
+        scoped_chapters=scoped_chapters,
+        requested_novel=requested_novel,
+    )
     if include_hgd:
         check_hgd_required_source_beats(issues, scoped_chapters=scoped_chapters)
         check_hgd_pronoun_policy(issues, scoped_chapters=scoped_chapters)

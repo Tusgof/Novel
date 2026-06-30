@@ -6497,6 +6497,65 @@ def test_output_guardrail_scopes_infinite_regressor_config_path():
     assert slug == "infinite-regressor-stories"
 
 
+def test_output_guardrail_scopes_infinite_regressor_novel_argument():
+    """IRS --novel scope should not run unrelated HGD registry title checks."""
+    import importlib.util
+    import sys
+    import tempfile
+
+    script_path = Path("scripts/check_output_quality_guardrails.py")
+    spec = importlib.util.spec_from_file_location("check_output_quality_guardrails_irs_novel_scope_test", script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["check_output_quality_guardrails_irs_novel_scope_test"] = module
+    spec.loader.exec_module(module)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_root = Path(tmp)
+        module.NOVEL_ROOT = tmp_root
+        module.MOONREAD = tmp_root / "MoonRead"
+        module.REGISTERED_NOVELS = [
+            {
+                "slug": "horror-game-developer",
+                "folder": "Horror Game Developers",
+                "output_dir": "05_Output",
+                "title_policy": {"forbidden_title_markers": ["Chapter"]},
+            },
+            {
+                "slug": "infinite-regressor-stories",
+                "folder": "Infinite Regressor Stories",
+                "output_dir": "05_Output",
+                "quality": {
+                    "forbidden_output_patterns": [
+                        {"pattern": "[๐-๙]", "label": "Thai numeral; IRS output must use Arabic digits"}
+                    ]
+                },
+            },
+        ]
+
+        hgd_path = tmp_root / "Horror Game Developers" / "05_Output" / "ch001" / "ch001.md"
+        hgd_path.parent.mkdir(parents=True)
+        hgd_path.write_text("# Chapter 1\n\nHGD backlog that must not affect IRS scope.\n", encoding="utf-8")
+
+        irs_path = tmp_root / "Infinite Regressor Stories" / "05_Output" / "ch001" / "ch001.md"
+        irs_path.parent.mkdir(parents=True)
+        irs_path.write_text("# บทที่ 1\n\nรอบที่ 7\n", encoding="utf-8")
+
+        issues: list[str] = []
+        module.check_registry_title_policies(
+            issues,
+            scoped_chapters={"ch001"},
+            requested_novel="infinite-regressor-stories",
+        )
+        module.check_registry_forbidden_output_patterns(
+            issues,
+            scoped_chapters={"ch001"},
+            requested_novel="infinite-regressor-stories",
+        )
+
+    assert issues == []
+
+
 def test_hgd_question_placeholder_guardrail_is_source_aware():
     """Question placeholders are allowed only when the source intentionally contains them."""
     import importlib.util
