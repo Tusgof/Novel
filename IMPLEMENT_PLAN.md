@@ -5,11 +5,22 @@ Last updated: 2026-07-01
 ## Overview
 
 - **Start state**: The workspace has three active novels in the multi-novel system: Deep Sea Embers published through `ch180`, Horror Game Developer published through `ch270`, and Infinite Regressor Stories published through clean `ch050`. V6.34 Cross-Novel Libra - Blind Pilot Gate is active. Verified raw source pools currently exist for DSE `ch001-ch180`, HGD `ch001-ch270`, and IRS `ch001-ch394`. The old implementation plan was archived to `Backup_IMPLEMENT_PLAN/01072026_IMPLEMENT_PLAN.md`.
-- **End state**: The pipeline has measured evidence that a cross-novel Libra - Pilot research loop improves consistency, translation quality, and long-run sustainability. The experiment samples from raw source across all three novels, completes one full baseline round before changes, applies only evidence-backed fixes at the correct layer, reruns treatment, proves improvement with metrics, records research logs, and recommends the next production execution mode.
+- **End state**: The pipeline has measured evidence that a cross-novel Libra - Pilot research loop improves consistency, translation quality, and long-run sustainability. The experiment samples from raw source across all three novels, completes one full baseline round before changes, applies only evidence-backed fixes at the correct layer, reruns treatment, measures metric movement, records research logs, and recommends the next production execution mode.
 - **Total milestones**: 6
 - **Estimated total effort**: XL
 
 This plan is research-first. Experiment output is not production output and must not be published to MoonRead unless a separate production publication gate approves it.
+
+Locked user decisions for this V6.34 plan:
+
+- The goal is pipeline research and improvement, not absolute proof.
+- A treatment passes only when evidence shows measurable improvement after a hypothesis-driven change.
+- Sampling must come from verified raw source across all three novels; if raw source is incomplete, fetch or record the verified boundary before sampling.
+- V6.34 artifacts are experiment-only unless a later production gate approves them.
+- Every defect must be classified as cross-novel, language-level, novel-specific, run-local, or MoonRead-specific before a fix is promoted.
+- Complete one experiment round before applying fixes, so the result can be analyzed honestly.
+- The sample pool is cross-novel, not one-novel-first.
+- The priority outcomes are consistency, translation quality, and sustainable long-run execution.
 
 Current progress:
 
@@ -53,7 +64,7 @@ No-production rule: experiment output remains in isolated experiment vaults. It 
 
 Current state is strong enough for bounded production work, but not strong enough for long unattended runs. The main gaps are:
 
-- The latest V6.34 work started from an IRS isolated treatment wave, but the desired official experiment must sample across DSE, HGD, and IRS together.
+- The official experiment must sample across DSE, HGD, and IRS together from verified raw source, not from one novel or only from already translated chapters.
 - The project needs one complete baseline experiment round before changing the pipeline, so the improvement can be measured instead of inferred.
 - Recurrent issues still need clearer layer classification: multi-novel, language-level, novel-level, run-local, or MoonRead.
 - Improvement must be proven by evidence: lower blocker/major defects, better glossary/name/pronoun consistency, cleaner formatting, fewer manual repairs, and smoother long-run execution.
@@ -70,7 +81,7 @@ Sequential:
 5. Analyze defects and classify fix layer.
 6. Apply surgical fixes.
 7. Rerun treatment and compare against baseline.
-8. Run out-of-sample generalization proof.
+8. Run out-of-sample generalization check.
 9. Update docs and production recommendation.
 
 Can run in parallel only after the manifest is locked:
@@ -177,9 +188,9 @@ Status: initial analysis complete, treatment selection pending. Evidence: `07_Re
 
 ---
 
-## Milestone 6: Out-Of-Sample Generalization And Production Recommendation
+## Milestone 6: Out-Of-Sample Generalization Check And Production Recommendation
 
-**Goal**: Prove whether the treatment generalizes to untouched chapters across all three novels, then recommend the next production execution mode.
+**Goal**: Measure whether the treatment generalizes to untouched chapters across all three novels, then recommend the next production execution mode.
 **Dependencies**: Milestone 5
 
 | # | Task | Effort | Risk | Verification |
@@ -192,7 +203,7 @@ Status: initial analysis complete, treatment selection pending. Evidence: `07_Re
 | 6.6 | Update `ARCHITECTURE.md` only if stable layer/ownership rules changed | S | ✅ | Architecture diff is absent or contains only durable structure changes |
 | 6.7 | Write and push final V6.34 research log and commit the plan/results | S | ✅ | Research log and docs are committed and pushed |
 
-**Milestone complete when**: OOS evidence proves whether the treatment generalizes, and the project has a clear next production mode backed by reports.
+**Milestone complete when**: OOS evidence shows whether the treatment generalizes well enough, and the project has a clear next production mode backed by reports.
 
 ---
 
