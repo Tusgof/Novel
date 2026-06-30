@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 TITLE_MAP = {
-    "Velora Art Museum": "พิพิธภัณฑ์ศิลปะเวลอรา",
+    "Velora Art Museum": "พิพิธภัณฑ์ศิลปะเวโลรา",
     "Live Stream": "ไลฟ์สตรีม",
     "The lunatic with the sunglasses": "คนบ้าแว่นกันแดด",
     "The game that makes you scream": "เกมที่ทำให้กรีดร้อง",

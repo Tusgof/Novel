@@ -21,7 +21,7 @@ HGD_TITLE_MAP = {
     "Scream": "เสียงกรีดร้อง",
     "Quest Completed": "เควสต์สำเร็จ",
     "Painting": "ภาพวาด",
-    "Velora Art Museum": "พิพิธภัณฑ์ศิลปะเวลอรา",
+    "Velora Art Museum": "พิพิธภัณฑ์ศิลปะเวโลรา",
     "Mr. Jingles": "มิสเตอร์จิงเกิลส์",
     "Mr Jingles": "มิสเตอร์จิงเกิลส์",
     "The basement": "ห้องใต้ดิน",

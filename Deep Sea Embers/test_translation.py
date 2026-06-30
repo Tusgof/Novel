@@ -1247,6 +1247,55 @@ def test_hgd_title_resolver_writes_sidecar_and_blocks_unknown_english_titles():
             raise AssertionError("unknown HGD English title should stop final assembly")
 
 
+def test_hgd_title_resolver_rejects_sidecar_that_violates_approved_glossary():
+    from novel_pipeline.pipeline import _resolve_chapter_output_title
+    from novel_pipeline.types import AppConfig, ChapterSource
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        glossary_dir = base / "01_Glossary"
+        glossary_dir.mkdir(parents=True)
+        (glossary_dir / "Velora Art Museum.md").write_text(
+            """---
+type: glossary-term
+original_term: Velora Art Museum
+thai_term: พิพิธภัณฑ์ศิลปะเวโลรา
+status: approved
+aliases:
+  - Art Museum
+category: location
+---
+""",
+            encoding="utf-8",
+        )
+        title_dir = base / "04_Work" / "ch037"
+        title_dir.mkdir(parents=True)
+        (title_dir / "title.json").write_text(
+            json.dumps({"thai_title": "ตอนที่ 37 - พิพิธภัณฑ์ศิลปะเวลอรา"}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        config = Mock(spec=AppConfig)
+        config.workspace = Mock()
+        config.workspace.work = base / "04_Work"
+        config.workspace.glossary_dir = glossary_dir
+        config.novel_id = "horror-game-developer"
+        source = ChapterSource(
+            novel_id="horror-game-developer",
+            chapter_id="ch037",
+            title="Chapter 37 - Velora Art Museum [2]",
+            source_language="en",
+        )
+
+        try:
+            _resolve_chapter_output_title(config, "ch037", source)
+        except RuntimeError as exc:
+            assert "violates approved glossary" in str(exc)
+            assert "พิพิธภัณฑ์ศิลปะเวโลรา" in str(exc)
+        else:
+            raise AssertionError("title sidecar that violates approved glossary should stop final assembly")
+
+
 def test_irs_title_resolver_requires_thai_sidecar_for_english_titles():
     from novel_pipeline.pipeline import _resolve_chapter_output_title
     from novel_pipeline.types import AppConfig, ChapterSource

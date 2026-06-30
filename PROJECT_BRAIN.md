@@ -129,6 +129,7 @@ Cross-novel experiment state:
 - V6.34 Milestone 3 scan/glossary gate completed for the 30 in-sample chapters in isolated experiment vaults: DSE `v6-34-m3-dse-baseline-v1`, HGD `v6-34-m3-hgd-baseline-v1`, and IRS `v6-34-m3-irs-baseline-v1` each have 10 `fetched`, 10 `glossary_scanned`, and 10 `glossary_approved` records, with translation/refinement/QA/formatting records still `0`. Baseline policy holds all newly scanned candidates to avoid tuning before measurement. Decision report: `07_Reports/v6_34_m3_baseline_glossary_gate_decisions_20260701.md`; research log: `01_Research_Log/2026-06-30_novel_pipeline_v6_34_m3_scan_glossary_gate.md`.
 - V6.34 Milestone 3 baseline translation stopped at a valid gate: HGD `v6-34-m3-hgd-baseline-v1` completed `ch024` and `ch037` blocks, then Sentinel found true experiment-output major glossary coverage failures on `ch037` (`Velora Art Museum` / `Art Museum` missing approved Thai term). A separate instrumentation bug was fixed so experiment Sentinel uses local registry/workspace overrides instead of production output/MoonRead. Research log: `01_Research_Log/2026-06-30_novel_pipeline_v6_34_m3_hgd_baseline_stop.md`. Next step is Milestone 4 defect analysis; do not repair `ch037` as a one-off before classification.
 - V6.34 Milestone 4 initial analysis completed for HGD `ch037`: the miss is caused by title sidecar text `พิพิธภัณฑ์ศิลปะเวลอรา` conflicting with approved glossary `พิพิธภัณฑ์ศิลปะเวโลรา`; body QA passed because the defect is in final H1/title surface. Report: `07_Reports/v6_34_m4_initial_defect_analysis_hgd_ch037_20260701.md`; research log: `01_Research_Log/2026-06-30_novel_pipeline_v6_34_m4_initial_analysis.md`.
+- V6.34 Milestone 4 treatment selected and initial slice implemented: final assembly now blocks title/H1 glossary drift when a source title contains an approved glossary original term or alias, and HGD `Velora Art Museum` now maps to approved `พิพิธภัณฑ์ศิลปะเวโลรา`. Report: `07_Reports/v6_34_m4_treatment_selection_title_glossary_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m4_treatment_selection.md`. Next step is Milestone 5 treatment rerun in isolated experiment state.
 
 MoonRead:
 
@@ -347,8 +348,8 @@ V6.33 translation-output and reader-publication phase is complete:
 
 Next safe choices:
 
-1. Continue V6.34 Milestone 4 treatment selection: choose the smallest treatment for HGD title/glossary consistency based on `07_Reports/v6_34_m4_initial_defect_analysis_hgd_ch037_20260701.md`.
-2. Candidate treatment: add deterministic title/H1 glossary validation and repair HGD `ch037` title sidecar only in the treatment round, not in baseline history.
+1. Continue V6.34 Milestone 5: prepare the treatment experiment rerun using the title/H1 glossary guard and corrected HGD title map.
+2. Repair HGD `ch037` title sidecar only in treatment experiment state first; do not rewrite baseline history.
 3. Keep experiment output isolated from production `05_Output`, production glossary, production ledger intent, and MoonRead until a separate production gate approves changes.
 4. Record each completed experiment round in `01_Research_Log/` and push it immediately.
 5. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.

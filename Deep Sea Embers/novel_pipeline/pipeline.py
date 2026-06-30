@@ -78,7 +78,7 @@ BLOCK_STAGE_ORDER = [
 QA_MAX_RETRIES = 2
 
 HGD_TITLE_MAP = {
-    "Velora Art Museum": "พิพิธภัณฑ์ศิลปะเวลอรา",
+    "Velora Art Museum": "พิพิธภัณฑ์ศิลปะเวโลรา",
     "Live Stream": "ไลฟ์สตรีม",
     "The lunatic with the sunglasses": "คนบ้าแว่นกันแดด",
     "The game that makes you scream": "เกมที่ทำให้กรีดร้อง",
@@ -3167,6 +3167,7 @@ def _resolve_chapter_output_title(
     chapter_id: str,
     chapter_source: ChapterSource | None,
 ) -> str:
+    source_title = chapter_source.title if chapter_source else ""
     sidecar_path = chapter_dir(config.workspace.work, chapter_id) / "title.json"
     if sidecar_path.exists():
         try:
@@ -3175,12 +3176,14 @@ def _resolve_chapter_output_title(
             data = {}
         thai_title = data.get("thai_title") if isinstance(data, dict) else None
         if isinstance(thai_title, str) and thai_title.strip():
-            return thai_title.strip()
+            resolved_title = thai_title.strip()
+            _validate_chapter_output_title_glossary(config, chapter_id, source_title, resolved_title)
+            return resolved_title
 
-    source_title = chapter_source.title if chapter_source else ""
     if getattr(config, "novel_id", "") == "horror-game-developer" and source_title:
         normalized_title = _normalize_hgd_chapter_title(chapter_id, source_title)
         if normalized_title:
+            _validate_chapter_output_title_glossary(config, chapter_id, source_title, normalized_title)
             _write_hgd_title_sidecar(config, chapter_id, normalized_title)
             return normalized_title
         if _looks_like_hgd_english_title(source_title):
@@ -3196,6 +3199,7 @@ def _resolve_chapter_output_title(
         )
 
     if source_title and not _contains_han(source_title):
+        _validate_chapter_output_title_glossary(config, chapter_id, source_title, source_title)
         return source_title
 
     if source_title and _contains_han(source_title) and _has_named_chinese_chapter_title(source_title):
@@ -3208,6 +3212,51 @@ def _resolve_chapter_output_title(
     if chapter_number is not None:
         return f"บทที่ {chapter_number}"
     return chapter_id
+
+
+def _validate_chapter_output_title_glossary(
+    config: AppConfig,
+    chapter_id: str,
+    source_title: str,
+    resolved_title: str,
+) -> None:
+    """Block title/H1 drift when a source title contains an approved glossary term."""
+    if not source_title or not resolved_title:
+        return
+    glossary_dir = getattr(getattr(config, "workspace", None), "glossary_dir", None)
+    if not glossary_dir:
+        return
+    glossary_path = Path(glossary_dir)
+    if not glossary_path.exists():
+        return
+    glossary_index = load_glossary_index(glossary_path)
+    checked: set[tuple[str, str]] = set()
+    missing: list[str] = []
+    for entry in glossary_index.values():
+        if entry.status != "approved" or not entry.thai_term:
+            continue
+        marker = (entry.original_term, entry.thai_term)
+        if marker in checked:
+            continue
+        checked.add(marker)
+        source_keys = [entry.original_term, *entry.aliases]
+        if not any(_source_title_contains_term(source_title, key) for key in source_keys):
+            continue
+        if entry.thai_term not in resolved_title:
+            missing.append(f"{entry.original_term} -> {entry.thai_term}")
+    if missing:
+        details = "; ".join(missing)
+        raise RuntimeError(
+            f"Chapter title violates approved glossary for {chapter_id}: {details}; got {resolved_title!r}"
+        )
+
+
+def _source_title_contains_term(source_title: str, term: str) -> bool:
+    if not term:
+        return False
+    if re.search(r"[A-Za-z]", term):
+        return bool(re.search(rf"(?<![A-Za-z]){re.escape(term)}(?![A-Za-z])", source_title))
+    return term in source_title
 
 
 def _normalize_hgd_chapter_title(chapter_id: str, source_title: str) -> str | None:

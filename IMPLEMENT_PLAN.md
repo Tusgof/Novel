@@ -28,6 +28,7 @@ Current progress:
 - Milestone 2 complete: raw source pools were audited for DSE, HGD, and IRS; fixed-seed sample manifest was created from raw source only.
 - Milestone 3 stopped at a valid baseline gate: HGD baseline reached `ch037`, then Sentinel found major glossary coverage failures in experiment output. The next step is Milestone 4 analysis, not manual repair.
 - Milestone 4 initial analysis complete: HGD `ch037` failure is title sidecar/glossary inconsistency, not body translation loss.
+- Milestone 4 treatment selected: add deterministic title/H1 glossary validation and correct the HGD `Velora Art Museum` title map to the approved glossary term. Milestone 5 treatment rerun is next.
 
 ---
 
@@ -166,7 +167,7 @@ Status: safely stopped at gate. Scan-only and baseline glossary gates are comple
 
 **Milestone complete when**: There is a reviewed treatment plan that maps each selected fix to evidence, layer, expected metric improvement, and verification method.
 
-Status: initial analysis complete, treatment selection pending. Evidence: `07_Reports/v6_34_m4_initial_defect_analysis_hgd_ch037_20260701.md` and `01_Research_Log/2026-06-30_novel_pipeline_v6_34_m4_initial_analysis.md`.
+Status: complete. Evidence: `07_Reports/v6_34_m4_initial_defect_analysis_hgd_ch037_20260701.md`, `07_Reports/v6_34_m4_treatment_selection_title_glossary_20260701.md`, `01_Research_Log/2026-06-30_novel_pipeline_v6_34_m4_initial_analysis.md`, and `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m4_treatment_selection.md`.
 
 ---
 
@@ -185,6 +186,8 @@ Status: initial analysis complete, treatment selection pending. Evidence: `07_Re
 | 5.6 | Write and push a treatment research log | S | ✅ | Research log exists, follows format, and is pushed |
 
 **Milestone complete when**: Treatment produces measurable evidence of improvement or clear evidence that the hypothesis failed.
+
+Status: started. Layer 0 title/H1 glossary validation and Layer 2 HGD `Velora Art Museum` title-map correction are implemented and unit-tested. Treatment rerun is pending.
 
 ---
 
