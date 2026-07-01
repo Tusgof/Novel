@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-07-01T20:49:18.331865+00:00",
+  "scope": "dse-ch206-ch210-v1_ch207_sentinel",
+  "chapters": "ch207",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

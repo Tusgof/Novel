@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-01T20:21:56.407Z",
+  "generatedAt": "2026-07-01T21:31:54.957Z",
   "sourceRoot": "../Deep Sea Embers/05_Output",
-  "targetRange": "ch001-ch205",
+  "targetRange": "ch001-ch210",
   "novel": {
     "slug": "deep-sea-embers",
     "title": "Deep Sea Embers",
@@ -30,8 +30,8 @@
     }
   },
   "summary": {
-    "total": 205,
-    "available": 205,
+    "total": 210,
+    "available": 210,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -2290,6 +2290,61 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch205.md",
       "href": "/read/ch205",
       "charCount": 9084,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch206",
+      "number": 206,
+      "title": "บทที่ 207: การปะทะโดยไม่คาดคิด",
+      "status": "available",
+      "sourcePath": "ch206/ch206.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch206.md",
+      "href": "/read/ch206",
+      "charCount": 9080,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch207",
+      "number": 207,
+      "title": "บทที่ 208: พ่อเมตตา ลูกกตัญญู",
+      "status": "available",
+      "sourcePath": "ch207/ch207.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch207.md",
+      "href": "/read/ch207",
+      "charCount": 9594,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch208",
+      "number": 208,
+      "title": "บทที่ 209: การสื่อสารครั้งแรกในรอบร้อยปี",
+      "status": "available",
+      "sourcePath": "ch208/ch208.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch208.md",
+      "href": "/read/ch208",
+      "charCount": 9449,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch209",
+      "number": 209,
+      "title": "บทที่ 210: การรุกรานโลกแห่งความจริง",
+      "status": "available",
+      "sourcePath": "ch209/ch209.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch209.md",
+      "href": "/read/ch209",
+      "charCount": 8956,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch210",
+      "number": 210,
+      "title": "บทที่ 211: ห่าฝนไฟ",
+      "status": "available",
+      "sourcePath": "ch210/ch210.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch210.md",
+      "href": "/read/ch210",
+      "charCount": 9735,
       "readingMinutes": 3
     }
   ]

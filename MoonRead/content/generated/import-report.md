@@ -1,19 +1,19 @@
 # Reader Import Report
 
-Generated at: 2026-07-01T20:21:57.091Z
+Generated at: 2026-07-01T21:31:55.641Z
 
 ## Summary
 
 - books: 3
-- available chapters: 525
+- available chapters: 530
 - missing chapters: 0
 - rejected chapters: 0
 
 ## Deep Sea Embers
 
 - source root: ../Deep Sea Embers/05_Output
-- target range: ch001-ch205
-- available: 205
+- target range: ch001-ch210
+- available: 210
 - missing: 0
 - rejected: 0
 

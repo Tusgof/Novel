@@ -1,0 +1,28 @@
+{
+  "created_at": "2026-07-01T21:29:17.476082+00:00",
+  "scope": "current",
+  "chapters": "ch206-ch210",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 2,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": [
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch206\\ch206.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Machine Spirit"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch210\\ch210.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Walk into Unscientific"
+    }
+  ]
+}

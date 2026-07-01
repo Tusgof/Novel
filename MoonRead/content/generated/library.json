@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-01T20:21:57.091Z",
+  "generatedAt": "2026-07-01T21:31:55.641Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,8 +11,8 @@
   },
   "summary": {
     "books": 3,
-    "chapters": 525,
-    "available": 525,
+    "chapters": 530,
+    "available": 530,
     "missing": 0,
     "rejected": 0
   },
@@ -33,23 +33,23 @@
       "cover": "/images/deep-sea-embers-cover.png",
       "href": "/book",
       "chaptersHref": "/chapters",
-      "targetRange": "ch001-ch205",
+      "targetRange": "ch001-ch210",
       "summary": {
-        "total": 205,
-        "available": 205,
+        "total": 210,
+        "available": 210,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch205",
-        "number": 205,
-        "title": "บทที่ 206: เร่งความเร็ว",
+        "id": "ch210",
+        "number": 210,
+        "title": "บทที่ 211: ห่าฝนไฟ",
         "status": "available",
-        "sourcePath": "ch205/ch205.md",
-        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch205.md",
-        "href": "/read/ch205",
-        "charCount": 9084,
+        "sourcePath": "ch210/ch210.md",
+        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch210.md",
+        "href": "/read/ch210",
+        "charCount": 9735,
         "readingMinutes": 3
       },
       "firstChapter": {

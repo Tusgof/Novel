@@ -57,6 +57,7 @@ Deep Sea Embers:
 - DSE `ch191-ch195` production checkpoint completed and published: run `dse-ch191-ch195-v1` completed `29/29` blocks, current failed blocks none, manual actions none, output guardrails passed, final scoped Sentinel `0/0/0/0`, and MoonRead now publishes DSE through `ch195`. Three minor English parenthetical advisories were deterministically removed from final output/formatted artifacts before publication. Report: `07_Reports/dse_ch191_ch195_production_checkpoint_20260701.md`.
 - DSE `ch196-ch200` production checkpoint completed and published: run `dse-ch196-ch200-v1` completed `30/30` blocks, current failed blocks none, manual actions none, output guardrails passed, final scoped Sentinel `0/0/0/0`, and MoonRead now publishes DSE through `ch200`. Report: `07_Reports/dse_ch196_ch200_production_checkpoint_20260701.md`.
 - DSE `ch201-ch205` production checkpoint completed and published: run `dse-ch201-ch205-v1` completed `31/31` blocks, current failed blocks none, manual actions none, output guardrails passed, final scoped Sentinel `0/0/0/0`, and MoonRead now publishes DSE through `ch205`. `ch204-block-007` had a QA false hard-fail on a source author promo and was recovered by rerunning QA without force-accept. Report: `07_Reports/dse_ch201_ch205_production_checkpoint_20260701.md`.
+- DSE `ch206-ch210` production checkpoint completed and published: run `dse-ch206-ch210-v1` completed `31/31` blocks, current failed blocks none, historical failed records none, manual actions none, output guardrails passed, final scoped Sentinel `0/0/0/0`, and MoonRead now publishes DSE through `ch210`. The first resume process exceeded the command wrapper timeout but continued safely; it was monitored instead of starting a duplicate resume. Report: `07_Reports/dse_ch206_ch210_production_checkpoint_20260701.md`.
 - Libra - Pilot Gate DSE completed on 2026-06-29 in isolated experiment vault `Deep Sea Embers/04_Work/_experiments/libra_pilot_dse_v1`. Raw sampling used fetched `03_Raw/ch001-ch160` with seed `632160`; in-sample `dse-libra-pilot-insample-v1` completed 54/54 blocks and OOS `dse-libra-pilot-oos-v1` completed 56/56 blocks. Current failed blocks: none. Output guardrails passed and Sentinel blocker/major/minor/info was `0/0/0/0`. Report: `Deep Sea Embers/07_Reports/libra_pilot_gate_dse_completion_20260629.md`.
 
 Horror Game Developer:
@@ -165,7 +166,7 @@ Cross-novel experiment state:
 
 MoonRead:
 
-- current reader library includes published Deep Sea Embers `ch001-ch205`, Horror Game Developer `ch001-ch270`, and Infinite Regressor Stories `ch001-ch050`
+- current reader library includes published Deep Sea Embers `ch001-ch210`, Horror Game Developer `ch001-ch270`, and Infinite Regressor Stories `ch001-ch050`
 - both current novels now pass the 60-chapter reader blurb gate; MoonRead registry includes source-backed Thai synopsis text for both books
 - canonical MoonRead app path is `D:\Fogust\Workspace\Novel\MoonRead`; it is no longer owned by the Deep Sea Embers folder
 - MoonRead imports novels from `00_Config\novel_registry.json`; adding a future novel should start by adding a registry entry, not by hardcoding paths in `MoonRead\scripts\generate-chapters.mjs`
@@ -371,7 +372,7 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
-Current reader state: Deep Sea Embers is published through `ch205`; Horror Game Developer is published through `ch270`; Infinite Regressor Stories is published through clean `ch050`. V6.34 cross-novel OOS comparison is complete and recommends bounded sequential production only.
+Current reader state: Deep Sea Embers is published through `ch210`; Horror Game Developer is published through `ch270`; Infinite Regressor Stories is published through clean `ch050`. V6.34 cross-novel OOS comparison is complete and recommends bounded sequential production only.
 
 V6.33 translation-output and reader-publication phase is complete:
 
@@ -382,9 +383,9 @@ V6.33 translation-output and reader-publication phase is complete:
 
 Next safe choices:
 
-1. Continue the user-requested DSE continuation with final bounded batch `ch206-ch210`; run scan-only first because this is the remaining scope needed to end at `ch210`.
+1. Do not start another production batch automatically. The user-requested DSE continuation target through `ch210` is complete.
 2. Keep all V6.34 experiment output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead.
 3. Keep broad unattended parallel translate/refine/QA disabled; V6.34 supports bounded sequential production, not hands-off scaling.
 4. Record each completed experiment round in `01_Research_Log/` and push it immediately.
 5. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.
-6. Continue until DSE reaches `ch210`; from current state `ch206-ch210` remains 5 chapters.
+6. For any next translation work, start a fresh bounded scan-only gate with an explicit user-approved range.
