@@ -137,6 +137,7 @@ Cross-novel experiment state:
 - V6.34 Milestone 5 HGD baseline-vs-treatment comparison completed: baseline stopped after `ch037` with Sentinel `0/2/0/0`; treatment completed all 10 HGD in-sample chapters with latest scoped Sentinel `0/0/0/0` for every chapter. Treatment improved measured product-surface defects enough to continue DSE/IRS treatment measurement, but historical failures, QA hard-fails, and five QA omission recovery events mean long-run smoothness is not proven yet. Report: `07_Reports/v6_34_m5_hgd_baseline_vs_treatment_comparison_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_hgd_baseline_vs_treatment_comparison.md`.
 - V6.34 Milestone 5 DSE treatment attempt stopped before valid measurement: copied experiment vault `v6_34_m5_dse_treatment_v1` contained stale/off-by-one raw source for all 10 sampled chapters when compared with current DSE production `03_Raw`. `ch017` translated from stale raw and final assembly stopped on title glossary mismatch before output publication. New read-only guard `scripts/verify_experiment_source_parity.py` must pass before treatment/OOS provider calls. Report: `07_Reports/v6_34_m5_dse_treatment_source_mismatch_stop_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_dse_source_mismatch_stop.md`.
 - V6.34 Milestone 5 DSE treatment v2 completed validly after source-parity rebuild: isolated run `v6-34-m5-dse-treatment-v2` completed all 10 DSE in-sample chapters (`56/56` blocks), current failed blocks none, manual actions none, source parity mismatches `0`, and latest scoped Sentinel `0/0/0/0` for every sampled chapter. One historical OpenRouter refining failure occurred on `ch094-block-005` because the provider returned an empty assistant message, then recovered. Report: `07_Reports/v6_34_m5_dse_treatment_v2_completion_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_dse_treatment_v2_completion.md`.
+- V6.34 Milestone 5 IRS treatment stopped at first sampled chapter `ch020`: source parity was `0` mismatches, scan-only found 119 candidates, experiment glossary approval records were committed for 10/10 chapters, and `ch020` completed 4/4 blocks with no current failed blocks. Manual Sentinel then found blocker `glossary_note_leakage` (`ดังซอริน: ชื่อตัวละคร`) because the source ended with an empty `Footnotes:` marker and provider output invented glossary/category entries under `เชิงอรรถ:`. Do not continue IRS treatment until empty-footnote-marker prevention and runtime Sentinel config parity are applied. Report: `07_Reports/v6_34_m5_irs_treatment_ch020_stop_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_irs_treatment_ch020_stop.md`.
 
 MoonRead:
 
@@ -273,6 +274,7 @@ Requires explicit user approval:
 | Infinite Regressor Stories `ch395+` unavailable from WeTried TLS | keep fetched source scope at `ch001-ch394` until the source page exposes body payload; do not create placeholder source chapters |
 | IRS long-run reliability is not stable enough for unmonitored parallel production | use bounded sequential IRS production pilots; keep reasoning-enabled OpenRouter QA disabled for long QA prompts until a later probe proves it no longer returns empty assistant messages; promote long repeated-character detection before scaling |
 | Thai numeral drift and duplicate title tails | product output should use Arabic digits across registered novels; global output guardrail rejects Thai numerals in final output and MoonRead generated chapters, including legacy reader paths. Duplicate-title guardrail rejects `บทที่/ตอนที่ N ...` body tails after H1. Old archive/experiment artifacts may still contain historical Thai numerals and are not product surface |
+| Empty source footnote markers in English novels | strip or neutralize empty trailing `Footnotes:` markers before provider prompts, and keep Sentinel glossary-note leakage checks blocking before IRS treatment resumes |
 | MoonRead rendering mismatch | run reader smoke after generated content changes |
 | Worker false completion | verify disk state, tests, reports, and git diff |
 | Memory doc damage | keep docs short, use `DOC_RECOVERY.md`, avoid worker rewrites of canonical files |
@@ -356,8 +358,9 @@ V6.33 translation-output and reader-publication phase is complete:
 
 Next safe choices:
 
-1. Start IRS V6.34 Milestone 5 treatment measurement in an isolated experiment vault, using the same source-parity discipline before provider calls.
-2. Keep all experiment output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead until a separate production gate approves changes.
-3. Compare HGD + DSE + IRS treatment results before opening OOS Milestone 6; do not infer cross-novel generalization from HGD/DSE alone.
-4. Record each completed experiment round in `01_Research_Log/` and push it immediately.
-5. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.
+1. Implement the smallest prevention for IRS empty trailing `Footnotes:` marker leakage and ensure IRS treatment runtime Sentinel is enabled before resume.
+2. Rerun IRS treatment `ch020` from the earliest affected stage in `v6_34_m5_irs_treatment_v1`, then require scoped Sentinel `0/0/0/0`.
+3. Continue IRS treatment only after `ch020` passes; keep output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead.
+4. Compare HGD + DSE + IRS treatment results before opening OOS Milestone 6; do not infer cross-novel generalization from HGD/DSE alone.
+5. Record each completed experiment round in `01_Research_Log/` and push it immediately.
+6. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.
