@@ -466,6 +466,48 @@ def normalize_embedded_cjk_glosses(text: str, source_language: str) -> str:
     return pattern.sub(lambda match: match.group(1).strip(), text)
 
 
+def normalize_quoted_cjk_meaning_terms(text: str, source_language: str) -> str:
+    """Replace quoted source-script terms when an English meaning follows.
+
+    IRS source can say ``is '군주 (君主),' meaning a ruler...``. The meaning is
+    already present in English, so keeping the Korean/Hanja term only increases
+    leakage risk in Thai output.
+    """
+    if source_language.startswith(("zh", "ja", "ko")):
+        return text
+
+    source_script = r"\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uac00-\ud7af"
+    pattern = re.compile(
+        rf"([\"'“‘])(?:[{source_script}\s·・]+)(?:\s*\([{source_script}\s·・,，、;；:：'\-]+\))?\s*,?([\"'”’])\s*,?\s*meaning\s+",
+        flags=re.I,
+    )
+    return pattern.sub("a term meaning ", text)
+
+
+def strip_parenthetical_cjk_annotations(text: str, source_language: str) -> str:
+    """Remove source-script annotations in parentheses from non-CJK source.
+
+    English-source chapters can include already-explained Hanja/Han annotations,
+    such as ``Cheon Yo-hwa of the hundred tales (千謠話)``. Providers have
+    repeatedly copied those annotations into Thai output. Remove only parentheses
+    whose content is source-script annotation, while preserving normal prose
+    parentheses such as ``(skill)`` or ``(Chapter 1)``.
+    """
+    if source_language.startswith(("zh", "ja", "ko")):
+        return text
+
+    source_script = r"\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uac00-\ud7af"
+    annotation_re = re.compile(rf"\s*\(([{source_script}\s·・,，、;；:：'\-]+)\)")
+
+    def replacement(match: re.Match[str]) -> str:
+        content = match.group(1)
+        if re.search(rf"[{source_script}]", content):
+            return ""
+        return match.group(0)
+
+    return annotation_re.sub(replacement, text)
+
+
 def split_sentences(text: str) -> list[str]:
     text = normalize_whitespace(text)
     if not text:
@@ -488,6 +530,8 @@ def split_blocks(
 ) -> list[TextBlock]:
     text = normalize_whitespace(text)
     text = normalize_embedded_cjk_glosses(text, source_language)
+    text = normalize_quoted_cjk_meaning_terms(text, source_language)
+    text = strip_parenthetical_cjk_annotations(text, source_language)
     text = normalize_source_risk_tokens(text)
     text = strip_empty_trailing_footnote_marker(text, source_language)
     if not text:
@@ -852,8 +896,10 @@ __all__ = [
     "CHINESE_NAME_BLOCKED_SECOND_CHARS",
     "CHINESE_SURNAME_CHARS",
     "extract_candidate_terms",
+    "normalize_quoted_cjk_meaning_terms",
     "normalize_whitespace",
     "parse_chapter_range",
+    "strip_parenthetical_cjk_annotations",
     "split_blocks",
     "split_sentences",
     "word_count",

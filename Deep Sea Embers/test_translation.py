@@ -125,6 +125,44 @@ def test_split_blocks_uses_embedded_english_gloss_for_cjk_in_english_source():
     assert "有朋自遠方來" not in combined
 
 
+def test_split_blocks_strips_parenthetical_cjk_annotations_for_non_cjk_source():
+    source = (
+        "The younger twin sister: Cheon Yo-hwa of the hundred tales (千謠話).\n\n"
+        "The sovereign word was 'gunju (君主),' but this sentence already explains it.\n\n"
+        "Normal prose parentheses (skill) must remain."
+    )
+    blocks = split_blocks("ch999", source, "en", non_zh_limit=1500)
+    combined = "\n\n".join(block.source_text for block in blocks)
+    assert "Cheon Yo-hwa of the hundred tales" in combined
+    assert "gunju" in combined
+    assert "千謠話" not in combined
+    assert "君主" not in combined
+    assert "(skill)" in combined
+
+
+def test_split_blocks_replaces_quoted_cjk_terms_when_english_meaning_follows():
+    source = (
+        "The sovereign you think of is 'gunju' as a plain romanized word.\n\n"
+        "The sovereign you think of is '군주 (君主),' meaning a ruler whom subordinates serve.\n\n"
+        "Our sovereign is '군주 (群主),' meaning the master of a collective."
+    )
+    blocks = split_blocks("ch999", source, "en", non_zh_limit=1500)
+    combined = "\n\n".join(block.source_text for block in blocks)
+    assert "'gunju' as a plain romanized word" in combined
+    assert "군주" not in combined
+    assert "君主" not in combined
+    assert "群主" not in combined
+    assert "is a term meaning a ruler" in combined
+    assert "is a term meaning the master" in combined
+
+
+def test_split_blocks_keeps_parenthetical_cjk_annotations_for_cjk_source():
+    source = "君主（君主）仍然在原文中。"
+    blocks = split_blocks("ch999", source, "zh", zh_limit=1500)
+    combined = "\n\n".join(block.source_text for block in blocks)
+    assert "君主" in combined
+
+
 def test_parse_literal_pairs():
     source_text = "你好。我很忙。"
     # Note: split_sentences depends on re.compile(r"(?<=[。！？!?\.])\s+")
