@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-30T21:41:53.800Z",
+  "generatedAt": "2026-07-01T15:40:04.480Z",
   "sourceRoot": "../Deep Sea Embers/05_Output",
-  "targetRange": "ch001-ch180",
+  "targetRange": "ch001-ch185",
   "novel": {
     "slug": "deep-sea-embers",
     "title": "Deep Sea Embers",
@@ -30,8 +30,8 @@
     }
   },
   "summary": {
-    "total": 180,
-    "available": 180,
+    "total": 185,
+    "available": 185,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -2015,6 +2015,61 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch180.md",
       "href": "/read/ch180",
       "charCount": 8669,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch181",
+      "number": 181,
+      "title": "บทที่ 182: ประวัติศาสตร์ การปนเปื้อน และดวงตะวันดำ",
+      "status": "available",
+      "sourcePath": "ch181/ch181.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch181.md",
+      "href": "/read/ch181",
+      "charCount": 8810,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch182",
+      "number": 182,
+      "title": "บทที่ 183: พรุ่งนี้ที่สงบสุขยังคงมาถึง",
+      "status": "available",
+      "sourcePath": "ch182/ch182.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch182.md",
+      "href": "/read/ch182",
+      "charCount": 8565,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch183",
+      "number": 183,
+      "title": "บทที่ 184: การบุกรุกหลังพลบค่ำ",
+      "status": "available",
+      "sourcePath": "ch183/ch183.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch183.md",
+      "href": "/read/ch183",
+      "charCount": 8382,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch184",
+      "number": 184,
+      "title": "บทที่ 185: การโจมตีของนักเทศน์แห่งจุดจบ",
+      "status": "available",
+      "sourcePath": "ch184/ch184.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch184.md",
+      "href": "/read/ch184",
+      "charCount": 8625,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch185",
+      "number": 185,
+      "title": "บทที่ 186: ต่างคนต่างอยู่ดี",
+      "status": "available",
+      "sourcePath": "ch185/ch185.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch185.md",
+      "href": "/read/ch185",
+      "charCount": 8282,
       "readingMinutes": 2
     }
   ]

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-30T21:41:55.476Z",
+  "generatedAt": "2026-07-01T15:40:05.418Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,8 +11,8 @@
   },
   "summary": {
     "books": 3,
-    "chapters": 500,
-    "available": 500,
+    "chapters": 505,
+    "available": 505,
     "missing": 0,
     "rejected": 0
   },
@@ -33,23 +33,23 @@
       "cover": "/images/deep-sea-embers-cover.png",
       "href": "/book",
       "chaptersHref": "/chapters",
-      "targetRange": "ch001-ch180",
+      "targetRange": "ch001-ch185",
       "summary": {
-        "total": 180,
-        "available": 180,
+        "total": 185,
+        "available": 185,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch180",
-        "number": 180,
-        "title": "บทที่ 181: นักประวัติศาสตร์พูดถึงประวัติศาสตร์",
+        "id": "ch185",
+        "number": 185,
+        "title": "บทที่ 186: ต่างคนต่างอยู่ดี",
         "status": "available",
-        "sourcePath": "ch180/ch180.md",
-        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch180.md",
-        "href": "/read/ch180",
-        "charCount": 8669,
+        "sourcePath": "ch185/ch185.md",
+        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch185.md",
+        "href": "/read/ch185",
+        "charCount": 8282,
         "readingMinutes": 2
       },
       "firstChapter": {
