@@ -146,6 +146,7 @@ Cross-novel experiment state:
 - V6.34 Milestone 6.2 OOS started and stopped validly on HGD `ch131`: isolated run `v6-34-m6-hgd-oos-v1` completed `ch015`, `ch046`, `ch060`, `ch101`, and `ch131`, then blocking Sentinel found major glossary coverage failure for `Containment Department -> แผนกกักกัน`. Output used `ภาคส่วนกักกัน` because `Containment Sector.md` also lists `Containment Department` as an alias with a different Thai term. No repair was applied mid-OOS. Report: `07_Reports/v6_34_m6_oos_hgd_stop_ch131_glossary_conflict_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_oos_hgd_ch131_stop.md`.
 - V6.34 Milestone 6.3 analysis completed: `glossary-conflicts` did not specifically flag approved original-vs-alias collisions where the same source surface maps to different Thai terms. Selected treatment is Layer 0 source-surface collision detection plus Layer 2 HGD cleanup of `Containment Sector.md` aliases. Report: `07_Reports/v6_34_m6_oos_ch131_analysis_treatment_selection_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_oos_ch131_analysis.md`.
 - V6.34 Milestone 6.3 treatment implemented and verified: `glossary-conflicts` now reports approved source-surface collisions where an original term and another note's alias map to different Thai terms; HGD `Containment Sector.md` no longer aliases `Containment Department`; `ch131-block-001` rerun from refine passed QA retry 1 and latest Sentinel `0/0/0/0`. Report: `07_Reports/v6_34_m6_ch131_treatment_implementation_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_ch131_treatment.md`.
+- V6.34 Milestone 6.2 HGD OOS resumed and stopped at `ch184-block-001`: `ch153` completed, then QA hard-failed after retry 2 on missing `ปุ่ม Enter` and an internal-thought mistranslation using `สะกดรอยตาม`. No force-accept or repair was applied. Report: `07_Reports/v6_34_m6_oos_hgd_stop_ch184_qa_hard_fail_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_oos_hgd_ch184_stop.md`.
 
 MoonRead:
 
@@ -366,7 +367,7 @@ V6.33 translation-output and reader-publication phase is complete:
 
 Next safe choices:
 
-1. Resume HGD OOS from the next pending chapter `ch153`; stop and record if another Sentinel blocker/major appears.
+1. Analyze HGD `ch184-block-001` source/literal/refined/QA to classify the defect layer before any rerun.
 2. Keep all V6.34 experiment output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead.
 3. Track whether CJK/Hanja parenthetical leakage and the IRS `Complete Memory` minor glossary miss recur only if OOS proceeds to IRS after HGD.
 4. Record each completed experiment round in `01_Research_Log/` and push it immediately.
