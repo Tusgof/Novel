@@ -7,6 +7,12 @@ default_style_profile: modern_urban
 chunking:
   chinese_character_limit: 600
   non_chinese_word_limit: 900
+execution:
+  concurrency_enabled: false
+  stop_on_first_hard_failure: true
+  sentinel:
+    mode: blocking
+    fail_on: major
 source:
   adapter: wetriedtls
   toc_url: https://wetriedtls.com/series/im-an-infinite-regressor-but-ive-got-stories-to-tell

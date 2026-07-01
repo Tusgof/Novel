@@ -437,6 +437,18 @@ def normalize_source_risk_tokens(text: str) -> str:
     return "\n".join(normalized_lines)
 
 
+def strip_empty_trailing_footnote_marker(text: str, source_language: str) -> str:
+    """Remove empty trailing footnote headers from non-CJK source text.
+
+    IRS source chapters can end with a bare ``Footnotes:`` marker. If that
+    marker is sent to providers, they may invent glossary/category notes to
+    fill the empty section. Keep real footnote markers such as ``[1]`` intact.
+    """
+    if source_language.startswith(("zh", "ja", "ko")):
+        return text
+    return re.sub(r"(?:\n\s*){0,2}Footnotes:\s*$", "", text, flags=re.I).rstrip()
+
+
 def normalize_embedded_cjk_glosses(text: str, source_language: str) -> str:
     """Replace embedded CJK phrases with nearby English glosses in non-CJK source.
 
@@ -477,6 +489,7 @@ def split_blocks(
     text = normalize_whitespace(text)
     text = normalize_embedded_cjk_glosses(text, source_language)
     text = normalize_source_risk_tokens(text)
+    text = strip_empty_trailing_footnote_marker(text, source_language)
     if not text:
         return []
 

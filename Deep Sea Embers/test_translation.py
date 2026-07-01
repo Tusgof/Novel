@@ -2287,6 +2287,19 @@ def test_refine_preserves_source_footnote_marker_section():
     assert repairs == [{"markers": "[1]"}]
 
 
+def test_split_blocks_strips_empty_trailing_footnotes_marker_only():
+    empty_marker_source = "The story ends here.\n\nFootnotes:"
+    blocks = split_blocks("ch020", empty_marker_source, "en", non_zh_limit=500)
+
+    assert len(blocks) == 1
+    assert blocks[0].source_text == "The story ends here."
+
+    real_marker_source = "The story ends here.\n\nFootnotes:\n[1]"
+    blocks = split_blocks("ch020", real_marker_source, "en", non_zh_limit=500)
+
+    assert blocks[0].source_text.endswith("Footnotes:\n[1]")
+
+
 def test_qa_ai_judge_finding_still_blocks():
     """AI judge fail lines still block even when rule findings are warnings."""
     from novel_pipeline.stages.qa import run_qa_stage
@@ -8159,6 +8172,7 @@ if __name__ == "__main__":
     test_redacted_ranked_gate_repair_preserves_explicit_s_rank_source()
     test_literal_draft_repairs_redacted_ranked_gate_marker()
     test_refine_preserves_source_footnote_marker_section()
+    test_split_blocks_strips_empty_trailing_footnotes_marker_only()
     test_qa_ai_judge_finding_still_blocks()
     test_qa_markdown_bold_fail_line_still_blocks()
     test_literal_translation_accepts_short_image_caption_filename()
