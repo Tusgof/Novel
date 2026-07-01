@@ -54,6 +54,7 @@ Deep Sea Embers:
 - V6.33 DSE continuation completed and published: `ch161-ch180` translated/refined/QA-passed/formatted/assembled, outputs exist, Sentinel final report `07_Reports/sentinel_quality_dse-v6-33-ch161-ch180-final_20260630_005304.md` reports blocker/major/minor/info `0/0/0/0`, and MoonRead now publishes DSE through `ch180`.
 - DSE `ch181-ch185` production checkpoint completed and published: run `dse-ch181-ch185-v1` completed `30/30` blocks, current failed blocks none, manual actions none, output guardrails passed, latest scoped Sentinel `0/0/0/0`, and MoonRead now publishes DSE through `ch185`. Initial final assembly stop from missing title sidecars confirmed the title guardrail is working; title sidecars were generated before resume. Report: `07_Reports/dse_ch181_ch185_production_checkpoint_20260701.md`.
 - DSE `ch186-ch190` production checkpoint completed and published: run `dse-ch186-ch190-v1` completed `29/29` blocks, current failed blocks none, manual actions none, output guardrails passed, latest scoped Sentinel `0/0/0/0`, and MoonRead now publishes DSE through `ch190`. One provider hang after `ch190-block-005` refinement was recovered by stopping the stale process and resuming from ledger state; no artifact was manually patched. Report: `07_Reports/dse_ch186_ch190_production_checkpoint_20260701.md`.
+- DSE `ch191-ch195` production checkpoint completed and published: run `dse-ch191-ch195-v1` completed `29/29` blocks, current failed blocks none, manual actions none, output guardrails passed, final scoped Sentinel `0/0/0/0`, and MoonRead now publishes DSE through `ch195`. Three minor English parenthetical advisories were deterministically removed from final output/formatted artifacts before publication. Report: `07_Reports/dse_ch191_ch195_production_checkpoint_20260701.md`.
 - Libra - Pilot Gate DSE completed on 2026-06-29 in isolated experiment vault `Deep Sea Embers/04_Work/_experiments/libra_pilot_dse_v1`. Raw sampling used fetched `03_Raw/ch001-ch160` with seed `632160`; in-sample `dse-libra-pilot-insample-v1` completed 54/54 blocks and OOS `dse-libra-pilot-oos-v1` completed 56/56 blocks. Current failed blocks: none. Output guardrails passed and Sentinel blocker/major/minor/info was `0/0/0/0`. Report: `Deep Sea Embers/07_Reports/libra_pilot_gate_dse_completion_20260629.md`.
 
 Horror Game Developer:
@@ -162,7 +163,7 @@ Cross-novel experiment state:
 
 MoonRead:
 
-- current reader library includes published Deep Sea Embers `ch001-ch190`, Horror Game Developer `ch001-ch270`, and Infinite Regressor Stories `ch001-ch050`
+- current reader library includes published Deep Sea Embers `ch001-ch195`, Horror Game Developer `ch001-ch270`, and Infinite Regressor Stories `ch001-ch050`
 - both current novels now pass the 60-chapter reader blurb gate; MoonRead registry includes source-backed Thai synopsis text for both books
 - canonical MoonRead app path is `D:\Fogust\Workspace\Novel\MoonRead`; it is no longer owned by the Deep Sea Embers folder
 - MoonRead imports novels from `00_Config\novel_registry.json`; adding a future novel should start by adding a registry entry, not by hardcoding paths in `MoonRead\scripts\generate-chapters.mjs`
@@ -368,20 +369,20 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
-Current reader state: Deep Sea Embers is published through `ch190`; Horror Game Developer is published through `ch270`; Infinite Regressor Stories is published through clean `ch050`. V6.34 cross-novel OOS comparison is complete and recommends bounded sequential production only.
+Current reader state: Deep Sea Embers is published through `ch195`; Horror Game Developer is published through `ch270`; Infinite Regressor Stories is published through clean `ch050`. V6.34 cross-novel OOS comparison is complete and recommends bounded sequential production only.
 
 V6.33 translation-output and reader-publication phase is complete:
 
 - HGD: `ch251-ch270` output complete, publish Sentinel `0/0/0/0`, MoonRead through `ch270`.
-- DSE: `ch181-ch190` output complete, publish Sentinel `0/0/0/0`, MoonRead through `ch190`.
+- DSE: `ch181-ch195` output complete, publish Sentinel `0/0/0/0`, MoonRead through `ch195`.
 - IRS: clean `ch001-ch050` output complete, publish Sentinel `0/0/0/0`, MoonRead through `ch050`; advisory English review queue remains minor-only.
 - All three used glossary batches of 5 chapters.
 
 Next safe choices:
 
-1. Continue the user-requested DSE continuation with next bounded batch `ch191-ch195`; run scan-only first because source is not yet fetched beyond the completed checkpoint.
+1. Continue the user-requested DSE continuation with next bounded batch `ch196-ch200`; run scan-only first because source is not yet fetched beyond the completed checkpoint.
 2. Keep all V6.34 experiment output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead.
 3. Keep broad unattended parallel translate/refine/QA disabled; V6.34 supports bounded sequential production, not hands-off scaling.
 4. Record each completed experiment round in `01_Research_Log/` and push it immediately.
 5. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.
-6. Continue until DSE reaches `ch210`; from current state `ch191-ch210` remains 20 chapters.
+6. Continue until DSE reaches `ch210`; from current state `ch196-ch210` remains 15 chapters.

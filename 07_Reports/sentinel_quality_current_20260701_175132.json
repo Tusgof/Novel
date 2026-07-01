@@ -1,0 +1,35 @@
+{
+  "created_at": "2026-07-01T17:51:32.020957+00:00",
+  "scope": "current",
+  "chapters": "ch191-ch195",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 3,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": [
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch191\\ch191.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "San"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch192\\ch192.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Deep Sea Embers"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch193\\ch193.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "san"
+    }
+  ]
+}
