@@ -43,6 +43,7 @@
 | 028 | HGD OOS completion | `2026-07-01_novel_pipeline_v6_34_m6_hgd_oos_completion.md` | HGD OOS จบครบ 10 ตอน, Sentinel `0/0/0/0`, แต่ยังมี smoothness risk |
 | 029 | DSE OOS source parity stop | `2026-07-01_novel_pipeline_v6_34_m6_dse_oos_source_parity_stop.md` | DSE OOS หยุดเพราะ experiment vault ใช้ raw source stale/off-by-one ทั้ง 10 sampled chapters |
 | 030 | DSE ch029 source-script treatment | `2026-07-01_novel_pipeline_v6_34_m6_dse_ch029_source_script_treatment.md` | เพิ่ม cleanup แคบ ๆ สำหรับ Chinese annotation ที่หลุดใน Thai output แล้ว rerun `ch029-block-005` ผ่าน QA |
+| 031 | DSE OOS completion | `2026-07-01_novel_pipeline_v6_34_m6_dse_oos_completion.md` | DSE OOS v2 จบครบ 10 ตอน, guardrails ผ่าน, source parity 0, และเพิ่ม duplicate-title prevention |
 
 ## ไฟล์ที่ลบออก
 

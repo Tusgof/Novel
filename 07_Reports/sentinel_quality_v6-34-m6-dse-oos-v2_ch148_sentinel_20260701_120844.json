@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-07-01T12:08:44.796160+00:00",
+  "scope": "v6-34-m6-dse-oos-v2_ch148_sentinel",
+  "chapters": "ch148",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

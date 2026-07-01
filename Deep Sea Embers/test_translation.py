@@ -18,7 +18,7 @@ from novel_pipeline.types import (
     RunRecord,
     TextBlock,
 )
-from novel_pipeline.pipeline import _apply_glossary_parenthetical_leakage_repairs, _apply_glossary_rejected_variant_repairs, _apply_hgd_peer_address_repairs, _apply_redacted_ranked_gate_repairs, _apply_source_footnote_marker_repairs, _apply_source_script_annotation_repairs, _literal_safe_refined_draft, _qa_report_indicates_omission, _repair_literal_draft_for_source_markers, _resolve_glossary_subset
+from novel_pipeline.pipeline import _apply_glossary_parenthetical_leakage_repairs, _apply_glossary_rejected_variant_repairs, _apply_hgd_peer_address_repairs, _apply_redacted_ranked_gate_repairs, _apply_source_footnote_marker_repairs, _apply_source_script_annotation_repairs, _literal_safe_refined_draft, _qa_report_indicates_omission, _remove_duplicate_title_paragraph, _repair_literal_draft_for_source_markers, _resolve_glossary_subset
 from novel_pipeline.stages.format import format_block_text
 from novel_pipeline.text_utils import split_blocks
 from unittest.mock import Mock, patch, call
@@ -168,6 +168,20 @@ def test_source_script_annotation_repairs_remove_cjk_bracket_leakage():
     assert "ก้าวสู่ความไม่เป็นวิทยาศาสตร์" in repaired
     assert "走进不科学" not in repaired
     assert repairs == [{"type": "square_bracket_cjk", "count": "1"}]
+
+
+def test_remove_duplicate_title_paragraph_drops_title_like_body_paragraphs_anywhere():
+    body = (
+        "ย่อหน้าแรก\n\n"
+        "**[ บทที่ 174 ก่อนพายุโหมกระหน่ำ ]**\n\n"
+        "ย่อหน้าหลังชื่อซ้ำ"
+    )
+
+    repaired = _remove_duplicate_title_paragraph(body, has_header=True)
+
+    assert "บทที่ 174" not in repaired
+    assert "ย่อหน้าแรก" in repaired
+    assert "ย่อหน้าหลังชื่อซ้ำ" in repaired
 
 
 def test_split_blocks_normalizes_zalgo_sound_effect_source():

@@ -3269,16 +3269,20 @@ def _write_chapter_output(
 
 
 def _remove_duplicate_title_paragraph(body: str, *, has_header: bool) -> str:
-    """Drop title-like first paragraphs that duplicate the assembled H1."""
+    """Drop standalone title-like paragraphs when the assembled H1 is authoritative."""
     if not has_header:
         return body
     paragraphs = re.split(r"\n\s*\n", body.strip())
     if not paragraphs:
         return body
-    first = paragraphs[0].strip()
-    if re.match(r"^(ตอนที่|บทที่)\s+\d+(?:\s|:|：|-|$)", first):
-        return "\n\n".join(paragraphs[1:]).strip()
-    return body
+    kept: list[str] = []
+    for paragraph in paragraphs:
+        stripped = paragraph.strip()
+        normalized = re.sub(r"^[*_`~\[\]\s]+|[*_`~\[\]\s]+$", "", stripped).strip()
+        if re.match(r"^(ตอนที่|บทที่)\s+\d+(?:\s|:|：|-|$)", normalized):
+            continue
+        kept.append(paragraph)
+    return "\n\n".join(kept).strip()
 
 
 def _run_sentinel_gate_for_chapter(
