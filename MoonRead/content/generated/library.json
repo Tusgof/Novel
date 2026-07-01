@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-01T17:52:48.322Z",
+  "generatedAt": "2026-07-01T18:56:21.794Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,8 +11,8 @@
   },
   "summary": {
     "books": 3,
-    "chapters": 515,
-    "available": 515,
+    "chapters": 520,
+    "available": 520,
     "missing": 0,
     "rejected": 0
   },
@@ -33,23 +33,23 @@
       "cover": "/images/deep-sea-embers-cover.png",
       "href": "/book",
       "chaptersHref": "/chapters",
-      "targetRange": "ch001-ch195",
+      "targetRange": "ch001-ch200",
       "summary": {
-        "total": 195,
-        "available": 195,
+        "total": 200,
+        "available": 200,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch195",
-        "number": 195,
-        "title": "บทที่ 196: การหายตัวไป",
+        "id": "ch200",
+        "number": 200,
+        "title": "บทที่ 201: การสกัดกั้น",
         "status": "available",
-        "sourcePath": "ch195/ch195.md",
-        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch195.md",
-        "href": "/read/ch195",
-        "charCount": 7993,
+        "sourcePath": "ch200/ch200.md",
+        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch200.md",
+        "href": "/read/ch200",
+        "charCount": 7976,
         "readingMinutes": 2
       },
       "firstChapter": {

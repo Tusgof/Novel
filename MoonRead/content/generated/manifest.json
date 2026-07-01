@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-01T17:52:47.644Z",
+  "generatedAt": "2026-07-01T18:56:21.112Z",
   "sourceRoot": "../Deep Sea Embers/05_Output",
-  "targetRange": "ch001-ch195",
+  "targetRange": "ch001-ch200",
   "novel": {
     "slug": "deep-sea-embers",
     "title": "Deep Sea Embers",
@@ -30,8 +30,8 @@
     }
   },
   "summary": {
-    "total": 195,
-    "available": 195,
+    "total": 200,
+    "available": 200,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -2180,6 +2180,61 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch195.md",
       "href": "/read/ch195",
       "charCount": 7993,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch196",
+      "number": 196,
+      "title": "บทที่ 197: ผู้เล่นสายบ้าพลัง",
+      "status": "available",
+      "sourcePath": "ch196/ch196.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch196.md",
+      "href": "/read/ch196",
+      "charCount": 8265,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch197",
+      "number": 197,
+      "title": "บทที่ 198: แสงแดดสดใส",
+      "status": "available",
+      "sourcePath": "ch197/ch197.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch197.md",
+      "href": "/read/ch197",
+      "charCount": 8347,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch198",
+      "number": 198,
+      "title": "บทที่ 199: วันแรกที่อลิซได้เปิดหูเปิดตา",
+      "status": "available",
+      "sourcePath": "ch198/ch198.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch198.md",
+      "href": "/read/ch198",
+      "charCount": 8494,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch199",
+      "number": 199,
+      "title": "บทที่ 200: ความตื่นตัวของนักประวัติศาสตร์",
+      "status": "available",
+      "sourcePath": "ch199/ch199.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch199.md",
+      "href": "/read/ch199",
+      "charCount": 8574,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch200",
+      "number": 200,
+      "title": "บทที่ 201: การสกัดกั้น",
+      "status": "available",
+      "sourcePath": "ch200/ch200.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch200.md",
+      "href": "/read/ch200",
+      "charCount": 7976,
       "readingMinutes": 2
     }
   ]
