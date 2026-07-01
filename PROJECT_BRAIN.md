@@ -144,6 +144,7 @@ Cross-novel experiment state:
 - V6.34 Milestone 5 pre-OOS CJK/Hanja parenthetical hardening completed: `split_blocks()` now normalizes quoted source-script terms followed by English `meaning ...` and strips parenthetical source-script annotations for non-CJK source projects only. Targeted tests, compileall, and `test_translation.py` passed; IRS raw probe for `ch080` and `ch261` now leaves `0` source-script annotation chars after split. Report: `07_Reports/v6_34_m5_pre_oos_cjk_parenthetical_hardening_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_pre_oos_cjk_parenthetical_hardening.md`.
 - V6.34 Milestone 6.1 OOS scan/glossary gate completed: locked OOS chapters were prepared in isolated experiment vaults for DSE/HGD/IRS, source parity was `0` mismatches for all three, scan-only completed with candidate counts DSE `34`, HGD `17`, IRS `155`, and `glossary_approved` records were committed for all 30 OOS chapters without approving new OOS terms. No translation/refinement/QA/formatting/completed records exist yet. Report: `07_Reports/v6_34_m6_oos_scan_glossary_gate_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_oos_scan_glossary_gate.md`.
 - V6.34 Milestone 6.2 OOS started and stopped validly on HGD `ch131`: isolated run `v6-34-m6-hgd-oos-v1` completed `ch015`, `ch046`, `ch060`, `ch101`, and `ch131`, then blocking Sentinel found major glossary coverage failure for `Containment Department -> แผนกกักกัน`. Output used `ภาคส่วนกักกัน` because `Containment Sector.md` also lists `Containment Department` as an alias with a different Thai term. No repair was applied mid-OOS. Report: `07_Reports/v6_34_m6_oos_hgd_stop_ch131_glossary_conflict_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_oos_hgd_ch131_stop.md`.
+- V6.34 Milestone 6.3 analysis completed: `glossary-conflicts` did not specifically flag approved original-vs-alias collisions where the same source surface maps to different Thai terms. Selected treatment is Layer 0 source-surface collision detection plus Layer 2 HGD cleanup of `Containment Sector.md` aliases. Report: `07_Reports/v6_34_m6_oos_ch131_analysis_treatment_selection_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_oos_ch131_analysis.md`.
 
 MoonRead:
 
@@ -364,9 +365,9 @@ V6.33 translation-output and reader-publication phase is complete:
 
 Next safe choices:
 
-1. Perform Milestone 6.3 analysis on the HGD `ch131` OOS glossary conflict before any OOS repair or resume.
-2. Decide whether the fix belongs only to Layer 2 HGD glossary cleanup or also to Layer 0 duplicate-original/alias conflict detection.
+1. Implement and test the selected M6.3 treatment: Layer 0 source-surface collision detection in `glossary-conflicts`, plus Layer 2 HGD alias cleanup for `Containment Sector.md`.
+2. Copy the cleaned HGD glossary note into the HGD OOS experiment vault, then decide the safe rerun stage for `ch131`.
 3. Keep all V6.34 experiment output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead.
-4. Track whether CJK/Hanja parenthetical leakage and the IRS `Complete Memory` minor glossary miss recur only if OOS resumes after analysis.
+4. Track whether CJK/Hanja parenthetical leakage and the IRS `Complete Memory` minor glossary miss recur only if OOS resumes after treatment.
 5. Record each completed experiment round in `01_Research_Log/` and push it immediately.
 6. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.

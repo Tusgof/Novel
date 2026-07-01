@@ -42,6 +42,7 @@ Current progress:
 - Milestone 5 pre-OOS CJK/Hanja parenthetical hardening completed: non-CJK `split_blocks()` now normalizes quoted source-script terms followed by English `meaning ...` and strips parenthetical source-script annotations. Targeted tests, compileall, `test_translation.py`, and raw IRS `ch080`/`ch261` probes passed. Next: open Milestone 6 OOS.
 - Milestone 6.1 OOS scan/glossary gate completed: DSE/HGD/IRS experiment vaults passed source parity `0` mismatches, scan-only completed, candidate counts were DSE `34`, HGD `17`, IRS `155`, and `glossary_approved` records were committed for all 30 OOS chapters without approving new OOS terms. Next: prepare missing experiment-local IRS title sidecars, then run M6.2 OOS translation without tuning mid-round.
 - Milestone 6.2 OOS translation started and stopped validly on HGD `ch131`: HGD OOS completed `ch015`, `ch046`, `ch060`, `ch101`, and `ch131`, then blocking Sentinel found major `glossary_coverage_missing` because output used `ภาคส่วนกักกัน` for source `Containment Department` while `Containment Department.md` requires `แผนกกักกัน`. Cause is a HGD glossary conflict with `Containment Sector.md`, not provider failure. Next: M6.3 analysis before any OOS repair/resume.
+- Milestone 6.3 analysis completed: selected treatment is Layer 0 source-surface collision detection in `glossary-conflicts` plus Layer 2 HGD cleanup of `Containment Sector.md` aliases. No output patching or OOS resume until the treatment passes tests.
 
 ---
 
@@ -222,7 +223,7 @@ Status: complete. Layer 0 title/H1 glossary validation, Layer 0 BOM-tolerant glo
 
 **Milestone complete when**: OOS evidence shows whether the treatment generalizes well enough, and the project has a clear next production mode backed by reports.
 
-Status: safely stopped for analysis. M6.1 scan/glossary gate is complete. M6.2 started with HGD OOS and completed 5/10 chapters, then stopped at `ch131` on blocking Sentinel major `glossary_coverage_missing`. Evidence: `07_Reports/v6_34_m6_oos_scan_glossary_gate_20260701.md`, `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_oos_scan_glossary_gate.md`, `07_Reports/v6_34_m6_oos_hgd_stop_ch131_glossary_conflict_20260701.md`, and `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_oos_hgd_ch131_stop.md`. Next action: perform M6.3 analysis and decide the layer for the `Containment Department` / `Containment Sector` conflict before any OOS repair or resume.
+Status: safely stopped for treatment implementation. M6.1 scan/glossary gate is complete. M6.2 started with HGD OOS and completed 5/10 chapters, then stopped at `ch131` on blocking Sentinel major `glossary_coverage_missing`. M6.3 analysis selected a two-layer treatment: Layer 0 source-surface collision detection in `glossary-conflicts`, and Layer 2 HGD alias cleanup for `Containment Sector.md`. Evidence: `07_Reports/v6_34_m6_oos_scan_glossary_gate_20260701.md`, `07_Reports/v6_34_m6_oos_hgd_stop_ch131_glossary_conflict_20260701.md`, `07_Reports/v6_34_m6_oos_ch131_analysis_treatment_selection_20260701.md`, and matching research logs. Next action: implement and test the selected treatment before any OOS repair or resume.
 
 ---
 
