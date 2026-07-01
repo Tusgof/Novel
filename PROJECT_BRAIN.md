@@ -139,6 +139,7 @@ Cross-novel experiment state:
 - V6.34 Milestone 5 DSE treatment v2 completed validly after source-parity rebuild: isolated run `v6-34-m5-dse-treatment-v2` completed all 10 DSE in-sample chapters (`56/56` blocks), current failed blocks none, manual actions none, source parity mismatches `0`, and latest scoped Sentinel `0/0/0/0` for every sampled chapter. One historical OpenRouter refining failure occurred on `ch094-block-005` because the provider returned an empty assistant message, then recovered. Report: `07_Reports/v6_34_m5_dse_treatment_v2_completion_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_dse_treatment_v2_completion.md`.
 - V6.34 Milestone 5 IRS treatment stopped at first sampled chapter `ch020`: source parity was `0` mismatches, scan-only found 119 candidates, experiment glossary approval records were committed for 10/10 chapters, and `ch020` completed 4/4 blocks with no current failed blocks. Manual Sentinel then found blocker `glossary_note_leakage` (`ดังซอริน: ชื่อตัวละคร`) because the source ended with an empty `Footnotes:` marker and provider output invented glossary/category entries under `เชิงอรรถ:`. Do not continue IRS treatment until empty-footnote-marker prevention and runtime Sentinel config parity are applied. Report: `07_Reports/v6_34_m5_irs_treatment_ch020_stop_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_irs_treatment_ch020_stop.md`.
 - V6.34 Milestone 5 IRS empty-footnote-marker prevention applied and verified: `split_blocks()` now strips only bare trailing `Footnotes:` markers for non-CJK sources while preserving real markers such as `[1]`; IRS config now has blocking Sentinel. Rerun of `ch020-block-004` from translate passed QA retry 0, rewrote final output, and runtime Sentinel reported `0/0/0/0`. Report: `07_Reports/v6_34_m5_irs_footnote_marker_prevention_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_irs_footnote_marker_prevention.md`.
+- V6.34 Milestone 5 IRS treatment completed validly: isolated run `v6-34-m5-irs-treatment-v1` completed all 10 IRS in-sample chapters (`32/32` blocks), current failed blocks none, manual actions none, source parity mismatches `0`, deterministic output checks found no CJK/meta/Thai numeral/quote-only leakage, and final scoped Sentinel was `0/0/1/0`. Remaining treatment evidence: two QA hard-fails from CJK parenthetical source annotations, two recovered OpenRouter refining failures, and one minor glossary miss (`Complete Memory`). Report: `07_Reports/v6_34_m5_irs_treatment_completion_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_irs_treatment_completion.md`.
 
 MoonRead:
 
@@ -359,8 +360,8 @@ V6.33 translation-output and reader-publication phase is complete:
 
 Next safe choices:
 
-1. Continue IRS treatment measurement from `ch067` in isolated vault `v6_34_m5_irs_treatment_v1`.
-2. Keep output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead.
-3. Compare HGD + DSE + IRS treatment results before opening OOS Milestone 6; do not infer cross-novel generalization from HGD/DSE alone.
+1. Compare HGD + DSE + IRS Milestone 5 treatment results before opening OOS Milestone 6; do not infer cross-novel generalization from one or two novels alone.
+2. Keep all V6.34 experiment output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead.
+3. Decide whether CJK/Hanja parenthetical cleanup and the IRS `Complete Memory` minor glossary miss need an additional treatment rule before OOS.
 4. Record each completed experiment round in `01_Research_Log/` and push it immediately.
 5. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.
