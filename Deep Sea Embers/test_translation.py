@@ -18,7 +18,7 @@ from novel_pipeline.types import (
     RunRecord,
     TextBlock,
 )
-from novel_pipeline.pipeline import _apply_glossary_parenthetical_leakage_repairs, _apply_glossary_rejected_variant_repairs, _apply_redacted_ranked_gate_repairs, _apply_source_footnote_marker_repairs, _literal_safe_refined_draft, _qa_report_indicates_omission, _repair_literal_draft_for_source_markers, _resolve_glossary_subset
+from novel_pipeline.pipeline import _apply_glossary_parenthetical_leakage_repairs, _apply_glossary_rejected_variant_repairs, _apply_hgd_peer_address_repairs, _apply_redacted_ranked_gate_repairs, _apply_source_footnote_marker_repairs, _literal_safe_refined_draft, _qa_report_indicates_omission, _repair_literal_draft_for_source_markers, _resolve_glossary_subset
 from novel_pipeline.stages.format import format_block_text
 from novel_pipeline.text_utils import split_blocks
 from unittest.mock import Mock, patch, call
@@ -107,6 +107,25 @@ def test_resolve_glossary_subset_does_not_match_alphabetic_terms_inside_words():
     )
     matched = _resolve_glossary_subset([key_block], glossary_index)
     assert [entry.original_term for entry in matched] == ["Enter"]
+
+
+def test_hgd_peer_address_repairs_are_novel_scoped_and_preserve_thank_you():
+    text = (
+        '"ถ้าคุณมีอุปกรณ์อิเล็กทรอนิกส์อะไร ดีที่สุดคือปิดมันซะ"\n\n'
+        '"คุณฉลาดไม่เบาเลยนะ"\n\n'
+        "สุดท้ายสิ่งที่ผมทำได้มีเพียงการกล่าว ‘ขอบคุณ’ เบาๆ"
+    )
+
+    repaired, repairs = _apply_hgd_peer_address_repairs(text, novel_id="horror-game-developer")
+
+    assert "ถ้านายมีอุปกรณ์อิเล็กทรอนิกส์อะไร" in repaired
+    assert "นายฉลาดไม่เบาเลยนะ" in repaired
+    assert "ขอบคุณ" in repaired
+    assert len(repairs) == 2
+
+    untouched, skipped = _apply_hgd_peer_address_repairs(text, novel_id="deep-sea-embers")
+    assert untouched == text
+    assert skipped == []
 
 
 def test_glossary_parenthetical_leakage_repairs_only_thai_term_parentheses():

@@ -324,6 +324,31 @@ def _apply_source_footnote_marker_repairs(text: str, source_text: str) -> tuple[
     return text.rstrip() + "\n\n" + footnote_text, [{"markers": ",".join(markers)}]
 
 
+_HGD_PEER_ADDRESS_REPAIR_PATTERNS: tuple[tuple[str, str], ...] = (
+    ("ถ้าคุณมีอุปกรณ์อิเล็กทรอนิกส์", "ถ้านายมีอุปกรณ์อิเล็กทรอนิกส์"),
+    ("คุณรู้อะไรบางอย่างแล้วใช่ไหม", "นายรู้อะไรบางอย่างแล้วใช่ไหม"),
+    ("คุณฉลาดไม่เบาเลยนะ", "นายฉลาดไม่เบาเลยนะ"),
+    ("ชอบคุณนัก", "ชอบนายนัก"),
+    ("คุณก็จะยิ่งตกอยู่", "นายก็จะยิ่งตกอยู่"),
+)
+
+
+def _apply_hgd_peer_address_repairs(text: str, *, novel_id: str) -> tuple[str, list[dict[str, str]]]:
+    if novel_id != "horror-game-developer":
+        return text, []
+
+    repaired = text
+    repairs: list[dict[str, str]] = []
+    for source, target in _HGD_PEER_ADDRESS_REPAIR_PATTERNS:
+        count = repaired.count(source)
+        if not count:
+            continue
+        repaired = repaired.replace(source, target)
+        repairs.append({"source": source, "target": target, "count": str(count)})
+
+    return repaired, repairs
+
+
 _FORMATTING_PROVIDER_META_MARKERS = (
     "quota",
     "rate limit",
@@ -1822,7 +1847,11 @@ def _run_qa_with_retries(
                         repaired_text,
                         block.source_text,
                     )
-                    if glossary_repairs or redacted_rank_repairs or footnote_repairs:
+                    repaired_text, hgd_peer_address_repairs = _apply_hgd_peer_address_repairs(
+                        repaired_text,
+                        novel_id=config.novel_id,
+                    )
+                    if glossary_repairs or redacted_rank_repairs or footnote_repairs or hgd_peer_address_repairs:
                         current_refined = RefinedDraft(
                             block_id=current_refined.block_id,
                             chapter_id=current_refined.chapter_id,
@@ -1835,6 +1864,7 @@ def _run_qa_with_retries(
                                 "glossary_rejected_variant_repairs": glossary_repairs,
                                 "redacted_ranked_gate_repairs": redacted_rank_repairs,
                                 "source_footnote_marker_repairs": footnote_repairs,
+                                "hgd_peer_address_repairs": hgd_peer_address_repairs,
                             },
                         )
                     _write_block_artifact(config, block.chapter_id, block_id, "refined", current_refined.to_dict())
@@ -1853,6 +1883,7 @@ def _run_qa_with_retries(
                             "glossary_rejected_variant_repairs": glossary_repairs,
                             "redacted_ranked_gate_repairs": redacted_rank_repairs,
                             "source_footnote_marker_repairs": footnote_repairs,
+                            "hgd_peer_address_repairs": hgd_peer_address_repairs,
                         },
                     )
                     retry_count = QA_MAX_RETRIES
