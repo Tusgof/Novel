@@ -256,7 +256,7 @@ Status: complete. M6.1 scan/glossary gate is complete. M6.2 HGD, DSE, and IRS OO
 
 **Milestone complete when**: DSE is published through `ch210`, all scoped verification gates pass, docs no longer point at stale `ch180/ch200` production state, and no next production batch is started automatically.
 
-Status: complete. Evidence: `07_Reports/dse_ch181_ch185_production_checkpoint_20260701.md`, `07_Reports/dse_ch186_ch190_production_checkpoint_20260701.md`, `07_Reports/dse_ch191_ch195_production_checkpoint_20260701.md`, `07_Reports/dse_ch196_ch200_production_checkpoint_20260701.md`, `07_Reports/dse_ch201_ch205_production_checkpoint_20260701.md`, `07_Reports/dse_ch206_ch210_production_checkpoint_20260701.md`, final scoped Sentinel reports, MoonRead `publish:verify`, and pushed git commits through `e5fde2e`.
+Status: complete. Evidence: `07_Reports/dse_ch181_ch185_production_checkpoint_20260701.md`, `07_Reports/dse_ch186_ch190_production_checkpoint_20260701.md`, `07_Reports/dse_ch191_ch195_production_checkpoint_20260701.md`, `07_Reports/dse_ch196_ch200_production_checkpoint_20260701.md`, `07_Reports/dse_ch201_ch205_production_checkpoint_20260701.md`, `07_Reports/dse_ch206_ch210_production_checkpoint_20260701.md`, final scoped Sentinel reports, MoonRead `publish:verify`, and pushed git commits through `f6fb920`.
 
 ---
 
