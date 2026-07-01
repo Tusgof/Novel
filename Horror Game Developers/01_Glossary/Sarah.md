@@ -4,6 +4,8 @@ original_term: Sarah
 thai_term: ซาราห์
 status: approved
 aliases: []
+rejected_variants:
+  - ซาร่าห์
 source_language: en
 category: character
 novel: horror-game-developer
@@ -19,5 +21,4 @@ updated_at:
 
 ## Summary
 
-Use `ซาราห์` consistently for Sarah.
-
+Use `ซาราห์` consistently for Sarah. Reject older/overmarked variant `ซาร่าห์`.

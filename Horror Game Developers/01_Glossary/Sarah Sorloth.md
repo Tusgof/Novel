@@ -4,6 +4,8 @@ original_term: Sarah Sorloth
 thai_term: ซาราห์ ซอร์ลอธ
 status: approved
 aliases: ['Sarah']
+rejected_variants:
+  - ซาร่าห์ ซอร์ลอธ
 source_language: en
 category: character
 novel: horror-game-developer
@@ -23,4 +25,4 @@ updated_at:
 - Category: character
 - Status: approved
 - First seen: ch127/ch127-block-001
-- Notes: Named character.
+- Notes: Named character. Reject older/overmarked variant `ซาร่าห์ ซอร์ลอธ`.

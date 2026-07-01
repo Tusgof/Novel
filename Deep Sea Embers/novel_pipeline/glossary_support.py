@@ -38,7 +38,7 @@ def load_glossary_index(glossary_dir: Path) -> dict[str, GlossaryEntry]:
 
 
 def parse_glossary_note(path: Path) -> GlossaryEntry | None:
-    raw = path.read_text(encoding="utf-8")
+    raw = path.read_text(encoding="utf-8").lstrip("\ufeff")
     if not raw.startswith("---"):
         return None
     _, frontmatter_text, body = raw.split("---", 2)

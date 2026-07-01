@@ -5,6 +5,8 @@ thai_term: แผนกกักเก็บ
 status: approved
 aliases:
   - Hording Department
+rejected_variants:
+  - แผนกสะสม
 source_language: en
 category: organization
 novel: horror-game-developer
@@ -24,5 +26,5 @@ updated_at:
 - Category: organization
 - Status: approved
 - First seen: ch125/ch125-block-001
-- Notes: Guild department; includes source typo variants Hording Department.
+- Notes: Guild department; includes source typo variants Hording Department. Reject loose synonym `แผนกสะสม`.
 

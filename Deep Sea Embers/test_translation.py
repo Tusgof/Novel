@@ -1,6 +1,7 @@
 
 import json
 import re
+import tempfile
 
 from pathlib import Path
 from novel_pipeline.stages.translate import format_glossary_subset, parse_literal_pairs
@@ -1868,6 +1869,61 @@ def test_novel_registry_defines_shared_and_per_novel_layers():
         assert novel["reader"]["synopsis"]
         assert novel["reader"]["synopsis_source_url"].startswith("https://")
         assert novel["reader"]["synopsis_source_note"]
+
+
+def test_hgd_kaelen_glossary_note_body_matches_approved_thai_term():
+    note_path = Path(__file__).resolve().parents[1] / "Horror Game Developers" / "01_Glossary" / "Kaelen.md"
+    text = note_path.read_text(encoding="utf-8")
+
+    assert "thai_term: เคเลน" in text
+    assert "Use `เคเลน` consistently" in text
+    assert "Use `แคเลน` consistently" not in text
+
+
+def test_hgd_glossary_notes_record_rejected_variants_for_ch132_terms():
+    glossary_root = Path(__file__).resolve().parents[1] / "Horror Game Developers" / "01_Glossary"
+    expectations = {
+        "Sarah.md": ("thai_term: ซาราห์", "ซาร่าห์"),
+        "Sarah Sorloth.md": ("thai_term: ซาราห์ ซอร์ลอธ", "ซาร่าห์ ซอร์ลอธ"),
+        "Hoarding Department.md": ("thai_term: แผนกกักเก็บ", "แผนกสะสม"),
+        "Collection Department.md": ("thai_term: แผนกรวบรวม", "แผนกจัดเก็บ"),
+    }
+
+    for filename, (thai_term, rejected_variant) in expectations.items():
+        text = (glossary_root / filename).read_text(encoding="utf-8")
+        assert thai_term in text
+        assert "rejected_variants:" in text
+        assert f"  - {rejected_variant}" in text
+
+
+def test_parse_glossary_note_accepts_utf8_bom():
+    from novel_pipeline.glossary_support import parse_glossary_note
+
+    with tempfile.TemporaryDirectory() as tmp:
+        note_path = Path(tmp) / "Sarah.md"
+        note_path.write_text(
+            "\ufeff---\n"
+            "type: glossary-term\n"
+            "original_term: Sarah\n"
+            "thai_term: ซาราห์\n"
+            "status: approved\n"
+            "aliases: []\n"
+            "rejected_variants:\n"
+            "  - ซาร่าห์\n"
+            "source_language: en\n"
+            "category: character\n"
+            "---\n"
+            "\n"
+            "Use `ซาราห์` consistently.\n",
+            encoding="utf-8",
+        )
+
+        entry = parse_glossary_note(note_path)
+
+    assert entry is not None
+    assert entry.original_term == "Sarah"
+    assert entry.thai_term == "ซาราห์"
+    assert entry.rejected_variants == ("ซาร่าห์",)
 
 
 def test_hybrid_formatting_uses_provider_when_valid():
@@ -8139,6 +8195,9 @@ if __name__ == "__main__":
     test_output_guardrail_scopes_infinite_regressor_config_path()
     test_output_guardrail_flags_metadata_and_broken_ui_markers()
     test_hgd_approved_glossary_guardrail_flags_english_alias_leakage()
+    test_hgd_kaelen_glossary_note_body_matches_approved_thai_term()
+    test_hgd_glossary_notes_record_rejected_variants_for_ch132_terms()
+    test_parse_glossary_note_accepts_utf8_bom()
     test_sentinel_quality_report_flags_known_glossary_leakage_fixture()
     test_sentinel_flags_glossary_note_leakage_without_flagging_story_ability_lists()
     test_sentinel_glossary_coverage_flags_source_term_missing_in_output()

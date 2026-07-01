@@ -4,6 +4,8 @@ original_term: Collection Department
 thai_term: แผนกรวบรวม
 status: approved
 aliases: []
+rejected_variants:
+  - แผนกจัดเก็บ
 source_language: en
 category: organization
 novel: horror-game-developer
@@ -23,4 +25,4 @@ updated_at:
 - Category: organization
 - Status: approved
 - First seen: ch127/ch127-block-001
-- Notes: Guild department.
+- Notes: Guild department. Reject loose synonym `แผนกจัดเก็บ`.

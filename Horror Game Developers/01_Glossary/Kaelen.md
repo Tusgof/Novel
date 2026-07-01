@@ -19,4 +19,4 @@ updated_at:
 
 ## Summary
 
-Use `แคเลน` consistently for Kaelen. Treat `Kealen` as a source spelling variant, not a separate character.
+Use `เคเลน` consistently for Kaelen. Treat `Kealen` as a source spelling variant, not a separate character.

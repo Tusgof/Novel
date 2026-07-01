@@ -31,6 +31,7 @@ Current progress:
 - Milestone 4 treatment selected: add deterministic title/H1 glossary validation and correct the HGD `Velora Art Museum` title map to the approved glossary term. Milestone 5 treatment rerun is next.
 - Milestone 5 started and safely stopped: HGD treatment vault reached `ch024`, then Sentinel blocked approved glossary English parenthetical leakage. This is new treatment evidence, not production output.
 - Milestone 5 checkpoint passed through the original baseline stop point: `ch024` and `ch037` now both pass scoped Sentinel `0/0/0/0` in the HGD treatment vault.
+- Milestone 5 checkpoint extended through `ch132`: parser now tolerates UTF-8 BOM in glossary notes, HGD rejected variants were recorded for `Sarah`, `Sarah Sorloth`, `Hoarding Department`, and `Collection Department`, and `ch132` now passes Sentinel `0/0/0/0`.
 
 ---
 
@@ -189,7 +190,7 @@ Status: complete. Evidence: `07_Reports/v6_34_m4_initial_defect_analysis_hgd_ch0
 
 **Milestone complete when**: Treatment produces measurable evidence of improvement or clear evidence that the hypothesis failed.
 
-Status: in progress. Layer 0 title/H1 glossary validation, Layer 2 HGD title-map corrections, and deterministic approved-glossary parenthetical cleanup are implemented and unit-tested. HGD treatment rerun has completed `ch024` and `ch037` with scoped Sentinel `0/0/0/0`; remaining HGD in-sample chapters are pending. Evidence: `07_Reports/v6_34_m5_hgd_treatment_early_stop_20260701.md`, `07_Reports/v6_34_m5_hgd_treatment_checkpoint_ch024_ch037_20260701.md`, `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_hgd_treatment_early_stop.md`, and `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_hgd_treatment_checkpoint.md`.
+Status: in progress. Layer 0 title/H1 glossary validation, Layer 0 BOM-tolerant glossary parsing, Layer 2 HGD title-map corrections, Layer 2 HGD rejected-variant notes, and deterministic approved-glossary parenthetical cleanup are implemented and unit-tested. HGD treatment rerun has completed `ch024`, `ch037`, `ch066`, `ch103`, and `ch132` with current failed blocks none; remaining HGD in-sample chapters are `ch142`, `ch170`, `ch196`, `ch225`, and `ch250`. Evidence: `07_Reports/v6_34_m5_hgd_treatment_early_stop_20260701.md`, `07_Reports/v6_34_m5_hgd_treatment_checkpoint_ch024_ch037_20260701.md`, `07_Reports/v6_34_m5_hgd_treatment_ch132_bom_glossary_repair_20260701.md`, `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_hgd_treatment_early_stop.md`, `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_hgd_treatment_checkpoint.md`, and `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_hgd_ch132_bom_glossary_repair.md`.
 
 ---
 
