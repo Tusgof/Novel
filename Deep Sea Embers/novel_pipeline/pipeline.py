@@ -324,6 +324,26 @@ def _apply_source_footnote_marker_repairs(text: str, source_text: str) -> tuple[
     return text.rstrip() + "\n\n" + footnote_text, [{"markers": ",".join(markers)}]
 
 
+_SOURCE_SCRIPT_BRACKET_RE = re.compile(r"\s*[\[［【]\s*[\u3400-\u9fff][^\]］】\n]{0,80}[\]］】]")
+_SOURCE_SCRIPT_PAREN_RE = re.compile(r"\s*[\(（]\s*[\u3400-\u9fff][^\)）\n]{0,80}[\)）]")
+_SOURCE_SCRIPT_BOOK_TITLE_RE = re.compile(r"\s*《[\u3400-\u9fff][^》\n]{0,80}》")
+
+
+def _apply_source_script_annotation_repairs(text: str) -> tuple[str, list[dict[str, str]]]:
+    """Remove leaked source-script annotations after the Thai wording exists."""
+    repairs: list[dict[str, str]] = []
+    updated = text
+    for label, pattern in (
+        ("square_bracket_cjk", _SOURCE_SCRIPT_BRACKET_RE),
+        ("paren_cjk", _SOURCE_SCRIPT_PAREN_RE),
+        ("book_title_cjk", _SOURCE_SCRIPT_BOOK_TITLE_RE),
+    ):
+        updated, count = pattern.subn("", updated)
+        if count:
+            repairs.append({"type": label, "count": str(count)})
+    return updated, repairs
+
+
 _HGD_PEER_ADDRESS_REPAIR_PATTERNS: tuple[tuple[str, str], ...] = (
     ("ถ้าคุณมีอุปกรณ์อิเล็กทรอนิกส์", "ถ้านายมีอุปกรณ์อิเล็กทรอนิกส์"),
     ("คุณรู้อะไรบางอย่างแล้วใช่ไหม", "นายรู้อะไรบางอย่างแล้วใช่ไหม"),
@@ -1425,7 +1445,8 @@ def _process_block(
             repaired_text,
             block.source_text,
         )
-        if glossary_repairs or redacted_rank_repairs or footnote_repairs:
+        repaired_text, source_script_repairs = _apply_source_script_annotation_repairs(repaired_text)
+        if glossary_repairs or redacted_rank_repairs or footnote_repairs or source_script_repairs:
             refined_draft = RefinedDraft(
                 block_id=refined_draft.block_id,
                 chapter_id=refined_draft.chapter_id,
@@ -1438,6 +1459,7 @@ def _process_block(
                     "glossary_rejected_variant_repairs": glossary_repairs,
                     "redacted_ranked_gate_repairs": redacted_rank_repairs,
                     "source_footnote_marker_repairs": footnote_repairs,
+                    "source_script_annotation_repairs": source_script_repairs,
                 },
             )
         oh = _sha256(refined_draft.refined_text)
@@ -1847,11 +1869,12 @@ def _run_qa_with_retries(
                         repaired_text,
                         block.source_text,
                     )
+                    repaired_text, source_script_repairs = _apply_source_script_annotation_repairs(repaired_text)
                     repaired_text, hgd_peer_address_repairs = _apply_hgd_peer_address_repairs(
                         repaired_text,
                         novel_id=config.novel_id,
                     )
-                    if glossary_repairs or redacted_rank_repairs or footnote_repairs or hgd_peer_address_repairs:
+                    if glossary_repairs or redacted_rank_repairs or footnote_repairs or source_script_repairs or hgd_peer_address_repairs:
                         current_refined = RefinedDraft(
                             block_id=current_refined.block_id,
                             chapter_id=current_refined.chapter_id,
@@ -1864,6 +1887,7 @@ def _run_qa_with_retries(
                                 "glossary_rejected_variant_repairs": glossary_repairs,
                                 "redacted_ranked_gate_repairs": redacted_rank_repairs,
                                 "source_footnote_marker_repairs": footnote_repairs,
+                                "source_script_annotation_repairs": source_script_repairs,
                                 "hgd_peer_address_repairs": hgd_peer_address_repairs,
                             },
                         )
@@ -1883,6 +1907,7 @@ def _run_qa_with_retries(
                             "glossary_rejected_variant_repairs": glossary_repairs,
                             "redacted_ranked_gate_repairs": redacted_rank_repairs,
                             "source_footnote_marker_repairs": footnote_repairs,
+                            "source_script_annotation_repairs": source_script_repairs,
                             "hgd_peer_address_repairs": hgd_peer_address_repairs,
                         },
                     )
@@ -1943,7 +1968,8 @@ def _run_qa_with_retries(
             repaired_text,
             block.source_text,
         )
-        if glossary_repairs or redacted_rank_repairs or footnote_repairs:
+        repaired_text, source_script_repairs = _apply_source_script_annotation_repairs(repaired_text)
+        if glossary_repairs or redacted_rank_repairs or footnote_repairs or source_script_repairs:
             current_refined = RefinedDraft(
                 block_id=current_refined.block_id,
                 chapter_id=current_refined.chapter_id,
@@ -1956,6 +1982,7 @@ def _run_qa_with_retries(
                     "glossary_rejected_variant_repairs": glossary_repairs,
                     "redacted_ranked_gate_repairs": redacted_rank_repairs,
                     "source_footnote_marker_repairs": footnote_repairs,
+                    "source_script_annotation_repairs": source_script_repairs,
                 },
             )
         _write_block_artifact(config, block.chapter_id, block_id, "refined", current_refined.to_dict())
@@ -1972,6 +1999,7 @@ def _run_qa_with_retries(
                 "glossary_rejected_variant_repairs": glossary_repairs,
                 "redacted_ranked_gate_repairs": redacted_rank_repairs,
                 "source_footnote_marker_repairs": footnote_repairs,
+                "source_script_annotation_repairs": source_script_repairs,
             },
         )
 

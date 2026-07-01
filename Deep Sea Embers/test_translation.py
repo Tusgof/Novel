@@ -18,7 +18,7 @@ from novel_pipeline.types import (
     RunRecord,
     TextBlock,
 )
-from novel_pipeline.pipeline import _apply_glossary_parenthetical_leakage_repairs, _apply_glossary_rejected_variant_repairs, _apply_hgd_peer_address_repairs, _apply_redacted_ranked_gate_repairs, _apply_source_footnote_marker_repairs, _literal_safe_refined_draft, _qa_report_indicates_omission, _repair_literal_draft_for_source_markers, _resolve_glossary_subset
+from novel_pipeline.pipeline import _apply_glossary_parenthetical_leakage_repairs, _apply_glossary_rejected_variant_repairs, _apply_hgd_peer_address_repairs, _apply_redacted_ranked_gate_repairs, _apply_source_footnote_marker_repairs, _apply_source_script_annotation_repairs, _literal_safe_refined_draft, _qa_report_indicates_omission, _repair_literal_draft_for_source_markers, _resolve_glossary_subset
 from novel_pipeline.stages.format import format_block_text
 from novel_pipeline.text_utils import split_blocks
 from unittest.mock import Mock, patch, call
@@ -158,6 +158,16 @@ def test_glossary_parenthetical_leakage_repairs_only_thai_term_parentheses():
     assert "**[เจ้าหน้าที่ภาคสนาม]**" in repaired
     assert "Standalone Field Agent should stay" in repaired
     assert len(repairs) == 2
+
+
+def test_source_script_annotation_repairs_remove_cjk_bracket_leakage():
+    text = 'ชื่อเรื่อง "ก้าวสู่ความไม่เป็นวิทยาศาสตร์" [走进不科学] ยังควรเหลือภาษาไทยไว้'
+
+    repaired, repairs = _apply_source_script_annotation_repairs(text)
+
+    assert "ก้าวสู่ความไม่เป็นวิทยาศาสตร์" in repaired
+    assert "走进不科学" not in repaired
+    assert repairs == [{"type": "square_bracket_cjk", "count": "1"}]
 
 
 def test_split_blocks_normalizes_zalgo_sound_effect_source():
