@@ -142,6 +142,7 @@ Cross-novel experiment state:
 - V6.34 Milestone 5 IRS treatment completed validly: isolated run `v6-34-m5-irs-treatment-v1` completed all 10 IRS in-sample chapters (`32/32` blocks), current failed blocks none, manual actions none, source parity mismatches `0`, deterministic output checks found no CJK/meta/Thai numeral/quote-only leakage, and final scoped Sentinel was `0/0/1/0`. Remaining treatment evidence: two QA hard-fails from CJK parenthetical source annotations, two recovered OpenRouter refining failures, and one minor glossary miss (`Complete Memory`). Report: `07_Reports/v6_34_m5_irs_treatment_completion_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_irs_treatment_completion.md`.
 - V6.34 Milestone 5 cross-novel comparison completed: HGD, DSE, and IRS treatment slices all reached current failed blocks `0` and no Sentinel blocker/major findings. Output-surface quality improved enough to move toward OOS, but smoothness is not sufficient for OOS yet because HGD needed multiple recoveries and IRS repeated CJK/Hanja parenthetical leakage hard-fails. Decision: add one narrow non-CJK parenthetical annotation cleanup/guard before opening Milestone 6 OOS; track the IRS `Complete Memory` minor glossary miss in OOS rather than broadening glossary policy now. Report: `07_Reports/v6_34_m5_cross_novel_treatment_comparison_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_cross_novel_treatment_comparison.md`.
 - V6.34 Milestone 5 pre-OOS CJK/Hanja parenthetical hardening completed: `split_blocks()` now normalizes quoted source-script terms followed by English `meaning ...` and strips parenthetical source-script annotations for non-CJK source projects only. Targeted tests, compileall, and `test_translation.py` passed; IRS raw probe for `ch080` and `ch261` now leaves `0` source-script annotation chars after split. Report: `07_Reports/v6_34_m5_pre_oos_cjk_parenthetical_hardening_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_pre_oos_cjk_parenthetical_hardening.md`.
+- V6.34 Milestone 6.1 OOS scan/glossary gate completed: locked OOS chapters were prepared in isolated experiment vaults for DSE/HGD/IRS, source parity was `0` mismatches for all three, scan-only completed with candidate counts DSE `34`, HGD `17`, IRS `155`, and `glossary_approved` records were committed for all 30 OOS chapters without approving new OOS terms. No translation/refinement/QA/formatting/completed records exist yet. Report: `07_Reports/v6_34_m6_oos_scan_glossary_gate_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_oos_scan_glossary_gate.md`.
 
 MoonRead:
 
@@ -362,8 +363,9 @@ V6.33 translation-output and reader-publication phase is complete:
 
 Next safe choices:
 
-1. Open Milestone 6 OOS using the locked out-of-sample chapters and do not tune mid-round.
-2. Keep all V6.34 experiment output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead.
-3. Track whether CJK/Hanja parenthetical leakage and the IRS `Complete Memory` minor glossary miss recur in OOS.
-4. Record each completed experiment round in `01_Research_Log/` and push it immediately.
-5. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.
+1. Prepare missing experiment-local IRS title sidecars for the M6 OOS vault before translation assembly can need them.
+2. Run Milestone 6.2 OOS translation/refine/QA/format/Sentinel for the locked OOS chapters without tuning mid-round.
+3. Keep all V6.34 experiment output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead.
+4. Track whether CJK/Hanja parenthetical leakage and the IRS `Complete Memory` minor glossary miss recur in OOS.
+5. Record each completed experiment round in `01_Research_Log/` and push it immediately.
+6. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.

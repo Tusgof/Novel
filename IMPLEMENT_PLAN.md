@@ -40,6 +40,7 @@ Current progress:
 - Milestone 5 IRS treatment completed validly: all 10 IRS in-sample chapters completed (`32/32` blocks), current failed blocks none, manual actions none, source parity `0` mismatches, deterministic output checks passed, and final scoped Sentinel is `0/0/1/0`. Remaining evidence for comparison: CJK/Hanja parenthetical leakage caused two QA hard-fails, OpenRouter refining failed twice but recovered, and one `Complete Memory` minor glossary miss remains. Next: compare HGD + DSE + IRS treatment results before opening OOS Milestone 6.
 - Milestone 5 cross-novel comparison completed: HGD/DSE/IRS treatment all reached current failed blocks `0` and no Sentinel blocker/major findings. Decision: before OOS, add one narrow non-CJK CJK/Hanja parenthetical annotation cleanup/guard because IRS repeated this hard-fail pattern; do not broaden glossary policy for the single `Complete Memory` minor miss yet.
 - Milestone 5 pre-OOS CJK/Hanja parenthetical hardening completed: non-CJK `split_blocks()` now normalizes quoted source-script terms followed by English `meaning ...` and strips parenthetical source-script annotations. Targeted tests, compileall, `test_translation.py`, and raw IRS `ch080`/`ch261` probes passed. Next: open Milestone 6 OOS.
+- Milestone 6.1 OOS scan/glossary gate completed: DSE/HGD/IRS experiment vaults passed source parity `0` mismatches, scan-only completed, candidate counts were DSE `34`, HGD `17`, IRS `155`, and `glossary_approved` records were committed for all 30 OOS chapters without approving new OOS terms. Next: prepare missing experiment-local IRS title sidecars, then run M6.2 OOS translation without tuning mid-round.
 
 ---
 
@@ -219,6 +220,8 @@ Status: complete. Layer 0 title/H1 glossary validation, Layer 0 BOM-tolerant glo
 | 6.7 | Write and push final V6.34 research log and commit the plan/results | S | ✅ | Research log and docs are committed and pushed |
 
 **Milestone complete when**: OOS evidence shows whether the treatment generalizes well enough, and the project has a clear next production mode backed by reports.
+
+Status: in progress. M6.1 scan/glossary gate is complete in isolated experiment vaults for all locked OOS chapters. No translation/refinement/QA/formatting/completed records exist yet. Evidence: `07_Reports/v6_34_m6_oos_scan_glossary_gate_20260701.md` and `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_oos_scan_glossary_gate.md`. Next action: create required experiment-local IRS title sidecars, then run M6.2 OOS translation/refine/QA/format/Sentinel without tuning on OOS failures mid-round.
 
 ---
 
