@@ -1,0 +1,35 @@
+{
+  "created_at": "2026-07-01T20:19:42.028439+00:00",
+  "scope": "current",
+  "chapters": "ch201-ch205",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 3,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": [
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch204\\ch204.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Cyber"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch204\\ch204.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Cyberpunk"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch204\\ch204.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Edgerunners"
+    }
+  ]
+}

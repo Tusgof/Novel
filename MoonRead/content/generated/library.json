@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-01T18:56:21.794Z",
+  "generatedAt": "2026-07-01T20:21:57.091Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,8 +11,8 @@
   },
   "summary": {
     "books": 3,
-    "chapters": 520,
-    "available": 520,
+    "chapters": 525,
+    "available": 525,
     "missing": 0,
     "rejected": 0
   },
@@ -33,24 +33,24 @@
       "cover": "/images/deep-sea-embers-cover.png",
       "href": "/book",
       "chaptersHref": "/chapters",
-      "targetRange": "ch001-ch200",
+      "targetRange": "ch001-ch205",
       "summary": {
-        "total": 200,
-        "available": 200,
+        "total": 205,
+        "available": 205,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch200",
-        "number": 200,
-        "title": "บทที่ 201: การสกัดกั้น",
+        "id": "ch205",
+        "number": 205,
+        "title": "บทที่ 206: เร่งความเร็ว",
         "status": "available",
-        "sourcePath": "ch200/ch200.md",
-        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch200.md",
-        "href": "/read/ch200",
-        "charCount": 7976,
-        "readingMinutes": 2
+        "sourcePath": "ch205/ch205.md",
+        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch205.md",
+        "href": "/read/ch205",
+        "charCount": 9084,
+        "readingMinutes": 3
       },
       "firstChapter": {
         "id": "ch001",

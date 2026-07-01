@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-01T18:56:21.112Z",
+  "generatedAt": "2026-07-01T20:21:56.407Z",
   "sourceRoot": "../Deep Sea Embers/05_Output",
-  "targetRange": "ch001-ch200",
+  "targetRange": "ch001-ch205",
   "novel": {
     "slug": "deep-sea-embers",
     "title": "Deep Sea Embers",
@@ -30,8 +30,8 @@
     }
   },
   "summary": {
-    "total": 200,
-    "available": 200,
+    "total": 205,
+    "available": 205,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -2236,6 +2236,61 @@
       "href": "/read/ch200",
       "charCount": 7976,
       "readingMinutes": 2
+    },
+    {
+      "id": "ch201",
+      "number": 201,
+      "title": "บทที่ 202: ทะลุทะลวง",
+      "status": "available",
+      "sourcePath": "ch201/ch201.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch201.md",
+      "href": "/read/ch201",
+      "charCount": 9126,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch202",
+      "number": 202,
+      "title": "บทที่ 203: ช่วยคน",
+      "status": "available",
+      "sourcePath": "ch202/ch202.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch202.md",
+      "href": "/read/ch202",
+      "charCount": 8832,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch203",
+      "number": 203,
+      "title": "บทที่ 204: สองฝั่งม่าน",
+      "status": "available",
+      "sourcePath": "ch203/ch203.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch203.md",
+      "href": "/read/ch203",
+      "charCount": 9403,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch204",
+      "number": 204,
+      "title": "บทที่ 205: เคลื่อนย้ายพริบตาออกจากดันเจี้ยน",
+      "status": "available",
+      "sourcePath": "ch204/ch204.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch204.md",
+      "href": "/read/ch204",
+      "charCount": 8914,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch205",
+      "number": 205,
+      "title": "บทที่ 206: เร่งความเร็ว",
+      "status": "available",
+      "sourcePath": "ch205/ch205.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch205.md",
+      "href": "/read/ch205",
+      "charCount": 9084,
+      "readingMinutes": 3
     }
   ]
 }
