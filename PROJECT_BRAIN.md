@@ -151,6 +151,7 @@ Cross-novel experiment state:
 - V6.34 Milestone 6.3 ch184 treatment implemented and verified: `_resolve_glossary_subset()` now uses boundary-aware matching for alphabetic source keys, with regression coverage for `Enter` not matching `Entering`; rerun from refine false-passed the previous semantic drift, so `ch184-block-001` was rerun from translate and now passes QA retry `0`, Sentinel `0/0/0/0`, and spot-check for the drift phrase. Report: `07_Reports/v6_34_m6_ch184_treatment_implementation_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_ch184_treatment.md`.
 - V6.34 Milestone 6.2 HGD OOS resumed and stopped at `ch192-block-001`: completed chapters remain `ch015`, `ch046`, `ch060`, `ch101`, `ch131`, `ch153`, and `ch184`; QA hard-failed after retry 2 because peer dialogue used `คุณ` where HGD policy expects casual `นาย`. No force-accept or repair was applied. Report: `07_Reports/v6_34_m6_oos_hgd_stop_ch192_pronoun_drift_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_oos_hgd_ch192_stop.md`.
 - V6.34 Milestone 6.3 ch192 treatment implemented and verified: literal-safe omission recovery now applies a narrow HGD-only peer-address repair for observed high-confidence patterns, preserving `ขอบคุณ` and non-HGD text. Rerun `ch192-block-001` from refine passed QA retry 2, runtime Sentinel `0/0/0/0`, and phrase spot-checks. HGD OOS now has 8/10 chapters complete with current failed blocks none. Report: `07_Reports/v6_34_m6_ch192_pronoun_treatment_implementation_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_ch192_pronoun_treatment.md`.
+- V6.34 Milestone 6.2 HGD OOS completed: isolated run `v6-34-m6-hgd-oos-v1` completed all 10 locked OOS chapters (`ch015`, `ch046`, `ch060`, `ch101`, `ch131`, `ch153`, `ch184`, `ch192`, `ch226`, `ch262`), current failed blocks none, manual actions none, latest scoped Sentinel `0/0/0/0` for every chapter, and deterministic experiment-output checks found no Han Chinese body text, provider/meta leakage, or quote-only lines. Smoothness remains imperfect: historical evidence includes 2 QA hard-fails, 1 Sentinel failure, 1 OpenRouter refining failure, 5 local recovery refinements, and 1 qwen QA completion. Report: `07_Reports/v6_34_m6_hgd_oos_completion_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_hgd_oos_completion.md`.
 
 MoonRead:
 
@@ -371,8 +372,9 @@ V6.33 translation-output and reader-publication phase is complete:
 
 Next safe choices:
 
-1. Resume HGD OOS from `ch226`; stop and record if another QA hard-fail or Sentinel blocker/major appears.
+1. Start DSE OOS translation in the isolated experiment vault; stop and record if a QA hard-fail, provider failure, validation failure, source mismatch, or Sentinel blocker/major appears.
 2. Keep all V6.34 experiment output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead.
 3. Track whether CJK/Hanja parenthetical leakage and the IRS `Complete Memory` minor glossary miss recur only if OOS proceeds to IRS after HGD.
 4. Record each completed experiment round in `01_Research_Log/` and push it immediately.
 5. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.
+6. After V6.34/M1-M7 completes, handle the user's future production request to continue DSE through `ch210`; verify the exact range first because `ch181-ch210` is 30 chapters from the current published state, while the request said 29 chapters.

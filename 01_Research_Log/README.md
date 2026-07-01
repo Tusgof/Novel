@@ -40,6 +40,7 @@
 | 025 | ch184 treatment | `2026-07-01_novel_pipeline_v6_34_m6_ch184_treatment.md` | เพิ่ม boundary-aware glossary subset matching และ rerun `ch184` |
 | 026 | HGD OOS ch192 stop | `2026-07-01_novel_pipeline_v6_34_m6_oos_hgd_ch192_stop.md` | OOS หยุดที่ `ch192` จาก peer dialogue `คุณ`/`นาย` drift |
 | 027 | ch192 treatment | `2026-07-01_novel_pipeline_v6_34_m6_ch192_pronoun_treatment.md` | เพิ่ม HGD-only peer-address repair หลัง literal-safe omission recovery |
+| 028 | HGD OOS completion | `2026-07-01_novel_pipeline_v6_34_m6_hgd_oos_completion.md` | HGD OOS จบครบ 10 ตอน, Sentinel `0/0/0/0`, แต่ยังมี smoothness risk |
 
 ## ไฟล์ที่ลบออก
 
@@ -50,4 +51,3 @@
 - `2026-06-30_novel_pipeline_libra_blind_pilot_v6_34c_irs_glossary_approval.md`
 - `2026-06-30_novel_pipeline_libra_blind_pilot_v6_34c_irs_glossary_classification.md`
 - `2026-06-30_novel_pipeline_libra_blind_pilot_v6_34c_irs_scan.md`
-

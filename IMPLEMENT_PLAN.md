@@ -49,6 +49,7 @@ Current progress:
 - Milestone 6.3 ch184 treatment implemented: glossary subset matching is now boundary-aware for alphabetic keys and tested; first rerun from refine false-passed on semantic drift, so `ch184-block-001` was rerun from translate and now passes QA retry `0`, Sentinel `0/0/0/0`, and spot-check for the drift phrase. Next: resume HGD OOS from `ch192`.
 - Milestone 6.2 HGD OOS resumed and stopped at `ch192-block-001`: QA hard-failed after retry 2 because peer dialogue used `คุณ` where HGD policy expects casual `นาย`. No force-accept or repair was applied. Next: analyze `ch192` before any rerun.
 - Milestone 6.3 ch192 treatment implemented: literal-safe omission recovery now applies a narrow HGD-only peer-address repair for observed high-confidence patterns; regression tests pass, `ch192-block-001` passed QA retry `2`, runtime Sentinel `0/0/0/0`, and bad phrase spot-checks are clear. Next: resume HGD OOS from `ch226`.
+- Milestone 6.2 HGD OOS completed: all 10 locked HGD OOS chapters are complete, current failed blocks none, manual actions none, latest scoped Sentinel `0/0/0/0` for every chapter, and experiment-output checks found no Han Chinese body text, provider/meta leakage, or quote-only lines. Smoothness remains imperfect because the run required multiple treatment/recovery loops. Next: run DSE OOS.
 
 ---
 
@@ -229,7 +230,7 @@ Status: complete. Layer 0 title/H1 glossary validation, Layer 0 BOM-tolerant glo
 
 **Milestone complete when**: OOS evidence shows whether the treatment generalizes well enough, and the project has a clear next production mode backed by reports.
 
-Status: in progress after ch192 treatment. M6.1 scan/glossary gate is complete. M6.2 HGD OOS has 8/10 chapters complete, current failed blocks none, and pending chapters `ch226`, `ch262`. Evidence: `07_Reports/v6_34_m6_oos_scan_glossary_gate_20260701.md`, `07_Reports/v6_34_m6_oos_hgd_stop_ch131_glossary_conflict_20260701.md`, `07_Reports/v6_34_m6_oos_ch131_analysis_treatment_selection_20260701.md`, `07_Reports/v6_34_m6_ch131_treatment_implementation_20260701.md`, `07_Reports/v6_34_m6_oos_hgd_stop_ch184_qa_hard_fail_20260701.md`, `07_Reports/v6_34_m6_oos_ch184_analysis_treatment_selection_20260701.md`, `07_Reports/v6_34_m6_ch184_treatment_implementation_20260701.md`, `07_Reports/v6_34_m6_oos_hgd_stop_ch192_pronoun_drift_20260701.md`, `07_Reports/v6_34_m6_ch192_pronoun_treatment_implementation_20260701.md`, and matching research logs. Next action: resume HGD OOS from `ch226`.
+Status: in progress after HGD OOS completion. M6.1 scan/glossary gate is complete. M6.2 HGD OOS completed all 10 chapters with current failed blocks none and latest scoped Sentinel `0/0/0/0`. Evidence: `07_Reports/v6_34_m6_oos_scan_glossary_gate_20260701.md`, `07_Reports/v6_34_m6_oos_hgd_stop_ch131_glossary_conflict_20260701.md`, `07_Reports/v6_34_m6_oos_ch131_analysis_treatment_selection_20260701.md`, `07_Reports/v6_34_m6_ch131_treatment_implementation_20260701.md`, `07_Reports/v6_34_m6_oos_hgd_stop_ch184_qa_hard_fail_20260701.md`, `07_Reports/v6_34_m6_oos_ch184_analysis_treatment_selection_20260701.md`, `07_Reports/v6_34_m6_ch184_treatment_implementation_20260701.md`, `07_Reports/v6_34_m6_oos_hgd_stop_ch192_pronoun_drift_20260701.md`, `07_Reports/v6_34_m6_ch192_pronoun_treatment_implementation_20260701.md`, `07_Reports/v6_34_m6_hgd_oos_completion_20260701.md`, and matching research logs. Next action: run DSE OOS in the isolated experiment vault.
 
 ---
 
@@ -244,6 +245,7 @@ Status: in progress after ch192 treatment. M6.1 scan/glossary gate is complete. 
   - After Milestone 3: decide treatment hypotheses based on actual baseline evidence.
   - After Milestone 5: decide whether treatment improved enough to run OOS, needs revision, or should be rejected.
   - After Milestone 6: decide next production mode for DSE/HGD/IRS.
+  - After V6.34 completes: verify the exact DSE continuation range before the requested production task to end at `ch210`, because `ch181-ch210` is 30 chapters from current state.
 
 - **Risk checkpoints**:
   - After sampling: verify raw source boundaries and no accidental hand-picking.
