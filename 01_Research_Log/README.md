@@ -45,6 +45,7 @@
 | 030 | DSE ch029 source-script treatment | `2026-07-01_novel_pipeline_v6_34_m6_dse_ch029_source_script_treatment.md` | เพิ่ม cleanup แคบ ๆ สำหรับ Chinese annotation ที่หลุดใน Thai output แล้ว rerun `ch029-block-005` ผ่าน QA |
 | 031 | DSE OOS completion | `2026-07-01_novel_pipeline_v6_34_m6_dse_oos_completion.md` | DSE OOS v2 จบครบ 10 ตอน, guardrails ผ่าน, source parity 0, และเพิ่ม duplicate-title prevention |
 | 032 | IRS OOS completion | `2026-07-01_novel_pipeline_v6_34_m6_irs_oos_completion.md` | IRS OOS จบครบ 10 ตอน, source parity 0, Sentinel `0/0/0/0`, แต่ยังมี provider smoothness risk |
+| 033 | Cross-novel OOS comparison | `2026-07-01_novel_pipeline_v6_34_m6_cross_novel_oos_comparison.md` | เทียบ HGD/DSE/IRS OOS และสรุปว่า production ต่อได้แบบ bounded sequential แต่ยังไม่ควร long unattended |
 
 ## ไฟล์ที่ลบออก
 
