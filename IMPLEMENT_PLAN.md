@@ -45,6 +45,7 @@ Current progress:
 - Milestone 6.3 analysis completed: selected treatment is Layer 0 source-surface collision detection in `glossary-conflicts` plus Layer 2 HGD cleanup of `Containment Sector.md` aliases. No output patching or OOS resume until the treatment passes tests.
 - Milestone 6.3 treatment implemented: `glossary-conflicts` now reports approved original/alias source-surface collisions with different Thai terms, HGD `Containment Sector.md` no longer aliases `Containment Department`, tests passed, and rerun `ch131-block-001` from refine cleared Sentinel (`0/0/0/0`). Next: resume HGD OOS from `ch153`.
 - Milestone 6.2 HGD OOS resumed and stopped again at `ch184-block-001`: `ch153` completed, then QA hard-failed after retry 2 on missing `ปุ่ม Enter` and internal-thought mistranslation (`สะกดรอยตาม`). No force-accept or repair was applied. Next: analyze `ch184` before any rerun.
+- Milestone 6.3 ch184 analysis completed: `ปุ่ม Enter` was a Layer 0 false glossary expectation caused by `_resolve_glossary_subset()` matching `Enter` inside `Entering`; `สะกดรอยตาม` was run-local semantic drift. Selected treatment: boundary-aware glossary subset matching plus rerun `ch184-block-001` from refine.
 
 ---
 
@@ -225,7 +226,7 @@ Status: complete. Layer 0 title/H1 glossary validation, Layer 0 BOM-tolerant glo
 
 **Milestone complete when**: OOS evidence shows whether the treatment generalizes well enough, and the project has a clear next production mode backed by reports.
 
-Status: safely stopped for analysis. M6.1 scan/glossary gate is complete. M6.2 HGD OOS has 6/10 chapters complete, current failed block `ch184-block-001`, and pending chapters `ch192`, `ch226`, `ch262`. Evidence: `07_Reports/v6_34_m6_oos_scan_glossary_gate_20260701.md`, `07_Reports/v6_34_m6_oos_hgd_stop_ch131_glossary_conflict_20260701.md`, `07_Reports/v6_34_m6_oos_ch131_analysis_treatment_selection_20260701.md`, `07_Reports/v6_34_m6_ch131_treatment_implementation_20260701.md`, `07_Reports/v6_34_m6_oos_hgd_stop_ch184_qa_hard_fail_20260701.md`, and matching research logs. Next action: analyze `ch184` source/literal/refined before any rerun or policy change.
+Status: safely stopped for treatment implementation. M6.1 scan/glossary gate is complete. M6.2 HGD OOS has 6/10 chapters complete, current failed block `ch184-block-001`, and pending chapters `ch192`, `ch226`, `ch262`. Analysis selected a Layer 0 glossary subset fix for `Enter` vs `Entering`, then rerun from refine. Evidence: `07_Reports/v6_34_m6_oos_scan_glossary_gate_20260701.md`, `07_Reports/v6_34_m6_oos_hgd_stop_ch131_glossary_conflict_20260701.md`, `07_Reports/v6_34_m6_oos_ch131_analysis_treatment_selection_20260701.md`, `07_Reports/v6_34_m6_ch131_treatment_implementation_20260701.md`, `07_Reports/v6_34_m6_oos_hgd_stop_ch184_qa_hard_fail_20260701.md`, `07_Reports/v6_34_m6_oos_ch184_analysis_treatment_selection_20260701.md`, and matching research logs. Next action: implement boundary-aware glossary subset matching and rerun `ch184-block-001` from refine.
 
 ---
 
