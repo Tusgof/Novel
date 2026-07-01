@@ -134,6 +134,7 @@ Cross-novel experiment state:
 - V6.34 Milestone 5 checkpoint passed through HGD `ch037`: deterministic approved-glossary parenthetical cleanup removed safe `thai_term (source/alias)` leakage, `ch024` now passes scoped Sentinel `0/0/0/0`, and `ch037` now uses `# ตอนที่ 37 - พิพิธภัณฑ์ศิลปะเวโลรา [2]` with scoped Sentinel `0/0/0/0`. Report: `07_Reports/v6_34_m5_hgd_treatment_checkpoint_ch024_ch037_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_hgd_treatment_checkpoint.md`.
 - V6.34 Milestone 5 checkpoint passed through HGD `ch132`: treatment progressed through `ch066`, `ch103`, then hit `ch132` Sentinel `3/2/0/0`. Cause was mixed Layer 0/Layer 2: UTF-8 BOM-prefixed glossary notes were skipped by `parse_glossary_note()`, and HGD loose variants for Sarah/department names were not recorded as rejected variants. Parser now tolerates BOM, HGD notes record the variants, `Kaelen.md` body matches approved `เคเลน`, and `ch132` now passes Sentinel `0/0/0/0`. Report: `07_Reports/v6_34_m5_hgd_treatment_ch132_bom_glossary_repair_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_hgd_ch132_bom_glossary_repair.md`.
 - V6.34 Milestone 5 HGD treatment slice completed: isolated run `v6-34-m5-hgd-treatment-v1` completed all 10 HGD in-sample chapters with current failed blocks none and latest scoped Sentinel `0/0/0/0` for every chapter. `ch250` exposed source redaction hallucination (`-ranked Gate` -> `ระดับ S`); prevention now repairs redacted ranked-gate markers to `เกตไม่ระบุแรงก์` only when source lacks an explicit S-rank. Report: `07_Reports/v6_34_m5_hgd_treatment_completion_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_hgd_treatment_completion.md`.
+- V6.34 Milestone 5 HGD baseline-vs-treatment comparison completed: baseline stopped after `ch037` with Sentinel `0/2/0/0`; treatment completed all 10 HGD in-sample chapters with latest scoped Sentinel `0/0/0/0` for every chapter. Treatment improved measured product-surface defects enough to continue DSE/IRS treatment measurement, but historical failures, QA hard-fails, and five QA omission recovery events mean long-run smoothness is not proven yet. Report: `07_Reports/v6_34_m5_hgd_baseline_vs_treatment_comparison_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_hgd_baseline_vs_treatment_comparison.md`.
 
 MoonRead:
 
@@ -352,8 +353,8 @@ V6.33 translation-output and reader-publication phase is complete:
 
 Next safe choices:
 
-1. Compare HGD V6.34 baseline-versus-treatment metrics and document whether the treatment improved measured defects enough to continue.
-2. Decide the next bounded V6.34 step: continue treatment measurement for DSE/IRS in-sample chapters or revise treatment first.
+1. Continue V6.34 Milestone 5 treatment measurement with DSE in-sample chapters in an isolated experiment vault.
+2. Then run IRS in-sample treatment measurement in an isolated experiment vault.
 3. Keep all experiment output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead until a separate production gate approves changes.
 4. Record each completed experiment round in `01_Research_Log/` and push it immediately.
 5. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.
