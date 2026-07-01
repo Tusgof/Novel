@@ -18,7 +18,7 @@ from novel_pipeline.types import (
     RunRecord,
     TextBlock,
 )
-from novel_pipeline.pipeline import _apply_glossary_parenthetical_leakage_repairs, _apply_glossary_rejected_variant_repairs, _apply_redacted_ranked_gate_repairs, _apply_source_footnote_marker_repairs, _literal_safe_refined_draft, _qa_report_indicates_omission, _repair_literal_draft_for_source_markers
+from novel_pipeline.pipeline import _apply_glossary_parenthetical_leakage_repairs, _apply_glossary_rejected_variant_repairs, _apply_redacted_ranked_gate_repairs, _apply_source_footnote_marker_repairs, _literal_safe_refined_draft, _qa_report_indicates_omission, _repair_literal_draft_for_source_markers, _resolve_glossary_subset
 from novel_pipeline.stages.format import format_block_text
 from novel_pipeline.text_utils import split_blocks
 from unittest.mock import Mock, patch, call
@@ -73,6 +73,40 @@ def test_format_glossary_subset():
     assert "ดันแคน" in formatted
     assert "ซากเรืออับปาง" in formatted
     assert "character" in formatted
+
+
+def test_resolve_glossary_subset_does_not_match_alphabetic_terms_inside_words():
+    glossary_index = {
+        "Enter": GlossaryEntry(
+            original_term="Enter",
+            thai_term="ปุ่ม Enter",
+            category="item",
+            status="approved",
+            aliases=("[Enter]",),
+        ),
+        "[Enter]": GlossaryEntry(
+            original_term="Enter",
+            thai_term="ปุ่ม Enter",
+            category="item",
+            status="approved",
+            aliases=("[Enter]",),
+        ),
+    }
+
+    entering_block = TextBlock(
+        block_id="ch001-block-001",
+        chapter_id="ch001",
+        source_text="Entering the orphanage, I closed the door behind me.",
+    )
+    assert _resolve_glossary_subset([entering_block], glossary_index) == []
+
+    key_block = TextBlock(
+        block_id="ch001-block-002",
+        chapter_id="ch001",
+        source_text="Press [Enter] to continue.",
+    )
+    matched = _resolve_glossary_subset([key_block], glossary_index)
+    assert [entry.original_term for entry in matched] == ["Enter"]
 
 
 def test_glossary_parenthetical_leakage_repairs_only_thai_term_parentheses():

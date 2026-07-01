@@ -148,6 +148,7 @@ Cross-novel experiment state:
 - V6.34 Milestone 6.3 treatment implemented and verified: `glossary-conflicts` now reports approved source-surface collisions where an original term and another note's alias map to different Thai terms; HGD `Containment Sector.md` no longer aliases `Containment Department`; `ch131-block-001` rerun from refine passed QA retry 1 and latest Sentinel `0/0/0/0`. Report: `07_Reports/v6_34_m6_ch131_treatment_implementation_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_ch131_treatment.md`.
 - V6.34 Milestone 6.2 HGD OOS resumed and stopped at `ch184-block-001`: `ch153` completed, then QA hard-failed after retry 2 on missing `ปุ่ม Enter` and an internal-thought mistranslation using `สะกดรอยตาม`. No force-accept or repair was applied. Report: `07_Reports/v6_34_m6_oos_hgd_stop_ch184_qa_hard_fail_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_oos_hgd_ch184_stop.md`.
 - V6.34 Milestone 6.3 ch184 analysis completed: `ปุ่ม Enter` was a false glossary expectation because `_resolve_glossary_subset()` matched `Enter` inside `Entering`; `สะกดรอยตาม` is run-local semantic drift. Selected treatment is boundary-aware glossary subset matching plus rerun `ch184-block-001` from refine. Report: `07_Reports/v6_34_m6_oos_ch184_analysis_treatment_selection_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_oos_ch184_analysis.md`.
+- V6.34 Milestone 6.3 ch184 treatment implemented and verified: `_resolve_glossary_subset()` now uses boundary-aware matching for alphabetic source keys, with regression coverage for `Enter` not matching `Entering`; rerun from refine false-passed the previous semantic drift, so `ch184-block-001` was rerun from translate and now passes QA retry `0`, Sentinel `0/0/0/0`, and spot-check for the drift phrase. Report: `07_Reports/v6_34_m6_ch184_treatment_implementation_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_ch184_treatment.md`.
 
 MoonRead:
 
@@ -368,9 +369,8 @@ V6.33 translation-output and reader-publication phase is complete:
 
 Next safe choices:
 
-1. Implement boundary-aware glossary subset matching for alphabetic source keys and add the `Enter` vs `Entering` regression test.
-2. Rerun HGD `ch184-block-001` from refine after the test passes.
-3. Keep all V6.34 experiment output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead.
-4. Track whether CJK/Hanja parenthetical leakage and the IRS `Complete Memory` minor glossary miss recur only if OOS proceeds to IRS after HGD.
-5. Record each completed experiment round in `01_Research_Log/` and push it immediately.
-6. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.
+1. Resume HGD OOS from `ch192`; stop and record if another QA hard-fail or Sentinel blocker/major appears.
+2. Keep all V6.34 experiment output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead.
+3. Track whether CJK/Hanja parenthetical leakage and the IRS `Complete Memory` minor glossary miss recur only if OOS proceeds to IRS after HGD.
+4. Record each completed experiment round in `01_Research_Log/` and push it immediately.
+5. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.

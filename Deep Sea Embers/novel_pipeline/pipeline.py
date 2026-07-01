@@ -757,6 +757,23 @@ def _load_or_create_glossary_index(config: AppConfig) -> dict[str, GlossaryEntry
     return idx
 
 
+def _source_key_occurrences(text: str, key: str) -> list[int]:
+    if not key:
+        return []
+    if re.search(r"[A-Za-z]", key):
+        pattern = re.compile(rf"(?<![A-Za-z]){re.escape(key)}(?![A-Za-z])")
+        return [match.start() for match in pattern.finditer(text)]
+    occurrences: list[int] = []
+    start = 0
+    while True:
+        pos = text.find(key, start)
+        if pos == -1:
+            break
+        occurrences.append(pos)
+        start = pos + 1
+    return occurrences
+
+
 def _resolve_glossary_subset(blocks: list[TextBlock], glossary_index: dict[str, GlossaryEntry]) -> list[GlossaryEntry]:
     # Build result dict keyed by original_term to deduplicate entries
     matched: dict[str, GlossaryEntry] = {}
@@ -767,10 +784,13 @@ def _resolve_glossary_subset(blocks: list[TextBlock], glossary_index: dict[str, 
             continue
         
         # Step 1: collect candidate terms (source keys) that appear in text
-        candidates: list[tuple[str, GlossaryEntry]] = []
+        candidates: list[tuple[str, GlossaryEntry, list[int]]] = []
         for key, entry in glossary_index.items():
-            if entry.status == "approved" and key in text:
-                candidates.append((key, entry))
+            if entry.status != "approved":
+                continue
+            occurrences = _source_key_occurrences(text, key)
+            if occurrences:
+                candidates.append((key, entry, occurrences))
         
         # Step 2: sort by term length descending, then by term for stability
         candidates.sort(key=lambda pair: (-len(pair[0]), pair[0]))
@@ -778,17 +798,7 @@ def _resolve_glossary_subset(blocks: list[TextBlock], glossary_index: dict[str, 
         # Step 3: track occupied spans (start, end) in text
         occupied: list[tuple[int, int]] = []
         
-        for term, entry in candidates:
-            # Find all occurrences of term in text
-            occurrences: list[int] = []
-            start = 0
-            while True:
-                pos = text.find(term, start)
-                if pos == -1:
-                    break
-                occurrences.append(pos)
-                start = pos + 1
-            
+        for term, entry, occurrences in candidates:
             # Check if any occurrence does not overlap with any occupied span
             term_len = len(term)
             for pos in occurrences:
