@@ -223,6 +223,68 @@ def _apply_glossary_rejected_variant_repairs(text: str, glossary_subset: list[Gl
     return updated, repairs
 
 
+def _source_has_redacted_ranked_gate(source_text: str) -> bool:
+    if "-ranked Gate" not in source_text:
+        return False
+    return not re.search(r"\bS[- ]?[Rr]anked Gate\b", source_text)
+
+
+def _apply_redacted_ranked_gate_repairs(text: str, source_text: str) -> tuple[str, list[dict[str, str]]]:
+    if not _source_has_redacted_ranked_gate(source_text):
+        return text, []
+    repairs: list[dict[str, str]] = []
+    updated = text
+    for variant in ("เกตระดับ S ", "เกตแรงก์ S ", "เกตระดับเอส ", "เกตระดับ S", "เกตแรงก์ S", "เกตระดับเอส"):
+        if variant not in updated:
+            continue
+        updated = updated.replace(variant, "เกตไม่ระบุแรงก์")
+        repairs.append(
+            {
+                "source_term": "-ranked Gate",
+                "variant": variant,
+                "replacement": "เกตไม่ระบุแรงก์",
+            }
+        )
+    return updated, repairs
+
+
+def _repair_literal_draft_for_source_markers(draft: LiteralDraft) -> tuple[LiteralDraft, list[dict[str, str]]]:
+    repaired_pairs: list[LiteralSentencePair] = []
+    repairs: list[dict[str, str]] = []
+    changed = False
+    for pair in draft.sentence_pairs:
+        repaired_sentence, sentence_repairs = _apply_redacted_ranked_gate_repairs(
+            pair.literal_sentence,
+            pair.source_sentence or draft.source_text,
+        )
+        if sentence_repairs:
+            changed = True
+            repairs.extend(sentence_repairs)
+        repaired_pairs.append(
+            LiteralSentencePair(
+                source_sentence=pair.source_sentence,
+                literal_sentence=repaired_sentence,
+                metadata=pair.metadata,
+            )
+        )
+    if not changed:
+        return draft, []
+    return (
+        LiteralDraft(
+            block_id=draft.block_id,
+            chapter_id=draft.chapter_id,
+            sentence_pairs=tuple(repaired_pairs),
+            source_text=draft.source_text,
+            provider=draft.provider,
+            metadata={
+                **draft.metadata,
+                "redacted_ranked_gate_repairs": repairs,
+            },
+        ),
+        repairs,
+    )
+
+
 def _apply_glossary_parenthetical_leakage_repairs(text: str, glossary_subset: list[GlossaryEntry]) -> tuple[str, list[dict[str, str]]]:
     repairs: list[dict[str, str]] = []
     updated = text
@@ -1259,6 +1321,7 @@ def _process_block(
                 glossary_subset=glossary_subset,
                 input_hash=ih,
             )
+            literal_draft, literal_marker_repairs = _repair_literal_draft_for_source_markers(literal_draft)
             oh = _sha256(str(literal_draft.to_dict()))
             _write_block_artifact(config, block.chapter_id, block_id, "literal", literal_draft.to_dict())
             _commit_stage(
@@ -1270,7 +1333,10 @@ def _process_block(
                 provider=literal_provider_name,
                 input_hash=ih,
                 output_hash=oh,
-                metadata=cache_metadata if cache_metadata.get("cache_status") == "miss" else None,
+                metadata={
+                    **(cache_metadata if cache_metadata.get("cache_status") == "miss" else {}),
+                    "redacted_ranked_gate_repairs": literal_marker_repairs,
+                } if literal_marker_repairs or cache_metadata.get("cache_status") == "miss" else None,
             )
     else:
         print(f"[{run_id}]     translate already committed, skipping.")
@@ -1316,11 +1382,15 @@ def _process_block(
             refined_draft.refined_text,
             glossary_subset,
         )
+        repaired_text, redacted_rank_repairs = _apply_redacted_ranked_gate_repairs(
+            repaired_text,
+            block.source_text,
+        )
         repaired_text, footnote_repairs = _apply_source_footnote_marker_repairs(
             repaired_text,
             block.source_text,
         )
-        if glossary_repairs or footnote_repairs:
+        if glossary_repairs or redacted_rank_repairs or footnote_repairs:
             refined_draft = RefinedDraft(
                 block_id=refined_draft.block_id,
                 chapter_id=refined_draft.chapter_id,
@@ -1331,6 +1401,7 @@ def _process_block(
                 metadata={
                     **refined_draft.metadata,
                     "glossary_rejected_variant_repairs": glossary_repairs,
+                    "redacted_ranked_gate_repairs": redacted_rank_repairs,
                     "source_footnote_marker_repairs": footnote_repairs,
                 },
             )
@@ -1733,11 +1804,15 @@ def _run_qa_with_retries(
                         current_refined.refined_text,
                         glossary_subset,
                     )
+                    repaired_text, redacted_rank_repairs = _apply_redacted_ranked_gate_repairs(
+                        repaired_text,
+                        block.source_text,
+                    )
                     repaired_text, footnote_repairs = _apply_source_footnote_marker_repairs(
                         repaired_text,
                         block.source_text,
                     )
-                    if glossary_repairs or footnote_repairs:
+                    if glossary_repairs or redacted_rank_repairs or footnote_repairs:
                         current_refined = RefinedDraft(
                             block_id=current_refined.block_id,
                             chapter_id=current_refined.chapter_id,
@@ -1748,6 +1823,7 @@ def _run_qa_with_retries(
                             metadata={
                                 **current_refined.metadata,
                                 "glossary_rejected_variant_repairs": glossary_repairs,
+                                "redacted_ranked_gate_repairs": redacted_rank_repairs,
                                 "source_footnote_marker_repairs": footnote_repairs,
                             },
                         )
@@ -1765,6 +1841,7 @@ def _run_qa_with_retries(
                             "retry_from_qa": retry_count,
                             "qa_feedback": qa_report.feedback,
                             "glossary_rejected_variant_repairs": glossary_repairs,
+                            "redacted_ranked_gate_repairs": redacted_rank_repairs,
                             "source_footnote_marker_repairs": footnote_repairs,
                         },
                     )
@@ -1817,11 +1894,15 @@ def _run_qa_with_retries(
             current_refined.refined_text,
             glossary_subset,
         )
+        repaired_text, redacted_rank_repairs = _apply_redacted_ranked_gate_repairs(
+            repaired_text,
+            block.source_text,
+        )
         repaired_text, footnote_repairs = _apply_source_footnote_marker_repairs(
             repaired_text,
             block.source_text,
         )
-        if glossary_repairs or footnote_repairs:
+        if glossary_repairs or redacted_rank_repairs or footnote_repairs:
             current_refined = RefinedDraft(
                 block_id=current_refined.block_id,
                 chapter_id=current_refined.chapter_id,
@@ -1832,6 +1913,7 @@ def _run_qa_with_retries(
                 metadata={
                     **current_refined.metadata,
                     "glossary_rejected_variant_repairs": glossary_repairs,
+                    "redacted_ranked_gate_repairs": redacted_rank_repairs,
                     "source_footnote_marker_repairs": footnote_repairs,
                 },
             )
@@ -1847,6 +1929,7 @@ def _run_qa_with_retries(
             metadata={
                 "retry_from_qa": retry_count,
                 "glossary_rejected_variant_repairs": glossary_repairs,
+                "redacted_ranked_gate_repairs": redacted_rank_repairs,
                 "source_footnote_marker_repairs": footnote_repairs,
             },
         )

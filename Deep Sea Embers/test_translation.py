@@ -18,7 +18,7 @@ from novel_pipeline.types import (
     RunRecord,
     TextBlock,
 )
-from novel_pipeline.pipeline import _apply_glossary_parenthetical_leakage_repairs, _apply_glossary_rejected_variant_repairs, _apply_source_footnote_marker_repairs, _literal_safe_refined_draft, _qa_report_indicates_omission
+from novel_pipeline.pipeline import _apply_glossary_parenthetical_leakage_repairs, _apply_glossary_rejected_variant_repairs, _apply_redacted_ranked_gate_repairs, _apply_source_footnote_marker_repairs, _literal_safe_refined_draft, _qa_report_indicates_omission, _repair_literal_draft_for_source_markers
 from novel_pipeline.stages.format import format_block_text
 from novel_pipeline.text_utils import split_blocks
 from unittest.mock import Mock, patch, call
@@ -2229,6 +2229,52 @@ def test_refine_applies_rejected_glossary_variant_repair():
             "thai_term": "ทะเลตะวันตก",
         }
     ]
+
+
+def test_redacted_ranked_gate_repair_removes_hallucinated_s_rank():
+    source = "He first appeared during the recent -ranked Gate we managed to clear."
+    text = "เขาปรากฏตัวครั้งแรกในระหว่างเกตระดับ S ที่เราเพิ่งเคลียร์ได้"
+
+    repaired, repairs = _apply_redacted_ranked_gate_repairs(text, source)
+
+    assert repaired == "เขาปรากฏตัวครั้งแรกในระหว่างเกตไม่ระบุแรงก์ที่เราเพิ่งเคลียร์ได้"
+    assert repairs == [
+        {
+            "source_term": "-ranked Gate",
+            "variant": "เกตระดับ S ",
+            "replacement": "เกตไม่ระบุแรงก์",
+        }
+    ]
+
+
+def test_redacted_ranked_gate_repair_preserves_explicit_s_rank_source():
+    source = "A recent S-Ranked Gate opened on the main island."
+    text = "มีเกตระดับ S เปิดขึ้นที่เกาะหลัก"
+
+    repaired, repairs = _apply_redacted_ranked_gate_repairs(text, source)
+
+    assert repaired == text
+    assert repairs == []
+
+
+def test_literal_draft_repairs_redacted_ranked_gate_marker():
+    draft = LiteralDraft(
+        block_id="ch250-block-001",
+        chapter_id="ch250",
+        source_text="He first appeared during the recent -ranked Gate we managed to clear.",
+        sentence_pairs=(
+            LiteralSentencePair(
+                source_sentence="He first appeared during the recent -ranked Gate we managed to clear.",
+                literal_sentence="เขาปรากฏตัวครั้งแรกในระหว่างเกตแรงก์ S ที่เราเพิ่งเคลียร์ได้",
+            ),
+        ),
+    )
+
+    repaired, repairs = _repair_literal_draft_for_source_markers(draft)
+
+    assert repaired.sentence_pairs[0].literal_sentence == "เขาปรากฏตัวครั้งแรกในระหว่างเกตไม่ระบุแรงก์ที่เราเพิ่งเคลียร์ได้"
+    assert repairs[0]["variant"] == "เกตแรงก์ S "
+    assert repaired.metadata["redacted_ranked_gate_repairs"] == repairs
 
 
 def test_refine_preserves_source_footnote_marker_section():
@@ -8109,6 +8155,9 @@ if __name__ == "__main__":
     test_qa_glossary_missing_term_blocks_when_refinement_removed_literal_term()
     test_qa_blocks_rejected_glossary_variant()
     test_refine_applies_rejected_glossary_variant_repair()
+    test_redacted_ranked_gate_repair_removes_hallucinated_s_rank()
+    test_redacted_ranked_gate_repair_preserves_explicit_s_rank_source()
+    test_literal_draft_repairs_redacted_ranked_gate_marker()
     test_refine_preserves_source_footnote_marker_section()
     test_qa_ai_judge_finding_still_blocks()
     test_qa_markdown_bold_fail_line_still_blocks()
