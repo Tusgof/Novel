@@ -143,6 +143,7 @@ Cross-novel experiment state:
 - V6.34 Milestone 5 cross-novel comparison completed: HGD, DSE, and IRS treatment slices all reached current failed blocks `0` and no Sentinel blocker/major findings. Output-surface quality improved enough to move toward OOS, but smoothness is not sufficient for OOS yet because HGD needed multiple recoveries and IRS repeated CJK/Hanja parenthetical leakage hard-fails. Decision: add one narrow non-CJK parenthetical annotation cleanup/guard before opening Milestone 6 OOS; track the IRS `Complete Memory` minor glossary miss in OOS rather than broadening glossary policy now. Report: `07_Reports/v6_34_m5_cross_novel_treatment_comparison_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_cross_novel_treatment_comparison.md`.
 - V6.34 Milestone 5 pre-OOS CJK/Hanja parenthetical hardening completed: `split_blocks()` now normalizes quoted source-script terms followed by English `meaning ...` and strips parenthetical source-script annotations for non-CJK source projects only. Targeted tests, compileall, and `test_translation.py` passed; IRS raw probe for `ch080` and `ch261` now leaves `0` source-script annotation chars after split. Report: `07_Reports/v6_34_m5_pre_oos_cjk_parenthetical_hardening_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m5_pre_oos_cjk_parenthetical_hardening.md`.
 - V6.34 Milestone 6.1 OOS scan/glossary gate completed: locked OOS chapters were prepared in isolated experiment vaults for DSE/HGD/IRS, source parity was `0` mismatches for all three, scan-only completed with candidate counts DSE `34`, HGD `17`, IRS `155`, and `glossary_approved` records were committed for all 30 OOS chapters without approving new OOS terms. No translation/refinement/QA/formatting/completed records exist yet. Report: `07_Reports/v6_34_m6_oos_scan_glossary_gate_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_oos_scan_glossary_gate.md`.
+- V6.34 Milestone 6.2 OOS started and stopped validly on HGD `ch131`: isolated run `v6-34-m6-hgd-oos-v1` completed `ch015`, `ch046`, `ch060`, `ch101`, and `ch131`, then blocking Sentinel found major glossary coverage failure for `Containment Department -> แผนกกักกัน`. Output used `ภาคส่วนกักกัน` because `Containment Sector.md` also lists `Containment Department` as an alias with a different Thai term. No repair was applied mid-OOS. Report: `07_Reports/v6_34_m6_oos_hgd_stop_ch131_glossary_conflict_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_oos_hgd_ch131_stop.md`.
 
 MoonRead:
 
@@ -363,9 +364,9 @@ V6.33 translation-output and reader-publication phase is complete:
 
 Next safe choices:
 
-1. Prepare missing experiment-local IRS title sidecars for the M6 OOS vault before translation assembly can need them.
-2. Run Milestone 6.2 OOS translation/refine/QA/format/Sentinel for the locked OOS chapters without tuning mid-round.
+1. Perform Milestone 6.3 analysis on the HGD `ch131` OOS glossary conflict before any OOS repair or resume.
+2. Decide whether the fix belongs only to Layer 2 HGD glossary cleanup or also to Layer 0 duplicate-original/alias conflict detection.
 3. Keep all V6.34 experiment output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead.
-4. Track whether CJK/Hanja parenthetical leakage and the IRS `Complete Memory` minor glossary miss recur in OOS.
+4. Track whether CJK/Hanja parenthetical leakage and the IRS `Complete Memory` minor glossary miss recur only if OOS resumes after analysis.
 5. Record each completed experiment round in `01_Research_Log/` and push it immediately.
 6. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.
