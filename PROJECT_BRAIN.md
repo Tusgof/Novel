@@ -149,6 +149,7 @@ Cross-novel experiment state:
 - V6.34 Milestone 6.2 HGD OOS resumed and stopped at `ch184-block-001`: `ch153` completed, then QA hard-failed after retry 2 on missing `ปุ่ม Enter` and an internal-thought mistranslation using `สะกดรอยตาม`. No force-accept or repair was applied. Report: `07_Reports/v6_34_m6_oos_hgd_stop_ch184_qa_hard_fail_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_oos_hgd_ch184_stop.md`.
 - V6.34 Milestone 6.3 ch184 analysis completed: `ปุ่ม Enter` was a false glossary expectation because `_resolve_glossary_subset()` matched `Enter` inside `Entering`; `สะกดรอยตาม` is run-local semantic drift. Selected treatment is boundary-aware glossary subset matching plus rerun `ch184-block-001` from refine. Report: `07_Reports/v6_34_m6_oos_ch184_analysis_treatment_selection_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_oos_ch184_analysis.md`.
 - V6.34 Milestone 6.3 ch184 treatment implemented and verified: `_resolve_glossary_subset()` now uses boundary-aware matching for alphabetic source keys, with regression coverage for `Enter` not matching `Entering`; rerun from refine false-passed the previous semantic drift, so `ch184-block-001` was rerun from translate and now passes QA retry `0`, Sentinel `0/0/0/0`, and spot-check for the drift phrase. Report: `07_Reports/v6_34_m6_ch184_treatment_implementation_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_ch184_treatment.md`.
+- V6.34 Milestone 6.2 HGD OOS resumed and stopped at `ch192-block-001`: completed chapters remain `ch015`, `ch046`, `ch060`, `ch101`, `ch131`, `ch153`, and `ch184`; QA hard-failed after retry 2 because peer dialogue used `คุณ` where HGD policy expects casual `นาย`. No force-accept or repair was applied. Report: `07_Reports/v6_34_m6_oos_hgd_stop_ch192_pronoun_drift_20260701.md`; research log: `01_Research_Log/2026-07-01_novel_pipeline_v6_34_m6_oos_hgd_ch192_stop.md`.
 
 MoonRead:
 
@@ -369,7 +370,7 @@ V6.33 translation-output and reader-publication phase is complete:
 
 Next safe choices:
 
-1. Resume HGD OOS from `ch192`; stop and record if another QA hard-fail or Sentinel blocker/major appears.
+1. Analyze `ch192-block-001` before any rerun; classify whether the `คุณ`/`นาย` failure is run-local, HGD Layer 2, or reusable Layer 0 pronoun-policy enforcement.
 2. Keep all V6.34 experiment output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead.
 3. Track whether CJK/Hanja parenthetical leakage and the IRS `Complete Memory` minor glossary miss recur only if OOS proceeds to IRS after HGD.
 4. Record each completed experiment round in `01_Research_Log/` and push it immediately.

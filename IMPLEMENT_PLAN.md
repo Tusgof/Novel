@@ -47,6 +47,7 @@ Current progress:
 - Milestone 6.2 HGD OOS resumed and stopped again at `ch184-block-001`: `ch153` completed, then QA hard-failed after retry 2 on missing `ปุ่ม Enter` and internal-thought mistranslation (`สะกดรอยตาม`). No force-accept or repair was applied. Next: analyze `ch184` before any rerun.
 - Milestone 6.3 ch184 analysis completed: `ปุ่ม Enter` was a Layer 0 false glossary expectation caused by `_resolve_glossary_subset()` matching `Enter` inside `Entering`; `สะกดรอยตาม` was run-local semantic drift. Selected treatment: boundary-aware glossary subset matching plus rerun `ch184-block-001` from refine.
 - Milestone 6.3 ch184 treatment implemented: glossary subset matching is now boundary-aware for alphabetic keys and tested; first rerun from refine false-passed on semantic drift, so `ch184-block-001` was rerun from translate and now passes QA retry `0`, Sentinel `0/0/0/0`, and spot-check for the drift phrase. Next: resume HGD OOS from `ch192`.
+- Milestone 6.2 HGD OOS resumed and stopped at `ch192-block-001`: QA hard-failed after retry 2 because peer dialogue used `คุณ` where HGD policy expects casual `นาย`. No force-accept or repair was applied. Next: analyze `ch192` before any rerun.
 
 ---
 
@@ -227,7 +228,7 @@ Status: complete. Layer 0 title/H1 glossary validation, Layer 0 BOM-tolerant glo
 
 **Milestone complete when**: OOS evidence shows whether the treatment generalizes well enough, and the project has a clear next production mode backed by reports.
 
-Status: in progress after ch184 treatment. M6.1 scan/glossary gate is complete. M6.2 HGD OOS has 7/10 chapters complete, current failed blocks none, and pending chapters `ch192`, `ch226`, `ch262`. Evidence: `07_Reports/v6_34_m6_oos_scan_glossary_gate_20260701.md`, `07_Reports/v6_34_m6_oos_hgd_stop_ch131_glossary_conflict_20260701.md`, `07_Reports/v6_34_m6_oos_ch131_analysis_treatment_selection_20260701.md`, `07_Reports/v6_34_m6_ch131_treatment_implementation_20260701.md`, `07_Reports/v6_34_m6_oos_hgd_stop_ch184_qa_hard_fail_20260701.md`, `07_Reports/v6_34_m6_oos_ch184_analysis_treatment_selection_20260701.md`, `07_Reports/v6_34_m6_ch184_treatment_implementation_20260701.md`, and matching research logs. Next action: resume HGD OOS from `ch192`; spot-check recovered risky blocks before continuing claims.
+Status: in progress after ch192 stop. M6.1 scan/glossary gate is complete. M6.2 HGD OOS has 7/10 chapters complete, current failed block `ch192-block-001`, and pending chapters `ch226`, `ch262`. Evidence: `07_Reports/v6_34_m6_oos_scan_glossary_gate_20260701.md`, `07_Reports/v6_34_m6_oos_hgd_stop_ch131_glossary_conflict_20260701.md`, `07_Reports/v6_34_m6_oos_ch131_analysis_treatment_selection_20260701.md`, `07_Reports/v6_34_m6_ch131_treatment_implementation_20260701.md`, `07_Reports/v6_34_m6_oos_hgd_stop_ch184_qa_hard_fail_20260701.md`, `07_Reports/v6_34_m6_oos_ch184_analysis_treatment_selection_20260701.md`, `07_Reports/v6_34_m6_ch184_treatment_implementation_20260701.md`, `07_Reports/v6_34_m6_oos_hgd_stop_ch192_pronoun_drift_20260701.md`, and matching research logs. Next action: analyze `ch192-block-001` before rerun.
 
 ---
 
