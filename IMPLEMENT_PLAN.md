@@ -1,12 +1,12 @@
 # IMPLEMENT_PLAN.md
 
-Last updated: 2026-07-01
+Last updated: 2026-07-02
 
 ## Overview
 
-- **Start state**: The workspace has three active novels in the multi-novel system: Deep Sea Embers published through `ch180`, Horror Game Developer published through `ch270`, and Infinite Regressor Stories published through clean `ch050`. V6.34 Cross-Novel Libra - Blind Pilot Gate is active. Verified raw source pools currently exist for DSE `ch001-ch180`, HGD `ch001-ch270`, and IRS `ch001-ch394`. The old implementation plan was archived to `Backup_IMPLEMENT_PLAN/01072026_IMPLEMENT_PLAN.md`.
-- **End state**: The pipeline has measured evidence that a cross-novel Libra - Pilot research loop improves consistency, translation quality, and long-run sustainability. The experiment samples from raw source across all three novels, completes one full baseline round before changes, applies only evidence-backed fixes at the correct layer, reruns treatment, measures metric movement, records research logs, and recommends the next production execution mode.
-- **Total milestones**: 6
+- **Start state**: The workspace has three active novels in the multi-novel system: Deep Sea Embers published through `ch210`, Horror Game Developer published through `ch270`, and Infinite Regressor Stories published through clean `ch050`. V6.34 Cross-Novel Libra - Blind Pilot Gate is complete. Verified raw source pools currently exist for DSE, HGD, and IRS, with IRS locally verified through `ch394`. The old implementation plan was archived to `Backup_IMPLEMENT_PLAN/01072026_IMPLEMENT_PLAN.md`.
+- **End state**: The pipeline has measured evidence that a cross-novel Libra - Pilot research loop improves consistency, translation quality, and long-run sustainability. The experiment samples from raw source across all three novels, completes one full baseline round before changes, applies only evidence-backed fixes at the correct layer, reruns treatment, measures metric movement, records research logs, recommends the next production execution mode, and proves that the follow-up DSE production continuation can complete through `ch210` under the same gates.
+- **Total milestones**: 7
 - **Estimated total effort**: XL
 
 This plan is research-first. Experiment output is not production output and must not be published to MoonRead unless a separate production publication gate approves it.
@@ -56,6 +56,7 @@ Current progress:
 - Milestone 6.2 IRS OOS completed validly: `v6-34-m6-irs-oos-v1` completed all 10 locked IRS OOS chapters (`33/33` blocks), current failed blocks none, manual actions none, source parity `0`, deterministic experiment-output checks passed, and latest scoped Sentinel is `0/0/0/0` for every sampled chapter. Smoothness remains imperfect: 2 OpenRouter empty-assistant refining failures recovered, 2 local recovery refinements occurred, QA used Gemini Flash fallback 3 times, and formatting used local fallback 4 times. Next: compare HGD + DSE + IRS OOS results and make the M6 production recommendation.
 - Milestone 6.3-6.7 OOS comparison and production recommendation completed: HGD, DSE, and IRS OOS all finished with current failed blocks `0`, source parity `0` in final valid runs, deterministic output issues `0`, and latest Sentinel blocker/major `0/0`. Recommendation: proceed with bounded sequential production batches under existing gates; do not enable broad unattended parallel translate/refine/QA yet. Next: close V6.34 final documentation and verify git state before the requested DSE continuation.
 - Post-V6.34 DSE continuation complete: `dse-ch181-ch185-v1`, `dse-ch186-ch190-v1`, `dse-ch191-ch195-v1`, `dse-ch196-ch200-v1`, `dse-ch201-ch205-v1`, and `dse-ch206-ch210-v1` completed and MoonRead publishes DSE through `ch210`. Do not start another production batch without a new explicit range.
+- Milestone 7 complete: post-experiment production closure validated the V6.34 recommendation with bounded sequential DSE batches through `ch210`, documented checkpoints, scoped Sentinel, output guardrails, MoonRead publish verification, and clean git push.
 
 ---
 
@@ -236,7 +237,26 @@ Status: complete. Layer 0 title/H1 glossary validation, Layer 0 BOM-tolerant glo
 
 **Milestone complete when**: OOS evidence shows whether the treatment generalizes well enough, and the project has a clear next production mode backed by reports.
 
-Status: complete. M6.1 scan/glossary gate is complete. M6.2 HGD, DSE, and IRS OOS all completed. M6.3-6.4 comparison/recommendation is complete: production can proceed as bounded sequential batches with existing gates, but broad unattended parallel translate/refine/QA remains not recommended. M6.5-6.7 documentation, research log, and plan updates are complete. Evidence: `07_Reports/v6_34_m6_oos_scan_glossary_gate_20260701.md`, `07_Reports/v6_34_m6_hgd_oos_completion_20260701.md`, `07_Reports/v6_34_m6_dse_oos_source_parity_stop_20260701.md`, `07_Reports/v6_34_m6_dse_oos_ch029_source_script_treatment_20260701.md`, `07_Reports/v6_34_m6_dse_oos_completion_20260701.md`, `07_Reports/v6_34_m6_irs_oos_completion_20260701.md`, `07_Reports/v6_34_m6_cross_novel_oos_comparison_20260701.md`, and matching research logs. Next action: verify final git state, then start the requested DSE continuation as a bounded production batch after confirming `ch181-ch210` is 30 chapters.
+Status: complete. M6.1 scan/glossary gate is complete. M6.2 HGD, DSE, and IRS OOS all completed. M6.3-6.4 comparison/recommendation is complete: production can proceed as bounded sequential batches with existing gates, but broad unattended parallel translate/refine/QA remains not recommended. M6.5-6.7 documentation, research log, and plan updates are complete. Evidence: `07_Reports/v6_34_m6_oos_scan_glossary_gate_20260701.md`, `07_Reports/v6_34_m6_hgd_oos_completion_20260701.md`, `07_Reports/v6_34_m6_dse_oos_source_parity_stop_20260701.md`, `07_Reports/v6_34_m6_dse_oos_ch029_source_script_treatment_20260701.md`, `07_Reports/v6_34_m6_dse_oos_completion_20260701.md`, `07_Reports/v6_34_m6_irs_oos_completion_20260701.md`, `07_Reports/v6_34_m6_cross_novel_oos_comparison_20260701.md`, and matching research logs. Next action: keep production work bounded and start no further batch without a new explicit range.
+
+---
+
+## Milestone 7: Post-Experiment Production Closure
+
+**Goal**: Validate the V6.34 recommendation in real production by finishing the requested DSE continuation through `ch210` with bounded sequential batches, scoped verification, MoonRead publication, and clean git state.
+**Dependencies**: Milestone 6
+
+| # | Task | Effort | Risk | Verification |
+|:--|:-----|:------:|:----:|:-------------|
+| 7.1 | Run DSE continuation only as 5-chapter scan/glossary/translation batches from `ch181` through `ch210` | XL | ⚠️ | Checkpoint reports exist for `ch181-ch185`, `ch186-ch190`, `ch191-ch195`, `ch196-ch200`, `ch201-ch205`, and `ch206-ch210` |
+| 7.2 | Keep runtime Sentinel, deterministic output guardrails, and major-run spot-checks active for every production batch | M | ⚠️ | Each checkpoint records output guardrail and scoped Sentinel results |
+| 7.3 | Publish each verified batch to MoonRead and run scoped `publish:verify` | M | ⚠️ | MoonRead reports show DSE through `ch210`, scoped Sentinel `0/0/0/0`, lint/build/smoke passed |
+| 7.4 | Update `PROJECT_BRAIN.md`, `IMPLEMENT_PLAN.md`, and stable architecture notes if rules changed | S | ✅ | Root docs reflect DSE through `ch210` and no automatic next batch |
+| 7.5 | Commit and push glossary and publication changes in clean, reviewable commits | S | ✅ | Git history contains glossary/publish commits through `ch210`, and `git status` is clean after push |
+
+**Milestone complete when**: DSE is published through `ch210`, all scoped verification gates pass, docs no longer point at stale `ch180/ch200` production state, and no next production batch is started automatically.
+
+Status: complete. Evidence: `07_Reports/dse_ch181_ch185_production_checkpoint_20260701.md`, `07_Reports/dse_ch186_ch190_production_checkpoint_20260701.md`, `07_Reports/dse_ch191_ch195_production_checkpoint_20260701.md`, `07_Reports/dse_ch196_ch200_production_checkpoint_20260701.md`, `07_Reports/dse_ch201_ch205_production_checkpoint_20260701.md`, `07_Reports/dse_ch206_ch210_production_checkpoint_20260701.md`, final scoped Sentinel reports, MoonRead `publish:verify`, and pushed git commits through `e5fde2e`.
 
 ---
 
@@ -251,7 +271,7 @@ Status: complete. M6.1 scan/glossary gate is complete. M6.2 HGD, DSE, and IRS OO
   - After Milestone 3: decide treatment hypotheses based on actual baseline evidence.
   - After Milestone 5: decide whether treatment improved enough to run OOS, needs revision, or should be rejected.
   - After Milestone 6: decide next production mode for DSE/HGD/IRS.
-  - After V6.34 completes: verify the exact DSE continuation range before the requested production task to end at `ch210`, because `ch181-ch210` is 30 chapters from current state.
+  - After Milestone 7: stop and wait for a new explicit production range.
 
 - **Risk checkpoints**:
   - After sampling: verify raw source boundaries and no accidental hand-picking.

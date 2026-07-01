@@ -1,6 +1,6 @@
 # Project Brain: Novel Translation System
 
-Last updated: 2026-07-01
+Last updated: 2026-07-02
 
 This is the durable memory for the workspace. Keep it compact. Put long evidence, experiments, and historical detail in root-level `07_Reports/` or `01_Research_Log/` as appropriate.
 
@@ -172,7 +172,7 @@ MoonRead:
 - MoonRead imports novels from `00_Config\novel_registry.json`; adding a future novel should start by adding a registry entry, not by hardcoding paths in `MoonRead\scripts\generate-chapters.mjs`
 - MoonRead reads verified Markdown only
 - MoonRead must not call providers, edit glossary/source/artifacts, or modify ledger
-- latest relevant checks: `generate:chapters` produced 3 books / 500 available chapters / 0 missing / 0 rejected; scoped Sentinel publish reports passed for DSE `ch161-ch180`, HGD `ch251-ch270`, and IRS `ch001-ch050`; MoonRead `lint`, `build`, and `smoke` passed.
+- latest relevant checks: `generate:chapters` produced 3 books / 530 available chapters / 0 missing / 0 rejected; scoped Sentinel publish reports passed for DSE `ch206-ch210`, HGD `ch251-ch270`, and IRS `ch001-ch050`; MoonRead `lint`, `build`, and `smoke` passed.
 - MoonRead `publish:verify` is the scoped publish gate for generated chapters and reader validation
 - V6.19 handoff report: `Deep Sea Embers/07_Reports/v6_19_moonread_ux_handoff_20260616.md`
 - V6.19.1 completed: Thai UI labels, active nav, SiteFooter, synopsis line-clamp, localStorage key migration, cover art for both novels, conditional logo-cover class
@@ -206,7 +206,7 @@ Working tree:
 - GitHub: `https://github.com/Tusgof/Novel`
 - branch: `main`
 - commit identity: `Tusgof <124960571+Tusgof@users.noreply.github.com>`
-- latest pushed commit is current git HEAD: `f816bd0`
+- latest pushed commit is current git HEAD; verify with `git log -1 --oneline`
 - latest readiness reports: `Deep Sea Embers/07_Reports/preflight_report_20260616_after_v6_18_gate.md`, `Deep Sea Embers/07_Reports/recovery_drill_20260616_after_v6_18_gate.md`, and `Deep Sea Embers/07_Reports/preflight_recovery_readiness_note_20260616.md`
 - no current untracked queue is present; verify with `git status --short --untracked-files=all` before treating any future queue text as current state.
 
@@ -377,7 +377,7 @@ Current reader state: Deep Sea Embers is published through `ch210`; Horror Game 
 V6.33 translation-output and reader-publication phase is complete:
 
 - HGD: `ch251-ch270` output complete, publish Sentinel `0/0/0/0`, MoonRead through `ch270`.
-- DSE: `ch181-ch200` output complete, publish Sentinel `0/0/0/0`, MoonRead through `ch200`.
+- DSE: `ch181-ch210` output complete, publish Sentinel `0/0/0/0`, MoonRead through `ch210`.
 - IRS: clean `ch001-ch050` output complete, publish Sentinel `0/0/0/0`, MoonRead through `ch050`; advisory English review queue remains minor-only.
 - All three used glossary batches of 5 chapters.
 

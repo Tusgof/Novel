@@ -1,6 +1,6 @@
 # Architecture: Novel Translation System
 
-Last updated: 2026-06-29
+Last updated: 2026-07-02
 
 This document explains stable system structure. It is not the roadmap, current status, or incident log.
 
@@ -109,6 +109,7 @@ Workflow rules:
 - Stop on manual QA prompt, provider failure, command length failure, validation failure, Sentinel blocker/major finding, or scope expansion.
 - Repair from the earliest broken stage.
 - Historical failed ledger records remain; use latest-state inspection for current truth.
+- Post-V6.34 production mode is bounded sequential batches with scan/glossary gates, blocking Sentinel, deterministic output guardrails, and major-run spot-checks. Broad unattended parallel translate/refine/QA remains experimental until a dedicated milestone proves ledger safety and provider isolation.
 
 ## Component Map
 
