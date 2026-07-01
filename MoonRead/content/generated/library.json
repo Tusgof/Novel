@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-01T15:40:05.418Z",
+  "generatedAt": "2026-07-01T16:53:36.940Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,8 +11,8 @@
   },
   "summary": {
     "books": 3,
-    "chapters": 505,
-    "available": 505,
+    "chapters": 510,
+    "available": 510,
     "missing": 0,
     "rejected": 0
   },
@@ -33,23 +33,23 @@
       "cover": "/images/deep-sea-embers-cover.png",
       "href": "/book",
       "chaptersHref": "/chapters",
-      "targetRange": "ch001-ch185",
+      "targetRange": "ch001-ch190",
       "summary": {
-        "total": 185,
-        "available": 185,
+        "total": 190,
+        "available": 190,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch185",
-        "number": 185,
-        "title": "บทที่ 186: ต่างคนต่างอยู่ดี",
+        "id": "ch190",
+        "number": 190,
+        "title": "บทที่ 191: ดั่งวันวานที่เลือนหาย",
         "status": "available",
-        "sourcePath": "ch185/ch185.md",
-        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch185.md",
-        "href": "/read/ch185",
-        "charCount": 8282,
+        "sourcePath": "ch190/ch190.md",
+        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch190.md",
+        "href": "/read/ch190",
+        "charCount": 8234,
         "readingMinutes": 2
       },
       "firstChapter": {

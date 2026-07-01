@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-07-01T16:50:30.540244+00:00",
+  "scope": "dse-ch186-ch190-v1_ch187_sentinel",
+  "chapters": "ch187",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

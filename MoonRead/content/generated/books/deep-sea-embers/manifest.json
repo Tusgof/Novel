@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-01T15:40:04.480Z",
+  "generatedAt": "2026-07-01T16:53:36.266Z",
   "sourceRoot": "../Deep Sea Embers/05_Output",
-  "targetRange": "ch001-ch185",
+  "targetRange": "ch001-ch190",
   "novel": {
     "slug": "deep-sea-embers",
     "title": "Deep Sea Embers",
@@ -30,8 +30,8 @@
     }
   },
   "summary": {
-    "total": 185,
-    "available": 185,
+    "total": 190,
+    "available": 190,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -2070,6 +2070,61 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch185.md",
       "href": "/read/ch185",
       "charCount": 8282,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch186",
+      "number": 186,
+      "title": "บทที่ 187: ของพื้นเมืองจากนครรัฐ",
+      "status": "available",
+      "sourcePath": "ch186/ch186.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch186.md",
+      "href": "/read/ch186",
+      "charCount": 7942,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch187",
+      "number": 187,
+      "title": "บทที่ 188: การเผยแผ่ศาสนาแห่งจุดจบ",
+      "status": "available",
+      "sourcePath": "ch187/ch187.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch187.md",
+      "href": "/read/ch187",
+      "charCount": 8375,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch188",
+      "number": 188,
+      "title": "บทที่ 189: ผู้บ้าคลั่ง",
+      "status": "available",
+      "sourcePath": "ch188/ch188.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch188.md",
+      "href": "/read/ch188",
+      "charCount": 8856,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch189",
+      "number": 189,
+      "title": "บทที่ 190: การทดสอบของอลิซ",
+      "status": "available",
+      "sourcePath": "ch189/ch189.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch189.md",
+      "href": "/read/ch189",
+      "charCount": 7996,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch190",
+      "number": 190,
+      "title": "บทที่ 191: ดั่งวันวานที่เลือนหาย",
+      "status": "available",
+      "sourcePath": "ch190/ch190.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch190.md",
+      "href": "/read/ch190",
+      "charCount": 8234,
       "readingMinutes": 2
     }
   ]
