@@ -41,6 +41,7 @@
 | 026 | HGD OOS ch192 stop | `2026-07-01_novel_pipeline_v6_34_m6_oos_hgd_ch192_stop.md` | OOS หยุดที่ `ch192` จาก peer dialogue `คุณ`/`นาย` drift |
 | 027 | ch192 treatment | `2026-07-01_novel_pipeline_v6_34_m6_ch192_pronoun_treatment.md` | เพิ่ม HGD-only peer-address repair หลัง literal-safe omission recovery |
 | 028 | HGD OOS completion | `2026-07-01_novel_pipeline_v6_34_m6_hgd_oos_completion.md` | HGD OOS จบครบ 10 ตอน, Sentinel `0/0/0/0`, แต่ยังมี smoothness risk |
+| 029 | DSE OOS source parity stop | `2026-07-01_novel_pipeline_v6_34_m6_dse_oos_source_parity_stop.md` | DSE OOS หยุดเพราะ experiment vault ใช้ raw source stale/off-by-one ทั้ง 10 sampled chapters |
 
 ## ไฟล์ที่ลบออก
 
