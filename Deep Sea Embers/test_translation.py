@@ -5467,6 +5467,13 @@ Body
         write_note(glossary_dir / "白橡木.md", original="白橡木", thai="ไม้โอ๊คขาว")
         write_note(glossary_dir / "白橡木号.md", original="白橡木号", thai="เรือไม้โอ๊คขาว")
         write_note(glossary_dir / "邓肯.md", original="邓肯", thai="ดันแคน")
+        write_note(glossary_dir / "Containment Department.md", original="Containment Department", thai="แผนกกักกัน")
+        write_note(
+            glossary_dir / "Containment Sector.md",
+            original="Containment Sector",
+            thai="ภาคส่วนกักกัน",
+            aliases=["Containment Department"],
+        )
         write_note(glossary_dir / "废弃.md", original="废弃", thai="ทิ้งแล้ว", status="rejected")
         write_note(glossary_dir / "quarantine" / "邓肯船.md", original="邓肯船", thai="เรือดันแคน", aliases=["鲸船"])
 
@@ -5500,9 +5507,12 @@ Body
 
         text = result["path"].read_text(encoding="utf-8")
         assert "# Glossary Conflicts Report - batch-ch001" in text
-        assert "approved_terms_count: 4" in text
+        assert "approved_terms_count: 6" in text
         assert "quarantine_terms_count: 1" in text
         assert "白橡木号 contains 白橡木" in text
+        assert "## Source Surface Collisions" in text
+        assert "Containment Department -> Containment Department (original: แผนกกักกัน" in text
+        assert "Containment Sector (alias: ภาคส่วนกักกัน" in text
         assert "邓肯船 -> 邓肯 (prefix)" in text
         assert "是失乡号 -> 失乡号 (suffix)" in text
         assert "废弃 -> 废弃 (rejected |" in text

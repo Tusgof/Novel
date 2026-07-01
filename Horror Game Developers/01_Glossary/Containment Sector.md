@@ -4,10 +4,8 @@ original_term: Containment Sector
 thai_term: ภาคส่วนกักกัน
 status: approved
 aliases:
-  - Containment Department
   - Containment Section
   - The Containment Sector
-  - The Containment Department
   - Containment Area
 source_language: en
 category: location

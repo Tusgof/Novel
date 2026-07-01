@@ -202,6 +202,7 @@ def _render_glossary_conflicts_markdown(
     deprecated_lines: list[str],
     quarantine_lines: list[str],
     alias_collision_lines: list[str],
+    source_surface_collision_lines: list[str],
     approved_overlap_lines: list[str],
     approved_nonapproved_overlap_lines: list[str],
     exact_scan_lines: list[str],
@@ -237,6 +238,9 @@ def _render_glossary_conflicts_markdown(
         "",
         "## Alias Collisions",
         *alias_collision_lines,
+        "",
+        "## Source Surface Collisions",
+        *source_surface_collision_lines,
         "",
         "## Approved-vs-Approved Overlaps",
         *approved_overlap_lines,
@@ -2096,6 +2100,27 @@ def build_glossary_conflicts_report(
     if not alias_collision_lines:
         alias_collision_lines.append("- none")
 
+    source_surface_owners: dict[str, list[tuple[str, str, Path, str]]] = {}
+    for note in effective_approved_notes:
+        original = str(note["original_term"])
+        thai = str(note.get("thai_term") or "")
+        path = note["path"]
+        source_surface_owners.setdefault(original, []).append((original, thai, path, "original"))
+        for alias in note.get("aliases") or []:
+            source_surface_owners.setdefault(str(alias), []).append((original, thai, path, "alias"))
+    source_surface_collision_lines: list[str] = []
+    for surface, owners in sorted(source_surface_owners.items()):
+        thai_terms = {thai for _, thai, _, _ in owners}
+        owner_terms = {original for original, _, _, _ in owners}
+        if len(owners) <= 1 or len(owner_terms) <= 1 or len(thai_terms) <= 1:
+            continue
+        rendered = []
+        for original, thai, path, role in sorted(owners, key=lambda item: (item[0], item[3])):
+            rendered.append(f"{original} ({role}: {thai or 'none'} | {_relative_report_path(path, anchor)})")
+        source_surface_collision_lines.append(f"- {surface} -> {'; '.join(rendered)}")
+    if not source_surface_collision_lines:
+        source_surface_collision_lines.append("- none")
+
     approved_overlap_lines: list[str] = []
     ordered_approved = sorted(effective_approved_notes, key=lambda note: (-len(note["original_term"]), note["original_term"]))
     seen_approved_pairs: set[tuple[str, str]] = set()
@@ -2202,6 +2227,7 @@ def build_glossary_conflicts_report(
         deprecated_lines=_render_note_lines(notes=deprecated_notes, anchor=anchor),
         quarantine_lines=_render_note_lines(notes=quarantine_notes, anchor=anchor),
         alias_collision_lines=alias_collision_lines,
+        source_surface_collision_lines=source_surface_collision_lines,
         approved_overlap_lines=approved_overlap_lines,
         approved_nonapproved_overlap_lines=approved_nonapproved_overlap_lines,
         exact_scan_lines=exact_scan_lines,
@@ -2212,6 +2238,7 @@ def build_glossary_conflicts_report(
         section != ["- none"]
         for section in [
             alias_collision_lines,
+            source_surface_collision_lines,
             approved_overlap_lines,
             approved_nonapproved_overlap_lines,
             exact_scan_lines,
