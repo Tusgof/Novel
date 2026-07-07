@@ -1,11 +1,11 @@
 # Reader Import Report
 
-Generated at: 2026-07-07T05:27:58.279Z
+Generated at: 2026-07-07T05:46:12.533Z
 
 ## Summary
 
 - books: 3
-- available chapters: 550
+- available chapters: 570
 - missing chapters: 0
 - rejected chapters: 0
 
@@ -28,8 +28,8 @@ Generated at: 2026-07-07T05:27:58.279Z
 ## Horror Game Developer: My Games Aren't That Scary!
 
 - source root: ../Horror Game Developers/05_Output
-- target range: ch001-ch270
-- available: 270
+- target range: ch001-ch290
+- available: 290
 - missing: 0
 - rejected: 0
 

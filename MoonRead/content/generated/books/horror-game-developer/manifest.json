@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-07T05:27:57.992Z",
+  "generatedAt": "2026-07-07T05:46:12.218Z",
   "sourceRoot": "../Horror Game Developers/05_Output",
-  "targetRange": "ch001-ch270",
+  "targetRange": "ch001-ch290",
   "novel": {
     "slug": "horror-game-developer",
     "title": "Horror Game Developer: My Games Aren't That Scary!",
@@ -30,8 +30,8 @@
     }
   },
   "summary": {
-    "total": 270,
-    "available": 270,
+    "total": 290,
+    "available": 290,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -3005,6 +3005,226 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch270.md",
       "href": "/books/horror-game-developer/read/ch270",
       "charCount": 6508,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch271",
+      "number": 271,
+      "title": "ตอนที่ 271 - เคลียร์ง่าย? [1]",
+      "status": "available",
+      "sourcePath": "ch271/ch271.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch271.md",
+      "href": "/books/horror-game-developer/read/ch271",
+      "charCount": 5328,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch272",
+      "number": 272,
+      "title": "ตอนที่ 272 - เคลียร์ง่าย? [2]",
+      "status": "available",
+      "sourcePath": "ch272/ch272.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch272.md",
+      "href": "/books/horror-game-developer/read/ch272",
+      "charCount": 5997,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch273",
+      "number": 273,
+      "title": "ตอนที่ 273 - เคลียร์ง่าย [3]",
+      "status": "available",
+      "sourcePath": "ch273/ch273.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch273.md",
+      "href": "/books/horror-game-developer/read/ch273",
+      "charCount": 6264,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch274",
+      "number": 274,
+      "title": "ตอนที่ 274 - ร่างคู่เหมือน [1]",
+      "status": "available",
+      "sourcePath": "ch274/ch274.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch274.md",
+      "href": "/books/horror-game-developer/read/ch274",
+      "charCount": 5745,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch275",
+      "number": 275,
+      "title": "ตอนที่ 275 - ร่างคู่เหมือน [2]",
+      "status": "available",
+      "sourcePath": "ch275/ch275.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch275.md",
+      "href": "/books/horror-game-developer/read/ch275",
+      "charCount": 5674,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch276",
+      "number": 276,
+      "title": "ตอนที่ 276 - ร่างคู่เหมือน [3]",
+      "status": "available",
+      "sourcePath": "ch276/ch276.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch276.md",
+      "href": "/books/horror-game-developer/read/ch276",
+      "charCount": 5742,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch277",
+      "number": 277,
+      "title": "ตอนที่ 277 - ร่างคู่เหมือน [4]",
+      "status": "available",
+      "sourcePath": "ch277/ch277.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch277.md",
+      "href": "/books/horror-game-developer/read/ch277",
+      "charCount": 5974,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch278",
+      "number": 278,
+      "title": "ตอนที่ 278 - การขัดขืน [1]",
+      "status": "available",
+      "sourcePath": "ch278/ch278.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch278.md",
+      "href": "/books/horror-game-developer/read/ch278",
+      "charCount": 5868,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch279",
+      "number": 279,
+      "title": "ตอนที่ 279 - การขัดขืน [2]",
+      "status": "available",
+      "sourcePath": "ch279/ch279.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch279.md",
+      "href": "/books/horror-game-developer/read/ch279",
+      "charCount": 5479,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch280",
+      "number": 280,
+      "title": "ตอนที่ 280 - ลำดับที่สาม [1]",
+      "status": "available",
+      "sourcePath": "ch280/ch280.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch280.md",
+      "href": "/books/horror-game-developer/read/ch280",
+      "charCount": 5868,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch281",
+      "number": 281,
+      "title": "ตอนที่ 281 - ลำดับที่สาม [2]",
+      "status": "available",
+      "sourcePath": "ch281/ch281.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch281.md",
+      "href": "/books/horror-game-developer/read/ch281",
+      "charCount": 6047,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch282",
+      "number": 282,
+      "title": "ตอนที่ 282 - บทนำของเกต [1]",
+      "status": "available",
+      "sourcePath": "ch282/ch282.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch282.md",
+      "href": "/books/horror-game-developer/read/ch282",
+      "charCount": 5609,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch283",
+      "number": 283,
+      "title": "ตอนที่ 283 - บทนำของเกต [2]",
+      "status": "available",
+      "sourcePath": "ch283/ch283.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch283.md",
+      "href": "/books/horror-game-developer/read/ch283",
+      "charCount": 5709,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch284",
+      "number": 284,
+      "title": "ตอนที่ 284 - เฟสแรก [1]",
+      "status": "available",
+      "sourcePath": "ch284/ch284.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch284.md",
+      "href": "/books/horror-game-developer/read/ch284",
+      "charCount": 5823,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch285",
+      "number": 285,
+      "title": "ตอนที่ 285 - เฟสแรก [2]",
+      "status": "available",
+      "sourcePath": "ch285/ch285.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch285.md",
+      "href": "/books/horror-game-developer/read/ch285",
+      "charCount": 6118,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch286",
+      "number": 286,
+      "title": "ตอนที่ 286 - เฟสแรก [3]",
+      "status": "available",
+      "sourcePath": "ch286/ch286.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch286.md",
+      "href": "/books/horror-game-developer/read/ch286",
+      "charCount": 6158,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch287",
+      "number": 287,
+      "title": "ตอนที่ 287 - เฟสแรก [4]",
+      "status": "available",
+      "sourcePath": "ch287/ch287.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch287.md",
+      "href": "/books/horror-game-developer/read/ch287",
+      "charCount": 5465,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch288",
+      "number": 288,
+      "title": "ตอนที่ 288 - เรเควียม [1]",
+      "status": "available",
+      "sourcePath": "ch288/ch288.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch288.md",
+      "href": "/books/horror-game-developer/read/ch288",
+      "charCount": 5720,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch289",
+      "number": 289,
+      "title": "ตอนที่ 289 - เรเควียม [2]",
+      "status": "available",
+      "sourcePath": "ch289/ch289.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch289.md",
+      "href": "/books/horror-game-developer/read/ch289",
+      "charCount": 6404,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch290",
+      "number": 290,
+      "title": "ตอนที่ 290 - อะนัมเนซิส [1]",
+      "status": "available",
+      "sourcePath": "ch290/ch290.md",
+      "generatedPath": "content/generated/books/horror-game-developer/chapters/ch290.md",
+      "href": "/books/horror-game-developer/read/ch290",
+      "charCount": 5023,
       "readingMinutes": 2
     }
   ]

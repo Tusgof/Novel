@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-07T05:27:58.279Z",
+  "generatedAt": "2026-07-07T05:46:12.533Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,8 +11,8 @@
   },
   "summary": {
     "books": 3,
-    "chapters": 550,
-    "available": 550,
+    "chapters": 570,
+    "available": 570,
     "missing": 0,
     "rejected": 0
   },
@@ -80,23 +80,23 @@
       "cover": "/images/horror-game-developer-cover.png",
       "href": "/books/horror-game-developer",
       "chaptersHref": "/books/horror-game-developer/chapters",
-      "targetRange": "ch001-ch270",
+      "targetRange": "ch001-ch290",
       "summary": {
-        "total": 270,
-        "available": 270,
+        "total": 290,
+        "available": 290,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch270",
-        "number": 270,
-        "title": "ตอนที่ 270 - ความสิ้นหวังในความสมบูรณ์แบบ [5]",
+        "id": "ch290",
+        "number": 290,
+        "title": "ตอนที่ 290 - อะนัมเนซิส [1]",
         "status": "available",
-        "sourcePath": "ch270/ch270.md",
-        "generatedPath": "content/generated/books/horror-game-developer/chapters/ch270.md",
-        "href": "/books/horror-game-developer/read/ch270",
-        "charCount": 6508,
+        "sourcePath": "ch290/ch290.md",
+        "generatedPath": "content/generated/books/horror-game-developer/chapters/ch290.md",
+        "href": "/books/horror-game-developer/read/ch290",
+        "charCount": 5023,
         "readingMinutes": 2
       },
       "firstChapter": {

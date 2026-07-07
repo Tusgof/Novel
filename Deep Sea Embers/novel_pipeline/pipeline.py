@@ -86,6 +86,15 @@ HGD_TITLE_MAP = {
     "Quest Completed": "เควสต์สำเร็จ",
     "Your account has been reinstated": "บัญชีของคุณถูกคืนสถานะแล้ว",
     "Exit": "ทางออก",
+    "Easy Clear?": "เคลียร์ง่าย?",
+    "Easy Clear": "เคลียร์ง่าย",
+    "Doppelganger": "ร่างคู่เหมือน",
+    "Defiance": "การขัดขืน",
+    "Third Order": "ลำดับที่สาม",
+    "Prelude of the Gate": "บทนำของเกต",
+    "The First Phase": "เฟสแรก",
+    "The Requiem": "เรเควียม",
+    "Anamnesis": "อะนัมเนซิส",
     "Orientation Day": "วันปฐมนิเทศ",
     "Return of the Jester": "การกลับมาของตัวตลก",
     "Masquerade ball": "งานเต้นรำสวมหน้ากาก",
@@ -224,7 +233,7 @@ def _apply_glossary_rejected_variant_repairs(text: str, glossary_subset: list[Gl
 
 
 def _source_has_redacted_ranked_gate(source_text: str) -> bool:
-    if "-ranked Gate" not in source_text:
+    if "-ranked Gate" not in source_text and "ranked gate" not in source_text and "the rank" not in source_text:
         return False
     return not re.search(r"\bS[- ]?[Rr]anked Gate\b", source_text)
 
@@ -243,6 +252,22 @@ def _apply_redacted_ranked_gate_repairs(text: str, source_text: str) -> tuple[st
                 "source_term": "-ranked Gate",
                 "variant": variant,
                 "replacement": "เกตไม่ระบุแรงก์",
+            }
+        )
+    for source, replacement in (
+        ("ถ้ามันไม่ถึงระดับ S", "ถ้ามันยังไม่ถึงระดับนั้น"),
+        ("ถ้ามันไม่ถึงระดับ A", "ถ้ามันยังไม่ถึงระดับนั้น"),
+        ("เกตระดับ S", "เกตไม่ระบุแรงก์"),
+        ("เกตระดับ A", "เกตที่มีการจัดอันดับ"),
+    ):
+        if source not in updated:
+            continue
+        updated = updated.replace(source, replacement)
+        repairs.append(
+            {
+                "source_term": "ranked gate",
+                "variant": source,
+                "replacement": replacement,
             }
         )
     return updated, repairs

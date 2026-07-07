@@ -1,0 +1,56 @@
+{
+  "created_at": "2026-07-07T05:45:29.194379+00:00",
+  "scope": "hgd-ch271-ch290-publish-after-cleanup",
+  "chapters": "ch271-ch290",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 6,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": [
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch272\\ch272.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "VILE"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch273\\ch273.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Wi-Fi"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch274\\ch274.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "VILE"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch278\\ch278.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "VILE-2013"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch279\\ch279.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "VILE"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch283\\ch283.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "SUV"
+    }
+  ]
+}
