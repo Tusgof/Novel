@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-01T21:31:54.957Z",
+  "generatedAt": "2026-07-07T05:27:57.572Z",
   "sourceRoot": "../Deep Sea Embers/05_Output",
-  "targetRange": "ch001-ch210",
+  "targetRange": "ch001-ch230",
   "novel": {
     "slug": "deep-sea-embers",
     "title": "Deep Sea Embers",
@@ -30,8 +30,8 @@
     }
   },
   "summary": {
-    "total": 210,
-    "available": 210,
+    "total": 230,
+    "available": 230,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -2345,6 +2345,226 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch210.md",
       "href": "/read/ch210",
       "charCount": 9735,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch211",
+      "number": 211,
+      "title": "บทที่ 212: พรประทาน",
+      "status": "available",
+      "sourcePath": "ch211/ch211.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch211.md",
+      "href": "/read/ch211",
+      "charCount": 8398,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch212",
+      "number": 212,
+      "title": "บทที่ 213: จุดจบของทางแยก",
+      "status": "available",
+      "sourcePath": "ch212/ch212.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch212.md",
+      "href": "/read/ch212",
+      "charCount": 8783,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch213",
+      "number": 213,
+      "title": "บทที่ 214: เรืออาร์คแห่งคำสัญญา",
+      "status": "available",
+      "sourcePath": "ch213/ch213.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch213.md",
+      "href": "/read/ch213",
+      "charCount": 9518,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch214",
+      "number": 214,
+      "title": "บทที่ 215: หลังจากเรือผู้ไร้บ้านจากไป",
+      "status": "available",
+      "sourcePath": "ch214/ch214.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch214.md",
+      "href": "/read/ch214",
+      "charCount": 9171,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch215",
+      "number": 215,
+      "title": "บทที่ 216: ดวงตะวันผู้ว่าง่าย",
+      "status": "available",
+      "sourcePath": "ch215/ch215.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch215.md",
+      "href": "/read/ch215",
+      "charCount": 8615,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch216",
+      "number": 216,
+      "title": "บทที่ 217: วิถีการต้อนรับแขกบนเรือผู้ไร้บ้าน",
+      "status": "available",
+      "sourcePath": "ch216/ch216.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch216.md",
+      "href": "/read/ch216",
+      "charCount": 8891,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch217",
+      "number": 217,
+      "title": "บทที่ 218: ความคลางแคลงใจของผู้ศรัทธา",
+      "status": "available",
+      "sourcePath": "ch217/ch217.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch217.md",
+      "href": "/read/ch217",
+      "charCount": 8690,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch218",
+      "number": 218,
+      "title": "บทที่ 219: เหล่าผู้รอดชีวิต",
+      "status": "available",
+      "sourcePath": "ch218/ch218.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch218.md",
+      "href": "/read/ch218",
+      "charCount": 9327,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch219",
+      "number": 219,
+      "title": "บทที่ 220: “เหล่าลูกเรือใหม่”",
+      "status": "available",
+      "sourcePath": "ch219/ch219.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch219.md",
+      "href": "/read/ch219",
+      "charCount": 9344,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch220",
+      "number": 220,
+      "title": "บทที่ 221: “กลุ่มก้อน”",
+      "status": "available",
+      "sourcePath": "ch220/ch220.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch220.md",
+      "href": "/read/ch220",
+      "charCount": 9154,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch221",
+      "number": 221,
+      "title": "บทที่ 222: การกลับมาพบกัน",
+      "status": "available",
+      "sourcePath": "ch221/ch221.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch221.md",
+      "href": "/read/ch221",
+      "charCount": 8651,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch222",
+      "number": 222,
+      "title": "บทที่ 223: ความสั่นคลอน",
+      "status": "available",
+      "sourcePath": "ch222/ch222.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch222.md",
+      "href": "/read/ch222",
+      "charCount": 8874,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch223",
+      "number": 223,
+      "title": "บทที่ 224: เพิ่มพูนความเข้าใจ",
+      "status": "available",
+      "sourcePath": "ch223/ch223.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch223.md",
+      "href": "/read/ch223",
+      "charCount": 8593,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch224",
+      "number": 224,
+      "title": "บทที่ 225: กัปตันไม่เคยจากไป",
+      "status": "available",
+      "sourcePath": "ch224/ch224.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch224.md",
+      "href": "/read/ch224",
+      "charCount": 8858,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch225",
+      "number": 225,
+      "title": "บทที่ 226: พระอาทิตย์ขึ้นที่สาย",
+      "status": "available",
+      "sourcePath": "ch225/ch225.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch225.md",
+      "href": "/read/ch225",
+      "charCount": 9096,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch226",
+      "number": 226,
+      "title": "บทที่ 227: ผู้หวั่นไหว",
+      "status": "available",
+      "sourcePath": "ch226/ch226.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch226.md",
+      "href": "/read/ch226",
+      "charCount": 9051,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch227",
+      "number": 227,
+      "title": "บทที่ 228: บารมียังคงหลงเหลือ",
+      "status": "available",
+      "sourcePath": "ch227/ch227.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch227.md",
+      "href": "/read/ch227",
+      "charCount": 9144,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch228",
+      "number": 228,
+      "title": "บทที่ 229: มหาโจรสลัดผู้ย่างก้าวเข้ารัฐนคร",
+      "status": "available",
+      "sourcePath": "ch228/ch228.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch228.md",
+      "href": "/read/ch228",
+      "charCount": 9465,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch229",
+      "number": 229,
+      "title": "บทที่ 230: เข็มทิศตามโลหิต",
+      "status": "available",
+      "sourcePath": "ch229/ch229.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch229.md",
+      "href": "/read/ch229",
+      "charCount": 8895,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch230",
+      "number": 230,
+      "title": "บทที่ 231: ชีวิตประจำวันอันอบอุ่นในรังอวกาศย่อย",
+      "status": "available",
+      "sourcePath": "ch230/ch230.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch230.md",
+      "href": "/read/ch230",
+      "charCount": 9710,
       "readingMinutes": 3
     }
   ]
