@@ -3,7 +3,8 @@ type: glossary-term
 original_term: Sim Ah-ryeon
 thai_term: ชิมอารยอน
 status: approved
-aliases: []
+aliases:
+  - 沈雅莲
 source_language: en
 category: character
 novel: infinite-regressor-stories

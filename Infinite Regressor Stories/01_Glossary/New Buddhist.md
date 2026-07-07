@@ -7,6 +7,7 @@ aliases:
   - New Buddhists
   - The New Buddhists
   - All New Buddhists
+  - 新佛教
 source_language: en
 category: faction
 novel: infinite-regressor-stories

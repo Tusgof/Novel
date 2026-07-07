@@ -3,7 +3,8 @@ type: glossary-term
 original_term: Equivalent Exchange
 thai_term: การแลกเปลี่ยนที่เท่าเทียม
 status: approved
-aliases: []
+aliases:
+  - 等价交换
 source_language: en
 category: term
 novel: infinite-regressor-stories

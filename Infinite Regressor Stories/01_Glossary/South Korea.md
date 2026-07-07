@@ -3,7 +3,8 @@ type: glossary-term
 original_term: South Korea
 thai_term: เกาหลีใต้
 status: approved
-aliases: []
+aliases:
+  - 韩国
 source_language: en
 category: location
 novel: infinite-regressor-stories

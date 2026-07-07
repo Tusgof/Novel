@@ -3,7 +3,10 @@ type: glossary-term
 original_term: Samcheon Guild
 thai_term: กิลด์ซัมชอน
 status: approved
-aliases: ['三千公会']
+aliases:
+  - 三千公会
+  - Samcheon World Guild
+  - The Samcheon World Guild
 source_language: en
 category: organization
 novel: infinite-regressor-stories

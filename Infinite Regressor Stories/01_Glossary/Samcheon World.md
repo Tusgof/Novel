@@ -3,7 +3,9 @@ type: glossary-term
 original_term: Samcheon World
 thai_term: โลกสามพัน
 status: approved
-aliases: []
+aliases:
+  - The Samcheon World
+  - 三千世界
 source_language: en
 category: lore
 novel: infinite-regressor-stories

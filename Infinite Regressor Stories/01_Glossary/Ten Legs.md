@@ -3,7 +3,8 @@ type: glossary-term
 original_term: Ten Legs
 thai_term: สิบขา
 status: approved
-aliases: []
+aliases:
+  - 十条腿
 source_language: en
 category: entity
 novel: infinite-regressor-stories

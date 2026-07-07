@@ -5,6 +5,7 @@ thai_term: รัฐบาลเฉพาะกาลที่สอง
 status: approved
 aliases:
   - The Second Provisional Government
+  - 第二临时政府
 source_language: en
 category: organization
 novel: infinite-regressor-stories

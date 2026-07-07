@@ -3,7 +3,11 @@ type: glossary-term
 original_term: Undertaker
 thai_term: สัปเหร่อ
 status: approved
-aliases: []
+aliases:
+  - 入殓师
+  - 葬仪师
+  - 送葬者
+  - Awakener Undertaker
 source_language: en
 category: title
 novel: infinite-regressor-stories

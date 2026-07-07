@@ -3,7 +3,9 @@ type: glossary-term
 original_term: Great Witch
 thai_term: แม่มดผู้ยิ่งใหญ่
 status: approved
-aliases: []
+aliases:
+  - 大魔女
+  - The Great Witch
 source_language: en
 category: title
 novel: infinite-regressor-stories

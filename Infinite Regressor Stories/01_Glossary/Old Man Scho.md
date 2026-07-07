@@ -3,7 +3,11 @@ type: glossary-term
 original_term: Old Man Scho
 thai_term: ตาแก่โช
 status: approved
-aliases: ["Old Man 'Scho'", 'Scho']
+aliases:
+  - Old Man 'Scho'
+  - Scho
+  - 肖老头
+  - 苏老头
 source_language: en
 category: character
 novel: infinite-regressor-stories

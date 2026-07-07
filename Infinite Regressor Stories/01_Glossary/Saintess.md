@@ -3,7 +3,10 @@ type: glossary-term
 original_term: Saintess
 thai_term: นักบุญหญิง
 status: approved
-aliases: ['The Saintess', 'The Saintness']
+aliases:
+  - The Saintess
+  - The Saintness
+  - 圣女
 source_language: en
 category: title
 novel: infinite-regressor-stories

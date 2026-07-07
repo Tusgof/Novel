@@ -3,7 +3,8 @@ type: glossary-term
 original_term: Oh Dok-seo
 thai_term: โอดกซอ
 status: approved
-aliases: []
+aliases:
+  - 吴独书
 source_language: en
 category: character
 novel: infinite-regressor-stories

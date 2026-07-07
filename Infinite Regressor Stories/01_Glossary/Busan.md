@@ -3,7 +3,8 @@ type: glossary-term
 original_term: Busan
 thai_term: ปูซาน
 status: approved
-aliases: []
+aliases:
+  - 釜山
 source_language: en
 category: location
 novel: infinite-regressor-stories

@@ -3,7 +3,8 @@ type: glossary-term
 original_term: Executor Route
 thai_term: เส้นทางผู้ประหาร
 status: approved
-aliases: []
+aliases:
+  - 执行者
 source_language: en
 category: route
 novel: infinite-regressor-stories

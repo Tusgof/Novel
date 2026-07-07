@@ -3,7 +3,15 @@ type: glossary-term
 original_term: Dang Seo-rin
 thai_term: ดังซอริน
 status: approved
-aliases: ['唐雪琳']
+aliases:
+  - 唐雪琳
+  - 唐瑞麟
+  - 党瑞琳
+  - 唐雪恩
+  - 邓瑟琳
+  - Great Witch Idol Dang Seo-rin
+  - The Great Witch
+  - Great Witch Dang Seo-rin
 source_language: en
 category: character
 novel: infinite-regressor-stories

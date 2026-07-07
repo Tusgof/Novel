@@ -3,7 +3,12 @@ type: glossary-term
 original_term: Noh Do-hwa
 thai_term: โนโดฮวา
 status: approved
-aliases: []
+aliases:
+  - 卢道华
+  - 卢桃花
+  - Sunbae Noh Do-hwa
+  - 诺道华
+  - Master Artisan Noh Do-hwa
 source_language: en
 category: character
 novel: infinite-regressor-stories

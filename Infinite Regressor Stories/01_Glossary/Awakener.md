@@ -3,7 +3,14 @@ type: glossary-term
 original_term: Awakener
 thai_term: ผู้ตื่นรู้
 status: approved
-aliases: ['Awakeners', 'The Awakener', 'Korean Awakeners', 'Korean-speaking Awakeners']
+aliases:
+  - Awakeners
+  - The Awakener
+  - Korean Awakeners
+  - Korean-speaking Awakeners
+  - The Awakeners
+  - 觉醒技能
+  - 觉醒者
 source_language: en
 category: term
 novel: infinite-regressor-stories

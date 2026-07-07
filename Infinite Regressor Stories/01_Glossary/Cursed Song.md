@@ -3,7 +3,8 @@ type: glossary-term
 original_term: Cursed Song
 thai_term: เพลงสาป
 status: approved
-aliases: []
+aliases:
+  - 诅咒之歌
 source_language: en
 category: ability
 novel: infinite-regressor-stories

@@ -1,11 +1,11 @@
 # Reader Import Report
 
-Generated at: 2026-07-07T05:46:12.533Z
+Generated at: 2026-07-07T10:18:00.087Z
 
 ## Summary
 
 - books: 3
-- available chapters: 570
+- available chapters: 590
 - missing chapters: 0
 - rejected chapters: 0
 
@@ -44,8 +44,8 @@ Generated at: 2026-07-07T05:46:12.533Z
 ## I'm an Infinite Regressor, But I've Got Stories to Tell
 
 - source root: ../Infinite Regressor Stories/05_Output
-- target range: ch001-ch050
-- available: 50
+- target range: ch001-ch070
+- available: 70
 - missing: 0
 - rejected: 0
 

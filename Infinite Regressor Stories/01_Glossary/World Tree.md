@@ -5,6 +5,7 @@ thai_term: ต้นไม้โลก
 status: approved
 aliases:
   - The World Tree
+  - 世界树
 source_language: en
 category: entity
 novel: infinite-regressor-stories

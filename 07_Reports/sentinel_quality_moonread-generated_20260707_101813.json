@@ -1,0 +1,28 @@
+{
+  "created_at": "2026-07-07T10:18:13.443333+00:00",
+  "scope": "moonread-generated",
+  "chapters": "ch051-ch070",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 2,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": [
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch056\\ch056.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Complete Memory -> ความทรงจำสมบูรณ์; glossary=Complete Memory.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\infinite-regressor-stories\\chapters\\ch056.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Complete Memory -> ความทรงจำสมบูรณ์; glossary=Complete Memory.md"
+    }
+  ]
+}

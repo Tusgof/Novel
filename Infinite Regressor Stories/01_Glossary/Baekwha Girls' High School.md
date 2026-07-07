@@ -8,6 +8,9 @@ aliases:
   - Baekwha Girls' High
   - Baekwha Girls’ High
   - Baekwha Girls' High Guild
+  - Baekwha Girls' High Guard
+  - 百花女子高中
+  - 百花女高
 source_language: en
 category: organization
 novel: infinite-regressor-stories

@@ -3,7 +3,11 @@ type: glossary-term
 original_term: Cheon Yo-hwa
 thai_term: ชอนโยฮวา
 status: approved
-aliases: []
+aliases:
+  - 千瑶华
+  - 千耀华
+  - 千曜华
+  - 千曜花
 source_language: en
 category: character
 novel: infinite-regressor-stories

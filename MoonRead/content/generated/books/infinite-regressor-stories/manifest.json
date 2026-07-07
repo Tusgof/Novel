@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-07T05:46:12.335Z",
+  "generatedAt": "2026-07-07T10:17:59.864Z",
   "sourceRoot": "../Infinite Regressor Stories/05_Output",
-  "targetRange": "ch001-ch050",
+  "targetRange": "ch001-ch070",
   "novel": {
     "slug": "infinite-regressor-stories",
     "title": "I'm an Infinite Regressor, But I've Got Stories to Tell",
@@ -31,8 +31,8 @@
     }
   },
   "summary": {
-    "total": 50,
-    "available": 50,
+    "total": 70,
+    "available": 70,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -586,6 +586,226 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch050.md",
       "href": "/books/infinite-regressor-stories/read/ch050",
       "charCount": 11973,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch051",
+      "number": 51,
+      "title": "บทที่ 51: การทดสอบ I",
+      "status": "available",
+      "sourcePath": "ch051/ch051.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch051.md",
+      "href": "/books/infinite-regressor-stories/read/ch051",
+      "charCount": 11424,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch052",
+      "number": 52,
+      "title": "บทที่ 52: การทดสอบ II",
+      "status": "available",
+      "sourcePath": "ch052/ch052.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch052.md",
+      "href": "/books/infinite-regressor-stories/read/ch052",
+      "charCount": 8943,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch053",
+      "number": 53,
+      "title": "บทที่ 53: การทดสอบ III",
+      "status": "available",
+      "sourcePath": "ch053/ch053.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch053.md",
+      "href": "/books/infinite-regressor-stories/read/ch053",
+      "charCount": 10971,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch054",
+      "number": 54,
+      "title": "บทที่ 54: ผู้ปกครอง I",
+      "status": "available",
+      "sourcePath": "ch054/ch054.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch054.md",
+      "href": "/books/infinite-regressor-stories/read/ch054",
+      "charCount": 10591,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch055",
+      "number": 55,
+      "title": "บทที่ 55: ผู้ปกครอง II",
+      "status": "available",
+      "sourcePath": "ch055/ch055.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch055.md",
+      "href": "/books/infinite-regressor-stories/read/ch055",
+      "charCount": 10157,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch056",
+      "number": 56,
+      "title": "บทที่ 56: ผู้ปกครอง III",
+      "status": "available",
+      "sourcePath": "ch056/ch056.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch056.md",
+      "href": "/books/infinite-regressor-stories/read/ch056",
+      "charCount": 9411,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch057",
+      "number": 57,
+      "title": "บทที่ 57: ผู้ปกครอง IV",
+      "status": "available",
+      "sourcePath": "ch057/ch057.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch057.md",
+      "href": "/books/infinite-regressor-stories/read/ch057",
+      "charCount": 9690,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch058",
+      "number": 58,
+      "title": "บทที่ 58: คนเชิดหุ่น I",
+      "status": "available",
+      "sourcePath": "ch058/ch058.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch058.md",
+      "href": "/books/infinite-regressor-stories/read/ch058",
+      "charCount": 13689,
+      "readingMinutes": 4
+    },
+    {
+      "id": "ch059",
+      "number": 59,
+      "title": "บทที่ 59: คนเชิดหุ่น II",
+      "status": "available",
+      "sourcePath": "ch059/ch059.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch059.md",
+      "href": "/books/infinite-regressor-stories/read/ch059",
+      "charCount": 10806,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch060",
+      "number": 60,
+      "title": "บทที่ 60: คนเชิดหุ่น III",
+      "status": "available",
+      "sourcePath": "ch060/ch060.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch060.md",
+      "href": "/books/infinite-regressor-stories/read/ch060",
+      "charCount": 9437,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch061",
+      "number": 61,
+      "title": "บทที่ 61: คนเชิดหุ่น IV",
+      "status": "available",
+      "sourcePath": "ch061/ch061.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch061.md",
+      "href": "/books/infinite-regressor-stories/read/ch061",
+      "charCount": 10011,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch062",
+      "number": 62,
+      "title": "บทที่ 62: คนเชิดหุ่น V",
+      "status": "available",
+      "sourcePath": "ch062/ch062.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch062.md",
+      "href": "/books/infinite-regressor-stories/read/ch062",
+      "charCount": 14273,
+      "readingMinutes": 4
+    },
+    {
+      "id": "ch063",
+      "number": 63,
+      "title": "บทที่ 63: คนละเมอ I",
+      "status": "available",
+      "sourcePath": "ch063/ch063.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch063.md",
+      "href": "/books/infinite-regressor-stories/read/ch063",
+      "charCount": 10706,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch064",
+      "number": 64,
+      "title": "บทที่ 64: คนละเมอ II",
+      "status": "available",
+      "sourcePath": "ch064/ch064.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch064.md",
+      "href": "/books/infinite-regressor-stories/read/ch064",
+      "charCount": 9821,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch065",
+      "number": 65,
+      "title": "บทที่ 65: คนละเมอ III",
+      "status": "available",
+      "sourcePath": "ch065/ch065.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch065.md",
+      "href": "/books/infinite-regressor-stories/read/ch065",
+      "charCount": 9971,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch066",
+      "number": 66,
+      "title": "บทที่ 66: คนละเมอ IV",
+      "status": "available",
+      "sourcePath": "ch066/ch066.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch066.md",
+      "href": "/books/infinite-regressor-stories/read/ch066",
+      "charCount": 10674,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch067",
+      "number": 67,
+      "title": "บทที่ 67: คนละเมอ V",
+      "status": "available",
+      "sourcePath": "ch067/ch067.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch067.md",
+      "href": "/books/infinite-regressor-stories/read/ch067",
+      "charCount": 11579,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch068",
+      "number": 68,
+      "title": "บทที่ 68: คนละเมอ VI",
+      "status": "available",
+      "sourcePath": "ch068/ch068.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch068.md",
+      "href": "/books/infinite-regressor-stories/read/ch068",
+      "charCount": 15967,
+      "readingMinutes": 4
+    },
+    {
+      "id": "ch069",
+      "number": 69,
+      "title": "บทที่ 69: ผู้บันทึก I",
+      "status": "available",
+      "sourcePath": "ch069/ch069.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch069.md",
+      "href": "/books/infinite-regressor-stories/read/ch069",
+      "charCount": 11881,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch070",
+      "number": 70,
+      "title": "บทที่ 70: ผู้บันทึก II",
+      "status": "available",
+      "sourcePath": "ch070/ch070.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch070.md",
+      "href": "/books/infinite-regressor-stories/read/ch070",
+      "charCount": 11940,
       "readingMinutes": 3
     }
   ]

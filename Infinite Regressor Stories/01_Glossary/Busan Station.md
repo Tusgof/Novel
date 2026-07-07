@@ -3,7 +3,8 @@ type: glossary-term
 original_term: Busan Station
 thai_term: สถานีปูซาน
 status: approved
-aliases: []
+aliases:
+  - 釜山站
 source_language: en
 category: location
 novel: infinite-regressor-stories

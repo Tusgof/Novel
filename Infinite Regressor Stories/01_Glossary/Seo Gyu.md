@@ -3,7 +3,8 @@ type: glossary-term
 original_term: Seo Gyu
 thai_term: ซอกยู
 status: approved
-aliases: []
+aliases:
+  - 徐圭
 source_language: en
 category: character
 novel: infinite-regressor-stories

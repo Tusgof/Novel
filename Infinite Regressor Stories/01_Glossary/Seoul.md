@@ -3,7 +3,8 @@ type: glossary-term
 original_term: Seoul
 thai_term: โซล
 status: approved
-aliases: []
+aliases:
+  - 首尔
 source_language: en
 category: location
 novel: infinite-regressor-stories

@@ -3,7 +3,8 @@ type: glossary-term
 original_term: Korean Peninsula
 thai_term: คาบสมุทรเกาหลี
 status: approved
-aliases: []
+aliases:
+  - 朝鲜半岛
 source_language: en
 category: location
 novel: infinite-regressor-stories

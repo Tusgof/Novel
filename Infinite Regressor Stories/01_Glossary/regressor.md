@@ -3,7 +3,12 @@ type: glossary-term
 original_term: regressor
 thai_term: ผู้ย้อนกลับ
 status: approved
-aliases: ['regressors']
+aliases:
+  - regressors
+  - Regressor Alliance
+  - 回归者
+  - 回归者联盟
+  - Regression Alliance
 source_language: en
 category: term
 novel: infinite-regressor-stories

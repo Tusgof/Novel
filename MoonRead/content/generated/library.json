@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-07T05:46:12.533Z",
+  "generatedAt": "2026-07-07T10:18:00.087Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,8 +11,8 @@
   },
   "summary": {
     "books": 3,
-    "chapters": 570,
-    "available": 570,
+    "chapters": 590,
+    "available": 590,
     "missing": 0,
     "rejected": 0
   },
@@ -128,23 +128,23 @@
       "cover": "/images/infinite-regressor-stories-cover.png",
       "href": "/books/infinite-regressor-stories",
       "chaptersHref": "/books/infinite-regressor-stories/chapters",
-      "targetRange": "ch001-ch050",
+      "targetRange": "ch001-ch070",
       "summary": {
-        "total": 50,
-        "available": 50,
+        "total": 70,
+        "available": 70,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch050",
-        "number": 50,
-        "title": "ผู้รอดชีวิต 3",
+        "id": "ch070",
+        "number": 70,
+        "title": "บทที่ 70: ผู้บันทึก II",
         "status": "available",
-        "sourcePath": "ch050/ch050.md",
-        "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch050.md",
-        "href": "/books/infinite-regressor-stories/read/ch050",
-        "charCount": 11973,
+        "sourcePath": "ch070/ch070.md",
+        "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch070.md",
+        "href": "/books/infinite-regressor-stories/read/ch070",
+        "charCount": 11940,
         "readingMinutes": 3
       },
       "firstChapter": {
