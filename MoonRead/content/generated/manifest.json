@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-07T10:17:59.224Z",
+  "generatedAt": "2026-07-09T17:24:03.440Z",
   "sourceRoot": "../Deep Sea Embers/05_Output",
-  "targetRange": "ch001-ch230",
+  "targetRange": "ch001-ch251",
   "novel": {
     "slug": "deep-sea-embers",
     "title": "Deep Sea Embers",
@@ -30,8 +30,8 @@
     }
   },
   "summary": {
-    "total": 230,
-    "available": 230,
+    "total": 251,
+    "available": 251,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -2566,6 +2566,237 @@
       "href": "/read/ch230",
       "charCount": 9710,
       "readingMinutes": 3
+    },
+    {
+      "id": "ch231",
+      "number": 231,
+      "title": "บทที่ 232: พอลลี่ ผู้ส่งสารที่เชื่อถือได้",
+      "status": "available",
+      "sourcePath": "ch231/ch231.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch231.md",
+      "href": "/read/ch231",
+      "charCount": 8535,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch232",
+      "number": 232,
+      "title": "บทที่ 233: ความทรงจำของทีเรียน แอบโนมาร์",
+      "status": "available",
+      "sourcePath": "ch232/ch232.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch232.md",
+      "href": "/read/ch232",
+      "charCount": 8947,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch233",
+      "number": 233,
+      "title": "บทที่ 234: คำสาปของตระกูล",
+      "status": "available",
+      "sourcePath": "ch233/ch233.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch233.md",
+      "href": "/read/ch233",
+      "charCount": 8472,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch234",
+      "number": 234,
+      "title": "บทที่ 235: ครอบครัวที่ปรองดอง",
+      "status": "available",
+      "sourcePath": "ch234/ch234.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch234.md",
+      "href": "/read/ch234",
+      "charCount": 8619,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch235",
+      "number": 235,
+      "title": "บทที่ 236: ข้ามผ่านกาลเวลาและอวกาศ",
+      "status": "available",
+      "sourcePath": "ch235/ch235.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch235.md",
+      "href": "/read/ch235",
+      "charCount": 9007,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch236",
+      "number": 236,
+      "title": "บทที่ 237: การติดต่อลับเป็นธรรมเนียมท้องถิ่น",
+      "status": "available",
+      "sourcePath": "ch236/ch236.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch236.md",
+      "href": "/read/ch236",
+      "charCount": 9395,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch237",
+      "number": 237,
+      "title": "บทที่ 238: ผู้คนที่นอนไม่หลับ",
+      "status": "available",
+      "sourcePath": "ch237/ch237.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch237.md",
+      "href": "/read/ch237",
+      "charCount": 8919,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch238",
+      "number": 238,
+      "title": "บทที่ 239: การติดตามของเรือดาราพร่างพราย",
+      "status": "available",
+      "sourcePath": "ch238/ch238.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch238.md",
+      "href": "/read/ch238",
+      "charCount": 9065,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch239",
+      "number": 239,
+      "title": "บทที่ 240: วัตถุที่ร่วงหล่น",
+      "status": "available",
+      "sourcePath": "ch239/ch239.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch239.md",
+      "href": "/read/ch239",
+      "charCount": 9197,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch240",
+      "number": 240,
+      "title": "บทที่ 241: ทิวทัศน์อันงดงามเบื้องหน้า",
+      "status": "available",
+      "sourcePath": "ch240/ch240.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch240.md",
+      "href": "/read/ch240",
+      "charCount": 9237,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch241",
+      "number": 241,
+      "title": "บทที่ 242: “ฝั่งตรงข้าม”",
+      "status": "available",
+      "sourcePath": "ch241/ch241.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch241.md",
+      "href": "/read/ch241",
+      "charCount": 9038,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch242",
+      "number": 242,
+      "title": "บทที่ 243: “โจวหมิง”",
+      "status": "available",
+      "sourcePath": "ch242/ch242.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch242.md",
+      "href": "/read/ch242",
+      "charCount": 9107,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch243",
+      "number": 243,
+      "title": "บทที่ 244: กลับไป",
+      "status": "available",
+      "sourcePath": "ch243/ch243.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch243.md",
+      "href": "/read/ch243",
+      "charCount": 9037,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch244",
+      "number": 244,
+      "title": "บทที่ 245: มุมหนึ่งของผ้าคลุมหน้า",
+      "status": "available",
+      "sourcePath": "ch244/ch244.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch244.md",
+      "href": "/read/ch244",
+      "charCount": 8067,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch245",
+      "number": 245,
+      "title": "บทที่ 246: เกิดปัญหาใหญ่แล้ว",
+      "status": "available",
+      "sourcePath": "ch245/ch245.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch245.md",
+      "href": "/read/ch245",
+      "charCount": 7774,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch246",
+      "number": 246,
+      "title": "บทที่ 247: วันที่อบอุ่น",
+      "status": "available",
+      "sourcePath": "ch246/ch246.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch246.md",
+      "href": "/read/ch246",
+      "charCount": 8586,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch247",
+      "number": 247,
+      "title": "บทที่ 248: ย้อนรอยสถานที่เก่า",
+      "status": "available",
+      "sourcePath": "ch247/ch247.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch247.md",
+      "href": "/read/ch247",
+      "charCount": 7971,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch248",
+      "number": 248,
+      "title": "บทที่ 249: คำเชิญ",
+      "status": "available",
+      "sourcePath": "ch248/ch248.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch248.md",
+      "href": "/read/ch248",
+      "charCount": 7584,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch249",
+      "number": 249,
+      "title": "บทที่ 250: ก้าวแรกของความจริงใจ",
+      "status": "available",
+      "sourcePath": "ch249/ch249.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch249.md",
+      "href": "/read/ch249",
+      "charCount": 8252,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch250",
+      "number": 250,
+      "title": "บทที่ 251: ใต้ผิวน้ำ",
+      "status": "available",
+      "sourcePath": "ch250/ch250.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch250.md",
+      "href": "/read/ch250",
+      "charCount": 8264,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch251",
+      "number": 251,
+      "title": "บทที่ 252: “ดำดิ่งสู่ห้วงลึก”",
+      "status": "available",
+      "sourcePath": "ch251/ch251.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch251.md",
+      "href": "/read/ch251",
+      "charCount": 8631,
+      "readingMinutes": 2
     }
   ]
 }

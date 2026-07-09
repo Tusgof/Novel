@@ -1,10 +1,10 @@
 # IMPLEMENT_PLAN.md
 
-Last updated: 2026-07-02
+Last updated: 2026-07-09
 
 ## Overview
 
-- **Start state**: The workspace has three active novels in the multi-novel system: Deep Sea Embers published through `ch210`, Horror Game Developer published through `ch270`, and Infinite Regressor Stories published through clean `ch050`. V6.34 Cross-Novel Libra - Blind Pilot Gate is complete. Verified raw source pools currently exist for DSE, HGD, and IRS, with IRS locally verified through `ch394`. The old implementation plan was archived to `Backup_IMPLEMENT_PLAN/01072026_IMPLEMENT_PLAN.md`.
+- **Start state**: The workspace has three active novels in the multi-novel system: Deep Sea Embers published through `ch251`, Horror Game Developer published through `ch270`, and Infinite Regressor Stories published through clean `ch050`. V6.34 Cross-Novel Libra - Blind Pilot Gate is complete. Verified raw source pools currently exist for DSE, HGD, and IRS, with IRS locally verified through `ch394`. The old implementation plan was archived to `Backup_IMPLEMENT_PLAN/01072026_IMPLEMENT_PLAN.md`.
 - **End state**: The pipeline has measured evidence that a cross-novel Libra - Pilot research loop improves consistency, translation quality, and long-run sustainability. The experiment samples from raw source across all three novels, completes one full baseline round before changes, applies only evidence-backed fixes at the correct layer, reruns treatment, measures metric movement, records research logs, recommends the next production execution mode, and proves that the follow-up DSE production continuation can complete through `ch210` under the same gates.
 - **Total milestones**: 7
 - **Estimated total effort**: XL
@@ -56,6 +56,7 @@ Current progress:
 - Milestone 6.2 IRS OOS completed validly: `v6-34-m6-irs-oos-v1` completed all 10 locked IRS OOS chapters (`33/33` blocks), current failed blocks none, manual actions none, source parity `0`, deterministic experiment-output checks passed, and latest scoped Sentinel is `0/0/0/0` for every sampled chapter. Smoothness remains imperfect: 2 OpenRouter empty-assistant refining failures recovered, 2 local recovery refinements occurred, QA used Gemini Flash fallback 3 times, and formatting used local fallback 4 times. Next: compare HGD + DSE + IRS OOS results and make the M6 production recommendation.
 - Milestone 6.3-6.7 OOS comparison and production recommendation completed: HGD, DSE, and IRS OOS all finished with current failed blocks `0`, source parity `0` in final valid runs, deterministic output issues `0`, and latest Sentinel blocker/major `0/0`. Recommendation: proceed with bounded sequential production batches under existing gates; do not enable broad unattended parallel translate/refine/QA yet. Next: close V6.34 final documentation and verify git state before the requested DSE continuation.
 - Post-V6.34 DSE continuation complete: `dse-ch181-ch185-v1`, `dse-ch186-ch190-v1`, `dse-ch191-ch195-v1`, `dse-ch196-ch200-v1`, `dse-ch201-ch205-v1`, and `dse-ch206-ch210-v1` completed and MoonRead publishes DSE through `ch210`. Do not start another production batch without a new explicit range.
+- Post-V6.34 DSE follow-up continuation complete: `dse-ch231-ch235-v1`, `dse-ch236-ch240-v1`, `dse-ch241-ch245-v1`, `dse-ch246-ch250-v1`, and `dse-ch251-v1` completed and MoonRead publishes DSE through `ch251`. Checkpoint: `07_Reports/dse_ch231_ch251_production_checkpoint_20260709.md`.
 - Milestone 7 complete: post-experiment production closure validated the V6.34 recommendation with bounded sequential DSE batches through `ch210`, documented checkpoints, scoped Sentinel, output guardrails, MoonRead publish verification, and clean git push.
 
 ---

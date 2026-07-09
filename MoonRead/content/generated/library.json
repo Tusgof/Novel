@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-07T10:18:00.087Z",
+  "generatedAt": "2026-07-09T17:24:04.809Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,8 +11,8 @@
   },
   "summary": {
     "books": 3,
-    "chapters": 590,
-    "available": 590,
+    "chapters": 611,
+    "available": 611,
     "missing": 0,
     "rejected": 0
   },
@@ -33,24 +33,24 @@
       "cover": "/images/deep-sea-embers-cover.png",
       "href": "/book",
       "chaptersHref": "/chapters",
-      "targetRange": "ch001-ch230",
+      "targetRange": "ch001-ch251",
       "summary": {
-        "total": 230,
-        "available": 230,
+        "total": 251,
+        "available": 251,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch230",
-        "number": 230,
-        "title": "บทที่ 231: ชีวิตประจำวันอันอบอุ่นในรังอวกาศย่อย",
+        "id": "ch251",
+        "number": 251,
+        "title": "บทที่ 252: “ดำดิ่งสู่ห้วงลึก”",
         "status": "available",
-        "sourcePath": "ch230/ch230.md",
-        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch230.md",
-        "href": "/read/ch230",
-        "charCount": 9710,
-        "readingMinutes": 3
+        "sourcePath": "ch251/ch251.md",
+        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch251.md",
+        "href": "/read/ch251",
+        "charCount": 8631,
+        "readingMinutes": 2
       },
       "firstChapter": {
         "id": "ch001",
