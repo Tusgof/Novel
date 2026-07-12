@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-09T17:24:03.440Z",
+  "generatedAt": "2026-07-12T16:20:30.033Z",
   "sourceRoot": "../Deep Sea Embers/05_Output",
-  "targetRange": "ch001-ch251",
+  "targetRange": "ch001-ch261",
   "novel": {
     "slug": "deep-sea-embers",
     "title": "Deep Sea Embers",
@@ -30,8 +30,8 @@
     }
   },
   "summary": {
-    "total": 251,
-    "available": 251,
+    "total": 261,
+    "available": 261,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -2796,6 +2796,116 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch251.md",
       "href": "/read/ch251",
       "charCount": 8631,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch252",
+      "number": 252,
+      "title": "บทที่ 253: ความเงียบสงัดแห่งทะเลลึก",
+      "status": "available",
+      "sourcePath": "ch252/ch252.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch252.md",
+      "href": "/read/ch252",
+      "charCount": 8838,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch253",
+      "number": 253,
+      "title": "บทที่ 254: กบฏครั้งใหญ่แห่งฟรอสต์",
+      "status": "available",
+      "sourcePath": "ch253/ch253.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch253.md",
+      "href": "/read/ch253",
+      "charCount": 9208,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch254",
+      "number": 254,
+      "title": "บทที่ 255: หรือบางทียังไม่จบ",
+      "status": "available",
+      "sourcePath": "ch254/ch254.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch254.md",
+      "href": "/read/ch254",
+      "charCount": 8376,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch255",
+      "number": 255,
+      "title": "บทที่ 256: ลาก่อนชั่วคราว",
+      "status": "available",
+      "sourcePath": "ch255/ch255.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch255.md",
+      "href": "/read/ch255",
+      "charCount": 8055,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch256",
+      "number": 256,
+      "title": "บทที่ 257: เสียงระฆังเร่งรีบดังขึ้น",
+      "status": "available",
+      "sourcePath": "ch256/ch256.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch256.md",
+      "href": "/read/ch256",
+      "charCount": 8501,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch257",
+      "number": 257,
+      "title": "บทที่ 258: \"มารยาท\"",
+      "status": "available",
+      "sourcePath": "ch257/ch257.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch257.md",
+      "href": "/read/ch257",
+      "charCount": 7971,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch258",
+      "number": 258,
+      "title": "บทที่ 259: ไร้หมายเลข",
+      "status": "available",
+      "sourcePath": "ch258/ch258.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch258.md",
+      "href": "/read/ch258",
+      "charCount": 8027,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch259",
+      "number": 259,
+      "title": "บทที่ 260: หลังจากเหรียญพลิก",
+      "status": "available",
+      "sourcePath": "ch259/ch259.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch259.md",
+      "href": "/read/ch259",
+      "charCount": 8638,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch260",
+      "number": 260,
+      "title": "บทที่ 261: เรืออาร์คแห่งโบสถ์",
+      "status": "available",
+      "sourcePath": "ch260/ch260.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch260.md",
+      "href": "/read/ch260",
+      "charCount": 8417,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch261",
+      "number": 261,
+      "title": "บทที่ 262: สัญลักษณ์ลึกลับ",
+      "status": "available",
+      "sourcePath": "ch261/ch261.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch261.md",
+      "href": "/read/ch261",
+      "charCount": 8389,
       "readingMinutes": 2
     }
   ]

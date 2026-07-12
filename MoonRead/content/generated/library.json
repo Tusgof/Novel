@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-09T17:24:04.809Z",
+  "generatedAt": "2026-07-12T16:20:32.526Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,8 +11,8 @@
   },
   "summary": {
     "books": 3,
-    "chapters": 611,
-    "available": 611,
+    "chapters": 621,
+    "available": 621,
     "missing": 0,
     "rejected": 0
   },
@@ -33,23 +33,23 @@
       "cover": "/images/deep-sea-embers-cover.png",
       "href": "/book",
       "chaptersHref": "/chapters",
-      "targetRange": "ch001-ch251",
+      "targetRange": "ch001-ch261",
       "summary": {
-        "total": 251,
-        "available": 251,
+        "total": 261,
+        "available": 261,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch251",
-        "number": 251,
-        "title": "บทที่ 252: “ดำดิ่งสู่ห้วงลึก”",
+        "id": "ch261",
+        "number": 261,
+        "title": "บทที่ 262: สัญลักษณ์ลึกลับ",
         "status": "available",
-        "sourcePath": "ch251/ch251.md",
-        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch251.md",
-        "href": "/read/ch251",
-        "charCount": 8631,
+        "sourcePath": "ch261/ch261.md",
+        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch261.md",
+        "href": "/read/ch261",
+        "charCount": 8389,
         "readingMinutes": 2
       },
       "firstChapter": {
