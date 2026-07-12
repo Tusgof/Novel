@@ -1,6 +1,6 @@
 # Project Brain: Novel Translation System
 
-Last updated: 2026-07-12
+Last updated: 2026-07-13
 
 This is the durable memory for the workspace. Keep it compact. Put long evidence, experiments, and historical detail in root-level `07_Reports/` or `01_Research_Log/` as appropriate.
 
@@ -60,6 +60,7 @@ Deep Sea Embers:
 - DSE `ch206-ch210` production checkpoint completed and published: run `dse-ch206-ch210-v1` completed `31/31` blocks, current failed blocks none, historical failed records none, manual actions none, output guardrails passed, final scoped Sentinel `0/0/0/0`, and MoonRead now publishes DSE through `ch210`. The first resume process exceeded the command wrapper timeout but continued safely; it was monitored instead of starting a duplicate resume. Report: `07_Reports/dse_ch206_ch210_production_checkpoint_20260701.md`.
 - DSE `ch231-ch251` production checkpoint completed and published: runs `dse-ch231-ch235-v1`, `dse-ch236-ch240-v1`, `dse-ch241-ch245-v1`, `dse-ch246-ch250-v1`, and `dse-ch251-v1` completed, current failed blocks none, output guardrails passed, final scoped Sentinel `0/0/0/0`, and MoonRead now publishes DSE through `ch251`. `ch242-block-001` exposed a QA false hard-fail on `邓肯`/`周铭` name context and was recovered by rerunning QA without force-accept. Report: `07_Reports/dse_ch231_ch251_production_checkpoint_20260709.md`.
 - DSE `ch252-ch261` production checkpoint completed and published: run `dse-ch252-ch261-v1` completed 58/58 blocks with no current or historical failed blocks; output guardrails and final scoped Sentinel passed `0/0/0/0`; MoonRead now publishes DSE through `ch261`. AI formatter fallback occurred three times, but validators rejected unsafe/empty provider output and preserved verified refined text through deterministic local fallback. `ch260-block-001` recovered an omitted approved term (`教皇 -> พระสันตะปาปา`) before QA passed, with no force-accept. Report: `07_Reports/dse_ch252_ch261_production_checkpoint_20260712.md`.
+- DSE `ch262-ch281` production checkpoint completed and published: runs `dse-ch262-ch266-v1`, `dse-ch267-ch271-v1`, `dse-ch272-ch276-v1`, and `dse-ch277-ch281-v1` completed all blocks with no current failed blocks. Final output guardrails and scoped Sentinel passed `0/0/0/0`; MoonRead generation, lint, build, and smoke passed and the reader now has DSE through `ch281`. `ch269-block-004` required a bounded QA-stage recovery for the mistranslated publication phrase; the corrected artifact passed QA without force-accept. Provider timeout/retry incidents recovered through configured fallbacks. Report: `07_Reports/dse_ch262_ch281_production_checkpoint_20260713.md`.
 - Libra - Pilot Gate DSE completed on 2026-06-29 in isolated experiment vault `Deep Sea Embers/04_Work/_experiments/libra_pilot_dse_v1`. Raw sampling used fetched `03_Raw/ch001-ch160` with seed `632160`; in-sample `dse-libra-pilot-insample-v1` completed 54/54 blocks and OOS `dse-libra-pilot-oos-v1` completed 56/56 blocks. Current failed blocks: none. Output guardrails passed and Sentinel blocker/major/minor/info was `0/0/0/0`. Report: `Deep Sea Embers/07_Reports/libra_pilot_gate_dse_completion_20260629.md`.
 
 Horror Game Developer:
@@ -374,18 +375,18 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
-Current reader state: Deep Sea Embers is published through `ch261`; Horror Game Developer is published through `ch270`; Infinite Regressor Stories is published through clean `ch050`. V6.34 cross-novel OOS comparison is complete and recommends bounded sequential production only.
+Current reader state: Deep Sea Embers is published through `ch281`; Horror Game Developer is published through `ch270`; Infinite Regressor Stories is published through clean `ch050`. V6.34 cross-novel OOS comparison is complete and recommends bounded sequential production only.
 
 V6.33 translation-output and reader-publication phase is complete:
 
 - HGD: `ch251-ch270` output complete, publish Sentinel `0/0/0/0`, MoonRead through `ch270`.
-- DSE: `ch181-ch210`, `ch231-ch251`, and `ch252-ch261` output complete, publish Sentinel `0/0/0/0`, MoonRead through `ch261`.
+- DSE: `ch181-ch210`, `ch231-ch251`, `ch252-ch261`, and `ch262-ch281` output complete and published; latest scoped Sentinel `0/0/0/0`; MoonRead through `ch281`.
 - IRS: clean `ch001-ch050` output complete, publish Sentinel `0/0/0/0`, MoonRead through `ch050`; advisory English review queue remains minor-only.
 - All three used glossary batches of 5 chapters.
 
 Next safe choices:
 
-1. Do not start another production batch automatically. The user-requested DSE continuation target through `ch261` is complete.
+1. Commit and push the verified DSE `ch262-ch281` release. Do not start another production batch automatically.
 2. Keep all V6.34 experiment output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead.
 3. Keep broad unattended parallel translate/refine/QA disabled; V6.34 supports bounded sequential production, not hands-off scaling.
 4. Record each completed experiment round in `01_Research_Log/` and push it immediately.

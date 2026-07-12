@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-12T16:20:30.033Z",
+  "generatedAt": "2026-07-12T21:56:55.491Z",
   "sourceRoot": "../Deep Sea Embers/05_Output",
-  "targetRange": "ch001-ch261",
+  "targetRange": "ch001-ch281",
   "novel": {
     "slug": "deep-sea-embers",
     "title": "Deep Sea Embers",
@@ -30,8 +30,8 @@
     }
   },
   "summary": {
-    "total": 261,
-    "available": 261,
+    "total": 281,
+    "available": 281,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -2906,6 +2906,226 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch261.md",
       "href": "/read/ch261",
       "charCount": 8389,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch262",
+      "number": 262,
+      "title": "บทที่ 263: ของขวัญจากกัปตันดันแคน",
+      "status": "available",
+      "sourcePath": "ch262/ch262.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch262.md",
+      "href": "/read/ch262",
+      "charCount": 8103,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch263",
+      "number": 263,
+      "title": "บทที่ 264: การเคาะประตู",
+      "status": "available",
+      "sourcePath": "ch263/ch263.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch263.md",
+      "href": "/read/ch263",
+      "charCount": 8408,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch264",
+      "number": 264,
+      "title": "บทที่ 265: คำเตือนล่วงหน้าของกัปตัน",
+      "status": "available",
+      "sourcePath": "ch264/ch264.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch264.md",
+      "href": "/read/ch264",
+      "charCount": 9323,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch265",
+      "number": 265,
+      "title": "บทที่ 266: แม่มดแห่งท้องทะเลและสิ่งตกทอดแห่งชายแดน",
+      "status": "available",
+      "sourcePath": "ch265/ch265.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch265.md",
+      "href": "/read/ch265",
+      "charCount": 8226,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch266",
+      "number": 266,
+      "title": "บทที่ 267: ความคิดที่แพร่กระจาย",
+      "status": "available",
+      "sourcePath": "ch266/ch266.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch266.md",
+      "href": "/read/ch266",
+      "charCount": 8171,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch267",
+      "number": 267,
+      "title": "บทที่ 268: ภายใต้ความมืดมิด",
+      "status": "available",
+      "sourcePath": "ch267/ch267.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch267.md",
+      "href": "/read/ch267",
+      "charCount": 8837,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch268",
+      "number": 268,
+      "title": "บทที่ 269: อลิซผู้มีศีรษะมั่นคง",
+      "status": "available",
+      "sourcePath": "ch268/ch268.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch268.md",
+      "href": "/read/ch268",
+      "charCount": 8179,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch269",
+      "number": 269,
+      "title": "บทที่ 270: รังในอวกาศย่อยยังคงอบอุ่นในวันนี้",
+      "status": "available",
+      "sourcePath": "ch269/ch269.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch269.md",
+      "href": "/read/ch269",
+      "charCount": 8708,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch270",
+      "number": 270,
+      "title": "บทที่ 271: จดหมายจากทางไกล",
+      "status": "available",
+      "sourcePath": "ch270/ch270.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch270.md",
+      "href": "/read/ch270",
+      "charCount": 7884,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch271",
+      "number": 271,
+      "title": "บทที่ 272: มาจากฟรอสต์",
+      "status": "available",
+      "sourcePath": "ch271/ch271.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch271.md",
+      "href": "/read/ch271",
+      "charCount": 9492,
+      "readingMinutes": 3
+    },
+    {
+      "id": "ch272",
+      "number": 272,
+      "title": "บทที่ 273: มุ่งหน้าสู่ทิศเหนือ",
+      "status": "available",
+      "sourcePath": "ch272/ch272.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch272.md",
+      "href": "/read/ch272",
+      "charCount": 7896,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch273",
+      "number": 273,
+      "title": "บทที่ 274: เครื่องราง?",
+      "status": "available",
+      "sourcePath": "ch273/ch273.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch273.md",
+      "href": "/read/ch273",
+      "charCount": 7818,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch274",
+      "number": 274,
+      "title": "บทที่ 275: การพบปะที่น่ารื่นรมย์",
+      "status": "available",
+      "sourcePath": "ch274/ch274.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch274.md",
+      "href": "/read/ch274",
+      "charCount": 8325,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch275",
+      "number": 275,
+      "title": "บทที่ 276: มหาวิหารพายุ",
+      "status": "available",
+      "sourcePath": "ch275/ch275.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch275.md",
+      "href": "/read/ch275",
+      "charCount": 8523,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch276",
+      "number": 276,
+      "title": "บทที่ 277: การตัดสินอย่างรวดเร็ว",
+      "status": "available",
+      "sourcePath": "ch276/ch276.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch276.md",
+      "href": "/read/ch276",
+      "charCount": 8838,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch277",
+      "number": 277,
+      "title": "บทที่ 278: พายุลูกใหม่",
+      "status": "available",
+      "sourcePath": "ch277/ch277.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch277.md",
+      "href": "/read/ch277",
+      "charCount": 8088,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch278",
+      "number": 278,
+      "title": "บทที่ 279: การจัดการที่สมเหตุสมผล",
+      "status": "available",
+      "sourcePath": "ch278/ch278.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch278.md",
+      "href": "/read/ch278",
+      "charCount": 8535,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch279",
+      "number": 279,
+      "title": "บทที่ 280: บรรลุข้อตกลง",
+      "status": "available",
+      "sourcePath": "ch279/ch279.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch279.md",
+      "href": "/read/ch279",
+      "charCount": 8769,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch280",
+      "number": 280,
+      "title": "บทที่ 281: ก่อนพนักงานใหม่จะเข้าทำงาน",
+      "status": "available",
+      "sourcePath": "ch280/ch280.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch280.md",
+      "href": "/read/ch280",
+      "charCount": 8320,
+      "readingMinutes": 2
+    },
+    {
+      "id": "ch281",
+      "number": 281,
+      "title": "บทที่ 282: ว่าด้วยข้อห้ามในการอ่านหนังสือกลางทะเล",
+      "status": "available",
+      "sourcePath": "ch281/ch281.md",
+      "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch281.md",
+      "href": "/read/ch281",
+      "charCount": 8294,
       "readingMinutes": 2
     }
   ]

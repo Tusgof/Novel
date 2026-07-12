@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-12T16:20:32.526Z",
+  "generatedAt": "2026-07-12T21:56:58.054Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,8 +11,8 @@
   },
   "summary": {
     "books": 3,
-    "chapters": 621,
-    "available": 621,
+    "chapters": 641,
+    "available": 641,
     "missing": 0,
     "rejected": 0
   },
@@ -33,23 +33,23 @@
       "cover": "/images/deep-sea-embers-cover.png",
       "href": "/book",
       "chaptersHref": "/chapters",
-      "targetRange": "ch001-ch261",
+      "targetRange": "ch001-ch281",
       "summary": {
-        "total": 261,
-        "available": 261,
+        "total": 281,
+        "available": 281,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch261",
-        "number": 261,
-        "title": "บทที่ 262: สัญลักษณ์ลึกลับ",
+        "id": "ch281",
+        "number": 281,
+        "title": "บทที่ 282: ว่าด้วยข้อห้ามในการอ่านหนังสือกลางทะเล",
         "status": "available",
-        "sourcePath": "ch261/ch261.md",
-        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch261.md",
-        "href": "/read/ch261",
-        "charCount": 8389,
+        "sourcePath": "ch281/ch281.md",
+        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch281.md",
+        "href": "/read/ch281",
+        "charCount": 8294,
         "readingMinutes": 2
       },
       "firstChapter": {

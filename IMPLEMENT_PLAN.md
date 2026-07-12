@@ -1,10 +1,10 @@
 # IMPLEMENT_PLAN.md
 
-Last updated: 2026-07-12
+Last updated: 2026-07-13
 
 ## Overview
 
-- **Start state**: The workspace has three active novels in the multi-novel system: Deep Sea Embers published through `ch261`, Horror Game Developer published through `ch270`, and Infinite Regressor Stories published through clean `ch050`. V6.34 Cross-Novel Libra - Blind Pilot Gate is complete. Verified raw source pools currently exist for DSE, HGD, and IRS, with IRS locally verified through `ch394`. The old implementation plan was archived to `Backup_IMPLEMENT_PLAN/01072026_IMPLEMENT_PLAN.md`.
+- **Start state**: The workspace has three active novels in the multi-novel system: Deep Sea Embers output verified through `ch281` and pending MoonRead publication, Horror Game Developer published through `ch270`, and Infinite Regressor Stories published through clean `ch050`. V6.34 Cross-Novel Libra - Blind Pilot Gate is complete. Verified raw source pools currently exist for DSE, HGD, and IRS, with IRS locally verified through `ch394`. The old implementation plan was archived to `Backup_IMPLEMENT_PLAN/01072026_IMPLEMENT_PLAN.md`.
 - **End state**: The pipeline has measured evidence that a cross-novel Libra - Pilot research loop improves consistency, translation quality, and long-run sustainability. The experiment samples from raw source across all three novels, completes one full baseline round before changes, applies only evidence-backed fixes at the correct layer, reruns treatment, measures metric movement, records research logs, recommends the next production execution mode, and proves that the follow-up DSE production continuation can complete through `ch210` under the same gates.
 - **Total milestones**: 7
 - **Estimated total effort**: XL
