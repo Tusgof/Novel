@@ -1,6 +1,6 @@
 # Project Brain: Novel Translation System
 
-Last updated: 2026-07-13
+Last updated: 2026-08-28
 
 This is the durable memory for the workspace. Keep it compact. Put long evidence, experiments, and historical detail in root-level `07_Reports/` or `01_Research_Log/` as appropriate.
 
@@ -62,6 +62,14 @@ Deep Sea Embers:
 - DSE `ch252-ch261` production checkpoint completed and published: run `dse-ch252-ch261-v1` completed 58/58 blocks with no current or historical failed blocks; output guardrails and final scoped Sentinel passed `0/0/0/0`; MoonRead now publishes DSE through `ch261`. AI formatter fallback occurred three times, but validators rejected unsafe/empty provider output and preserved verified refined text through deterministic local fallback. `ch260-block-001` recovered an omitted approved term (`教皇 -> พระสันตะปาปา`) before QA passed, with no force-accept. Report: `07_Reports/dse_ch252_ch261_production_checkpoint_20260712.md`.
 - DSE `ch262-ch281` production checkpoint completed and published: runs `dse-ch262-ch266-v1`, `dse-ch267-ch271-v1`, `dse-ch272-ch276-v1`, and `dse-ch277-ch281-v1` completed all blocks with no current failed blocks. Final output guardrails and scoped Sentinel passed `0/0/0/0`; MoonRead generation, lint, build, and smoke passed and the reader now has DSE through `ch281`. `ch269-block-004` required a bounded QA-stage recovery for the mistranslated publication phrase; the corrected artifact passed QA without force-accept. Provider timeout/retry incidents recovered through configured fallbacks. Report: `07_Reports/dse_ch262_ch281_production_checkpoint_20260713.md`.
 - Libra - Pilot Gate DSE completed on 2026-06-29 in isolated experiment vault `Deep Sea Embers/04_Work/_experiments/libra_pilot_dse_v1`. Raw sampling used fetched `03_Raw/ch001-ch160` with seed `632160`; in-sample `dse-libra-pilot-insample-v1` completed 54/54 blocks and OOS `dse-libra-pilot-oos-v1` completed 56/56 blocks. Current failed blocks: none. Output guardrails passed and Sentinel blocker/major/minor/info was `0/0/0/0`. Report: `Deep Sea Embers/07_Reports/libra_pilot_gate_dse_completion_20260629.md`.
+
+Immortality System:
+
+- New novel setup completed on 2026-08-28 for Chinese source `系统赋我长生，我熬死了所有人`, using Novel543 as the verified fetch source. Raw source validation passed for `ch001-ch2570` (`2570/2570` usable chapters); the locked Libra - Pilot Gate sample contains 10 in-sample and 10 out-of-sample chapters with source parity `0` mismatches.
+- Pilot scan-only gates completed: 73 in-sample candidates and 66 out-of-sample candidates. The isolated in-sample run `immortality-libra-v1-insample` is blocked during glossary approval after provider output became empty/unparseable; no production output exists and MoonRead remains disabled.
+- A glossary template defect was fixed in `Immortality System/00_Templates/Term-Template.md` and its experiment copy: missing YAML frontmatter opening and duplicated source-language replacement. Regression test: `test_immortality_term_template_round_trips_written_note`.
+- The first resumed in-sample chapter `ch1307` completed all four blocks, final assembly, and runtime Sentinel `0/0/0/0` in experiment-only output. The run then stopped at glossary term `林遠` in `ch1765` because the configured provider chain ended at an expired Claude OAuth session; no `glossary_approved` commit was made for `ch1765` and no production output exists.
+- Incident reports: `Immortality System/07_Reports/immortality_system_libra_pilot_provider_stop_20260828.md` and `Immortality System/07_Reports/immortality_system_libra_pilot_resume_stop_20260828.md`. Do not start production `ch001-ch060` until the 20-chapter Pilot Gate completes and recommends a safe mode.
 
 Horror Game Developer:
 
@@ -278,6 +286,8 @@ Requires explicit user approval:
 | --- | --- |
 | Ledger confusion from historical failures | use latest-state status/inspect commands |
 | Provider crash, timeout, quota, malformed output | bounded run, fallback chain, stop and report if unsafe |
+| DeepSeek V4 Flash may return an empty assistant message without reasoning; glossary fallback may produce non-Thai options | require a bounded model-health probe for the exact stage mode; fail closed on empty/unparseable term suggestions and never accept source-script fallback text |
+| Pilot title sidecars may be missing when a sampled chapter reaches final assembly; fallback credentials may be expired | prepare and validate all sample title sidecars before translation; run exact provider health checks before resume and stop on fallback authentication failure |
 | QA false pass | add deterministic guardrails after confirmed misses; inspect risky QA artifacts |
 | Pronoun/name/title drift | add deterministic known-variant checks after user reports |
 | DSE generic title fallback | final assembly requires `title.json` for named Chinese source titles; output guardrail rejects `บทที่ N` when source has a real title |
@@ -386,9 +396,10 @@ V6.33 translation-output and reader-publication phase is complete:
 
 Next safe choices:
 
-1. Commit and push the verified DSE `ch262-ch281` release. Do not start another production batch automatically.
-2. Keep all V6.34 experiment output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead.
-3. Keep broad unattended parallel translate/refine/QA disabled; V6.34 supports bounded sequential production, not hands-off scaling.
-4. Record each completed experiment round in `01_Research_Log/` and push it immediately.
-5. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.
-6. For any next translation work, start a fresh bounded scan-only gate with an explicit user-approved range.
+1. Immortality System: keep `immortality-libra-v1-insample` stopped at `ch1765` glossary approval until the provider chain health check passes and the fallback authentication issue is resolved or explicitly rerouted; then resume the same bounded run, validate all sample title sidecars, and complete the 20-chapter Pilot Gate before production.
+2. Commit and push the verified DSE `ch262-ch281` release. Do not start another production batch automatically.
+3. Keep all V6.34 experiment output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead.
+4. Keep broad unattended parallel translate/refine/QA disabled; V6.34 supports bounded sequential production, not hands-off scaling.
+5. Record each completed experiment round in `01_Research_Log/` and push it immediately.
+6. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.
+7. For any next translation work, start a fresh bounded scan-only gate with an explicit user-approved range.

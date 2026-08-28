@@ -1,0 +1,25 @@
+novel_id: immortality-system
+vault_root: .
+source_language: zh
+default_batch_size: 5
+chapter_unit: chapters
+default_style_profile: xianxia_wuxia
+chunking:
+  chinese_character_limit: 600
+  non_chinese_word_limit: 5000
+execution:
+  concurrency_enabled: false
+  stop_on_first_hard_failure: true
+  sentinel:
+    mode: blocking
+    fail_on: major
+source:
+  adapter: novel543
+  toc_url: https://www.novel543.com/0713488766/dir
+  delay_seconds: 0.25
+  encoding: utf-8
+  book_path: 0713488766
+  series_id: 8096
+  max_pages: 8
+  min_content_chars: 80
+  max_chapter: 2570

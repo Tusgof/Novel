@@ -557,7 +557,7 @@ def build_term_suggestion(
     term: str,
     context: str,
 ) -> TermSuggestion:
-    """Build 3 translation options for a term, using provider or deterministic fallback."""
+    """Build 3 safe Thai translation options or stop the glossary gate."""
     category = infer_category(term)
     curated_options = _curated_fallback_options(term)
     if curated_options:
@@ -575,72 +575,65 @@ def build_term_suggestion(
             provider="curated",
         )
 
-    try:
-        routing = config.stage_routing.get("term_suggestion")
-        model = routing.model if routing is not None else ""
-        routes: list[tuple[ProviderRunner, str]] = [(provider_runner, model)]
-        if routing is not None:
-            fallback_routes = config.fallback_routes_for_stage("term_suggestion")
-            if isinstance(fallback_routes, Iterable):
-                routes.extend((ProviderRunner(provider_spec), route_model) for provider_spec, route_model in fallback_routes)
-        prompt_text = prompt_store.render(
-            "term_suggestion",
-            {
-                "original_term": term,
-                "category": category,
-                "context": context,
-                "source_language": config.source_language,
-            },
-        )
-        for runner, route_model in routes:
-            try:
-                response = runner.run_with_retry(
-                    ProviderRequest(
-                        prompt=prompt_text,
-                        provider=runner.spec.name,
-                        stage="term_suggestion",
-                        model=route_model,
-                        timeout_seconds=routing.timeout_seconds if routing is not None else None,
-                    ),
-                    max_attempts=routing.retry_max_attempts if routing is not None else None,
-                    retry_delay_seconds=routing.retry_initial_delay_seconds if routing is not None else None,
-                    retry_backoff_multiplier=routing.retry_backoff_multiplier if routing is not None else None,
-                    retry_failure_kinds=routing.retry_failure_kinds if routing is not None else None,
-                )
-                ensure_provider_response(response)
-                results = parse_suggestion_options(response.stdout)
-                if len(results) >= 3:
-                    options = [r[0] for r in results[:3]]
-                    rationales = [r[1] or f"Option {i+1} for {term}" for i, r in enumerate(results[:3])]
-                    return TermSuggestion(
-                        original_term=term,
-                        category=category,
-                        context=(context,),
-                        rationale="Provider-generated options based on local context.",
-                        options=tuple(options),
-                        rationales=tuple(rationales),
-                        provider=runner.spec.name,
-                    )
-            except Exception:
-                continue
-    except Exception:
-        pass
-
-    # Deterministic fallback
-    fallback_options = _deterministic_fallback_options(term, category)
-    return TermSuggestion(
-        original_term=term,
-        category=category,
-        context=(context,),
-        rationale="Fallback options because provider output was unavailable or unparseable.",
-        options=tuple(fallback_options),
-        rationales=(
-            f"Literal transliteration of {term}",
-            f"Descriptive form with common suffix",
-            f"Formal variant with honorific suffix",
-        ),
-        provider="fallback",
+    routing = config.stage_routing.get("term_suggestion")
+    model = routing.model if routing is not None else ""
+    routes: list[tuple[ProviderRunner, str]] = [(provider_runner, model)]
+    if routing is not None:
+        fallback_routes = config.fallback_routes_for_stage("term_suggestion")
+        if isinstance(fallback_routes, Iterable):
+            routes.extend((ProviderRunner(provider_spec), route_model) for provider_spec, route_model in fallback_routes)
+    prompt_text = prompt_store.render(
+        "term_suggestion",
+        {
+            "original_term": term,
+            "category": category,
+            "context": context,
+            "source_language": config.source_language,
+        },
     )
+    last_response = None
+    last_failure = "no provider response"
+    for runner, route_model in routes:
+        try:
+            response = runner.run_with_retry(
+                ProviderRequest(
+                    prompt=prompt_text,
+                    provider=runner.spec.name,
+                    stage="term_suggestion",
+                    model=route_model,
+                    timeout_seconds=routing.timeout_seconds if routing is not None else None,
+                ),
+                max_attempts=routing.retry_max_attempts if routing is not None else None,
+                retry_delay_seconds=routing.retry_initial_delay_seconds if routing is not None else None,
+                retry_backoff_multiplier=routing.retry_backoff_multiplier if routing is not None else None,
+                retry_failure_kinds=routing.retry_failure_kinds if routing is not None else None,
+            )
+            last_response = response
+            ensure_provider_response(response)
+            results = parse_suggestion_options(response.stdout)
+            if len(results) >= 3:
+                options = [r[0] for r in results[:3]]
+                rationales = [r[1] or f"Option {i+1} for {term}" for i, r in enumerate(results[:3])]
+                return TermSuggestion(
+                    original_term=term,
+                    category=category,
+                    context=(context,),
+                    rationale="Provider-generated options based on local context.",
+                    options=tuple(options),
+                    rationales=tuple(rationales),
+                    provider=runner.spec.name,
+                )
+            last_failure = f"{runner.spec.name} returned fewer than three safe Thai options"
+        except Exception as exc:
+            last_failure = str(exc) or exc.__class__.__name__
+            continue
+
+    if last_response is not None:
+        raise ProviderOutputError(
+            last_response,
+            f"No safe Thai glossary options for {term!r} after configured provider fallbacks. {last_failure}",
+        )
+    raise RuntimeError(f"No safe Thai glossary options for {term!r}: {last_failure}")
 
 
 def parse_suggestion_options(stdout: str) -> list[tuple[str, str]]:
@@ -728,48 +721,6 @@ def infer_category(term: str) -> str:
         return "character"
         
     return "term"
-
-
-def _deterministic_fallback_options(term: str, category: str) -> list[str]:
-    """Produce 3 deterministic fallback translation options when provider is unavailable."""
-    curated = _curated_fallback_options(term)
-    if curated:
-        return curated
-    if category == "character":
-        return [
-            term,  # Keep original
-            f"{term} (ตัวละคร)",  # Add descriptor
-            f"คุณ{term}",  # Honorific prefix (Deep Sea Embers uses more modern/western-ish honorifics)
-        ]
-    if category == "vessel":
-        return [
-            term,
-            f"เรือ{term}",
-            f"เรือเดินสมุทร{term}",
-        ]
-    if category == "location":
-        return [
-            term,
-            f"นคร{term}",
-            f"เกาะ{term}",
-        ]
-    if category == "entity":
-        return [
-            term,
-            f"ตัวตน{term}",
-            f"สิ่งที่เรียกว่า{term}",
-        ]
-    if category == "phenomenon":
-        return [
-            term,
-            f"ปรากฏการณ์{term}",
-            f"ความผิดปกติ{term}",
-        ]
-    return [
-        term,
-        f"{term}แห่ง",
-        f"เกี่ยวกับ{term}",
-    ]
 
 
 def _curated_fallback_options(term: str) -> list[str]:

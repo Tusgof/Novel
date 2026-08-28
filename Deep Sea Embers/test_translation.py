@@ -7,6 +7,7 @@ from pathlib import Path
 from novel_pipeline.stages.translate import format_glossary_subset, parse_literal_pairs
 from novel_pipeline.artifacts import batch_glossary_scan_artifact_path
 from novel_pipeline.types import (
+    ChapterMeta,
     GlossaryEntry,
     LiteralDraft,
     LiteralSentencePair,
@@ -27,6 +28,7 @@ from novel_pipeline.providers.base import ProviderRunner, classify_provider_resp
 from novel_pipeline.stages.glossary import _extract_provider_candidate_terms, build_term_suggestion, parse_candidate_terms, parse_suggestion_options
 from novel_pipeline.adapters.piaotia import PiaotiaAdapter, _TocParser
 from novel_pipeline.adapters.roliascan import RoliascanAdapter
+from novel_pipeline.adapters.novel543 import Novel543Adapter
 from novel_pipeline.types import SourceConfig
 
 def _gb18030_html(text: str) -> bytes:
@@ -589,7 +591,7 @@ def test_extract_provider_candidate_terms_retry_quota_success():
 def test_build_term_suggestion_rejects_quota_meta():
     """build_term_suggestion rejects provider quota/meta output via ensure_provider_response."""
     from novel_pipeline.types import AppConfig, TermSuggestion
-    from novel_pipeline.providers.base import ProviderResponse
+    from novel_pipeline.providers.base import ProviderResponse, ProviderOutputError
     from unittest.mock import Mock, patch
     config = Mock(spec=AppConfig)
     config.source_language = "zh"
@@ -605,21 +607,23 @@ def test_build_term_suggestion_rejects_quota_meta():
     )
     with patch('novel_pipeline.stages.glossary.ensure_provider_response') as mock_ensure:
         mock_ensure.side_effect = Exception("Provider output unusable")
-        suggestion = build_term_suggestion(
-            config=config,
-            provider_runner=provider_runner,
-            prompt_store=prompt_store,
-            term=term,
-            context=context,
-        )
+        try:
+            build_term_suggestion(
+                config=config,
+                provider_runner=provider_runner,
+                prompt_store=prompt_store,
+                term=term,
+                context=context,
+            )
+        except ProviderOutputError as exc:
+            assert "No safe Thai glossary options" in str(exc)
+        else:
+            raise AssertionError("provider failure must block glossary approval")
         # Should have called run_with_retry (not run)
         provider_runner.run_with_retry.assert_called_once()
         provider_runner.run.assert_not_called()
         # Should have called ensure_provider_response, which raised
         mock_ensure.assert_called_once()
-        # Should fall back to deterministic options
-        assert suggestion.provider == "fallback"
-        assert len(suggestion.options) == 3
 
 
 def test_build_term_suggestion_returns_provider_options():
@@ -823,6 +827,80 @@ def test_roliascan_manifest_uses_endpoint_and_dedupes_chapter_numbers():
     assert manifest[1].metadata["site_chapter"] == "2"
 
 
+def test_novel543_manifest_sorts_source_chapters_and_ignores_continuation_links():
+    toc_html = """
+        <a href="/0713488766/8096_2570.html">第2570章 最新</a>
+        <a href="/0713488766/8096_1.html">第1章 首章</a>
+        <a href="/0713488766/8096_1_2.html">第1章 首章續頁</a>
+        <a href="https://other.example/0713488766/8096_2.html">第2章 第二章</a>
+        <a href="/other-book/8096_3.html">第3章 其他書</a>
+    """.encode("utf-8")
+    config = SourceConfig(
+        adapter="novel543",
+        toc_url="https://www.novel543.com/0713488766/dir",
+    )
+    adapter = Novel543Adapter(config)
+    with patch.object(adapter, "fetch_url", return_value=toc_html):
+        with patch("novel_pipeline.adapters.novel543.validate_text_script"):
+            manifest = adapter.build_manifest()
+    assert [entry.chapter_id for entry in manifest] == ["ch001", "ch002", "ch2570"]
+    assert manifest[0].title == "第1章 首章"
+    assert manifest[0].source_id == "8096_1"
+    assert manifest[0].metadata["site_chapter"] == 1
+    assert manifest[-1].url.endswith("/0713488766/8096_2570.html")
+
+
+def test_novel543_extracts_body_removes_title_and_skips_site_noise():
+    html = """
+        <div class="chapter-content px-3">
+          <h1>第1章 首章 (1/2)</h1>
+          <div class="content py-5">
+            <div class="gadBlock"><p>广告不要抓取</p><script>ignore</script></div>
+            <p>第1章 首章“呸呸呸！”</p>
+            <p>洁白的月光照在大地上。</p>
+            <div data-ad="onead"><p>广告二</p></div>
+            <p>陈长生走出棺材。</p>
+            <div><p>温馨提示: 这是站点提示。</p></div>
+          </div>
+        </div>
+        <div class="foot-nav"><p>上一章</p></div>
+    """.encode("utf-8")
+    config = SourceConfig(adapter="novel543", extra={"min_content_chars": 1})
+    adapter = Novel543Adapter(config)
+    with patch("novel_pipeline.adapters.novel543.validate_text_script"):
+        extracted = adapter.extract_content(html)
+    assert extracted == "“呸呸呸！”\n洁白的月光照在大地上。\n陈长生走出棺材。"
+
+
+def test_novel543_fetch_joins_continuation_pages():
+    first = """
+        <div class="chapter-content"><h1>第1章 首章 (1/2)</h1><div class="content">
+        <p>第1章 首章第一段内容。</p>
+        <p>第一面结束。</p></div></div>
+        <div class="foot-nav"><a href="/0713488766/8096_1_2.html">下一章</a></div>
+    """.encode("utf-8")
+    second = """
+        <div class="chapter-content"><h1>第1章 首章 (2/2)</h1><div class="content">
+        <p>第二面继续内容。</p>
+        <p>第二面结束。</p></div></div>
+        <div class="foot-nav"><a href="/0713488766/8096_2.html">下一章</a></div>
+    """.encode("utf-8")
+    config = SourceConfig(adapter="novel543", extra={"min_content_chars": 1})
+    adapter = Novel543Adapter(config)
+    meta = ChapterMeta(
+        index=1,
+        chapter_id="ch001",
+        title="第1章 首章",
+        url="https://www.novel543.com/0713488766/8096_1.html",
+        source_id="8096_1",
+    )
+    with patch.object(adapter, "fetch_url", side_effect=[first, second]) as fetch:
+        with patch("novel_pipeline.adapters.novel543.validate_text_script"):
+            extracted = adapter.fetch_chapter_text(meta)
+    assert extracted == "第一段内容。\n第一面结束。\n\n第二面继续内容。\n第二面结束。"
+    assert fetch.call_count == 2
+
+
 def test_fetch_derives_subtitle_when_adapter_title_is_generic_chapter():
     from novel_pipeline.stages.fetch import _derive_title_from_body_if_generic
 
@@ -897,6 +975,11 @@ def test_glossary_scan_validates_source_mojibake():
         assert False, "Expected ValueError for mojibake source"
     except ValueError as e:
         assert "mojibake" in str(e) or "unexpected characters" in str(e)
+
+def test_chinese_source_kaomoji_thai_digits_are_not_mojibake():
+    from novel_pipeline.text_utils import validate_text_script
+
+    validate_text_script("胡土豆：٩(๑^o^๑)۶", "zh")
 
 def test_build_glossary_scan_queue_filters_exact_quarantine_rejected_and_deprecated_terms():
     from novel_pipeline.stages.glossary import build_glossary_scan_queue
@@ -2039,6 +2122,36 @@ def test_parse_glossary_note_accepts_utf8_bom():
     assert entry.original_term == "Sarah"
     assert entry.thai_term == "ซาราห์"
     assert entry.rejected_variants == ("ซาร่าห์",)
+
+
+def test_immortality_term_template_round_trips_written_note():
+    from novel_pipeline.glossary_support import parse_glossary_note, write_glossary_note
+
+    template_path = Path(__file__).resolve().parents[1] / "Immortality System" / "00_Templates" / "Term-Template.md"
+    template = template_path.read_text(encoding="utf-8")
+    assert template.startswith("---\n")
+
+    with tempfile.TemporaryDirectory() as tmp:
+        note_path = write_glossary_note(
+            template_text=template,
+            glossary_dir=Path(tmp),
+            entry=GlossaryEntry(
+                original_term="仙尊境",
+                thai_term="ระดับเซียนผู้สูงส่ง",
+                category="realm",
+                status="approved",
+                source_language="zh",
+            ),
+            first_seen_chapter="ch001",
+            first_seen_block="ch001-block-001",
+        )
+        entry = parse_glossary_note(note_path)
+
+    assert entry is not None
+    assert entry.original_term == "仙尊境"
+    assert entry.thai_term == "ระดับเซียนผู้สูงส่ง"
+    assert entry.status == "approved"
+    assert entry.source_language == "zh"
 
 
 def test_hybrid_formatting_uses_provider_when_valid():
@@ -8277,6 +8390,7 @@ if __name__ == "__main__":
     test_piaotia_extract_rejects_mojibake()
     test_batch_glossary_artifact_path()
     test_glossary_scan_validates_source_mojibake()
+    test_chinese_source_kaomoji_thai_digits_are_not_mojibake()
     test_stage_routing_parses_timeout_and_retry()
     test_term_extraction_timeout_override()
     test_provider_timeout_fallback()
@@ -8386,6 +8500,7 @@ if __name__ == "__main__":
     test_hgd_kaelen_glossary_note_body_matches_approved_thai_term()
     test_hgd_glossary_notes_record_rejected_variants_for_ch132_terms()
     test_parse_glossary_note_accepts_utf8_bom()
+    test_immortality_term_template_round_trips_written_note()
     test_sentinel_quality_report_flags_known_glossary_leakage_fixture()
     test_sentinel_flags_glossary_note_leakage_without_flagging_story_ability_lists()
     test_sentinel_glossary_coverage_flags_source_term_missing_in_output()

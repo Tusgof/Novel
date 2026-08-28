@@ -1,0 +1,28 @@
+schema_version: 1
+novel_id: immortality-system
+title: Immortality System
+aliases:
+- ระบบมอบความเป็นอมตะ ข้าทนอยู่จนทุกคนตายหมด
+- 系统赋我长生，我熬死了所有人
+- 系統賦我長生，我熬死了所有人
+languages:
+  source: zh
+  target: th
+genre: xianxia / cultivation fantasy
+style_profile: xianxia_wuxia
+source:
+  adapter: novel543
+  toc_url: https://www.novel543.com/0713488766/dir
+research:
+  status: active
+  profile_path: RESEARCH_PROFILE.yaml
+  title: 系统赋我长生，我熬死了所有人
+  source_url: https://www.novel543.com/0713488766/dir
+setup:
+  created_at: '2026-08-28'
+  created_from_workspace: D:\Fogust\Workspace\Novel
+notes: >-
+  Immortality System is the working display title. The Chinese source title is
+  the canonical identity until a Thai reader title is approved. Production
+  translation is blocked until source validation and Libra - Pilot Gate are
+  complete.

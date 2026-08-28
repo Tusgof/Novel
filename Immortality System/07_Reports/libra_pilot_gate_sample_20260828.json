@@ -1,0 +1,37 @@
+{
+  "gate_name": "Libra - Pilot Gate",
+  "novel_id": "immortality-system",
+  "seed": 20260828,
+  "raw_pool": {
+    "root": "03_Raw",
+    "first_chapter": "ch001",
+    "last_chapter": "ch2570",
+    "usable_chapters": 2570,
+    "missing_chapters": []
+  },
+  "selection_rule": "Stratified random sampling from verified raw source: 4 chapters per 514-chapter stratum; 2 in-sample and 2 out-of-sample per stratum; shuffled within each set after selection.",
+  "in_sample": [
+    {"chapter_id": "ch1307", "source_chapter": 1307, "stratum": 3, "source_sha256": "49cf65491f0a6e40ed1b00121b873d4d650d4a814b52f9c215cc9a741cceb3d3", "source_chars": 2172},
+    {"chapter_id": "ch1765", "source_chapter": 1765, "stratum": 4, "source_sha256": "fb40eaebf937e44cae2940227d1de6612cb812270b6ecf4911422ccb912f7a07", "source_chars": 2158},
+    {"chapter_id": "ch2439", "source_chapter": 2439, "stratum": 5, "source_sha256": "0238924c28acaa5035302490846e791291a049138b989c82e159528b209d794c", "source_chars": 2094},
+    {"chapter_id": "ch2307", "source_chapter": 2307, "stratum": 5, "source_sha256": "1c0fbce27d4a1cc7ba9ce4802b9c318f93e192274aad27a486001a6a8d5c77f7", "source_chars": 2113},
+    {"chapter_id": "ch741", "source_chapter": 741, "stratum": 2, "source_sha256": "1efb56b64c0f9e669b8d7f38755bf021d6b621d7d8a731d48b461dad1791aaf6", "source_chars": 2160},
+    {"chapter_id": "ch1424", "source_chapter": 1424, "stratum": 3, "source_sha256": "a52a6be95f70e48ce768169d73e11739f73a67ebb53c1c25cfa905e93fac6659", "source_chars": 2225},
+    {"chapter_id": "ch1631", "source_chapter": 1631, "stratum": 4, "source_sha256": "5d4f72e55aeb99ad93dff72365f5a06cee0124b5019b2a062a254ae303cb1136", "source_chars": 2104},
+    {"chapter_id": "ch376", "source_chapter": 376, "stratum": 1, "source_sha256": "1798b2845a19a76f50b050b5b6dfb65b28434e6a5d2be40e8836b9383f805238", "source_chars": 2270},
+    {"chapter_id": "ch338", "source_chapter": 338, "stratum": 1, "source_sha256": "cc0fb873957485d5d4516dd512e9a73ec9133e272f093ca2e52cc6ffa8a158c5", "source_chars": 2128},
+    {"chapter_id": "ch984", "source_chapter": 984, "stratum": 2, "source_sha256": "56b20cb96faf165df230996725ef6e8415baa96910bcf4943ba5af003d39190b", "source_chars": 2138}
+  ],
+  "out_of_sample": [
+    {"chapter_id": "ch1410", "source_chapter": 1410, "stratum": 3, "source_sha256": "21f78d92bd54f76273d2be9c8fdf47f73aa184adfb526205d4236539b36aac5a", "source_chars": 2139},
+    {"chapter_id": "ch1020", "source_chapter": 1020, "stratum": 2, "source_sha256": "d98efd5314600b79b8062e2849ffa33150a75eb744525c480addc157b9170ed1", "source_chars": 2097},
+    {"chapter_id": "ch2313", "source_chapter": 2313, "stratum": 5, "source_sha256": "b04b572c52140c13ff6ee82a55b7902ef57719a120da09eda2024821b5179af9", "source_chars": 2096},
+    {"chapter_id": "ch2358", "source_chapter": 2358, "stratum": 5, "source_sha256": "a2fc22150bf76bccc7071ca339c04c99b4482920f85b08da3ee6ad74a075145c", "source_chars": 2164},
+    {"chapter_id": "ch1149", "source_chapter": 1149, "stratum": 3, "source_sha256": "4cabb3324e583ca2f0d16923207de953b1d25d67d5bb93a0a3bfe42515574387", "source_chars": 2145},
+    {"chapter_id": "ch1653", "source_chapter": 1653, "stratum": 4, "source_sha256": "6674481920e50d0ae77a80472d0954d27aad2cc227c4e8e7b0f72f84c2f62615", "source_chars": 2205},
+    {"chapter_id": "ch1984", "source_chapter": 1984, "stratum": 4, "source_sha256": "f2e93a54abf2b34ce7f35db54d8db916afed9a96b5619e01563c7eb11838319e", "source_chars": 2129},
+    {"chapter_id": "ch213", "source_chapter": 213, "stratum": 1, "source_sha256": "f43114540c4069a4a5a9cc8f0e48cd82704872e7be07aa0d335f03e905c65fd9", "source_chars": 2290},
+    {"chapter_id": "ch544", "source_chapter": 544, "stratum": 2, "source_sha256": "10f1cc09a8015366c64493f349341f066e2255937b082685dba953f7c0d57943", "source_chars": 2084},
+    {"chapter_id": "ch282", "source_chapter": 282, "stratum": 1, "source_sha256": "81d8555d8956a7e732562187b24200e3ef7dfe3b351cd665487471e37898f79a", "source_chars": 2143}
+  ]
+}

@@ -203,6 +203,43 @@
           }
         ]
       }
+    },
+    {
+      "slug": "immortality-system",
+      "folder": "Immortality System",
+      "source_language": "zh",
+      "raw_dir": "03_Raw",
+      "work_dir": "04_Work",
+      "output_dir": "05_Output",
+      "reader": {
+        "enabled": false,
+        "legacy_default": false,
+        "first_chapter": 1,
+        "last_chapter": 60,
+        "title": "Immortality System",
+        "thai_title": "ระบบมอบความเป็นอมตะ ข้าทนอยู่จนทุกคนตายหมด",
+        "author": "一只榴莲3号",
+        "synopsis": "ด้วยตัวตนที่อยู่นอกเหนือชีวิต ข้าจึงมองดูรักและแค้นของเหล่าผู้ฝึกตนในสายน้ำแห่งกาลเวลา",
+        "synopsis_source_url": "https://writer.dek-d.com/beem005/writer/view.php?id=2642551",
+        "synopsis_source_note": "Reader remains disabled until the first 60 production chapters pass all publication gates.",
+        "tags": ["แฟนตาซีกำลังภายใน", "การบ่มเพาะ", "ความเป็นอมตะ", "ชีวิตยืนยาว"],
+        "cover": "/images/immortality-system-cover.png"
+      },
+      "title_policy": {
+        "named_chinese_source_titles_require_sidecar": true,
+        "generic_title_prefix": "บทที่"
+      },
+      "quality": {
+        "max_paragraph_chars": 900,
+        "truncation_min_source_chars": 1200,
+        "truncation_min_ratio": 0.45,
+        "forbidden_output_patterns": [
+          {
+            "pattern": "[๐-๙]",
+            "label": "Thai numeral; Immortality System output must use Arabic digits"
+          }
+        ]
+      }
     }
   ]
 }

@@ -797,8 +797,11 @@ def detect_mojibake(text: str, expected_language: str) -> bool:
     for char in text:
         if is_cjk(char):
             cjk_count += 1
-        elif is_thai(char):
+        elif is_thai(char) and unicodedata.category(char) != 'Nd':
+            # Thai digits can occur in source emoticons without indicating Thai prose.
             thai_count += 1
+        elif is_thai(char):
+            digit_count += 1
         elif is_latin(char):
             latin_count += 1
         elif is_digit(char):
