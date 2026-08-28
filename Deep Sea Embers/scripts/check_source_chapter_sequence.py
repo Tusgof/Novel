@@ -14,7 +14,10 @@ import sys
 from pathlib import Path
 
 
-CHAPTER_RE = re.compile(r"\bChapter\s+(\d+)\b", re.IGNORECASE)
+CHAPTER_RE = re.compile(
+    r"(?:\bChapter\s+(\d+)\b|第\s*(\d+)\s*章)",
+    re.IGNORECASE,
+)
 RANGE_RE = re.compile(r"^ch(\d{3})-ch(\d{3})$")
 
 
@@ -31,7 +34,11 @@ def parse_chapter_range(value: str) -> tuple[int, int]:
 
 def source_number(source: dict, path: Path) -> int:
     metadata = source.get("metadata") or {}
-    web_number = metadata.get("web_chapter") or metadata.get("source_chapter")
+    web_number = (
+        metadata.get("web_chapter")
+        or metadata.get("source_chapter")
+        or metadata.get("site_chapter")
+    )
     if isinstance(web_number, int):
         return web_number
     if isinstance(web_number, str) and web_number.isdigit():
@@ -40,7 +47,7 @@ def source_number(source: dict, path: Path) -> int:
     title = str(source.get("title") or "")
     match = CHAPTER_RE.search(title)
     if match:
-        return int(match.group(1))
+        return int(match.group(1) or match.group(2))
 
     raise ValueError(f"cannot find source chapter number in {path}")
 
