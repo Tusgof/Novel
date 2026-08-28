@@ -10,6 +10,7 @@ languages:
   target: th
 genre: xianxia / cultivation fantasy
 style_profile: xianxia_wuxia
+language_playbook: chinese_to_thai.md
 source:
   adapter: novel543
   toc_url: https://www.novel543.com/0713488766/dir
