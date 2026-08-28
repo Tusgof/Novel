@@ -19,7 +19,7 @@ from novel_pipeline.types import (
     RunRecord,
     TextBlock,
 )
-from novel_pipeline.pipeline import _apply_glossary_parenthetical_leakage_repairs, _apply_glossary_rejected_variant_repairs, _apply_hgd_peer_address_repairs, _apply_redacted_ranked_gate_repairs, _apply_source_footnote_marker_repairs, _apply_source_script_annotation_repairs, _literal_safe_refined_draft, _qa_report_indicates_omission, _remove_duplicate_title_paragraph, _repair_literal_draft_for_source_markers, _resolve_glossary_subset
+from novel_pipeline.pipeline import _apply_glossary_parenthetical_leakage_repairs, _apply_glossary_rejected_variant_repairs, _apply_hgd_peer_address_repairs, _apply_redacted_ranked_gate_repairs, _apply_source_footnote_marker_repairs, _apply_source_script_annotation_repairs, _literal_safe_refined_draft, _qa_report_indicates_omission, _remove_duplicate_title_paragraph, _repair_literal_draft_for_source_markers, _resolve_glossary_subset, _sentinel_env_overrides
 from novel_pipeline.stages.format import format_block_text
 from novel_pipeline.text_utils import split_blocks
 from unittest.mock import Mock, patch, call
@@ -184,6 +184,28 @@ def test_remove_duplicate_title_paragraph_drops_title_like_body_paragraphs_anywh
     assert "บทที่ 174" not in repaired
     assert "ย่อหน้าแรก" in repaired
     assert "ย่อหน้าหลังชื่อซ้ำ" in repaired
+
+
+def test_sentinel_env_overrides_resolve_nearest_experiment_registry():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        experiment_parent = base / "04_Work" / "_experiments"
+        experiment_root = experiment_parent / "libra_pilot_v1"
+        registry_path = experiment_parent / "00_Config" / "novel_registry.json"
+        registry_path.parent.mkdir(parents=True)
+        registry_path.write_text("{}", encoding="utf-8")
+
+        overrides = _sentinel_env_overrides(experiment_root)
+
+    assert overrides["NOVEL_SENTINEL_WORKSPACE_ROOT"] == str(experiment_parent.resolve())
+    assert overrides["NOVEL_SENTINEL_REGISTRY_PATH"] == str(registry_path.resolve())
+    assert overrides["NOVEL_SENTINEL_REPORT_ROOT"] == str((experiment_root / "07_Reports").resolve())
+    assert overrides["NOVEL_SENTINEL_SKIP_EXISTING_GUARDRAILS"] == "1"
+
+
+def test_sentinel_env_overrides_leave_production_workspace_unchanged():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        assert _sentinel_env_overrides(Path(tmpdir) / "novel") == {}
 
 
 def test_split_blocks_normalizes_zalgo_sound_effect_source():
@@ -8615,6 +8637,8 @@ if __name__ == "__main__":
     test_registry_forbidden_output_pattern_guardrail_flags_irs_thai_numerals()
     test_global_thai_numeral_guardrail_flags_product_and_legacy_reader_paths()
     test_duplicate_title_guardrail_flags_title_like_body_tail()
+    test_sentinel_env_overrides_resolve_nearest_experiment_registry()
+    test_sentinel_env_overrides_leave_production_workspace_unchanged()
     test_output_guardrail_scopes_infinite_regressor_config_path()
     test_output_guardrail_flags_metadata_and_broken_ui_markers()
     test_hgd_approved_glossary_guardrail_flags_english_alias_leakage()

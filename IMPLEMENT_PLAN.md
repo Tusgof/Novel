@@ -4,7 +4,7 @@ Last updated: 2026-08-28
 
 ## Overview
 
-- **Start state**: The workspace has three active novels in the multi-novel system: Deep Sea Embers output verified through `ch281` and pending MoonRead publication, Horror Game Developer published through `ch270`, and Infinite Regressor Stories published through clean `ch050`. V6.34 Cross-Novel Libra - Blind Pilot Gate is complete. Verified raw source pools currently exist for DSE, HGD, and IRS, with IRS locally verified through `ch394`. The old implementation plan was archived to `Backup_IMPLEMENT_PLAN/01072026_IMPLEMENT_PLAN.md`.
+- **Start state**: The workspace has three active novels in the multi-novel system: Deep Sea Embers output and MoonRead are verified through `ch281`, Horror Game Developer is published through `ch270`, and Infinite Regressor Stories is published through clean `ch050`. V6.34 Cross-Novel Libra - Blind Pilot Gate is complete. Immortality System setup and its mandatory 20-chapter Libra - Pilot Gate are also complete in an isolated experiment vault; verified IRS raw source reaches `ch2570`. The old implementation plan was archived to `Backup_IMPLEMENT_PLAN/01072026_IMPLEMENT_PLAN.md`.
 - **End state**: The pipeline has measured evidence that a cross-novel Libra - Pilot research loop improves consistency, translation quality, and long-run sustainability. The experiment samples from raw source across all three novels, completes one full baseline round before changes, applies only evidence-backed fixes at the correct layer, reruns treatment, measures metric movement, records research logs, recommends the next production execution mode, and proves that the follow-up DSE production continuation can complete through `ch210` under the same gates.
 - **Total milestones**: 7
 - **Estimated total effort**: XL
@@ -24,11 +24,12 @@ Locked user decisions for this V6.34 plan:
 
 Current progress:
 
-- Immortality System setup audit completed: the vault, registry, raw source, config/templates, and selected Layer 1 playbook `00_Config/language_playbooks/chinese_to_thai.md` validate. Glossary approval remains the only setup/Pilot boundary requiring a decision before translation can resume.
-- Immortality System setup and raw-source gate complete: Novel543 is verified through `ch2570`; the locked 20-chapter sample and source parity gate are complete. Pilot translation has started only in the isolated experiment vault.
-- Immortality System Pilot has completed seven in-sample chapters (`ch1307`, `ch1765`, `ch2439`, `ch2307`, `ch741`, `ch1424`, `ch1631`) and 29 blocks in experiment-only output. It is now stopped at `ch376` glossary approval for `錢雅` because the configured provider chain produced no safe Thai options and the final Claude fallback had an expired OAuth session. The fail-closed glossary prevention is active; no production translation or MoonRead publication may start yet. Evidence: `Immortality System/07_Reports/immortality_system_libra_pilot_term_provider_stop_20260828.md`.
-- A bounded title-sidecar preparation attempt then stopped on an OpenRouter `deepseek/deepseek-v4-flash` empty assistant response during title refinement. That failed batch wrote no sidecars, pilot ledger records, production output, or MoonRead content. Current disk validation finds valid sidecars for all 20 sample chapters. The canonical and experiment-copy title helpers now walk configured fallback routes and record the provider/model actually used; regression coverage is in `test_title_provider_uses_configured_fallback_after_primary_failure`. Evidence: `Immortality System/07_Reports/immortality_system_libra_pilot_title_provider_stop_20260828.md` and the regression test.
-- The `ch1424` title sidecar was regenerated after glossary approval because its earlier title used `หลิวอีดาว` instead of approved `หลิวอี้เตา`; title validation and final assembly now pass for that chapter. `ch376`, `ch338`, and `ch984` remain before translation, and OOS remains scan-only.
+- Immortality System setup audit completed: the vault, registry, raw source, config/templates, and selected Layer 1 playbook `00_Config/language_playbooks/chinese_to_thai.md` validate.
+- Immortality System setup and raw-source gate complete: Novel543 is verified through `ch2570`; the locked 20-chapter sample and source parity gate are complete. Pilot translation ran only in the isolated experiment vault.
+- Immortality System Libra - Pilot Gate completed: all 10 in-sample chapters (42/42 blocks) and all 10 out-of-sample chapters (40/40 blocks) finished in experiment-only output. Current failed blocks are none, source parity is `0` mismatches, deterministic cleanliness checks passed, and final blocking Sentinel is `0/0/0/0` for both sets. Evidence: `07_Reports/immortality_system_libra_pilot_completion_20260828.md` and `01_Research_Log/2026-08-28_novel_pipeline_immortality_libra_pilot_completion.md`.
+- The pilot recorded three historical OpenRouter empty-assistant refinement failures in-sample; all were recovered without force-accept. OOS recorded no historical failed records. All 20 title sidecars are valid, and no production `05_Output`, production glossary intent, production ledger intent, or MoonRead content was changed.
+- The glossary audit found generic/context-dependent exact-match differences such as `紀元`, `五姓`, `有人`, and `九域`, but no suspicious wrong variants or blocking glossary findings. These remain research evidence and are not promoted into production glossary intent.
+- Experiment-aware Sentinel path resolution and regression coverage now protect nested experiment vaults from silently using production registry/report paths.
 - Milestone 1 complete: experiment charter, measurement contract, stop/no-production rules, and charter research log are in place.
 - Milestone 2 complete: raw source pools were audited for DSE, HGD, and IRS; fixed-seed sample manifest was created from raw source only.
 - Milestone 3 stopped at a valid baseline gate: HGD baseline reached `ch037`, then Sentinel found major glossary coverage failures in experiment output. The next step is Milestone 4 analysis, not manual repair.
@@ -270,9 +271,9 @@ Status: complete. Evidence: `07_Reports/dse_ch181_ch185_production_checkpoint_20
 
 - **Blocked items**:
   - Production publication from experiment output is blocked by design.
-  - Long unattended production translation remains blocked until V6.34 produces evidence that the pipeline can sustain it.
+  - Long unattended production translation remains blocked; V6.34 and the IRS Pilot support bounded sequential execution only, not hands-off parallel scaling.
   - Any provider routing change remains blocked unless explicitly approved and measured.
-  - Immortality System Pilot resume is blocked at the `錢雅` term-suggestion provider failure in `ch376`. Restore a usable provider route and run the exact health probe before resuming the same bounded run. Provider/title fallback behavior is implemented/tested; do not start OOS or production until all 20 in-sample/OOS setup gates are complete.
+  - Immortality System Pilot is complete in experiment-only state. Production remains blocked until a separate explicit chapter range is approved and a fresh production scan/glossary gate is started; do not copy experiment output into production or MoonRead.
 
 - **Decision points**:
   - After Milestone 3: decide treatment hypotheses based on actual baseline evidence.

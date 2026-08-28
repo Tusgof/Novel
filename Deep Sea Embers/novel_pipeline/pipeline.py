@@ -3311,6 +3311,27 @@ def _remove_duplicate_title_paragraph(body: str, *, has_header: bool) -> str:
     return "\n\n".join(kept).strip()
 
 
+def _sentinel_env_overrides(workspace_root: Path) -> dict[str, str]:
+    """Point Sentinel at the experiment registry and output, never production."""
+    resolved_root = workspace_root.resolve()
+    if not any(part.lower() == "_experiments" for part in resolved_root.parts):
+        return {}
+
+    for candidate in (resolved_root, *resolved_root.parents):
+        registry_path = candidate / "00_Config" / "novel_registry.json"
+        if registry_path.exists():
+            return {
+                "NOVEL_SENTINEL_WORKSPACE_ROOT": str(candidate),
+                "NOVEL_SENTINEL_REGISTRY_PATH": str(registry_path),
+                "NOVEL_SENTINEL_MOONREAD_ROOT": str(candidate / "MoonRead"),
+                "NOVEL_SENTINEL_REPORT_ROOT": str(resolved_root / "07_Reports"),
+                "NOVEL_SENTINEL_SKIP_EXISTING_GUARDRAILS": "1",
+            }
+        if candidate.name.lower() == "_experiments":
+            break
+    return {}
+
+
 def _run_sentinel_gate_for_chapter(
     *,
     config: AppConfig,
@@ -3322,18 +3343,7 @@ def _run_sentinel_gate_for_chapter(
     if mode != "blocking":
         return
 
-    env_override: dict[str, str] = {}
-    workspace_root = config.workspace.root.resolve()
-    if "_experiments" in workspace_root.parts:
-        registry_path = workspace_root / "00_Config" / "novel_registry.json"
-        if registry_path.exists():
-            env_override = {
-                "NOVEL_SENTINEL_WORKSPACE_ROOT": str(workspace_root),
-                "NOVEL_SENTINEL_REGISTRY_PATH": str(registry_path),
-                "NOVEL_SENTINEL_MOONREAD_ROOT": str(workspace_root / "MoonRead"),
-                "NOVEL_SENTINEL_REPORT_ROOT": str(workspace_root / "07_Reports"),
-                "NOVEL_SENTINEL_SKIP_EXISTING_GUARDRAILS": "1",
-            }
+    env_override = _sentinel_env_overrides(config.workspace.root)
     previous_env = {key: os.environ.get(key) for key in env_override}
     script_path = Path(__file__).resolve().parents[1] / "scripts" / "sentinel_quality_report.py"
     try:
