@@ -42,7 +42,7 @@ def translate_chapter_titles(*, config: AppConfig, chapter_ids: list[str], run_i
     )
     glossary_text = format_glossary_subset(glossary_subset)
 
-    literal_titles = _run_title_provider(
+    literal_titles, literal_provider, literal_model = _run_title_provider(
         config=config,
         prompt_name="title_literal_translation",
         stage="literal_translation",
@@ -59,7 +59,7 @@ def translate_chapter_titles(*, config: AppConfig, chapter_ids: list[str], run_i
         glossary_text=glossary_text,
     )
 
-    refined_titles = _run_title_provider(
+    refined_titles, refine_provider, refine_model = _run_title_provider(
         config=config,
         prompt_name="title_refinement",
         stage="refinement",
@@ -78,8 +78,6 @@ def translate_chapter_titles(*, config: AppConfig, chapter_ids: list[str], run_i
     )
 
     created_at = datetime.now(timezone.utc).isoformat()
-    literal_routing = config.stage_routing_for("literal_translation")
-    refine_routing = config.stage_routing_for("refinement")
     for chapter_id in chapter_ids:
         title = refined_titles[chapter_id]
         required_terms = _required_terms_for_title(source_titles[chapter_id], glossary_subset)
@@ -93,10 +91,10 @@ def translate_chapter_titles(*, config: AppConfig, chapter_ids: list[str], run_i
             "approved_by": "title_provider_pipeline",
             "run_id": run_id,
             "created_at": created_at,
-            "literal_provider": literal_routing.provider,
-            "literal_model": literal_routing.model,
-            "refine_provider": refine_routing.provider,
-            "refine_model": refine_routing.model,
+            "literal_provider": literal_provider,
+            "literal_model": literal_model,
+            "refine_provider": refine_provider,
+            "refine_model": refine_model,
             "mandatory_glossary_terms": required_terms,
             "notes": "Title translated via literal_translation route and refined via refinement route before chapter assembly.",
         }
@@ -108,10 +106,10 @@ def translate_chapter_titles(*, config: AppConfig, chapter_ids: list[str], run_i
             {
                 "run_id": run_id,
                 "chapter_ids": chapter_ids,
-                "literal_provider": literal_routing.provider,
-                "literal_model": literal_routing.model,
-                "refine_provider": refine_routing.provider,
-                "refine_model": refine_routing.model,
+                "literal_provider": literal_provider,
+                "literal_model": literal_model,
+                "refine_provider": refine_provider,
+                "refine_model": refine_model,
                 "created_at": created_at,
             },
             ensure_ascii=False,
@@ -143,48 +141,67 @@ def _run_title_provider(
     stage: str,
     payload: dict[str, Any],
     glossary_text: str,
-) -> dict[str, str]:
+) -> tuple[dict[str, str], str, str]:
     prompt_store = PromptStore(config.workspace.prompts)
     rendered = prompt_store.render(
         prompt_name,
         title_payload=json.dumps(payload, ensure_ascii=False, indent=2),
         glossary_subset=glossary_text,
     )
-    provider = config.provider_for_stage(stage)
     routing = config.stage_routing_for(stage)
-    response = ProviderRunner(provider).run_with_retry(
-        ProviderRequest(
-            prompt=rendered,
-            provider=provider.name,
-            stage=stage,
-            model=routing.model,
-            timeout_seconds=routing.timeout_seconds,
-        )
+    candidates: list[tuple[ProviderRunner, str]] = [
+        (ProviderRunner(config.provider_for_stage(stage)), routing.model)
+    ]
+    candidates.extend(
+        (ProviderRunner(provider_spec), model)
+        for provider_spec, model in config.fallback_routes_for_stage(stage)
     )
-    ensure_provider_response(response)
-    data = _parse_json_object(response.stdout)
-    items = data.get("titles")
-    if not isinstance(items, list):
-        raise ValueError(f"Provider output for {prompt_name} missing titles list.")
-    result: dict[str, str] = {}
-    for item in items:
-        if not isinstance(item, dict):
-            continue
-        chapter_id = str(item.get("chapter_id", "")).strip()
-        thai_title = str(item.get("thai_title", "")).strip()
-        if chapter_id and thai_title:
-            required_terms: list[dict[str, str]] = []
-            for payload_item in payload["titles"]:
-                if str(payload_item.get("chapter_id", "")).strip() == chapter_id:
-                    required_terms = list(payload_item.get("mandatory_glossary_terms", []) or [])
-                    break
-            _validate_title(chapter_id, thai_title, required_terms=required_terms)
-            result[chapter_id] = thai_title
-    expected = {str(item["chapter_id"]) for item in payload["titles"]}
-    missing = sorted(expected.difference(result))
-    if missing:
-        raise ValueError(f"Provider output for {prompt_name} missing titles for: {', '.join(missing)}")
-    return result
+    last_error: Exception | None = None
+    for runner, model in candidates:
+        try:
+            response = runner.run_with_retry(
+                ProviderRequest(
+                    prompt=rendered,
+                    provider=runner.spec.name,
+                    stage=stage,
+                    model=model,
+                    cwd=config.workspace.root,
+                    timeout_seconds=routing.timeout_seconds,
+                ),
+                max_attempts=routing.retry_max_attempts,
+                retry_delay_seconds=routing.retry_initial_delay_seconds,
+                retry_backoff_multiplier=routing.retry_backoff_multiplier,
+                retry_failure_kinds=routing.retry_failure_kinds,
+            )
+            ensure_provider_response(response)
+            data = _parse_json_object(response.stdout)
+            items = data.get("titles")
+            if not isinstance(items, list):
+                raise ValueError(f"Provider output for {prompt_name} missing titles list.")
+            result: dict[str, str] = {}
+            for item in items:
+                if not isinstance(item, dict):
+                    continue
+                chapter_id = str(item.get("chapter_id", "")).strip()
+                thai_title = str(item.get("thai_title", "")).strip()
+                if chapter_id and thai_title:
+                    required_terms: list[dict[str, str]] = []
+                    for payload_item in payload["titles"]:
+                        if str(payload_item.get("chapter_id", "")).strip() == chapter_id:
+                            required_terms = list(payload_item.get("mandatory_glossary_terms", []) or [])
+                            break
+                    _validate_title(chapter_id, thai_title, required_terms=required_terms)
+                    result[chapter_id] = thai_title
+            expected = {str(item["chapter_id"]) for item in payload["titles"]}
+            missing = sorted(expected.difference(result))
+            if missing:
+                raise ValueError(f"Provider output for {prompt_name} missing titles for: {', '.join(missing)}")
+            return result, runner.spec.name, response.model or model
+        except Exception as exc:
+            last_error = exc
+    if last_error is not None:
+        raise last_error
+    raise RuntimeError(f"No provider routes configured for {prompt_name}.")
 
 
 def _parse_json_object(text: str) -> dict[str, Any]:

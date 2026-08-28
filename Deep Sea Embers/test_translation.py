@@ -2049,6 +2049,71 @@ def test_title_validation_enforces_mandatory_glossary_terms():
         raise AssertionError("title validation should reject deprecated/incorrect glossary variant")
 
 
+def test_title_provider_uses_configured_fallback_after_primary_failure():
+    from scripts.translate_chapter_titles import _run_title_provider
+    from novel_pipeline.types import StageRouting
+
+    config = Mock()
+    config.workspace.root = Path(".")
+    config.stage_routing_for.return_value = StageRouting(
+        stage="refinement",
+        provider="openrouter",
+        model="primary-model",
+        timeout_seconds=30,
+        retry_max_attempts=1,
+        retry_initial_delay_seconds=0,
+        retry_backoff_multiplier=1,
+        retry_failure_kinds=("nonzero_exit",),
+    )
+    primary = ProviderSpec(name="openrouter", executable=("openrouter",))
+    fallback = ProviderSpec(name="gemini", executable=("gemini",))
+    config.provider_for_stage.return_value = primary
+    config.fallback_routes_for_stage.return_value = ((fallback, "fallback-model"),)
+
+    prompt_store = Mock()
+    prompt_store.render.return_value = "title prompt"
+    primary_response = ProviderResponse(
+        provider="openrouter",
+        command=("openrouter",),
+        stdout="",
+        stderr="empty assistant message",
+        returncode=1,
+        model="primary-model",
+        stage="refinement",
+    )
+    fallback_response = ProviderResponse(
+        provider="gemini",
+        command=("gemini",),
+        stdout=json.dumps(
+            {"titles": [{"chapter_id": "ch001", "thai_title": "บทที่ 1: ผู้เป็นอมตะ"}]},
+            ensure_ascii=False,
+        ),
+        model="fallback-model",
+        stage="refinement",
+    )
+    payload = {"titles": [{"chapter_id": "ch001", "mandatory_glossary_terms": []}]}
+
+    with patch(
+        "scripts.translate_chapter_titles.PromptStore",
+        return_value=prompt_store,
+    ), patch.object(
+        ProviderRunner,
+        "run_with_retry",
+        side_effect=[primary_response, fallback_response],
+    ) as run:
+        result, provider, model = _run_title_provider(
+            config=config,
+            prompt_name="title_refinement",
+            stage="refinement",
+            payload=payload,
+            glossary_text="none",
+        )
+
+    assert result == {"ch001": "บทที่ 1: ผู้เป็นอมตะ"}
+    assert (provider, model) == ("gemini", "fallback-model")
+    assert run.call_count == 2
+
+
 def test_novel_registry_defines_shared_and_per_novel_layers():
     registry_path = Path(__file__).resolve().parents[1] / "00_Config" / "novel_registry.json"
     registry = json.loads(registry_path.read_text(encoding="utf-8"))

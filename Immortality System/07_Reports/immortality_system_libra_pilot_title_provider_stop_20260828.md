@@ -40,3 +40,11 @@ The configured `refinement` route used `deepseek/deepseek-v4-flash`, which retur
 - No production glossary notes were changed.
 - No MoonRead files were changed.
 - No force-accept was used.
+
+## Follow-up Verification
+
+- The historical stop above remains a valid provider-failure record for the failed bounded batch.
+- The canonical and isolated-experiment title helpers were updated to walk configured fallback routes and to record the route actually used in the sidecar metadata.
+- Regression coverage passed in `Deep Sea Embers/test_translation.py` (`test_title_provider_uses_configured_fallback_after_primary_failure`).
+- Current disk validation finds valid `title.json` sidecars for all 20 locked sample chapters.
+- The Pilot remains blocked at glossary approval until the exact provider health checks pass; this follow-up does not authorize production translation or MoonRead publication.
