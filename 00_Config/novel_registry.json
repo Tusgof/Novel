@@ -239,6 +239,10 @@
             "label": "Thai numeral; Immortality System output must use Arabic digits"
           },
           {
+            "pattern": "(?m)^\\s*จบ\\s*$",
+            "label": "Immortality System: standalone completion marker leakage"
+          },
+          {
             "pattern": "เจ้าหลวงจีนน้อย",
             "label": "Immortality System: unsupported honorific variant for little monk"
           },

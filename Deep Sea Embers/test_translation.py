@@ -7053,6 +7053,60 @@ def test_registry_forbidden_output_pattern_guardrail_flags_irs_thai_numerals():
     assert all("Thai numeral; IRS output must use Arabic digits" in issue for issue in issues)
 
 
+def test_registry_forbidden_output_pattern_guardrail_flags_immortality_standalone_completion_marker():
+    """Registry-driven guardrail catches provider-invented standalone completion markers."""
+    import importlib.util
+    import sys
+    import tempfile
+
+    script_path = Path("scripts/check_output_quality_guardrails.py")
+    spec = importlib.util.spec_from_file_location(
+        "check_output_quality_guardrails_immortality_marker_test", script_path
+    )
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["check_output_quality_guardrails_immortality_marker_test"] = module
+    spec.loader.exec_module(module)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_root = Path(tmp)
+        module.NOVEL_ROOT = tmp_root
+        module.MOONREAD = tmp_root / "MoonRead"
+        module.REGISTERED_NOVELS = [
+            {
+                "slug": "immortality-system",
+                "folder": "Immortality System",
+                "output_dir": "05_Output",
+                "quality": {
+                    "forbidden_output_patterns": [
+                        {
+                            "pattern": r"(?m)^\s*จบ\s*$",
+                            "label": "Immortality System: standalone completion marker leakage",
+                        }
+                    ]
+                },
+            }
+        ]
+
+        output_path = tmp_root / "Immortality System" / "05_Output" / "ch004" / "ch004.md"
+        output_path.parent.mkdir(parents=True)
+        output_path.write_text("# บทที่ 4\n\nเนื้อหาก่อนหน้า\n\nจบ\n\nเนื้อหาต่อ\n", encoding="utf-8")
+
+        reader_path = tmp_root / "MoonRead" / "content/generated/books/immortality-system/chapters/ch004.md"
+        reader_path.parent.mkdir(parents=True)
+        reader_path.write_text("# บทที่ 4\n\nจบ\n", encoding="utf-8")
+
+        issues: list[str] = []
+        module.check_registry_forbidden_output_patterns(
+            issues,
+            scoped_chapters={"ch004"},
+            requested_novel="immortality-system",
+        )
+
+    assert len(issues) == 2
+    assert all("standalone completion marker leakage" in issue for issue in issues)
+
+
 def test_global_thai_numeral_guardrail_flags_product_and_legacy_reader_paths():
     """Thai numerals are rejected across registered final output and reader surfaces."""
     import importlib.util
@@ -7405,6 +7459,65 @@ def test_sentinel_quality_report_flags_known_glossary_leakage_fixture():
     assert any(f.category == "glossary_health" and f.severity == "blocker" for f in findings)
     assert any("Dreamwalker" in f.message and f.severity == "blocker" for f in findings)
     assert any(f.category == "approved_glossary_leakage" and f.severity == "blocker" for f in findings)
+
+
+def test_sentinel_existing_guardrail_preserves_windows_path_for_registry_scope():
+    """Windows drive-colons must not reduce an existing-guardrail path to ``D``."""
+    import importlib.util
+    import sys
+    import tempfile
+    from types import SimpleNamespace
+
+    script_path = Path("scripts/sentinel_quality_report.py")
+    spec = importlib.util.spec_from_file_location(
+        "sentinel_quality_report_windows_path_test", script_path
+    )
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["sentinel_quality_report_windows_path_test"] = module
+    spec.loader.exec_module(module)
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_root = Path(tmp)
+        issue_path = tmp_root / "Immortality System" / "05_Output" / "ch004" / "ch004.md"
+
+        def append_registry_issue(issues: list[str], **kwargs: object) -> None:
+            if kwargs.get("requested_novel") == "immortality-system":
+                issues.append(f"{issue_path}: forbidden output pattern")
+
+        noop = lambda *args, **kwargs: None
+        fake_guardrails = SimpleNamespace(
+            check_registry_title_policies=noop,
+            check_hgd_required_source_beats=noop,
+            check_hgd_pronoun_policy=noop,
+            check_registry_truncation_against_source=noop,
+            check_registry_forbidden_output_patterns=append_registry_issue,
+            check_paragraph_density=noop,
+            check_duplicate_title_paragraphs=noop,
+            check_translation_metadata_leakage=noop,
+            check_malformed_markdown_artifacts=noop,
+            check_hgd_approved_glossary_leakage=noop,
+            DSE=tmp_root / "Deep Sea Embers",
+            HGD=tmp_root / "Horror Game Developers",
+            MOONREAD=tmp_root / "MoonRead",
+            MAX_HGD_PARAGRAPH_CHARS=520,
+        )
+        module.load_guardrail_module = lambda: fake_guardrails
+        registry = {
+            "novels": [
+                {
+                    "slug": "immortality-system",
+                    "folder": "Immortality System",
+                    "output_dir": "05_Output",
+                }
+            ]
+        }
+
+        findings = module.collect_existing_guardrails({"ch004"}, registry)
+        filtered = module.filter_findings_by_registry(findings, registry)
+
+    assert len(filtered) == 1
+    assert filtered[0].path == str(issue_path)
 
 
 def test_sentinel_flags_glossary_note_leakage_without_flagging_story_ability_lists():

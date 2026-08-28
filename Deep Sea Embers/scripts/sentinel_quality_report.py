@@ -169,7 +169,13 @@ def load_guardrail_module():
     return module
 
 
-def collect_existing_guardrails(scoped: set[str] | None) -> list[Finding]:
+def guardrail_issue_path(issue: str) -> str:
+    """Extract a Windows-safe file path from a guardrail issue string."""
+    match = re.match(r"^(.*?)(?::\d+)?(?::\s|$)", issue)
+    return match.group(1) if match else issue
+
+
+def collect_existing_guardrails(scoped: set[str] | None, registry: dict) -> list[Finding]:
     if os.environ.get("NOVEL_SENTINEL_SKIP_EXISTING_GUARDRAILS") == "1":
         return []
     module = load_guardrail_module()
@@ -178,6 +184,14 @@ def collect_existing_guardrails(scoped: set[str] | None) -> list[Finding]:
     module.check_hgd_required_source_beats(issues)
     module.check_hgd_pronoun_policy(issues)
     module.check_registry_truncation_against_source(issues)
+    for novel in registry.get("novels", []):
+        slug = str(novel.get("slug", "")).strip()
+        if slug:
+            module.check_registry_forbidden_output_patterns(
+                issues,
+                scoped_chapters=scoped,
+                requested_novel=slug,
+            )
 
     module.check_paragraph_density(module.DSE / "05_Output", issues, scoped_chapters=scoped)
     module.check_duplicate_title_paragraphs(module.DSE / "05_Output", issues, scoped_chapters=scoped)
@@ -218,7 +232,7 @@ def collect_existing_guardrails(scoped: set[str] | None) -> list[Finding]:
     )
 
     return [
-        Finding("blocker", "existing_guardrail", issue.split(":", 1)[0], issue)
+        Finding("blocker", "existing_guardrail", guardrail_issue_path(issue), issue)
         for issue in issues
     ]
 
@@ -574,7 +588,7 @@ def collect_findings(*, novel: str | None = None, chapters: str | None = None, s
     scoped = parse_chapter_scope(chapters)
     registry = filter_registry(load_registry(), novel)
     findings: list[Finding] = []
-    findings.extend(collect_existing_guardrails(scoped))
+    findings.extend(collect_existing_guardrails(scoped, registry))
     findings = filter_findings_by_registry(findings, registry)
     findings.extend(scan_approved_glossary_leakage(registry, scoped))
     findings.extend(scan_glossary_source_coverage(registry, scoped))
