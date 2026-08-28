@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-08-28T04:36:56.118615+00:00",
+  "scope": "immortality-libra-v1-insample_ch1307_sentinel",
+  "chapters": "ch1307",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

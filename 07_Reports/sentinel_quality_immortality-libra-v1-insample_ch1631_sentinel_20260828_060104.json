@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-08-28T06:01:04.816019+00:00",
+  "scope": "immortality-libra-v1-insample_ch1631_sentinel",
+  "chapters": "ch1631",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}
