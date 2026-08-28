@@ -26,6 +26,7 @@ Current progress:
 
 - Immortality System setup and raw-source gate complete: Novel543 is verified through `ch2570`; the locked 20-chapter sample and source parity gate are complete. Pilot translation has started only in the isolated experiment vault.
 - Immortality System Pilot resumed through `ch1307` successfully, then stopped at `ch1765` glossary approval on `林遠` after the configured provider chain ended with expired Claude OAuth authentication. The fail-closed glossary prevention is active; no production translation or MoonRead publication may start yet. Evidence: `Immortality System/07_Reports/immortality_system_libra_pilot_resume_stop_20260828.md`.
+- A bounded title-sidecar preparation attempt then stopped on an OpenRouter `deepseek/deepseek-v4-flash` empty assistant response during title refinement. Valid sidecars now exist for 11/20 sample chapters; the failed batch wrote no sidecars, and no pilot ledger, production output, or MoonRead content changed. The title helper currently bypasses configured fallback routes. Evidence: `Immortality System/07_Reports/immortality_system_libra_pilot_title_provider_stop_20260828.md`.
 - Milestone 1 complete: experiment charter, measurement contract, stop/no-production rules, and charter research log are in place.
 - Milestone 2 complete: raw source pools were audited for DSE, HGD, and IRS; fixed-seed sample manifest was created from raw source only.
 - Milestone 3 stopped at a valid baseline gate: HGD baseline reached `ch037`, then Sentinel found major glossary coverage failures in experiment output. The next step is Milestone 4 analysis, not manual repair.
@@ -269,7 +270,7 @@ Status: complete. Evidence: `07_Reports/dse_ch181_ch185_production_checkpoint_20
   - Production publication from experiment output is blocked by design.
   - Long unattended production translation remains blocked until V6.34 produces evidence that the pipeline can sustain it.
   - Any provider routing change remains blocked unless explicitly approved and measured.
-  - Immortality System Pilot resume is blocked at glossary approval until the configured provider chain is healthy, Claude fallback authentication is resolved or explicitly rerouted, and all sampled title sidecars are prepared.
+  - Immortality System Pilot resume is blocked at glossary approval until the configured provider chain and title-refinement health checks are healthy, Claude fallback authentication is resolved or explicitly rerouted, and all 20 sampled title sidecars are prepared and valid.
 
 - **Decision points**:
   - After Milestone 3: decide treatment hypotheses based on actual baseline evidence.
