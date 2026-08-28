@@ -205,6 +205,8 @@ def requested_novel_slug(argv: list[str]) -> str | None:
             return "deep-sea-embers"
         if "infinite regressor stories" in parts:
             return "infinite-regressor-stories"
+        if "immortality system" in parts:
+            return "immortality-system"
     return None
 
 
@@ -841,6 +843,7 @@ def main() -> int:
     requested_novel = requested_novel_slug(sys.argv)
     include_dse = requested_novel in (None, "deep-sea-embers")
     include_hgd = requested_novel in (None, "horror-game-developer")
+    include_immortality = requested_novel in (None, "immortality-system")
 
     if include_dse and in_scope("ch001", scoped_chapters):
         check_absent(DSE / "05_Output/ch001/ch001.md", ["ตั้งเครื่องหมายคำถาม"], issues)
@@ -948,6 +951,53 @@ def main() -> int:
         )
         check_hgd_approved_glossary_leakage(
             MOONREAD / "content/generated/books/horror-game-developer/chapters",
+            issues,
+            scoped_chapters=scoped_chapters,
+        )
+    if include_immortality:
+        immortality_policy = next(
+            (novel for novel in REGISTERED_NOVELS if novel.get("slug") == "immortality-system"),
+            {},
+        )
+        immortality_output = novel_output_root(immortality_policy)
+        immortality_max_paragraph_chars = int(
+            (immortality_policy.get("quality", {}) or {}).get("max_paragraph_chars")
+            or MAX_PARAGRAPH_CHARS
+        )
+        check_paragraph_density(
+            immortality_output,
+            issues,
+            max_chars=immortality_max_paragraph_chars,
+            scoped_chapters=scoped_chapters,
+        )
+        check_malformed_markdown_artifacts(
+            immortality_output,
+            issues,
+            scoped_chapters=scoped_chapters,
+        )
+        check_translation_metadata_leakage(
+            immortality_output,
+            issues,
+            scoped_chapters=scoped_chapters,
+        )
+        check_duplicate_title_paragraphs(
+            immortality_output,
+            issues,
+            scoped_chapters=scoped_chapters,
+        )
+        immortality_reader_root = MOONREAD / "content/generated/books/immortality-system/chapters"
+        check_malformed_markdown_artifacts(
+            immortality_reader_root,
+            issues,
+            scoped_chapters=scoped_chapters,
+        )
+        check_translation_metadata_leakage(
+            immortality_reader_root,
+            issues,
+            scoped_chapters=scoped_chapters,
+        )
+        check_duplicate_title_paragraphs(
+            immortality_reader_root,
             issues,
             scoped_chapters=scoped_chapters,
         )

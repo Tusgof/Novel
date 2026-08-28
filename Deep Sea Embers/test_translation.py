@@ -7147,6 +7147,26 @@ def test_output_guardrail_scopes_infinite_regressor_config_path():
     assert slug == "infinite-regressor-stories"
 
 
+def test_output_guardrail_scopes_immortality_system_config_path():
+    """Immortality System config paths must select only that novel's guardrails."""
+    import importlib.util
+    import sys
+
+    script_path = Path("scripts/check_output_quality_guardrails.py")
+    spec = importlib.util.spec_from_file_location("check_output_quality_guardrails_immortality_scope_test", script_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["check_output_quality_guardrails_immortality_scope_test"] = module
+    spec.loader.exec_module(module)
+
+    slug = module.requested_novel_slug([
+        "--config",
+        str(Path("D:/Fogust/Workspace/Novel/Immortality System/.system/config.yaml")),
+    ])
+
+    assert slug == "immortality-system"
+
+
 def test_output_guardrail_scopes_infinite_regressor_novel_argument():
     """IRS --novel scope should not run unrelated HGD registry title checks."""
     import importlib.util

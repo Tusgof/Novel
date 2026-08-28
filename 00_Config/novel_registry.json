@@ -237,6 +237,18 @@
           {
             "pattern": "[๐-๙]",
             "label": "Thai numeral; Immortality System output must use Arabic digits"
+          },
+          {
+            "pattern": "เจ้าหลวงจีนน้อย",
+            "label": "Immortality System: unsupported honorific variant for little monk"
+          },
+          {
+            "pattern": "หลวงจีนน้อย",
+            "label": "Immortality System: unsupported honorific variant for little monk"
+          },
+          {
+            "pattern": "เฉิน ฉางเซิง",
+            "label": "Immortality System: spaced character-name variant"
           }
         ]
       }
