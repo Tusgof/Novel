@@ -1528,6 +1528,46 @@ category: location
             raise AssertionError("title sidecar that violates approved glossary should stop final assembly")
 
 
+def test_title_resolver_ignores_nested_short_glossary_term():
+    from novel_pipeline.pipeline import _resolve_chapter_output_title
+    from novel_pipeline.types import AppConfig, ChapterSource
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        glossary_dir = base / "01_Glossary"
+        glossary_dir.mkdir(parents=True)
+        for filename, original_term, thai_term in (
+            ("紀元.md", "紀元", "ยุคสมัย"),
+            ("長生紀元.md", "長生紀元", "ยุคอมตะ"),
+        ):
+            (glossary_dir / filename).write_text(
+                f"---\noriginal_term: {original_term}\nthai_term: {thai_term}\nstatus: approved\ncategory: term\n---\n",
+                encoding="utf-8",
+            )
+        title_dir = base / "04_Work" / "ch2307"
+        title_dir.mkdir(parents=True)
+        (title_dir / "title.json").write_text(
+            json.dumps(
+                {"thai_title": "บทที่ 2307: ผู้คลั่งแห่งยุคอมตะ"},
+                ensure_ascii=False,
+            ),
+            encoding="utf-8",
+        )
+        config = Mock(spec=AppConfig)
+        config.workspace = Mock()
+        config.workspace.work = base / "04_Work"
+        config.workspace.glossary_dir = glossary_dir
+        config.novel_id = "immortality-system"
+        source = ChapterSource(
+            novel_id="immortality-system",
+            chapter_id="ch2307",
+            title="第2307章 長生紀元的瘋子！",
+            source_language="zh",
+        )
+
+        assert _resolve_chapter_output_title(config, "ch2307", source) == "บทที่ 2307: ผู้คลั่งแห่งยุคอมตะ"
+
+
 def test_irs_title_resolver_requires_thai_sidecar_for_english_titles():
     from novel_pipeline.pipeline import _resolve_chapter_output_title
     from novel_pipeline.types import AppConfig, ChapterSource
@@ -2047,6 +2087,20 @@ def test_title_validation_enforces_mandatory_glossary_terms():
         assert "violates glossary" in str(exc)
     else:
         raise AssertionError("title validation should reject deprecated/incorrect glossary variant")
+
+
+def test_title_glossary_requirements_prefer_longest_overlapping_source_term():
+    from scripts.translate_chapter_titles import _required_terms_for_title
+
+    entries = [
+        GlossaryEntry(original_term="紀元", thai_term="ยุคสมัย", category="term", status="approved"),
+        GlossaryEntry(original_term="長生紀元", thai_term="ยุคอมตะ", category="title", status="approved"),
+        GlossaryEntry(original_term="瘋子", thai_term="ผู้คลั่ง", category="term", status="approved"),
+    ]
+
+    required = _required_terms_for_title("第2307章 夢的恐怖，長生紀元的瘋子！", entries)
+
+    assert [item["original_term"] for item in required] == ["長生紀元", "瘋子"]
 
 
 def test_title_provider_uses_configured_fallback_after_primary_failure():
@@ -8481,6 +8535,7 @@ if __name__ == "__main__":
     test_qa_markdown_bold_fail_line_still_blocks()
     test_literal_translation_accepts_short_image_caption_filename()
     test_format_command_rejects_invalid_formatted_text()
+    test_title_glossary_requirements_prefer_longest_overlapping_source_term()
     # New tests for scan-level circuit breaker
     test_stage_routing_parses_scan_budget_fields()
     test_scan_level_failure_circuit_breaker()
@@ -8555,6 +8610,7 @@ if __name__ == "__main__":
     test_operator_dashboard_v66_docs_and_assets_exist()
     test_hgd_semantic_format_audit_flags_layout_warnings_without_mutation()
     test_hgd_title_fallback_guardrail_flags_english_titles()
+    test_title_resolver_ignores_nested_short_glossary_term()
     test_hgd_forbidden_term_guardrail_flags_known_leakage()
     test_registry_forbidden_output_pattern_guardrail_flags_irs_thai_numerals()
     test_global_thai_numeral_guardrail_flags_product_and_legacy_reader_paths()

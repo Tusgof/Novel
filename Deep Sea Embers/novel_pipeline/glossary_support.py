@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
+from typing import Iterable
 
 import yaml
 
@@ -17,6 +18,55 @@ FRONTMATTER_FIELDS = {
     "description": "",
     "notes": "",
 }
+
+
+def _source_term_spans(text: str, term: str) -> list[tuple[int, int]]:
+    term = str(term).strip()
+    if not term:
+        return []
+    if re.search(r"[A-Za-z]", term):
+        pattern = rf"(?<![A-Za-z]){re.escape(term)}(?![A-Za-z])"
+    else:
+        pattern = re.escape(term)
+    return [match.span() for match in re.finditer(pattern, text)]
+
+
+def select_non_overlapping_glossary_entries(
+    text: str,
+    entries: Iterable[GlossaryEntry],
+) -> list[GlossaryEntry]:
+    """Select approved entries while ignoring shorter terms nested in longer ones."""
+    candidates: list[tuple[int, str, GlossaryEntry, list[tuple[int, int]]]] = []
+    seen: set[tuple[str, str]] = set()
+    for entry in entries:
+        if entry.status.strip().lower() != "approved" or not entry.thai_term:
+            continue
+        marker = (entry.original_term, entry.thai_term)
+        if marker in seen:
+            continue
+        seen.add(marker)
+        spans: list[tuple[int, int]] = []
+        for source_key in (entry.original_term, *entry.aliases):
+            spans.extend(_source_term_spans(text, source_key))
+        if spans:
+            candidates.append((max(end - start for start, end in spans), entry.original_term, entry, spans))
+
+    selected: list[GlossaryEntry] = []
+    occupied: list[tuple[int, int, int]] = []
+    for _max_length, _original_term, entry, spans in sorted(candidates, key=lambda item: (-item[0], item[1])):
+        if all(
+            any(
+                occupied_start <= start
+                and end <= occupied_end
+                and occupied_length > end - start
+                for occupied_start, occupied_end, occupied_length in occupied
+            )
+            for start, end in spans
+        ):
+            continue
+        selected.append(entry)
+        occupied.extend((start, end, end - start) for start, end in spans)
+    return selected
 
 
 def slugify_term(term: str) -> str:

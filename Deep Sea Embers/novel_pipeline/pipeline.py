@@ -22,6 +22,7 @@ from novel_pipeline.files import atomic_write_json, atomic_write_text, read_text
 from novel_pipeline.glossary_support import (
     choose_option_interactively,
     load_glossary_index,
+    select_non_overlapping_glossary_entries,
     write_glossary_note,
 )
 from novel_pipeline.ledger import ResumeState, RunLedger
@@ -3476,18 +3477,8 @@ def _validate_chapter_output_title_glossary(
     if not glossary_path.exists():
         return
     glossary_index = load_glossary_index(glossary_path)
-    checked: set[tuple[str, str]] = set()
     missing: list[str] = []
-    for entry in glossary_index.values():
-        if entry.status != "approved" or not entry.thai_term:
-            continue
-        marker = (entry.original_term, entry.thai_term)
-        if marker in checked:
-            continue
-        checked.add(marker)
-        source_keys = [entry.original_term, *entry.aliases]
-        if not any(_source_title_contains_term(source_title, key) for key in source_keys):
-            continue
+    for entry in select_non_overlapping_glossary_entries(source_title, glossary_index.values()):
         if entry.thai_term not in resolved_title:
             missing.append(f"{entry.original_term} -> {entry.thai_term}")
     if missing:

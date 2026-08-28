@@ -9,7 +9,7 @@ from typing import Any
 
 from novel_pipeline.artifacts import chapter_dir
 from novel_pipeline.config import load_app_config
-from novel_pipeline.glossary_support import load_glossary_index
+from novel_pipeline.glossary_support import load_glossary_index, select_non_overlapping_glossary_entries
 from novel_pipeline.prompts import PromptStore
 from novel_pipeline.providers.base import ProviderRunner, ensure_provider_response
 from novel_pipeline.stages.helpers import format_glossary_subset
@@ -223,32 +223,19 @@ def _parse_json_object(text: str) -> dict[str, Any]:
 
 def _approved_entries_for_titles(*, source_titles: dict[str, str], glossary_entries: list[Any]) -> list[Any]:
     combined_titles = "\n".join(source_titles.values())
-    selected: list[Any] = []
-    seen: set[str] = set()
-    for entry in sorted(glossary_entries, key=lambda item: len(item.original_term), reverse=True):
-        if entry.status.strip().lower() != "approved":
-            continue
-        if not entry.original_term or entry.original_term in seen:
-            continue
-        if entry.original_term in combined_titles:
-            selected.append(entry)
-            seen.add(entry.original_term)
-    return selected
+    return select_non_overlapping_glossary_entries(combined_titles, glossary_entries)
 
 
 def _required_terms_for_title(source_title: str, glossary_entries: list[Any]) -> list[dict[str, str]]:
     required: list[dict[str, str]] = []
-    for entry in sorted(glossary_entries, key=lambda item: len(item.original_term), reverse=True):
-        if entry.status.strip().lower() != "approved":
-            continue
-        if entry.original_term and entry.original_term in source_title:
-            required.append(
-                {
-                    "original_term": entry.original_term,
-                    "thai_term": entry.thai_term,
-                    "category": entry.category,
-                }
-            )
+    for entry in select_non_overlapping_glossary_entries(source_title, glossary_entries):
+        required.append(
+            {
+                "original_term": entry.original_term,
+                "thai_term": entry.thai_term,
+                "category": entry.category,
+            }
+        )
     return required
 
 
