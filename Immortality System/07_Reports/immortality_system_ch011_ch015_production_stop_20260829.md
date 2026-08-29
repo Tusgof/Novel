@@ -99,3 +99,12 @@ Cause: the formatting provider altered content instead of making formatting-only
 - Prevention was expanded in the bare `築基` glossary note, registry forbidden-output pattern, and regression test.
 
 No QA verdict, formatting, assembly, or `ch016` work followed the provider failure. Next safe action after explicit resume is to rerun `ch012-block-004` from refinement so the expanded glossary rule is applied before QA.
+
+## New-Model ch012 Refinement Stop 2026-08-29
+
+- Retried only `ch012-block-004` from refinement after the expanded modal prevention was committed and pushed.
+- DeepSeek V4 Flash 0731 returned an empty assistant message after 24.59 seconds.
+- Strict provider-stop recorded exactly one new refinement failure, did not call fallback, and left the previous refined artifact unchanged.
+- Current pending stage is refinement. No QA, formatting, assembly, or `ch016` work followed the failure, and no provider process remained after exit.
+
+Next safe action after another explicit resume remains a bounded rerun of `ch012-block-004` from refinement.

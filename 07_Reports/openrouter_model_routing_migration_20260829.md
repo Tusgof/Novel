@@ -41,3 +41,11 @@ The migration applies to subsequent provider calls. Next safe action is the boun
 - The novel glossary, registry guardrail, and regression coverage were expanded for `ไม่สามารถขั้นสร้างฐาน` before any further provider call.
 
 This evidence is insufficient to claim that the new models are better than the retired routes. Health and refinement passed, while production QA reliability remains unproven.
+
+## Second Production Call
+
+- Retried `ch012-block-004` from refinement after expanding the bare-`築基` modal prevention.
+- DeepSeek V4 Flash 0731 returned an empty assistant message after 24.59 seconds.
+- Strict provider-stop recorded one refinement failure, did not use fallback, and did not overwrite the prior refined artifact.
+
+Current evidence does not show a reliability improvement over the retired model IDs: short probes pass, but the first two bounded production attempts ended in a QA connection reset and a refinement empty response. Translation-quality comparison remains unavailable because the repaired block has not completed all gates.
