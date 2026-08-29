@@ -77,3 +77,14 @@ Current stop cause remains an external QA provider empty-response failure. The n
 - The latest refined artifact retains the verb-safe bare `築基` rendering. No formatting, final assembly, `ch012` repair, or `ch016` work was started, and no provider process remained after exit.
 
 The run cannot safely advance until the post-refinement QA call returns a usable verdict. Do not force-accept the pre-refinement QA failure or publish the stale final output.
+
+## QA Recovery And Formatting Stop 2026-08-29
+
+- Resumed only `ch011-block-004` from QA from a clean worktree and ready preflight.
+- OpenRouter reasoning returned a usable `PASS` at retry 0 for the latest refined artifact.
+- The AI formatter then returned output that failed deterministic content-preservation validation with `formatted text content changed`.
+- Strict provider-stop enforcement recorded one formatting failure and did not use the local formatter fallback.
+- The valid QA artifact was preserved. The formatted artifact and final `ch011` output retain their older timestamps and were not overwritten.
+- Current pending stage is `formatting`; no `ch012` repair or `ch016` work was started, and no provider process remained after exit.
+
+Cause: the formatting provider altered content instead of making formatting-only changes. Prevention already active: deterministic content-preservation validation plus strict provider-stop prevents unsafe formatter output from reaching final assembly. Next safe action after explicit resume: rerun only `ch011-block-004` from `formatting`, then assemble and verify `ch011`.
