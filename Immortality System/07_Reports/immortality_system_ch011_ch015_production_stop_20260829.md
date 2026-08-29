@@ -67,3 +67,13 @@ Next safe action after another explicit resume: rerun `ch011-block-004` from QA,
 - No provider process remained after the command exited. No formatting, final assembly, `ch012` repair, or `ch016` work was started.
 
 Current stop cause remains an external QA provider empty-response failure. The next safe action is still a bounded rerun of `ch011-block-004` from QA after work is explicitly resumed.
+
+## Third QA Resume Attempt 2026-08-29
+
+- Reran only `ch011-block-004` from QA from a clean worktree and ready preflight.
+- The first QA response was a valid semantic `FAIL`, so the pipeline performed one configured auto-refinement using that feedback.
+- The QA retry then returned an empty assistant message after 14.99 seconds and exited nonzero.
+- Strict provider-stop enforcement recorded one additional failed QA record, left the block pending QA, and did not call a fallback.
+- The latest refined artifact retains the verb-safe bare `築基` rendering. No formatting, final assembly, `ch012` repair, or `ch016` work was started, and no provider process remained after exit.
+
+The run cannot safely advance until the post-refinement QA call returns a usable verdict. Do not force-accept the pre-refinement QA failure or publish the stale final output.
