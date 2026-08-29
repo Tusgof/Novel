@@ -3193,6 +3193,8 @@ def run_batch_pipeline(
         if not ledger.has_committed(run_id=run_id, block_id=chapter_id, stage="glossary_approved"):
             _commit_stage(ledger, run_id, chapter_id, "glossary_approved", "completed", provider="local")
 
+    _validate_title_sidecars_before_translation(config=config, chapter_sources=chapter_sources)
+
     # Phase 4: Sequential chapter processing
     results: list[PipelineContext] = []
     for chapter_id in chapter_ids:
@@ -3471,6 +3473,62 @@ def _resolve_chapter_output_title(
     return chapter_id
 
 
+def _validate_title_sidecars_before_translation(
+    *,
+    config: AppConfig,
+    chapter_sources: dict[str, ChapterSource],
+) -> None:
+    """Fail before block providers run when a named source title is not ready."""
+    failures: list[str] = []
+    for chapter_id, chapter_source in chapter_sources.items():
+        source_title = (chapter_source.title or "").strip()
+        requires_sidecar = (
+            (_contains_han(source_title) and _has_named_chinese_chapter_title(source_title))
+            or (
+                getattr(config, "novel_id", "") == "infinite-regressor-stories"
+                and _looks_like_irs_english_title(source_title)
+            )
+        )
+        if not requires_sidecar:
+            continue
+
+        sidecar_path = chapter_dir(config.workspace.work, chapter_id) / "title.json"
+        if not sidecar_path.exists():
+            failures.append(f"{chapter_id}: missing {sidecar_path}")
+            continue
+        try:
+            data = json.loads(sidecar_path.read_text(encoding="utf-8-sig"))
+        except (OSError, json.JSONDecodeError) as exc:
+            failures.append(f"{chapter_id}: invalid {sidecar_path} ({exc})")
+            continue
+        if not isinstance(data, dict):
+            failures.append(f"{chapter_id}: {sidecar_path} must contain a JSON object")
+            continue
+
+        sidecar_source_title = str(data.get("source_title", "")).strip()
+        thai_title = str(data.get("thai_title", "")).strip()
+        if sidecar_source_title and sidecar_source_title != source_title:
+            failures.append(f"{chapter_id}: title sidecar source title does not match fetched source")
+            continue
+        if not thai_title:
+            failures.append(f"{chapter_id}: title sidecar has no thai_title")
+            continue
+        if _contains_han(thai_title) or not re.search(r"[\u0e00-\u0e7f]", thai_title):
+            failures.append(f"{chapter_id}: title sidecar thai_title is not valid Thai text")
+            continue
+        try:
+            _validate_chapter_output_title_glossary(config, chapter_id, source_title, thai_title)
+        except RuntimeError as exc:
+            failures.append(f"{chapter_id}: {exc}")
+
+    if failures:
+        details = "; ".join(failures)
+        raise RuntimeError(
+            "Title sidecar preflight blocked before block translation: "
+            f"{details}. Prepare/repair all required title.json files first."
+        )
+
+
 def _validate_chapter_output_title_glossary(
     config: AppConfig,
     chapter_id: str,
@@ -3743,6 +3801,10 @@ def _resume_chapter(
                 )
                 ctx.glossary_index[term_key] = entry
         _commit_stage(ledger, run_id, chapter_id, "glossary_approved", "completed", provider="local")
+    _validate_title_sidecars_before_translation(
+        config=config,
+        chapter_sources={chapter_id: chapter_source},
+    )
     # Process blocks
     formatted_blocks: list[str] = []
     stop_block_key = _block_sort_key(until_block) if until_block else None

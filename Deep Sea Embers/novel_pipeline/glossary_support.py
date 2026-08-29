@@ -123,7 +123,7 @@ def write_glossary_note(
     replacements = {
         "type: glossary-term": "type: glossary-term",
         "original_term:": f"original_term: {entry.original_term}",
-        "thai_term:": f"thai_term: {entry.thai_term}",
+        "thai_term:": f"thai_term: {entry.thai_term}" if entry.thai_term else "thai_term:",
         "status: proposed": f"status: {entry.status}",
         "aliases: []": f"aliases: {list(entry.aliases)}",
         "rejected_variants: []": f"rejected_variants: {list(entry.rejected_variants)}",

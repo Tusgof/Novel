@@ -2,7 +2,7 @@ term_extraction:
   provider: openrouter
   model: google/gemini-3-flash-preview
   timeout_seconds: 120
-  max_calls_per_scan: 8
+  max_calls_per_scan: 32
   max_failures_per_scan: 2
   fallbacks:
   - provider: openrouter

@@ -686,6 +686,17 @@ def test_build_term_suggestion_returns_provider_options():
         assert len(suggestion.rationales) == 3
 
 
+def test_curated_five_element_mixed_spirit_root_options_preserve_meaning():
+    """Known Immortality System term gets accurate Thai options without provider drift."""
+    from novel_pipeline.stages.glossary import _curated_fallback_options
+
+    options = _curated_fallback_options("五行雜靈根")
+
+    assert len(options) == 3
+    assert all("รากวิญญาณ" in option for option in options)
+    assert all("จำแลง" not in option for option in options)
+
+
 def test_piaotia_extract_legacy_content_div():
     """Extract chapter text from legacy div id='content'."""
     with patch('novel_pipeline.adapters.piaotia.validate_text_script'):
@@ -2293,6 +2304,73 @@ def test_immortality_term_template_round_trips_written_note():
     assert entry.thai_term == "ระดับเซียนผู้สูงส่ง"
     assert entry.status == "approved"
     assert entry.source_language == "zh"
+
+
+def test_rejected_glossary_note_has_no_trailing_whitespace():
+    from novel_pipeline.glossary_support import write_glossary_note
+    from novel_pipeline.types import GlossaryEntry
+    import tempfile
+
+    template = "---\noriginal_term:\nthai_term:\nstatus: proposed\n---\n"
+    with tempfile.TemporaryDirectory() as tmp:
+        note_path = write_glossary_note(
+            template_text=template,
+            glossary_dir=Path(tmp),
+            entry=GlossaryEntry(original_term="普通詞", thai_term="", category="term", status="rejected"),
+            first_seen_chapter="ch001",
+            first_seen_block="ch001-block-001",
+        )
+        note_text = note_path.read_text(encoding="utf-8")
+
+    assert "\nthai_term:\n" in note_text
+    assert "\nthai_term: \n" not in note_text
+
+
+def test_immortality_glossary_policy_keeps_names_and_cultivation_terms_consistent():
+    from novel_pipeline.glossary_support import parse_glossary_note
+
+    glossary_root = Path(__file__).resolve().parents[1] / "Immortality System" / "01_Glossary"
+    expectations = {
+        "一休.md": ("อีซิว", "character"),
+        "一休大師.md": ("พระอาจารย์อีซิว", "title"),
+        "隨機傳送陣.md": ("ค่ายกลเคลื่อนย้ายแบบสุ่ม", "technique"),
+        "木靈根.md": ("รากวิญญาณธาตุไม้", "term"),
+        "上品木靈根.md": ("รากวิญญาณธาตุไม้ชั้นสูง", "realm"),
+        "鍊氣期.md": ("ขั้นหลอมปราณ", "realm"),
+        "鍊氣一層.md": ("หลอมปราณชั้นที่ 1", "realm"),
+        "鍊氣功法.md": ("คัมภีร์หลอมปราณ", "technique"),
+        "練氣四層.md": ("หลอมปราณชั้นที่ 4", "realm"),
+        "練氣九層.md": ("หลอมปราณชั้นที่ 9", "realm"),
+        "築基期.md": ("ขอบเขตสร้างฐาน", "realm"),
+        "築基中期.md": ("ขอบเขตสร้างฐานขั้นกลาง", "realm"),
+        "築基後期.md": ("ขอบเขตสร้างฐานขั้นปลาย", "realm"),
+        "築基期圓滿.md": ("ขอบเขตสร้างฐานขั้นสมบูรณ์", "realm"),
+        "元嬰期.md": ("ขอบเขตดวงจิตทารก", "term"),
+        "金丹圓滿.md": ("ขอบเขตเม็ดทองขั้นสมบูรณ์", "realm"),
+        "大妖.md": ("จอมอสูร", "title"),
+    }
+
+    for filename, (thai_term, category) in expectations.items():
+        entry = parse_glossary_note(glossary_root / filename)
+        assert entry is not None
+        assert entry.status == "approved"
+        assert entry.thai_term == thai_term
+        assert entry.category == category
+
+    generic_entry = parse_glossary_note(glossary_root / "有人.md")
+    assert generic_entry is not None
+    assert generic_entry.status == "deprecated"
+
+
+def test_immortality_five_chapter_batch_scan_budget_covers_all_source_blocks():
+    from novel_pipeline.config import load_app_config
+
+    config_path = Path(__file__).resolve().parents[1] / "Immortality System" / ".system" / "config.yaml"
+    config = load_app_config(config_path)
+    routing = config.stage_routing_for("term_extraction")
+
+    assert config.batch.default_batch_size == 5
+    assert routing.max_calls_per_scan >= 20
 
 
 def test_hybrid_formatting_uses_provider_when_valid():
@@ -4783,8 +4861,74 @@ def test_resume_chapter_stops_after_until_block():
                 until_block=until_block,
             )
 
-        assert stopped is True
-        assert [call.args[1].block_id for call in mock_process.call_args_list] == ["ch019-block-001", "ch019-block-002"]
+    assert stopped is True
+    assert [call.args[1].block_id for call in mock_process.call_args_list] == ["ch019-block-001", "ch019-block-002"]
+
+
+def test_resume_chapter_blocks_before_provider_work_when_title_sidecar_is_missing():
+    """Named source titles must be ready before any translation provider call."""
+    from novel_pipeline.pipeline import _resume_chapter
+    from novel_pipeline.ledger import ResumeState
+    from novel_pipeline.types import TextBlock
+    from unittest.mock import Mock, patch
+    import json
+    import tempfile
+    from pathlib import Path
+
+    chapter_id = "ch011"
+    block = TextBlock(block_id="ch011-block-001", chapter_id=chapter_id, source_text="正文", source_language="zh")
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        config = Mock()
+        config.workspace.raw = base / "03_Raw"
+        config.workspace.work = base / "04_Work"
+        config.workspace.prompts = base / "prompts"
+        config.workspace.templates_dir = base / "00_Templates"
+        config.workspace.glossary_dir = base / "01_Glossary"
+        config.workspace.output = base / "05_Output"
+        config.default_style_profile = "default"
+        config.source_language = "zh"
+        config.chunking.chinese_character_limit = 600
+        config.chunking.non_chinese_word_limit = 300
+        config.novel_id = "immortality-system"
+
+        source_payload = json.dumps(
+            {
+                "novel_id": config.novel_id,
+                "chapter_id": chapter_id,
+                "title": "第11章 新的开始",
+                "source_language": "zh",
+                "raw_text": "正文",
+            },
+            ensure_ascii=False,
+        )
+        mock_ledger = Mock()
+        mock_ledger.has_committed.side_effect = lambda **kwargs: kwargs.get("stage") in {
+            "glossary_scanned",
+            "glossary_approved",
+        }
+
+        with patch("novel_pipeline.pipeline.read_text_if_exists", return_value=source_payload), \
+             patch("novel_pipeline.pipeline.PromptStore"), \
+             patch("novel_pipeline.pipeline.split_blocks", return_value=[block]), \
+             patch("novel_pipeline.pipeline._process_block") as mock_process:
+            try:
+                _resume_chapter(
+                    config=config,
+                    ledger=mock_ledger,
+                    run_id="batch-ch011-ch015-v1",
+                    chapter_id=chapter_id,
+                    glossary_index={},
+                    state=ResumeState(run_id="batch-ch011-ch015-v1"),
+                )
+            except RuntimeError as exc:
+                assert "Title sidecar preflight blocked before block translation" in str(exc)
+                assert chapter_id in str(exc)
+            else:
+                raise AssertionError("missing title sidecar must stop before provider work")
+
+        mock_process.assert_not_called()
 
 
 def test_resume_chapter_stops_after_completed_until_block():
@@ -8153,6 +8297,60 @@ def test_execute_glossary_decision_reject_updates_queue_without_commit():
     assert result["committed"] is False
 
 
+def test_execute_glossary_decisions_batch_applies_complete_queue_without_rescan():
+    from novel_pipeline.operator_ui import execute_glossary_decisions_batch
+
+    config = Mock()
+    config.workspace = Mock()
+    config.workspace.glossary_dir = Path("01_Glossary")
+    config.ledger_path = Path("06_Logs/run_ledger.jsonl")
+    config.source_language = "zh"
+    config.novel_id = "test-novel"
+    artifact = {
+        "schema_version": 1,
+        "scope": {"type": "batch", "id": "batch-1"},
+        "chapter_ids": ["ch001", "ch002"],
+        "items": [
+            {"original_term": "甲", "chapter_id": "ch001", "first_seen_block": "ch001-block-001"},
+            {"original_term": "乙", "chapter_id": "ch002", "first_seen_block": "ch002-block-001"},
+        ],
+    }
+
+    with patch("novel_pipeline.operator_ui._read_batch_glossary_artifact", return_value=artifact), \
+         patch("novel_pipeline.operator_ui._write_batch_glossary_artifact") as write_artifact, \
+         patch("novel_pipeline.operator_ui.write_glossary_note") as write_note, \
+         patch("novel_pipeline.operator_ui._load_term_template", return_value="template"), \
+         patch("novel_pipeline.operator_ui._revalidate_glossary_queue_items") as revalidate, \
+         patch("novel_pipeline.operator_ui.RunLedger") as MockLedger, \
+         patch("novel_pipeline.operator_ui._commit_stage") as commit_stage:
+        ledger = Mock()
+        ledger.has_committed.return_value = False
+        MockLedger.return_value = ledger
+        result = execute_glossary_decisions_batch(
+            config=config,
+            run_id="batch-1",
+            decisions=[
+                {"term": "甲", "decision": "approve", "thai_term": "เจี่ย"},
+                {"term": "乙", "decision": "reject", "note": "generic"},
+            ],
+        )
+
+    assert write_note.call_count == 2
+    written_artifact = write_artifact.call_args.args[2]
+    assert written_artifact["items"] == []
+    assert len(written_artifact["decisions"]) == 2
+    assert commit_stage.call_count == 2
+    revalidate.assert_not_called()
+    assert result == {
+        "run_id": "batch-1",
+        "decisions_applied": 2,
+        "approved_terms_count": 1,
+        "rejected_terms_count": 1,
+        "queue_remaining": 0,
+        "committed": True,
+    }
+
+
 def test_cli_rejects_stop_after_without_range():
     """--stop-after without --range returns error."""
     from novel_pipeline.cli import cmd_run
@@ -8779,6 +8977,9 @@ if __name__ == "__main__":
     test_hgd_glossary_notes_record_rejected_variants_for_ch132_terms()
     test_parse_glossary_note_accepts_utf8_bom()
     test_immortality_term_template_round_trips_written_note()
+    test_rejected_glossary_note_has_no_trailing_whitespace()
+    test_immortality_glossary_policy_keeps_names_and_cultivation_terms_consistent()
+    test_immortality_five_chapter_batch_scan_budget_covers_all_source_blocks()
     test_sentinel_quality_report_flags_known_glossary_leakage_fixture()
     test_sentinel_flags_glossary_note_leakage_without_flagging_story_ability_lists()
     test_sentinel_glossary_coverage_flags_source_term_missing_in_output()
@@ -8794,6 +8995,7 @@ if __name__ == "__main__":
     test_build_glossary_suggestion_snapshot_returns_provider_options()
     test_execute_glossary_decision_approve_commits_when_queue_is_empty()
     test_execute_glossary_decision_reject_updates_queue_without_commit()
+    test_execute_glossary_decisions_batch_applies_complete_queue_without_rescan()
     test_generate_operator_report_dispatches_supported_kinds()
     test_cli_rejects_stop_after_without_range()
     test_run_batch_pipeline_stop_after_glossary_scan()

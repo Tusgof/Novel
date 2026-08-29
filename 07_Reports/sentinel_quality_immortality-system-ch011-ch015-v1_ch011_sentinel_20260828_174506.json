@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-08-28T17:45:06.811507+00:00",
+  "scope": "immortality-system-ch011-ch015-v1_ch011_sentinel",
+  "chapters": "ch011",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

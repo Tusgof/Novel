@@ -897,6 +897,116 @@ def execute_glossary_decision(
     }
 
 
+def execute_glossary_decisions_batch(
+    *,
+    config: AppConfig,
+    run_id: str,
+    decisions: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Apply a complete operator-reviewed glossary queue without rescanning providers."""
+    artifact = _read_batch_glossary_artifact(config, run_id)
+    chapter_ids = list(artifact.get("chapter_ids", []))
+    queue_items = [item for item in artifact.get("items", []) if isinstance(item, dict)]
+    queue_by_term = {
+        str(item.get("original_term") or "").strip(): item
+        for item in queue_items
+        if str(item.get("original_term") or "").strip()
+    }
+    decision_by_term: dict[str, dict[str, Any]] = {}
+    for decision_item in decisions:
+        term = str(decision_item.get("term") or "").strip()
+        if not term:
+            raise ValueError("Every batch glossary decision requires a term.")
+        if term in decision_by_term:
+            raise ValueError(f"Duplicate batch glossary decision for '{term}'.")
+        decision_by_term[term] = decision_item
+
+    missing = sorted(set(queue_by_term) - set(decision_by_term))
+    unexpected = sorted(set(decision_by_term) - set(queue_by_term))
+    if missing or unexpected:
+        raise ValueError(
+            "Batch glossary decisions must exactly match the pending queue "
+            f"(missing={missing}, unexpected={unexpected})."
+        )
+
+    recorded_decisions = list(_artifact_decisions(artifact))
+    for term, decision_item in decision_by_term.items():
+        normalized_decision = str(decision_item.get("decision") or "").strip().lower()
+        thai_term = str(decision_item.get("thai_term") or "").strip()
+        note = str(decision_item.get("note") or "").strip()
+        if normalized_decision not in {"approve", "reject"}:
+            raise ValueError(f"Invalid decision for '{term}': {normalized_decision!r}.")
+        if normalized_decision == "approve" and not thai_term:
+            raise ValueError(f"Approve requires a selected thai_term for '{term}'.")
+
+        queue_item = queue_by_term[term]
+        entry = GlossaryEntry(
+            original_term=term,
+            thai_term=thai_term,
+            category=str(queue_item.get("category", "")) or "term",
+            status="approved" if normalized_decision == "approve" else "rejected",
+            source_language=str(queue_item.get("source_language", config.source_language)),
+            novel=str(queue_item.get("novel", config.novel_id)),
+            description=note,
+        )
+        write_glossary_note(
+            template_text=_load_term_template(config),
+            glossary_dir=config.workspace.glossary_dir,
+            entry=entry,
+            first_seen_chapter=str(queue_item.get("chapter_id", "")),
+            first_seen_block=str(queue_item.get("first_seen_block", "block-001")),
+        )
+        recorded_decisions.append(
+            {
+                "original_term": term,
+                "decision": normalized_decision,
+                "thai_term": thai_term,
+                "category": entry.category,
+                "chapter_id": str(queue_item.get("chapter_id", "")),
+                "first_seen_block": str(queue_item.get("first_seen_block", "")),
+                "note": note,
+            }
+        )
+
+    updated_artifact = {
+        "schema_version": artifact.get("schema_version", 1),
+        "scope": artifact.get("scope", {"type": "batch", "id": run_id}),
+        "chapter_ids": chapter_ids,
+        "items": [],
+        "decisions": recorded_decisions,
+    }
+    _write_batch_glossary_artifact(config, run_id, updated_artifact)
+
+    ledger = RunLedger(config.ledger_path)
+    approved_terms, rejected_terms = _decision_metadata(updated_artifact)
+    metadata = {
+        "approval_mode": "operator_batch",
+        "approved_terms_count": len(approved_terms),
+        "rejected_terms_count": len(rejected_terms),
+        "approved_terms": approved_terms,
+        "rejected_terms": rejected_terms,
+    }
+    for chapter_id in chapter_ids:
+        if not ledger.has_committed(run_id=run_id, block_id=chapter_id, stage="glossary_approved"):
+            _commit_stage(
+                ledger,
+                run_id,
+                chapter_id,
+                "glossary_approved",
+                "completed",
+                provider="local",
+                metadata=metadata,
+            )
+    return {
+        "run_id": run_id,
+        "decisions_applied": len(decision_by_term),
+        "approved_terms_count": len(approved_terms),
+        "rejected_terms_count": len(rejected_terms),
+        "queue_remaining": 0,
+        "committed": True,
+    }
+
+
 def execute_operator_action(
     *,
     config: AppConfig,
