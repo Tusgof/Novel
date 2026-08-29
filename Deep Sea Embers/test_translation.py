@@ -2341,6 +2341,7 @@ def test_immortality_glossary_policy_keeps_names_and_cultivation_terms_consisten
         "鍊氣功法.md": ("คัมภีร์หลอมปราณ", "technique"),
         "練氣四層.md": ("หลอมปราณชั้นที่ 4", "realm"),
         "練氣九層.md": ("หลอมปราณชั้นที่ 9", "realm"),
+        "築基.md": ("สร้างฐาน", "realm"),
         "築基期.md": ("ขอบเขตสร้างฐาน", "realm"),
         "築基中期.md": ("ขอบเขตสร้างฐานขั้นกลาง", "realm"),
         "築基後期.md": ("ขอบเขตสร้างฐานขั้นปลาย", "realm"),
@@ -2360,6 +2361,15 @@ def test_immortality_glossary_policy_keeps_names_and_cultivation_terms_consisten
     generic_entry = parse_glossary_note(glossary_root / "有人.md")
     assert generic_entry is not None
     assert generic_entry.status == "deprecated"
+
+    registry = json.loads(
+        (Path(__file__).resolve().parents[1] / "00_Config" / "novel_registry.json").read_text(encoding="utf-8")
+    )
+    immortality = next(item for item in registry["novels"] if item["slug"] == "immortality-system")
+    forbidden_labels = {
+        item["label"] for item in immortality["quality"]["forbidden_output_patterns"]
+    }
+    assert "Immortality System: malformed bare 築基 verb phrase" in forbidden_labels
 
 
 def test_immortality_five_chapter_batch_scan_budget_covers_all_source_blocks():
@@ -2435,6 +2445,74 @@ def test_hybrid_formatting_falls_back_to_local_with_metadata():
     assert provider == "local"
     assert metadata["formatting_mode"] == "local_fallback"
     assert metadata["provider_attempts"][0]["message"] == "provider down"
+
+
+def test_hybrid_formatting_strict_provider_failure_does_not_fall_back_local():
+    from types import SimpleNamespace
+    from novel_pipeline.pipeline import _format_block_with_hybrid_provider
+    from novel_pipeline.types import StageRouting
+
+    config = Mock()
+    config.execution = SimpleNamespace(stop_on_provider_failure=True)
+    config.stage_routing_for.return_value = StageRouting(stage="formatting", provider="qwen", model="model")
+    config.stage_model_for.return_value = "model"
+    config.provider_for_stage.return_value = ProviderSpec(name="qwen", executable=("qwen",), default_model="model")
+    config.fallback_routes_for_stage.return_value = ()
+    config.workspace.root = Path(".")
+    prompt_store = Mock()
+    prompt_store.render.return_value = "format prompt"
+
+    with patch("novel_pipeline.providers.base.ProviderRunner.run_with_retry", side_effect=RuntimeError("provider down")), \
+         patch("novel_pipeline.pipeline.format_block_text") as local_format:
+        try:
+            _format_block_with_hybrid_provider(
+                config=config,
+                prompt_store=prompt_store,
+                refined_text="ข้อความ",
+            )
+        except RuntimeError as exc:
+            assert str(exc) == "provider down"
+        else:
+            raise AssertionError("strict provider failure must stop formatting")
+
+    local_format.assert_not_called()
+
+
+def test_refine_strict_provider_failure_does_not_call_fallback():
+    from types import SimpleNamespace
+    from novel_pipeline.pipeline import _run_refine_with_fallback_chain
+    from novel_pipeline.types import LiteralDraft, TextBlock
+
+    config = Mock()
+    config.execution = SimpleNamespace(stop_on_provider_failure=True)
+    config.stage_model_for.return_value = "primary-model"
+    primary = SimpleNamespace(spec=SimpleNamespace(name="primary"))
+    fallback = SimpleNamespace(spec=SimpleNamespace(name="fallback"))
+    block = TextBlock(block_id="ch001-block-001", chapter_id="ch001", source_text="ต้นฉบับ")
+    literal = LiteralDraft(block_id=block.block_id, chapter_id=block.chapter_id, source_text=block.source_text)
+    ledger = Mock()
+
+    with patch("novel_pipeline.pipeline._provider_runner_for_stage", return_value=primary), \
+         patch("novel_pipeline.pipeline._fallback_provider_runners_for_stage", return_value=[(fallback, "fallback-model")]), \
+         patch("novel_pipeline.pipeline.run_refine_stage", side_effect=RuntimeError("primary failed")) as run_refine, \
+         patch("novel_pipeline.pipeline._commit_stage") as commit_stage:
+        try:
+            _run_refine_with_fallback_chain(
+                config=config,
+                ledger=ledger,
+                run_id="strict-run",
+                block=block,
+                literal_draft=literal,
+                glossary_subset=[],
+                style_key="default",
+            )
+        except RuntimeError as exc:
+            assert str(exc) == "primary failed"
+        else:
+            raise AssertionError("strict provider failure must stop refinement")
+
+    assert run_refine.call_count == 1
+    commit_stage.assert_called_once()
 
 
 def test_qa_escalation_stop_raises_without_input():
@@ -3441,6 +3519,7 @@ chunking:
 execution:
   concurrency_enabled: false
   stop_on_first_hard_failure: true
+  stop_on_provider_failure: true
   stage_concurrency:
     translating: 2
     refining: 2
@@ -3484,6 +3563,7 @@ providers:
     config = load_app_config(system_root / "config.yaml")
     assert config.execution.concurrency_enabled is False
     assert config.execution.stop_on_first_hard_failure is True
+    assert config.execution.stop_on_provider_failure is True
     assert config.execution.stage_concurrency["translating"] == 2
     assert config.execution.stage_concurrency["formatting"] == 2
     assert config.execution.limit_for_stage("translating") == 1
@@ -3519,6 +3599,7 @@ def test_execution_policy_stage_limits_require_explicit_concurrency_enablement()
     assert enabled.limit_for_stage("translating") == 3
     assert enabled.limit_for_stage("qa") == 1
     assert enabled.sentinel_blocks_runtime() is False
+    assert enabled.stop_on_provider_failure is False
 
     sentinel_blocking = ExecutionPolicy.from_mapping({"sentinel": {"mode": "blocking", "fail_on": "major"}})
     assert sentinel_blocking.sentinel_mode == "blocking"
@@ -8873,6 +8954,8 @@ if __name__ == "__main__":
     test_validate_formatted_text_blocks_content_changes()
     test_hybrid_formatting_uses_provider_when_valid()
     test_hybrid_formatting_falls_back_to_local_with_metadata()
+    test_hybrid_formatting_strict_provider_failure_does_not_fall_back_local()
+    test_refine_strict_provider_failure_does_not_call_fallback()
     test_qa_escalation_stop_raises_without_input()
     test_qa_omission_recovery_builds_literal_safe_refined_draft()
     test_qa_rule_warning_does_not_block_ai_pass()

@@ -149,6 +149,7 @@ class BatchDefaults(JsonSerializable):
 class ExecutionPolicy(JsonSerializable):
     concurrency_enabled: bool = False
     stop_on_first_hard_failure: bool = True
+    stop_on_provider_failure: bool = False
     stage_concurrency: dict[str, int] = field(default_factory=dict)
     artifact_cache_mode: str = "report_only"
     artifact_cache_stages: tuple[str, ...] = ()
@@ -190,6 +191,7 @@ class ExecutionPolicy(JsonSerializable):
         return cls(
             concurrency_enabled=bool(payload.get("concurrency_enabled", False)),
             stop_on_first_hard_failure=bool(payload.get("stop_on_first_hard_failure", True)),
+            stop_on_provider_failure=bool(payload.get("stop_on_provider_failure", False)),
             stage_concurrency=stage_concurrency,
             artifact_cache_mode=cache_mode,
             artifact_cache_stages=as_string_tuple(cache_payload.get("stages", payload.get("artifact_cache_stages"))),

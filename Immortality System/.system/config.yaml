@@ -10,6 +10,7 @@ chunking:
 execution:
   concurrency_enabled: false
   stop_on_first_hard_failure: true
+  stop_on_provider_failure: true
   sentinel:
     mode: blocking
     fail_on: major

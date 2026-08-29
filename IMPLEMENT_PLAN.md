@@ -24,7 +24,7 @@ Locked user decisions for this V6.34 plan:
 
 Current progress:
 
-- **Active production work order: Immortality System `ch001-ch150`.** Use sequential five-chapter batches. `ch001-ch010` are complete. `ch011-ch015` completed 20/20 blocks and passed output guardrails plus final scoped Sentinel `0/0/0/0`, then stopped before `ch016` because the ledger contains a recovered provider failure at `ch014-block-002`, as required by the user's stricter stop rule. Before continuing, repair and verify the bare `築基` verb-context defect found in `ch011-ch012`; then start the fresh `ch016-ch020` scan-only gate. Evidence: `Immortality System/07_Reports/immortality_system_ch011_ch015_production_stop_20260829.md`.
+- **Active production work order: Immortality System `ch001-ch150`.** Use sequential five-chapter batches. `ch001-ch010` are complete. Strict provider-stop enforcement and the bare `築基` verb-safe policy/guardrail are implemented. The new `ch011-block-004` refined artifact is clean, but two bounded QA resume calls returned empty assistant messages (latest after 220.71 seconds); strict mode stopped with that block pending QA and no fallback. Resume from QA, complete the `ch011` assembly, repair `ch012-block-004`, and pass both chapters before opening `ch016-ch020`. Evidence: `Immortality System/07_Reports/immortality_system_ch011_ch015_production_stop_20260829.md`.
 - Immortality System setup audit completed: the vault, registry, raw source, config/templates, and selected Layer 1 playbook `00_Config/language_playbooks/chinese_to_thai.md` validate.
 - Immortality System setup and raw-source gate complete: Novel543 is verified through `ch2570`; the locked 20-chapter sample and source parity gate are complete. Pilot translation ran only in the isolated experiment vault.
 - Immortality System Libra - Pilot Gate completed: all 10 in-sample chapters (42/42 blocks) and all 10 out-of-sample chapters (40/40 blocks) finished in experiment-only output. Current failed blocks are none, source parity is `0` mismatches, deterministic cleanliness checks passed, and final blocking Sentinel is `0/0/0/0` for both sets. Evidence: `07_Reports/immortality_system_libra_pilot_completion_20260828.md` and `01_Research_Log/2026-08-28_novel_pipeline_immortality_libra_pilot_completion.md`.
@@ -274,7 +274,7 @@ Status: complete. Evidence: `07_Reports/dse_ch181_ch185_production_checkpoint_20
   - Production publication from experiment output is blocked by design.
   - Long unattended production translation remains blocked; V6.34 and the IRS Pilot support bounded sequential execution only, not hands-off parallel scaling.
   - Any provider routing change remains blocked unless explicitly approved and measured.
-  - Immortality System Pilot is complete in experiment-only state. Production remains blocked until a separate explicit chapter range is approved and a fresh production scan/glossary gate is started; do not copy experiment output into production or MoonRead.
+  - Immortality System Pilot is complete in experiment-only state. Production `ch001-ch150` is explicitly approved and active under five-chapter bounded batches; do not copy experiment output into production or MoonRead.
 
 - **Decision points**:
   - After Milestone 3: decide treatment hypotheses based on actual baseline evidence.

@@ -550,6 +550,11 @@ def _load_literal_translation_cache(
     return None, {"cache_status": "miss", "reason": "no_matching_hash_record"}
 
 
+def _provider_failure_blocks(config: AppConfig) -> bool:
+    execution = getattr(config, "execution", None)
+    return getattr(execution, "stop_on_provider_failure", False) is True
+
+
 def _format_block_with_hybrid_provider(
     *,
     config: AppConfig,
@@ -593,6 +598,11 @@ def _format_block_with_hybrid_provider(
                             "validation_issues": validation_issues,
                             "duration_seconds": response.duration_seconds,
                         })
+                        if _provider_failure_blocks(config):
+                            raise ValueError(
+                                "Formatting provider output failed validation: "
+                                + "; ".join(validation_issues)
+                            )
                         continue
                     return provider_text, runner.spec.name, {
                         "formatting_mode": "provider",
@@ -605,8 +615,12 @@ def _format_block_with_hybrid_provider(
                     provider_error["formatting_mode"] = "provider_failed"
                     provider_error["provider"] = runner.spec.name
                     provider_attempts.append(provider_error)
+                    if _provider_failure_blocks(config):
+                        raise
     except Exception as exc:
         provider_attempts.append({**_exception_metadata(exc), "formatting_mode": "provider_failed"})
+        if _provider_failure_blocks(config):
+            raise
 
     local_text = format_block_text(refined_text)
     metadata: dict[str, Any] = {"formatting_mode": "local_fallback"}
@@ -716,6 +730,8 @@ def _run_refine_with_fallback_chain(
                     input_hash=input_hash,
                     metadata=metadata,
                 )
+            if _provider_failure_blocks(config):
+                raise
             if next_runner is None:
                 raise
 
@@ -815,6 +831,8 @@ def _run_literal_with_fallback_chain(
                     input_hash=input_hash,
                     metadata=metadata,
                 )
+            if _provider_failure_blocks(config):
+                raise
             if next_runner is None:
                 raise
 
@@ -1586,11 +1604,23 @@ def _process_block(
     formatted_text: str | None = None
     force_format = _should_force_block_stage("formatting", force=force, force_from_stage=force_from_stage)
     if not ledger.has_committed(run_id=run_id, block_id=block_id, stage="formatting") or force_format:
-        formatted_text, formatter_provider, formatter_metadata = _format_block_with_hybrid_provider(
-            config=config,
-            prompt_store=ctx.prompt_store,
-            refined_text=refined_draft.refined_text,
-        )
+        try:
+            formatted_text, formatter_provider, formatter_metadata = _format_block_with_hybrid_provider(
+                config=config,
+                prompt_store=ctx.prompt_store,
+                refined_text=refined_draft.refined_text,
+            )
+        except Exception as exc:
+            _commit_stage(
+                ledger,
+                run_id,
+                block_id,
+                "formatting",
+                "failed",
+                provider=config.stage_provider_name("formatting"),
+                metadata=_exception_metadata(exc),
+            )
+            raise
         formatted_text, parenthetical_repairs = _apply_glossary_parenthetical_leakage_repairs(
             formatted_text,
             glossary_subset,
@@ -1630,11 +1660,23 @@ def _process_block(
         validation_issues = validate_formatted_text(formatted_text or "", source_text=refined_draft.refined_text)
         if validation_issues:
             print(f"[{run_id}]     cached formatted text is stale; rerunning format.")
-            formatted_text, formatter_provider, formatter_metadata = _format_block_with_hybrid_provider(
-                config=config,
-                prompt_store=ctx.prompt_store,
-                refined_text=refined_draft.refined_text,
-            )
+            try:
+                formatted_text, formatter_provider, formatter_metadata = _format_block_with_hybrid_provider(
+                    config=config,
+                    prompt_store=ctx.prompt_store,
+                    refined_text=refined_draft.refined_text,
+                )
+            except Exception as exc:
+                _commit_stage(
+                    ledger,
+                    run_id,
+                    block_id,
+                    "formatting",
+                    "failed",
+                    provider=config.stage_provider_name("formatting"),
+                    metadata=_exception_metadata(exc),
+                )
+                raise
             formatted_text, parenthetical_repairs = _apply_glossary_parenthetical_leakage_repairs(
                 formatted_text,
                 glossary_subset,
@@ -1851,6 +1893,8 @@ def _run_qa_with_retries(
                 break
             except ProviderOutputError as exc:
                 last_output_error = exc
+                if _provider_failure_blocks(config):
+                    raise
                 continue
         if qa_report is None or used_runner is None:
             if last_output_error is not None:

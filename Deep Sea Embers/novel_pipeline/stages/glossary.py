@@ -333,15 +333,23 @@ def _extract_provider_candidate_terms_with_status(config: AppConfig, text: str) 
                 terms = parse_candidate_terms(response.stdout)
                 return ProviderTermExtractionResult(terms=terms, failed=False, failure_kind="")
             except ProviderOutputError as e:
+                if getattr(getattr(config, "execution", None), "stop_on_provider_failure", False) is True:
+                    raise
                 last_failure_kind = classify_provider_response(e.response)
             except Exception:
+                if getattr(getattr(config, "execution", None), "stop_on_provider_failure", False) is True:
+                    raise
                 last_failure_kind = "exception"
         return ProviderTermExtractionResult(terms=[], failed=True, failure_kind=last_failure_kind or "exception")
     except ProviderOutputError as e:
+        if getattr(getattr(config, "execution", None), "stop_on_provider_failure", False) is True:
+            raise
         # Provider returned unusable output (quota, timeout, empty stdout, etc.)
         failure_kind = classify_provider_response(e.response)
         return ProviderTermExtractionResult(terms=[], failed=True, failure_kind=failure_kind)
     except Exception:
+        if getattr(getattr(config, "execution", None), "stop_on_provider_failure", False) is True:
+            raise
         # Any other exception (network, parsing, etc.)
         return ProviderTermExtractionResult(terms=[], failed=True, failure_kind="exception")
 
@@ -626,6 +634,8 @@ def build_term_suggestion(
             last_failure = f"{runner.spec.name} returned fewer than three safe Thai options"
         except Exception as exc:
             last_failure = str(exc) or exc.__class__.__name__
+            if getattr(getattr(config, "execution", None), "stop_on_provider_failure", False) is True:
+                raise
             continue
 
     if last_response is not None:

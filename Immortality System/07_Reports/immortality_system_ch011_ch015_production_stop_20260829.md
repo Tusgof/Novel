@@ -47,3 +47,23 @@ Cause: the base term does not distinguish the verb/action `築基` from explicit
 4. Continue with a fresh `ch016-ch020` scan-only gate only after the user resumes work after this provider-failure stop.
 
 No force-accept or manual final-output patch was used.
+
+## Resume Attempt 2026-08-29
+
+- Added opt-in `execution.stop_on_provider_failure: true` for Immortality System. The default remains false for other novels.
+- Changed the bare `築基` glossary entry to verb-safe `สร้างฐาน`; explicit realm entries remain unchanged.
+- Added a registry output guardrail for malformed `จะ/ยังไม่/การ + ขั้นสร้างฐาน` phrases.
+- Reran only `ch011-block-004` from refinement. The new refined artifact contains `ควรจะสร้างฐาน` and `ยังไม่สร้างฐาน`, with none of the observed malformed phrases.
+- Strict stop then triggered at QA because OpenRouter reasoning returned an empty assistant message after 27.36 seconds. No QA fallback, formatting, final assembly, `ch012` repair, or `ch016` work was started.
+- Current state: `ch011-block-004` is pending QA. The existing `ch011` final output is intentionally stale and still fails the new guardrail until the verified block is assembled.
+
+Next safe action after another explicit resume: rerun `ch011-block-004` from QA, verify and assemble `ch011`, then rerun `ch012-block-004` from refine. Do not open `ch016-ch020` until both chapters pass guardrails and scoped Sentinel.
+
+## Second QA Resume Attempt 2026-08-29
+
+- Reran only `ch011-block-004` from QA; translation and refinement were reused from committed artifacts.
+- OpenRouter reasoning returned another empty assistant message after 220.71 seconds and exited nonzero.
+- Strict provider-stop enforcement recorded exactly one additional failed QA record, left the block pending QA, and did not call a fallback.
+- No provider process remained after the command exited. No formatting, final assembly, `ch012` repair, or `ch016` work was started.
+
+Current stop cause remains an external QA provider empty-response failure. The next safe action is still a bounded rerun of `ch011-block-004` from QA after work is explicitly resumed.

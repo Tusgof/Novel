@@ -253,6 +253,10 @@
           {
             "pattern": "เฉิน ฉางเซิง",
             "label": "Immortality System: spaced character-name variant"
+          },
+          {
+            "pattern": "(?:จะ|ยังไม่|การ)ขั้นสร้างฐาน",
+            "label": "Immortality System: malformed bare 築基 verb phrase"
           }
         ]
       }
