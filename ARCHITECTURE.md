@@ -145,13 +145,13 @@ Employee names are dashboard/docs aliases. Ledger and config stage names remain 
 Current intended production routing:
 
 - setup/fetch: Codex / GPT-5.4 via Ferryman
-- glossary scan: OpenRouter `google/gemini-3-flash-preview`
-- glossary option suggestion: OpenRouter `deepseek/deepseek-v4-flash`
-- literal translation: OpenRouter `google/gemini-3-flash-preview`
-- refinement: OpenRouter `deepseek/deepseek-v4-flash`
-- QA primary: OpenRouter `deepseek/deepseek-v4-flash` with reasoning enabled
-- QA fallback: OpenRouter reasoning `deepseek/deepseek-v4-pro` only
-- formatting primary: OpenRouter `deepseek/deepseek-v4-flash`
+- glossary scan: OpenRouter `google/gemini-3.7-flash`
+- glossary option suggestion: OpenRouter `deepseek/deepseek-v4-flash-0731`
+- literal translation: OpenRouter `google/gemini-3.7-flash`
+- refinement: OpenRouter `deepseek/deepseek-v4-flash-0731`
+- QA primary: OpenRouter `deepseek/deepseek-v4-flash-0731` with reasoning enabled
+- QA fallback: OpenRouter `google/gemini-3.7-flash`; DeepSeek V4 Pro is disabled
+- formatting primary: OpenRouter `deepseek/deepseek-v4-flash-0731`
 - formatting fallback/cleanup: local deterministic formatter
 - OpenRouter API key env var: `NOVEL_OPENROUTER_API`
 

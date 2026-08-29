@@ -1742,7 +1742,7 @@ def test_config_refinement_fallback_chain_order():
     config = load_app_config(Path(__file__).resolve().parent / ".system" / "config.yaml")
     routes = config.fallback_routes_for_stage("refinement")
     assert [(spec.name, model) for spec, model in routes] == [
-        ("openrouter", "google/gemini-3-flash-preview"),
+        ("openrouter", "google/gemini-3.7-flash"),
         ("openrouter", "anthropic/claude-sonnet-4.6"),
         ("codex", "gpt-5.4"),
         ("qwen", "deepseek-reasoner"),
@@ -8884,24 +8884,48 @@ def test_production_provider_routing_enables_ai_scan_and_formatting():
     qa_routing = config.stage_routing_for("qa_judge")
 
     assert term_routing.provider == "openrouter"
-    assert term_routing.model == "google/gemini-3-flash-preview"
+    assert term_routing.model == "google/gemini-3.7-flash"
     assert isinstance(term_routing.max_calls_per_scan, int)
     assert term_routing.max_calls_per_scan > 0
     assert term_routing.timeout_seconds is not None
     assert term_routing.timeout_seconds >= 30
     assert format_routing.provider == "openrouter"
-    assert format_routing.model == "deepseek/deepseek-v4-flash"
+    assert format_routing.model == "deepseek/deepseek-v4-flash-0731"
     assert qa_routing.provider == "openrouter_reasoning"
-    assert qa_routing.model == "deepseek/deepseek-v4-flash"
+    assert qa_routing.model == "deepseek/deepseek-v4-flash-0731"
     qa_routes = config.fallback_routes_for_stage("qa_judge")
     assert [(spec.name, model) for spec, model in qa_routes][:1] == [
-        ("openrouter_reasoning", "deepseek/deepseek-v4-pro"),
+        ("openrouter", "google/gemini-3.7-flash"),
     ]
     assert all(spec.name not in {"codex", "qwen"} for spec, _ in qa_routes)
     qa_provider = config.provider_for_stage("qa_judge")
     assert "--reasoning-enabled" in qa_provider.extra_args
     assert "--reasoning-exclude" in qa_provider.extra_args
     assert "--max-tokens" in qa_provider.extra_args
+
+    workspace_root = Path(__file__).resolve().parents[1]
+    production_configs = (
+        workspace_root / "Deep Sea Embers/.system/config.yaml",
+        workspace_root / "Horror Game Developers/.system/config.yaml",
+        workspace_root / "Infinite Regressor Stories/.system/config.yaml",
+        workspace_root / "Immortality System/.system/config.yaml",
+    )
+    expected_models = {
+        "term_extraction": "google/gemini-3.7-flash",
+        "term_suggestion": "deepseek/deepseek-v4-flash-0731",
+        "literal_translation": "google/gemini-3.7-flash",
+        "refinement": "deepseek/deepseek-v4-flash-0731",
+        "qa_judge": "deepseek/deepseek-v4-flash-0731",
+        "formatting": "deepseek/deepseek-v4-flash-0731",
+    }
+    for config_path in production_configs:
+        production_config = load_app_config(config_path)
+        for stage, expected_model in expected_models.items():
+            assert production_config.stage_routing_for(stage).model == expected_model
+        assert all(
+            model != "deepseek/deepseek-v4-pro"
+            for _, model in production_config.fallback_routes_for_stage("qa_judge")
+        )
     print("✓ production_provider_routing_enables_ai_scan_and_formatting passes")
 
 

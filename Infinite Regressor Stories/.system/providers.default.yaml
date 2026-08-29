@@ -1,12 +1,12 @@
 term_extraction:
   provider: openrouter
-  model: google/gemini-3-flash-preview
+  model: google/gemini-3.7-flash
   timeout_seconds: 120
   max_calls_per_scan: 8
   max_failures_per_scan: 2
   fallbacks:
   - provider: openrouter
-    model: deepseek/deepseek-v4-flash
+    model: deepseek/deepseek-v4-flash-0731
   - provider: codex
     model: gpt-5.4
   retry:
@@ -20,27 +20,27 @@ term_extraction:
     - empty_stdout
 term_suggestion:
   provider: openrouter
-  model: deepseek/deepseek-v4-flash
+  model: deepseek/deepseek-v4-flash-0731
   timeout_seconds: 120
   fallbacks:
   - provider: openrouter
-    model: google/gemini-3-flash-preview
+    model: google/gemini-3.7-flash
   - provider: claude
     model: sonnet
 literal_translation:
   provider: openrouter
-  model: google/gemini-3-flash-preview
+  model: google/gemini-3.7-flash
   fallbacks:
   - provider: openrouter
-    model: deepseek/deepseek-v4-flash
+    model: deepseek/deepseek-v4-flash-0731
   - provider: codex
     model: gpt-5.4
 refinement:
   provider: openrouter
-  model: deepseek/deepseek-v4-flash
+  model: deepseek/deepseek-v4-flash-0731
   fallbacks:
   - provider: openrouter
-    model: google/gemini-3-flash-preview
+    model: google/gemini-3.7-flash
   - provider: openrouter
     model: anthropic/claude-sonnet-4.6
   - provider: codex
@@ -49,16 +49,16 @@ refinement:
     model: deepseek-reasoner
 qa_judge:
   provider: openrouter
-  model: deepseek/deepseek-v4-flash
+  model: deepseek/deepseek-v4-flash-0731
   fallbacks:
   - provider: openrouter
-    model: google/gemini-3-flash-preview
+    model: google/gemini-3.7-flash
 formatting:
   provider: openrouter
-  model: deepseek/deepseek-v4-flash
+  model: deepseek/deepseek-v4-flash-0731
   fallbacks:
   - provider: openrouter
-    model: google/gemini-3-flash-preview
+    model: google/gemini-3.7-flash
 project_setup:
   provider: codex
   model: gpt-5.4
@@ -75,7 +75,7 @@ providers:
     prompt_transport: stdin
     model_flag: -m
     model_position: before_prompt
-    default_model: google/gemini-3-flash-preview
+    default_model: google/gemini-3.7-flash
     timeout_seconds: 360
     env:
       PYTHONIOENCODING: utf-8
@@ -107,7 +107,7 @@ providers:
     prompt_transport: stdin
     model_flag: -m
     model_position: before_prompt
-    default_model: deepseek/deepseek-v4-flash
+    default_model: deepseek/deepseek-v4-flash-0731
     timeout_seconds: 360
     env:
       PYTHONIOENCODING: utf-8

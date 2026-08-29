@@ -1,6 +1,6 @@
 # Project Brain: Novel Translation System
 
-Last updated: 2026-08-28
+Last updated: 2026-08-29
 
 This is the durable memory for the workspace. Keep it compact. Put long evidence, experiments, and historical detail in root-level `07_Reports/` or `01_Research_Log/` as appropriate.
 
@@ -65,7 +65,7 @@ Deep Sea Embers:
 
 Immortality System:
 
-- Production is explicitly approved for `ch001-ch150` in sequential five-chapter bounded batches. `ch001-ch010` are complete. Run `immortality-system-ch011-ch015-v1` initially completed 20/20 blocks and passed guardrails/Sentinel, then a spot-check exposed malformed bare `築基` verb phrases in `ch011-ch012`. Opt-in strict provider-stop enforcement and the verb-safe glossary/guardrail prevention are implemented. After three QA empty-response stops, the latest bounded resume obtained a valid QA `PASS` for repaired `ch011-block-004`. The AI formatter then changed content, deterministic validation rejected it, and strict mode stopped without fallback. The block is pending formatting and final `ch011` remains stale. No `ch012` repair or `ch016` work has started. Evidence: `Immortality System/07_Reports/immortality_system_ch011_ch015_production_stop_20260829.md`.
+- Production is explicitly approved for `ch001-ch150` in sequential five-chapter bounded batches. `ch001-ch010` are complete. The malformed bare `築基` defect in `ch011` is repaired through refinement, QA, AI formatting, assembly, output guardrail, and scoped Sentinel `0/0/0/0`. The interrupted Sentinel was rerun explicitly after the provider migration checkpoint. `ch012-block-004` still needs the same glossary repair from refinement; no `ch016` work has started. Evidence: `Immortality System/07_Reports/immortality_system_ch011_ch015_production_stop_20260829.md` and `07_Reports/openrouter_model_routing_migration_20260829.md`.
 - Setup audit completed: required vault folders, registry entry, `NOVEL_PROFILE.yaml`, source adapter configuration, and the shared Layer 1 playbook `00_Config/language_playbooks/chinese_to_thai.md` are present. The profile now records the selected language playbook.
 - New novel setup completed on 2026-08-28 for Chinese source `系统赋我长生，我熬死了所有人`, using Novel543 as the verified fetch source. Raw source validation passed for `ch001-ch2570` (`2570/2570` usable chapters); the locked Libra - Pilot Gate sample contains 10 in-sample and 10 out-of-sample chapters with source parity `0` mismatches.
 - Libra - Pilot Gate completed on 2026-08-28 in the isolated experiment vault `Immortality System/04_Work/_experiments/libra_pilot_immortality_system_v1`. In-sample completed all 10 chapters and 42/42 blocks; OOS completed all 10 chapters and 40/40 blocks. Both sets have current failed blocks `0`, source parity `0`, clean output checks, and final blocking Sentinel `0/0/0/0`. Evidence: `07_Reports/immortality_system_libra_pilot_completion_20260828.md` and `01_Research_Log/2026-08-28_novel_pipeline_immortality_libra_pilot_completion.md`.
@@ -230,13 +230,13 @@ Working tree:
 Current intended routing:
 
 - setup/fetch authority: Codex / GPT-5.4 via Ferryman
-- glossary scan: OpenRouter `google/gemini-3-flash-preview`
-- glossary option suggestion: OpenRouter `deepseek/deepseek-v4-flash`
-- literal translation: OpenRouter `google/gemini-3-flash-preview`
-- refinement: OpenRouter `deepseek/deepseek-v4-flash`
-- QA primary: OpenRouter `deepseek/deepseek-v4-flash` with reasoning enabled
-- QA fallback: OpenRouter reasoning `deepseek/deepseek-v4-pro` only. Qwen and Codex are not automatic QA fallbacks because recent IRS evidence showed qwen headless empty stdout on Windows and Codex quota failures.
-- formatting primary: OpenRouter `deepseek/deepseek-v4-flash`
+- glossary scan: OpenRouter `google/gemini-3.7-flash`
+- glossary option suggestion: OpenRouter `deepseek/deepseek-v4-flash-0731`
+- literal translation: OpenRouter `google/gemini-3.7-flash`
+- refinement: OpenRouter `deepseek/deepseek-v4-flash-0731`
+- QA primary: OpenRouter `deepseek/deepseek-v4-flash-0731` with reasoning enabled
+- QA fallback: OpenRouter `google/gemini-3.7-flash`. DeepSeek V4 Pro is removed from production routing. Qwen and Codex remain excluded because recent IRS evidence showed qwen headless empty stdout on Windows and Codex quota failures.
+- formatting primary: OpenRouter `deepseek/deepseek-v4-flash-0731`
 - formatting fallback/cleanup: local deterministic formatter
 - OpenRouter API key env var: `NOVEL_OPENROUTER_API`; do not use the legacy OpenRouter env var name for current work.
 
@@ -400,7 +400,7 @@ V6.33 translation-output and reader-publication phase is complete:
 
 Next safe choices:
 
-1. Immortality System: production `ch001-ch150` is approved but currently stopped with `ch011-block-004` pending formatting after QA passed and deterministic validation rejected content-changing formatter output. On explicit resume, rerun only from formatting, verify/assemble `ch011`, then rerun `ch012-block-004` from refine and pass both chapters through guardrails/Sentinel before opening `ch016-ch020`. Do not copy pilot artifacts into production.
+1. Immortality System: `ch011` repair is complete and verified. Rerun `ch012-block-004` from refinement under the new OpenRouter routing, then pass `ch011-ch012` through guardrails/Sentinel before opening `ch016-ch020`. Do not copy pilot artifacts into production.
 2. Keep all experiment output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead.
 3. Keep broad unattended parallel translate/refine/QA disabled; V6.34 and the IRS pilot support bounded sequential production only.
 4. Record each completed experiment round in `01_Research_Log/` and push it immediately.
