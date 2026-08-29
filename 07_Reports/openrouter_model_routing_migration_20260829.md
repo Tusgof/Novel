@@ -32,3 +32,12 @@ The in-flight old-model formatter completed before cancellation and produced a c
 - report: `07_Reports/sentinel_quality_immortality-system-ch011-routing-migration_20260829_032011.md`
 
 The migration applies to subsequent provider calls. Next safe action is the bounded `ch012-block-004` repair from refinement.
+
+## First Production Call
+
+- DeepSeek V4 Flash 0731 completed `ch012-block-004` refinement.
+- The reasoning QA request was then closed by the remote host after 42.53 seconds (`WinError 10054`), so strict provider-stop halted without fallback.
+- Artifact inspection found the new refined phrase `ไม่สามารถขั้นสร้างฐาน`. This exposed a gap in the first bare-`築基` rejected-variant rule, which covered `จะ`, `ยังไม่`, and `การ` but not the modal `ไม่สามารถ`.
+- The novel glossary, registry guardrail, and regression coverage were expanded for `ไม่สามารถขั้นสร้างฐาน` before any further provider call.
+
+This evidence is insufficient to claim that the new models are better than the retired routes. Health and refinement passed, while production QA reliability remains unproven.

@@ -2370,6 +2370,12 @@ def test_immortality_glossary_policy_keeps_names_and_cultivation_terms_consisten
         item["label"] for item in immortality["quality"]["forbidden_output_patterns"]
     }
     assert "Immortality System: malformed bare 築基 verb phrase" in forbidden_labels
+    malformed_pattern = next(
+        item["pattern"]
+        for item in immortality["quality"]["forbidden_output_patterns"]
+        if item["label"] == "Immortality System: malformed bare 築基 verb phrase"
+    )
+    assert re.search(malformed_pattern, "ไม่สามารถขั้นสร้างฐาน")
 
 
 def test_immortality_five_chapter_batch_scan_budget_covers_all_source_blocks():

@@ -88,3 +88,14 @@ The run cannot safely advance until the post-refinement QA call returns a usable
 - Current pending stage is `formatting`; no `ch012` repair or `ch016` work was started, and no provider process remained after exit.
 
 Cause: the formatting provider altered content instead of making formatting-only changes. Prevention already active: deterministic content-preservation validation plus strict provider-stop prevents unsafe formatter output from reaching final assembly. Next safe action after explicit resume: rerun only `ch011-block-004` from `formatting`, then assemble and verify `ch011`.
+
+## New-Model ch012 Stop 2026-08-29
+
+- `ch011-block-004` formatting subsequently passed; assembled `ch011` passed the output guardrail and scoped Sentinel `0/0/0/0`.
+- Production routing was migrated to Gemini 3.7 Flash and DeepSeek V4 Flash 0731, with DeepSeek V4 Pro removed.
+- DeepSeek V4 Flash 0731 completed `ch012-block-004` refinement.
+- The reasoning QA call was closed by the remote host after 42.53 seconds (`WinError 10054`); strict mode stopped without fallback and left the block pending QA.
+- Inspection found `ไม่สามารถขั้นสร้างฐาน` in the new refined artifact. Cause: the original rejected-variant rule did not cover this modal construction.
+- Prevention was expanded in the bare `築基` glossary note, registry forbidden-output pattern, and regression test.
+
+No QA verdict, formatting, assembly, or `ch016` work followed the provider failure. Next safe action after explicit resume is to rerun `ch012-block-004` from refinement so the expanded glossary rule is applied before QA.
