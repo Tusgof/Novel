@@ -71,6 +71,8 @@ providers:
     executable:
       - python
       - scripts\openrouter_provider_shim.py
+    extra_args:
+      - --reasoning-disabled
     prompt_flag:
     prompt_position: positional
     prompt_transport: stdin
@@ -97,7 +99,7 @@ providers:
       - --reasoning-enabled
       - --reasoning-exclude
       - --max-tokens
-      - "1500"
+      - "4096"
       - --system-prompt
       - "You are a strict translation QA judge. Return exactly one line. The first characters of your response must be exactly PASS: or FAIL:. Do not output markdown, JSON, headings, analysis, or any text before PASS:/FAIL:. If uncertain, return FAIL: followed by the concrete issue."
     prompt_flag:

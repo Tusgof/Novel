@@ -1,8 +1,10 @@
 
 import json
+import io
 import re
 import tempfile
 
+from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 from novel_pipeline.stages.translate import format_glossary_subset, parse_literal_pairs
 from novel_pipeline.artifacts import batch_glossary_scan_artifact_path
@@ -2333,6 +2335,7 @@ def test_immortality_glossary_policy_keeps_names_and_cultivation_terms_consisten
     expectations = {
         "一休.md": ("อีซิว", "character"),
         "一休大師.md": ("พระอาจารย์อีซิว", "title"),
+        "上清觀.md": ("สำนักซ่างชิง", "sect"),
         "隨機傳送陣.md": ("ค่ายกลเคลื่อนย้ายแบบสุ่ม", "technique"),
         "木靈根.md": ("รากวิญญาณธาตุไม้", "term"),
         "上品木靈根.md": ("รากวิญญาณธาตุไม้ชั้นสูง", "realm"),
@@ -2376,6 +2379,15 @@ def test_immortality_glossary_policy_keeps_names_and_cultivation_terms_consisten
         if item["label"] == "Immortality System: malformed bare 築基 verb phrase"
     )
     assert re.search(malformed_pattern, "ไม่สามารถขั้นสร้างฐาน")
+    shangqing_entry = parse_glossary_note(glossary_root / "上清觀.md")
+    assert shangqing_entry is not None
+    assert shangqing_entry.rejected_variants == ("สำนักชิงชิง",)
+    shangqing_pattern = next(
+        item["pattern"]
+        for item in immortality["quality"]["forbidden_output_patterns"]
+        if item["label"] == "Immortality System: rejected mistransliteration of 上清觀"
+    )
+    assert re.search(shangqing_pattern, "สำนักชิงชิง")
 
 
 def test_immortality_five_chapter_batch_scan_budget_covers_all_source_blocks():
@@ -5330,16 +5342,24 @@ def test_inspect_block_command_reports_artifacts_and_validation():
     translating = RunRecord.new(run_id=run_id, block_id=block_id, stage="translating", status="completed", provider="gemini")
     refining = RunRecord.new(run_id=run_id, block_id=block_id, stage="refining", status="completed", provider="claude")
     qa_failed = RunRecord.new(run_id=run_id, block_id=block_id, stage="qa", status="failed", provider="gemini")
+    formatting_failed = RunRecord.new(
+        run_id=run_id,
+        block_id=block_id,
+        stage="formatting",
+        status="failed",
+        provider="openrouter",
+    )
     state = ResumeState(
         run_id=run_id,
-        records=(translating, refining, qa_failed),
-        latest_by_block={block_id: qa_failed},
+        records=(translating, refining, qa_failed, formatting_failed),
+        latest_by_block={block_id: formatting_failed},
         latest_by_stage={
             (block_id, "translating"): translating,
             (block_id, "refining"): refining,
             (block_id, "qa"): qa_failed,
+            (block_id, "formatting"): formatting_failed,
         },
-        records_by_block={block_id: [translating, refining, qa_failed]},
+        records_by_block={block_id: [translating, refining, qa_failed, formatting_failed]},
     )
 
     with tempfile.TemporaryDirectory() as tmpdir:
@@ -5372,8 +5392,12 @@ def test_inspect_block_command_reports_artifacts_and_validation():
 
     assert result["chapter_id"] == chapter_id
     assert result["artifact_exists"] == {"source": True, "literal": True, "refined": True, "qa": True, "formatted": True}
-    assert len(result["records"]) == 3
+    assert len(result["records"]) == 4
     assert result["next_pending_stage"] == "qa"
+    assert (
+        "formatted artifact is stale or uncommitted: latest formatting stage status is failed"
+        in result["formatted_validation_issues"]
+    )
     assert "provider/meta marker: gemini" in result["formatted_validation_issues"]
     assert "provider/meta marker: stdout" in result["formatted_validation_issues"]
     assert "Han Chinese characters present" in result["formatted_validation_issues"]
@@ -8877,7 +8901,131 @@ def test_openrouter_shim_sends_reasoning_payload():
     assert request_payload["max_tokens"] == 1500
     assert request_payload["reasoning"] == {"enabled": True, "exclude": True}
     assert "Authorization" in captured["headers"]  # type: ignore[operator]
+
+    with patch.object(shim.urllib.request, "Request", FakeRequest), patch.object(
+        shim.urllib.request, "urlopen", return_value=FakeResponse()
+    ):
+        shim._request_once(
+            api_key="test-key",
+            model="deepseek/deepseek-v4-flash-0731",
+            prompt="refine",
+            system_prompt="system",
+            max_tokens=4096,
+            temperature=0.1,
+            timeout=10,
+            reasoning_enabled=False,
+            reasoning_exclude=False,
+            reasoning_disabled=True,
+        )
+    normal_payload = json.loads(captured["data"].decode("utf-8"))  # type: ignore[union-attr]
+    assert normal_payload["reasoning"] == {"enabled": False}
     print("✓ openrouter_shim_sends_reasoning_payload passes")
+
+
+def test_openrouter_shim_retries_empty_response_once_then_succeeds():
+    """A transient empty completion is retried with the same key and request."""
+    import importlib.util
+    import sys
+
+    shim_path = Path("scripts/openrouter_provider_shim.py")
+    spec = importlib.util.spec_from_file_location("openrouter_provider_shim_retry_test", shim_path)
+    assert spec is not None and spec.loader is not None
+    shim = importlib.util.module_from_spec(spec)
+    sys.modules["openrouter_provider_shim_retry_test"] = shim
+    spec.loader.exec_module(shim)
+
+    responses = [
+        (
+            200,
+            {
+                "choices": [{"message": {"content": ""}, "finish_reason": "stop"}],
+                "usage": {"completion_tokens": 0},
+            },
+            "",
+        ),
+        (200, {"choices": [{"message": {"content": "usable output"}}]}, ""),
+    ]
+    with patch.object(shim, "_key_candidates", return_value=[shim.KeyCandidate("secret", "process")]), patch.object(
+        shim, "_request_once", side_effect=responses
+    ) as request_once, patch.object(shim.time, "sleep") as sleep:
+        stdout = io.StringIO()
+        with redirect_stdout(stdout):
+            result = shim.main(["--model", "test-model", "--prompt", "test prompt"])
+
+    assert result == 0
+    assert stdout.getvalue() == "usable output"
+    assert request_once.call_count == 2
+    sleep.assert_called_once_with(1.0)
+
+
+def test_openrouter_shim_does_not_retry_permanent_error():
+    """Permanent request errors remain fail-fast and never expose the API key."""
+    import importlib.util
+    import sys
+
+    shim_path = Path("scripts/openrouter_provider_shim.py")
+    spec = importlib.util.spec_from_file_location("openrouter_provider_shim_permanent_error_test", shim_path)
+    assert spec is not None and spec.loader is not None
+    shim = importlib.util.module_from_spec(spec)
+    sys.modules["openrouter_provider_shim_permanent_error_test"] = shim
+    spec.loader.exec_module(shim)
+
+    with patch.object(shim, "_key_candidates", return_value=[shim.KeyCandidate("secret", "process")]), patch.object(
+        shim, "_request_once", return_value=(400, None, "bad request")
+    ) as request_once:
+        stderr = io.StringIO()
+        with redirect_stderr(stderr):
+            result = shim.main(["--model", "test-model", "--prompt", "test prompt"])
+
+    assert result == 1
+    assert request_once.call_count == 1
+    assert "bad request" in stderr.getvalue()
+    assert "secret" not in stderr.getvalue()
+
+
+def test_openrouter_shim_does_not_retry_length_limited_empty_response():
+    """Token-budget exhaustion is deterministic and must not incur a duplicate call."""
+    import importlib.util
+    import sys
+
+    shim_path = Path("scripts/openrouter_provider_shim.py")
+    spec = importlib.util.spec_from_file_location("openrouter_provider_shim_length_test", shim_path)
+    assert spec is not None and spec.loader is not None
+    shim = importlib.util.module_from_spec(spec)
+    sys.modules["openrouter_provider_shim_length_test"] = shim
+    spec.loader.exec_module(shim)
+
+    payload = {
+        "choices": [
+            {
+                "message": {"content": ""},
+                "finish_reason": "length",
+                "native_finish_reason": "length",
+            }
+        ],
+        "usage": {"completion_tokens": 1500},
+    }
+    with patch.object(shim, "_key_candidates", return_value=[shim.KeyCandidate("secret", "process")]), patch.object(
+        shim, "_request_once", return_value=(200, payload, "")
+    ) as request_once, patch.object(shim.time, "sleep") as sleep:
+        stderr = io.StringIO()
+        with redirect_stderr(stderr):
+            result = shim.main(["--model", "test-model", "--prompt", "test prompt"])
+
+    assert result == 1
+    assert request_once.call_count == 1
+    sleep.assert_not_called()
+    assert "finish_reason=length" in stderr.getvalue()
+    assert "completion_tokens=1500" in stderr.getvalue()
+
+
+def test_immortality_shangqing_glossary_rejects_old_mistransliteration():
+    """The approved sect name preserves the Mandarin Shangqing reading."""
+    workspace_root = Path(__file__).resolve().parents[1]
+    note = (workspace_root / "Immortality System/01_Glossary/上清觀.md").read_text(encoding="utf-8")
+
+    assert "thai_term: สำนักซ่างชิง" in note
+    assert "rejected_variants: [สำนักชิงชิง]" in note
 
 
 def test_production_provider_routing_enables_ai_scan_and_formatting():
@@ -8908,6 +9056,9 @@ def test_production_provider_routing_enables_ai_scan_and_formatting():
     assert "--reasoning-enabled" in qa_provider.extra_args
     assert "--reasoning-exclude" in qa_provider.extra_args
     assert "--max-tokens" in qa_provider.extra_args
+    qa_budget_index = qa_provider.extra_args.index("--max-tokens")
+    assert qa_provider.extra_args[qa_budget_index + 1] == "4096"
+    assert "--reasoning-disabled" in config.providers["openrouter"].extra_args
 
     workspace_root = Path(__file__).resolve().parents[1]
     production_configs = (
@@ -8932,6 +9083,11 @@ def test_production_provider_routing_enables_ai_scan_and_formatting():
             model != "deepseek/deepseek-v4-pro"
             for _, model in production_config.fallback_routes_for_stage("qa_judge")
         )
+        production_qa_provider = production_config.provider_for_stage("qa_judge")
+        assert "--reasoning-disabled" in production_config.providers["openrouter"].extra_args
+        if production_qa_provider.name == "openrouter_reasoning":
+            budget_index = production_qa_provider.extra_args.index("--max-tokens")
+            assert production_qa_provider.extra_args[budget_index + 1] == "4096"
     print("✓ production_provider_routing_enables_ai_scan_and_formatting passes")
 
 
@@ -9119,5 +9275,9 @@ if __name__ == "__main__":
     test_provider_timeout_is_classified_and_process_tree_cleaned()
     test_config_parses_max_command_chars()
     test_openrouter_shim_sends_reasoning_payload()
+    test_openrouter_shim_retries_empty_response_once_then_succeeds()
+    test_openrouter_shim_does_not_retry_permanent_error()
+    test_openrouter_shim_does_not_retry_length_limited_empty_response()
+    test_immortality_shangqing_glossary_rejects_old_mistransliteration()
     test_production_provider_routing_enables_ai_scan_and_formatting()
     print("All tests passed!")

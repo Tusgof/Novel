@@ -73,6 +73,7 @@ providers:
     - python
     - scripts\openrouter_provider_shim.py
     extra_args:
+    - --reasoning-disabled
     - --max-tokens
     - '12000'
     prompt_flag: null
@@ -101,7 +102,7 @@ providers:
     - --reasoning-enabled
     - --reasoning-exclude
     - --max-tokens
-    - '1500'
+    - '4096'
     - --system-prompt
     - 'You are a strict translation QA judge. Return exactly one line. The first characters
       of your response must be exactly PASS: or FAIL:. Do not output markdown, JSON,

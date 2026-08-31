@@ -1,0 +1,21 @@
+{
+  "created_at": "2026-08-31T11:12:43.316621+00:00",
+  "scope": "immortality-system-ch011-ch015-v1_ch012_sentinel",
+  "chapters": "ch012",
+  "counts": {
+    "blocker": 1,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Immortality System\\05_Output\\ch012\\ch012.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Immortality System\\05_Output\\ch012\\ch012.md: immortality-system forbidden output pattern remains: Immortality System: rejected mistransliteration of 上清觀 ('สำนักชิงชิง')",
+      "evidence": ""
+    }
+  ]
+}

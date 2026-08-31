@@ -75,6 +75,7 @@ def _request_once(
     timeout: int,
     reasoning_enabled: bool,
     reasoning_exclude: bool,
+    reasoning_disabled: bool = False,
 ) -> tuple[int, dict[str, Any] | None, str]:
     payload = {
         "model": model,
@@ -90,6 +91,8 @@ def _request_once(
             "enabled": True,
             "exclude": reasoning_exclude,
         }
+    elif reasoning_disabled:
+        payload["reasoning"] = {"enabled": False}
     request = urllib.request.Request(
         CHAT_URL,
         data=json.dumps(payload).encode("utf-8"),
@@ -129,13 +132,43 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--max-tokens", type=int, default=4096)
     parser.add_argument("--temperature", type=float, default=0.1)
     parser.add_argument("--timeout", type=int, default=300)
-    parser.add_argument("--reasoning-enabled", action="store_true")
+    reasoning_mode = parser.add_mutually_exclusive_group()
+    reasoning_mode.add_argument("--reasoning-enabled", action="store_true")
+    reasoning_mode.add_argument("--reasoning-disabled", action="store_true")
     parser.add_argument("--reasoning-exclude", action="store_true")
+    parser.add_argument("--transient-retries", type=int, default=1)
+    parser.add_argument("--retry-delay-seconds", type=float, default=1.0)
     return parser.parse_args(argv)
+
+
+def _empty_response_detail(payload: dict[str, Any]) -> str:
+    choices = payload.get("choices") or [{}]
+    choice = choices[0] if isinstance(choices[0], dict) else {}
+    usage = payload.get("usage", {})
+    details = {
+        "finish_reason": choice.get("finish_reason"),
+        "native_finish_reason": choice.get("native_finish_reason"),
+        "completion_tokens": usage.get("completion_tokens"),
+    }
+    rendered = ", ".join(f"{key}={value}" for key, value in details.items() if value is not None)
+    return f" ({rendered})" if rendered else ""
+
+
+def _empty_response_is_transient(payload: dict[str, Any]) -> bool:
+    choices = payload.get("choices") or [{}]
+    choice = choices[0] if isinstance(choices[0], dict) else {}
+    return choice.get("finish_reason") not in {"length", "content_filter"}
+
+
+def _is_transient_failure(status: int) -> bool:
+    return status == 0 or status in {408, 429} or status >= 500
 
 
 def main(argv: list[str]) -> int:
     args = parse_args(argv)
+    if args.transient_retries < 0 or args.retry_delay_seconds < 0:
+        print("OpenRouter shim error: retry settings must be non-negative.", file=sys.stderr)
+        return 2
     prompt = _read_prompt(args).strip()
     if not prompt:
         print("OpenRouter shim error: empty prompt.", file=sys.stderr)
@@ -149,33 +182,46 @@ def main(argv: list[str]) -> int:
     last_error = ""
     started = time.perf_counter()
     for index, candidate in enumerate(candidates):
-        status, payload, error = _request_once(
-            api_key=candidate.value,
-            model=args.model,
-            prompt=prompt,
-            system_prompt=args.system_prompt,
-            max_tokens=args.max_tokens,
-            temperature=args.temperature,
-            timeout=args.timeout,
-            reasoning_enabled=args.reasoning_enabled,
-            reasoning_exclude=args.reasoning_exclude,
-        )
-        if payload is not None and status == 200:
-            content = (
-                payload.get("choices", [{}])[0]
-                .get("message", {})
-                .get("content", "")
+        use_next_key = False
+        for attempt in range(args.transient_retries + 1):
+            status, payload, error = _request_once(
+                api_key=candidate.value,
+                model=args.model,
+                prompt=prompt,
+                system_prompt=args.system_prompt,
+                max_tokens=args.max_tokens,
+                temperature=args.temperature,
+                timeout=args.timeout,
+                reasoning_enabled=args.reasoning_enabled,
+                reasoning_exclude=args.reasoning_exclude,
+                reasoning_disabled=args.reasoning_disabled,
             )
-            if content:
-                sys.stdout.write(str(content).strip())
-                return 0
-            last_error = "OpenRouter returned an empty assistant message."
-            continue
+            if payload is not None and status == 200:
+                content = (
+                    payload.get("choices", [{}])[0]
+                    .get("message", {})
+                    .get("content", "")
+                )
+                if content:
+                    sys.stdout.write(str(content).strip())
+                    return 0
+                last_error = "OpenRouter returned an empty assistant message" + _empty_response_detail(payload) + "."
+                transient = _empty_response_is_transient(payload)
+            else:
+                last_error = error or f"OpenRouter HTTP status {status}."
+                transient = _is_transient_failure(status)
 
-        last_error = error or f"OpenRouter HTTP status {status}."
-        # User changed the key while Codex was running; a stale process env key
-        # often fails with 401. Retry the User-scope candidate once when present.
-        if status == 401 and index + 1 < len(candidates):
+            if transient and attempt < args.transient_retries:
+                if args.retry_delay_seconds:
+                    time.sleep(args.retry_delay_seconds)
+                continue
+
+            # User changed the key while Codex was running; a stale process env key
+            # often fails with 401. Retry the User-scope candidate once when present.
+            use_next_key = status == 401 and index + 1 < len(candidates)
+            break
+
+        if use_next_key:
             continue
         break
 

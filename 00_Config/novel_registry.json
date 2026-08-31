@@ -257,6 +257,10 @@
           {
             "pattern": "(?:จะ|ยังไม่|การ|ไม่สามารถ)ขั้นสร้างฐาน",
             "label": "Immortality System: malformed bare 築基 verb phrase"
+          },
+          {
+            "pattern": "สำนักชิงชิง",
+            "label": "Immortality System: rejected mistransliteration of 上清觀"
           }
         ]
       }

@@ -3021,6 +3021,15 @@ def inspect_block_command(
 
     formatted_validation_issues: list[str] = []
     if artifact_exists["formatted"]:
+        latest_formatting = latest_by_stage.get("formatting")
+        latest_formatting_status = (
+            str(latest_formatting.get("status", "")) if latest_formatting else "missing"
+        )
+        if latest_formatting_status != "completed":
+            formatted_validation_issues.append(
+                "formatted artifact is stale or uncommitted: "
+                f"latest formatting stage status is {latest_formatting_status}"
+            )
         formatted_raw = read_text_if_exists(Path(artifact_paths["formatted"]))
         if formatted_raw is None:
             formatted_validation_issues.append("formatted artifact exists but could not be read")
