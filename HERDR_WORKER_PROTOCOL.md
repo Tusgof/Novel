@@ -11,6 +11,16 @@ HERDR is the bounded handoff protocol for a coding-agent worker and an independe
 
 ## Preflight and transport
 
+When the Inspector launches the worker through the agent tool, the launch arguments are literal:
+
+```text
+model = gpt-5.6-luna
+reasoning_effort = max
+surface = separate agent pane
+```
+
+Do not substitute `xhigh` for `max`. The agent tool creates the separate pane; do not use a manual right split.
+
 1. Inspector sends an order with a unique `order_id`, `nonce`, repository, branch, and `base_hash`.
 2. Worker confirms the identifiers and scope in `ACK`. Before an explicit smoke authorization, it does not read repository files, run commands, or edit.
 3. If smoke is authorized, worker runs only the listed read-only checks in the current working directory and returns exact `cwd`, branch, `HEAD`, short status, and `edits=0` in `SMOKE`.

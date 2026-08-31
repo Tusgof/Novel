@@ -93,6 +93,11 @@ class ValidateHerdrEnvelopeTests(unittest.TestCase):
         value["worker"]["runtime"] = "provider/model"
         self.assert_error_contains(value, "worker.runtime")
 
+    def test_rejects_xhigh_when_max_is_required(self):
+        value = envelope()
+        value["worker"]["reasoning"] = "xhigh"
+        self.assert_error_contains(value, "worker.reasoning")
+
     def test_ack_rejects_activity_before_start(self):
         value = envelope()
         value["ack"]["files_read"] = 1
