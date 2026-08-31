@@ -24,6 +24,8 @@ Main roles:
 - bounded worker: implements a narrow assigned scope
 - dashboard/operator: runs bounded workflows and inspects blockers
 
+HERDR coding-agent workers are transport-scoped implementation actors. They are separate from dashboard employee aliases and from translation provider stages; neither aliases nor provider routing grants a HERDR worker authority.
+
 ## Source Of Truth Map
 
 Workspace control docs:
@@ -32,6 +34,7 @@ Workspace control docs:
 - `PROJECT_BRAIN.md`: current verified state, active risks, guardrails, next safe action
 - `IMPLEMENT_PLAN.md`: roadmap, milestones, acceptance gates
 - `ARCHITECTURE.md`: structure, boundaries, flows, ownership
+- `HERDR_WORKER_PROTOCOL.md`: bounded transport and verification rules for coding-agent workers
 - `DOC_RECOVERY.md`: canonical doc hashes and recovery steps
 
 Shared/system config:
