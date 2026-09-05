@@ -1,6 +1,6 @@
 # Project Brain: Novel Translation System
 
-Last updated: 2026-08-29
+Last updated: 2026-09-05
 
 This is the durable memory for the workspace. Keep it compact. Put long evidence, experiments, and historical detail in root-level `07_Reports/` or `01_Research_Log/` as appropriate.
 
@@ -62,18 +62,6 @@ Deep Sea Embers:
 - DSE `ch252-ch261` production checkpoint completed and published: run `dse-ch252-ch261-v1` completed 58/58 blocks with no current or historical failed blocks; output guardrails and final scoped Sentinel passed `0/0/0/0`; MoonRead now publishes DSE through `ch261`. AI formatter fallback occurred three times, but validators rejected unsafe/empty provider output and preserved verified refined text through deterministic local fallback. `ch260-block-001` recovered an omitted approved term (`教皇 -> พระสันตะปาปา`) before QA passed, with no force-accept. Report: `07_Reports/dse_ch252_ch261_production_checkpoint_20260712.md`.
 - DSE `ch262-ch281` production checkpoint completed and published: runs `dse-ch262-ch266-v1`, `dse-ch267-ch271-v1`, `dse-ch272-ch276-v1`, and `dse-ch277-ch281-v1` completed all blocks with no current failed blocks. Final output guardrails and scoped Sentinel passed `0/0/0/0`; MoonRead generation, lint, build, and smoke passed and the reader now has DSE through `ch281`. `ch269-block-004` required a bounded QA-stage recovery for the mistranslated publication phrase; the corrected artifact passed QA without force-accept. Provider timeout/retry incidents recovered through configured fallbacks. Report: `07_Reports/dse_ch262_ch281_production_checkpoint_20260713.md`.
 - Libra - Pilot Gate DSE completed on 2026-06-29 in isolated experiment vault `Deep Sea Embers/04_Work/_experiments/libra_pilot_dse_v1`. Raw sampling used fetched `03_Raw/ch001-ch160` with seed `632160`; in-sample `dse-libra-pilot-insample-v1` completed 54/54 blocks and OOS `dse-libra-pilot-oos-v1` completed 56/56 blocks. Current failed blocks: none. Output guardrails passed and Sentinel blocker/major/minor/info was `0/0/0/0`. Report: `Deep Sea Embers/07_Reports/libra_pilot_gate_dse_completion_20260629.md`.
-
-Immortality System:
-
-- Production is explicitly approved for `ch001-ch150` in sequential five-chapter bounded batches. `ch001-ch011` are complete; repaired `ch011` passed output guardrails and scoped Sentinel `0/0/0/0`. Under the new routing, the first `ch012-block-004` refinement completed but reasoning QA hit a remote connection reset after 42.53 seconds; the next bounded refinement attempt returned an empty assistant message after 24.59 seconds. Expanded prevention covers the observed malformed `ไม่สามารถขั้นสร้างฐาน`. The block remains pending refinement and no `ch016` work has started. Evidence: `Immortality System/07_Reports/immortality_system_ch011_ch015_production_stop_20260829.md` and `07_Reports/openrouter_model_routing_migration_20260829.md`.
-- Setup audit completed: required vault folders, registry entry, `NOVEL_PROFILE.yaml`, source adapter configuration, and the shared Layer 1 playbook `00_Config/language_playbooks/chinese_to_thai.md` are present. The profile now records the selected language playbook.
-- New novel setup completed on 2026-08-28 for Chinese source `系统赋我长生，我熬死了所有人`, using Novel543 as the verified fetch source. Raw source validation passed for `ch001-ch2570` (`2570/2570` usable chapters); the locked Libra - Pilot Gate sample contains 10 in-sample and 10 out-of-sample chapters with source parity `0` mismatches.
-- Libra - Pilot Gate completed on 2026-08-28 in the isolated experiment vault `Immortality System/04_Work/_experiments/libra_pilot_immortality_system_v1`. In-sample completed all 10 chapters and 42/42 blocks; OOS completed all 10 chapters and 40/40 blocks. Both sets have current failed blocks `0`, source parity `0`, clean output checks, and final blocking Sentinel `0/0/0/0`. Evidence: `07_Reports/immortality_system_libra_pilot_completion_20260828.md` and `01_Research_Log/2026-08-28_novel_pipeline_immortality_libra_pilot_completion.md`.
-- The in-sample run has 3 historical OpenRouter empty-assistant refinement failures, all recovered through bounded recovery without force-accept. OOS has no historical failed records. All 20 title sidecars are valid and all experiment outputs remain isolated; no production output or MoonRead content was changed.
-- The glossary audit produced exact-match differences for generic/context-dependent terms such as `紀元`, `五姓`, `有人`, and `九域`, but no suspicious wrong variants or blocking glossary findings. These remain research observations and are not promoted into production glossary intent.
-- Experiment-aware Sentinel scope resolution now walks to the nearest experiment registry and points reports at the experiment root; regression coverage is in `Deep Sea Embers/test_translation.py`. This prevents nested experiment runs from silently resolving production Sentinel paths.
-- A glossary template defect was fixed in `Immortality System/00_Templates/Term-Template.md` and its experiment copy: missing YAML frontmatter opening and duplicated source-language replacement. Regression test: `test_immortality_term_template_round_trips_written_note`.
-- Historical pilot incident reports remain available under `Immortality System/07_Reports/`; they are evidence of fail-closed behavior and recovery, not current blockers. Do not start production automatically; obtain a separate explicit range approval first.
 
 Horror Game Developer:
 
@@ -400,9 +388,8 @@ V6.33 translation-output and reader-publication phase is complete:
 
 Next safe choices:
 
-1. Immortality System: `ch011` repair is complete and verified. After explicit resume, rerun `ch012-block-004` from refinement to apply the expanded `ไม่สามารถขั้นสร้างฐาน` prevention, then pass `ch011-ch012` through guardrails/Sentinel before opening `ch016-ch020`. Do not copy pilot artifacts into production.
-2. Keep all experiment output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead.
-3. Keep broad unattended parallel translate/refine/QA disabled; V6.34 and the IRS pilot support bounded sequential production only.
-4. Record each completed experiment round in `01_Research_Log/` and push it immediately.
-5. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.
-6. For any next translation work, use a fresh bounded scan-only gate with an explicit user-approved range and a 5-chapter glossary gate.
+1. Keep all experiment output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead.
+2. Keep broad unattended parallel translate/refine/QA disabled; V6.34 and the IRS pilot support bounded sequential production only.
+3. Record each completed experiment round in `01_Research_Log/` and push it immediately.
+4. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.
+5. For any next translation work, use a fresh bounded scan-only gate with an explicit user-approved range and a 5-chapter glossary gate.

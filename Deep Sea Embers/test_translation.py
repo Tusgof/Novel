@@ -688,17 +688,6 @@ def test_build_term_suggestion_returns_provider_options():
         assert len(suggestion.rationales) == 3
 
 
-def test_curated_five_element_mixed_spirit_root_options_preserve_meaning():
-    """Known Immortality System term gets accurate Thai options without provider drift."""
-    from novel_pipeline.stages.glossary import _curated_fallback_options
-
-    options = _curated_fallback_options("五行雜靈根")
-
-    assert len(options) == 3
-    assert all("รากวิญญาณ" in option for option in options)
-    assert all("จำแลง" not in option for option in options)
-
-
 def test_piaotia_extract_legacy_content_div():
     """Extract chapter text from legacy div id='content'."""
     with patch('novel_pipeline.adapters.piaotia.validate_text_script'):
@@ -1573,17 +1562,17 @@ def test_title_resolver_ignores_nested_short_glossary_term():
         glossary_dir.mkdir(parents=True)
         for filename, original_term, thai_term in (
             ("紀元.md", "紀元", "ยุคสมัย"),
-            ("長生紀元.md", "長生紀元", "ยุคอมตะ"),
+            ("新紀元.md", "新紀元", "ยุคใหม่"),
         ):
             (glossary_dir / filename).write_text(
                 f"---\noriginal_term: {original_term}\nthai_term: {thai_term}\nstatus: approved\ncategory: term\n---\n",
                 encoding="utf-8",
             )
-        title_dir = base / "04_Work" / "ch2307"
+        title_dir = base / "04_Work" / "ch123"
         title_dir.mkdir(parents=True)
         (title_dir / "title.json").write_text(
             json.dumps(
-                {"thai_title": "บทที่ 2307: ผู้คลั่งแห่งยุคอมตะ"},
+                {"thai_title": "บทที่ 123: ผู้มาเยือนแห่งยุคใหม่"},
                 ensure_ascii=False,
             ),
             encoding="utf-8",
@@ -1592,15 +1581,15 @@ def test_title_resolver_ignores_nested_short_glossary_term():
         config.workspace = Mock()
         config.workspace.work = base / "04_Work"
         config.workspace.glossary_dir = glossary_dir
-        config.novel_id = "immortality-system"
+        config.novel_id = "sample-zh-novel"
         source = ChapterSource(
-            novel_id="immortality-system",
-            chapter_id="ch2307",
-            title="第2307章 長生紀元的瘋子！",
+            novel_id="sample-zh-novel",
+            chapter_id="ch123",
+            title="第123章 新紀元的訪客！",
             source_language="zh",
         )
 
-        assert _resolve_chapter_output_title(config, "ch2307", source) == "บทที่ 2307: ผู้คลั่งแห่งยุคอมตะ"
+        assert _resolve_chapter_output_title(config, "ch123", source) == "บทที่ 123: ผู้มาเยือนแห่งยุคใหม่"
 
 
 def test_irs_title_resolver_requires_thai_sidecar_for_english_titles():
@@ -2278,36 +2267,6 @@ def test_parse_glossary_note_accepts_utf8_bom():
     assert entry.rejected_variants == ("ซาร่าห์",)
 
 
-def test_immortality_term_template_round_trips_written_note():
-    from novel_pipeline.glossary_support import parse_glossary_note, write_glossary_note
-
-    template_path = Path(__file__).resolve().parents[1] / "Immortality System" / "00_Templates" / "Term-Template.md"
-    template = template_path.read_text(encoding="utf-8")
-    assert template.startswith("---\n")
-
-    with tempfile.TemporaryDirectory() as tmp:
-        note_path = write_glossary_note(
-            template_text=template,
-            glossary_dir=Path(tmp),
-            entry=GlossaryEntry(
-                original_term="仙尊境",
-                thai_term="ระดับเซียนผู้สูงส่ง",
-                category="realm",
-                status="approved",
-                source_language="zh",
-            ),
-            first_seen_chapter="ch001",
-            first_seen_block="ch001-block-001",
-        )
-        entry = parse_glossary_note(note_path)
-
-    assert entry is not None
-    assert entry.original_term == "仙尊境"
-    assert entry.thai_term == "ระดับเซียนผู้สูงส่ง"
-    assert entry.status == "approved"
-    assert entry.source_language == "zh"
-
-
 def test_rejected_glossary_note_has_no_trailing_whitespace():
     from novel_pipeline.glossary_support import write_glossary_note
     from novel_pipeline.types import GlossaryEntry
@@ -2326,79 +2285,6 @@ def test_rejected_glossary_note_has_no_trailing_whitespace():
 
     assert "\nthai_term:\n" in note_text
     assert "\nthai_term: \n" not in note_text
-
-
-def test_immortality_glossary_policy_keeps_names_and_cultivation_terms_consistent():
-    from novel_pipeline.glossary_support import parse_glossary_note
-
-    glossary_root = Path(__file__).resolve().parents[1] / "Immortality System" / "01_Glossary"
-    expectations = {
-        "一休.md": ("อีซิว", "character"),
-        "一休大師.md": ("พระอาจารย์อีซิว", "title"),
-        "上清觀.md": ("สำนักซ่างชิง", "sect"),
-        "隨機傳送陣.md": ("ค่ายกลเคลื่อนย้ายแบบสุ่ม", "technique"),
-        "木靈根.md": ("รากวิญญาณธาตุไม้", "term"),
-        "上品木靈根.md": ("รากวิญญาณธาตุไม้ชั้นสูง", "realm"),
-        "鍊氣期.md": ("ขั้นหลอมปราณ", "realm"),
-        "鍊氣一層.md": ("หลอมปราณชั้นที่ 1", "realm"),
-        "鍊氣功法.md": ("คัมภีร์หลอมปราณ", "technique"),
-        "練氣四層.md": ("หลอมปราณชั้นที่ 4", "realm"),
-        "練氣九層.md": ("หลอมปราณชั้นที่ 9", "realm"),
-        "築基.md": ("สร้างฐาน", "realm"),
-        "築基期.md": ("ขอบเขตสร้างฐาน", "realm"),
-        "築基中期.md": ("ขอบเขตสร้างฐานขั้นกลาง", "realm"),
-        "築基後期.md": ("ขอบเขตสร้างฐานขั้นปลาย", "realm"),
-        "築基期圓滿.md": ("ขอบเขตสร้างฐานขั้นสมบูรณ์", "realm"),
-        "元嬰期.md": ("ขอบเขตดวงจิตทารก", "term"),
-        "金丹圓滿.md": ("ขอบเขตเม็ดทองขั้นสมบูรณ์", "realm"),
-        "大妖.md": ("จอมอสูร", "title"),
-    }
-
-    for filename, (thai_term, category) in expectations.items():
-        entry = parse_glossary_note(glossary_root / filename)
-        assert entry is not None
-        assert entry.status == "approved"
-        assert entry.thai_term == thai_term
-        assert entry.category == category
-
-    generic_entry = parse_glossary_note(glossary_root / "有人.md")
-    assert generic_entry is not None
-    assert generic_entry.status == "deprecated"
-
-    registry = json.loads(
-        (Path(__file__).resolve().parents[1] / "00_Config" / "novel_registry.json").read_text(encoding="utf-8")
-    )
-    immortality = next(item for item in registry["novels"] if item["slug"] == "immortality-system")
-    forbidden_labels = {
-        item["label"] for item in immortality["quality"]["forbidden_output_patterns"]
-    }
-    assert "Immortality System: malformed bare 築基 verb phrase" in forbidden_labels
-    malformed_pattern = next(
-        item["pattern"]
-        for item in immortality["quality"]["forbidden_output_patterns"]
-        if item["label"] == "Immortality System: malformed bare 築基 verb phrase"
-    )
-    assert re.search(malformed_pattern, "ไม่สามารถขั้นสร้างฐาน")
-    shangqing_entry = parse_glossary_note(glossary_root / "上清觀.md")
-    assert shangqing_entry is not None
-    assert shangqing_entry.rejected_variants == ("สำนักชิงชิง",)
-    shangqing_pattern = next(
-        item["pattern"]
-        for item in immortality["quality"]["forbidden_output_patterns"]
-        if item["label"] == "Immortality System: rejected mistransliteration of 上清觀"
-    )
-    assert re.search(shangqing_pattern, "สำนักชิงชิง")
-
-
-def test_immortality_five_chapter_batch_scan_budget_covers_all_source_blocks():
-    from novel_pipeline.config import load_app_config
-
-    config_path = Path(__file__).resolve().parents[1] / "Immortality System" / ".system" / "config.yaml"
-    config = load_app_config(config_path)
-    routing = config.stage_routing_for("term_extraction")
-
-    assert config.batch.default_batch_size == 5
-    assert routing.max_calls_per_scan >= 20
 
 
 def test_hybrid_formatting_uses_provider_when_valid():
@@ -4990,7 +4876,7 @@ def test_resume_chapter_blocks_before_provider_work_when_title_sidecar_is_missin
         config.source_language = "zh"
         config.chunking.chinese_character_limit = 600
         config.chunking.non_chinese_word_limit = 300
-        config.novel_id = "immortality-system"
+        config.novel_id = "sample-zh-novel"
 
         source_payload = json.dumps(
             {
@@ -7308,7 +7194,7 @@ def test_registry_forbidden_output_pattern_guardrail_flags_irs_thai_numerals():
     assert all("Thai numeral; IRS output must use Arabic digits" in issue for issue in issues)
 
 
-def test_registry_forbidden_output_pattern_guardrail_flags_immortality_standalone_completion_marker():
+def test_registry_forbidden_output_pattern_guardrail_flags_standalone_completion_marker():
     """Registry-driven guardrail catches provider-invented standalone completion markers."""
     import importlib.util
     import sys
@@ -7316,11 +7202,11 @@ def test_registry_forbidden_output_pattern_guardrail_flags_immortality_standalon
 
     script_path = Path("scripts/check_output_quality_guardrails.py")
     spec = importlib.util.spec_from_file_location(
-        "check_output_quality_guardrails_immortality_marker_test", script_path
+        "check_output_quality_guardrails_completion_marker_test", script_path
     )
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
-    sys.modules["check_output_quality_guardrails_immortality_marker_test"] = module
+    sys.modules["check_output_quality_guardrails_completion_marker_test"] = module
     spec.loader.exec_module(module)
 
     with tempfile.TemporaryDirectory() as tmp:
@@ -7329,25 +7215,25 @@ def test_registry_forbidden_output_pattern_guardrail_flags_immortality_standalon
         module.MOONREAD = tmp_root / "MoonRead"
         module.REGISTERED_NOVELS = [
             {
-                "slug": "immortality-system",
-                "folder": "Immortality System",
+                "slug": "sample-novel",
+                "folder": "Sample Novel",
                 "output_dir": "05_Output",
                 "quality": {
                     "forbidden_output_patterns": [
                         {
                             "pattern": r"(?m)^\s*จบ\s*$",
-                            "label": "Immortality System: standalone completion marker leakage",
+                            "label": "Standalone completion marker leakage",
                         }
                     ]
                 },
             }
         ]
 
-        output_path = tmp_root / "Immortality System" / "05_Output" / "ch004" / "ch004.md"
+        output_path = tmp_root / "Sample Novel" / "05_Output" / "ch004" / "ch004.md"
         output_path.parent.mkdir(parents=True)
         output_path.write_text("# บทที่ 4\n\nเนื้อหาก่อนหน้า\n\nจบ\n\nเนื้อหาต่อ\n", encoding="utf-8")
 
-        reader_path = tmp_root / "MoonRead" / "content/generated/books/immortality-system/chapters/ch004.md"
+        reader_path = tmp_root / "MoonRead" / "content/generated/books/sample-novel/chapters/ch004.md"
         reader_path.parent.mkdir(parents=True)
         reader_path.write_text("# บทที่ 4\n\nจบ\n", encoding="utf-8")
 
@@ -7355,7 +7241,7 @@ def test_registry_forbidden_output_pattern_guardrail_flags_immortality_standalon
         module.check_registry_forbidden_output_patterns(
             issues,
             scoped_chapters={"ch004"},
-            requested_novel="immortality-system",
+            requested_novel="sample-novel",
         )
 
     assert len(issues) == 2
@@ -7454,26 +7340,6 @@ def test_output_guardrail_scopes_infinite_regressor_config_path():
     ])
 
     assert slug == "infinite-regressor-stories"
-
-
-def test_output_guardrail_scopes_immortality_system_config_path():
-    """Immortality System config paths must select only that novel's guardrails."""
-    import importlib.util
-    import sys
-
-    script_path = Path("scripts/check_output_quality_guardrails.py")
-    spec = importlib.util.spec_from_file_location("check_output_quality_guardrails_immortality_scope_test", script_path)
-    assert spec is not None and spec.loader is not None
-    module = importlib.util.module_from_spec(spec)
-    sys.modules["check_output_quality_guardrails_immortality_scope_test"] = module
-    spec.loader.exec_module(module)
-
-    slug = module.requested_novel_slug([
-        "--config",
-        str(Path("D:/Fogust/Workspace/Novel/Immortality System/.system/config.yaml")),
-    ])
-
-    assert slug == "immortality-system"
 
 
 def test_output_guardrail_scopes_infinite_regressor_novel_argument():
@@ -7734,10 +7600,10 @@ def test_sentinel_existing_guardrail_preserves_windows_path_for_registry_scope()
 
     with tempfile.TemporaryDirectory() as tmp:
         tmp_root = Path(tmp)
-        issue_path = tmp_root / "Immortality System" / "05_Output" / "ch004" / "ch004.md"
+        issue_path = tmp_root / "Sample Novel" / "05_Output" / "ch004" / "ch004.md"
 
         def append_registry_issue(issues: list[str], **kwargs: object) -> None:
-            if kwargs.get("requested_novel") == "immortality-system":
+            if kwargs.get("requested_novel") == "sample-novel":
                 issues.append(f"{issue_path}: forbidden output pattern")
 
         noop = lambda *args, **kwargs: None
@@ -7761,8 +7627,8 @@ def test_sentinel_existing_guardrail_preserves_windows_path_for_registry_scope()
         registry = {
             "novels": [
                 {
-                    "slug": "immortality-system",
-                    "folder": "Immortality System",
+                    "slug": "sample-novel",
+                    "folder": "Sample Novel",
                     "output_dir": "05_Output",
                 }
             ]
@@ -9019,15 +8885,6 @@ def test_openrouter_shim_does_not_retry_length_limited_empty_response():
     assert "completion_tokens=1500" in stderr.getvalue()
 
 
-def test_immortality_shangqing_glossary_rejects_old_mistransliteration():
-    """The approved sect name preserves the Mandarin Shangqing reading."""
-    workspace_root = Path(__file__).resolve().parents[1]
-    note = (workspace_root / "Immortality System/01_Glossary/上清觀.md").read_text(encoding="utf-8")
-
-    assert "thai_term: สำนักซ่างชิง" in note
-    assert "rejected_variants: [สำนักชิงชิง]" in note
-
-
 def test_production_provider_routing_enables_ai_scan_and_formatting():
     """Production routing keeps AI glossary scan and AI formatting enabled."""
     from novel_pipeline.config import load_app_config
@@ -9065,7 +8922,6 @@ def test_production_provider_routing_enables_ai_scan_and_formatting():
         workspace_root / "Deep Sea Embers/.system/config.yaml",
         workspace_root / "Horror Game Developers/.system/config.yaml",
         workspace_root / "Infinite Regressor Stories/.system/config.yaml",
-        workspace_root / "Immortality System/.system/config.yaml",
     )
     expected_models = {
         "term_extraction": "google/gemini-3.7-flash",
@@ -9245,10 +9101,7 @@ if __name__ == "__main__":
     test_hgd_kaelen_glossary_note_body_matches_approved_thai_term()
     test_hgd_glossary_notes_record_rejected_variants_for_ch132_terms()
     test_parse_glossary_note_accepts_utf8_bom()
-    test_immortality_term_template_round_trips_written_note()
     test_rejected_glossary_note_has_no_trailing_whitespace()
-    test_immortality_glossary_policy_keeps_names_and_cultivation_terms_consistent()
-    test_immortality_five_chapter_batch_scan_budget_covers_all_source_blocks()
     test_sentinel_quality_report_flags_known_glossary_leakage_fixture()
     test_sentinel_flags_glossary_note_leakage_without_flagging_story_ability_lists()
     test_sentinel_glossary_coverage_flags_source_term_missing_in_output()
@@ -9278,6 +9131,5 @@ if __name__ == "__main__":
     test_openrouter_shim_retries_empty_response_once_then_succeeds()
     test_openrouter_shim_does_not_retry_permanent_error()
     test_openrouter_shim_does_not_retry_length_limited_empty_response()
-    test_immortality_shangqing_glossary_rejects_old_mistransliteration()
     test_production_provider_routing_enables_ai_scan_and_formatting()
     print("All tests passed!")
