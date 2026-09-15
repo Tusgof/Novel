@@ -1,6 +1,6 @@
 # Project Brain: Novel Translation System
 
-Last updated: 2026-09-05
+Last updated: 2026-09-15
 
 This is the durable memory for the workspace. Keep it compact. Put long evidence, experiments, and historical detail in root-level `07_Reports/` or `01_Research_Log/` as appropriate.
 
@@ -16,7 +16,7 @@ Build a practical Chinese/English-to-Thai novel translation system that can:
 - publish verified Markdown into MoonRead
 - support multiple novels and genres without relying on Codex memory
 
-Codex is the architect, reviewer, and verifier. Worker models may implement bounded tasks, but their reports are claims until files, tests, reports, and diffs prove them.
+Codex is the Inspector/Orchestrator, architect, reviewer, and verifier. Luna Max is the preferred execution worker for bounded translation-pipeline work and routine pipeline recovery. Worker reports remain claims until Codex independently verifies files, ledgers, tests, reports, diffs, and reader output.
 
 ## Canonical Files
 
@@ -35,6 +35,14 @@ Novel-specific folders may keep compatibility stubs, reports, artifacts, and run
 System structure, source-of-truth ownership, layer rules, pipeline flow, actor map, provider routing, guardrail stack, recovery model, and new-novel setup flow live in `ARCHITECTURE.md`.
 
 Keep this section short. Update `PROJECT_BRAIN.md` for current state, active risks, current routing summary, active guardrails, and next safe action only.
+
+## Operating Ownership
+
+- Codex owns architecture, Layer 0/multi-novel policy, work-order design, risk decisions, provider-routing changes, independent acceptance, control-document updates, and the final commit/push/publish decision.
+- Luna Max (`gpt-5.6-luna`, `reasoning=max`) is the preferred HERDR worker for explicitly bounded translation operations: pipeline preflight, scan/glossary stages, translation/refinement/QA/format execution, artifact inspection, and routine recovery that follows an existing documented recovery path.
+- Every Luna order must use the repository `HERDR_WORKER_PROTOCOL.md` sequence (`ACK -> SMOKE -> START -> RETURN`) and specify exact chapter/run scope, allowed commands and paths, provider/network authority, spend boundary, protected dirty WIP, verification, and stop conditions.
+- Luna must not change architecture, Layer 0 policy, provider routing, quality thresholds, force-accept rules, publication state, or control documents unless a separate work order explicitly authorizes that exact change. Ambiguous or novel incidents return to Codex for diagnosis and a new bounded order.
+- Codex does not repeat routine worker execution by default. It reviews the returned evidence, reruns targeted verification independently, classifies recurring failures at the correct layer, and issues a narrower repair order or changes the system-level prevention mechanism when evidence supports it.
 
 ## Current Verified State
 
@@ -307,6 +315,7 @@ Requires explicit user approval:
 | Empty source footnote markers in English novels | `split_blocks()` strips bare trailing `Footnotes:` markers for non-CJK source while preserving real markers; keep Sentinel glossary-note leakage checks blocking |
 | MoonRead rendering mismatch | run reader smoke after generated content changes |
 | Worker false completion | verify disk state, tests, reports, and git diff |
+| Translation worker exceeds operational authority | use a HERDR translation work order with exact run/chapter scope, pinned routing, provider/network and spend authority, stop conditions, and protected paths; Codex independently accepts and publishes the result |
 | Memory doc damage | keep docs short, use `DOC_RECOVERY.md`, avoid worker rewrites of canonical files |
 
 ## Core Commands

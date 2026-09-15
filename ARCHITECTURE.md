@@ -20,11 +20,11 @@ It does not rewrite ledger history, treat generated reader files as source of tr
 Main roles:
 
 - user: chooses priorities, glossary decisions, and production approval
-- Codex architect: plans, reviews, verifies, and updates durable rules
-- bounded worker: implements a narrow assigned scope
+- Codex Inspector/Orchestrator: plans, owns architecture and Layer 0 policy, reviews, verifies, accepts, and updates durable rules
+- Luna Max bounded worker: executes an exact assigned implementation or translation-pipeline work order
 - dashboard/operator: runs bounded workflows and inspects blockers
 
-HERDR coding-agent workers are transport-scoped implementation actors. They are separate from dashboard employee aliases and from translation provider stages; neither aliases nor provider routing grants a HERDR worker authority.
+HERDR workers are transport-scoped execution actors. A translation work order may authorize Luna Max to invoke existing pipeline stages for an exact bounded scope; dashboard aliases and provider routing still grant no authority by themselves.
 
 ## Source Of Truth Map
 
@@ -34,7 +34,7 @@ Workspace control docs:
 - `PROJECT_BRAIN.md`: current verified state, active risks, guardrails, next safe action
 - `IMPLEMENT_PLAN.md`: roadmap, milestones, acceptance gates
 - `ARCHITECTURE.md`: structure, boundaries, flows, ownership
-- `HERDR_WORKER_PROTOCOL.md`: bounded transport and verification rules for coding-agent workers
+- `HERDR_WORKER_PROTOCOL.md`: bounded transport, translation-operation authority, and verification rules for Luna Max
 - `DOC_RECOVERY.md`: canonical doc hashes and recovery steps
 
 Shared/system config:
