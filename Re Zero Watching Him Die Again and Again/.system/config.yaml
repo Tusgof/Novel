@@ -7,7 +7,7 @@ default_style_profile: dark_fantasy
 
 chunking:
   chinese_character_limit: 600
-  non_chinese_word_limit: 5000
+  non_chinese_word_limit: 3000
 
 execution:
   concurrency_enabled: false
@@ -36,3 +36,4 @@ source:
   delay_seconds: 1.0
   encoding: utf-8
   max_chapter: 19
+  min_content_chars: 1000

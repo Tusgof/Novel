@@ -11,6 +11,10 @@ from novel_pipeline.types import ChapterMeta
 
 _MARKDOWN_MARKER = "Markdown Content:"
 _NOT_FOUND_MARKER = "FanFiction.Net Message Type 1"
+_CHALLENGE_MARKERS = (
+    "Enable JavaScript and cookies to continue",
+    "Checking your browser before accessing",
+)
 
 
 def _strip_markdown_emphasis(value: str) -> str:
@@ -61,6 +65,8 @@ class FanfictionJinaAdapter(FetchAdapter):
         text = cls._decode(payload, encoding)
         if _NOT_FOUND_MARKER in text or "Chapter not found." in text:
             raise ValueError("FanFiction.Net chapter does not exist")
+        if any(marker in text for marker in _CHALLENGE_MARKERS):
+            raise ValueError("FanFiction.Net returned an anti-bot challenge instead of chapter content")
         if _MARKDOWN_MARKER not in text:
             raise ValueError("Jina response is missing the Markdown Content marker")
         return text.split(_MARKDOWN_MARKER, 1)[1].strip()
@@ -121,6 +127,12 @@ class FanfictionJinaAdapter(FetchAdapter):
         content = "\n".join(lines).strip()
         if not content:
             raise ValueError("FanfictionJinaAdapter extracted empty chapter content")
+        min_content_chars = int(self.config.extra.get("min_content_chars", 1))
+        if len(content) < min_content_chars:
+            raise ValueError(
+                "FanfictionJinaAdapter extracted suspiciously short chapter content "
+                f"({len(content)} < {min_content_chars} chars)"
+            )
         validate_text_script(content, "en")
         return content
 

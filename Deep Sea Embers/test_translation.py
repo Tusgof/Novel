@@ -31,6 +31,7 @@ from novel_pipeline.stages.glossary import _extract_provider_candidate_terms, bu
 from novel_pipeline.adapters.piaotia import PiaotiaAdapter, _TocParser
 from novel_pipeline.adapters.roliascan import RoliascanAdapter
 from novel_pipeline.adapters.novel543 import Novel543Adapter
+from novel_pipeline.adapters.fanfiction_jina import FanfictionJinaAdapter
 from novel_pipeline.types import SourceConfig
 
 def _gb18030_html(text: str) -> bytes:
@@ -923,6 +924,30 @@ def test_novel543_fetch_joins_continuation_pages():
             extracted = adapter.fetch_chapter_text(meta)
     assert extracted == "第一段内容。\n第一面结束。\n\n第二面继续内容。\n第二面结束。"
     assert fetch.call_count == 2
+
+
+def test_fanfiction_jina_rejects_antibot_and_short_content():
+    config = SourceConfig(
+        adapter="fanfiction_jina",
+        extra={"min_content_chars": 100},
+    )
+    adapter = FanfictionJinaAdapter(config)
+    cases = (
+        (
+            b"Title: challenge\nMarkdown Content:\nEnable JavaScript and cookies to continue",
+            "anti-bot challenge",
+        ),
+        (
+            b"Title: short\nMarkdown Content:\nChapter 2: Test\nToo short",
+            "suspiciously short",
+        ),
+    )
+    for payload, expected in cases:
+        try:
+            adapter.extract_content(payload)
+            assert False, f"Expected ValueError containing {expected!r}"
+        except ValueError as exc:
+            assert expected in str(exc)
 
 
 def test_fetch_derives_subtitle_when_adapter_title_is_generic_chapter():
@@ -9028,6 +9053,7 @@ if __name__ == "__main__":
     test_piaotia_extract_raises_on_empty_body()
     test_piaotia_toc_accepts_relative_absolute_and_dedupes()
     test_piaotia_extract_rejects_mojibake()
+    test_fanfiction_jina_rejects_antibot_and_short_content()
     test_batch_glossary_artifact_path()
     test_glossary_scan_validates_source_mojibake()
     test_chinese_source_kaomoji_thai_digits_are_not_mojibake()
