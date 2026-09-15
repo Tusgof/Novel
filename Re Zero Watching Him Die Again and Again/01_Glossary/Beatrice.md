@@ -3,7 +3,8 @@ type: glossary-term
 original_term: Beatrice
 thai_term: เบียทริซ
 status: approved
-aliases: []
+aliases:
+  - Betty
 source_language: en
 category: character
 novel: re-zero-watching-him-die-again-and-again

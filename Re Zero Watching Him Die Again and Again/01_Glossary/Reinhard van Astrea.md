@@ -5,6 +5,7 @@ thai_term: ไรน์ฮาร์ด ฟาน แอสเทรีย
 status: approved
 aliases:
   - Reinhard
+  - Reinhard Van Astrea
 source_language: en
 category: character
 novel: re-zero-watching-him-die-again-and-again

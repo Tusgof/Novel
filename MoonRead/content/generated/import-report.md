@@ -1,11 +1,11 @@
 # Reader Import Report
 
-Generated at: 2026-07-12T21:56:58.054Z
+Generated at: 2026-09-15T16:53:02.628Z
 
 ## Summary
 
-- books: 3
-- available chapters: 641
+- books: 4
+- available chapters: 642
 - missing chapters: 0
 - rejected chapters: 0
 
@@ -46,6 +46,22 @@ Generated at: 2026-07-12T21:56:58.054Z
 - source root: ../Infinite Regressor Stories/05_Output
 - target range: ch001-ch070
 - available: 70
+- missing: 0
+- rejected: 0
+
+### Rejected
+
+- none
+
+### Missing
+
+- none
+
+## Re:Zero - Watching Him Die Again and Again
+
+- source root: ../Re Zero Watching Him Die Again and Again/05_Output
+- target range: ch001-ch001
+- available: 1
 - missing: 0
 - rejected: 0
 

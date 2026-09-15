@@ -1,0 +1,49 @@
+{
+  "generatedAt": "2026-09-15T16:53:02.311Z",
+  "sourceRoot": "../Re Zero Watching Him Die Again and Again/05_Output",
+  "targetRange": "ch001-ch001",
+  "novel": {
+    "slug": "re-zero-watching-him-die-again-and-again",
+    "title": "Re:Zero - Watching Him Die Again and Again",
+    "thaiTitle": "Re:Zero - เฝ้ามองเขาตายซ้ำแล้วซ้ำเล่า",
+    "author": "Reactionist",
+    "tags": [
+      "แฟนฟิก",
+      "ดาร์กแฟนตาซี",
+      "วนลูปเวลา",
+      "ปฏิกิริยาตัวละคร"
+    ],
+    "cover": "/images/re-zero-watching-him-die-again-and-again-cover.png"
+  },
+  "href": "/books/re-zero-watching-him-die-again-and-again",
+  "chaptersHref": "/books/re-zero-watching-him-die-again-and-again/chapters",
+  "reader": {
+    "name": "MoonRead",
+    "theme": "Stardust",
+    "colors": {
+      "navy": "#121926",
+      "gold": "#EBC05F",
+      "cream": "#F0F0F0"
+    }
+  },
+  "summary": {
+    "total": 1,
+    "available": 1,
+    "missing": 0,
+    "rejected": 0,
+    "skipped": 0
+  },
+  "chapters": [
+    {
+      "id": "ch001",
+      "number": 1,
+      "title": "บทที่ 1: คำทักทาย - ฉบับปรับปรุง",
+      "status": "available",
+      "sourcePath": "ch001/ch001.md",
+      "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch001.md",
+      "href": "/books/re-zero-watching-him-die-again-and-again/read/ch001",
+      "charCount": 67995,
+      "readingMinutes": 16
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-12T21:56:58.054Z",
+  "generatedAt": "2026-09-15T16:53:02.628Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -10,9 +10,9 @@
     }
   },
   "summary": {
-    "books": 3,
-    "chapters": 641,
-    "available": 641,
+    "books": 4,
+    "chapters": 642,
+    "available": 642,
     "missing": 0,
     "rejected": 0
   },
@@ -157,6 +157,50 @@
         "href": "/books/infinite-regressor-stories/read/ch001",
         "charCount": 9787,
         "readingMinutes": 3
+      }
+    },
+    {
+      "slug": "re-zero-watching-him-die-again-and-again",
+      "title": "Re:Zero - Watching Him Die Again and Again",
+      "thaiTitle": "Re:Zero - เฝ้ามองเขาตายซ้ำแล้วซ้ำเล่า",
+      "tags": [
+        "แฟนฟิก",
+        "ดาร์กแฟนตาซี",
+        "วนลูปเวลา",
+        "ปฏิกิริยาตัวละคร"
+      ],
+      "cover": "/images/re-zero-watching-him-die-again-and-again-cover.png",
+      "href": "/books/re-zero-watching-him-die-again-and-again",
+      "chaptersHref": "/books/re-zero-watching-him-die-again-and-again/chapters",
+      "targetRange": "ch001-ch001",
+      "summary": {
+        "total": 1,
+        "available": 1,
+        "missing": 0,
+        "rejected": 0,
+        "skipped": 0
+      },
+      "latestChapter": {
+        "id": "ch001",
+        "number": 1,
+        "title": "บทที่ 1: คำทักทาย - ฉบับปรับปรุง",
+        "status": "available",
+        "sourcePath": "ch001/ch001.md",
+        "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch001.md",
+        "href": "/books/re-zero-watching-him-die-again-and-again/read/ch001",
+        "charCount": 67995,
+        "readingMinutes": 16
+      },
+      "firstChapter": {
+        "id": "ch001",
+        "number": 1,
+        "title": "บทที่ 1: คำทักทาย - ฉบับปรับปรุง",
+        "status": "available",
+        "sourcePath": "ch001/ch001.md",
+        "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch001.md",
+        "href": "/books/re-zero-watching-him-die-again-and-again/read/ch001",
+        "charCount": 67995,
+        "readingMinutes": 16
       }
     }
   ]

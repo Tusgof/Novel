@@ -215,12 +215,20 @@
       "source_url": "https://www.fanfiction.net/s/13741563/1/Re-Zero-Watching-Him-Die-Again-and-Again",
       "source_site": "fanfiction.net-via-jina",
       "reader": {
-        "enabled": false,
+        "enabled": true,
         "legacy_default": false,
         "first_chapter": 1,
-        "last_chapter": 19,
+        "last_chapter": 1,
         "title": "Re:Zero - Watching Him Die Again and Again",
-        "author": "Reactionist"
+        "thai_title": "Re:Zero - เฝ้ามองเขาตายซ้ำแล้วซ้ำเล่า",
+        "author": "Reactionist",
+        "tags": [
+          "แฟนฟิก",
+          "ดาร์กแฟนตาซี",
+          "วนลูปเวลา",
+          "ปฏิกิริยาตัวละคร"
+        ],
+        "cover": "/images/re-zero-watching-him-die-again-and-again-cover.png"
       },
       "title_policy": {
         "english_source_titles_require_thai_output": true,
