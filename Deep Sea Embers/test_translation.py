@@ -7563,6 +7563,14 @@ def test_sentinel_quality_report_flags_known_glossary_leakage_fixture():
             "---\n",
             encoding="utf-8",
         )
+        (glossary_root / "Pronoun Policy.md").write_text(
+            "---\n"
+            "type: novel-policy\n"
+            "status: approved\n"
+            "---\n"
+            "# Pronoun policy\n",
+            encoding="utf-8",
+        )
         (output_root / "ch001.md").write_text("# ตอนที่ 1\n\nดรีมวอล์กเกอร์ (Dreamwalker)", encoding="utf-8")
         (reader_root / "ch001.md").write_text("# ตอนที่ 1\n\n**[Dream Walker]**", encoding="utf-8")
         registry = {
@@ -7580,6 +7588,7 @@ def test_sentinel_quality_report_flags_known_glossary_leakage_fixture():
     assert any(f.category == "glossary_health" and f.severity == "blocker" for f in findings)
     assert any("Dreamwalker" in f.message and f.severity == "blocker" for f in findings)
     assert any(f.category == "approved_glossary_leakage" and f.severity == "blocker" for f in findings)
+    assert not any("Pronoun Policy.md" in f.path for f in findings)
 
 
 def test_sentinel_existing_guardrail_preserves_windows_path_for_registry_scope():

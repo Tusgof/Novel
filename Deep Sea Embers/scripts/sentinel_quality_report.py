@@ -246,6 +246,10 @@ def approved_glossary_terms(novel_root: Path, findings: list[Finding]) -> list[G
         meta = parse_frontmatter(path)
         if meta.get("status") != "approved":
             continue
+        # Approved policy/reference notes can live beside glossary terms. Only
+        # validate term-shaped notes so those documents are not false blockers.
+        if not meta.get("original_term", "").strip() and not meta.get("thai_term", "").strip():
+            continue
         thai = meta.get("thai_term", "").strip()
         if not thai or "?" in thai or "\ufffd" in thai:
             findings.append(
