@@ -73,7 +73,10 @@ providers:
     - python
     - scripts\openrouter_provider_shim.py
     extra_args:
-    - --reasoning-disabled
+    - --reasoning-enabled
+    - --reasoning-exclude
+    - --reasoning-effort
+    - low
     - --max-tokens
     - '12000'
     prompt_flag: null

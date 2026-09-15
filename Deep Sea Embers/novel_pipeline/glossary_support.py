@@ -142,7 +142,7 @@ def write_glossary_note(
     return path
 
 
-def choose_option_interactively(suggestion: TermSuggestion) -> str:
+def choose_option_interactively(suggestion: TermSuggestion) -> str | None:
     print()
     print(f"New term: {suggestion.original_term}")
     print(f"Category: {suggestion.category}")
@@ -157,8 +157,19 @@ def choose_option_interactively(suggestion: TermSuggestion) -> str:
         if rationale:
             print(f"   Note: {rationale}")
     
+    print("4. Enter a custom translation")
+    print("r. Reject as non-glossary noise")
+
     while True:
-        choice = input("Choose translation [1-3]: ").strip()
+        choice = input("Choose translation [1-4, r]: ").strip().lower()
         if choice in {"1", "2", "3"}:
             return suggestion.options[int(choice) - 1]
-        print("Invalid choice. Please enter 1, 2, or 3.")
+        if choice == "4":
+            custom = input("Custom translation: ").strip()
+            if custom:
+                return custom
+            print("Custom translation cannot be empty.")
+            continue
+        if choice == "r":
+            return None
+        print("Invalid choice. Please enter 1, 2, 3, 4, or r.")

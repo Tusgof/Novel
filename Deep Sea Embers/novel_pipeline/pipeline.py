@@ -1075,7 +1075,7 @@ def _pending_terms_from_queue(
             continue
         seen.add(term)
         entry = glossary_index.get(term)
-        if entry is None or entry.status != "approved":
+        if entry is None or entry.status not in {"approved", "rejected"}:
             pending.append(term)
     return pending
 
@@ -1322,6 +1322,21 @@ def run_pipeline(
                     context=context_text,
                 )
                 thai_term = choose_option_interactively(suggestion)
+                if thai_term is None:
+                    entry.thai_term = ""
+                    entry.status = "rejected"
+                    entry.description = "Rejected during glossary approval as non-glossary noise."
+                    entry.source_language = config.source_language
+                    entry.novel = config.novel_id
+                    write_glossary_note(
+                        template_text=template_text,
+                        glossary_dir=config.workspace.glossary_dir,
+                        entry=entry,
+                        first_seen_chapter=chapter_id,
+                        first_seen_block=str(queue_item.get("first_seen_block", "block-001")),
+                    )
+                    ctx.glossary_index[term_key] = entry
+                    continue
                 entry.thai_term = thai_term
                 entry.status = "approved"
                 entry.description = suggestion.rationale

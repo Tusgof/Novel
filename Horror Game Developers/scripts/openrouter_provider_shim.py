@@ -76,6 +76,7 @@ def _request_once(
     reasoning_enabled: bool,
     reasoning_exclude: bool,
     reasoning_disabled: bool = False,
+    reasoning_effort: str = "",
 ) -> tuple[int, dict[str, Any] | None, str]:
     payload = {
         "model": model,
@@ -91,6 +92,8 @@ def _request_once(
             "enabled": True,
             "exclude": reasoning_exclude,
         }
+        if reasoning_effort:
+            payload["reasoning"]["effort"] = reasoning_effort
     elif reasoning_disabled:
         payload["reasoning"] = {"enabled": False}
     request = urllib.request.Request(
@@ -136,6 +139,11 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     reasoning_mode.add_argument("--reasoning-enabled", action="store_true")
     reasoning_mode.add_argument("--reasoning-disabled", action="store_true")
     parser.add_argument("--reasoning-exclude", action="store_true")
+    parser.add_argument(
+        "--reasoning-effort",
+        choices=("minimal", "low", "medium", "high", "xhigh"),
+        default="",
+    )
     parser.add_argument("--transient-retries", type=int, default=1)
     parser.add_argument("--retry-delay-seconds", type=float, default=1.0)
     return parser.parse_args(argv)
@@ -169,6 +177,9 @@ def main(argv: list[str]) -> int:
     if args.transient_retries < 0 or args.retry_delay_seconds < 0:
         print("OpenRouter shim error: retry settings must be non-negative.", file=sys.stderr)
         return 2
+    if args.reasoning_effort and not args.reasoning_enabled:
+        print("OpenRouter shim error: --reasoning-effort requires --reasoning-enabled.", file=sys.stderr)
+        return 2
     prompt = _read_prompt(args).strip()
     if not prompt:
         print("OpenRouter shim error: empty prompt.", file=sys.stderr)
@@ -195,6 +206,7 @@ def main(argv: list[str]) -> int:
                 reasoning_enabled=args.reasoning_enabled,
                 reasoning_exclude=args.reasoning_exclude,
                 reasoning_disabled=args.reasoning_disabled,
+                reasoning_effort=args.reasoning_effort,
             )
             if payload is not None and status == 200:
                 content = (

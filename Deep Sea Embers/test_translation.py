@@ -8757,6 +8757,7 @@ def test_openrouter_shim_sends_reasoning_payload():
             timeout=10,
             reasoning_enabled=True,
             reasoning_exclude=True,
+            reasoning_effort="medium",
         )
 
     assert status == 200
@@ -8765,7 +8766,11 @@ def test_openrouter_shim_sends_reasoning_payload():
     request_payload = json.loads(captured["data"].decode("utf-8"))  # type: ignore[union-attr]
     assert request_payload["model"] == "deepseek/deepseek-v4-flash"
     assert request_payload["max_tokens"] == 1500
-    assert request_payload["reasoning"] == {"enabled": True, "exclude": True}
+    assert request_payload["reasoning"] == {
+        "enabled": True,
+        "exclude": True,
+        "effort": "medium",
+    }
     assert "Authorization" in captured["headers"]  # type: ignore[operator]
 
     with patch.object(shim.urllib.request, "Request", FakeRequest), patch.object(
@@ -8885,6 +8890,23 @@ def test_openrouter_shim_does_not_retry_length_limited_empty_response():
     assert "completion_tokens=1500" in stderr.getvalue()
 
 
+def test_interactive_glossary_choice_supports_custom_and_reject():
+    """CLI glossary approval can preserve a user term or reject scanner noise."""
+    from novel_pipeline.glossary_support import choose_option_interactively
+    from novel_pipeline.types import TermSuggestion
+
+    suggestion = TermSuggestion(
+        original_term="測試詞",
+        category="term",
+        options=("โดยรอบ", "รอบข้าง", "แวดล้อม"),
+        rationales=("", "", ""),
+    )
+    with patch("builtins.input", side_effect=["4", "คำกำหนดเอง"]):
+        assert choose_option_interactively(suggestion) == "คำกำหนดเอง"
+    with patch("builtins.input", return_value="r"):
+        assert choose_option_interactively(suggestion) is None
+
+
 def test_production_provider_routing_enables_ai_scan_and_formatting():
     """Production routing keeps AI glossary scan and AI formatting enabled."""
     from novel_pipeline.config import load_app_config
@@ -8915,7 +8937,14 @@ def test_production_provider_routing_enables_ai_scan_and_formatting():
     assert "--max-tokens" in qa_provider.extra_args
     qa_budget_index = qa_provider.extra_args.index("--max-tokens")
     assert qa_provider.extra_args[qa_budget_index + 1] == "4096"
-    assert "--reasoning-disabled" in config.providers["openrouter"].extra_args
+    assert "--reasoning-enabled" in config.providers["openrouter"].extra_args
+    assert "--reasoning-exclude" in config.providers["openrouter"].extra_args
+    assert "--reasoning-effort" in config.providers["openrouter"].extra_args
+    regular_effort_index = config.providers["openrouter"].extra_args.index("--reasoning-effort")
+    assert config.providers["openrouter"].extra_args[regular_effort_index + 1] == "low"
+    regular_budget_index = config.providers["openrouter"].extra_args.index("--max-tokens")
+    assert config.providers["openrouter"].extra_args[regular_budget_index + 1] == "12000"
+    assert "--reasoning-disabled" not in config.providers["openrouter"].extra_args
 
     workspace_root = Path(__file__).resolve().parents[1]
     production_configs = (
@@ -8940,7 +8969,14 @@ def test_production_provider_routing_enables_ai_scan_and_formatting():
             for _, model in production_config.fallback_routes_for_stage("qa_judge")
         )
         production_qa_provider = production_config.provider_for_stage("qa_judge")
-        assert "--reasoning-disabled" in production_config.providers["openrouter"].extra_args
+        regular_args = production_config.providers["openrouter"].extra_args
+        assert "--reasoning-enabled" in regular_args
+        assert "--reasoning-exclude" in regular_args
+        assert "--reasoning-disabled" not in regular_args
+        regular_effort_index = regular_args.index("--reasoning-effort")
+        assert regular_args[regular_effort_index + 1] == "low"
+        regular_budget_index = regular_args.index("--max-tokens")
+        assert regular_args[regular_budget_index + 1] == "12000"
         if production_qa_provider.name == "openrouter_reasoning":
             budget_index = production_qa_provider.extra_args.index("--max-tokens")
             assert production_qa_provider.extra_args[budget_index + 1] == "4096"
@@ -9131,5 +9167,6 @@ if __name__ == "__main__":
     test_openrouter_shim_retries_empty_response_once_then_succeeds()
     test_openrouter_shim_does_not_retry_permanent_error()
     test_openrouter_shim_does_not_retry_length_limited_empty_response()
+    test_interactive_glossary_choice_supports_custom_and_reject()
     test_production_provider_routing_enables_ai_scan_and_formatting()
     print("All tests passed!")
