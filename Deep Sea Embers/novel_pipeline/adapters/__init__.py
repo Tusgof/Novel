@@ -30,11 +30,13 @@ from novel_pipeline.adapters.local_raw import LocalRawAdapter  # noqa: E402
 from novel_pipeline.adapters.roliascan import RoliascanAdapter  # noqa: E402
 from novel_pipeline.adapters.novel543 import Novel543Adapter  # noqa: E402
 from novel_pipeline.adapters.wetriedtls import WetriedtlsAdapter  # noqa: E402
+from novel_pipeline.adapters.fanfiction_jina import FanfictionJinaAdapter  # noqa: E402
 
 register_adapter("local_raw", LocalRawAdapter)
 register_adapter("piaotia", PiaotiaAdapter)
 register_adapter("roliascan", RoliascanAdapter)
 register_adapter("novel543", Novel543Adapter)
 register_adapter("wetriedtls", WetriedtlsAdapter)
+register_adapter("fanfiction_jina", FanfictionJinaAdapter)
 
 __all__ = ["FetchAdapter", "get_adapter", "register_adapter"]
