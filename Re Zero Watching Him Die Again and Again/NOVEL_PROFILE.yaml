@@ -1,0 +1,29 @@
+schema_version: 1
+novel_id: re-zero-watching-him-die-again-and-again
+title: Re:Zero - Watching Him Die Again and Again
+aliases:
+- Re:Zero Watching Him Die Again and Again
+- Re-Zero Watching Him Die Again and Again
+languages:
+  source: en
+  target: th
+genre: dark_fantasy
+style_profile: dark_fantasy
+source:
+  adapter: fanfiction_jina
+  toc_url: https://www.fanfiction.net/s/13741563/1/Re-Zero-Watching-Him-Die-Again-and-Again
+  author: Reactionist
+  source_site: fanfiction.net-via-jina
+  max_chapter: 19
+research:
+  status: active
+  profile_path: RESEARCH_PROFILE.yaml
+  title: Re:Zero - Watching Him Die Again and Again
+  source_url: https://www.fanfiction.net/s/13741563/1/Re-Zero-Watching-Him-Die-Again-and-Again
+setup:
+  created_at: '2026-09-15T14:29:40.323951+00:00'
+  created_from_workspace: D:\Fogust\Workspace\Novel\Deep Sea Embers
+notes: >-
+  Author: Reactionist. Source-limited setup uses only the canonical
+  FanFiction.Net story wrapped by r.jina.ai; no translation or reader
+  publication is part of this setup.

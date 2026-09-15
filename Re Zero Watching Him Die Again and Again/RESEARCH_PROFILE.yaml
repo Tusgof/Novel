@@ -1,0 +1,50 @@
+schema_version: 1
+title: Re:Zero - Watching Him Die Again and Again
+aliases:
+- Re:Zero Watching Him Die Again and Again
+- Re-Zero Watching Him Die Again and Again
+source_url: https://www.fanfiction.net/s/13741563/1/Re-Zero-Watching-Him-Die-Again-and-Again
+author: Reactionist
+source_site: fanfiction.net
+fetch_adapter: fanfiction_jina
+fetch_scope: ch001-ch019
+status: active
+synopsis: >-
+  Re:Zero fanfiction centered on the repeated-death premise signaled by the
+  story title. This profile intentionally stays conservative until the fetched
+  English chapters establish exact scene, arc, and voice details.
+tags:
+- fanfiction
+- dark fantasy
+- psychological
+- time loop
+- canon characters
+style_notes: >-
+  Translate English prose into natural Thai while preserving Re:Zero's
+  psychological pressure, dark fantasy atmosphere, scene clarity, and character
+  voice. Use the compact canon and pronoun policy in 01_Glossary. Do not add
+  generic fantasy diction or invent lore.
+reader_expectations: >-
+  Readers expect recognizable Re:Zero characters and terminology, emotionally
+  credible repeated-death tension, and clear Thai dialogue without flattening
+  character relationships.
+review_summary: >-
+  Identity and author are anchored to the canonical FanFiction.Net story URL.
+  The setup boundary is exactly the 19 published chapters fetchable through the
+  committed fanfiction_jina adapter. Any mirror metadata is secondary and is
+  not used for fetching.
+last_reviewed_at: '2026-09-15'
+reviewed_by: codex_setup_rezero_20260915
+terminology:
+- Return by Death
+- Witch Cult
+- Sin Archbishop
+- Witch Factor
+- Lugunica
+- Sanctuary
+reference_links:
+- https://www.fanfiction.net/s/13741563/1/Re-Zero-Watching-Him-Die-Again-and-Again
+notes: >-
+  Source-limited setup evidence only. Reader registration stays disabled;
+  no provider, translation, output, ledger-stage, or MoonRead artifact is
+  created by this setup order.

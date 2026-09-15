@@ -1,0 +1,38 @@
+novel_id: re-zero-watching-him-die-again-and-again
+vault_root: .
+source_language: en
+default_batch_size: 10
+chapter_unit: chapters
+default_style_profile: dark_fantasy
+
+chunking:
+  chinese_character_limit: 600
+  non_chinese_word_limit: 5000
+
+execution:
+  concurrency_enabled: false
+  stop_on_first_hard_failure: true
+  stage_concurrency:
+    translating: 2
+    refining: 2
+    qa: 1
+    formatting: 2
+  artifact_cache:
+    mode: report_only
+    stages:
+      - title_translation
+      - term_suggestion
+      - translating
+  pre_qa_guardrail:
+    mode: report_only
+    dense_paragraph_warning_chars: 900
+  sentinel:
+    mode: blocking
+    fail_on: major
+
+source:
+  adapter: fanfiction_jina
+  toc_url: https://www.fanfiction.net/s/13741563/1/Re-Zero-Watching-Him-Die-Again-and-Again
+  delay_seconds: 1.0
+  encoding: utf-8
+  max_chapter: 19

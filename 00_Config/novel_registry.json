@@ -203,6 +203,40 @@
           }
         ]
       }
+    },
+    {
+      "slug": "re-zero-watching-him-die-again-and-again",
+      "folder": "Re Zero Watching Him Die Again and Again",
+      "source_language": "en",
+      "raw_dir": "03_Raw",
+      "work_dir": "04_Work",
+      "output_dir": "05_Output",
+      "author": "Reactionist",
+      "source_url": "https://www.fanfiction.net/s/13741563/1/Re-Zero-Watching-Him-Die-Again-and-Again",
+      "source_site": "fanfiction.net-via-jina",
+      "reader": {
+        "enabled": false,
+        "legacy_default": false,
+        "first_chapter": 1,
+        "last_chapter": 19,
+        "title": "Re:Zero - Watching Him Die Again and Again",
+        "author": "Reactionist"
+      },
+      "title_policy": {
+        "english_source_titles_require_thai_output": true,
+        "generic_title_prefix": "บทที่"
+      },
+      "quality": {
+        "max_paragraph_chars": 650,
+        "truncation_min_source_chars": 2500,
+        "truncation_min_ratio": 0.45,
+        "forbidden_output_patterns": [
+          {
+            "pattern": "[๐-๙]",
+            "label": "Thai numeral; Re:Zero output must use Arabic digits"
+          }
+        ]
+      }
     }
   ]
 }
