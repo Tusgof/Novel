@@ -48,10 +48,14 @@ Keep this section short. Update `PROJECT_BRAIN.md` for current state, active ris
 
 Re:Zero Watching Him Die Again and Again:
 
-- `ch001-ch002` are translated, verified, published to MoonRead, and available from the production reader.
-- Active production run `rezero-ch002-ch003-production-v2` is bounded to `ch003`; current machine state on 2026-09-16 shows `ch003` in progress with no current failed block. Do not treat it as published until all 11 blocks, post-format repair, output guardrail, scoped Sentinel, spot-check, MoonRead checks, commit/push, and production URL verification pass.
+- `ch001-ch004` are translated and independently verified. `ch001-ch003` are live at pushed commit `f0e37ad7d35992b0c87f10ab28eb939a6e20a3bd`; `ch004` passed local MoonRead publication gates and is pending this session's push/production URL verification.
+- Run `rezero-ch002-ch003-production-v2` completed `ch003` at `11/11` blocks with no current failed block or manual action. Output guardrails, blocking Sentinel, major-run spot-check, MoonRead publish verification, lint, build, smoke, and rendered-page inspection passed. Checkpoint: `Re Zero Watching Him Die Again and Again/07_Reports/rezero_ch003_production_checkpoint_20260916.md`.
+- Run `rezero-ch004-production-v1` completed `10/10` blocks with no current failure or manual action. Output guardrails passed; Inspector Sentinel was `0/0/4/0` with only source-backed `NPC`, `Redo`, `Styx Helix`, and `Reddit`; MoonRead Sentinel was `0/0/0/0`; scoped publish verification, lint, build, and smoke passed. Wall time was `7,964.85s`, provider time `4,673.23s`, failed provider time `1,776.49s`, and timing coverage `50/51`. Checkpoint: `Re Zero Watching Him Die Again and Again/07_Reports/rezero_ch004_production_checkpoint_20260916.md`.
+- During `ch004-ch010` title preparation, an initial command omitted the Re:Zero config and inherited the DSE working directory, temporarily overwriting DSE title sidecars/log metadata. DSE tracked production titles were restored and verified against final H1 headings. Prevention: `translate_chapter_titles.py` now requires explicit `--config`; the missing-config regression exits with code `2`, and the full translation test suite passes.
+- The `ch004-ch010` prep worker returned successfully at the glossary-scan gate, but the Inspector initially failed to issue the next body order. This was an orchestration gap, not provider work. Prevention: every multi-order HERDR `START` now records the expected next phase, and each `RETURN` must immediately lead to the next bounded order, independent acceptance/publication, or an explicit blocked state. Prep completion is never chapter completion.
 - The first repeated `ch003-block-003` incident came from literal-stage name/meaning drift that survived QA; a second gap let the AI formatter reintroduce `เอมิเลา` and neutralize explicit source profanity after refinement was correct. Prevention now applies approved rejected-variant and source-aware repair after formatting as well as refinement/QA recovery, with targeted regression tests.
 - Commit `249c7a7` adds cross-process JSONL append locking and chapter timing telemetry. `status` and checkpoint reports now expose chapter wall time, provider time, stage/provider totals, failed/retry provider time, counts, and timing coverage. Full `python test_translation.py` passes, including a four-process/100-record lossless append test.
+- `ch003` timing is recorded but has partial coverage because the run began before telemetry was added: wall `19,684.9s`, captured provider `7,043.0s`, failed provider `5,431.9s`, and coverage `39/94` provider calls. Treat it as a recovery-heavy sequential baseline; use `ch004+` for clean per-chapter timing comparison.
 - V6.35 may pilot at most two chapter-isolated Luna workers after sequential glossary/title approval. Each worker must use a separate chapter, run ID, and artifact paths; Codex accepts and publishes sequentially by chapter number. Stage-level or same-run parallelism remains disallowed.
 
 Deep Sea Embers:
@@ -396,11 +400,10 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
-Active scope is V6.35 Re:Zero `ch003-ch010`. Current production reader has Re:Zero `ch001-ch002`; `ch003` is still in progress and must not be claimed as published.
+Active scope is V6.35 Re:Zero `ch004-ch010`. Re:Zero `ch004` is locally verified and pending push/production URL verification; `ch005-ch010` remain at the scanned, unapproved prep gate.
 
-1. Let the existing `rezero-ch002-ch003-production-v2` process finish without interruption or a duplicate resume.
-2. Rerun `ch003-block-003` from formatting with commit `249c7a7`, then reassemble and independently verify all 11 blocks, output guardrail, scoped Sentinel, and spot-check before publishing `ch003`.
-3. Run scan/glossary/title preparation for `ch004-ch010` sequentially and freeze glossary mutation.
-4. Pilot at most two chapter-isolated Luna workers with separate run IDs/artifacts; accept and publish chapters sequentially by number.
-5. Stop the parallel window on provider failure, manual prompt, QA hard-fail, ledger decode/collision, validation failure, Sentinel blocker/major, or unexpected scope expansion; preserve evidence and return to one worker when provider instability increases.
-6. Record chapter timing coverage and stage/provider totals in checkpoint reports, then decide whether two-pane chapter isolation remains an approved production option.
+1. Push the verified `ch004` MoonRead publication and verify its production URL.
+2. Review and approve `ch005-ch010` glossary candidates per unique chapter run, then freeze glossary mutation.
+3. Pilot at most two chapter-isolated Luna workers with separate run IDs/artifacts; accept and publish chapters sequentially by number.
+4. Stop the parallel window on provider exhaustion, manual prompt, QA hard-fail, ledger decode/collision, validation failure, Sentinel blocker/major, or unexpected scope expansion; preserve evidence and return to one worker when provider instability increases.
+5. Record full-coverage chapter timing and stage/provider totals in checkpoint reports, compare chapter pairs against the recovery-heavy `ch003` baseline, then decide whether two-pane chapter isolation remains an approved production option.

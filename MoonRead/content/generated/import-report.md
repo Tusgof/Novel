@@ -1,11 +1,11 @@
 # Reader Import Report
 
-Generated at: 2026-09-16T12:51:19.170Z
+Generated at: 2026-09-16T16:52:28.700Z
 
 ## Summary
 
 - books: 4
-- available chapters: 644
+- available chapters: 645
 - missing chapters: 0
 - rejected chapters: 0
 
@@ -60,8 +60,8 @@ Generated at: 2026-09-16T12:51:19.170Z
 ## Re:Zero - Watching Him Die Again and Again
 
 - source root: ../Re Zero Watching Him Die Again and Again/05_Output
-- target range: ch001-ch003
-- available: 3
+- target range: ch001-ch004
+- available: 4
 - missing: 0
 - rejected: 0
 

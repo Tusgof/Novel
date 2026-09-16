@@ -36,6 +36,8 @@ ACK -> SMOKE -> START -> RETURN
 
 The validator checks one envelope at a time; Inspector verifies that the observed messages occurred in this order.
 
+For a multi-order production chain, the Inspector must record the expected next phase before each `START`. After every `RETURN`, the Inspector must immediately do exactly one of these: issue the next bounded order, begin independent acceptance/publication, or record a concrete blocked state. A successful prep-only `RETURN` is not permission to leave the work idle and is never chapter completion. Workers do not self-chain across authority boundaries.
+
 ## Envelope shape
 
 Every envelope is a JSON object with `protocol: "HERDR/1"`, a `phase` from `ACK`, `SMOKE`, `START`, or `RETURN`, the exact order identifiers, `repository`, `branch`, and a 40-character hexadecimal `base_hash`. It also contains:
