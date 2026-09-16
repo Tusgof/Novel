@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 
 from novel_pipeline.prompts import PromptStore
-from novel_pipeline.providers.base import ProviderRunner, ensure_provider_response
+from novel_pipeline.providers.base import ProviderOutputError, ProviderRunner, ensure_provider_response
 from novel_pipeline.text_utils import split_sentences, validate_text_script
 from novel_pipeline.types import AppConfig, GlossaryEntry, LiteralDraft, ProviderRequest, QAFinding, QAReport, RefinedDraft, TextBlock
 
@@ -53,6 +53,11 @@ def run_qa_stage(
         )
     )
     ensure_provider_response(response)
+    if _claims_supplied_qa_input_is_missing(response.stdout):
+        raise ProviderOutputError(
+            response,
+            "QA provider incorrectly reported that supplied source or Thai translation input was missing.",
+        )
     ai_findings, feedback = parse_ai_feedback(response.stdout)
     findings.extend(ai_findings)
     blocking_findings = [item for item in findings if _is_blocking_finding(item)]
@@ -127,6 +132,21 @@ def _contains_cjk(text: str) -> bool:
 
 def _contains_xianxia_drift(text: str) -> bool:
     return any(term in text for term in ("สำนัก", "ขั้นพลัง", "ปราณ", "วิชาเทพ", "เคล็ดวิชา", "บ่มเพาะ"))
+
+
+def _claims_supplied_qa_input_is_missing(text: str) -> bool:
+    return bool(
+        re.search(
+            r"\bno\s+thai\s+translation(?:\s+text)?(?:\s+or\s+english\s+source(?:\s+text)?)?\s+(?:was|were)\s+provided\b",
+            text,
+            re.I,
+        )
+        or re.search(
+            r"\bonly\s+english\s+source\s+and\s+literal\s+draft\s+(?:are|were)\s+present\b",
+            text,
+            re.I,
+        )
+    )
 
 
 def _should_block_glossary_inconsistency(

@@ -4576,6 +4576,51 @@ def test_qa_stage_does_not_duplicate_source_inside_drafts():
     assert source_text not in prompt_values["refined_draft"]
 
 
+def test_qa_stage_rejects_false_missing_supplied_input_response():
+    """A nonsensical missing-input verdict must use the configured QA fallback route."""
+    from novel_pipeline.providers.base import ProviderOutputError
+    from novel_pipeline.stages.qa import run_qa_stage
+    from novel_pipeline.types import LiteralDraft, LiteralSentencePair, RefinedDraft, StyleProfile, TextBlock
+
+    config = Mock()
+    config.workspace.prompts = Path("prompts")
+    config.style_profile_for_name = Mock(return_value=StyleProfile.from_mapping("default", {}))
+    config.research_context_text = Mock(return_value="")
+    block = TextBlock(block_id="ch001-block-001", chapter_id="ch001", source_text="English source")
+    literal_draft = LiteralDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        sentence_pairs=(LiteralSentencePair(source_sentence="English source", literal_sentence="ฉบับแปลตรง"),),
+    )
+    refined_draft = RefinedDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        refined_text="ฉบับขัดเกลาภาษาไทย",
+    )
+    provider_runner = Mock()
+    provider_runner.spec.name = "openrouter_reasoning"
+    provider_runner.run_with_retry.return_value = ProviderResponse(
+        provider="openrouter_reasoning",
+        command=("openrouter",),
+        stdout="FAIL: No Thai translation text was provided for comparison.",
+        returncode=0,
+    )
+
+    try:
+        run_qa_stage(
+            config=config,
+            block=block,
+            literal_draft=literal_draft,
+            refined_draft=refined_draft,
+            glossary_subset=[],
+            provider_runner=provider_runner,
+        )
+    except ProviderOutputError as exc:
+        assert "supplied source or Thai translation input was missing" in str(exc)
+    else:
+        raise AssertionError("False missing-input QA response was accepted as a content finding.")
+
+
 def test_literal_translation_stage_uses_research_context():
     """Literal translation prompt wiring passes research context through to the template."""
     from novel_pipeline.stages.translate import run_literal_translation_stage
@@ -9187,6 +9232,8 @@ if __name__ == "__main__":
     test_qa_stage_uses_research_context()
     test_refine_stage_uses_structured_style_instructions()
     test_qa_stage_uses_structured_style_instructions()
+    test_qa_stage_does_not_duplicate_source_inside_drafts()
+    test_qa_stage_rejects_false_missing_supplied_input_response()
     test_cmd_resume_returns_two_on_manual_action_required()
     test_cmd_preflight_returns_one_when_blocked()
     test_resume_pipeline_stops_before_chapter_after_until_chapter()
