@@ -69,6 +69,12 @@ def run_refine_stage(
         provider=provider_runner.spec.name,
         style_profile=style_profile.key,
         source_text=block.source_text,
+        metadata={
+            "model": response.model,
+            "started_at": response.started_at,
+            "finished_at": response.finished_at,
+            "duration_seconds": response.duration_seconds,
+        },
     )
 
 

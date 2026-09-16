@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass, field
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, Iterable, Iterator, Mapping
 
@@ -15,6 +16,144 @@ class LedgerError(RuntimeError):
 
 class LedgerDecodeError(LedgerError):
     pass
+
+
+_TIMED_STAGES = ("translating", "refining", "qa", "formatting")
+_NON_PROVIDER_NAMES = {"", "cache", "local", "local_recovery", "manual", "rules"}
+
+
+def _parse_timestamp(value: Any) -> datetime | None:
+    if not isinstance(value, str) or not value.strip():
+        return None
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+
+
+def _nonnegative_duration(value: Any) -> float | None:
+    if isinstance(value, (int, float)) and value >= 0:
+        return float(value)
+    return None
+
+
+def summarize_chapter_timings(records: Iterable[RunRecord]) -> dict[str, dict[str, Any]]:
+    grouped: dict[str, list[RunRecord]] = {}
+    for record in records:
+        if record.stage not in _TIMED_STAGES or "-block-" not in record.block_id:
+            continue
+        chapter_id = record.block_id.split("-block-", 1)[0]
+        grouped.setdefault(chapter_id, []).append(record)
+
+    summaries: dict[str, dict[str, Any]] = {}
+    for chapter_id, chapter_records in sorted(grouped.items()):
+        starts: list[datetime] = []
+        finishes: list[datetime] = []
+        stage_seconds = {stage: 0.0 for stage in _TIMED_STAGES}
+        provider_stage_seconds: dict[str, dict[str, float]] = {
+            stage: {} for stage in _TIMED_STAGES
+        }
+        provider_seconds = 0.0
+        failed_provider_seconds = 0.0
+        retry_provider_seconds = 0.0
+        provider_calls = 0
+        duration_records = 0
+        failure_count = 0
+        retry_count = 0
+        explicit_qa_retries: dict[str, int] = {}
+        inferred_qa_retries: dict[str, int] = {}
+
+        for record in chapter_records:
+            metadata = record.metadata
+            duration = _nonnegative_duration(metadata.get("duration_seconds"))
+            finished = _parse_timestamp(metadata.get("finished_at")) or _parse_timestamp(record.created_at)
+            started = _parse_timestamp(metadata.get("started_at"))
+            if started is None and finished is not None and duration is not None:
+                started = finished - timedelta(seconds=duration)
+            if started is None:
+                started = _parse_timestamp(record.created_at)
+            if started is not None:
+                starts.append(started)
+            if finished is not None:
+                finishes.append(finished)
+
+            is_provider = record.provider not in _NON_PROVIDER_NAMES
+            if is_provider:
+                provider_calls += 1
+            if duration is not None:
+                duration_records += 1
+                stage_seconds[record.stage] += duration
+                if is_provider:
+                    provider_seconds += duration
+                    provider_stage_seconds[record.stage][record.provider] = (
+                        provider_stage_seconds[record.stage].get(record.provider, 0.0) + duration
+                    )
+                    if record.status in {"failed", "hard_fail"}:
+                        failed_provider_seconds += duration
+                    if record.status == "retry" or metadata.get("retry_from_qa"):
+                        retry_provider_seconds += duration
+
+            if record.status in {"failed", "hard_fail"}:
+                failure_count += 1
+            if record.status == "retry":
+                retry_count += 1
+                if record.stage == "qa":
+                    explicit_qa_retries[record.block_id] = explicit_qa_retries.get(record.block_id, 0) + 1
+            if record.stage == "qa" and record.status == "completed":
+                raw_retry_count = metadata.get("retry_count", 0)
+                if isinstance(raw_retry_count, int) and raw_retry_count > 0:
+                    inferred_qa_retries[record.block_id] = max(
+                        inferred_qa_retries.get(record.block_id, 0),
+                        raw_retry_count,
+                    )
+                    if duration is not None and is_provider:
+                        retry_provider_seconds += duration
+
+            attempts = metadata.get("provider_attempts")
+            if isinstance(attempts, list):
+                for attempt in attempts:
+                    if not isinstance(attempt, Mapping):
+                        continue
+                    attempt_duration = _nonnegative_duration(attempt.get("duration_seconds"))
+                    provider_calls += 1
+                    retry_count += 1
+                    if attempt_duration is not None:
+                        attempt_provider = str(attempt.get("provider") or record.provider or "unknown")
+                        provider_seconds += attempt_duration
+                        failed_provider_seconds += attempt_duration
+                        retry_provider_seconds += attempt_duration
+                        stage_seconds[record.stage] += attempt_duration
+                        provider_stage_seconds[record.stage][attempt_provider] = (
+                            provider_stage_seconds[record.stage].get(attempt_provider, 0.0)
+                            + attempt_duration
+                        )
+
+        for block_id, inferred in inferred_qa_retries.items():
+            retry_count += max(0, inferred - explicit_qa_retries.get(block_id, 0))
+
+        started_at = min(starts) if starts else None
+        finished_at = max(finishes) if finishes else None
+        elapsed = (
+            max(0.0, (finished_at - started_at).total_seconds())
+            if started_at is not None and finished_at is not None
+            else 0.0
+        )
+        summaries[chapter_id] = {
+            "started_at": started_at.isoformat() if started_at is not None else "",
+            "finished_at": finished_at.isoformat() if finished_at is not None else "",
+            "wall_clock_seconds": elapsed,
+            "provider_seconds": provider_seconds,
+            "failed_provider_seconds": failed_provider_seconds,
+            "retry_provider_seconds": retry_provider_seconds,
+            "stage_seconds": stage_seconds,
+            "provider_stage_seconds": provider_stage_seconds,
+            "block_count": len({record.block_id for record in chapter_records}),
+            "provider_call_count": provider_calls,
+            "duration_record_count": duration_records,
+            "retry_count": retry_count,
+            "failure_count": failure_count,
+        }
+    return summaries
 
 
 @dataclass(slots=True)
@@ -207,4 +346,5 @@ __all__ = [
     "LedgerError",
     "ResumeState",
     "RunLedger",
+    "summarize_chapter_timings",
 ]

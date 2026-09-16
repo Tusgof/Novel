@@ -25,7 +25,7 @@ from novel_pipeline.glossary_support import (
     select_non_overlapping_glossary_entries,
     write_glossary_note,
 )
-from novel_pipeline.ledger import ResumeState, RunLedger
+from novel_pipeline.ledger import ResumeState, RunLedger, summarize_chapter_timings
 from novel_pipeline.prompts import PromptStore
 from novel_pipeline.providers.base import ProviderExecutionError, ProviderOutputError, ProviderRunner, ensure_provider_response
 from novel_pipeline.stages.fetch import run_fetch_stage
@@ -231,6 +231,55 @@ def _apply_glossary_rejected_variant_repairs(text: str, glossary_subset: list[Gl
                 }
             )
     return updated, repairs
+
+
+def _apply_rezero_source_aware_repairs(
+    text: str,
+    source_text: str,
+    *,
+    novel_id: str,
+) -> tuple[str, list[dict[str, str]]]:
+    """Restore narrowly observed Re:Zero meaning that providers repeatedly softened."""
+    if novel_id != "re-zero-watching-him-die-again-and-again":
+        return text, []
+
+    source_phrase = "not normal fucking behavior from this cunt"
+    neutralized_phrase = "ไม่ใช่พฤติกรรมตามปกติของหญิงคนนี้เลยสักนิด"
+    replacement = "แม่งไม่ใช่พฤติกรรมปกติของนังสารเลวนี่เลยสักนิด"
+    if source_phrase not in source_text.lower() or neutralized_phrase not in text:
+        return text, []
+
+    return text.replace(neutralized_phrase, replacement), [
+        {
+            "source_phrase": source_phrase,
+            "variant": neutralized_phrase,
+            "replacement": replacement,
+        }
+    ]
+
+
+def _apply_post_format_repairs(
+    text: str,
+    source_text: str,
+    glossary_subset: list[GlossaryEntry],
+    *,
+    novel_id: str,
+) -> tuple[str, dict[str, Any]]:
+    repaired, parenthetical = _apply_glossary_parenthetical_leakage_repairs(text, glossary_subset)
+    repaired, rejected = _apply_glossary_rejected_variant_repairs(repaired, glossary_subset)
+    repaired, rezero = _apply_rezero_source_aware_repairs(
+        repaired,
+        source_text,
+        novel_id=novel_id,
+    )
+    metadata: dict[str, Any] = {}
+    if parenthetical:
+        metadata["glossary_parenthetical_leakage_repairs"] = parenthetical
+    if rejected:
+        metadata["glossary_rejected_variant_repairs"] = rejected
+    if rezero:
+        metadata["rezero_source_aware_repairs"] = rezero
+    return repaired, metadata
 
 
 def _source_has_redacted_ranked_gate(source_text: str) -> bool:
@@ -1448,9 +1497,10 @@ def _process_block(
                 input_hash=ih,
                 output_hash=oh,
                 metadata={
+                    **literal_draft.metadata,
                     **(cache_metadata if cache_metadata.get("cache_status") == "miss" else {}),
                     "redacted_ranked_gate_repairs": literal_marker_repairs,
-                } if literal_marker_repairs or cache_metadata.get("cache_status") == "miss" else None,
+                },
             )
     else:
         print(f"[{run_id}]     translate already committed, skipping.")
@@ -1505,7 +1555,12 @@ def _process_block(
             block.source_text,
         )
         repaired_text, source_script_repairs = _apply_source_script_annotation_repairs(repaired_text)
-        if glossary_repairs or redacted_rank_repairs or footnote_repairs or source_script_repairs:
+        repaired_text, rezero_source_repairs = _apply_rezero_source_aware_repairs(
+            repaired_text,
+            block.source_text,
+            novel_id=config.novel_id,
+        )
+        if glossary_repairs or redacted_rank_repairs or footnote_repairs or source_script_repairs or rezero_source_repairs:
             refined_draft = RefinedDraft(
                 block_id=refined_draft.block_id,
                 chapter_id=refined_draft.chapter_id,
@@ -1519,12 +1574,14 @@ def _process_block(
                     "redacted_ranked_gate_repairs": redacted_rank_repairs,
                     "source_footnote_marker_repairs": footnote_repairs,
                     "source_script_annotation_repairs": source_script_repairs,
+                    "rezero_source_aware_repairs": rezero_source_repairs,
                 },
             )
         oh = _sha256(refined_draft.refined_text)
         _write_block_artifact(config, block.chapter_id, block_id, "refined", refined_draft.to_dict())
         _commit_stage(ledger, run_id, block_id, "refining", "completed",
-                      provider=refine_provider_name, input_hash=ih, output_hash=oh)
+                      provider=refine_provider_name, input_hash=ih, output_hash=oh,
+                      metadata=refined_draft.metadata)
     else:
         print(f"[{run_id}]     refine already committed, skipping.")
         cached = _read_block_artifact(config, block.chapter_id, block_id, "refined")
@@ -1636,18 +1693,18 @@ def _process_block(
                 metadata=_exception_metadata(exc),
             )
             raise
-        formatted_text, parenthetical_repairs = _apply_glossary_parenthetical_leakage_repairs(
+        formatted_text, repair_metadata = _apply_post_format_repairs(
             formatted_text,
+            block.source_text,
             glossary_subset,
+            novel_id=config.novel_id,
         )
-        if parenthetical_repairs:
-            formatter_metadata = {
-                **formatter_metadata,
-                "glossary_parenthetical_leakage_repairs": parenthetical_repairs,
-            }
-        validation_source_text, _ = _apply_glossary_parenthetical_leakage_repairs(
+        formatter_metadata = {**formatter_metadata, **repair_metadata}
+        validation_source_text, _ = _apply_post_format_repairs(
             refined_draft.refined_text,
+            block.source_text,
             glossary_subset,
+            novel_id=config.novel_id,
         )
         validation_issues = validate_formatted_text(formatted_text, source_text=validation_source_text)
         if validation_issues:
@@ -1692,18 +1749,18 @@ def _process_block(
                     metadata=_exception_metadata(exc),
                 )
                 raise
-            formatted_text, parenthetical_repairs = _apply_glossary_parenthetical_leakage_repairs(
+            formatted_text, repair_metadata = _apply_post_format_repairs(
                 formatted_text,
+                block.source_text,
                 glossary_subset,
+                novel_id=config.novel_id,
             )
-            if parenthetical_repairs:
-                formatter_metadata = {
-                    **formatter_metadata,
-                    "glossary_parenthetical_leakage_repairs": parenthetical_repairs,
-                }
-            validation_source_text, _ = _apply_glossary_parenthetical_leakage_repairs(
+            formatter_metadata = {**formatter_metadata, **repair_metadata}
+            validation_source_text, _ = _apply_post_format_repairs(
                 refined_draft.refined_text,
+                block.source_text,
                 glossary_subset,
+                novel_id=config.novel_id,
             )
             validation_issues = validate_formatted_text(formatted_text, source_text=validation_source_text)
             if validation_issues:
@@ -1791,15 +1848,18 @@ def _format_ready_blocks_parallel(
             prompt_store=ctx.prompt_store,
             refined_text=refined.refined_text,
         )
-        text, parenthetical_repairs = _apply_glossary_parenthetical_leakage_repairs(text, glossary_subset)
-        if parenthetical_repairs:
-            metadata = {
-                **metadata,
-                "glossary_parenthetical_leakage_repairs": parenthetical_repairs,
-            }
-        validation_source_text, _ = _apply_glossary_parenthetical_leakage_repairs(
-            refined.refined_text,
+        text, repair_metadata = _apply_post_format_repairs(
+            text,
+            block.source_text,
             glossary_subset,
+            novel_id=config.novel_id,
+        )
+        metadata = {**metadata, **repair_metadata}
+        validation_source_text, _ = _apply_post_format_repairs(
+            refined.refined_text,
+            block.source_text,
+            glossary_subset,
+            novel_id=config.novel_id,
         )
         validation_issues = validate_formatted_text(text, source_text=validation_source_text)
         if validation_issues:
@@ -1922,7 +1982,12 @@ def _run_qa_with_retries(
             ledger.append_stage(
                 run_id=run_id, block_id=block_id, stage="qa", status="completed",
                 provider=provider_runner.spec.name,
-                metadata={"model": used_model, "route_index": used_route_index},
+                metadata={
+                    **qa_report.metadata,
+                    "model": used_model,
+                    "route_index": used_route_index,
+                    "retry_count": retry_count,
+                },
             )
             print(f"[{run_id}]     QA passed (retry {retry_count}).")
             return True
@@ -1931,6 +1996,19 @@ def _run_qa_with_retries(
             print(f"[{run_id}]     QA failed; auto re-refine disabled.")
             return False
 
+        ledger.append_stage(
+            run_id=run_id,
+            block_id=block_id,
+            stage="qa",
+            status="retry",
+            provider=provider_runner.spec.name,
+            metadata={
+                **qa_report.metadata,
+                "model": used_model,
+                "route_index": used_route_index,
+                "retry_count": retry_count,
+            },
+        )
         retry_count += 1
         if retry_count > QA_MAX_RETRIES:
             if not literal_safe_recovery_attempted and _qa_report_indicates_omission(qa_report):
@@ -1955,11 +2033,16 @@ def _run_qa_with_retries(
                         block.source_text,
                     )
                     repaired_text, source_script_repairs = _apply_source_script_annotation_repairs(repaired_text)
+                    repaired_text, rezero_source_repairs = _apply_rezero_source_aware_repairs(
+                        repaired_text,
+                        block.source_text,
+                        novel_id=config.novel_id,
+                    )
                     repaired_text, hgd_peer_address_repairs = _apply_hgd_peer_address_repairs(
                         repaired_text,
                         novel_id=config.novel_id,
                     )
-                    if glossary_repairs or redacted_rank_repairs or footnote_repairs or source_script_repairs or hgd_peer_address_repairs:
+                    if glossary_repairs or redacted_rank_repairs or footnote_repairs or source_script_repairs or rezero_source_repairs or hgd_peer_address_repairs:
                         current_refined = RefinedDraft(
                             block_id=current_refined.block_id,
                             chapter_id=current_refined.chapter_id,
@@ -1973,6 +2056,7 @@ def _run_qa_with_retries(
                                 "redacted_ranked_gate_repairs": redacted_rank_repairs,
                                 "source_footnote_marker_repairs": footnote_repairs,
                                 "source_script_annotation_repairs": source_script_repairs,
+                                "rezero_source_aware_repairs": rezero_source_repairs,
                                 "hgd_peer_address_repairs": hgd_peer_address_repairs,
                             },
                         )
@@ -1986,6 +2070,7 @@ def _run_qa_with_retries(
                         provider=current_refined.provider,
                         output_hash=_sha256(current_refined.refined_text),
                         metadata={
+                            **current_refined.metadata,
                             "recovery": "qa_omission_literal_safe_refined_text",
                             "retry_from_qa": retry_count,
                             "qa_feedback": qa_report.feedback,
@@ -1993,6 +2078,7 @@ def _run_qa_with_retries(
                             "redacted_ranked_gate_repairs": redacted_rank_repairs,
                             "source_footnote_marker_repairs": footnote_repairs,
                             "source_script_annotation_repairs": source_script_repairs,
+                            "rezero_source_aware_repairs": rezero_source_repairs,
                             "hgd_peer_address_repairs": hgd_peer_address_repairs,
                         },
                     )
@@ -2054,7 +2140,12 @@ def _run_qa_with_retries(
             block.source_text,
         )
         repaired_text, source_script_repairs = _apply_source_script_annotation_repairs(repaired_text)
-        if glossary_repairs or redacted_rank_repairs or footnote_repairs or source_script_repairs:
+        repaired_text, rezero_source_repairs = _apply_rezero_source_aware_repairs(
+            repaired_text,
+            block.source_text,
+            novel_id=config.novel_id,
+        )
+        if glossary_repairs or redacted_rank_repairs or footnote_repairs or source_script_repairs or rezero_source_repairs:
             current_refined = RefinedDraft(
                 block_id=current_refined.block_id,
                 chapter_id=current_refined.chapter_id,
@@ -2068,6 +2159,7 @@ def _run_qa_with_retries(
                     "redacted_ranked_gate_repairs": redacted_rank_repairs,
                     "source_footnote_marker_repairs": footnote_repairs,
                     "source_script_annotation_repairs": source_script_repairs,
+                    "rezero_source_aware_repairs": rezero_source_repairs,
                 },
             )
         _write_block_artifact(config, block.chapter_id, block_id, "refined", current_refined.to_dict())
@@ -2080,11 +2172,13 @@ def _run_qa_with_retries(
             provider=refine_provider_name,
             output_hash=_sha256(current_refined.refined_text),
             metadata={
+                **current_refined.metadata,
                 "retry_from_qa": retry_count,
                 "glossary_rejected_variant_repairs": glossary_repairs,
                 "redacted_ranked_gate_repairs": redacted_rank_repairs,
                 "source_footnote_marker_repairs": footnote_repairs,
                 "source_script_annotation_repairs": source_script_repairs,
+                "rezero_source_aware_repairs": rezero_source_repairs,
             },
         )
 
@@ -2759,6 +2853,7 @@ def status_run(
 
     if run_id is not None:
         state = ledger.load_state(run_id)
+        chapter_timings = summarize_chapter_timings(state.records)
         block_stage_status = {}
         for block_id in sorted(key for key in state.records_by_block if "-block-" in key):
             block_stage_status[block_id] = {
@@ -2861,6 +2956,7 @@ def status_run(
                 "pending_stages": pending_stages,
                 "output_path": str(output_path),
                 "output_exists": output_exists,
+                "timing": chapter_timings.get(chapter_id, {}),
             }
             if is_fetched_only_pre_batch:
                 chapter_data["batch_pending_stage"] = batch_pending_stage
@@ -2936,6 +3032,7 @@ def status_run(
             },
             "chapter_ids": chapter_ids,
             "chapter_summary": chapter_summary,
+            "chapter_timings": chapter_timings,
             "provider_usage": provider_usage,
             "manual_actions": manual_actions,
         }
@@ -2973,6 +3070,37 @@ def status_run(
                     print(f"      Failed: {', '.join(summary['failed_blocks'])}")
                 output_exists = summary['output_exists']
                 print(f"      Output: {summary['output_path']} {'exists' if output_exists else 'missing'}")
+                timing = summary.get("timing") or {}
+                if timing:
+                    print(
+                        "      Timing: "
+                        f"wall {timing['wall_clock_seconds']:.1f}s; "
+                        f"provider {timing['provider_seconds']:.1f}s; "
+                        f"failed/retry provider {timing['failed_provider_seconds']:.1f}s/"
+                        f"{timing['retry_provider_seconds']:.1f}s; "
+                        f"retries {timing['retry_count']}; failures {timing['failure_count']}"
+                    )
+                    print(
+                        "      Timing coverage: "
+                        f"{timing['duration_record_count']} duration records / "
+                        f"{timing['provider_call_count']} provider calls"
+                    )
+                    stage_seconds = timing.get("stage_seconds") or {}
+                    print(
+                        "      Stage seconds: "
+                        + ", ".join(
+                            f"{stage}={float(stage_seconds.get(stage, 0.0)):.1f}"
+                            for stage in ("translating", "refining", "qa", "formatting")
+                        )
+                    )
+                    provider_stage_seconds = timing.get("provider_stage_seconds") or {}
+                    provider_rows = [
+                        f"{stage}/{provider}={seconds:.1f}"
+                        for stage in ("translating", "refining", "qa", "formatting")
+                        for provider, seconds in sorted((provider_stage_seconds.get(stage) or {}).items())
+                    ]
+                    if provider_rows:
+                        print("      Provider-stage seconds: " + ", ".join(provider_rows))
 
         # Provider usage
         print("  Provider usage:")

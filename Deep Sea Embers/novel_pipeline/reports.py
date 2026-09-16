@@ -461,6 +461,54 @@ def _render_checkpoint_markdown(*, run_id: str, summary: dict[str, Any]) -> str:
                 f"{output_state} |"
             )
 
+    chapter_timings = summary.get("chapter_timings") or {}
+    if chapter_timings:
+        lines.extend(
+            [
+                "",
+                "## Chapter Timing",
+                "| chapter | wall seconds | provider seconds | failed provider seconds | retry provider seconds | timed records | provider calls | retries | failures |",
+                "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+            ]
+        )
+        for chapter_id in chapter_ids:
+            timing = chapter_timings.get(chapter_id)
+            if not timing:
+                continue
+            lines.append(
+                f"| {chapter_id} | {float(timing.get('wall_clock_seconds', 0.0)):.2f} | "
+                f"{float(timing.get('provider_seconds', 0.0)):.2f} | "
+                f"{float(timing.get('failed_provider_seconds', 0.0)):.2f} | "
+                f"{float(timing.get('retry_provider_seconds', 0.0)):.2f} | "
+                f"{int(timing.get('duration_record_count', 0))} | "
+                f"{int(timing.get('provider_call_count', 0))} | "
+                f"{int(timing.get('retry_count', 0))} | {int(timing.get('failure_count', 0))} |"
+            )
+        lines.extend(
+            [
+                "",
+                "## Stage And Provider Timing",
+                "| chapter | stage | provider | seconds |",
+                "| --- | --- | --- | ---: |",
+            ]
+        )
+        for chapter_id in chapter_ids:
+            timing = chapter_timings.get(chapter_id) or {}
+            provider_stage_seconds = timing.get("provider_stage_seconds") or {}
+            for stage in ("translating", "refining", "qa", "formatting"):
+                rows = provider_stage_seconds.get(stage) or {}
+                if not rows:
+                    lines.append(f"| {chapter_id} | {stage} | n/a | 0.00 |")
+                    continue
+                for provider, seconds in sorted(rows.items()):
+                    lines.append(f"| {chapter_id} | {stage} | {provider} | {float(seconds):.2f} |")
+        lines.extend(
+            [
+                "",
+                "Provider time excludes local stages. Wall time includes waits and recovery gaps between the first and last timed record.",
+            ]
+        )
+
     block_stage_status = summary.get("block_stage_status") or {}
     if block_stage_status:
         lines.extend(

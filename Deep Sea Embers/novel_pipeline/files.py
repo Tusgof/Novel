@@ -2,9 +2,11 @@ from __future__ import annotations
 
 import json
 import os
+import time
+from contextlib import contextmanager
 from pathlib import Path
 from tempfile import NamedTemporaryFile
-from typing import Any
+from typing import Any, Iterator
 
 from novel_pipeline.types import json_safe
 
@@ -54,16 +56,57 @@ def atomic_write_json(
     return atomic_write_text(path, payload + "\n")
 
 
+@contextmanager
+def _exclusive_append_lock(path: Path, *, timeout_seconds: float = 30.0) -> Iterator[None]:
+    lock_path = path.with_name(path.name + ".lock")
+    ensure_parent_dir(lock_path)
+    deadline = time.monotonic() + timeout_seconds
+    with lock_path.open("a+b") as handle:
+        handle.seek(0, os.SEEK_END)
+        if handle.tell() == 0:
+            handle.write(b"\0")
+            handle.flush()
+        while True:
+            try:
+                handle.seek(0)
+                if os.name == "nt":
+                    import msvcrt
+
+                    msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+                else:
+                    import fcntl
+
+                    fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+                break
+            except OSError:
+                if time.monotonic() >= deadline:
+                    raise TimeoutError(f"Timed out waiting for append lock: {lock_path}")
+                time.sleep(0.01)
+        try:
+            yield
+        finally:
+            handle.seek(0)
+            if os.name == "nt":
+                import msvcrt
+
+                msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
+            else:
+                import fcntl
+
+                fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+
+
 def append_jsonl_line(path: Path | str, record: Any) -> Path:
     target = ensure_parent_dir(path)
     if isinstance(record, str):
         line = record.rstrip("\n")
     else:
         line = json.dumps(json_safe(record), ensure_ascii=False, sort_keys=True)
-    with target.open("a", encoding="utf-8", newline="\n") as handle:
-        handle.write(line + "\n")
-        handle.flush()
-        os.fsync(handle.fileno())
+    with _exclusive_append_lock(target):
+        with target.open("a", encoding="utf-8", newline="\n") as handle:
+            handle.write(line + "\n")
+            handle.flush()
+            os.fsync(handle.fileno())
     return target
 
 

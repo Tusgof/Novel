@@ -69,6 +69,12 @@ def run_qa_stage(
         feedback=feedback or "; ".join(item.message for item in blocking_findings or findings),
         retry_count=retry_count,
         judge_provider=provider_runner.spec.name,
+        metadata={
+            "model": response.model,
+            "started_at": response.started_at,
+            "finished_at": response.finished_at,
+            "duration_seconds": response.duration_seconds,
+        },
     )
 
 

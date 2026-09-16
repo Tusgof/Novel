@@ -1,7 +1,10 @@
 
 import json
 import io
+import os
 import re
+import subprocess
+import sys
 import tempfile
 
 from contextlib import redirect_stderr, redirect_stdout
@@ -21,7 +24,7 @@ from novel_pipeline.types import (
     RunRecord,
     TextBlock,
 )
-from novel_pipeline.pipeline import _apply_glossary_parenthetical_leakage_repairs, _apply_glossary_rejected_variant_repairs, _apply_hgd_peer_address_repairs, _apply_redacted_ranked_gate_repairs, _apply_source_footnote_marker_repairs, _apply_source_script_annotation_repairs, _literal_safe_refined_draft, _qa_report_indicates_omission, _remove_duplicate_title_paragraph, _repair_literal_draft_for_source_markers, _resolve_glossary_subset, _sentinel_env_overrides
+from novel_pipeline.pipeline import _apply_glossary_parenthetical_leakage_repairs, _apply_glossary_rejected_variant_repairs, _apply_hgd_peer_address_repairs, _apply_post_format_repairs, _apply_redacted_ranked_gate_repairs, _apply_rezero_source_aware_repairs, _apply_source_footnote_marker_repairs, _apply_source_script_annotation_repairs, _literal_safe_refined_draft, _qa_report_indicates_omission, _remove_duplicate_title_paragraph, _repair_literal_draft_for_source_markers, _resolve_glossary_subset, _sentinel_env_overrides
 from novel_pipeline.stages.format import format_block_text
 from novel_pipeline.text_utils import split_blocks
 from unittest.mock import Mock, patch, call
@@ -2739,6 +2742,67 @@ def test_refine_applies_rejected_glossary_variant_repair():
             "thai_term": "ทะเลตะวันตก",
         }
     ]
+
+
+def test_rezero_source_aware_repair_restores_observed_profanity_only_for_rezero():
+    source = "Which surprised most people since that's not normal fucking behavior from this cunt."
+    neutralized = "นั่นไม่ใช่พฤติกรรมตามปกติของหญิงคนนี้เลยสักนิด"
+
+    repaired, repairs = _apply_rezero_source_aware_repairs(
+        neutralized,
+        source,
+        novel_id="re-zero-watching-him-die-again-and-again",
+    )
+    untouched, no_repairs = _apply_rezero_source_aware_repairs(
+        neutralized,
+        source,
+        novel_id="horror-game-developer",
+    )
+
+    assert repaired == "นั่นแม่งไม่ใช่พฤติกรรมปกติของนังสารเลวนี่เลยสักนิด"
+    assert repairs == [
+        {
+            "source_phrase": "not normal fucking behavior from this cunt",
+            "variant": "ไม่ใช่พฤติกรรมตามปกติของหญิงคนนี้เลยสักนิด",
+            "replacement": "แม่งไม่ใช่พฤติกรรมปกติของนังสารเลวนี่เลยสักนิด",
+        }
+    ]
+    assert untouched == neutralized
+    assert no_repairs == []
+
+
+def test_post_format_repairs_rejected_name_and_rezero_meaning_drift():
+    source = "Emilia knew that was not normal fucking behavior from this cunt."
+    formatted = "เอมิเลารู้ว่านั่นไม่ใช่พฤติกรรมตามปกติของหญิงคนนี้เลยสักนิด"
+    glossary = [
+        GlossaryEntry(
+            original_term="Emilia",
+            thai_term="เอมิเลีย",
+            category="character",
+            status="approved",
+            rejected_variants=("เอมิเลา",),
+        )
+    ]
+
+    repaired, metadata = _apply_post_format_repairs(
+        formatted,
+        source,
+        glossary,
+        novel_id="re-zero-watching-him-die-again-and-again",
+    )
+
+    assert repaired == "เอมิเลียรู้ว่านั่นแม่งไม่ใช่พฤติกรรมปกติของนังสารเลวนี่เลยสักนิด"
+    assert metadata["glossary_rejected_variant_repairs"]
+    assert metadata["rezero_source_aware_repairs"]
+
+
+def test_rezero_emilia_glossary_rejects_observed_typo():
+    note_path = Path(__file__).resolve().parents[1] / "Re Zero Watching Him Die Again and Again" / "01_Glossary" / "Emilia.md"
+    text = note_path.read_text(encoding="utf-8")
+
+    assert "thai_term: เอมิเลีย" in text
+    assert "rejected_variants:" in text
+    assert "  - เอมิเลา" in text
 
 
 def test_redacted_ranked_gate_repair_removes_hallucinated_s_rank():
@@ -5536,6 +5600,30 @@ def test_checkpoint_report_generation_writes_expected_markdown():
                 "output_exists": False,
             }
         },
+        "chapter_timings": {
+            "ch019": {
+                "wall_clock_seconds": 120.0,
+                "provider_seconds": 90.0,
+                "failed_provider_seconds": 10.0,
+                "retry_provider_seconds": 20.0,
+                "duration_record_count": 8,
+                "provider_call_count": 9,
+                "stage_seconds": {
+                    "translating": 30.0,
+                    "refining": 25.0,
+                    "qa": 20.0,
+                    "formatting": 15.0,
+                },
+                "provider_stage_seconds": {
+                    "translating": {"openrouter": 30.0},
+                    "refining": {"openrouter": 25.0},
+                    "qa": {"openrouter_reasoning": 20.0},
+                    "formatting": {"openrouter": 15.0},
+                },
+                "retry_count": 1,
+                "failure_count": 2,
+            }
+        },
         "block_stage_status": {
             "ch019-block-001": {"next_pending_stage": None, "records": [{}, {}]},
         },
@@ -5559,6 +5647,170 @@ def test_checkpoint_report_generation_writes_expected_markdown():
         assert "total_records: 4" in text
         assert "ch019-block-003" in text
         assert "resume --run-id batch-ch019-ch023-v1" in text
+        assert "## Chapter Timing" in text
+        assert "| ch019 | 120.00 | 90.00 | 10.00 | 20.00 | 8 | 9 | 1 | 2 |" in text
+        assert "| ch019 | qa | openrouter_reasoning | 20.00 |" in text
+
+
+def test_run_ledger_concurrent_process_append_is_lossless():
+    from novel_pipeline.ledger import RunLedger
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        ledger_path = Path(tmpdir) / "run_ledger.jsonl"
+        script = (
+            "import sys\n"
+            "from pathlib import Path\n"
+            "from novel_pipeline.ledger import RunLedger\n"
+            "ledger=RunLedger(Path(sys.argv[1]))\n"
+            "worker=sys.argv[2]\n"
+            "for i in range(25):\n"
+            " ledger.append_stage(run_id='parallel-run', block_id=f'ch001-block-{worker}{i:03d}', "
+            "stage='translating', status='completed', provider='openrouter')\n"
+        )
+        env = os.environ.copy()
+        env["PYTHONPATH"] = str(Path(__file__).resolve().parent)
+        processes = [
+            subprocess.Popen(
+                [sys.executable, "-c", script, str(ledger_path), str(worker)],
+                env=env,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+            for worker in range(4)
+        ]
+        for process in processes:
+            stdout, stderr = process.communicate(timeout=30)
+            assert process.returncode == 0, stdout + stderr
+
+        records = tuple(RunLedger(ledger_path).iter_records(run_id="parallel-run"))
+        assert len(records) == 100
+        assert len({record.block_id for record in records}) == 100
+
+
+def test_chapter_timing_summary_reports_stage_provider_and_retry_time():
+    from novel_pipeline.ledger import summarize_chapter_timings
+
+    def record(stage, status, created_at, duration, **metadata):
+        return RunRecord.new(
+            run_id="timing-run",
+            block_id="ch003-block-001",
+            stage=stage,
+            status=status,
+            provider="openrouter",
+            created_at=created_at,
+            metadata={"duration_seconds": duration, **metadata},
+        )
+
+    records = [
+        record("translating", "completed", "2026-09-16T00:00:10+00:00", 10.0),
+        record("refining", "failed", "2026-09-16T00:00:13+00:00", 3.0),
+        record("refining", "completed", "2026-09-16T00:00:33+00:00", 20.0),
+        record("qa", "retry", "2026-09-16T00:00:37+00:00", 4.0, retry_count=0),
+        record("qa", "completed", "2026-09-16T00:00:43+00:00", 6.0, retry_count=1),
+        record(
+            "formatting",
+            "completed",
+            "2026-09-16T00:00:55+00:00",
+            5.0,
+            provider_attempts=[{"duration_seconds": 2.0, "formatting_mode": "provider_failed"}],
+        ),
+    ]
+
+    timing = summarize_chapter_timings(records)["ch003"]
+
+    assert timing["wall_clock_seconds"] == 55.0
+    assert timing["provider_seconds"] == 50.0
+    assert timing["failed_provider_seconds"] == 5.0
+    assert timing["retry_provider_seconds"] == 12.0
+    assert timing["stage_seconds"] == {
+        "translating": 10.0,
+        "refining": 23.0,
+        "qa": 10.0,
+        "formatting": 7.0,
+    }
+    assert timing["provider_stage_seconds"] == {
+        "translating": {"openrouter": 10.0},
+        "refining": {"openrouter": 23.0},
+        "qa": {"openrouter": 10.0},
+        "formatting": {"openrouter": 7.0},
+    }
+    assert timing["provider_call_count"] == 7
+    assert timing["retry_count"] == 2
+    assert timing["failure_count"] == 1
+
+
+def test_provider_stage_results_capture_timing_metadata():
+    from novel_pipeline.stages.qa import run_qa_stage
+    from novel_pipeline.stages.refine import run_refine_stage
+    from novel_pipeline.stages.translate import run_literal_translation_stage
+    from novel_pipeline.types import RefinedDraft, StyleProfile
+
+    config = Mock()
+    config.workspace.prompts = Path("prompts")
+    config.research_context_text.return_value = ""
+    config.style_profile_for_name.return_value = StyleProfile.from_mapping("default", {})
+    block = TextBlock(
+        block_id="ch001-block-001",
+        chapter_id="ch001",
+        source_text="Hello.",
+        source_language="en",
+    )
+    runner = Mock()
+    runner.spec.name = "openrouter"
+
+    def response(stdout, duration, model):
+        return ProviderResponse(
+            provider="openrouter",
+            command=("openrouter",),
+            stdout=stdout,
+            returncode=0,
+            started_at="2026-09-16T00:00:00+00:00",
+            finished_at="2026-09-16T00:00:10+00:00",
+            duration_seconds=duration,
+            model=model,
+        )
+
+    with patch("novel_pipeline.stages.translate.PromptStore.render", return_value="literal prompt"):
+        runner.run_with_retry.return_value = response("\u0e2a\u0e27\u0e31\u0e2a\u0e14\u0e35", 10.0, "literal-model")
+        literal = run_literal_translation_stage(
+            config=config,
+            block=block,
+            glossary_subset=[],
+            provider_runner=runner,
+        )
+    assert literal.metadata["duration_seconds"] == 10.0
+    assert literal.metadata["model"] == "literal-model"
+
+    with patch("novel_pipeline.stages.refine.PromptStore.render", return_value="refine prompt"):
+        runner.run_with_retry.return_value = response("\u0e2a\u0e27\u0e31\u0e2a\u0e14\u0e35", 12.0, "refine-model")
+        refined = run_refine_stage(
+            config=config,
+            block=block,
+            literal_draft=literal,
+            glossary_subset=[],
+            style_profile_key="default",
+            provider_runner=runner,
+        )
+    assert refined.metadata["duration_seconds"] == 12.0
+    assert refined.metadata["model"] == "refine-model"
+
+    with patch("novel_pipeline.stages.qa.PromptStore.render", return_value="qa prompt"):
+        runner.run_with_retry.return_value = response("PASS", 8.0, "qa-model")
+        qa_report = run_qa_stage(
+            config=config,
+            block=block,
+            literal_draft=literal,
+            refined_draft=RefinedDraft(
+                block_id=block.block_id,
+                chapter_id=block.chapter_id,
+                refined_text="\u0e2a\u0e27\u0e31\u0e2a\u0e14\u0e35",
+            ),
+            glossary_subset=[],
+            provider_runner=runner,
+        )
+    assert qa_report.metadata["duration_seconds"] == 8.0
+    assert qa_report.metadata["model"] == "qa-model"
 
 
 def test_cleanliness_report_flags_body_issues_and_ignores_title_han():
@@ -9272,6 +9524,9 @@ if __name__ == "__main__":
     test_qa_glossary_missing_term_blocks_when_refinement_removed_literal_term()
     test_qa_blocks_rejected_glossary_variant()
     test_refine_applies_rejected_glossary_variant_repair()
+    test_rezero_source_aware_repair_restores_observed_profanity_only_for_rezero()
+    test_post_format_repairs_rejected_name_and_rezero_meaning_drift()
+    test_rezero_emilia_glossary_rejects_observed_typo()
     test_redacted_ranked_gate_repair_removes_hallucinated_s_rank()
     test_redacted_ranked_gate_repair_preserves_explicit_s_rank_source()
     test_literal_draft_repairs_redacted_ranked_gate_marker()
@@ -9326,6 +9581,9 @@ if __name__ == "__main__":
     test_format_ready_blocks_parallel_commits_in_block_order()
     test_inspect_block_command_reports_artifacts_and_validation()
     test_checkpoint_report_generation_writes_expected_markdown()
+    test_run_ledger_concurrent_process_append_is_lossless()
+    test_chapter_timing_summary_reports_stage_provider_and_retry_time()
+    test_provider_stage_results_capture_timing_metadata()
     test_cleanliness_report_flags_body_issues_and_ignores_title_han()
     test_cmd_report_cleanliness_returns_nonzero_on_missing_output()
     test_product_review_report_generation_writes_expected_markdown()

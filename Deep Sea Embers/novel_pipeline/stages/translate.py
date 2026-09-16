@@ -65,6 +65,12 @@ def run_literal_translation_stage(
         sentence_pairs=pairs,
         source_text=block.source_text,
         provider=provider_runner.spec.name,
+        metadata={
+            "model": response.model,
+            "started_at": response.started_at,
+            "finished_at": response.finished_at,
+            "duration_seconds": response.duration_seconds,
+        },
     )
 
 

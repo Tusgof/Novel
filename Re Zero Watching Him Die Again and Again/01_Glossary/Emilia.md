@@ -4,6 +4,8 @@ original_term: Emilia
 thai_term: เอมิเลีย
 status: approved
 aliases: []
+rejected_variants:
+  - เอมิเลา
 source_language: en
 category: character
 novel: re-zero-watching-him-die-again-and-again
@@ -14,9 +16,9 @@ related: []
 approved_by: codex_setup_rezero_20260915
 approval_notes: Common Thai proper-name spelling.
 created_at: 2026-09-15
-updated_at: 2026-09-15
+updated_at: 2026-09-16
 ---
 
 ## Summary
 
-Use เอมิเลีย.
+Use เอมิเลีย. Reject the observed typo `เอมิเลา`.
