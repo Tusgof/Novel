@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-15T16:53:02.628Z",
+  "generatedAt": "2026-09-16T08:39:36.911Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,8 +11,8 @@
   },
   "summary": {
     "books": 4,
-    "chapters": 642,
-    "available": 642,
+    "chapters": 643,
+    "available": 643,
     "missing": 0,
     "rejected": 0
   },
@@ -172,24 +172,24 @@
       "cover": "/images/re-zero-watching-him-die-again-and-again-cover.png",
       "href": "/books/re-zero-watching-him-die-again-and-again",
       "chaptersHref": "/books/re-zero-watching-him-die-again-and-again/chapters",
-      "targetRange": "ch001-ch001",
+      "targetRange": "ch001-ch002",
       "summary": {
-        "total": 1,
-        "available": 1,
+        "total": 2,
+        "available": 2,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch001",
-        "number": 1,
-        "title": "บทที่ 1: คำทักทาย - ฉบับปรับปรุง",
+        "id": "ch002",
+        "number": 2,
+        "title": "บทที่ 2: ตอนที่ 1 ไดเรกเตอร์คัต",
         "status": "available",
-        "sourcePath": "ch001/ch001.md",
-        "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch001.md",
-        "href": "/books/re-zero-watching-him-die-again-and-again/read/ch001",
-        "charCount": 67995,
-        "readingMinutes": 16
+        "sourcePath": "ch002/ch002.md",
+        "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch002.md",
+        "href": "/books/re-zero-watching-him-die-again-and-again/read/ch002",
+        "charCount": 248132,
+        "readingMinutes": 56
       },
       "firstChapter": {
         "id": "ch001",

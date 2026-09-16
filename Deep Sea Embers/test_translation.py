@@ -1644,6 +1644,8 @@ def test_irs_title_resolver_requires_thai_sidecar_for_english_titles():
         config = Mock(spec=AppConfig)
         config.workspace = Mock()
         config.workspace.work = base / "04_Work"
+        config.workspace.glossary_dir = base / "01_Glossary"
+        config.workspace.glossary_dir.mkdir(parents=True)
         config.novel_id = "infinite-regressor-stories"
 
         source = ChapterSource(
@@ -1667,6 +1669,43 @@ def test_irs_title_resolver_requires_thai_sidecar_for_english_titles():
             encoding="utf-8",
         )
         assert _resolve_chapter_output_title(config, "ch001", source) == "ตอนที่ 1 - คู่หู Ⅰ"
+
+
+def test_generic_english_title_resolver_requires_thai_sidecar():
+    from novel_pipeline.pipeline import _resolve_chapter_output_title
+    from novel_pipeline.types import AppConfig, ChapterSource
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        base = Path(tmpdir)
+        config = Mock(spec=AppConfig)
+        config.workspace = Mock()
+        config.workspace.work = base / "04_Work"
+        config.workspace.glossary_dir = base / "01_Glossary"
+        config.workspace.glossary_dir.mkdir(parents=True)
+        config.novel_id = "sample-english-novel"
+
+        source = ChapterSource(
+            novel_id="sample-english-novel",
+            chapter_id="ch002",
+            title="Chapter 2: Director's Cut",
+            source_language="en",
+        )
+
+        try:
+            _resolve_chapter_output_title(config, "ch002", source)
+        except RuntimeError as exc:
+            assert "Missing Thai title sidecar" in str(exc)
+        else:
+            raise AssertionError("English source titles must require title.json before assembly")
+
+        title_dir = base / "04_Work" / "ch002"
+        title_dir.mkdir(parents=True)
+        (title_dir / "title.json").write_text(
+            json.dumps({"thai_title": "บทที่ 2: ฉบับผู้กำกับ"}, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        assert _resolve_chapter_output_title(config, "ch002", source) == "บทที่ 2: ฉบับผู้กำกับ"
 
 
 def test_chapter_output_removes_duplicate_plain_title_paragraph():
@@ -4603,6 +4642,7 @@ def test_qa_stage_rejects_false_missing_supplied_input_response():
         "FAIL: No Thai translation text was provided for comparison.",
         "FAIL: No Thai translation or English source text was provided to judge.",
         "FAIL: No Thai translation or literal draft was provided.",
+        "FAIL: The refined Thai translation is missing; only the literal draft is provided.",
     ):
         provider_runner.run_with_retry.return_value = ProviderResponse(
             provider="openrouter_reasoning",

@@ -3525,6 +3525,12 @@ def _resolve_chapter_output_title(
             "Create 04_Work/<chapter>/title.json before final assembly."
         )
 
+    if _requires_thai_title_sidecar(config, chapter_source):
+        raise RuntimeError(
+            f"Missing Thai title sidecar for {chapter_id}: {source_title}. "
+            "Run scripts/translate_chapter_titles.py for this range before final assembly."
+        )
+
     if source_title and not _contains_han(source_title):
         _validate_chapter_output_title_glossary(config, chapter_id, source_title, source_title)
         return source_title
@@ -3552,10 +3558,7 @@ def _validate_title_sidecars_before_translation(
         source_title = (chapter_source.title or "").strip()
         requires_sidecar = (
             (_contains_han(source_title) and _has_named_chinese_chapter_title(source_title))
-            or (
-                getattr(config, "novel_id", "") == "infinite-regressor-stories"
-                and _looks_like_irs_english_title(source_title)
-            )
+            or _requires_thai_title_sidecar(config, chapter_source)
         )
         if not requires_sidecar:
             continue
@@ -3653,6 +3656,14 @@ def _looks_like_hgd_english_title(source_title: str) -> bool:
 
 def _looks_like_irs_english_title(source_title: str) -> bool:
     return bool(re.match(r"^Chapter\s+\d+\s+-\s+\S+", source_title.strip().lstrip("\ufeff#").strip(), flags=re.IGNORECASE))
+
+
+def _requires_thai_title_sidecar(config: AppConfig, chapter_source: ChapterSource | None) -> bool:
+    if chapter_source is None or getattr(config, "novel_id", "") == "horror-game-developer":
+        return False
+    source_title = (chapter_source.title or "").strip()
+    source_language = (chapter_source.source_language or getattr(config, "source_language", "")).lower()
+    return source_language.startswith("en") and bool(re.search(r"[A-Za-z]", source_title))
 
 
 def _write_hgd_title_sidecar(config: AppConfig, chapter_id: str, thai_title: str) -> None:

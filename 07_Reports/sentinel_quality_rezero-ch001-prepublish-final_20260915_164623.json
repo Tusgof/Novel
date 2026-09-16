@@ -1,0 +1,28 @@
+{
+  "created_at": "2026-09-15T16:46:23.439958+00:00",
+  "scope": "rezero-ch001-prepublish-final",
+  "chapters": "ch001",
+  "counts": {
+    "blocker": 1,
+    "major": 0,
+    "minor": 1,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch001.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Puck -> แพ็ก; glossary=Puck.md"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "OVA"
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "created_at": "2026-09-16T01:33:24.279812+00:00",
+  "scope": "rezero-ch002-ch003-production-v2_ch002_sentinel",
+  "chapters": "ch002",
+  "counts": {
+    "blocker": 17,
+    "major": 3,
+    "minor": 1,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md: re-zero-watching-him-die-again-and-again output appears truncated versus source (source chars=269936, output chars=30811, ratio=0.11)",
+      "evidence": ""
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Dragon-drawn Carriages -> รถมังกร; glossary=Dragon-drawn Carriage.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "The Bowel Hunter -> นักล่าเครื่องใน; glossary=Bowel Hunter.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sloth Archbishop -> อาร์ชบิชอปแห่งบาป ผู้ดูแลความเกียจคร้าน; glossary=Sloth Archbishop.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sleeping Beauty -> เจ้าหญิงนิทรา; glossary=Sleeping Beauty.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Hoshin Company -> สมาคมการค้าโฮชิน; glossary=Hoshin Company.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Priscilla Camp -> ฝ่ายพริสซิลลา; glossary=Priscilla Camp.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Jealous Witch -> แม่มดแห่งความริษยา; glossary=Jealous Witch.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Bowel Hunter -> นักล่าเครื่องใน; glossary=Bowel Hunter.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Great Spirit -> มหาภูต; glossary=Great Spirit.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Old Man Rom -> รอม; glossary=Rom.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sword Demon -> อสูรดาบ; glossary=Sword Demon.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sword Saint -> นักดาบศักดิ์สิทธิ์; glossary=Sword Saint.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "White Whale -> วาฬขาว; glossary=White Whale.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sanctuary -> แซงชัวรี; glossary=Sanctuary.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Echidna -> เอคิดนา; glossary=Echidna.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Satella -> ซาเทลลา; glossary=Satella.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Tivey -> ทิเวย์; glossary=Tivey.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Elsa -> เอลซ่า แกรนฮิลเต้; glossary=Elsa Granhiert.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Puck -> แพ็ก; glossary=Puck.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Rom -> รอม; glossary=Rom.md"
+    }
+  ]
+}

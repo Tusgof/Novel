@@ -1,0 +1,133 @@
+{
+  "created_at": "2026-09-16T07:02:27.750049+00:00",
+  "scope": "rezero-ch002-inspector-verified",
+  "chapters": "ch002",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 17,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": [
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Chapter"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Directors cut"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Zero"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "EXP"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Styx Helix"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Bobdoorman"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Shattered Kasenaru"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "ArcherfromAnor"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Prisc"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Dragon's Candidate"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Karma's revenge"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "ScuffedSenku09"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Senku"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Broseph"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Reddit"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Ao3"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Wattpad"
+    }
+  ]
+}

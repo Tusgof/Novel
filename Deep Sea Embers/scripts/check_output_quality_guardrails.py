@@ -676,6 +676,20 @@ def check_registry_title_policies(
                         f"{output_path}: {slug} heading uses generic fallback despite named source title: {source_title}"
                     )
 
+        if title_policy.get("english_source_titles_require_thai_output"):
+            for output_dir in sorted(output_root.glob("ch*")):
+                if not output_dir.is_dir():
+                    continue
+                chapter = output_dir.name
+                if not in_scope(chapter, scoped_chapters):
+                    continue
+                output_path = output_dir / f"{chapter}.md"
+                if not output_path.exists():
+                    continue
+                heading = read(output_path).split("\n", 1)[0].strip()
+                if not re.search(r"[\u0e00-\u0e7f]", heading):
+                    issues.append(f"{output_path}: {slug} heading must contain a Thai chapter title: {heading}")
+
         manifest_path = novel_reader_manifest_path(novel)
         if not manifest_path.exists():
             continue

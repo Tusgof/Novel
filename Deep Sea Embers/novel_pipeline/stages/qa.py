@@ -146,6 +146,11 @@ def _claims_supplied_qa_input_is_missing(text: str) -> bool:
             text,
             re.I,
         )
+        or re.search(
+            r"\brefined\s+thai\s+translation\s+is\s+missing\b[^\n]{0,120}\bonly\s+the\s+literal\s+draft\s+is\s+provided\b",
+            text,
+            re.I,
+        )
     )
 
 
