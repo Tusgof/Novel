@@ -549,6 +549,23 @@ def test_retry_auth_nonzero_not_retried():
             mock_run.assert_called_once()
             assert response.stderr == "unauthorized"
 
+
+def test_provider_success_can_report_no_unauthorized_additions():
+    """QA prose about unauthorized additions is not an authentication failure."""
+    from novel_pipeline.providers.base import ProviderResponse
+
+    response = ProviderResponse(
+        provider="test",
+        command=(),
+        stdout=(
+            "PASS: The translation preserves the source without omissions "
+            "or unauthorized additions."
+        ),
+        stderr="",
+        returncode=0,
+    )
+    assert classify_provider_response(response) == ""
+
 def test_retry_backoff_delay():
     """Backoff delay calculation works."""
     spec = ProviderSpec(name="test", executable=("test",), retry_max_attempts=3, retry_initial_delay_seconds=2.0, retry_backoff_multiplier=2.0, retry_failure_kinds=("quota",))
@@ -9035,6 +9052,7 @@ if __name__ == "__main__":
     test_retry_quota_success()
     test_retry_auth_not_retried()
     test_retry_auth_nonzero_not_retried()
+    test_provider_success_can_report_no_unauthorized_additions()
     test_retry_backoff_delay()
     test_retry_nonzero_exit_with_retry_on_nonzero()
     test_stage_routing_parses_ordered_fallbacks()

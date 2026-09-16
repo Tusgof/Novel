@@ -26,7 +26,7 @@ class ProviderOutputError(ProviderExecutionError):
 _FAILURE_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ("quota", re.compile(r"\b(hit your limit|usage limit|rate limit|quota|too many requests|429|resource exhausted|exceeded your current quota|no capacity available|model_capacity_exhausted)\b", re.I)),
     ("refusal", re.compile(r"\b(i can(?:not|'t)|i am unable|as an ai|cannot assist|can't assist)\b", re.I)),
-    ("auth", re.compile(r"\b(unauthorized|permission denied|authentication|not logged in|api key)\b", re.I)),
+    ("auth", re.compile(r"\b(unauthorized(?!\s+additions?\b)|permission denied|authentication|not logged in|api key)\b", re.I)),
 )
 
 
