@@ -4523,6 +4523,59 @@ def test_qa_stage_uses_structured_style_instructions():
     assert mock_render.call_args.kwargs["style_instructions"] == profile.instruction_text()
 
 
+def test_qa_stage_does_not_duplicate_source_inside_drafts():
+    """Long QA prompts keep the refined Thai visible by including source only once."""
+    from novel_pipeline.stages.qa import run_qa_stage
+    from novel_pipeline.types import LiteralDraft, LiteralSentencePair, RefinedDraft, StyleProfile, TextBlock
+
+    source_text = "SOURCE-MARKER " * 100
+    literal_text = "ฉบับแปลตรง"
+    refined_text = "ฉบับขัดเกลา"
+    config = Mock()
+    config.workspace.prompts = Path("prompts")
+    config.style_profile_for_name = Mock(return_value=StyleProfile.from_mapping("default", {}))
+    config.research_context_text = Mock(return_value="")
+    block = TextBlock(block_id="ch001-block-001", chapter_id="ch001", source_text=source_text)
+    literal_draft = LiteralDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        sentence_pairs=(LiteralSentencePair(source_sentence=source_text, literal_sentence=literal_text),),
+        source_text=source_text,
+    )
+    refined_draft = RefinedDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        refined_text=refined_text,
+        source_text=source_text,
+    )
+    provider_runner = Mock()
+    provider_runner.spec.name = "openrouter_reasoning"
+    provider_runner.run_with_retry.return_value = ProviderResponse(
+        provider="openrouter_reasoning",
+        command=("openrouter",),
+        stdout="PASS: faithful translation.",
+        returncode=0,
+    )
+
+    with patch("novel_pipeline.stages.qa.PromptStore.render", return_value="qa prompt") as mock_render:
+        report = run_qa_stage(
+            config=config,
+            block=block,
+            literal_draft=literal_draft,
+            refined_draft=refined_draft,
+            glossary_subset=[],
+            provider_runner=provider_runner,
+        )
+
+    assert report.passed is True
+    prompt_values = mock_render.call_args.kwargs
+    assert prompt_values["source_block"] == source_text
+    assert prompt_values["literal_draft"] == literal_text
+    assert prompt_values["refined_draft"] == refined_text
+    assert source_text not in prompt_values["literal_draft"]
+    assert source_text not in prompt_values["refined_draft"]
+
+
 def test_literal_translation_stage_uses_research_context():
     """Literal translation prompt wiring passes research context through to the template."""
     from novel_pipeline.stages.translate import run_literal_translation_stage

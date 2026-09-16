@@ -37,8 +37,8 @@ def run_qa_stage(
     prompt = prompt_store.render(
         "qa_judge",
         source_block=block.source_text,
-        literal_draft=literal_draft.to_dict(),
-        refined_draft=refined_draft.to_dict(),
+        literal_draft="\n".join(pair.literal_sentence for pair in literal_draft.sentence_pairs),
+        refined_draft=refined_draft.refined_text,
         glossary_subset=[entry.to_dict() for entry in glossary_subset],
         style_instructions=style_profile.instruction_text(),
         research_context=config.research_context_text(),
