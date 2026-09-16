@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-16T21:41:16.768Z",
+  "generatedAt": "2026-09-16T22:09:33.438Z",
   "sourceRoot": "../Re Zero Watching Him Die Again and Again/05_Output",
-  "targetRange": "ch001-ch005",
+  "targetRange": "ch001-ch006",
   "novel": {
     "slug": "re-zero-watching-him-die-again-and-again",
     "title": "Re:Zero - Watching Him Die Again and Again",
@@ -27,8 +27,8 @@
     }
   },
   "summary": {
-    "total": 5,
-    "available": 5,
+    "total": 6,
+    "available": 6,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -88,6 +88,17 @@
       "href": "/books/re-zero-watching-him-die-again-and-again/read/ch005",
       "charCount": 210836,
       "readingMinutes": 47
+    },
+    {
+      "id": "ch006",
+      "number": 6,
+      "title": "บทที่ 6: ตอนที่ 5 ฉบับผู้กำกับ",
+      "status": "available",
+      "sourcePath": "ch006/ch006.md",
+      "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch006.md",
+      "href": "/books/re-zero-watching-him-die-again-and-again/read/ch006",
+      "charCount": 151437,
+      "readingMinutes": 34
     }
   ]
 }
