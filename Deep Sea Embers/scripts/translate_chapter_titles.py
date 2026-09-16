@@ -23,7 +23,7 @@ THAI_RE = re.compile(r"[\u0e00-\u0e7f]")
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Translate chapter titles through configured title provider routes.")
-    parser.add_argument("--config", type=Path, default=Path(".system/config.yaml"))
+    parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--range", dest="chapter_range", required=True)
     parser.add_argument("--run-id", default="")
     args = parser.parse_args()
