@@ -40,6 +40,14 @@ def run_literal_translation_stage(
     if not pairs:
         preview = (response.stderr or response.stdout or "").strip().replace("\n", " ")[:300]
         raise RuntimeError(f"Literal translation provider did not return parseable Thai output. {preview}")
+    literal_text = "\n".join(pair.literal_sentence for pair in pairs).strip()
+    source_text = block.source_text.strip()
+    if len(source_text) >= 500 and len(literal_text) < len(source_text) * 0.35:
+        raise ProviderOutputError(
+            response,
+            f"Provider '{response.provider}' returned truncated literal output "
+            f"({len(literal_text)} chars for {len(source_text)} source chars).",
+        )
     # Mojibake detection
     for pair in pairs:
         try:

@@ -137,7 +137,7 @@ def _contains_xianxia_drift(text: str) -> bool:
 def _claims_supplied_qa_input_is_missing(text: str) -> bool:
     return bool(
         re.search(
-            r"\bno\s+thai\s+translation(?:\s+text)?(?:\s+or\s+english\s+source(?:\s+text)?)?\s+(?:was|were)\s+provided\b",
+            r"\bno\s+thai\s+translation(?:\s+text)?(?:\s+or\s+[^.;:\n]{1,80})?\s+(?:was|were)\s+provided\b",
             text,
             re.I,
         )

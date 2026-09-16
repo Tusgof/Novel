@@ -4599,26 +4599,67 @@ def test_qa_stage_rejects_false_missing_supplied_input_response():
     )
     provider_runner = Mock()
     provider_runner.spec.name = "openrouter_reasoning"
+    for verdict in (
+        "FAIL: No Thai translation text was provided for comparison.",
+        "FAIL: No Thai translation or English source text was provided to judge.",
+        "FAIL: No Thai translation or literal draft was provided.",
+    ):
+        provider_runner.run_with_retry.return_value = ProviderResponse(
+            provider="openrouter_reasoning",
+            command=("openrouter",),
+            stdout=verdict,
+            returncode=0,
+        )
+        try:
+            run_qa_stage(
+                config=config,
+                block=block,
+                literal_draft=literal_draft,
+                refined_draft=refined_draft,
+                glossary_subset=[],
+                provider_runner=provider_runner,
+            )
+        except ProviderOutputError as exc:
+            assert "supplied source or Thai translation input was missing" in str(exc)
+        else:
+            raise AssertionError(f"False missing-input QA response was accepted: {verdict}")
+
+
+def test_literal_translation_rejects_truncated_long_output():
+    """A long source cannot become a tiny Thai literal artifact and reach refinement."""
+    from novel_pipeline.providers.base import ProviderOutputError
+    from novel_pipeline.stages.translate import run_literal_translation_stage
+
+    config = Mock()
+    config.workspace.prompts = Path("prompts")
+    config.research_context_text = Mock(return_value="")
+    block = TextBlock(
+        block_id="ch001-block-001",
+        chapter_id="ch001",
+        source_text=("This is a complete source sentence with meaningful story content. " * 40),
+        source_language="en",
+    )
+    provider_runner = Mock()
+    provider_runner.spec.name = "openrouter"
     provider_runner.run_with_retry.return_value = ProviderResponse(
-        provider="openrouter_reasoning",
+        provider="openrouter",
         command=("openrouter",),
-        stdout="FAIL: No Thai translation text was provided for comparison.",
+        stdout="ข้อความภาษาไทยที่ถูกตัดสั้น",
         returncode=0,
     )
 
-    try:
-        run_qa_stage(
-            config=config,
-            block=block,
-            literal_draft=literal_draft,
-            refined_draft=refined_draft,
-            glossary_subset=[],
-            provider_runner=provider_runner,
-        )
-    except ProviderOutputError as exc:
-        assert "supplied source or Thai translation input was missing" in str(exc)
-    else:
-        raise AssertionError("False missing-input QA response was accepted as a content finding.")
+    with patch("novel_pipeline.stages.translate.PromptStore.render", return_value="literal prompt"):
+        try:
+            run_literal_translation_stage(
+                config=config,
+                block=block,
+                glossary_subset=[],
+                provider_runner=provider_runner,
+            )
+        except ProviderOutputError as exc:
+            assert "truncated literal output" in str(exc)
+        else:
+            raise AssertionError("Truncated literal output was accepted.")
 
 
 def test_literal_translation_stage_uses_research_context():
@@ -9234,6 +9275,7 @@ if __name__ == "__main__":
     test_qa_stage_uses_structured_style_instructions()
     test_qa_stage_does_not_duplicate_source_inside_drafts()
     test_qa_stage_rejects_false_missing_supplied_input_response()
+    test_literal_translation_rejects_truncated_long_output()
     test_cmd_resume_returns_two_on_manual_action_required()
     test_cmd_preflight_returns_one_when_blocked()
     test_resume_pipeline_stops_before_chapter_after_until_chapter()
