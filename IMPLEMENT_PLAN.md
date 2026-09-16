@@ -77,7 +77,7 @@ Active milestone: V6.35 Re:Zero bounded production and chapter-isolated parallel
 
 **Milestone complete when**: `ch003-ch010` are published and production URLs verified, every chapter passes blocking gates, timing evidence exists, and the parallelism decision is recorded without enabling stage-level concurrency.
 
-Status: in progress. Task 35.1 is complete. `ch004` also completed `10/10` blocks under `rezero-ch004-production-v1`; output guardrails, Inspector Sentinel, spot-check, and local MoonRead publication gates passed, with timing recorded in `Re Zero Watching Him Die Again and Again/07_Reports/rezero_ch004_production_checkpoint_20260916.md`. Task 35.2 remains active for `ch005-ch010`. A prep-to-body orchestration stall exposed that a successful prep `RETURN` could be left idle; `HERDR_WORKER_PROTOCOL.md` now requires an immediate next order, acceptance/publication, or explicit blocked state after every return.
+Status: in progress. Task 35.1 is complete. `ch004` completed `10/10` blocks under `rezero-ch004-production-v1`, passed output guardrails, Inspector Sentinel, spot-check, and MoonRead publication gates, and is verified live at pushed commit `a1de06b`; timing is recorded in `Re Zero Watching Him Die Again and Again/07_Reports/rezero_ch004_production_checkpoint_20260916.md`. Task 35.2 remains active for `ch005-ch010`. A prep-to-body orchestration stall exposed that a successful prep `RETURN` could be left idle; `HERDR_WORKER_PROTOCOL.md` now requires an immediate next order, acceptance/publication, or explicit blocked state after every return.
 
 ---
 

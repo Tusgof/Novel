@@ -48,7 +48,7 @@ Keep this section short. Update `PROJECT_BRAIN.md` for current state, active ris
 
 Re:Zero Watching Him Die Again and Again:
 
-- `ch001-ch004` are translated and independently verified. `ch001-ch003` are live at pushed commit `f0e37ad7d35992b0c87f10ab28eb939a6e20a3bd`; `ch004` passed local MoonRead publication gates and is pending this session's push/production URL verification.
+- `ch001-ch004` are translated, independently verified, and live on MoonRead. Production `ch004` returned HTTP 200 with the Thai title at pushed commit `a1de06bf91f850009a9ae05724a1ecb8bfd5eafa`.
 - Run `rezero-ch002-ch003-production-v2` completed `ch003` at `11/11` blocks with no current failed block or manual action. Output guardrails, blocking Sentinel, major-run spot-check, MoonRead publish verification, lint, build, smoke, and rendered-page inspection passed. Checkpoint: `Re Zero Watching Him Die Again and Again/07_Reports/rezero_ch003_production_checkpoint_20260916.md`.
 - Run `rezero-ch004-production-v1` completed `10/10` blocks with no current failure or manual action. Output guardrails passed; Inspector Sentinel was `0/0/4/0` with only source-backed `NPC`, `Redo`, `Styx Helix`, and `Reddit`; MoonRead Sentinel was `0/0/0/0`; scoped publish verification, lint, build, and smoke passed. Wall time was `7,964.85s`, provider time `4,673.23s`, failed provider time `1,776.49s`, and timing coverage `50/51`. Checkpoint: `Re Zero Watching Him Die Again and Again/07_Reports/rezero_ch004_production_checkpoint_20260916.md`.
 - During `ch004-ch010` title preparation, an initial command omitted the Re:Zero config and inherited the DSE working directory, temporarily overwriting DSE title sidecars/log metadata. DSE tracked production titles were restored and verified against final H1 headings. Prevention: `translate_chapter_titles.py` now requires explicit `--config`; the missing-config regression exits with code `2`, and the full translation test suite passes.
@@ -400,10 +400,9 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
-Active scope is V6.35 Re:Zero `ch004-ch010`. Re:Zero `ch004` is locally verified and pending push/production URL verification; `ch005-ch010` remain at the scanned, unapproved prep gate.
+Active scope is V6.35 Re:Zero `ch005-ch010`. Re:Zero `ch004` is verified live; `ch005-ch010` remain at the scanned, unapproved prep gate.
 
-1. Push the verified `ch004` MoonRead publication and verify its production URL.
-2. Review and approve `ch005-ch010` glossary candidates per unique chapter run, then freeze glossary mutation.
-3. Pilot at most two chapter-isolated Luna workers with separate run IDs/artifacts; accept and publish chapters sequentially by number.
-4. Stop the parallel window on provider exhaustion, manual prompt, QA hard-fail, ledger decode/collision, validation failure, Sentinel blocker/major, or unexpected scope expansion; preserve evidence and return to one worker when provider instability increases.
-5. Record full-coverage chapter timing and stage/provider totals in checkpoint reports, compare chapter pairs against the recovery-heavy `ch003` baseline, then decide whether two-pane chapter isolation remains an approved production option.
+1. Review and approve `ch005-ch010` glossary candidates per unique chapter run, then freeze glossary mutation.
+2. Pilot at most two chapter-isolated Luna workers with separate run IDs/artifacts; accept and publish chapters sequentially by number.
+3. Stop the parallel window on provider exhaustion, manual prompt, QA hard-fail, ledger decode/collision, validation failure, Sentinel blocker/major, or unexpected scope expansion; preserve evidence and return to one worker when provider instability increases.
+4. Record full-coverage chapter timing and stage/provider totals in checkpoint reports, compare chapter pairs against the recovery-heavy `ch003` baseline, then decide whether two-pane chapter isolation remains an approved production option.

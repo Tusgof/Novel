@@ -18,6 +18,7 @@
 - The four Inspector minor findings are intentional source-backed terms: `NPC`, opening theme `Redo`, ending theme `Styx Helix`, and `Reddit` in the author's note.
 - Opening, middle, ending, title, paragraph density, Markdown emphasis, glossary terms, and the recovered blocks `002`, `005`, `007`, and `008` were inspected.
 - MoonRead scoped `publish:verify`, lint, build, and smoke passed.
+- Production URL returned HTTP 200 with the Thai chapter title at commit `a1de06bf91f850009a9ae05724a1ecb8bfd5eafa`.
 
 ## Provider Recovery
 
@@ -54,4 +55,4 @@ Prevention is now part of `HERDR_WORKER_PROTOCOL.md`: before each multi-order `S
 
 ## Next Safe Action
 
-Push the verified MoonRead publication, verify the production `ch004` URL, then review and approve `ch005-ch010` glossary gates before starting at most two chapter-isolated body workers.
+Review and approve `ch005-ch010` glossary gates before starting at most two chapter-isolated body workers.
