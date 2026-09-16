@@ -1,6 +1,6 @@
 # IMPLEMENT_PLAN.md
 
-Last updated: 2026-09-05
+Last updated: 2026-09-16
 
 ## Overview
 
@@ -58,6 +58,26 @@ Current progress:
 - Post-V6.34 DSE continuation complete: `dse-ch181-ch185-v1`, `dse-ch186-ch190-v1`, `dse-ch191-ch195-v1`, `dse-ch196-ch200-v1`, `dse-ch201-ch205-v1`, and `dse-ch206-ch210-v1` completed and MoonRead publishes DSE through `ch210`. Do not start another production batch without a new explicit range.
 - Post-V6.34 DSE follow-up continuation complete: `dse-ch231-ch235-v1`, `dse-ch236-ch240-v1`, `dse-ch241-ch245-v1`, `dse-ch246-ch250-v1`, and `dse-ch251-v1` completed and MoonRead publishes DSE through `ch251`. Checkpoint: `07_Reports/dse_ch231_ch251_production_checkpoint_20260709.md`.
 - Milestone 7 complete: post-experiment production closure validated the V6.34 recommendation with bounded sequential DSE batches through `ch210`, documented checkpoints, scoped Sentinel, output guardrails, MoonRead publish verification, and clean git push.
+
+Active milestone: V6.35 Re:Zero bounded production and chapter-isolated parallel pilot.
+
+## V6.35: Re:Zero Chapter-Isolated Parallel Pilot
+
+**Goal**: Publish verified Re:Zero fanfic chapters through `ch010`, while proving that at most two chapter-isolated Luna workers can reduce wall time without shared-state corruption or quality-gate regression.
+**Dependencies**: Re:Zero setup/pilot complete; `ch001-ch002` published; shared ledger locking and timing telemetry verified.
+
+| # | Task | Effort | Risk | Verification |
+|:--|:-----|:------:|:----:|:-------------|
+| 35.1 | Finish and independently accept `ch003`; rerun the earliest broken stage for the observed formatter reintroduction before publication | L | ⚠️ | All 11 blocks complete, output guardrail passes, Sentinel blocker/major `0/0`, spot-check passes |
+| 35.2 | Scan and approve glossary/title inputs for `ch004-ch010` sequentially; freeze glossary mutation before parallel work | M | ⚠️ | Each chapter run has fetched/scanned/approved evidence and a title sidecar; no translation starts before approval |
+| 35.3 | Run at most two Luna panes on separate chapters and run IDs with disjoint artifacts | XL | ⚠️ | Concurrent append regression test stays green; ledger decodes; no duplicate/missing records or path collisions |
+| 35.4 | Inspect, gate, and publish completed chapters strictly in chapter order, one chapter per MoonRead update | XL | ⚠️ | Per chapter: no current failure/manual prompt, guardrail + Sentinel + spot-check pass, MoonRead publish checks pass |
+| 35.5 | Record wall/provider/stage timing and compare sequential `ch003` against chapter-isolated pairs | M | ✅ | Status/checkpoint reports include timing coverage, stage/provider seconds, retries, failures, and wall time |
+| 35.6 | Decide whether two-pane chapter isolation becomes a stable production option or falls back to sequential | S | ⚠️ | Evidence report states quality, collision, provider-failure, and wall-time result |
+
+**Milestone complete when**: `ch003-ch010` are published and production URLs verified, every chapter passes blocking gates, timing evidence exists, and the parallelism decision is recorded without enabling stage-level concurrency.
+
+Status: in progress. `ch003` is running under `rezero-ch002-ch003-production-v2`. Commit `249c7a7` adds cross-process JSONL append locking, timing telemetry, QA retry records, and post-format Re:Zero drift repair; full `test_translation.py` passes. No two-pane production run starts until `ch003` is accepted and the `ch004-ch010` glossary/title gate is frozen.
 
 ---
 

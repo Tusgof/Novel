@@ -1,6 +1,6 @@
 # Architecture: Novel Translation System
 
-Last updated: 2026-07-02
+Last updated: 2026-09-16
 
 This document explains stable system structure. It is not the roadmap, current status, or incident log.
 
@@ -112,7 +112,10 @@ Workflow rules:
 - Stop on manual QA prompt, provider failure, command length failure, validation failure, Sentinel blocker/major finding, or scope expansion.
 - Repair from the earliest broken stage.
 - Historical failed ledger records remain; use latest-state inspection for current truth.
-- Post-V6.34 production mode is bounded sequential batches with scan/glossary gates, blocking Sentinel, deterministic output guardrails, and major-run spot-checks. Broad unattended parallel translate/refine/QA remains experimental until a dedicated milestone proves ledger safety and provider isolation.
+- Default production mode remains bounded sequential batches with scan/glossary gates, blocking Sentinel, deterministic output guardrails, and major-run spot-checks.
+- A bounded chapter-isolated parallel pilot may use at most two HERDR workers only after scan/glossary approval is complete and glossary mutation is frozen for the active window. Every worker must own one chapter, one run ID, and disjoint `04_Work`/`05_Output` paths. Shared JSONL append uses the cross-process lock in `novel_pipeline.files`; the Inspector accepts and publishes completed chapters sequentially by chapter number.
+- Never run two processes against blocks in the same chapter/run. Fall back to one worker on provider failure/timeout growth, manual prompt, ledger decode error, artifact collision, or unexpected scope expansion. Broad unattended stage-level translate/refine/QA concurrency remains experimental.
+- Run status and checkpoint reports expose chapter wall time, provider time, stage/provider time, retry/failure time, and timing coverage. Compare provider time only when coverage is complete; wall time intentionally includes waits and recovery gaps.
 
 ## Component Map
 

@@ -1,6 +1,6 @@
 # Project Brain: Novel Translation System
 
-Last updated: 2026-09-15
+Last updated: 2026-09-16
 
 This is the durable memory for the workspace. Keep it compact. Put long evidence, experiments, and historical detail in root-level `07_Reports/` or `01_Research_Log/` as appropriate.
 
@@ -45,6 +45,14 @@ Keep this section short. Update `PROJECT_BRAIN.md` for current state, active ris
 - Codex does not repeat routine worker execution by default. It reviews the returned evidence, reruns targeted verification independently, classifies recurring failures at the correct layer, and issues a narrower repair order or changes the system-level prevention mechanism when evidence supports it.
 
 ## Current Verified State
+
+Re:Zero Watching Him Die Again and Again:
+
+- `ch001-ch002` are translated, verified, published to MoonRead, and available from the production reader.
+- Active production run `rezero-ch002-ch003-production-v2` is bounded to `ch003`; current machine state on 2026-09-16 shows `ch003` in progress with no current failed block. Do not treat it as published until all 11 blocks, post-format repair, output guardrail, scoped Sentinel, spot-check, MoonRead checks, commit/push, and production URL verification pass.
+- The first repeated `ch003-block-003` incident came from literal-stage name/meaning drift that survived QA; a second gap let the AI formatter reintroduce `เอมิเลา` and neutralize explicit source profanity after refinement was correct. Prevention now applies approved rejected-variant and source-aware repair after formatting as well as refinement/QA recovery, with targeted regression tests.
+- Commit `249c7a7` adds cross-process JSONL append locking and chapter timing telemetry. `status` and checkpoint reports now expose chapter wall time, provider time, stage/provider totals, failed/retry provider time, counts, and timing coverage. Full `python test_translation.py` passes, including a four-process/100-record lossless append test.
+- V6.35 may pilot at most two chapter-isolated Luna workers after sequential glossary/title approval. Each worker must use a separate chapter, run ID, and artifact paths; Codex accepts and publishes sequentially by chapter number. Stage-level or same-run parallelism remains disallowed.
 
 Deep Sea Embers:
 
@@ -297,6 +305,8 @@ Requires explicit user approval:
 | Cross-novel experiments overfit to familiar translated ranges | sample from verified `03_Raw/` source pools with a fixed seed and stratified coverage; keep translated chapters only if the raw-source sample selects them naturally; record every experiment round in `01_Research_Log/` |
 | Provider formatting can leave duplicate title paragraphs or dense thought/prose paragraphs | final assembly now removes an immediate title-like first body paragraph below the H1 and applies conservative long-paragraph reflow after AI formatting; keep output guardrails active for duplicate title and paragraph density |
 | Long pilot or production runs are too slow under serial translate/refine/QA | keep current work bounded; treat translation/refinement/QA parallelism as a dedicated milestone with ledger safety and provider isolation instead of enabling broad concurrency casually |
+| Chapter-level parallel workers corrupt or race shared state | use the locked JSONL append path; freeze glossary mutation before the parallel window; one chapter/run/artifact owner per worker; maximum two workers; publish sequentially; fall back to one worker on collisions, ledger errors, or provider instability |
+| Timing totals are misleading on historical runs | display timing coverage; historical records may lack translate/refine/QA duration metadata, while new records capture provider start/end/duration. Wall time includes human waits and recovery gaps by design |
 | HGD Seth pronoun drift | keep HGD Obsidian pronoun policy, prompt/profile rules, and published-scope guardrail checks aligned |
 | New novel setup without vault | create/open the novel Obsidian vault first, then add profile/glossary/source/output folders inside it |
 | Dense or broken formatting | AI formatting plus deterministic validation; use `C:\Users\ASUS\Downloads\good format.md` as style reference |
@@ -386,19 +396,11 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
-Current reader state: Deep Sea Embers is published through `ch281`; Horror Game Developer is published through `ch270`; Infinite Regressor Stories is published through clean `ch050`. V6.34 cross-novel OOS comparison is complete and recommends bounded sequential production only.
+Active scope is V6.35 Re:Zero `ch003-ch010`. Current production reader has Re:Zero `ch001-ch002`; `ch003` is still in progress and must not be claimed as published.
 
-V6.33 translation-output and reader-publication phase is complete:
-
-- HGD: `ch251-ch270` output complete, publish Sentinel `0/0/0/0`, MoonRead through `ch270`.
-- DSE: `ch181-ch210`, `ch231-ch251`, `ch252-ch261`, and `ch262-ch281` output complete and published; latest scoped Sentinel `0/0/0/0`; MoonRead through `ch281`.
-- IRS: clean `ch001-ch050` output complete, publish Sentinel `0/0/0/0`, MoonRead through `ch050`; advisory English review queue remains minor-only.
-- All three used glossary batches of 5 chapters.
-
-Next safe choices:
-
-1. Keep all experiment output isolated from production `05_Output`, production glossary intent, production ledger intent, and MoonRead.
-2. Keep broad unattended parallel translate/refine/QA disabled; V6.34 and the IRS pilot support bounded sequential production only.
-3. Record each completed experiment round in `01_Research_Log/` and push it immediately.
-4. Stop on provider failure, manual QA prompt, command length failure, validation failure, source extraction failure, source mismatch, Sentinel blocker/major, or unexpected scope expansion.
-5. For any next translation work, use a fresh bounded scan-only gate with an explicit user-approved range and a 5-chapter glossary gate.
+1. Let the existing `rezero-ch002-ch003-production-v2` process finish without interruption or a duplicate resume.
+2. Rerun `ch003-block-003` from formatting with commit `249c7a7`, then reassemble and independently verify all 11 blocks, output guardrail, scoped Sentinel, and spot-check before publishing `ch003`.
+3. Run scan/glossary/title preparation for `ch004-ch010` sequentially and freeze glossary mutation.
+4. Pilot at most two chapter-isolated Luna workers with separate run IDs/artifacts; accept and publish chapters sequentially by number.
+5. Stop the parallel window on provider failure, manual prompt, QA hard-fail, ledger decode/collision, validation failure, Sentinel blocker/major, or unexpected scope expansion; preserve evidence and return to one worker when provider instability increases.
+6. Record chapter timing coverage and stage/provider totals in checkpoint reports, then decide whether two-pane chapter isolation remains an approved production option.
