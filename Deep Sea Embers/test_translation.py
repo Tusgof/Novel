@@ -4766,6 +4766,45 @@ def test_literal_translation_rejects_truncated_long_output():
             raise AssertionError("Truncated literal output was accepted.")
 
 
+def test_literal_translation_rejects_partial_output_above_old_threshold():
+    from novel_pipeline.providers.base import ProviderOutputError
+    from novel_pipeline.stages.translate import run_literal_translation_stage
+
+    config = Mock()
+    config.workspace.prompts = Path("prompts")
+    config.research_context_text = Mock(return_value="")
+    source = "A complete English source sentence with story content. " * 100
+    block = TextBlock(
+        block_id="ch003-block-009",
+        chapter_id="ch003",
+        source_text=source,
+        source_language="en",
+    )
+    partial = "\u0e09\u0e1a\u0e31\u0e1a\u0e41\u0e1b\u0e25\u0e17\u0e35\u0e48\u0e02\u0e32\u0e14\u0e2b\u0e32\u0e22 " * 180
+    assert 0.35 < len(partial) / len(source) < 0.65
+    provider_runner = Mock()
+    provider_runner.spec.name = "openrouter"
+    provider_runner.run_with_retry.return_value = ProviderResponse(
+        provider="openrouter",
+        command=("openrouter",),
+        stdout=partial,
+        returncode=0,
+    )
+
+    with patch("novel_pipeline.stages.translate.PromptStore.render", return_value="literal prompt"):
+        try:
+            run_literal_translation_stage(
+                config=config,
+                block=block,
+                glossary_subset=[],
+                provider_runner=provider_runner,
+            )
+        except ProviderOutputError as exc:
+            assert "truncated literal output" in str(exc)
+        else:
+            raise AssertionError("Partial literal output above the old 35% threshold was accepted.")
+
+
 def test_literal_translation_stage_uses_research_context():
     """Literal translation prompt wiring passes research context through to the template."""
     from novel_pipeline.stages.translate import run_literal_translation_stage
@@ -9571,6 +9610,7 @@ if __name__ == "__main__":
     test_qa_stage_does_not_duplicate_source_inside_drafts()
     test_qa_stage_rejects_false_missing_supplied_input_response()
     test_literal_translation_rejects_truncated_long_output()
+    test_literal_translation_rejects_partial_output_above_old_threshold()
     test_cmd_resume_returns_two_on_manual_action_required()
     test_cmd_preflight_returns_one_when_blocked()
     test_resume_pipeline_stops_before_chapter_after_until_chapter()
