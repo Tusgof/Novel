@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-16T08:39:36.587Z",
+  "generatedAt": "2026-09-16T12:51:18.944Z",
   "sourceRoot": "../Re Zero Watching Him Die Again and Again/05_Output",
-  "targetRange": "ch001-ch002",
+  "targetRange": "ch001-ch003",
   "novel": {
     "slug": "re-zero-watching-him-die-again-and-again",
     "title": "Re:Zero - Watching Him Die Again and Again",
@@ -27,8 +27,8 @@
     }
   },
   "summary": {
-    "total": 2,
-    "available": 2,
+    "total": 3,
+    "available": 3,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -55,6 +55,17 @@
       "href": "/books/re-zero-watching-him-die-again-and-again/read/ch002",
       "charCount": 248132,
       "readingMinutes": 56
+    },
+    {
+      "id": "ch003",
+      "number": 3,
+      "title": "บทที่ 3: ตอนที่ 2 ไดเรกเตอร์คัต",
+      "status": "available",
+      "sourcePath": "ch003/ch003.md",
+      "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch003.md",
+      "href": "/books/re-zero-watching-him-die-again-and-again/read/ch003",
+      "charCount": 166394,
+      "readingMinutes": 37
     }
   ]
 }
