@@ -3,7 +3,7 @@ type: glossary-term
 original_term: Emilia
 thai_term: เอมิเลีย
 status: approved
-aliases: []
+aliases: [Lia]
 rejected_variants:
   - เอมิเลา
 source_language: en
@@ -16,7 +16,7 @@ related: []
 approved_by: codex_setup_rezero_20260915
 approval_notes: Common Thai proper-name spelling.
 created_at: 2026-09-15
-updated_at: 2026-09-16
+updated_at: 2026-09-17
 ---
 
 ## Summary

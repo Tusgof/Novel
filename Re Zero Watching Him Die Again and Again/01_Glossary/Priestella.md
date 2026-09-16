@@ -3,7 +3,7 @@ type: glossary-term
 original_term: Priestella
 thai_term: พริสเทลลา
 status: approved
-aliases: []
+aliases: [Preistella]
 source_language: en
 category: location
 novel: re-zero-watching-him-die-again-and-again
@@ -14,7 +14,7 @@ related: []
 approved_by: codex_inspector
 approval_notes: Preserve the established Thai transliteration.
 created_at: 2026-09-15
-updated_at: 2026-09-15
+updated_at: 2026-09-17
 ---
 
 ## Summary

@@ -1,0 +1,63 @@
+{
+  "created_at": "2026-09-16T21:40:22.799272+00:00",
+  "scope": "rezero-ch005-inspector",
+  "chapters": "ch005",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 7,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": [
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Director's Cut"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Redo"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Myth"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Roid"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Straight Bet"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Ao3"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "What"
+    }
+  ]
+}

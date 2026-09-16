@@ -5,6 +5,7 @@ thai_term: หมู่บ้านอาร์แลม
 status: approved
 aliases:
   - Alram Village
+  - Irlam
 source_language: en
 category: location
 novel: re-zero-watching-him-die-again-and-again
@@ -15,7 +16,7 @@ related: []
 approved_by: codex_inspector
 approval_notes: Normalize both Arlam and Alram to the established Thai canon spelling.
 created_at: 2026-09-16
-updated_at: 2026-09-16
+updated_at: 2026-09-17
 ---
 
 ## Summary

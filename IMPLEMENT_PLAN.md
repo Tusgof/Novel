@@ -69,15 +69,15 @@ Active milestone: V6.35 Re:Zero bounded production and chapter-isolated parallel
 | # | Task | Effort | Risk | Verification |
 |:--|:-----|:------:|:----:|:-------------|
 | 35.1 | Complete: finish and independently accept `ch003`; rerun the earliest broken stage for the observed formatter reintroduction before publication | L | ⚠️ | All 11 blocks complete, output guardrail passes, Sentinel blocker/major `0/0`, spot-check passes |
-| 35.2 | In progress: `ch004` approved; review and approve glossary/title inputs for `ch005-ch010` sequentially, then freeze glossary mutation before parallel work | M | ⚠️ | Each chapter run has fetched/scanned/approved evidence and a title sidecar; no translation starts before approval |
-| 35.3 | Run at most two Luna panes on separate chapters and run IDs with disjoint artifacts | XL | ⚠️ | Concurrent append regression test stays green; ledger decodes; no duplicate/missing records or path collisions |
-| 35.4 | Inspect, gate, and publish completed chapters strictly in chapter order, one chapter per MoonRead update | XL | ⚠️ | Per chapter: no current failure/manual prompt, guardrail + Sentinel + spot-check pass, MoonRead publish checks pass |
+| 35.2 | Complete: review and approve glossary/title inputs for `ch005-ch010` sequentially, then freeze glossary mutation before parallel work | M | ⚠️ | Each chapter run has fetched/scanned/approved evidence and a title sidecar; no translation starts before approval |
+| 35.3 | In progress: run at most two Luna panes on separate chapters and run IDs with disjoint artifacts | XL | ⚠️ | Concurrent append regression test stays green; ledger decodes; no duplicate/missing records or path collisions |
+| 35.4 | In progress: inspect, gate, and publish completed chapters strictly in chapter order, one chapter per MoonRead update | XL | ⚠️ | Per chapter: no current failure/manual prompt, guardrail + Sentinel + spot-check pass, MoonRead publish checks pass |
 | 35.5 | Record wall/provider/stage timing and compare sequential `ch003` against chapter-isolated pairs | M | ✅ | Status/checkpoint reports include timing coverage, stage/provider seconds, retries, failures, and wall time |
 | 35.6 | Decide whether two-pane chapter isolation becomes a stable production option or falls back to sequential | S | ⚠️ | Evidence report states quality, collision, provider-failure, and wall-time result |
 
 **Milestone complete when**: `ch003-ch010` are published and production URLs verified, every chapter passes blocking gates, timing evidence exists, and the parallelism decision is recorded without enabling stage-level concurrency.
 
-Status: in progress. Task 35.1 is complete. `ch004` completed `10/10` blocks under `rezero-ch004-production-v1`, passed output guardrails, Inspector Sentinel, spot-check, and MoonRead publication gates, and is verified live at pushed commit `a1de06b`; timing is recorded in `Re Zero Watching Him Die Again and Again/07_Reports/rezero_ch004_production_checkpoint_20260916.md`. Task 35.2 remains active for `ch005-ch010`. A prep-to-body orchestration stall exposed that a successful prep `RETURN` could be left idle; `HERDR_WORKER_PROTOCOL.md` now requires an immediate next order, acceptance/publication, or explicit blocked state after every return.
+Status: in progress. Tasks 35.1 and 35.2 are complete. `ch005` completed `14/14` blocks under `rezero-ch005-production-v1`, passed output guardrails, Inspector Sentinel, spot-check, and MoonRead publication gates; its push/deployment verification is the current publication action. `ch006` is active in the second isolated worker, while `ch007-ch010` remain glossary-approved with no body translation started. Parallel artifacts and ledger writes have remained isolated; provider timeouts and QA recovery loops still prevent broader concurrency.
 
 ---
 

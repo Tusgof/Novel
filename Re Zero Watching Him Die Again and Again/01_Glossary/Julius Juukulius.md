@@ -3,7 +3,7 @@ type: glossary-term
 original_term: Julius Juukulius
 thai_term: ยูเลียส ยูคลิอุส
 status: approved
-aliases: [Julius]
+aliases: [Julius, Julius Juukilous, Julius Euclius]
 source_language: en
 category: character
 novel: re-zero-watching-him-die-again-and-again
@@ -14,5 +14,5 @@ related: []
 approved_by: codex_inspector_rezero_20260915
 approval_notes: Selected after AI candidate comparison and canon review.
 created_at: 2026-09-15
-updated_at: 2026-09-15
+updated_at: 2026-09-17
 ---

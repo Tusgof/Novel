@@ -3,7 +3,7 @@ type: glossary-term
 original_term: Puck
 thai_term: แพ็ก
 status: approved
-aliases: []
+aliases: [Bubby]
 source_language: en
 category: character
 novel: re-zero-watching-him-die-again-and-again
@@ -14,5 +14,5 @@ related: [Great Spirit, Emilia]
 approved_by: codex_inspector_rezero_20260915
 approval_notes: Selected after AI candidate comparison and canon review.
 created_at: 2026-09-15
-updated_at: 2026-09-15
+updated_at: 2026-09-17
 ---
