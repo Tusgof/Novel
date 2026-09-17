@@ -53,4 +53,4 @@ Stage/provider time:
 
 ## Next Safe Action
 
-Push and verify the `ch007` deployment. Continue the already-approved, chapter-isolated `ch008` run, but do not publish it before `ch007` is live.
+`ch007` is live at pushed commit `6b0fc2c`. Continue and independently accept the already-approved, chapter-isolated `ch008` run before publication.

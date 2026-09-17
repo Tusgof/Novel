@@ -77,7 +77,7 @@ Active milestone: V6.35 Re:Zero bounded production and chapter-isolated parallel
 
 **Milestone complete when**: `ch003-ch010` are published and production URLs verified, every chapter passes blocking gates, timing evidence exists, and the parallelism decision is recorded without enabling stage-level concurrency.
 
-Status: in progress. Tasks 35.1 and 35.2 are complete. `ch006` is live at commit `61aaf47`. `ch007` completed `9/9` blocks and passed output guardrails, Inspector Sentinel, spot-check, and local MoonRead publication gates; its push/deployment verification is the current publication action. `ch008` is active in an isolated worker, while `ch009-ch010` remain glossary-approved with no body translation started. Parallel artifacts and ledger writes have remained isolated; provider timeouts and QA recovery loops still prevent broader concurrency.
+Status: in progress. Tasks 35.1 and 35.2 are complete. `ch007` is live at commit `6b0fc2c`. `ch008` completed `10/10` blocks and passed all local publication gates; push/deployment verification is active. `ch009` completed blocks `001-003` and is recovering a truncated literal result at block `004`; `ch010` remains glossary-approved without body translation. Parallel artifacts and ledger writes have remained isolated; provider timeouts and QA recovery loops still prevent broader concurrency.
 
 ---
 

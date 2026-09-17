@@ -48,7 +48,7 @@ Keep this section short. Update `PROJECT_BRAIN.md` for current state, active ris
 
 Re:Zero Watching Him Die Again and Again:
 
-- `ch001-ch007` are translated and independently verified for MoonRead publication. `ch006` is live at pushed commit `61aaf475940a9644734b9a7ae4572f1329d35b29`; `ch007` has passed local publication gates and awaits this session's push/deployment verification.
+- `ch001-ch007` are translated, independently verified, and live on MoonRead. `ch008` completed `10/10` blocks with no current failure or manual action, passed output guardrails, runtime Sentinel `0/0/0/0`, Inspector Sentinel `0/0/8/0` with source-backed references only, spot-check, and local MoonRead publication gates. Its push/deployment verification is the current publication action. Checkpoint: `Re Zero Watching Him Die Again and Again/07_Reports/rezero_ch008_production_checkpoint_20260917.md`.
 - Run `rezero-ch002-ch003-production-v2` completed `ch003` at `11/11` blocks with no current failed block or manual action. Output guardrails, blocking Sentinel, major-run spot-check, MoonRead publish verification, lint, build, smoke, and rendered-page inspection passed. Checkpoint: `Re Zero Watching Him Die Again and Again/07_Reports/rezero_ch003_production_checkpoint_20260916.md`.
 - Run `rezero-ch004-production-v1` completed `10/10` blocks with no current failure or manual action. Output guardrails passed; Inspector Sentinel was `0/0/4/0` with only source-backed `NPC`, `Redo`, `Styx Helix`, and `Reddit`; MoonRead Sentinel was `0/0/0/0`; scoped publish verification, lint, build, and smoke passed. Wall time was `7,964.85s`, provider time `4,673.23s`, failed provider time `1,776.49s`, and timing coverage `50/51`. Checkpoint: `Re Zero Watching Him Die Again and Again/07_Reports/rezero_ch004_production_checkpoint_20260916.md`.
 - Run `rezero-ch005-production-v1` completed `14/14` blocks with no current failure or manual action. Output guardrails passed; Inspector Sentinel was `0/0/7/0` with source-backed names/titles only; MoonRead Sentinel was `0/0/0/0`; scoped publish verification, lint, build, smoke, and Inspector spot-check passed. Checkpoint: `Re Zero Watching Him Die Again and Again/07_Reports/rezero_ch005_production_checkpoint_20260917.md`.
@@ -403,9 +403,10 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
-Active scope is V6.35 Re:Zero `ch005-ch010`. Re:Zero `ch007` has passed local publication gates; `ch008` is active under a chapter-isolated worker. Runs `ch009-ch010` are glossary-approved and have not started body translation.
+Active scope is V6.35 Re:Zero `ch005-ch010`. Re:Zero `ch008` passed all local gates and awaits push/deployment verification. Run `rezero-ch009-production-v1` completed blocks `001-003`; block `004` is being recovered from `translate` after a truncated literal result. `ch010` is glossary-approved and has not started body translation.
 
-1. Push and verify the `ch007` MoonRead publication without including protected unrelated dirty WIP.
-2. Finish and independently accept `ch008`, then reuse the two worker slots for `ch009/ch010`.
-3. Stop the parallel window on provider exhaustion, manual prompt, QA hard-fail, ledger decode/collision, validation failure, Sentinel blocker/major, or unexpected scope expansion; preserve evidence and return to one worker when provider instability increases.
-4. Record full-coverage chapter timing and stage/provider totals in checkpoint reports, compare chapter pairs against the recovery-heavy `ch003` baseline, then decide whether two-pane chapter isolation remains an approved production option.
+1. Push and verify the `ch008` MoonRead publication without including protected unrelated dirty WIP.
+2. Finish the bounded `ch009-block-004` recovery, independently inspect it, then resume blocks `005-012` and assemble `ch009`.
+3. Start `ch010` in the second chapter-isolated slot when runtime access is available, but accept and publish only after `ch009` is live.
+4. Stop the parallel window on provider exhaustion, manual prompt, QA hard-fail, ledger decode/collision, validation failure, Sentinel blocker/major, or unexpected scope expansion; preserve evidence and return to one worker when provider instability increases.
+5. Record chapter timing and stage/provider totals in checkpoint reports, then decide whether two-pane chapter isolation remains an approved production option.

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-17T02:04:19.833Z",
+  "generatedAt": "2026-09-17T14:02:21.305Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,8 +11,8 @@
   },
   "summary": {
     "books": 4,
-    "chapters": 648,
-    "available": 648,
+    "chapters": 649,
+    "available": 649,
     "missing": 0,
     "rejected": 0
   },
@@ -172,24 +172,24 @@
       "cover": "/images/re-zero-watching-him-die-again-and-again-cover.png",
       "href": "/books/re-zero-watching-him-die-again-and-again",
       "chaptersHref": "/books/re-zero-watching-him-die-again-and-again/chapters",
-      "targetRange": "ch001-ch007",
+      "targetRange": "ch001-ch008",
       "summary": {
-        "total": 7,
-        "available": 7,
+        "total": 8,
+        "available": 8,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch007",
-        "number": 7,
-        "title": "บทที่ 7: ตอนที่ 6 ฉบับผู้กำกับ",
+        "id": "ch008",
+        "number": 8,
+        "title": "บทที่ 8: ตอนโอวีเอ 1 เมมโมรีสโนว์",
         "status": "available",
-        "sourcePath": "ch007/ch007.md",
-        "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch007.md",
-        "href": "/books/re-zero-watching-him-die-again-and-again/read/ch007",
-        "charCount": 129924,
-        "readingMinutes": 29
+        "sourcePath": "ch008/ch008.md",
+        "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch008.md",
+        "href": "/books/re-zero-watching-him-die-again-and-again/read/ch008",
+        "charCount": 158637,
+        "readingMinutes": 36
       },
       "firstChapter": {
         "id": "ch001",

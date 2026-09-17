@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-09-17T13:00:24.857325+00:00",
+  "scope": "rezero-ch008-production-v1_ch008_sentinel",
+  "chapters": "ch008",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

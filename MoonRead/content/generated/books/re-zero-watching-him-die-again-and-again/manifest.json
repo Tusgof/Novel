@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-09-17T02:04:19.601Z",
+  "generatedAt": "2026-09-17T14:02:21.025Z",
   "sourceRoot": "../Re Zero Watching Him Die Again and Again/05_Output",
-  "targetRange": "ch001-ch007",
+  "targetRange": "ch001-ch008",
   "novel": {
     "slug": "re-zero-watching-him-die-again-and-again",
     "title": "Re:Zero - Watching Him Die Again and Again",
@@ -27,8 +27,8 @@
     }
   },
   "summary": {
-    "total": 7,
-    "available": 7,
+    "total": 8,
+    "available": 8,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -110,6 +110,17 @@
       "href": "/books/re-zero-watching-him-die-again-and-again/read/ch007",
       "charCount": 129924,
       "readingMinutes": 29
+    },
+    {
+      "id": "ch008",
+      "number": 8,
+      "title": "บทที่ 8: ตอนโอวีเอ 1 เมมโมรีสโนว์",
+      "status": "available",
+      "sourcePath": "ch008/ch008.md",
+      "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch008.md",
+      "href": "/books/re-zero-watching-him-die-again-and-again/read/ch008",
+      "charCount": 158637,
+      "readingMinutes": 36
     }
   ]
 }
