@@ -2744,6 +2744,44 @@ def test_refine_applies_rejected_glossary_variant_repair():
     ]
 
 
+def test_rejected_variant_overlap_does_not_corrupt_approved_term():
+    from novel_pipeline.stages.qa import run_rule_checks
+    from novel_pipeline.types import RefinedDraft
+
+    entry = GlossaryEntry(
+        original_term="Anastasia Hoshin",
+        thai_term="อนาสตาเซีย โฮชิน",
+        category="character",
+        status="approved",
+        rejected_variants=("ออนาสตาเซีย โฮชิน",),
+    )
+    text = "ทางขวาของดัชเชสคืออนาสตาเซีย โฮชินและกลุ่มของเธอ"
+
+    repaired, repairs = _apply_glossary_rejected_variant_repairs(text, [entry])
+    findings = run_rule_checks(
+        literal_draft=LiteralDraft(
+            block_id="ch008-block-003",
+            chapter_id="ch008",
+            sentence_pairs=(
+                LiteralSentencePair(
+                    source_sentence="To the duchess's right was Anastasia Hoshin and her group.",
+                    literal_sentence=text,
+                ),
+            ),
+        ),
+        refined_draft=RefinedDraft(
+            block_id="ch008-block-003",
+            chapter_id="ch008",
+            refined_text=text,
+        ),
+        glossary_subset=[entry],
+    )
+
+    assert repaired == text
+    assert repairs == []
+    assert not any(finding.code == "rejected_glossary_variant" for finding in findings)
+
+
 def test_rezero_source_aware_repair_restores_observed_profanity_only_for_rezero():
     source = "Which surprised most people since that's not normal fucking behavior from this cunt."
     neutralized = "นั่นไม่ใช่พฤติกรรมตามปกติของหญิงคนนี้เลยสักนิด"
@@ -9563,6 +9601,7 @@ if __name__ == "__main__":
     test_qa_glossary_missing_term_blocks_when_refinement_removed_literal_term()
     test_qa_blocks_rejected_glossary_variant()
     test_refine_applies_rejected_glossary_variant_repair()
+    test_rejected_variant_overlap_does_not_corrupt_approved_term()
     test_rezero_source_aware_repair_restores_observed_profanity_only_for_rezero()
     test_post_format_repairs_rejected_name_and_rezero_meaning_drift()
     test_rezero_emilia_glossary_rejects_observed_typo()

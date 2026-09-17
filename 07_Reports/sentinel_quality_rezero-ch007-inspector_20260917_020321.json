@@ -1,0 +1,42 @@
+{
+  "created_at": "2026-09-17T02:03:21.928303+00:00",
+  "scope": "rezero-ch007-inspector",
+  "chapters": "ch007",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 4,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": [
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Redo"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Zarno102"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "ScuffedSenku"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Senku"
+    }
+  ]
+}

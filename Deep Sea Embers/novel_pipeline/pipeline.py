@@ -21,6 +21,7 @@ from novel_pipeline.config import load_app_config
 from novel_pipeline.files import atomic_write_json, atomic_write_text, read_text_if_exists
 from novel_pipeline.glossary_support import (
     choose_option_interactively,
+    is_unambiguous_rejected_variant,
     load_glossary_index,
     select_non_overlapping_glossary_entries,
     write_glossary_note,
@@ -220,7 +221,7 @@ def _apply_glossary_rejected_variant_repairs(text: str, glossary_subset: list[Gl
         if entry.status != "approved" or not entry.thai_term:
             continue
         for variant in entry.rejected_variants:
-            if not variant or variant == entry.thai_term or variant not in updated:
+            if not is_unambiguous_rejected_variant(variant, entry.thai_term) or variant not in updated:
                 continue
             updated = updated.replace(variant, entry.thai_term)
             repairs.append(

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 
+from novel_pipeline.glossary_support import is_unambiguous_rejected_variant
 from novel_pipeline.prompts import PromptStore
 from novel_pipeline.providers.base import ProviderOutputError, ProviderRunner, ensure_provider_response
 from novel_pipeline.text_utils import split_sentences, validate_text_script
@@ -102,7 +103,7 @@ def run_rule_checks(*, literal_draft: LiteralDraft, refined_draft: RefinedDraft,
         findings.append(QAFinding(severity="warning", code="sentence_drop", message="Refined output may have dropped too many sentence boundaries."))
     for entry in glossary_subset:
         for variant in entry.rejected_variants:
-            if variant and variant in refined_text:
+            if is_unambiguous_rejected_variant(variant, entry.thai_term) and variant in refined_text:
                 findings.append(
                     QAFinding(
                         severity="error",

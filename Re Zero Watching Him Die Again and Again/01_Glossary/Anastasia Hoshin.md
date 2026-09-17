@@ -6,7 +6,7 @@ status: approved
 aliases:
   - Anastasia
 rejected_variants:
-  - ออนาสตาเซีย
+  - ออนาสตาเซีย โฮชิน
 source_language: en
 category: character
 novel: re-zero-watching-him-die-again-and-again

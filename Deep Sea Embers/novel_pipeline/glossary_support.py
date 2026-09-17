@@ -20,6 +20,19 @@ FRONTMATTER_FIELDS = {
 }
 
 
+def is_unambiguous_rejected_variant(variant: str, thai_term: str) -> bool:
+    """Return whether plain substring matching can distinguish the variant."""
+    variant = str(variant).strip()
+    thai_term = str(thai_term).strip()
+    return bool(
+        variant
+        and thai_term
+        and variant != thai_term
+        and variant not in thai_term
+        and thai_term not in variant
+    )
+
+
 def _source_term_spans(text: str, term: str) -> list[tuple[int, int]]:
     term = str(term).strip()
     if not term:
