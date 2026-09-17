@@ -54,6 +54,10 @@ Stage/provider time:
 
 The wall time includes a long session gap and is not a clean throughput measurement. Provider time remains usable for stage-cost comparison.
 
+## Publication
+
+`ch008` is live at commit `5e3fbfc303930711202465a3408321d66de35a43`; the production URL returned HTTP `200` with the Thai title.
+
 ## Next Safe Action
 
-Publish and verify `ch008`, then recover `ch009-block-004` from `translate` before resuming `ch009-block-005` through `ch009-block-012`.
+Continue from the exact `ch009-ch010` provider-limit state recorded in `rezero_ch009_ch010_provider_limit_checkpoint_20260917.md` after provider health is restored.
