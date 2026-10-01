@@ -6,7 +6,7 @@ HERDR is the bounded handoff protocol for Luna Max and an independent Inspector.
 
 - Codex is the Inspector/Orchestrator and owns architecture, Layer 0 policy, work-order design, independent verification, acceptance, and publication decisions.
 - A HERDR worker is Luna Max running in a separate terminal tab or pane. Its declared runtime is `gpt-5.6-luna` with `reasoning=max`.
-- Dashboard employee aliases (for example Ferryman, Quill, or Warden) are workflow labels, not HERDR worker identities, runtime permissions, or authorization sources.
+- Historical worker labels are not HERDR worker identities, runtime permissions, or authorization sources.
 - Translation provider stages remain pipeline stages, not worker identities. A translation work order may authorize Luna to invoke existing pinned routes for an exact run/chapter range, but Luna must not reroute providers, weaken gates, force-accept QA, or alter publication state.
 - The order is the authority. `allowed_paths` and `allowed_actions` are the complete write scope; `forbidden_*` entries and the dirty-WIP boundary remain in force.
 

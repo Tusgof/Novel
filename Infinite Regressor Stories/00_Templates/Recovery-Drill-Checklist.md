@@ -8,7 +8,6 @@ This checklist is for:
 
 - `PROJECT_BRAIN.md`
 - `IMPLEMENT_PLAN.md`
-- `OPERATOR_MANUAL.md`
 
 It is not for:
 
@@ -73,7 +72,7 @@ git restore --source=HEAD --worktree -- PROJECT_BRAIN.md
 Restore all canonical docs:
 
 ```powershell
-git restore --source=HEAD --worktree -- PROJECT_BRAIN.md IMPLEMENT_PLAN.md OPERATOR_MANUAL.md
+git restore --source=HEAD --worktree -- PROJECT_BRAIN.md IMPLEMENT_PLAN.md
 ```
 
 Do not restore runtime directories from git.
@@ -112,7 +111,7 @@ Do not reconstruct from memory alone.
 If the restored/rebuilt docs are now the correct source of truth:
 
 ```powershell
-git add PROJECT_BRAIN.md IMPLEMENT_PLAN.md OPERATOR_MANUAL.md
+git add PROJECT_BRAIN.md IMPLEMENT_PLAN.md
 git commit -m "Restore canonical project docs"
 git push origin main
 ```

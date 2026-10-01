@@ -1,6 +1,6 @@
 # Project Brain: Novel Translation System
 
-Last updated: 2026-09-17
+Last updated: 2026-10-01
 
 This is the durable memory for the workspace. Keep it compact. Put long evidence, experiments, and historical detail in root-level `07_Reports/` or `01_Research_Log/` as appropriate.
 
@@ -237,11 +237,18 @@ Working tree:
 - latest readiness reports: `Deep Sea Embers/07_Reports/preflight_report_20260616_after_v6_18_gate.md`, `Deep Sea Embers/07_Reports/recovery_drill_20260616_after_v6_18_gate.md`, and `Deep Sea Embers/07_Reports/preflight_recovery_readiness_note_20260616.md`
 - no current untracked queue is present; verify with `git status --short --untracked-files=all` before treating any future queue text as current state.
 
+Clean & Simple phase (2026-10-01):
+
+- Removed the unused local operator dashboard, employee-alias roster, dashboard sprite asset, dashboard design guide, and operator manual.
+- Removed the CLI `operator` command and its obsolete tests. The retained surface is the direct CLI pipeline, reports, recovery, Sentinel/guardrails, and MoonRead integration.
+- Recovery/product reports now require only the root canonical docs and active pipeline files. Historical reports under novel `07_Reports/` intentionally remain as evidence and are not runtime dependencies.
+- Next safe action: review the resulting boundaries in `ARCHITECTURE.md` before any further architecture redesign; do not start translation work as part of this cleanup.
+
 ## Provider Routing
 
 Current intended routing:
 
-- setup/fetch authority: Codex / GPT-5.4 via Ferryman
+- setup/fetch authority: Codex / GPT-5.4
 - glossary scan: OpenRouter `google/gemini-3.7-flash`
 - glossary option suggestion: OpenRouter `deepseek/deepseek-v4-flash-0731`
 - literal translation: OpenRouter `google/gemini-3.7-flash`
@@ -353,12 +360,6 @@ python -m compileall novel_pipeline
 python test_translation.py
 novel-pipeline --config ".system/config.yaml" preflight
 python scripts\check_output_quality_guardrails.py --chapters chXXX-chYYY
-```
-
-Open dashboard:
-
-```powershell
-novel-pipeline --config ".system/config.yaml" operator --open-browser
 ```
 
 Read run status:

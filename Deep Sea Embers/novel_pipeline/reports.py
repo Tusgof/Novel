@@ -2468,7 +2468,6 @@ def build_recovery_drill_report(*, config: Any, output: Path | None = None) -> d
     canonical_paths = [
         "PROJECT_BRAIN.md",
         "IMPLEMENT_PLAN.md",
-        "OPERATOR_MANUAL.md",
     ]
     canonical_rows: list[dict[str, str]] = []
     canonical_fail = False
@@ -2576,7 +2575,6 @@ def build_product_review_report(*, config: Any, run_id: str, output: Path | None
     canonical_docs = [
         "PROJECT_BRAIN.md",
         "IMPLEMENT_PLAN.md",
-        "OPERATOR_MANUAL.md",
     ]
     retired_docs = [
         "MASTER_PLAN.md",
@@ -2592,7 +2590,6 @@ def build_product_review_report(*, config: Any, run_id: str, output: Path | None
         "00_Templates/Research-Profile.yaml",
         "00_Templates/Batch-Rollout-Checklist.md",
         "00_Templates/Worker-Bounded-Batch-Prompt.md",
-        "novel_pipeline/operator_ui.py",
         "novel_pipeline/preflight.py",
         "novel_pipeline/project_setup.py",
     ]

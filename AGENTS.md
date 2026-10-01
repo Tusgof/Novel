@@ -14,7 +14,7 @@ For this workspace, the project-level control files live at `D:\Fogust\Workspace
 - `ARCHITECTURE.md`: system structure, boundaries, flows, and ownership.
 - `HERDR_WORKER_PROTOCOL.md`: bounded Inspector/Worker handoff rules, including explicitly authorized translation-pipeline execution; it never overrides provider routing or quality policy.
 
-Novel-specific folders such as `Deep Sea Embers` may keep short compatibility stubs for older tools, tests, or dashboard links. Do not put durable cross-novel planning content in a single-novel folder.
+Novel-specific folders such as `Deep Sea Embers` may keep short compatibility stubs for older tools or links. Do not put durable cross-novel planning content in a single-novel folder.
 
 ## 1. Think Before Coding
 

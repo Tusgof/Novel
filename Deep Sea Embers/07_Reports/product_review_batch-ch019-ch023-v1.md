@@ -1,8 +1,8 @@
 # Product Review Report - batch-ch019-ch023-v1
 
 ## Summary
-- overall_status: accepted
-- preflight_status: ready
+- overall_status: degraded
+- preflight_status: degraded
 - run_records: 163
 - completed_blocks_count: 26
 - current_failed_blocks: none
@@ -13,7 +13,7 @@
 ## Acceptance Checklist
 | check | status | detail |
 | --- | --- | --- |
-| preflight | ok | ready |
+| preflight | warn | degraded |
 | run_complete | ok | chapters=ch019, ch020, ch021, ch022, ch023; failed=none; manual=none |
 | final_outputs_clean | ok | all chapter outputs present and clean |
 | glossary_approval_evidence | ok | glossary_approved records: 5 |
@@ -22,19 +22,19 @@
 | required_product_files | ok | missing=none |
 
 ## Preflight
-- status: ready
-- next_safe_action: Preflight is ready for normal production.
-- warnings: none
+- status: degraded
+- next_safe_action: Continue only with bounded operations while warnings remain.
+- warnings: Working tree is dirty; commit or stash before large write actions.
 - blocking_reasons: none
 
 ## Canonical Docs
-- canonical_present: PROJECT_BRAIN.md, IMPLEMENT_PLAN.md, OPERATOR_MANUAL.md
+- canonical_present: PROJECT_BRAIN.md, IMPLEMENT_PLAN.md
 - canonical_missing: none
 - retired_absent: MASTER_PLAN.md, REPORT.md, SUMMARY.md
 - retired_present: none
 
 ## Required Product Files
-- present: NOVEL_SETUP_PLAYBOOK.md, FETCH_ADAPTER_PLAYBOOK.md, RESEARCH_PROFILE_PLAYBOOK.md, RESEARCH_PROFILE.yaml, 00_Templates/Novel-Profile.yaml, 00_Templates/Research-Profile.yaml, 00_Templates/Batch-Rollout-Checklist.md, 00_Templates/Worker-Bounded-Batch-Prompt.md, novel_pipeline/operator_ui.py, novel_pipeline/preflight.py, novel_pipeline/project_setup.py
+- present: NOVEL_SETUP_PLAYBOOK.md, FETCH_ADAPTER_PLAYBOOK.md, RESEARCH_PROFILE_PLAYBOOK.md, RESEARCH_PROFILE.yaml, 00_Templates/Novel-Profile.yaml, 00_Templates/Research-Profile.yaml, 00_Templates/Batch-Rollout-Checklist.md, 00_Templates/Worker-Bounded-Batch-Prompt.md, novel_pipeline/preflight.py, novel_pipeline/project_setup.py
 - missing: none
 
 ## Final Outputs

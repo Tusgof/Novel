@@ -1,6 +1,6 @@
 # IMPLEMENT_PLAN.md
 
-Last updated: 2026-09-16
+Last updated: 2026-10-01
 
 ## Overview
 
@@ -23,6 +23,8 @@ Locked user decisions for this V6.34 plan:
 - The priority outcomes are consistency, translation quality, and sustainable long-run execution.
 
 Current progress:
+
+- Clean & Simple phase completed on 2026-10-01: removed the unused local dashboard, employee aliases, dashboard-only docs/assets, CLI operator command, and obsolete dashboard tests. Direct pipeline CLI, reports, recovery, Sentinel/guardrails, and MoonRead remain. Historical dashboard reports were retained as evidence. Verification: compileall and full `test_translation.py` passed. Next: architecture convergence review.
 
 - Milestone 1 complete: experiment charter, measurement contract, stop/no-production rules, and charter research log are in place.
 - Milestone 2 complete: raw source pools were audited for DSE, HGD, and IRS; fixed-seed sample manifest was created from raw source only.

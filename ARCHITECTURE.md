@@ -1,6 +1,6 @@
 # Architecture: Novel Translation System
 
-Last updated: 2026-09-16
+Last updated: 2026-10-01
 
 This document explains stable system structure. It is not the roadmap, current status, or incident log.
 
@@ -22,9 +22,7 @@ Main roles:
 - user: chooses priorities, glossary decisions, and production approval
 - Codex Inspector/Orchestrator: plans, owns architecture and Layer 0 policy, reviews, verifies, accepts, and updates durable rules
 - Luna Max bounded worker: executes an exact assigned implementation or translation-pipeline work order
-- dashboard/operator: runs bounded workflows and inspects blockers
-
-HERDR workers are transport-scoped execution actors. A translation work order may authorize Luna Max to invoke existing pipeline stages for an exact bounded scope; dashboard aliases and provider routing still grant no authority by themselves.
+HERDR workers are transport-scoped execution actors. A translation work order may authorize Luna Max to invoke existing pipeline stages for an exact bounded scope; worker labels and provider routing still grant no authority by themselves.
 
 ## Source Of Truth Map
 
@@ -121,7 +119,7 @@ Workflow rules:
 
 Pipeline CLI (`Deep Sea Embers/novel_pipeline/`):
 
-- owns fetch, scan, translate, refine, QA, formatting, assembly, status, reports, dashboard entrypoints
+- owns fetch, scan, translate, refine, QA, formatting, assembly, status, and reports
 - must not publish reader changes without generated-reader validation
 
 - Provider routing: `providers.yaml` maps stages to provider/model/fallback chains; output is untrusted until parsed and validated.
@@ -130,27 +128,11 @@ Pipeline CLI (`Deep Sea Embers/novel_pipeline/`):
 - MoonRead: owns reader UI and generated reader content; must not mutate source, glossary, ledger, work artifacts, or final outputs.
 - Reports: preserve evidence and handoff context; do not override files, tests, or current status.
 
-## Actor / Employee Map
-
-Employee names are dashboard/docs aliases. Ledger and config stage names remain authoritative.
-
-| Actor | Role | Maps To |
-| --- | --- | --- |
-| Ferryman | setup, fetch, project entry | project setup, source adapter, preflight |
-| Libra | glossary librarian | term extraction, suggestion, approval, coverage |
-| Quill | literal translator | literal translation |
-| Vesper | refinement editor | refinement |
-| Corvus | QA judge | QA |
-| Loom | format/layout worker | formatting |
-| Sentinel | quality gate | post-output deterministic checks |
-| Archivist | reports/output keeper | reports, final output evidence |
-| Warden | recovery worker | inspect-block, rerun-block, failed block recovery |
-
 ## Provider Routing Map
 
 Current intended production routing:
 
-- setup/fetch: Codex / GPT-5.4 via Ferryman
+- setup/fetch: Codex / GPT-5.4
 - glossary scan: OpenRouter `google/gemini-3.7-flash`
 - glossary option suggestion: OpenRouter `deepseek/deepseek-v4-flash-0731`
 - literal translation: OpenRouter `google/gemini-3.7-flash`

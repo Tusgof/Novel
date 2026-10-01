@@ -6,7 +6,6 @@ from pathlib import Path
 
 from novel_pipeline.config import load_app_config
 from novel_pipeline.logging import configure_logging
-from novel_pipeline.operator_ui import serve_operator_ui
 from novel_pipeline.preflight import build_preflight_summary, print_preflight_summary
 from novel_pipeline.project_setup import initialize_novel_project
 from novel_pipeline.reports import (
@@ -176,12 +175,6 @@ def build_parser() -> argparse.ArgumentParser:
     inspect_p = subparsers.add_parser("inspect-block", help="Inspect one block without modifying artifacts.")
     inspect_p.add_argument("--run-id", required=True, help="Run ID that owns the block artifacts.")
     inspect_p.add_argument("--block-id", required=True, help="Block ID to inspect, e.g. ch001-block-004.")
-
-    operator_p = subparsers.add_parser("operator", help="Start the local operator window.")
-    operator_p.add_argument("--run-id", default=argparse.SUPPRESS, help="Optional run ID to load on startup.")
-    operator_p.add_argument("--host", default="127.0.0.1", help="Host to bind the operator window server.")
-    operator_p.add_argument("--port", type=int, default=8765, help="Port to bind the operator window server.")
-    operator_p.add_argument("--open-browser", action="store_true", default=False, help="Open the operator window in a browser.")
 
     preflight_p = subparsers.add_parser("preflight", help="Run environment, config, and git guardrail checks.")
     preflight_p.add_argument("--json", action="store_true", default=False, help="Print the preflight summary as JSON.")
@@ -437,30 +430,6 @@ def cmd_inspect_block(args: argparse.Namespace, config) -> int:
         return 1
 
 
-def cmd_operator(args: argparse.Namespace, config) -> int:
-    try:
-        server = serve_operator_ui(
-            config=config,
-            host=args.host,
-            port=args.port,
-            run_id=getattr(args, "run_id", None),
-            open_browser=args.open_browser,
-        )
-    except Exception as exc:
-        print(f"[ERROR] operator failed to start: {exc}", file=sys.stderr)
-        return 1
-
-    url = f"http://{args.host}:{args.port}/"
-    print(f"[operator] Serving local operator window at {url}")
-    try:
-        server.serve_forever()
-    except KeyboardInterrupt:
-        print("[operator] Stopped.")
-    finally:
-        server.server_close()
-    return 0
-
-
 def cmd_preflight(args: argparse.Namespace, config) -> int:
     summary = build_preflight_summary(config)
     if args.json:
@@ -671,7 +640,6 @@ COMMAND_HANDLERS = {
     "status": cmd_status,
     "report": cmd_report,
     "inspect-block": cmd_inspect_block,
-    "operator": cmd_operator,
     "preflight": cmd_preflight,
     "init-novel": cmd_init_novel,
     "rerun-block": cmd_rerun_block,

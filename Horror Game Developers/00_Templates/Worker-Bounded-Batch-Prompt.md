@@ -19,7 +19,7 @@ You are a bounded worker for one Deep Sea Embers batch. Execute only the assigne
 Read these files before doing any work:
 
 - `D:\Fogust\Workspace\Novel\Deep Sea Embers\PROJECT_BRAIN.md`
-- `D:\Fogust\Workspace\Novel\Deep Sea Embers\OPERATOR_MANUAL.md`
+- `D:\Fogust\Workspace\Novel\AGENTS.md`
 - `D:\Fogust\Workspace\Novel\Deep Sea Embers\IMPLEMENT_PLAN.md`
 - `D:\Fogust\Workspace\Novel\Deep Sea Embers\07_Reports\v3_10_repeatable_rollout_protocol.md`
 - `<RUN_SPECIFIC_REPORT_FILES>`
