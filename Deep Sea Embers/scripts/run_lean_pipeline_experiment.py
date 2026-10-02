@@ -29,7 +29,7 @@ from novel_pipeline.providers.base import ProviderRunner, ensure_provider_respon
 from novel_pipeline.stages.qa import run_qa_stage
 from novel_pipeline.stages.refine import run_refine_stage
 from novel_pipeline.stages.translate import run_literal_translation_stage
-from novel_pipeline.types import LiteralDraft, LiteralSentencePair, RefinedDraft, TextBlock, ProviderRequest
+from novel_pipeline.types import GlossaryEntry, LiteralDraft, LiteralSentencePair, RefinedDraft, TextBlock, ProviderRequest
 from novel_pipeline.files import atomic_write_json
 
 
@@ -68,6 +68,42 @@ def _parse_chapters(value: str) -> list[str]:
 
 def _chapter_glossary_subset(block: TextBlock, glossary: dict[str, Any]) -> list[Any]:
     return select_non_overlapping_glossary_entries(block.source_text, glossary.values())
+
+
+def _source_term_pattern(term: str) -> re.Pattern[str]:
+    escaped = re.escape(term)
+    if re.search(r"[A-Za-z]", term):
+        return re.compile(rf"(?<![A-Za-z]){escaped}(?![A-Za-z])")
+    return re.compile(escaped)
+
+
+def project_glossary_terms(
+    source_text: str,
+    entries: list[GlossaryEntry],
+) -> tuple[str, list[dict[str, str]]]:
+    """Project approved glossary terms into a source copy for the literal call."""
+    projected = source_text
+    replacements: list[dict[str, str]] = []
+    terms: list[tuple[int, str, str]] = []
+    for entry in entries:
+        if entry.status.strip().lower() != "approved" or not entry.thai_term:
+            continue
+        for source_term in {entry.original_term, *entry.aliases}:
+            source_term = source_term.strip()
+            if source_term:
+                terms.append((len(source_term), source_term, entry.thai_term))
+
+    for _length, source_term, thai_term in sorted(set(terms), reverse=True):
+        projected, count = _source_term_pattern(source_term).subn(thai_term, projected)
+        if count:
+            replacements.append(
+                {
+                    "source_term": source_term,
+                    "thai_term": thai_term,
+                    "occurrences": str(count),
+                }
+            )
+    return projected, replacements
 
 
 def _harvest_candidates(
@@ -154,6 +190,8 @@ def _trace_metrics(trace_dir: Path) -> dict[str, Any]:
         if response.get("failure_kind"):
             failures += 1
         usage = response.get("usage", {})
+        if isinstance(usage, dict) and isinstance(usage.get("usage"), dict):
+            usage = usage["usage"]
         if isinstance(usage, dict):
             for key in ("prompt_tokens", "completion_tokens", "total_tokens"):
                 value = usage.get(key)
@@ -178,14 +216,27 @@ def run_chapter(config: Any, chapter_id: str, run_id: str, output_dir: Path, tra
     glossary = load_glossary_index(config.workspace.glossary_dir)
     literal_pairs: list[LiteralSentencePair] = []
     block_records: list[dict[str, Any]] = []
+    projection_records: list[dict[str, Any]] = []
     for block in blocks:
+        glossary_subset = _chapter_glossary_subset(block, glossary)
+        projected_source, replacements = project_glossary_terms(block.source_text, glossary_subset)
+        projected_block = TextBlock(
+            block_id=block.block_id,
+            chapter_id=block.chapter_id,
+            block_index=block.block_index,
+            source_text=projected_source,
+            source_language=block.source_language,
+            start_offset=block.start_offset,
+            end_offset=block.end_offset,
+            metadata=dict(block.metadata),
+        )
         _context(run_id=run_id, chapter_id=chapter_id, stage="literal_translation", block_id=block.block_id)
         runner = ProviderRunner(config.provider_for_stage("literal_translation"))
         routing = config.stage_routing_for("literal_translation")
         draft = run_literal_translation_stage(
             config=config,
-            block=block,
-            glossary_subset=_chapter_glossary_subset(block, glossary),
+            block=projected_block,
+            glossary_subset=[],
             provider_runner=runner,
             model=routing.model,
         )
@@ -194,7 +245,15 @@ def run_chapter(config: Any, chapter_id: str, run_id: str, output_dir: Path, tra
             {
                 "block_id": block.block_id,
                 "source_chars": len(block.source_text),
+                "projected_source_chars": len(projected_source),
                 "literal_chars": sum(len(pair.literal_sentence) for pair in draft.sentence_pairs),
+            }
+        )
+        projection_records.append(
+            {
+                "block_id": block.block_id,
+                "replacement_count": len(replacements),
+                "replacements": replacements,
             }
         )
 
@@ -262,6 +321,7 @@ def run_chapter(config: Any, chapter_id: str, run_id: str, output_dir: Path, tra
         "source_chars": len(source.raw_text),
         "block_count": len(blocks),
         "block_records": block_records,
+        "glossary_projection": projection_records,
         "literal_chars": len(literal_text),
         "refined_chars": len(refined.refined_text),
         "formatted_chars": len(formatted),
@@ -307,7 +367,7 @@ def main() -> int:
         "metrics": _trace_metrics(trace_dir),
         "trace_dir": str(trace_dir),
         "output_dir": str(output_dir),
-        "glossary_policy": "chapter-relevant context only; harvested terms remain proposed",
+        "glossary_policy": "approved terms projected into a source copy before literal translation; harvested terms remain proposed",
         "error": error,
     }
     atomic_write_json(output_dir / "lean_experiment_report.json", report)

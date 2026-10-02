@@ -74,6 +74,13 @@ def write_provider_trace(
     stderr = redact_secrets(response.stderr or "")
     context = context_from_env()
     context.update(getattr(request, "trace_context", {}) or {})
+    raw_usage = dict(usage or getattr(response, "usage", {}) or {})
+    provider_usage = raw_usage.get("usage") if isinstance(raw_usage.get("usage"), Mapping) else raw_usage
+    provider_metadata = {
+        key: value
+        for key, value in raw_usage.items()
+        if key != "usage"
+    }
     event = {
         "schema": "novel.provider-trace.v1",
         "trace_id": uuid.uuid4().hex,
@@ -98,7 +105,8 @@ def write_provider_trace(
             "started_at": response.started_at,
             "finished_at": response.finished_at,
             "duration_seconds": response.duration_seconds,
-            "usage": dict(usage or getattr(response, "usage", {}) or {}),
+            "usage": dict(provider_usage or {}),
+            "provider_metadata": provider_metadata,
         },
         "command": ["<PROMPT VIA STDIN>" if arg == request.prompt else redact_secrets(arg) for arg in response.command],
         "capture": "full_prompt_and_response_local_only",
