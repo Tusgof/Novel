@@ -93,7 +93,10 @@ def _clean_refined_output(stdout: str) -> str:
         if not stripped:
             lines.append("")
             continue
-        if stripped.startswith(("-", "*", "#", "`")):
+        # A leading asterisk is valid novel markup for sound effects and
+        # italicized prose. Strip only list/fence markers so a whole story
+        # line is not lost before QA (and glossary coverage) sees it.
+        if stripped.startswith(("- ", "* ", "#", "```")):
             continue
         if "Craft notes" in stripped:
             continue

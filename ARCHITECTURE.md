@@ -121,6 +121,7 @@ Pipeline CLI (`Deep Sea Embers/novel_pipeline/`):
 
 - owns fetch, scan, translate, refine, QA, formatting, assembly, status, and reports
 - must not publish reader changes without generated-reader validation
+- adapter registry includes site-specific fetchers such as `wntl_markdown`; adapter-backed CLI fetches persist validated source artifacts through `run_fetch_stage` before sampling or translation
 
 - Provider routing: `providers.yaml` maps stages to provider/model/fallback chains; output is untrusted until parsed and validated.
 - Glossary system: owns approved terms, aliases, rejected variants, and per-novel terminology policy.

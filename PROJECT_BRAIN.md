@@ -1,6 +1,6 @@
 # Project Brain: Novel Translation System
 
-Last updated: 2026-10-01
+Last updated: 2026-10-03
 
 This is the durable memory for the workspace. Keep it compact. Put long evidence, experiments, and historical detail in root-level `07_Reports/` or `01_Research_Log/` as appropriate.
 
@@ -61,6 +61,10 @@ Re:Zero Watching Him Die Again and Again:
 - Commit `249c7a7` adds cross-process JSONL append locking and chapter timing telemetry. `status` and checkpoint reports now expose chapter wall time, provider time, stage/provider totals, failed/retry provider time, counts, and timing coverage. Full `python test_translation.py` passes, including a four-process/100-record lossless append test.
 - `ch003` timing is recorded but has partial coverage because the run began before telemetry was added: wall `19,684.9s`, captured provider `7,043.0s`, failed provider `5,431.9s`, and coverage `39/94` provider calls. Treat it as a recovery-heavy sequential baseline; use `ch004+` for clean per-chapter timing comparison.
 - V6.35 may pilot at most two chapter-isolated Luna workers after sequential glossary/title approval. Each worker must use a separate chapter, run ID, and artifact paths; Codex accepts and publishes sequentially by chapter number. Stage-level or same-run parallelism remains disallowed.
+- V6.36 lean-pipeline experiment implementation is present. Approved chapter-relevant glossary terms are now projected longest-first into a source copy before the literal call; the literal prompt receives no glossary list, while the original source remains the refinement/QA source of truth. HGD `ch001` v4 completed literal/refinement and stopped at blocking QA because refinement removed the approved `Nightmare Forge Studios` term. No chapter output or MoonRead content was produced. Trace/report: `Horror Game Developers/04_Work/_experiments/v6_36_lean_hgd_ch001_v4_projected_20261003/`; research log: `01_Research_Log/2026-10-03_v6_36_lean_glossary_projection_smoke.md`. `Deep Sea Embers/scripts/run_lean_pipeline_experiment.py` remains experiment-only and harvested terms remain `proposed`. Compileall and the full `Deep Sea Embers/test_translation.py` suite pass.
+- HGD Lean follow-up isolated the v4 glossary finding as a shared refinement-cleaner bug: lines beginning with `*` were discarded even when they were story prose containing an approved term. The cleaner was narrowed to remove only list/fence markers and a regression test passed. HGD v5 then stopped on an OpenRouter refinement empty response (`finish_reason=length`, 12,000 completion tokens, 328.65s); no chapter was accepted. Evidence: `01_Research_Log/2026-10-03_v6_36_hgd_lean_followup_blocked.md`.
+- One Hit Kill Swordmaster setup is complete as an isolated vault. WNTL `wntl_markdown` fetched and validated `03_Raw/ch001-ch095` with no missing IDs. The fixed seed `20261003` sample is `ch001,ch004,ch014,ch019,ch037` in-sample and `ch044,ch064,ch068,ch079,ch080` out-of-sample. The Lean in-sample run stopped on the configured reasoning QA route returning an empty assistant (`finish_reason=length`, 4,096 completion tokens, 81.11s); no OOS run, production output, or MoonRead publication occurred. Evidence: `07_Reports/v6_36_one_hit_kill_swordmaster_setup_and_lean_pilot_20261003.md`.
+- The fetch CLI persistence gap is fixed: adapter-backed `fetch --chapter-id` now calls `run_fetch_stage` and writes `03_Raw/chXXX/source.json`, instead of only printing a fetched character count.
 
 Deep Sea Embers:
 
@@ -343,6 +347,11 @@ Requires explicit user approval:
 | Worker false completion | verify disk state, tests, reports, and git diff |
 | Translation worker exceeds operational authority | use a HERDR translation work order with exact run/chapter scope, pinned routing, provider/network and spend authority, stop conditions, and protected paths; Codex independently accepts and publishes the result |
 | Memory doc damage | keep docs short, use `DOC_RECOVERY.md`, avoid worker rewrites of canonical files |
+| Full provider transcript can expose source text or credentials if captured carelessly | enable tracing only in an isolated experiment directory; redact API keys/bearer tokens; never log environment maps; keep full transcript artifacts local and store only paths/aggregates in research logs |
+| Lean chapter-level refinement may omit, alter source meaning, or remove an approved projected glossary term despite fewer calls | compare original source/literal/refined at chapter QA, keep approved-term removal blocking, require locked OOS before adoption, and never publish experiment output |
+| Glossary harvest may promote noise or conflicting mappings | require source and final-Thai evidence, store candidates as `proposed`, freeze production glossary during the experiment, and review precision before approval |
+| Lean/HGD and One Hit Kill pilot QA routes can return empty assistant messages with `finish_reason=length` | stop the bounded run, preserve traces, run an exact-route health probe before resuming, and do not reroute or weaken blocking QA without an approved routing change |
+| Fetch CLI can report success without persisting source artifacts | keep the adapter-backed CLI path routed through `run_fetch_stage`, assert the persisted `source.json`, and run a raw-pool count/sequence check before sampling |
 
 ## Core Commands
 
@@ -406,10 +415,10 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
-Active scope is V6.35 Re:Zero `ch005-ch010`. Re:Zero `ch008` is live at commit `5e3fbfc`. Provider exhaustion stopped the parallel window with `ch009` at `5/12` blocks and `ch010` at `1/19`; neither incomplete chapter is published.
+Active scope is the explicit three-part V6.36 follow-up work order. HGD cleaner diagnosis is fixed and tested, but the HGD Lean rerun is blocked by provider empty output. One Hit Kill Swordmaster raw setup is complete, while its 10-chapter Lean pilot is blocked at QA provider health. Recursive cleanup is documented; only generated-state ignore rules were changed because host deletion policy rejected recursive deletion. V6.35 Re:Zero `ch005-ch010` remains paused and unpublished after provider exhaustion; `ch008` is live at commit `5e3fbfc`.
 
-1. Restore enough OpenRouter credit for the configured 12,000-token route and restore the Codex CLI login before using it as fallback.
-2. Rerun `ch009-block-006` from `translate`, inspect it, then resume blocks `007-012`; accept and publish `ch009` before touching MoonRead scope for `ch010`.
-3. Rerun `ch010-block-002` from `qa`, inspect it, then resume blocks `003-019`.
-4. Stop again on provider exhaustion, manual prompt, QA hard-fail, ledger decode/collision, validation failure, Sentinel blocker/major, or unexpected scope expansion.
-5. After both chapters pass, record final timing and decide whether two-pane chapter isolation remains an approved production option.
+1. Run an exact-route health probe and obtain an approved bounded recovery order before rerunning HGD or One Hit Kill QA; the current runs are blocked, not complete.
+2. Keep the One Hit Kill raw pool and fixed sample manifest immutable; do not start OOS until the in-sample block is resolved and independently verified.
+3. When a provider-stable run is authorized, run baseline/treatment/OOS with `NOVEL_PIPELINE_TRACE_DIR` enabled and compare calls, usage/cost, timing, QA, guardrails, Sentinel, glossary consistency, and spot-check findings.
+4. Keep recursive cleanup conservative: remove only generated caches when the host permits it; preserve backups, reports, raw source, outputs, ledgers, and experiment traces.
+5. Stop on provider exhaustion, manual prompt, QA hard-fail, ledger collision, missing trace, validation failure, Sentinel blocker/major, or scope expansion. Do not publish experiment output.

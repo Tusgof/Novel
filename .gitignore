@@ -19,6 +19,8 @@ node_modules/
 .next/
 .vercel/
 output/playwright/
+MoonRead/.playwright-cli/
+MoonRead/*.log
 
 # Novel pipeline runtime artifacts
 **/03_Raw/
@@ -62,3 +64,5 @@ validation_mojibake.py
 # OS noise
 Thumbs.db
 .DS_Store
+
+.env*

@@ -1,0 +1,23 @@
+schema_version: 1
+novel_id: one-hit-kill-swordmaster
+title: One Hit Kill Swordmaster
+aliases:
+- One Hit Kill Swordsmaster
+- One Strike Kill Sword Master
+languages:
+  source: en
+  target: th
+genre: fantasy
+style_profile: dark_fantasy
+source:
+  adapter: wntl_markdown
+  toc_url: https://wntl.net/series/ohks
+research:
+  status: drafted
+  profile_path: RESEARCH_PROFILE.yaml
+  title: One Hit Kill Swordmaster
+  source_url: https://wntl.net/series/ohks
+setup:
+  created_at: '2026-10-02T17:58:41.375538+00:00'
+  created_from_workspace: D:\Fogust\Workspace\Novel\Deep Sea Embers
+notes: ''

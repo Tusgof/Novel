@@ -1,0 +1,26 @@
+schema_version: 1
+title: One Hit Kill Swordmaster
+aliases:
+- One Hit Kill Swordsmaster
+- One Strike Kill Sword Master
+source_url: https://wntl.net/series/ohks
+status: drafted
+synopsis: 'English-language fantasy web novel also listed as One Hit Kill Swordsmaster and One Strike Kill Sword Master. The protagonist Gaon is a veteran of the extreme RPG Lost Elder after 200 playthroughs; the story centers on the Soul of the Sword Master skill and a one-mana constraint.'
+tags:
+- fantasy
+- action
+- game-system
+- regression
+style_notes: 'Preserve game UI, skill names, item names, and chat labels as distinct terminology. Keep action readable and avoid adding explanations absent from the source. This profile is research context, not a rigid sentence-level rule.'
+reader_expectations: ''
+review_summary: ''
+last_reviewed_at: ''
+reviewed_by: ''
+terminology:
+- Gaon
+- Lost Elder (LoEl)
+- Soul of the Sword Master
+- Strawberry Latte
+- Adelia von Goldheart
+reference_links: []
+notes: 'Primary raw source: WNTL public Markdown endpoint https://wntl.net/content/ohks/{chapter}.md. Chapter metadata: https://wntl.net/api/chapters/ohks. Verified 95 published chapters on 2026-10-03. Setup experiment is isolated and must not publish until separately approved.'

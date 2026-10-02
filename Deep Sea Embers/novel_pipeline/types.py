@@ -390,6 +390,8 @@ class ProviderRequest(JsonSerializable):
     timeout_seconds: float | None = None
     env: dict[str, str] = field(default_factory=dict)
     extra_args: tuple[str, ...] = ()
+    trace_dir: Path | None = None
+    trace_context: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass(slots=True)
@@ -404,6 +406,7 @@ class ProviderResponse(JsonSerializable):
     duration_seconds: float = 0.0
     model: str = ""
     stage: str = ""
+    usage: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass(slots=True)

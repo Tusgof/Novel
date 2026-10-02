@@ -1,0 +1,16 @@
+novel_id: one-hit-kill-swordmaster
+vault_root: .
+source_language: en
+default_batch_size: 10
+chapter_unit: chapters
+default_style_profile: dark_fantasy
+chunking:
+  chinese_character_limit: 600
+  non_chinese_word_limit: 5000
+source:
+  adapter: wntl_markdown
+  toc_url: https://wntl.net/series/ohks
+  delay_seconds: 1.0
+  encoding: utf-8
+  series_id: ohks
+  api_root: https://wntl.net

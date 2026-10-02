@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import sys
 import time
 import urllib.error
@@ -123,7 +124,29 @@ def _safe_error_preview(value: str) -> str:
     for candidate in _key_candidates():
         if candidate.value:
             text = text.replace(candidate.value, "<NOVEL_OPENROUTER_API>")
+    text = re.sub(r"https://openrouter\.ai/[^\s\"']+", "<OPENROUTER_URL>", text)
+    text = re.sub(r"(?i)(user_id[^A-Za-z0-9]{1,8})[A-Za-z0-9_-]+", r"\1<REDACTED>", text)
     return text[:1000]
+
+
+def _write_usage_metadata(payload: dict[str, Any] | None) -> None:
+    path_value = os.environ.get("NOVEL_PIPELINE_PROVIDER_USAGE_FILE", "").strip()
+    if not path_value or not payload:
+        return
+    usage = payload.get("usage")
+    choices = payload.get("choices") or [{}]
+    choice = choices[0] if isinstance(choices[0], dict) else {}
+    metadata = {
+        "usage": usage if isinstance(usage, dict) else {},
+        "id": payload.get("id", ""),
+        "model": payload.get("model", ""),
+        "finish_reason": choice.get("finish_reason", ""),
+        "native_finish_reason": choice.get("native_finish_reason", ""),
+    }
+    try:
+        Path(path_value).write_text(json.dumps(metadata, ensure_ascii=False), encoding="utf-8")
+    except OSError:
+        pass
 
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
@@ -209,6 +232,7 @@ def main(argv: list[str]) -> int:
                 reasoning_effort=args.reasoning_effort,
             )
             if payload is not None and status == 200:
+                _write_usage_metadata(payload)
                 content = (
                     payload.get("choices", [{}])[0]
                     .get("message", {})

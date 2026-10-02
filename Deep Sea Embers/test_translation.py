@@ -26,7 +26,9 @@ from novel_pipeline.types import (
 )
 from novel_pipeline.pipeline import _apply_glossary_parenthetical_leakage_repairs, _apply_glossary_rejected_variant_repairs, _apply_hgd_peer_address_repairs, _apply_post_format_repairs, _apply_redacted_ranked_gate_repairs, _apply_rezero_source_aware_repairs, _apply_source_footnote_marker_repairs, _apply_source_script_annotation_repairs, _literal_safe_refined_draft, _qa_report_indicates_omission, _remove_duplicate_title_paragraph, _repair_literal_draft_for_source_markers, _resolve_glossary_subset, _sentinel_env_overrides
 from novel_pipeline.stages.format import format_block_text
+from novel_pipeline.stages.refine import _clean_refined_output
 from novel_pipeline.text_utils import split_blocks
+from novel_pipeline.providers.trace import redact_secrets, write_provider_trace
 from unittest.mock import Mock, patch, call
 from novel_pipeline.ledger import ResumeState
 from novel_pipeline.providers.base import ProviderRunner, classify_provider_response
@@ -35,7 +37,9 @@ from novel_pipeline.adapters.piaotia import PiaotiaAdapter, _TocParser
 from novel_pipeline.adapters.roliascan import RoliascanAdapter
 from novel_pipeline.adapters.novel543 import Novel543Adapter
 from novel_pipeline.adapters.fanfiction_jina import FanfictionJinaAdapter
+from novel_pipeline.adapters.wntl_markdown import WntlMarkdownAdapter
 from novel_pipeline.types import SourceConfig
+from scripts.run_lean_pipeline_experiment import project_glossary_terms
 
 def _gb18030_html(text: str) -> bytes:
     return text.encode("gb18030")
@@ -81,6 +85,51 @@ def test_format_glossary_subset():
     assert "ดันแคน" in formatted
     assert "ซากเรืออับปาง" in formatted
     assert "character" in formatted
+
+
+def test_lean_glossary_projection_replaces_longest_terms_and_preserves_boundaries():
+    entries = [
+        GlossaryEntry(
+            original_term="黑猫",
+            thai_term="แมวดำ",
+            category="character",
+            status="approved",
+        ),
+        GlossaryEntry(
+            original_term="猫",
+            thai_term="แมว",
+            category="term",
+            status="approved",
+        ),
+        GlossaryEntry(
+            original_term="Enter",
+            thai_term="ปุ่ม Enter",
+            category="item",
+            status="approved",
+        ),
+    ]
+
+    projected, replacements = project_glossary_terms(
+        "黑猫看到猫。Entering is not a key. Press Enter to continue.",
+        entries,
+    )
+
+    assert projected == "แมวดำ看到แมว。Entering is not a key. Press ปุ่ม Enter to continue."
+    assert [item["source_term"] for item in replacements] == ["Enter", "黑猫", "猫"]
+
+
+def test_wntl_markdown_adapter_extracts_and_validates_markdown():
+    adapter = WntlMarkdownAdapter(SourceConfig(adapter="wntl_markdown", encoding="utf-8"))
+    content = adapter.extract_content(b"A valid English chapter. " * 40)
+    assert content.startswith("A valid English chapter.")
+
+
+def test_refine_cleaner_preserves_story_lines_starting_with_asterisk():
+    text = "*เสียงฝีเท้า—*\n*รีวิวจาก Nightmare Forge Studios แย่มาก*\n- note from provider"
+    cleaned = _clean_refined_output(text)
+    assert "*เสียงฝีเท้า—*" in cleaned
+    assert "Nightmare Forge Studios" in cleaned
+    assert "note from provider" not in cleaned
 
 
 def test_resolve_glossary_subset_does_not_match_alphabetic_terms_inside_words():
@@ -8369,6 +8418,50 @@ def test_interactive_glossary_choice_supports_custom_and_reject():
         assert choose_option_interactively(suggestion) is None
 
 
+def test_provider_trace_captures_full_prompt_response_and_redacts_secret():
+    with tempfile.TemporaryDirectory() as temp_dir:
+        secret_name = "NOVEL_TRACE_TEST_API_KEY"
+        previous = os.environ.get(secret_name)
+        os.environ[secret_name] = "trace-secret-value"
+        try:
+            request = ProviderRequest(
+                prompt="Translate trace-secret-value faithfully.",
+                provider="openrouter",
+                stage="literal_translation",
+                model="test-model",
+                trace_context={"run_id": "trace-test", "chapter_id": "ch001"},
+            )
+            response = ProviderResponse(
+                provider="openrouter",
+                command=("python", "shim"),
+                stdout="ผลลัพธ์ trace-secret-value",
+                model="test-model",
+                stage="literal_translation",
+                returncode=0,
+            )
+            path = write_provider_trace(
+                trace_dir=Path(temp_dir),
+                request=request,
+                response=response,
+                usage={"usage": {"prompt_tokens": 10, "completion_tokens": 5}, "id": "trace-id"},
+                system_prompt="Return only the requested output.",
+            )
+            assert path is not None and path.exists()
+            payload = json.loads(path.read_text(encoding="utf-8"))
+            assert payload["context"]["chapter_id"] == "ch001"
+            assert payload["request"]["user_prompt"] == "Translate <NOVEL_TRACE_TEST_API_KEY> faithfully."
+            assert payload["response"]["stdout"] == "ผลลัพธ์ <NOVEL_TRACE_TEST_API_KEY>"
+            assert payload["response"]["usage"]["completion_tokens"] == 5
+            assert payload["response"]["provider_metadata"]["id"] == "trace-id"
+            assert redact_secrets("https://openrouter.ai/workspaces/default/keys/secret-id") == "<OPENROUTER_URL>"
+            assert "<REDACTED>" in redact_secrets('{"user_id":"user_123"}')
+        finally:
+            if previous is None:
+                os.environ.pop(secret_name, None)
+            else:
+                os.environ[secret_name] = previous
+
+
 def test_production_provider_routing_enables_ai_scan_and_formatting():
     """Production routing keeps AI glossary scan and AI formatting enabled."""
     from novel_pipeline.config import load_app_config
@@ -8447,6 +8540,9 @@ def test_production_provider_routing_enables_ai_scan_and_formatting():
 
 if __name__ == "__main__":
     test_format_glossary_subset()
+    test_lean_glossary_projection_replaces_longest_terms_and_preserves_boundaries()
+    test_refine_cleaner_preserves_story_lines_starting_with_asterisk()
+    test_wntl_markdown_adapter_extracts_and_validates_markdown()
     test_parse_literal_pairs()
     test_format_inline_dialogue_quotes()
     test_format_non_dialogue_quotes()
@@ -8616,6 +8712,7 @@ if __name__ == "__main__":
     test_openrouter_shim_retries_empty_response_once_then_succeeds()
     test_openrouter_shim_does_not_retry_permanent_error()
     test_openrouter_shim_does_not_retry_length_limited_empty_response()
+    test_provider_trace_captures_full_prompt_response_and_redacts_secret()
     test_interactive_glossary_choice_supports_custom_and_reject()
     test_production_provider_routing_enables_ai_scan_and_formatting()
     print("All tests passed!")

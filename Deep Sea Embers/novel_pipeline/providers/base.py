@@ -5,12 +5,15 @@ import re
 import subprocess
 import tempfile
 import time
+import json
+import uuid
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Mapping
 
 from novel_pipeline.types import ProviderRequest, ProviderResponse, ProviderSpec
+from novel_pipeline.providers.trace import extract_system_prompt, trace_dir_from_env, write_provider_trace
 
 
 class ProviderExecutionError(RuntimeError):
@@ -98,6 +101,8 @@ class ProviderRunner:
                 timeout_seconds=request.timeout_seconds,
                 env=dict(request.env),
                 extra_args=tuple(request.extra_args),
+                trace_dir=request.trace_dir,
+                trace_context=dict(request.trace_context),
             )
         return self.spec.build_command(request)
 
@@ -160,6 +165,12 @@ class ProviderRunner:
         env = os.environ.copy()
         env.update(self.spec.env)
         env.update(request.env)
+        usage_path: Path | None = None
+        trace_dir = request.trace_dir or trace_dir_from_env()
+        if trace_dir is not None:
+            trace_dir.mkdir(parents=True, exist_ok=True)
+            usage_path = trace_dir / f".usage-{uuid.uuid4().hex}.json"
+            env["NOVEL_PIPELINE_PROVIDER_USAGE_FILE"] = str(usage_path)
 
         stdin_input = None
         if getattr(self.spec, 'prompt_transport', 'argv') == 'stdin':
@@ -199,6 +210,26 @@ class ProviderRunner:
             duration_seconds=(finished_at - started_at).total_seconds(),
             model=request.model or self.spec.default_model,
             stage=request.stage,
+        )
+        usage: dict[str, Any] = {}
+        if usage_path is not None:
+            try:
+                raw_usage = usage_path.read_text(encoding="utf-8")
+                loaded_usage = json.loads(raw_usage)
+                if isinstance(loaded_usage, dict):
+                    usage = loaded_usage
+            except (OSError, json.JSONDecodeError):
+                pass
+            finally:
+                usage_path.unlink(missing_ok=True)
+        response.usage = usage
+        write_provider_trace(
+            trace_dir=trace_dir,
+            request=request,
+            response=response,
+            usage=usage,
+            failure_kind=classify_provider_response(response, require_stdout=False),
+            system_prompt=extract_system_prompt(tuple(self.spec.extra_args)),
         )
         if check and response.returncode != 0:
             raise ProviderExecutionError(response)

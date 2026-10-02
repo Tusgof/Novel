@@ -511,8 +511,14 @@ def cmd_fetch(args: argparse.Namespace, config) -> int:
 
         chapter_meta = resolve_chapter_meta(manifest, args.chapter_id)
         print(f"Fetching: {chapter_meta.title} ({chapter_meta.url})")
-        text = adapter.fetch_chapter_text(chapter_meta)
-        print(f"Fetched {len(text)} chars")
+        chapter = run_fetch_stage(
+            config=config,
+            chapter_id=chapter_meta.chapter_id,
+            title=chapter_meta.title,
+            adapter=adapter,
+            chapter_meta=chapter_meta,
+        )
+        print(f"Fetched {len(chapter.raw_text)} chars -> {chapter.source_path or config.workspace.raw / chapter_meta.chapter_id / 'source.json'}")
         return 0
 
     if args.input_file:
