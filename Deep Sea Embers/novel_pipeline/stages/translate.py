@@ -23,6 +23,7 @@ def run_literal_translation_stage(
     prompt = prompt_store.render(
         "literal_translation",
         source_block=source_for_prompt,
+        source_structured=block.source_text,
         glossary_subset=formatted_glossary,
         source_language=block.source_language,
         research_context=config.research_context_text(),

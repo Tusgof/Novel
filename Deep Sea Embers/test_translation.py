@@ -21,6 +21,7 @@ from novel_pipeline.types import (
     ProviderResponse,
     QAFinding,
     QAReport,
+    RefinedDraft,
     RunRecord,
     TextBlock,
 )
@@ -39,7 +40,7 @@ from novel_pipeline.adapters.novel543 import Novel543Adapter
 from novel_pipeline.adapters.fanfiction_jina import FanfictionJinaAdapter
 from novel_pipeline.adapters.wntl_markdown import WntlMarkdownAdapter
 from novel_pipeline.types import SourceConfig
-from scripts.run_lean_pipeline_experiment import project_glossary_terms
+from scripts.run_lean_pipeline_experiment import _run_qa_with_configured_fallbacks, _run_refinement_with_configured_fallbacks, project_glossary_terms
 
 def _gb18030_html(text: str) -> bytes:
     return text.encode("gb18030")
@@ -118,6 +119,151 @@ def test_lean_glossary_projection_replaces_longest_terms_and_preserves_boundarie
     assert [item["source_term"] for item in replacements] == ["Enter", "黑猫", "猫"]
 
 
+def test_lean_qa_uses_configured_fallback_after_primary_provider_failure():
+    from types import SimpleNamespace
+    from novel_pipeline.providers.base import ProviderOutputError
+
+    primary = SimpleNamespace(name="primary")
+    fallback = SimpleNamespace(name="fallback")
+    config = Mock()
+    config.stage_routing_for.return_value = SimpleNamespace(model="primary-model")
+    config.provider_for_stage.return_value = primary
+    config.fallback_routes_for_stage.return_value = ((fallback, "fallback-model"),)
+    failure_response = ProviderResponse(
+        provider="primary",
+        command=(),
+        stdout="",
+        stderr="empty",
+        returncode=1,
+        model="primary-model",
+    )
+    fallback_report = QAReport(
+        block_id="ch001-assembled",
+        chapter_id="ch001",
+        passed=True,
+        judge_provider="fallback",
+    )
+    block = TextBlock(
+        block_id="ch001-assembled",
+        chapter_id="ch001",
+        source_text="Source",
+        source_language="en",
+    )
+    literal = LiteralDraft(block_id=block.block_id, chapter_id=block.chapter_id, sentence_pairs=())
+    refined = RefinedDraft(block_id=block.block_id, chapter_id=block.chapter_id, refined_text="แปลแล้ว")
+
+    with patch(
+        "scripts.run_lean_pipeline_experiment.run_qa_stage",
+        side_effect=[
+            ProviderOutputError(failure_response, "primary failed"),
+            fallback_report,
+        ],
+    ) as mocked_qa:
+        result = _run_qa_with_configured_fallbacks(
+            config=config,
+            block=block,
+            literal_draft=literal,
+            refined_draft=refined,
+            glossary_subset=[],
+            style_profile_key="default",
+        )
+
+    assert result is fallback_report
+    assert result.metadata["qa_fallback_used"] is True
+    assert result.metadata["qa_route_index"] == 1
+    assert mocked_qa.call_count == 2
+
+
+def test_lean_qa_adjudicates_valid_ai_fail_with_configured_fallback():
+    from types import SimpleNamespace
+
+    primary = SimpleNamespace(name="primary")
+    fallback = SimpleNamespace(name="fallback")
+    config = Mock()
+    config.stage_routing_for.return_value = SimpleNamespace(model="primary-model")
+    config.provider_for_stage.return_value = primary
+    config.fallback_routes_for_stage.return_value = ((fallback, "fallback-model"),)
+    block = TextBlock(
+        block_id="ch001-assembled",
+        chapter_id="ch001",
+        source_text="Source",
+        source_language="en",
+    )
+    literal = LiteralDraft(block_id=block.block_id, chapter_id=block.chapter_id, sentence_pairs=())
+    refined = RefinedDraft(block_id=block.block_id, chapter_id=block.chapter_id, refined_text="แปลแล้ว")
+    rejected = QAReport(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        passed=False,
+        feedback="AI reported an omission.",
+        judge_provider="primary",
+    )
+    accepted = QAReport(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        passed=True,
+        judge_provider="fallback",
+    )
+
+    with patch(
+        "scripts.run_lean_pipeline_experiment.run_qa_stage",
+        side_effect=[rejected, accepted],
+    ) as mocked_qa:
+        result = _run_qa_with_configured_fallbacks(
+            config=config,
+            block=block,
+            literal_draft=literal,
+            refined_draft=refined,
+            glossary_subset=[],
+            style_profile_key="default",
+        )
+
+    assert result is accepted
+    assert result.metadata["qa_fallback_used"] is True
+    assert result.metadata["qa_adjudication_failures"]
+    assert mocked_qa.call_count == 2
+
+
+def test_lean_refinement_uses_configured_fallback_after_primary_provider_failure():
+    from types import SimpleNamespace
+
+    primary = SimpleNamespace(name="primary")
+    fallback = SimpleNamespace(name="fallback")
+    config = Mock()
+    config.stage_routing_for.return_value = SimpleNamespace(model="primary-model")
+    config.provider_for_stage.return_value = primary
+    config.fallback_routes_for_stage.return_value = ((fallback, "fallback-model"),)
+    block = TextBlock(
+        block_id="ch001-assembled",
+        chapter_id="ch001",
+        source_text="Source",
+        source_language="en",
+    )
+    literal = LiteralDraft(block_id=block.block_id, chapter_id=block.chapter_id, sentence_pairs=())
+    fallback_draft = RefinedDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        refined_text="แปลครบถ้วน",
+    )
+
+    with patch(
+        "scripts.run_lean_pipeline_experiment.run_refine_stage",
+        side_effect=[RuntimeError("primary failed"), fallback_draft],
+    ) as mocked_refine:
+        result = _run_refinement_with_configured_fallbacks(
+            config=config,
+            block=block,
+            literal_draft=literal,
+            glossary_subset=[],
+            style_profile_key="default",
+        )
+
+    assert result is fallback_draft
+    assert result.metadata["refinement_fallback_used"] is True
+    assert result.metadata["refinement_route_index"] == 1
+    assert mocked_refine.call_count == 2
+
+
 def test_wntl_markdown_adapter_extracts_and_validates_markdown():
     adapter = WntlMarkdownAdapter(SourceConfig(adapter="wntl_markdown", encoding="utf-8"))
     content = adapter.extract_content(b"A valid English chapter. " * 40)
@@ -130,6 +276,29 @@ def test_refine_cleaner_preserves_story_lines_starting_with_asterisk():
     assert "*เสียงฝีเท้า—*" in cleaned
     assert "Nightmare Forge Studios" in cleaned
     assert "note from provider" not in cleaned
+
+
+def test_qa_rules_block_omission_placeholders():
+    block = TextBlock(
+        block_id="ch001-assembled",
+        chapter_id="ch001",
+        source_text="Source",
+        source_language="en",
+    )
+    literal = LiteralDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        sentence_pairs=(LiteralSentencePair(source_sentence="Source", literal_sentence="เนื้อหา"),),
+    )
+    refined = RefinedDraft(
+        block_id=block.block_id,
+        chapter_id=block.chapter_id,
+        refined_text="ย่อหน้าแรก […] ย่อหน้าสุดท้าย",
+    )
+    from novel_pipeline.stages.qa import run_rule_checks
+
+    findings = run_rule_checks(literal_draft=literal, refined_draft=refined, glossary_subset=[])
+    assert any(item.code == "omission_placeholder" and item.severity == "error" for item in findings)
 
 
 def test_resolve_glossary_subset_does_not_match_alphabetic_terms_inside_words():
@@ -8541,7 +8710,10 @@ def test_production_provider_routing_enables_ai_scan_and_formatting():
 if __name__ == "__main__":
     test_format_glossary_subset()
     test_lean_glossary_projection_replaces_longest_terms_and_preserves_boundaries()
+    test_lean_qa_uses_configured_fallback_after_primary_provider_failure()
+    test_lean_refinement_uses_configured_fallback_after_primary_provider_failure()
     test_refine_cleaner_preserves_story_lines_starting_with_asterisk()
+    test_qa_rules_block_omission_placeholders()
     test_wntl_markdown_adapter_extracts_and_validates_markdown()
     test_parse_literal_pairs()
     test_format_inline_dialogue_quotes()

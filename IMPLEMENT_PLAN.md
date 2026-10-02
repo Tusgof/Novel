@@ -9,9 +9,10 @@ Last updated: 2026-10-03
 - **Total milestones**: 7
 - **Estimated total effort**: XL
 
-V6.36 Lean Pipeline experiment is now active. It is experiment-only and does
-not replace the production pipeline until locked A/B metrics and an untouched
-OOS round support that decision.
+V6.36 Lean Pipeline experiment is now active. For a new novel, it is a
+bounded pilot for tuning the novel-specific refine profile and observing the
+minimal shared pipeline. OOS and the full Libra - Pilot Gate are optional and
+only apply when promoting a shared-layer change across existing novels.
 
 ## Current Session Work Order: HGD Lean, One Hit Kill Swordmaster, And Recursive Workspace Organization
 
@@ -20,13 +21,12 @@ This session has three explicit scopes:
 1. Finish the HGD Lean Pipeline experiment evidence to the point supported by
    the isolated run, including diagnosis, smallest regression-tested repair,
    rerun, guardrails, Sentinel, and a report. This does not authorize a claim
-   that Lean is production-ready unless the locked baseline/treatment/OOS
-   evidence actually supports it.
+  that Lean is production-ready across novels.
 2. Set up **One Hit Kill Swordmaster** from the verified WNTL source, fetch and
    validate the available raw scope before sampling, then run an experiment-only
    10-chapter bounded test with the Lean pipeline. Record prompts, artifacts,
    metrics, observations, and recommendations. This is not a replacement for
-   the normal 20-chapter Libra - Pilot Gate unless explicitly promoted later.
+  the normal 20-chapter Libra - Pilot Gate; this is a single novel-specific pilot.
 3. Inventory and organize every file recursively under this workspace. Preserve
    canonical docs, active novel vaults, source/output/log evidence, and required
    runtime/config files. Archive or delete only files proven transient,
@@ -36,7 +36,7 @@ Session gates:
 
 - No experiment output may overwrite production `03_Raw`, `01_Glossary`,
   `05_Output`, `06_Logs`, or MoonRead content.
-- HGD and One Hit Kill runs stop on provider failure, manual prompt, QA
+- HGD and One Hit Kill runs stop when all configured provider routes fail, manual prompt, QA
   hard-fail, validation failure, Sentinel blocker/major, source mismatch, or
   unexpected scope expansion.
 - Recursive cleanup must not remove pre-existing dirty WIP or evidence needed
@@ -64,6 +64,7 @@ Current progress:
 - V6.36 started on 2026-10-02: added opt-in full provider-call tracing and an isolated lean-pipeline harness. The harness keeps block splitting for transport safety, projects approved chapter-relevant glossary terms into a source copy before literal translation, refines the assembled chapter once, runs chapter-level QA and formatting, and harvests glossary candidates as `proposed` only. The HGD `ch001` v4 smoke completed literal/refinement but stopped at blocking QA when refinement removed an approved term; no production output changed. The smallest cleaner repair passed regression tests, but HGD v5 stopped on an empty OpenRouter refinement response. Evidence: `01_Research_Log/2026-10-02_v6_36_lean_pilot_blocked_credit.md`, `01_Research_Log/2026-10-03_v6_36_lean_glossary_projection_smoke.md`, and `01_Research_Log/2026-10-03_v6_36_hgd_lean_followup_blocked.md`.
 - Current session setup completed One Hit Kill Swordmaster as an isolated WNTL-backed vault and fetched/validated 95/95 raw chapters. Its fixed 10-chapter experiment sample was locked, but in-sample Lean stopped at QA provider empty output; OOS was not started. Evidence: `07_Reports/v6_36_one_hit_kill_swordmaster_setup_and_lean_pilot_20261003.md`.
 - Current session recursive organization inventory covered every workspace subtree. Production/evidence/backups were preserved; generated-state ignore rules were added. Host deletion policy rejected recursive cache deletion, so no physical deletion is claimed. Evidence: `07_Reports/workspace_recursive_organization_20261003.md`.
+- The V6.36 pilot scope was simplified on 2026-10-03: OHKS and HGD use a bounded pilot without OOS. OOS/Libra remains an optional cross-novel research method only for promoting shared-layer changes. The lean QA harness now exercises configured fallbacks and its regression test passes.
 
 - Milestone 1 complete: experiment charter, measurement contract, stop/no-production rules, and charter research log are in place.
 - Milestone 2 complete: raw source pools were audited for DSE, HGD, and IRS; fixed-seed sample manifest was created from raw source only.
@@ -336,8 +337,8 @@ Status: complete. Evidence: `07_Reports/dse_ch181_ch185_production_checkpoint_20
 | 8.3 | Run the lean harness with longest-first glossary projection, block-safe literal translation, chapter-level refinement, chapter-level QA, formatting, and proposed glossary harvest | L | ⚠️ | Lean report and per-call trace files exist for every stage; failures stop and remain recorded |
 | 8.4 | Compare calls, measured usage/cost, wall/provider time, QA hard-fails, Sentinel findings, omissions, glossary consistency, and formatting defects | M | ⚠️ | A comparison report has numeric values or explicitly says `not measured` for each metric |
 | 8.5 | Review transcript artifacts: prompt template hash, system prompt, user prompt, input/output hashes and full local content, response usage, and failure details | S | ✅ | Every provider call is inspectable without exposing credentials; trace directory is experiment-local |
-| 8.6 | Run the locked OOS sample without changing the treatment mid-round | L | ⚠️ | OOS report shows whether the observed improvement generalizes |
-| 8.7 | Decide: retain current pipeline, adopt lean pipeline, or keep lean as an opt-in mode; update architecture only if evidence supports it | M | ⚠️ | Decision names quality/cost tradeoff, remaining risks, and next production mode |
+| 8.6 | Complete the bounded novel-specific pilot and compare quality, usage, timing, provider recovery, guardrails, Sentinel, and spot-check evidence | L | ⚠️ | Pilot report has numeric metrics or explicitly says `not measured`; no production output is published |
+| 8.7 | Decide whether the lean pipeline is suitable for this novel and whether any shared-layer change merits separate cross-novel research | M | ⚠️ | Decision separates novel-specific refine findings from shared-layer adoption claims |
 
 **Experiment design**:
 
@@ -354,9 +355,9 @@ Status: complete. Evidence: `07_Reports/dse_ch181_ch185_production_checkpoint_20
 - Transcript files stay outside production output and MoonRead. The research log stores paths and aggregate metrics; it does not duplicate the full copyrighted chapter text.
 - If the provider does not return cost or token usage, the report must say `provider_did_not_report_cost` or `not measured`; do not infer cost from character counts.
 
-**Milestone complete when**: baseline, treatment, and locked OOS are complete; every provider interaction is traceable; quality and cost metrics are compared; and a documented adoption decision is made without publishing experiment output.
+**Milestone complete when**: the bounded novel-specific pilot is complete or safely stopped with evidence; every provider interaction is traceable; quality and cost metrics are compared; and a documented decision is made without publishing experiment output. OOS is not required for this milestone.
 
-Status: blocked. The HGD cleaner defect is diagnosed and regression-tested, but HGD v5 stopped on provider empty output before chapter acceptance. One Hit Kill Swordmaster setup and raw fetch are complete, but its 10-chapter in-sample Lean pilot stopped at the reasoning QA provider and OOS was not started. No Lean experiment output was published. Evidence: `01_Research_Log/2026-10-03_v6_36_hgd_lean_followup_blocked.md`, `07_Reports/v6_36_one_hit_kill_swordmaster_setup_and_lean_pilot_20261003.md`.
+Status: complete as an experiment-only evaluation. HGD `ch001` completed the minimal pipeline smoke with 4 provider calls, 0 provider failures, and Sentinel `0/0/0/0`. One Hit Kill Swordmaster setup fetched/validated `ch001-ch095`, and the locked 10-chapter sample completed across `pilot_v6`, `pilot_v9`, and `pilot_v10`; final deterministic checks and Sentinel passed `0/0/0/0`. The valid QA fallback adjudication change is regression-tested. No experiment output was published to MoonRead, and no OOS run was required. Evidence: `07_Reports/v6_36_lean_pipeline_experiment_completion_20261003.md`, `07_Reports/v6_36_lean_pipeline_metrics_20261003.json`, and the isolated experiment vaults.
 
 ## Execution Notes
 
@@ -364,8 +365,8 @@ Status: blocked. The HGD cleaner defect is diagnosed and regression-tested, but 
   - Production publication from experiment output is blocked by design.
   - Long unattended production translation remains blocked; V6.34 and the IRS Pilot support bounded sequential execution only, not hands-off parallel scaling.
   - Any provider routing change remains blocked unless explicitly approved and measured.
-  - V6.36 must not replace the production pipeline or publish experiment artifacts until the OOS decision is complete.
-  - HGD and One Hit Kill Lean pilot resumption is blocked until an exact-route provider health probe passes; current empty `finish_reason=length` failures must remain recorded.
+  - V6.36 must not replace the production pipeline or publish experiment artifacts until the bounded pilot decision and publication gates are complete.
+  - HGD and One Hit Kill Lean pilot resumption uses the configured fallback chain; current empty `finish_reason=length` failures remain recorded, and the run stops only if all configured routes fail.
   - Recursive cache deletion is blocked by the host command policy; generated paths are ignored and documented instead.
 
 - **Decision points**:

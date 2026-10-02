@@ -25,7 +25,7 @@ from novel_pipeline.config import load_app_config
 from novel_pipeline.glossary_support import load_glossary_index, select_non_overlapping_glossary_entries
 from novel_pipeline.pipeline import _format_block_with_hybrid_provider, _load_chapter_source_and_blocks
 from novel_pipeline.prompts import PromptStore
-from novel_pipeline.providers.base import ProviderRunner, ensure_provider_response
+from novel_pipeline.providers.base import ProviderOutputError, ProviderRunner, ensure_provider_response
 from novel_pipeline.stages.qa import run_qa_stage
 from novel_pipeline.stages.refine import run_refine_stage
 from novel_pipeline.stages.translate import run_literal_translation_stage
@@ -68,6 +68,95 @@ def _parse_chapters(value: str) -> list[str]:
 
 def _chapter_glossary_subset(block: TextBlock, glossary: dict[str, Any]) -> list[Any]:
     return select_non_overlapping_glossary_entries(block.source_text, glossary.values())
+
+
+def _run_qa_with_configured_fallbacks(
+    *,
+    config: Any,
+    block: TextBlock,
+    literal_draft: LiteralDraft,
+    refined_draft: RefinedDraft,
+    glossary_subset: list[Any],
+    style_profile_key: str,
+) -> Any:
+    """Run experiment QA through the configured route, including fallbacks."""
+    routing = config.stage_routing_for("qa_judge")
+    routes = [(config.provider_for_stage("qa_judge"), routing.model)]
+    routes.extend(config.fallback_routes_for_stage("qa_judge"))
+    failures: list[str] = []
+    for index, (provider_spec, model) in enumerate(routes):
+        try:
+            report = run_qa_stage(
+                config=config,
+                block=block,
+                literal_draft=literal_draft,
+                refined_draft=refined_draft,
+                glossary_subset=glossary_subset,
+                provider_runner=ProviderRunner(provider_spec),
+                model=model,
+                style_profile_key=style_profile_key,
+            )
+            report.metadata["qa_route_index"] = index
+            report.metadata["qa_fallback_used"] = index > 0
+            if failures:
+                report.metadata["qa_primary_failures"] = failures
+            # A valid AI FAIL is evidence to adjudicate, not a provider crash.
+            # Give the configured fallback an independent chance to verify it;
+            # deterministic rule failures still return immediately above.
+            if not report.passed and report.judge_provider != "rules" and index < len(routes) - 1:
+                failures.append(f"{provider_spec.name}: QA rejected draft: {report.feedback}")
+                continue
+            if failures:
+                report.metadata["qa_adjudication_failures"] = failures
+            return report
+        except ProviderOutputError as exc:
+            failures.append(f"{provider_spec.name}: {exc}")
+            if index == len(routes) - 1:
+                raise
+    raise RuntimeError("QA route list was empty.")
+
+
+def _run_refinement_with_configured_fallbacks(
+    *,
+    config: Any,
+    block: TextBlock,
+    literal_draft: LiteralDraft,
+    glossary_subset: list[Any],
+    style_profile_key: str,
+) -> Any:
+    """Run refinement through the configured primary and fallback routes."""
+    routing = config.stage_routing_for("refinement")
+    routes = [(config.provider_for_stage("refinement"), routing.model)]
+    routes.extend(config.fallback_routes_for_stage("refinement"))
+    failures: list[str] = []
+    for index, (provider_spec, model) in enumerate(routes):
+        try:
+            draft = run_refine_stage(
+                config=config,
+                block=block,
+                literal_draft=literal_draft,
+                glossary_subset=glossary_subset,
+                style_profile_key=style_profile_key,
+                provider_runner=ProviderRunner(provider_spec),
+                model=model,
+                retry_feedback=(
+                    f"Previous refinement route failed: {failures[-1]}. Preserve every source passage."
+                    if failures
+                    else ""
+                ),
+            )
+            if "[...]" in draft.refined_text or "[…]" in draft.refined_text:
+                raise RuntimeError("Refinement returned an omission placeholder.")
+            draft.metadata["refinement_route_index"] = index
+            draft.metadata["refinement_fallback_used"] = index > 0
+            if failures:
+                draft.metadata["refinement_primary_failures"] = failures
+            return draft
+        except Exception as exc:
+            failures.append(f"{provider_spec.name}: {exc}")
+            if index == len(routes) - 1:
+                raise
+    raise RuntimeError("Refinement route list was empty.")
 
 
 def _source_term_pattern(term: str) -> re.Pattern[str]:
@@ -176,6 +265,7 @@ def _trace_metrics(trace_dir: Path) -> dict[str, Any]:
     usage_totals: dict[str, float] = {}
     cost = 0.0
     cost_seen = False
+    provider_seconds = 0.0
     for path in sorted(trace_dir.glob("*.json")):
         try:
             event = json.loads(path.read_text(encoding="utf-8"))
@@ -187,6 +277,7 @@ def _trace_metrics(trace_dir: Path) -> dict[str, Any]:
         stage = str(event.get("stage", "unknown"))
         stage_counts[stage] = stage_counts.get(stage, 0) + 1
         response = event.get("response", {})
+        provider_seconds += float(response.get("duration_seconds") or 0)
         if response.get("failure_kind"):
             failures += 1
         usage = response.get("usage", {})
@@ -204,6 +295,7 @@ def _trace_metrics(trace_dir: Path) -> dict[str, Any]:
     return {
         "provider_calls": calls,
         "provider_failures": failures,
+        "provider_seconds": round(provider_seconds, 3),
         "calls_by_stage": stage_counts,
         "usage_totals": usage_totals,
         "cost": cost if cost_seen else None,
@@ -273,26 +365,20 @@ def run_chapter(config: Any, chapter_id: str, run_id: str, output_dir: Path, tra
         provider="assembled_from_blocks",
     )
     _context(run_id=run_id, chapter_id=chapter_id, stage="refinement", block_id=chapter_block.block_id)
-    refine_routing = config.stage_routing_for("refinement")
-    refined = run_refine_stage(
+    refined = _run_refinement_with_configured_fallbacks(
         config=config,
         block=chapter_block,
         literal_draft=assembled_literal,
         glossary_subset=_chapter_glossary_subset(chapter_block, glossary),
         style_profile_key=config.default_style_profile,
-        provider_runner=ProviderRunner(config.provider_for_stage("refinement")),
-        model=refine_routing.model,
     )
     _context(run_id=run_id, chapter_id=chapter_id, stage="qa_judge", block_id=chapter_block.block_id)
-    qa_routing = config.stage_routing_for("qa_judge")
-    qa = run_qa_stage(
+    qa = _run_qa_with_configured_fallbacks(
         config=config,
         block=chapter_block,
         literal_draft=assembled_literal,
         refined_draft=refined,
         glossary_subset=_chapter_glossary_subset(chapter_block, glossary),
-        provider_runner=ProviderRunner(config.provider_for_stage("qa_judge")),
-        model=qa_routing.model,
         style_profile_key=config.default_style_profile,
     )
     if not qa.passed:
@@ -327,6 +413,8 @@ def run_chapter(config: Any, chapter_id: str, run_id: str, output_dir: Path, tra
         "formatted_chars": len(formatted),
         "qa_passed": qa.passed,
         "qa_feedback": qa.feedback,
+        "qa_metadata": qa.metadata,
+        "refinement_metadata": refined.metadata,
         "formatter_provider": formatter_provider,
         "formatter_metadata": formatter_meta,
         "glossary_proposed_count": len(proposed),
@@ -341,6 +429,7 @@ def main() -> int:
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--trace-dir", type=Path, required=True)
     args = parser.parse_args()
+    started_at = _utc_now()
     chapters = _parse_chapters(args.chapters)
     config = load_app_config(args.config)
     output_dir = args.output_dir.resolve()
@@ -353,7 +442,11 @@ def main() -> int:
     error = ""
     try:
         for chapter_id in chapters:
-            results.append(run_chapter(config, chapter_id, args.run_id, output_dir, trace_dir))
+            print(f"[{args.run_id}] START {chapter_id}", flush=True)
+            result = run_chapter(config, chapter_id, args.run_id, output_dir, trace_dir)
+            results.append(result)
+            atomic_write_json(output_dir / chapter_id / "chapter_result.json", result)
+            print(f"[{args.run_id}] COMPLETE {chapter_id}", flush=True)
     except Exception as exc:  # preserve a machine-readable stopped experiment result
         status = "blocked"
         error = f"{type(exc).__name__}: {exc}"
@@ -361,7 +454,8 @@ def main() -> int:
         "schema": "novel.lean-experiment.v1",
         "run_id": args.run_id,
         "novel_id": config.novel_id,
-        "started_at": _utc_now(),
+        "started_at": started_at,
+        "finished_at": _utc_now(),
         "status": status,
         "chapters": results,
         "metrics": _trace_metrics(trace_dir),

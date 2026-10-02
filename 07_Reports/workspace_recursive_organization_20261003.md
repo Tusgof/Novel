@@ -22,19 +22,31 @@ by git but are retained as product/evidence data.
 - Historical experiments and Sentinel reports needed to explain prior decisions
 - `99_Adhoc_Scripts` backups; these are archival and not runtime dependencies
 
+## Removed verified obsolete files
+
+The following 18 files were removed after reference checks:
+
+- six obsolete MoonRead development log files
+- five obsolete Playwright text snapshots/logs
+- four ignored HGD one-off repair Python scripts
+- three tracked HGD one-off repair CJS scripts
+
+The tracked script deletions are visible in git history. No raw source,
+translation output, ledger, glossary, experiment trace, report, backup, or
+deployment file was removed.
+
 ## Transient candidates
 
-`__pycache__`, MoonRead `.next`, MoonRead `.playwright-cli`, and MoonRead dev
-logs were identified as generated local state. Recursive deletion was attempted
-with explicit workspace-relative paths but was rejected by the host command
-policy, so no destructive deletion was claimed. `.gitignore` now excludes the
-MoonRead Playwright capture directory and root-level MoonRead logs; `.next` was
-already ignored. These directories remain physically present until a permitted
-cleanup operation is available.
+`__pycache__`, MoonRead `.next`, the remaining MoonRead `.playwright-cli`, and
+local git backup objects remain generated/archive state. Recursive deletion of
+these binary or cache trees was rejected by the host command policy. `.gitignore`
+now excludes the MoonRead Playwright capture directory and root-level MoonRead
+logs; `.next` was already ignored. These directories remain physically present
+and are documented rather than force-deleted.
 
 ## Safety decision
 
 No raw source, translation output, ledger, glossary, experiment trace, report,
 backup, or deployment file was deleted or moved. This preserves recovery and
-auditability while removing future worktree noise from generated MoonRead
-captures/logs.
+auditability while removing verified obsolete scripts and future worktree noise
+from generated MoonRead captures/logs.

@@ -69,7 +69,7 @@ providers:
   openrouter:
     executable:
     - python
-    - scripts\openrouter_provider_shim.py
+    - ..\Deep Sea Embers\scripts\openrouter_provider_shim.py
     extra_args:
     - --reasoning-enabled
     - --reasoning-exclude

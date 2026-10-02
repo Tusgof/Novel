@@ -91,6 +91,14 @@ def run_rule_checks(*, literal_draft: LiteralDraft, refined_draft: RefinedDraft,
             findings.append(QAFinding(severity="error", code="mojibake", message=f"Text appears to be mojibake: {e}"))
     if _looks_like_provider_meta(refined_text):
         findings.append(QAFinding(severity="error", code="provider_meta_leakage", message="Refined output looks like provider status/error text."))
+    if "[...]" in refined_text or "[…]" in refined_text:
+        findings.append(
+            QAFinding(
+                severity="error",
+                code="omission_placeholder",
+                message="Refined output contains an ellipsis placeholder that may replace omitted source content.",
+            )
+        )
     if _contains_cjk(refined_text):
         findings.append(QAFinding(severity="error", code="untranslated_source_leakage", message="Refined output still contains Chinese/Japanese/Korean source characters."))
     if _contains_xianxia_drift(refined_text):

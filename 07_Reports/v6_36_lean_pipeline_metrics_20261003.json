@@ -1,0 +1,34 @@
+{
+  "schema": "novel.lean-experiment-aggregate.v1",
+  "date": "2026-10-03",
+  "production_published": false,
+  "novels": {
+    "horror-game-developer": {
+      "chapters": ["ch001"],
+      "status": "complete",
+      "provider_calls": 4,
+      "provider_failures": 0,
+      "provider_seconds": 155.256,
+      "reported_tokens": 28572,
+      "reported_cost": 0.031301576,
+      "sentinel": {"blocker": 0, "major": 0, "minor": 0, "info": 0}
+    },
+    "one-hit-kill-swordmaster": {
+      "chapters": ["ch001", "ch004", "ch014", "ch019", "ch037", "ch044", "ch064", "ch068", "ch079", "ch080"],
+      "status": "complete",
+      "provider_calls": 30,
+      "provider_failures": 3,
+      "provider_seconds": 1485.629,
+      "reported_tokens": 230728,
+      "reported_cost": 0.357507432,
+      "sentinel": {"blocker": 0, "major": 0, "minor": 0, "info": 0},
+      "qa_fallback_adjudications": 4
+    }
+  },
+  "shared_checks": {
+    "output_placeholder_or_provider_meta": 0,
+    "cjk_body_leakage": 0,
+    "thai_digit_drift": 0,
+    "sentinel_blocker_or_major": 0
+  }
+}
