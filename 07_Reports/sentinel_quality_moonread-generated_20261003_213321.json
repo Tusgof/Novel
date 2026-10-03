@@ -1,0 +1,2800 @@
+{
+  "created_at": "2026-10-03T21:33:21.818242+00:00",
+  "scope": "moonread-generated",
+  "chapters": "all configured/current",
+  "counts": {
+    "blocker": 316,
+    "major": 56,
+    "minor": 26,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch022\\ch022.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\05_Output\\ch022\\ch022.md:93: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch022.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\deep-sea-embers\\chapters\\ch022.md:93: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\chapters\\ch022.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\chapters\\ch022.md:93: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch024\\ch024.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch024\\ch024.md: paragraph 28 too dense (643 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch025\\ch025.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch025\\ch025.md: paragraph 2 too dense (755 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch025\\ch025.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch025\\ch025.md: paragraph 4 too dense (734 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch028\\ch028.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch028\\ch028.md: paragraph 8 too dense (536 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch033\\ch033.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch033\\ch033.md: paragraph 3 too dense (530 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch033\\ch033.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch033\\ch033.md: paragraph 8 too dense (701 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch033\\ch033.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch033\\ch033.md: paragraph 12 too dense (533 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch033\\ch033.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch033\\ch033.md: paragraph 14 too dense (991 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch036\\ch036.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch036\\ch036.md: paragraph 23 too dense (523 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch042\\ch042.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch042\\ch042.md: paragraph 3 too dense (562 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch042\\ch042.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch042\\ch042.md: paragraph 7 too dense (561 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch042\\ch042.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch042\\ch042.md: paragraph 9 too dense (781 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch042\\ch042.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch042\\ch042.md: paragraph 10 too dense (1129 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch042\\ch042.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch042\\ch042.md: paragraph 12 too dense (10169 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch048\\ch048.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch048\\ch048.md: paragraph 41 too dense (702 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch049\\ch049.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch049\\ch049.md: paragraph 2 too dense (762 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch049\\ch049.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch049\\ch049.md: paragraph 4 too dense (11783 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch050\\ch050.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch050\\ch050.md: paragraph 3 too dense (630 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch050\\ch050.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch050\\ch050.md: paragraph 14 too dense (546 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch051\\ch051.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch051\\ch051.md: paragraph 10 too dense (950 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch052\\ch052.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch052\\ch052.md: paragraph 5 too dense (630 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch052\\ch052.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch052\\ch052.md: paragraph 30 too dense (557 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch055\\ch055.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch055\\ch055.md: paragraph 2 too dense (588 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch060\\ch060.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch060\\ch060.md: paragraph 2 too dense (1065 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch060\\ch060.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch060\\ch060.md: paragraph 5 too dense (629 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch060\\ch060.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch060\\ch060.md: paragraph 6 too dense (1692 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch060\\ch060.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch060\\ch060.md: paragraph 7 too dense (1255 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch060\\ch060.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch060\\ch060.md: paragraph 8 too dense (563 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch062\\ch062.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch062\\ch062.md: paragraph 3 too dense (606 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch062\\ch062.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch062\\ch062.md: paragraph 4 too dense (562 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch068\\ch068.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch068\\ch068.md: paragraph 2 too dense (593 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch069\\ch069.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch069\\ch069.md: paragraph 2 too dense (656 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch070\\ch070.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch070\\ch070.md: paragraph 34 too dense (527 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch075\\ch075.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch075\\ch075.md: paragraph 3 too dense (667 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch075\\ch075.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch075\\ch075.md: paragraph 5 too dense (524 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch075\\ch075.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch075\\ch075.md: paragraph 13 too dense (641 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch084\\ch084.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch084\\ch084.md: paragraph 78 too dense (573 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch088\\ch088.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch088\\ch088.md: paragraph 3 too dense (527 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch097\\ch097.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch097\\ch097.md: paragraph 6 too dense (710 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch097\\ch097.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch097\\ch097.md: paragraph 13 too dense (2028 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch099\\ch099.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch099\\ch099.md: paragraph 4 too dense (527 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch099\\ch099.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch099\\ch099.md: paragraph 7 too dense (736 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch099\\ch099.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch099\\ch099.md: paragraph 9 too dense (545 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch101\\ch101.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch101\\ch101.md: paragraph 2 too dense (1027 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch104\\ch104.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch104\\ch104.md: paragraph 2 too dense (1012 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch104\\ch104.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch104\\ch104.md: paragraph 5 too dense (532 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch104\\ch104.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch104\\ch104.md: paragraph 8 too dense (934 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch104\\ch104.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch104\\ch104.md: paragraph 10 too dense (595 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch104\\ch104.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch104\\ch104.md: paragraph 11 too dense (534 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch104\\ch104.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch104\\ch104.md: paragraph 12 too dense (549 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch104\\ch104.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch104\\ch104.md: paragraph 13 too dense (521 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch109\\ch109.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch109\\ch109.md: paragraph 11 too dense (582 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch109\\ch109.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch109\\ch109.md: paragraph 26 too dense (964 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch110\\ch110.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch110\\ch110.md: paragraph 7 too dense (590 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch112\\ch112.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch112\\ch112.md: paragraph 2 too dense (928 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch112\\ch112.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch112\\ch112.md: paragraph 4 too dense (720 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch113\\ch113.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch113\\ch113.md: paragraph 45 too dense (580 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch118\\ch118.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch118\\ch118.md: paragraph 59 too dense (650 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch119\\ch119.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch119\\ch119.md: paragraph 2 too dense (737 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch119\\ch119.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch119\\ch119.md: paragraph 3 too dense (634 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch119\\ch119.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch119\\ch119.md: paragraph 5 too dense (652 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch120\\ch120.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch120\\ch120.md: paragraph 20 too dense (526 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch122\\ch122.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch122\\ch122.md: paragraph 56 too dense (804 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch125\\ch125.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch125\\ch125.md: paragraph 2 too dense (991 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch125\\ch125.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch125\\ch125.md: paragraph 4 too dense (1586 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch125\\ch125.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch125\\ch125.md: paragraph 6 too dense (566 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch125\\ch125.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch125\\ch125.md: paragraph 10 too dense (531 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch128\\ch128.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch128\\ch128.md: paragraph 14 too dense (566 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch131\\ch131.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch131\\ch131.md: paragraph 2 too dense (711 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch131\\ch131.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch131\\ch131.md: paragraph 9 too dense (610 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch133\\ch133.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch133\\ch133.md: paragraph 15 too dense (1039 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch136\\ch136.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch136\\ch136.md: paragraph 21 too dense (527 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch137\\ch137.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch137\\ch137.md: paragraph 21 too dense (576 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch145\\ch145.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch145\\ch145.md: paragraph 12 too dense (735 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch145\\ch145.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch145\\ch145.md: paragraph 14 too dense (689 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch145\\ch145.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch145\\ch145.md: paragraph 15 too dense (849 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch145\\ch145.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch145\\ch145.md: paragraph 17 too dense (616 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch147\\ch147.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch147\\ch147.md: paragraph 2 too dense (543 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch147\\ch147.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch147\\ch147.md: paragraph 4 too dense (634 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch149\\ch149.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch149\\ch149.md: paragraph 4 too dense (643 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch149\\ch149.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch149\\ch149.md: paragraph 8 too dense (676 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch150\\ch150.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch150\\ch150.md: paragraph 6 too dense (525 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch150\\ch150.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch150\\ch150.md: paragraph 32 too dense (665 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch151\\ch151.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch151\\ch151.md: paragraph 4 too dense (603 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch151\\ch151.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch151\\ch151.md: paragraph 6 too dense (614 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch151\\ch151.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch151\\ch151.md: paragraph 7 too dense (635 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch155\\ch155.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch155\\ch155.md: paragraph 3 too dense (690 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch163\\ch163.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch163\\ch163.md: paragraph 19 too dense (545 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch163\\ch163.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch163\\ch163.md: paragraph 29 too dense (572 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch163\\ch163.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch163\\ch163.md: paragraph 42 too dense (568 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch168\\ch168.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch168\\ch168.md: paragraph 2 too dense (1004 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch170\\ch170.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch170\\ch170.md: paragraph 2 too dense (657 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch172\\ch172.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch172\\ch172.md: paragraph 3 too dense (567 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch172\\ch172.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch172\\ch172.md: paragraph 9 too dense (564 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch172\\ch172.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch172\\ch172.md: paragraph 10 too dense (613 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch174\\ch174.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch174\\ch174.md: paragraph 13 too dense (555 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch180\\ch180.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch180\\ch180.md: paragraph 3 too dense (1128 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch180\\ch180.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch180\\ch180.md: paragraph 9 too dense (694 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch180\\ch180.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch180\\ch180.md: paragraph 10 too dense (532 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch180\\ch180.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch180\\ch180.md: paragraph 11 too dense (521 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch180\\ch180.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch180\\ch180.md: paragraph 12 too dense (1575 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch183\\ch183.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch183\\ch183.md: paragraph 56 too dense (550 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch189\\ch189.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch189\\ch189.md: paragraph 6 too dense (554 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch189\\ch189.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch189\\ch189.md: paragraph 7 too dense (663 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch189\\ch189.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch189\\ch189.md: paragraph 9 too dense (621 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch196\\ch196.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch196\\ch196.md: paragraph 4 too dense (542 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch200\\ch200.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch200\\ch200.md: paragraph 2 too dense (581 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch200\\ch200.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch200\\ch200.md: paragraph 4 too dense (569 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch200\\ch200.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch200\\ch200.md: paragraph 8 too dense (549 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch293\\ch293.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch293\\ch293.md: paragraph 2 too dense (548 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch293\\ch293.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch293\\ch293.md: paragraph 4 too dense (546 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch293\\ch293.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch293\\ch293.md: paragraph 7 too dense (527 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch293\\ch293.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch293\\ch293.md: paragraph 8 too dense (528 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch293\\ch293.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch293\\ch293.md: paragraph 10 too dense (544 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch059\\ch059.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch059\\ch059.md:43: malformed markdown empty emphasis marker",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch097\\ch097.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch097\\ch097.md:15: malformed markdown empty emphasis marker",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch100\\ch100.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch100\\ch100.md:29: malformed markdown empty emphasis marker",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch142\\ch142.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch142\\ch142.md:52: malformed markdown empty emphasis marker",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch153\\ch153.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch153\\ch153.md:81: malformed markdown empty emphasis marker",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch059.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch059.md:43: malformed markdown empty emphasis marker",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch097.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch097.md:15: malformed markdown empty emphasis marker",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch100.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch100.md:29: malformed markdown empty emphasis marker",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch142.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch142.md:52: malformed markdown empty emphasis marker",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch153.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch153.md:81: malformed markdown empty emphasis marker",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch022\\ch022.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch022\\ch022.md: forbidden variant remains: *Click!*",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch022\\ch022.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch022\\ch022.md: forbidden variant remains: *Takakakakaka—*",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch022\\ch022.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch022\\ch022.md: forbidden variant remains: *Tak!*",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch022\\ch022.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch022\\ch022.md: forbidden variant remains: *To Tok—*",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch027\\ch027.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch027\\ch027.md: forbidden variant remains: Jump Scare",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch027\\ch027.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch027\\ch027.md: forbidden variant remains: [Seth's USB stick]",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch050\\ch050.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch050\\ch050.md: forbidden variant remains: กู",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch052\\ch052.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch052\\ch052.md: forbidden variant remains: กู",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch056\\ch056.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch056\\ch056.md: forbidden variant remains: กู",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch076\\ch076.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch076\\ch076.md: forbidden variant remains: กู",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch077\\ch077.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch077\\ch077.md: forbidden variant remains: กู",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch097\\ch097.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch097\\ch097.md: forbidden variant remains: กู",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch106\\ch106.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch106\\ch106.md: forbidden variant remains: กู",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch118\\ch118.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch118\\ch118.md: forbidden variant remains: กู",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch121\\ch121.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch121\\ch121.md: forbidden variant remains: กู",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch122\\ch122.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch122\\ch122.md: forbidden variant remains: กู",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch124\\ch124.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch124\\ch124.md: forbidden variant remains: กู",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch132\\ch132.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch132\\ch132.md: forbidden variant remains: กู",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch188\\ch188.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch188\\ch188.md: forbidden variant remains: กู",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch091.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch091.md: approved glossary English remains: Trauma Counselor -> ที่ปรึกษาด้านบาดแผลทางใจ (Trauma Consultant.md)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch026\\ch026.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch026\\ch026.md: Seth-dominant HGD chapter still contains first-person drift marker: ฉัน",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch027\\ch027.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch027\\ch027.md: Seth-dominant HGD chapter still contains first-person drift marker: ฉัน",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch028\\ch028.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch028\\ch028.md: Seth-dominant HGD chapter still contains first-person drift marker: ฉัน",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch031\\ch031.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch031\\ch031.md: Seth-dominant HGD chapter still contains first-person drift marker: ฉัน",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch033\\ch033.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch033\\ch033.md: Seth-dominant HGD chapter still contains first-person drift marker: ฉัน",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch035\\ch035.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch035\\ch035.md: Seth-dominant HGD chapter still contains first-person drift marker: ฉัน",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch049\\ch049.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch049\\ch049.md: horror-game-developer output appears truncated versus source (source chars=8839, output chars=1174, ratio=0.13)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch021\\ch021.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch021\\ch021.md: paragraph 15 too dense (742 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch023\\ch023.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch023\\ch023.md: paragraph 56 too dense (667 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch023\\ch023.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch023\\ch023.md: paragraph 66 too dense (801 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch025\\ch025.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch025\\ch025.md: paragraph 4 too dense (663 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch032\\ch032.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch032\\ch032.md: paragraph 79 too dense (781 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch037\\ch037.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch037\\ch037.md: paragraph 9 too dense (754 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch040\\ch040.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch040\\ch040.md: paragraph 39 too dense (680 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch042\\ch042.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch042\\ch042.md: paragraph 30 too dense (665 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch047\\ch047.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch047\\ch047.md: paragraph 42 too dense (726 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch047\\ch047.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch047\\ch047.md: paragraph 72 too dense (786 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch069\\ch069.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch069\\ch069.md: paragraph 75 too dense (803 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md: paragraph 861 too dense (674 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md: paragraph 869 too dense (832 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md: paragraph 870 too dense (736 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md: paragraph 874 too dense (848 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md: paragraph 876 too dense (836 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md: paragraph 878 too dense (785 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md: paragraph 881 too dense (830 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md: paragraph 882 too dense (835 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md: paragraph 885 too dense (839 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md: paragraph 890 too dense (691 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md: paragraph 892 too dense (795 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 203 too dense (725 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 204 too dense (712 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 207 too dense (680 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 215 too dense (754 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 216 too dense (832 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 218 too dense (724 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 219 too dense (844 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 221 too dense (658 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 223 too dense (822 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 224 too dense (848 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 227 too dense (803 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 598 too dense (845 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 599 too dense (740 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 601 too dense (790 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 603 too dense (833 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 606 too dense (819 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 607 too dense (700 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 608 too dense (848 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 611 too dense (720 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 614 too dense (807 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 615 too dense (840 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 618 too dense (770 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 620 too dense (702 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 621 too dense (754 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 624 too dense (840 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 625 too dense (820 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 626 too dense (812 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 883 too dense (656 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 885 too dense (829 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 889 too dense (840 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 899 too dense (775 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 902 too dense (836 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 903 too dense (834 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 907 too dense (683 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 911 too dense (812 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md: paragraph 1123 too dense (764 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md: paragraph 985 too dense (823 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md: paragraph 989 too dense (676 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md: paragraph 993 too dense (787 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md: paragraph 995 too dense (841 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md: paragraph 1003 too dense (814 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md: paragraph 1005 too dense (829 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md: paragraph 1007 too dense (830 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md: paragraph 1008 too dense (792 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md: paragraph 1226 too dense (848 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md: paragraph 1229 too dense (840 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md: paragraph 1233 too dense (718 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md: paragraph 1239 too dense (836 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md: paragraph 1241 too dense (678 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md: paragraph 1243 too dense (815 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md: paragraph 1244 too dense (768 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md: paragraph 1247 too dense (838 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md: paragraph 1252 too dense (747 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md: paragraph 1253 too dense (846 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md:2753: duplicate title-like body paragraph: ตอนที่ 7… จุดเริ่มต้นของบทที่ 3",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch006\\ch006.md:3: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md:2245: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch007\\ch007.md:2295: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md:3: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md:87: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md:195: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md:715: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md:747: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md:751: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md:1083: malformed markdown has trailing extra emphasis markers",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md:2743: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\05_Output\\ch008\\ch008.md:2767: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch008.md:2753: duplicate title-like body paragraph: ตอนที่ 7… จุดเริ่มต้นของบทที่ 3",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch006.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch006.md:3: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch007.md:2245: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch007.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch007.md:2295: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch008.md:3: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch008.md:87: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch008.md:195: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch008.md:715: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch008.md:747: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch008.md:751: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch008.md:1083: malformed markdown has trailing extra emphasis markers",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch008.md:2743: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch008.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\re-zero-watching-him-die-again-and-again\\chapters\\ch008.md:2767: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch091\\ch091.md",
+      "message": "final_output: approved English remains: Trauma Counselor -> ที่ปรึกษาด้านบาดแผลทางใจ",
+      "evidence": "Trauma Consultant.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch091.md",
+      "message": "moonread: approved English remains: Trauma Counselor -> ที่ปรึกษาด้านบาดแผลทางใจ",
+      "evidence": "Trauma Consultant.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch050\\ch050.md",
+      "message": "final_output: approved English remains: Meteor Shower -> ฝนดาวตก",
+      "evidence": "Meteor Shower.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "approved_glossary_leakage",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\infinite-regressor-stories\\chapters\\ch050.md",
+      "message": "moonread: approved English remains: Meteor Shower -> ฝนดาวตก",
+      "evidence": "Meteor Shower.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch036\\ch036.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Velora Art Museum -> พิพิธภัณฑ์ศิลปะเวโลรา; glossary=Velora Art Museum.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch036\\ch036.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Art Museum -> พิพิธภัณฑ์ศิลปะเวโลรา; glossary=Velora Art Museum.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch036.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Velora Art Museum -> พิพิธภัณฑ์ศิลปะเวโลรา; glossary=Velora Art Museum.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch036.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Art Museum -> พิพิธภัณฑ์ศิลปะเวโลรา; glossary=Velora Art Museum.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch037\\ch037.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Velora Art Museum -> พิพิธภัณฑ์ศิลปะเวโลรา; glossary=Velora Art Museum.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch037\\ch037.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Art Museum -> พิพิธภัณฑ์ศิลปะเวโลรา; glossary=Velora Art Museum.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch037.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Velora Art Museum -> พิพิธภัณฑ์ศิลปะเวโลรา; glossary=Velora Art Museum.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch037.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Art Museum -> พิพิธภัณฑ์ศิลปะเวโลรา; glossary=Velora Art Museum.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch041\\ch041.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Bureau -> สำนักงาน; glossary=The Bureau.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch041.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Bureau -> สำนักงาน; glossary=The Bureau.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch042\\ch042.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch042.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Nightwalker -> นักเดินราตรี; glossary=The Nightwalker.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch049\\ch049.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Saint Marie -> เซนต์แมรี; glossary=Saint Mary.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch049.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Saint Marie -> เซนต์แมรี; glossary=Saint Mary.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch052\\ch052.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Continuation Quest Activated -> เควสต์ต่อเนื่องเริ่มทำงาน; glossary=Continuation Quest Activated.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch052\\ch052.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Optional Quest Completed -> เควสต์เสริมเริ่มทำงาน; glossary=Optional Quest Activated.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch052\\ch052.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Quest Activated -> เควสต์เริ่มทำงาน; glossary=Quest Activated.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch052.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Continuation Quest Activated -> เควสต์ต่อเนื่องเริ่มทำงาน; glossary=Continuation Quest Activated.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch052.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Optional Quest Completed -> เควสต์เสริมเริ่มทำงาน; glossary=Optional Quest Activated.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch052.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Quest Activated -> เควสต์เริ่มทำงาน; glossary=Quest Activated.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch055\\ch055.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "The Guild Master -> หัวหน้ากิลด์; glossary=The Guild Master.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch055\\ch055.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Ivory Dominion -> กิลด์ไอวอรีโดมิเนียน; glossary=Ivory Dominion Guild.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch055\\ch055.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Guild Master -> หัวหน้ากิลด์; glossary=Guild Master.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch055.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "The Guild Master -> หัวหน้ากิลด์; glossary=The Guild Master.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch055.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Ivory Dominion -> กิลด์ไอวอรีโดมิเนียน; glossary=Ivory Dominion Guild.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch055.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Guild Master -> หัวหน้ากิลด์; glossary=Guild Master.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch058\\ch058.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Crownfall -> กิลด์คราวน์ฟอลล์; glossary=Crownfall Guild.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch058.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Crownfall -> กิลด์คราวน์ฟอลล์; glossary=Crownfall Guild.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch060\\ch060.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Crownfall -> กิลด์คราวน์ฟอลล์; glossary=Crownfall Guild.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch060.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Crownfall -> กิลด์คราวน์ฟอลล์; glossary=Crownfall Guild.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch070\\ch070.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Conceptualization Decree -> ประกาศิตแห่งการรังสรรค์; glossary=Conceptualization Decree.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch070\\ch070.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Conceptualization -> การรังสรรค์; glossary=Conceptualization.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch070\\ch070.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Elemental Decree -> ประกาศิตธาตุ; glossary=Elemental Decree.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch070\\ch070.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Temperal Decree -> ประกาศิตกาลเวลา; glossary=Temperal Decree.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch070.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Conceptualization Decree -> ประกาศิตแห่งการรังสรรค์; glossary=Conceptualization Decree.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch070.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Conceptualization -> การรังสรรค์; glossary=Conceptualization.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch070.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Elemental Decree -> ประกาศิตธาตุ; glossary=Elemental Decree.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch070.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Temperal Decree -> ประกาศิตกาลเวลา; glossary=Temperal Decree.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch071\\ch071.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Queen-Grade Guild -> กิลด์ระดับควีน; glossary=Queen-Grade Guild.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch071\\ch071.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Crownfall -> กิลด์คราวน์ฟอลล์; glossary=Crownfall Guild.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch071.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Queen-Grade Guild -> กิลด์ระดับควีน; glossary=Queen-Grade Guild.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch071.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Crownfall -> กิลด์คราวน์ฟอลล์; glossary=Crownfall Guild.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch077\\ch077.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Crownfall -> กิลด์คราวน์ฟอลล์; glossary=Crownfall Guild.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch077.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Crownfall -> กิลด์คราวน์ฟอลล์; glossary=Crownfall Guild.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch078\\ch078.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Bureau -> สำนักงาน; glossary=The Bureau.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch078\\ch078.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sigil -> ซิจิล; glossary=Sigil.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch078.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Bureau -> สำนักงาน; glossary=The Bureau.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch078.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Sigil -> ซิจิล; glossary=Sigil.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch079\\ch079.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Ranked Anomalous Entity -> เอนทิตีผิดปกติจัดแรงก์; glossary=Ranked Anomalous Entity.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch079\\ch079.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Horde-Type Gate -> เกตประเภทฝูง; glossary=Horde-Type Gate.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch079\\ch079.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "S-Ranked Gate -> เกตแรงก์ S; glossary=S-Ranked Gate.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch079.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Ranked Anomalous Entity -> เอนทิตีผิดปกติจัดแรงก์; glossary=Ranked Anomalous Entity.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch079.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Horde-Type Gate -> เกตประเภทฝูง; glossary=Horde-Type Gate.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch079.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "S-Ranked Gate -> เกตแรงก์ S; glossary=S-Ranked Gate.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch080\\ch080.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Conceptualization Decree -> ประกาศิตแห่งการรังสรรค์; glossary=Conceptualization Decree.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch080\\ch080.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Ranked Anomalous Entity -> เอนทิตีผิดปกติจัดแรงก์; glossary=Ranked Anomalous Entity.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch080\\ch080.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Decree Shepherd -> เชพเพิร์ดแห่งประกาศิต; glossary=Decree Shepherd.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch080\\ch080.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Shepherd Decree -> ประกาศิตเชพเพิร์ด; glossary=Shepherd Decree.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch080.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Conceptualization Decree -> ประกาศิตแห่งการรังสรรค์; glossary=Conceptualization Decree.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch080.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Ranked Anomalous Entity -> เอนทิตีผิดปกติจัดแรงก์; glossary=Ranked Anomalous Entity.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch080.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Decree Shepherd -> เชพเพิร์ดแห่งประกาศิต; glossary=Decree Shepherd.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch080.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Shepherd Decree -> ประกาศิตเชพเพิร์ด; glossary=Shepherd Decree.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch084\\ch084.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Ranked Anomalous Entity -> เอนทิตีผิดปกติจัดแรงก์; glossary=Ranked Anomalous Entity.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch084.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Ranked Anomalous Entity -> เอนทิตีผิดปกติจัดแรงก์; glossary=Ranked Anomalous Entity.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch091\\ch091.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Trauma Counselor -> ที่ปรึกษาด้านบาดแผลทางใจ; glossary=Trauma Consultant.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch091.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Trauma Counselor -> ที่ปรึกษาด้านบาดแผลทางใจ; glossary=Trauma Consultant.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch092\\ch092.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Bureau -> สำนักงาน; glossary=The Bureau.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch092.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Bureau -> สำนักงาน; glossary=The Bureau.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch093\\ch093.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Quit -> ออกจากเกม; glossary=Quit.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch093.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Quit -> ออกจากเกม; glossary=Quit.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch121\\ch121.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Trauma Counselor -> ที่ปรึกษาด้านบาดแผลทางใจ; glossary=Trauma Consultant.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch121.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Trauma Counselor -> ที่ปรึกษาด้านบาดแผลทางใจ; glossary=Trauma Consultant.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch128\\ch128.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Team Leader -> หัวหน้ากลุ่ม; glossary=Group Leader.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch128.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Team Leader -> หัวหน้ากลุ่ม; glossary=Group Leader.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch129\\ch129.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Memory Leak -> เมมโมรีลีค; glossary=Memory Leak.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch129.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Memory Leak -> เมมโมรีลีค; glossary=Memory Leak.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch130\\ch130.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Containment Department -> แผนกกักกัน; glossary=Containment Department.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch130\\ch130.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Containment Sector -> ภาคส่วนกักกัน; glossary=Containment Sector.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch130.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Containment Department -> แผนกกักกัน; glossary=Containment Department.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch130.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Containment Sector -> ภาคส่วนกักกัน; glossary=Containment Sector.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch132\\ch132.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Containment Department -> แผนกกักกัน; glossary=Containment Department.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch132\\ch132.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Hoarding Department -> แผนกกักเก็บ; glossary=Hoarding Department.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch132.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Containment Department -> แผนกกักกัน; glossary=Containment Department.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch132.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Hoarding Department -> แผนกกักเก็บ; glossary=Hoarding Department.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch133\\ch133.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Chain Quest Activated -> เควสต์ลูกโซ่เปิดใช้งานแล้ว; glossary=Chain Quest Activated.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch133\\ch133.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Quest Activated -> เควสต์เริ่มทำงาน; glossary=Quest Activated.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch133.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Chain Quest Activated -> เควสต์ลูกโซ่เปิดใช้งานแล้ว; glossary=Chain Quest Activated.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch133.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Quest Activated -> เควสต์เริ่มทำงาน; glossary=Quest Activated.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch142\\ch142.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Chameleon Cloak -> ผ้าคลุมคาเมเลียน; glossary=Chameleon Cloak.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch142\\ch142.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Echo Compass -> เข็มทิศสะท้อนเสียง; glossary=Echo Compass.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch142\\ch142.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Quantum Deck -> เด็คควอนตัม; glossary=Quantum Deck.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch142.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Chameleon Cloak -> ผ้าคลุมคาเมเลียน; glossary=Chameleon Cloak.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch142.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Echo Compass -> เข็มทิศสะท้อนเสียง; glossary=Echo Compass.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch142.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Quantum Deck -> เด็คควอนตัม; glossary=Quantum Deck.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch150\\ch150.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Cognitive Shard -> เศษเสี้ยวปัญญา; glossary=Cognitive Shard.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch150.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Cognitive Shard -> เศษเสี้ยวปัญญา; glossary=Cognitive Shard.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch151\\ch151.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Second Order Shepherd -> เชพเพิร์ดลำดับที่สอง; glossary=Second Order Shepherd.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch151.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Second Order Shepherd -> เชพเพิร์ดลำดับที่สอง; glossary=Second Order Shepherd.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch153\\ch153.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Continuation Quest Activated -> เควสต์ต่อเนื่องเริ่มทำงาน; glossary=Continuation Quest Activated.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch153.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Continuation Quest Activated -> เควสต์ต่อเนื่องเริ่มทำงาน; glossary=Continuation Quest Activated.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch155\\ch155.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Collection Department -> แผนกรวบรวม; glossary=Collection Department.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch155.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Collection Department -> แผนกรวบรวม; glossary=Collection Department.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch176\\ch176.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Twisted Man -> ชายบิดเบี้ยว; glossary=Twisted Man.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch176.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Twisted Man -> ชายบิดเบี้ยว; glossary=Twisted Man.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch190\\ch190.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Cognitive Shard -> เศษเสี้ยวปัญญา; glossary=Cognitive Shard.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch190.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Cognitive Shard -> เศษเสี้ยวปัญญา; glossary=Cognitive Shard.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch210\\ch210.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Containment Department -> แผนกกักกัน; glossary=Containment Department.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch210.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Containment Department -> แผนกกักกัน; glossary=Containment Department.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch217\\ch217.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Containment Department -> แผนกกักกัน; glossary=Containment Department.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch217.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Containment Department -> แผนกกักกัน; glossary=Containment Department.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch221\\ch221.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Continue -> ดำเนินการต่อ; glossary=Continue.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch221.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Continue -> ดำเนินการต่อ; glossary=Continue.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch229\\ch229.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Containment Department -> แผนกกักกัน; glossary=Containment Department.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch229.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Containment Department -> แผนกกักกัน; glossary=Containment Department.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch230\\ch230.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Containment Department -> แผนกกักกัน; glossary=Containment Department.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch230.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Containment Department -> แผนกกักกัน; glossary=Containment Department.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch249\\ch249.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous Gate -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch249.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous Gate -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch024\\ch024.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Infinite Regressor -> ผู้ย้อนกลับไม่สิ้นสุด; glossary=Infinite Regressor.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\infinite-regressor-stories\\chapters\\ch024.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Infinite Regressor -> ผู้ย้อนกลับไม่สิ้นสุด; glossary=Infinite Regressor.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch027\\ch027.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Puppeteer -> คนเชิดหุ่น; glossary=Puppeteer.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\infinite-regressor-stories\\chapters\\ch027.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Puppeteer -> คนเชิดหุ่น; glossary=Puppeteer.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch029\\ch029.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Romans -> โรม; glossary=Romans.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\infinite-regressor-stories\\chapters\\ch029.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Romans -> โรม; glossary=Romans.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch032\\ch032.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Fukuoka Korean Association -> สมาคมชาวเกาหลีฟุกุโอกะ; glossary=Fukuoka Korean Association.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\infinite-regressor-stories\\chapters\\ch032.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Fukuoka Korean Association -> สมาคมชาวเกาหลีฟุกุโอกะ; glossary=Fukuoka Korean Association.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch037\\ch037.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Infinite Regressor -> ผู้ย้อนกลับไม่สิ้นสุด; glossary=Infinite Regressor.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch037\\ch037.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Three Kingdoms -> สามก๊ก; glossary=Three Kingdoms.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\infinite-regressor-stories\\chapters\\ch037.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Infinite Regressor -> ผู้ย้อนกลับไม่สิ้นสุด; glossary=Infinite Regressor.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\infinite-regressor-stories\\chapters\\ch037.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Three Kingdoms -> สามก๊ก; glossary=Three Kingdoms.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch046\\ch046.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Infinite Regressor -> ผู้ย้อนกลับไม่สิ้นสุด; glossary=Infinite Regressor.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\infinite-regressor-stories\\chapters\\ch046.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Infinite Regressor -> ผู้ย้อนกลับไม่สิ้นสุด; glossary=Infinite Regressor.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch048\\ch048.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Infinite Regressor -> ผู้ย้อนกลับไม่สิ้นสุด; glossary=Infinite Regressor.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\infinite-regressor-stories\\chapters\\ch048.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Infinite Regressor -> ผู้ย้อนกลับไม่สิ้นสุด; glossary=Infinite Regressor.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch050\\ch050.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Man Seo Gyu -> ชายซอกยู; glossary=Man Seo Gyu.md"
+    },
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\infinite-regressor-stories\\chapters\\ch050.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Man Seo Gyu -> ชายซอกยู; glossary=Man Seo Gyu.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\05_Output\\ch056\\ch056.md",
+      "message": "final_output: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Complete Memory -> ความทรงจำสมบูรณ์; glossary=Complete Memory.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\infinite-regressor-stories\\chapters\\ch056.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Complete Memory -> ความทรงจำสมบูรณ์; glossary=Complete Memory.md"
+    }
+  ]
+}
