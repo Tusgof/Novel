@@ -359,6 +359,23 @@ Status: complete. Evidence: `07_Reports/dse_ch181_ch185_production_checkpoint_20
 
 Status: complete as an experiment-only evaluation. HGD `ch001` completed the minimal pipeline smoke with 4 provider calls, 0 provider failures, and Sentinel `0/0/0/0`. One Hit Kill Swordmaster setup fetched/validated `ch001-ch095`, and the locked 10-chapter sample completed across `pilot_v6`, `pilot_v9`, and `pilot_v10`; final deterministic checks and Sentinel passed `0/0/0/0`. The valid QA fallback adjudication change is regression-tested. No experiment output was published to MoonRead, and no OOS run was required. Evidence: `07_Reports/v6_36_lean_pipeline_experiment_completion_20261003.md`, `07_Reports/v6_36_lean_pipeline_metrics_20261003.json`, and the isolated experiment vaults.
 
+## Milestone 9: V6.37 OHKS Checkpoint And Review Follow-up
+
+**Goal**: Test recovery/checkpoint behavior, targeted QA adjudication, evidence-reviewed glossary harvesting, and retry-inclusive measurement on five additional OHKS raw chapters.
+**Dependencies**: Milestone 8 complete; verified OHKS raw chapters.
+
+| # | Task | Effort | Risk | Verification |
+|:--|:-----|:------:|:----:|:-------------|
+| 9.1 | Run the checkpointed lean pipeline on five new OHKS raw chapters | L | ⚠️ | All five chapter outputs and per-stage checkpoints exist |
+| 9.2 | Verify resume reuses completed stages without new provider calls | S | ✅ | Trace count is unchanged on a second `--resume` run |
+| 9.3 | Run blocking and advisory Sentinel plus deterministic output scans | M | ⚠️ | Blocking counts are `0/0/0/0`; advisory findings are classified |
+| 9.4 | Compare cost, calls, provider time, failures, and spot-check quality with the prior slice | S | ✅ | Numeric comparison report exists |
+| 9.5 | Decide next profile/title work without publishing experiment output | S | ✅ | Report records the title/profile gap and next bounded action |
+
+**Milestone complete when**: checkpoint reuse is independently verified, all five chapters have evidence-backed quality results, and the comparison distinguishes recoverability gains from cost/speed gains.
+
+Status: complete after the v2 rerun. All five chapters passed blocking Sentinel `0/0/0/0`; advisory Sentinel found `33` minor English/title or game/UI findings. The first v2 attempt stopped safely on truncated `ch090` literal output, then resume reran only the broken chapter. A second complete resume added zero provider calls and reused all five stages for all five chapters. Metrics were `25` calls, `4` failures, `1,122.728s`, `182,904` tokens, and `$0.286459146`; cost/speed did not improve versus the prior slice. No experiment output was published. Evidence: `07_Reports/v6_37_ohks_five_chapter_checkpoint_review_v2_20261003.md`, `07_Reports/sentinel_quality_experiment_20261003_024140.md`, and the isolated experiment vault.
+
 ## Execution Notes
 
 - **Blocked items**:

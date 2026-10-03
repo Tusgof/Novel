@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-10-03T02:41:40.387711+00:00",
+  "scope": "experiment",
+  "chapters": "ch002,ch017,ch032,ch055,ch090",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

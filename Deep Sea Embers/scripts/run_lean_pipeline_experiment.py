@@ -8,6 +8,7 @@ once. Every provider call is traced when ``--trace-dir`` is supplied.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -35,6 +36,53 @@ from novel_pipeline.files import atomic_write_json
 
 def _utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def _digest(value: Any) -> str:
+    payload = json.dumps(value, ensure_ascii=False, sort_keys=True, default=str).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def _file_digest(path: Path) -> str:
+    if not path.exists():
+        return "missing"
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _pipeline_prompt_digest(config: Any) -> str:
+    names = ("literal_translation.md", "refinement.md", "qa_judge.md", "formatting.md", "term_harvest.md")
+    files = {name: _file_digest(config.workspace.prompts / name) for name in names}
+    files["style_profiles.yaml"] = _file_digest(config.workspace.system / "style_profiles.yaml")
+    research_path = config.workspace.root / "RESEARCH_PROFILE.yaml"
+    files["RESEARCH_PROFILE.yaml"] = _file_digest(research_path)
+    return _digest(files)
+
+
+def _glossary_digest(glossary: dict[str, Any]) -> str:
+    entries = [entry.to_dict() for entry in glossary.values()]
+    return _digest(entries)
+
+
+def _checkpoint_input_hash(*, stage: str, source_hash: str, glossary_hash: str, prompt_hash: str, dependencies: dict[str, str] | None = None) -> str:
+    return _digest(
+        {
+            "stage": stage,
+            "source_hash": source_hash,
+            "glossary_hash": glossary_hash,
+            "prompt_hash": prompt_hash,
+            "dependencies": dependencies or {},
+        }
+    )
+
+
+def _read_matching_checkpoint(path: Path, expected_input_hash: str) -> dict[str, Any] | None:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError, TypeError):
+        return None
+    if payload.get("input_hash") != expected_input_hash:
+        return None
+    return payload
 
 
 def _context(*, run_id: str, chapter_id: str, stage: str, block_id: str = "") -> None:
@@ -84,6 +132,7 @@ def _run_qa_with_configured_fallbacks(
     routes = [(config.provider_for_stage("qa_judge"), routing.model)]
     routes.extend(config.fallback_routes_for_stage("qa_judge"))
     failures: list[str] = []
+    previous_judge_feedback = ""
     for index, (provider_spec, model) in enumerate(routes):
         try:
             report = run_qa_stage(
@@ -95,6 +144,12 @@ def _run_qa_with_configured_fallbacks(
                 provider_runner=ProviderRunner(provider_spec),
                 model=model,
                 style_profile_key=style_profile_key,
+                retry_feedback=(
+                    "Review only the previous judge's alleged issue(s), and decide whether each is supported by the supplied source and refined text. "
+                    f"Previous judge feedback: {previous_judge_feedback}"
+                    if previous_judge_feedback
+                    else ""
+                ),
             )
             report.metadata["qa_route_index"] = index
             report.metadata["qa_fallback_used"] = index > 0
@@ -104,8 +159,20 @@ def _run_qa_with_configured_fallbacks(
             # Give the configured fallback an independent chance to verify it;
             # deterministic rule failures still return immediately above.
             if not report.passed and report.judge_provider != "rules" and index < len(routes) - 1:
+                previous_judge_feedback = report.feedback
                 failures.append(f"{provider_spec.name}: QA rejected draft: {report.feedback}")
                 continue
+            if previous_judge_feedback and report.passed and not _has_verbatim_adjudication_evidence(
+                report.feedback,
+                source_text=block.source_text,
+                refined_text=refined_draft.refined_text,
+            ):
+                report.passed = False
+                report.feedback = (
+                    "QA disagreement unresolved: the fallback PASS did not quote a source passage "
+                    "and its corresponding Thai passage verbatim."
+                )
+                report.metadata["qa_disagreement_unresolved"] = True
             if failures:
                 report.metadata["qa_adjudication_failures"] = failures
             return report
@@ -114,6 +181,15 @@ def _run_qa_with_configured_fallbacks(
             if index == len(routes) - 1:
                 raise
     raise RuntimeError("QA route list was empty.")
+
+
+def _has_verbatim_adjudication_evidence(feedback: str, *, source_text: str, refined_text: str) -> bool:
+    """Require a disagreeing PASS to cite both sides of the alleged issue."""
+    fragments = re.findall(r"(?:`([^`]{2,120})`|[\"“']([^\"”']{2,120})[\"”'])", feedback)
+    quoted = [next((part.strip() for part in pair if part.strip()), "") for pair in fragments]
+    source_hits = [fragment for fragment in quoted if fragment in source_text]
+    refined_hits = [fragment for fragment in quoted if fragment in refined_text]
+    return bool(source_hits and refined_hits)
 
 
 def _run_refinement_with_configured_fallbacks(
@@ -258,6 +334,128 @@ def _harvest_candidates(
     return candidates
 
 
+def _review_proposed_candidates(
+    *,
+    candidates: list[dict[str, Any]],
+    source_text: str,
+    final_text: str,
+) -> dict[str, Any]:
+    """Run a cheap evidence review before candidates enter the proposal queue."""
+    accepted: list[dict[str, Any]] = []
+    rejected: list[dict[str, Any]] = []
+    seen: dict[str, str] = {}
+    for candidate in candidates:
+        original = str(candidate.get("original_term", "")).strip()
+        thai = str(candidate.get("observed_thai", "")).strip()
+        reason = ""
+        if len(original) < 2 or "\n" in original or "\n" in thai:
+            reason = "invalid_term_shape"
+        elif original not in source_text:
+            reason = "source_evidence_missing"
+        elif thai not in final_text:
+            reason = "final_thai_evidence_missing"
+        elif original.lower() in {"chapter", "author", "note", "system", "level"}:
+            reason = "generic_noise"
+        elif original == thai or original in thai:
+            reason = "unchanged_source_term"
+        elif original in seen and seen[original] != thai:
+            reason = "conflicting_candidate_mapping"
+        if reason:
+            rejected.append({**candidate, "review_status": "rejected", "review_reason": reason})
+        else:
+            accepted.append({**candidate, "review_status": "accepted_for_proposal"})
+            seen[original] = thai
+    return {
+        "review": "deterministic_source_and_final_evidence",
+        "accepted": accepted,
+        "rejected": rejected,
+        "promoted_to_glossary": 0,
+    }
+
+
+def _promote_reviewed_candidates(
+    *,
+    review: dict[str, Any],
+    glossary: dict[str, GlossaryEntry],
+) -> tuple[list[GlossaryEntry], list[dict[str, Any]]]:
+    """Promote only high-confidence, non-conflicting terms into experiment memory."""
+    promoted: list[GlossaryEntry] = []
+    decisions: list[dict[str, Any]] = []
+    candidates = review.get("accepted", [])
+    grouped: dict[str, set[str]] = {}
+    for candidate in candidates:
+        grouped.setdefault(str(candidate.get("original_term", "")).strip(), set()).add(
+            str(candidate.get("observed_thai", "")).strip()
+        )
+    for candidate in candidates:
+        original = str(candidate.get("original_term", "")).strip()
+        thai = str(candidate.get("observed_thai", "")).strip()
+        reason = ""
+        existing = glossary.get(original)
+        if str(candidate.get("confidence", "")).strip().lower() != "high":
+            reason = "confidence_not_high"
+        elif len(grouped.get(original, set())) != 1:
+            reason = "conflicting_candidate_mapping"
+        elif existing and existing.thai_term != thai:
+            reason = "conflicts_with_existing_glossary"
+        elif existing:
+            reason = "already_in_experiment_glossary"
+        if reason:
+            decisions.append({**candidate, "promotion_status": "not_promoted", "promotion_reason": reason})
+            continue
+        entry = GlossaryEntry(
+            original_term=original,
+            thai_term=thai,
+            category=str(candidate.get("category", "term")) or "term",
+            status="approved",
+            source_language="en",
+            notes="Experiment-only approval from source/final evidence review.",
+            metadata={"experiment_only": True, "first_seen_chapter": candidate.get("chapter_id", "")},
+        )
+        glossary[original] = entry
+        promoted.append(entry)
+        decisions.append({**candidate, "promotion_status": "promoted_experiment_only"})
+    return promoted, decisions
+
+
+def _literal_from_dict(payload: dict[str, Any]) -> LiteralDraft:
+    return LiteralDraft(
+        block_id=str(payload.get("block_id", "")),
+        chapter_id=str(payload.get("chapter_id", "")),
+        sentence_pairs=tuple(LiteralSentencePair(**pair) for pair in payload.get("sentence_pairs", [])),
+        source_text=str(payload.get("source_text", "")),
+        provider=str(payload.get("provider", "")),
+        metadata=dict(payload.get("metadata", {})),
+    )
+
+
+def _refined_from_dict(payload: dict[str, Any]) -> RefinedDraft:
+    return RefinedDraft(
+        block_id=str(payload.get("block_id", "")),
+        chapter_id=str(payload.get("chapter_id", "")),
+        refined_text=str(payload.get("refined_text", "")),
+        provider=str(payload.get("provider", "")),
+        style_profile=str(payload.get("style_profile", "")),
+        source_text=str(payload.get("source_text", "")),
+        metadata=dict(payload.get("metadata", {})),
+    )
+
+
+def _qa_from_dict(payload: dict[str, Any]) -> Any:
+    from novel_pipeline.types import QAFinding, QAReport
+
+    return QAReport(
+        block_id=str(payload.get("block_id", "")),
+        chapter_id=str(payload.get("chapter_id", "")),
+        passed=bool(payload.get("passed", False)),
+        findings=tuple(QAFinding(**finding) for finding in payload.get("findings", [])),
+        feedback=str(payload.get("feedback", "")),
+        retry_count=int(payload.get("retry_count", 0)),
+        judge_provider=str(payload.get("judge_provider", "")),
+        metadata=dict(payload.get("metadata", {})),
+    )
+
+
 def _trace_metrics(trace_dir: Path) -> dict[str, Any]:
     calls = 0
     failures = 0
@@ -303,50 +501,102 @@ def _trace_metrics(trace_dir: Path) -> dict[str, Any]:
     }
 
 
-def run_chapter(config: Any, chapter_id: str, run_id: str, output_dir: Path, trace_dir: Path) -> dict[str, Any]:
+def run_chapter(
+    config: Any,
+    chapter_id: str,
+    run_id: str,
+    output_dir: Path,
+    trace_dir: Path,
+    *,
+    resume: bool = False,
+    glossary: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     source, blocks = _load_chapter_source_and_blocks(config, chapter_id)
-    glossary = load_glossary_index(config.workspace.glossary_dir)
+    glossary = glossary if glossary is not None else load_glossary_index(config.workspace.glossary_dir)
+    source_hash = _digest({"chapter_id": chapter_id, "title": source.title, "source": source.raw_text})
+    glossary_hash = _glossary_digest(glossary)
+    prompt_hash = _pipeline_prompt_digest(config)
+    chapter_dir = output_dir / chapter_id
+    chapter_dir.mkdir(parents=True, exist_ok=True)
+    literal_checkpoint = chapter_dir / "literal_checkpoint.json"
+    refined_checkpoint = chapter_dir / "refined_checkpoint.json"
+    qa_checkpoint = chapter_dir / "qa_checkpoint.json"
+    formatted_checkpoint = chapter_dir / "formatted_checkpoint.json"
+    harvest_checkpoint = chapter_dir / "glossary_review.json"
     literal_pairs: list[LiteralSentencePair] = []
     block_records: list[dict[str, Any]] = []
     projection_records: list[dict[str, Any]] = []
-    for block in blocks:
-        glossary_subset = _chapter_glossary_subset(block, glossary)
-        projected_source, replacements = project_glossary_terms(block.source_text, glossary_subset)
-        projected_block = TextBlock(
-            block_id=block.block_id,
-            chapter_id=block.chapter_id,
-            block_index=block.block_index,
-            source_text=projected_source,
-            source_language=block.source_language,
-            start_offset=block.start_offset,
-            end_offset=block.end_offset,
-            metadata=dict(block.metadata),
+    reused_stages: list[str] = []
+    literal_input_hash = _checkpoint_input_hash(
+        stage="literal_translation",
+        source_hash=source_hash,
+        glossary_hash=glossary_hash,
+        prompt_hash=prompt_hash,
+    )
+    literal_checkpoint_data = _read_matching_checkpoint(literal_checkpoint, literal_input_hash) if resume else None
+    if literal_checkpoint_data is not None:
+        checkpoint = literal_checkpoint_data
+        literal_draft = _literal_from_dict(checkpoint["draft"])
+        literal_pairs.extend(literal_draft.sentence_pairs)
+        block_records = checkpoint.get("block_records", [])
+        projection_records = checkpoint.get("projection_records", [])
+        reused_stages.append("literal_translation")
+    else:
+        for block in blocks:
+            glossary_subset = _chapter_glossary_subset(block, glossary)
+            projected_source, replacements = project_glossary_terms(block.source_text, glossary_subset)
+            projected_block = TextBlock(
+                block_id=block.block_id,
+                chapter_id=block.chapter_id,
+                block_index=block.block_index,
+                source_text=projected_source,
+                source_language=block.source_language,
+                start_offset=block.start_offset,
+                end_offset=block.end_offset,
+                metadata=dict(block.metadata),
+            )
+            _context(run_id=run_id, chapter_id=chapter_id, stage="literal_translation", block_id=block.block_id)
+            runner = ProviderRunner(config.provider_for_stage("literal_translation"))
+            routing = config.stage_routing_for("literal_translation")
+            draft = run_literal_translation_stage(
+                config=config,
+                block=projected_block,
+                glossary_subset=[],
+                provider_runner=runner,
+                model=routing.model,
+            )
+            literal_pairs.extend(draft.sentence_pairs)
+            block_records.append(
+                {
+                    "block_id": block.block_id,
+                    "source_chars": len(block.source_text),
+                    "projected_source_chars": len(projected_source),
+                    "literal_chars": sum(len(pair.literal_sentence) for pair in draft.sentence_pairs),
+                }
+            )
+            projection_records.append(
+                {
+                    "block_id": block.block_id,
+                    "replacement_count": len(replacements),
+                    "replacements": replacements,
+                }
+            )
+        literal_draft = LiteralDraft(
+            block_id=f"{chapter_id}-assembled",
+            chapter_id=chapter_id,
+            sentence_pairs=tuple(literal_pairs),
+            source_text=source.raw_text,
+            provider="assembled_from_blocks",
         )
-        _context(run_id=run_id, chapter_id=chapter_id, stage="literal_translation", block_id=block.block_id)
-        runner = ProviderRunner(config.provider_for_stage("literal_translation"))
-        routing = config.stage_routing_for("literal_translation")
-        draft = run_literal_translation_stage(
-            config=config,
-            block=projected_block,
-            glossary_subset=[],
-            provider_runner=runner,
-            model=routing.model,
-        )
-        literal_pairs.extend(draft.sentence_pairs)
-        block_records.append(
+        atomic_write_json(
+            literal_checkpoint,
             {
-                "block_id": block.block_id,
-                "source_chars": len(block.source_text),
-                "projected_source_chars": len(projected_source),
-                "literal_chars": sum(len(pair.literal_sentence) for pair in draft.sentence_pairs),
-            }
-        )
-        projection_records.append(
-            {
-                "block_id": block.block_id,
-                "replacement_count": len(replacements),
-                "replacements": replacements,
-            }
+                "stage": "literal_translation",
+                "input_hash": literal_input_hash,
+                "draft": literal_draft.to_dict(),
+                "block_records": block_records,
+                "projection_records": projection_records,
+            },
         )
 
     literal_text = "\n\n".join(pair.literal_sentence.strip() for pair in literal_pairs if pair.literal_sentence.strip()).strip()
@@ -357,50 +607,121 @@ def run_chapter(config: Any, chapter_id: str, run_id: str, output_dir: Path, tra
         source_text=source.raw_text,
         source_language=source.source_language,
     )
-    assembled_literal = LiteralDraft(
-        block_id=chapter_block.block_id,
-        chapter_id=chapter_id,
-        sentence_pairs=tuple(literal_pairs),
-        source_text=source.raw_text,
-        provider="assembled_from_blocks",
+    assembled_literal = literal_draft
+    literal_hash = _digest(literal_draft.to_dict())
+    refinement_input_hash = _checkpoint_input_hash(
+        stage="refinement",
+        source_hash=source_hash,
+        glossary_hash=glossary_hash,
+        prompt_hash=prompt_hash,
+        dependencies={"literal_hash": literal_hash},
     )
-    _context(run_id=run_id, chapter_id=chapter_id, stage="refinement", block_id=chapter_block.block_id)
-    refined = _run_refinement_with_configured_fallbacks(
-        config=config,
-        block=chapter_block,
-        literal_draft=assembled_literal,
-        glossary_subset=_chapter_glossary_subset(chapter_block, glossary),
-        style_profile_key=config.default_style_profile,
+    refined_checkpoint_data = _read_matching_checkpoint(refined_checkpoint, refinement_input_hash) if resume else None
+    if refined_checkpoint_data is not None:
+        refined = _refined_from_dict(refined_checkpoint_data["draft"])
+        reused_stages.append("refinement")
+    else:
+        _context(run_id=run_id, chapter_id=chapter_id, stage="refinement", block_id=chapter_block.block_id)
+        refined = _run_refinement_with_configured_fallbacks(
+            config=config,
+            block=chapter_block,
+            literal_draft=assembled_literal,
+            glossary_subset=_chapter_glossary_subset(chapter_block, glossary),
+            style_profile_key=config.default_style_profile,
+        )
+        atomic_write_json(
+            refined_checkpoint,
+            {"stage": "refinement", "input_hash": refinement_input_hash, "draft": refined.to_dict()},
+        )
+    qa = None
+    refined_hash = _digest(refined.to_dict())
+    qa_input_hash = _checkpoint_input_hash(
+        stage="qa_judge",
+        source_hash=source_hash,
+        glossary_hash=glossary_hash,
+        prompt_hash=prompt_hash,
+        dependencies={"literal_hash": literal_hash, "refined_hash": refined_hash},
     )
-    _context(run_id=run_id, chapter_id=chapter_id, stage="qa_judge", block_id=chapter_block.block_id)
-    qa = _run_qa_with_configured_fallbacks(
-        config=config,
-        block=chapter_block,
-        literal_draft=assembled_literal,
-        refined_draft=refined,
-        glossary_subset=_chapter_glossary_subset(chapter_block, glossary),
-        style_profile_key=config.default_style_profile,
-    )
+    qa_checkpoint_data = _read_matching_checkpoint(qa_checkpoint, qa_input_hash) if resume else None
+    if qa_checkpoint_data is not None:
+        cached_qa = _qa_from_dict(qa_checkpoint_data["report"])
+        # A failed QA checkpoint is evidence of where the run stopped, not a
+        # successful stage. Reuse the refined artifact but adjudicate QA again.
+        if cached_qa.passed:
+            qa = cached_qa
+            reused_stages.append("qa_judge")
+    if qa is None:
+        _context(run_id=run_id, chapter_id=chapter_id, stage="qa_judge", block_id=chapter_block.block_id)
+        qa = _run_qa_with_configured_fallbacks(
+            config=config,
+            block=chapter_block,
+            literal_draft=assembled_literal,
+            refined_draft=refined,
+            glossary_subset=_chapter_glossary_subset(chapter_block, glossary),
+            style_profile_key=config.default_style_profile,
+        )
+        atomic_write_json(qa_checkpoint, {"stage": "qa_judge", "input_hash": qa_input_hash, "report": qa.to_dict()})
     if not qa.passed:
         raise RuntimeError(f"Lean QA failed for {chapter_id}: {qa.feedback}")
-    _context(run_id=run_id, chapter_id=chapter_id, stage="formatting", block_id=chapter_block.block_id)
-    formatted, formatter_provider, formatter_meta = _format_block_with_hybrid_provider(
-        config=config,
-        prompt_store=PromptStore(config.workspace.prompts),
-        refined_text=refined.refined_text,
+    formatting_input_hash = _checkpoint_input_hash(
+        stage="formatting",
+        source_hash=source_hash,
+        glossary_hash=glossary_hash,
+        prompt_hash=prompt_hash,
+        dependencies={"refined_hash": refined_hash},
     )
+    formatted_checkpoint_data = _read_matching_checkpoint(formatted_checkpoint, formatting_input_hash) if resume else None
+    if formatted_checkpoint_data is not None:
+        formatted_data = formatted_checkpoint_data
+        formatted = str(formatted_data["formatted"])
+        formatter_provider = str(formatted_data["formatter_provider"])
+        formatter_meta = dict(formatted_data.get("formatter_metadata", {}))
+        reused_stages.append("formatting")
+    else:
+        _context(run_id=run_id, chapter_id=chapter_id, stage="formatting", block_id=chapter_block.block_id)
+        formatted, formatter_provider, formatter_meta = _format_block_with_hybrid_provider(
+            config=config,
+            prompt_store=PromptStore(config.workspace.prompts),
+            refined_text=refined.refined_text,
+        )
+        atomic_write_json(
+            formatted_checkpoint,
+            {
+                "stage": "formatting",
+                "input_hash": formatting_input_hash,
+                "formatted": formatted,
+                "formatter_provider": formatter_provider,
+                "formatter_metadata": formatter_meta,
+            },
+        )
     chapter_output = f"# {source.title or chapter_id}\n\n{formatted.strip()}\n"
     chapter_dir = output_dir / chapter_id
     chapter_dir.mkdir(parents=True, exist_ok=True)
     (chapter_dir / f"{chapter_id}.md").write_text(chapter_output, encoding="utf-8")
-    proposed = _harvest_candidates(
-        config=config,
-        chapter_id=chapter_id,
-        source_text=source.raw_text,
-        final_text=formatted,
-        run_id=run_id,
-        trace_dir=trace_dir,
+    harvest_input_hash = _checkpoint_input_hash(
+        stage="term_harvest",
+        source_hash=source_hash,
+        glossary_hash=glossary_hash,
+        prompt_hash=prompt_hash,
+        dependencies={"formatted_hash": _digest(formatted)},
     )
+    harvest_checkpoint_data = _read_matching_checkpoint(harvest_checkpoint, harvest_input_hash) if resume else None
+    if harvest_checkpoint_data is not None:
+        review = harvest_checkpoint_data
+        reused_stages.append("term_harvest")
+    else:
+        proposed = _harvest_candidates(
+            config=config,
+            chapter_id=chapter_id,
+            source_text=source.raw_text,
+            final_text=formatted,
+            run_id=run_id,
+            trace_dir=trace_dir,
+        )
+        review = _review_proposed_candidates(candidates=proposed, source_text=source.raw_text, final_text=formatted)
+        review["input_hash"] = harvest_input_hash
+        atomic_write_json(harvest_checkpoint, review)
+    proposed = review.get("accepted", [])
     atomic_write_json(chapter_dir / "glossary_proposed.json", proposed)
     return {
         "chapter_id": chapter_id,
@@ -418,6 +739,10 @@ def run_chapter(config: Any, chapter_id: str, run_id: str, output_dir: Path, tra
         "formatter_provider": formatter_provider,
         "formatter_metadata": formatter_meta,
         "glossary_proposed_count": len(proposed),
+        "glossary_review_rejected_count": len(review.get("rejected", [])),
+        "glossary_candidates": review.get("accepted", []),
+        "reused_stages": reused_stages,
+        "resumed_from_checkpoints": bool(reused_stages),
     }
 
 
@@ -428,8 +753,8 @@ def main() -> int:
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--trace-dir", type=Path, required=True)
+    parser.add_argument("--resume", action="store_true", help="Reuse completed per-stage checkpoints in each chapter output directory.")
     args = parser.parse_args()
-    started_at = _utc_now()
     chapters = _parse_chapters(args.chapters)
     config = load_app_config(args.config)
     output_dir = args.output_dir.resolve()
@@ -437,15 +762,36 @@ def main() -> int:
     output_dir.mkdir(parents=True, exist_ok=True)
     trace_dir.mkdir(parents=True, exist_ok=True)
     os.environ["NOVEL_PIPELINE_TRACE_DIR"] = str(trace_dir)
+    prior_report_path = output_dir / "lean_experiment_report.json"
+    prior_report: dict[str, Any] = {}
+    if args.resume and prior_report_path.exists():
+        try:
+            prior_report = json.loads(prior_report_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            prior_report = {}
+    started_at = str(prior_report.get("started_at", "")) or _utc_now()
+    glossary = load_glossary_index(config.workspace.glossary_dir)
     results: list[dict[str, Any]] = []
+    promoted_terms: list[GlossaryEntry] = []
     status = "complete"
     error = ""
     try:
         for chapter_id in chapters:
             print(f"[{args.run_id}] START {chapter_id}", flush=True)
-            result = run_chapter(config, chapter_id, args.run_id, output_dir, trace_dir)
+            result = run_chapter(config, chapter_id, args.run_id, output_dir, trace_dir, resume=args.resume, glossary=glossary)
+            promoted, promotion_decisions = _promote_reviewed_candidates(
+                review={"accepted": result.pop("glossary_candidates", [])},
+                glossary=glossary,
+            )
+            promoted_terms.extend(promoted)
+            result["glossary_promoted_experiment_only"] = [entry.original_term for entry in promoted]
+            result["glossary_promotion_decisions"] = promotion_decisions
             results.append(result)
             atomic_write_json(output_dir / chapter_id / "chapter_result.json", result)
+            atomic_write_json(
+                output_dir / "experiment_glossary_approved.json",
+                [entry.to_dict() for entry in glossary.values() if entry.metadata.get("experiment_only")],
+            )
             print(f"[{args.run_id}] COMPLETE {chapter_id}", flush=True)
     except Exception as exc:  # preserve a machine-readable stopped experiment result
         status = "blocked"
@@ -461,7 +807,10 @@ def main() -> int:
         "metrics": _trace_metrics(trace_dir),
         "trace_dir": str(trace_dir),
         "output_dir": str(output_dir),
-        "glossary_policy": "approved terms projected into a source copy before literal translation; harvested terms remain proposed",
+        "glossary_policy": "production-approved terms and experiment-reviewed high-confidence terms are projected into later source copies; no experiment term is written to production glossary",
+        "experiment_glossary_promoted_count": len(promoted_terms),
+        "experiment_glossary_promoted_terms": [entry.original_term for entry in promoted_terms],
+        "checkpoint_policy": "reuse requires matching source, glossary, prompt, and upstream artifact hashes",
         "error": error,
     }
     atomic_write_json(output_dir / "lean_experiment_report.json", report)

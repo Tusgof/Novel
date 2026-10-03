@@ -1,0 +1,21 @@
+{
+  "schema": "novel.lean-followup.v1",
+  "date": "2026-10-03",
+  "novel": "one-hit-kill-swordmaster",
+  "chapters": ["ch002", "ch017", "ch032", "ch055", "ch090"],
+  "status": "complete",
+  "provider_calls": 24,
+  "provider_failures": 4,
+  "provider_seconds": 994.842,
+  "reported_tokens": 200099,
+  "reported_cost": 0.28834096,
+  "qa_fallback_chapters": 4,
+  "blocking_sentinel": {"blocker": 0, "major": 0, "minor": 0, "info": 0},
+  "advisory_sentinel": {"blocker": 0, "major": 0, "minor": 19, "info": 0},
+  "output_guardrail_issues": 0,
+  "resume_trace_files_before": 24,
+  "resume_trace_files_after": 24,
+  "resume_provider_call_increment": 0,
+  "glossary_review": {"rejected": 0, "promoted_to_production": 0},
+  "production_published": false
+}

@@ -4,6 +4,8 @@ Style instructions:
 {{style_instructions}}
 Research context:
 {{research_context}}
+If this is an adjudication, inspect only the alleged issue below against the supplied source and refined text. Do not invent additional issues.
+Adjudication feedback: {{retry_feedback}}
 Source: {{source_block}}
 Literal: {{literal_draft}}
 Refined: {{refined_draft}}

@@ -20,6 +20,7 @@ def run_qa_stage(
     model: str = "",
     retry_count: int = 0,
     style_profile_key: str = "",
+    retry_feedback: str = "",
 ) -> QAReport:
     findings = run_rule_checks(literal_draft=literal_draft, refined_draft=refined_draft, glossary_subset=glossary_subset)
     blocking_findings = [item for item in findings if item.severity == "error"]
@@ -43,6 +44,7 @@ def run_qa_stage(
         glossary_subset=[entry.to_dict() for entry in glossary_subset],
         style_instructions=style_profile.instruction_text(),
         research_context=config.research_context_text(),
+        retry_feedback=retry_feedback or "none",
     )
     feedback = ""
     response = provider_runner.run_with_retry(

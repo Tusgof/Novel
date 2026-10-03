@@ -40,7 +40,7 @@ from novel_pipeline.adapters.novel543 import Novel543Adapter
 from novel_pipeline.adapters.fanfiction_jina import FanfictionJinaAdapter
 from novel_pipeline.adapters.wntl_markdown import WntlMarkdownAdapter
 from novel_pipeline.types import SourceConfig
-from scripts.run_lean_pipeline_experiment import _run_qa_with_configured_fallbacks, _run_refinement_with_configured_fallbacks, project_glossary_terms
+from scripts.run_lean_pipeline_experiment import _checkpoint_input_hash, _has_verbatim_adjudication_evidence, _promote_reviewed_candidates, _read_matching_checkpoint, _review_proposed_candidates, _run_qa_with_configured_fallbacks, _run_refinement_with_configured_fallbacks, project_glossary_terms
 
 def _gb18030_html(text: str) -> bytes:
     return text.encode("gb18030")
@@ -141,6 +141,7 @@ def test_lean_qa_uses_configured_fallback_after_primary_provider_failure():
         block_id="ch001-assembled",
         chapter_id="ch001",
         passed=True,
+        feedback="PASS: `Source` -> `เนเธเธฅเนเธฅเนเธง`",
         judge_provider="fallback",
     )
     block = TextBlock(
@@ -174,6 +175,68 @@ def test_lean_qa_uses_configured_fallback_after_primary_provider_failure():
     assert mocked_qa.call_count == 2
 
 
+def test_lean_glossary_review_requires_source_and_final_evidence():
+    result = _review_proposed_candidates(
+        candidates=[
+            {"original_term": "Gaon", "observed_thai": "กาออน", "category": "character"},
+            {"original_term": "Missing", "observed_thai": "ไม่มี", "category": "term"},
+        ],
+        source_text="Gaon entered the arena.",
+        final_text="กาออนเดินเข้าสู่สนามประลอง",
+    )
+
+    assert len(result["accepted"]) == 1
+    assert result["accepted"][0]["review_status"] == "accepted_for_proposal"
+    assert result["rejected"][0]["review_reason"] == "source_evidence_missing"
+    assert result["promoted_to_glossary"] == 0
+
+
+def test_lean_glossary_promotion_is_experiment_only_and_rejects_conflicts():
+    glossary = {
+        "Gaon": GlossaryEntry(original_term="Gaon", thai_term="เธเธฒเธญเธญเธ", category="character", status="approved"),
+    }
+    promoted, decisions = _promote_reviewed_candidates(
+        review={
+            "accepted": [
+                {"original_term": "Selena", "observed_thai": "เน€เธเน€เธฅเธเนเธฒ", "category": "character", "confidence": "high", "chapter_id": "ch001"},
+                {"original_term": "Gaon", "observed_thai": "เธเธฒเธญเธ", "category": "character", "confidence": "high", "chapter_id": "ch001"},
+            ]
+        },
+        glossary=glossary,
+    )
+    assert [entry.original_term for entry in promoted] == ["Selena"]
+    assert glossary["Selena"].status == "approved"
+    assert glossary["Selena"].metadata["experiment_only"] is True
+    assert any(item.get("promotion_reason") == "conflicts_with_existing_glossary" for item in decisions)
+
+
+def test_lean_qa_adjudication_requires_verbatim_source_and_thai_evidence():
+    assert _has_verbatim_adjudication_evidence("PASS: `source phrase` -> `ไทยวลี`", source_text="source phrase here", refined_text="ไทยวลี here")
+    assert not _has_verbatim_adjudication_evidence("PASS: the issue is not present", source_text="source phrase", refined_text="ไทยวลี")
+
+
+def test_lean_checkpoint_rejects_changed_dependency_hash():
+    with tempfile.TemporaryDirectory() as temp_dir:
+        path = Path(temp_dir) / "checkpoint.json"
+        expected = _checkpoint_input_hash(
+            stage="refinement",
+            source_hash="source-v1",
+            glossary_hash="glossary-v1",
+            prompt_hash="prompt-v1",
+            dependencies={"literal_hash": "literal-v1"},
+        )
+        path.write_text(json.dumps({"input_hash": expected, "draft": {}}), encoding="utf-8")
+        assert _read_matching_checkpoint(path, expected) is not None
+        changed = _checkpoint_input_hash(
+            stage="refinement",
+            source_hash="source-v1",
+            glossary_hash="glossary-v2",
+            prompt_hash="prompt-v1",
+            dependencies={"literal_hash": "literal-v1"},
+        )
+        assert _read_matching_checkpoint(path, changed) is None
+
+
 def test_lean_qa_adjudicates_valid_ai_fail_with_configured_fallback():
     from types import SimpleNamespace
 
@@ -190,7 +253,7 @@ def test_lean_qa_adjudicates_valid_ai_fail_with_configured_fallback():
         source_language="en",
     )
     literal = LiteralDraft(block_id=block.block_id, chapter_id=block.chapter_id, sentence_pairs=())
-    refined = RefinedDraft(block_id=block.block_id, chapter_id=block.chapter_id, refined_text="แปลแล้ว")
+    refined = RefinedDraft(block_id=block.block_id, chapter_id=block.chapter_id, refined_text="Thai output")
     rejected = QAReport(
         block_id=block.block_id,
         chapter_id=block.chapter_id,
@@ -199,6 +262,7 @@ def test_lean_qa_adjudicates_valid_ai_fail_with_configured_fallback():
         judge_provider="primary",
     )
     accepted = QAReport(
+        feedback="PASS: `Source` -> `Thai output`",
         block_id=block.block_id,
         chapter_id=block.chapter_id,
         passed=True,
@@ -222,6 +286,7 @@ def test_lean_qa_adjudicates_valid_ai_fail_with_configured_fallback():
     assert result.metadata["qa_fallback_used"] is True
     assert result.metadata["qa_adjudication_failures"]
     assert mocked_qa.call_count == 2
+    assert mocked_qa.call_args_list[1].kwargs["retry_feedback"]
 
 
 def test_lean_refinement_uses_configured_fallback_after_primary_provider_failure():
@@ -8711,6 +8776,11 @@ if __name__ == "__main__":
     test_format_glossary_subset()
     test_lean_glossary_projection_replaces_longest_terms_and_preserves_boundaries()
     test_lean_qa_uses_configured_fallback_after_primary_provider_failure()
+    test_lean_glossary_review_requires_source_and_final_evidence()
+    test_lean_glossary_promotion_is_experiment_only_and_rejects_conflicts()
+    test_lean_qa_adjudication_requires_verbatim_source_and_thai_evidence()
+    test_lean_checkpoint_rejects_changed_dependency_hash()
+    test_lean_qa_adjudicates_valid_ai_fail_with_configured_fallback()
     test_lean_refinement_uses_configured_fallback_after_primary_provider_failure()
     test_refine_cleaner_preserves_story_lines_starting_with_asterisk()
     test_qa_rules_block_omission_placeholders()
