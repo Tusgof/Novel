@@ -79,7 +79,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Before claiming a translation or reader fix is done, run the project output guardrail if one exists.
 - Do not rely only on provider QA for name consistency, pronoun consistency, paragraph density, or Markdown rendering.
 - Prefer low-risk deterministic repairs for approved terminology, repeated known variants, paragraph reflow, and reader rendering bugs.
-- If a final output is truncated, contains runaway repeated characters, or has missing content, rerun the affected block from the earliest broken stage instead of manually patching around the loss.
+- If a final output is truncated, contains runaway repeated characters, or has missing content, quarantine that chapter and rerun it from the earliest broken stage instead of manually patching around the loss. Continue later chapters within the authorized range when their inputs and worker state remain healthy.
 - When a quality issue is fixed, record the cause and prevention mechanism in the project brain or implementation plan if it can recur.
 
 ### Major-Run Spot-Check Checklist
@@ -87,6 +87,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 After every multi-chapter translation batch, broad repair pass, or MoonRead publication update:
 
 - Confirm latest run status has no current failed blocks, no unresolved manual prompt, and no unexpected chapter-range expansion.
+- Chapter-local failures may remain quarantined while a major run continues; verify they are listed with evidence and are not promoted or published.
 - Run deterministic output guardrails for the touched range before relying on human reading.
 - Sample at least five chapters: first, last, early-middle, late-middle, and one chapter with known recovery/provider incident if any.
 - In each sampled chapter, inspect the title, opening, middle passage, ending, paragraph density, dialogue/thought formatting, glossary/name consistency, and obvious omission/truncation.

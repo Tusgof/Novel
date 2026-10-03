@@ -16,7 +16,7 @@ Build a practical Chinese/English-to-Thai novel translation system that can:
 - publish verified Markdown into MoonRead
 - support multiple novels and genres without relying on Codex memory
 
-Codex is the Inspector/Orchestrator, architect, reviewer, and verifier. Luna Max is the preferred execution worker for bounded translation-pipeline work and routine pipeline recovery. Worker reports remain claims until Codex independently verifies files, ledgers, tests, reports, diffs, and reader output.
+Codex is the Inspector/Orchestrator, architect, reviewer, and verifier. Luna Max is the preferred execution worker for bounded translation-pipeline work and routine pipeline recovery. Worker reports remain claims until Codex independently verifies files, ledgers, tests, reports, diffs, and reader output. Lean production runs use recover-and-continue semantics: chapter-local failures are quarantined and later chapters continue; only global blockers stop the worker.
 
 ## Canonical Files
 
@@ -45,6 +45,12 @@ Keep this section short. Update `PROJECT_BRAIN.md` for current state, active ris
 - Codex does not repeat routine worker execution by default. It reviews the returned evidence, reruns targeted verification independently, classifies recurring failures at the correct layer, and issues a narrower repair order or changes the system-level prevention mechanism when evidence supports it.
 
 ## Current Verified State
+
+Ten Day Ultimatum:
+
+- Corrected XSZJ fetch is verified: manifest `1385`, raw files `1385`, missing `0`, extra `0`, invalid source files `0`.
+- `TDU-LEAN-PILOT-20261004-ch001-010-v2` is blocked, not complete. `ch001-ch003` and `ch005-ch008` were promoted by the run; `ch004` is quarantined after a source-backed child/student meaning error; `ch009-ch010` were not completed. The previous incomplete-raw run remains invalidated.
+- No TDU chapter from this partial run is accepted for MoonRead publication. Resume requires restoring the provider fallback authorization, then recovery and final scoped verification. Evidence: `Ten Day Ultimatum/07_Reports/tdu_lean_pilot_v2_blocked_20261004.md`.
 
 Re:Zero Watching Him Die Again and Again:
 
@@ -350,6 +356,10 @@ Requires explicit user approval:
 | Empty source footnote markers in English novels | `split_blocks()` strips bare trailing `Footnotes:` markers for non-CJK source while preserving real markers; keep Sentinel glossary-note leakage checks blocking |
 | MoonRead rendering mismatch | run reader smoke after generated content changes |
 | Worker false completion | verify disk state, tests, reports, and git diff |
+| Refinement cleaner removes valid story lists or truncates at a scene separator | preserve `- ` / `* ` story lines and ASCII `---` tails; regression checks exact preservation and explicit Craft notes removal. IRS ch007 trace proves this was local cleanup loss, not missing provider translation |
+| Per-chapter Sentinel evidence overwrites another chapter in the same second | production report scope includes run ID and chapter; regression verifies different chapter report paths and retained first-chapter evidence; rerun final scoped Inspector gates after historical collisions |
+| Worker cancellation leaves an owned provider process running | verify owned subprocess PIDs/tree have exited before declaring cancellation complete; R0 out-of-scope ch003-ch005 exited blocked without promotion, and must not be resumed |
+| Selected-vault provider helper copies lack root usage metadata support | keep cost as not measured when traces have empty usage; converge helpers as separate backlog work, not by silently changing active provider routing |
 | Translation worker exceeds operational authority | use a HERDR translation work order with exact run/chapter scope, pinned routing, provider/network and spend authority, stop conditions, and protected paths; Codex independently accepts and publishes the result |
 | Memory doc damage | keep docs short, use `DOC_RECOVERY.md`, avoid worker rewrites of canonical files |
 | Full provider transcript can expose source text or credentials if captured carelessly | enable tracing only in an isolated experiment directory; redact API keys/bearer tokens; never log environment maps; keep full transcript artifacts local and store only paths/aggregates in research logs |
@@ -429,10 +439,10 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
-The V6.36 and V6.37 OHKS experiments are complete, and V6.38 has made Lean the production dispatch path. No new provider-backed batch was started in the architecture migration. Next safe action is to prepare OHKS title sidecars and review the 33 advisory game/UI findings into a small novel-specific profile, then run one explicitly bounded Lean production batch with the provider health and publication gates. The migration gate scan of the five OHKS experiment files correctly reports five blockers for English titles; do not publish experiment output directly. V6.35 Re:Zero `ch009-ch010` remains paused and unpublished after provider exhaustion; `ch008` is live at commit `5e3fbfc`.
+The migration-only next action has been superseded by the user-authorized Lean replacement order: DSE/HGD/IRS/OHKS `ch001-ch020` and Re:Zero `ch001-ch002`, 82 chapters total. Track verified progress and worker ownership in `07_Reports/lean_retranslation_publication_20261003.md`; publication is still pending. Continue the existing IRS workers and narrow source-backed English/UI QA repairs, then independently accept all replacements before MoonRead generation, reader checks, commit/push and live verification. Do not start overlapping runs. Re:Zero `ch003+` is not authorized by this replacement order, and the historical `ch009-ch010` provider-limit work remains paused.
 
-1. Prepare and validate OHKS title sidecars and the small game/UI terminology profile; do not add one-off word rules.
-2. Run a separately approved bounded OHKS comparison focused on advisory findings and reader quality, not an unpaired cost claim.
+1. Finish the existing bounded workers and source-backed routine recoveries; preserve valid checkpoints and good prose.
+2. Verify the exact 82-chapter replacement scope, final output/reader parity, translator labels and retained legacy ranges.
 3. Keep provider routing unchanged; the Lean engine replacement does not authorize a model or spend change.
-   Before paid HGD work, resolve its documented QA-fallback/config conflict with explicit routing authorization.
-4. Stop on provider exhaustion after all configured fallbacks, manual prompt, QA hard-fail, ledger collision, missing trace, validation failure, Sentinel blocker/major, or scope expansion.
+   The historical HGD fallback/config conflict remains documented debt; this order does not change routing.
+4. Quarantine chapter-local QA/validation/Sentinel failures and continue within the authorized range. Stop only for global provider exhaustion, required manual input, missing source, scope/security violations or unrecoverable runtime/disk failure. No unresolved quarantined replacement is publication-ready.

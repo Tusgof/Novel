@@ -1,0 +1,42 @@
+{
+  "created_at": "2026-10-03T10:57:41.779471+00:00",
+  "scope": "lean-LEAN-RETRANSLATE-20261003-IRS-b01",
+  "chapters": "ch002",
+  "counts": {
+    "blocker": 4,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\04_Work\\_lean_runs\\LEAN-RETRANSLATE-20261003-IRS-b01\\_staged_output\\ch002\\ch002.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\04_Work\\_lean_runs\\LEAN-RETRANSLATE-20261003-IRS-b01\\_staged_output\\ch002\\ch002.md: paragraph 42 too dense (654 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\04_Work\\_lean_runs\\LEAN-RETRANSLATE-20261003-IRS-b01\\_staged_output\\ch002\\ch002.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\04_Work\\_lean_runs\\LEAN-RETRANSLATE-20261003-IRS-b01\\_staged_output\\ch002\\ch002.md: paragraph 74 too dense (919 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\04_Work\\_lean_runs\\LEAN-RETRANSLATE-20261003-IRS-b01\\_staged_output\\ch002\\ch002.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\04_Work\\_lean_runs\\LEAN-RETRANSLATE-20261003-IRS-b01\\_staged_output\\ch002\\ch002.md: duplicate plain title paragraph under H1: บทที่ 2",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\04_Work\\_lean_runs\\LEAN-RETRANSLATE-20261003-IRS-b01\\_staged_output\\ch002\\ch002.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Infinite Regressor Stories\\04_Work\\_lean_runs\\LEAN-RETRANSLATE-20261003-IRS-b01\\_staged_output\\ch002\\ch002.md:3: duplicate title-like body paragraph: บทที่ 2",
+      "evidence": ""
+    }
+  ]
+}

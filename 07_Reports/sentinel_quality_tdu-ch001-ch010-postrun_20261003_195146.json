@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-10-03T19:51:46.411354+00:00",
+  "scope": "tdu-ch001-ch010-postrun",
+  "chapters": "ch001-ch010",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

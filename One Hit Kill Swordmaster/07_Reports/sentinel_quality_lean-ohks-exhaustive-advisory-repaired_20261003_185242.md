@@ -1,0 +1,120 @@
+# Sentinel Quality Report - lean-ohks exhaustive advisory repaired
+
+- Created: 2026-10-03T18:52:42.680271+00:00
+- Chapters: ch001-ch020
+- Scanner max_examples: 10000 (uncapped for this range)
+- Findings retained: 105
+- Ordinary unresolved findings: 0
+
+## Classification
+
+- All remaining advisory English is source-appropriate proper names, brands, acronyms, usernames, factions, or named song/skill labels.
+- The ordinary genre parenthetical bullet hell shooter was removed from ch011 before this scan.
+
+## Retained advisory findings
+
+- Strawberry Latte ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch001\ch001.md
+- RPG ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch001\ch001.md
+- Lost Elder ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch001\ch001.md
+- LoEl ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch001\ch001.md
+- Middle Finger ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch001\ch001.md
+- League ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch001\ch001.md
+- Legends ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch001\ch001.md
+- LoEl ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch002\ch002.md
+- Lost Elder ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch003\ch003.md
+- Lost Elder ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch004\ch004.md
+- NPC ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch004\ch004.md
+- LoEl ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch004\ch004.md
+- VVIP ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch005\ch005.md
+- LoEl ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch005\ch005.md
+- RPG ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch005\ch005.md
+- NPC ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch005\ch005.md
+- LoEl ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch006\ch006.md
+- Dark City Dungard ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md
+- Ruins Royal Stay ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md
+- LoEl ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md
+- Human Butcher Barba ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md
+- Lost Elder ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md
+- NPC ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md
+- Adelia von Goldheart ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md
+- Shadow Knight Loren ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md
+- Twelve Swordmasters ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md
+- NPC ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch009\ch009.md
+- LoEl ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch010\ch010.md
+- RPG ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch010\ch010.md
+- Lost Elder ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch010\ch010.md
+- Peter Pan ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch010\ch010.md
+- the Kidnapper ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch010\ch010.md
+- Dungard ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch010\ch010.md
+- Lost Elder ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch011\ch011.md
+- LoEl ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch011\ch011.md
+- NPC ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch011\ch011.md
+- Ritardando ? named_song_or_skill_label ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch011\ch011.md
+- Elders ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md
+- Dark City Dungard ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md
+- Requiem ? named_song_or_skill_label ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md
+- Adelia von Goldheart ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md
+- RPG ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md
+- Lost Elder ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md
+- NPC ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md
+- Human Butcher Barba ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md
+- Lea ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md
+- Karayan ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md
+- Master ? named_song_or_skill_label ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md
+- the Second Hand and ? named_song_or_skill_label ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md
+- the Moment ? named_song_or_skill_label ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md
+- Free City Vertas ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md
+- Undead Barba ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md
+- Silk-road ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch013\ch013.md
+- Uncharted Territory ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch013\ch013.md
+- LoEl ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch013\ch013.md
+- Ruins Caravan ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch013\ch013.md
+- Ritardando ? named_song_or_skill_label ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch014\ch014.md
+- LoEl ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch014\ch014.md
+- NPC ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch014\ch014.md
+- Divine Family ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch015\ch015.md
+- Uncharted Territory ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch015\ch015.md
+- Free City Vertas ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch015\ch015.md
+- Lost Elder ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch015\ch015.md
+- Lost Elder ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md
+- Free City Vertas ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md
+- NPC ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md
+- Dark City Dungard ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md
+- Uncharted Territory ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md
+- Silk-road ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md
+- Vertas ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md
+- Scavenger Wolf ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md
+- Ritardando ? named_song_or_skill_label ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md
+- RPG ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch017\ch017.md
+- Lost Elder ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch017\ch017.md
+- LoEl ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch017\ch017.md
+- Ritardando ? named_song_or_skill_label ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch017\ch017.md
+- Ritardando ? named_song_or_skill_label ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch018\ch018.md
+- Heavenly Dragon Bird ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch018\ch018.md
+- LoEl ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch018\ch018.md
+- Pantheon ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch018\ch018.md
+- Underground World Arena ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch018\ch018.md
+- Dark City Dungard ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md
+- Silk-road ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md
+- LoEl ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md
+- NPC ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md
+- Heavenly Dragon Bird ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md
+- Ancient God Elder ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md
+- Free City Vertas ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md
+- Adelia von Goldheart ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md
+- Holy City Middle Temple ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md
+- Sir Gaon ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md
+- Dungard ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md
+- Lost Elder ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md
+- Free City Vertas ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md
+- Four Great Cities ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md
+- Middle Temple ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md
+- Silk-road ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md
+- Heavenly Dragon Bird ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md
+- Uncharted Territory ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md
+- LoEl ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md
+- NPC ? brand/acronym/username ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md
+- Durdamel ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md
+- Golden Merchant Guild ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md
+- Dark City Dungard ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md
+- Divine Family ? proper_name/location/faction/title ? D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md

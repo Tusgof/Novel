@@ -1,0 +1,197 @@
+# Sentinel Quality Report - lean-ohks-exhaustive-advisory
+
+- Created: 2026-10-03T16:33:24.673017+00:00
+- Chapters: ch001-ch020
+- Safe to publish: yes
+- Blocker/Major/Minor/Info: 0/0/184/0
+
+## Next Action
+
+- Product surface has no blocker findings under current Sentinel rules.
+
+## Findings
+
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `Strawberry Latte`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `RPG`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `Lost Elder`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `LoEl`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `Middle Finger`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `League`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `Legends`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `MAX`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch001\ch001.md: English token remains in product surface; review if intentional. Evidence: `Off`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch002\ch002.md: English token remains in product surface; review if intentional. Evidence: `MAX`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch002\ch002.md: English token remains in product surface; review if intentional. Evidence: `LoEl`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `Lost Elder`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch003\ch003.md: English token remains in product surface; review if intentional. Evidence: `MAX`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch004\ch004.md: English token remains in product surface; review if intentional. Evidence: `Lost Elder`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch004\ch004.md: English token remains in product surface; review if intentional. Evidence: `NPC`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch004\ch004.md: English token remains in product surface; review if intentional. Evidence: `LoEl`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `VVIP`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `LoEl`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `RPG`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `NPC`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch006\ch006.md: English token remains in product surface; review if intentional. Evidence: `LoEl`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md: English token remains in product surface; review if intentional. Evidence: `Golden Eye`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md: English token remains in product surface; review if intentional. Evidence: `Awakening`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md: English token remains in product surface; review if intentional. Evidence: `Magical Engineering Machine`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md: English token remains in product surface; review if intentional. Evidence: `Dark City Dungard`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md: English token remains in product surface; review if intentional. Evidence: `Ruins Royal Stay`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md: English token remains in product surface; review if intentional. Evidence: `LoEl`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md: English token remains in product surface; review if intentional. Evidence: `Human Butcher Barba`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md: English token remains in product surface; review if intentional. Evidence: `Shilling`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md: English token remains in product surface; review if intentional. Evidence: `Lost Elder`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md: English token remains in product surface; review if intentional. Evidence: `Sacred Piece`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md: English token remains in product surface; review if intentional. Evidence: `Trial`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md: English token remains in product surface; review if intentional. Evidence: `Divine Artifact`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md: English token remains in product surface; review if intentional. Evidence: `NPC`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md: English token remains in product surface; review if intentional. Evidence: `Adelia von Goldheart`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md: English token remains in product surface; review if intentional. Evidence: `Shadow Knight Loren`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch008\ch008.md: English token remains in product surface; review if intentional. Evidence: `Twelve Swordmasters`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch009\ch009.md: English token remains in product surface; review if intentional. Evidence: `NPC`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch009\ch009.md: English token remains in product surface; review if intentional. Evidence: `Soul`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch009\ch009.md: English token remains in product surface; review if intentional. Evidence: `the Sword Master`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch009\ch009.md: English token remains in product surface; review if intentional. Evidence: `Trial`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch009\ch009.md: English token remains in product surface; review if intentional. Evidence: `Sacred Piece`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch009\ch009.md: English token remains in product surface; review if intentional. Evidence: `Agility`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch009\ch009.md: English token remains in product surface; review if intentional. Evidence: `Strength`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch010\ch010.md: English token remains in product surface; review if intentional. Evidence: `Hidden Dungeon`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch010\ch010.md: English token remains in product surface; review if intentional. Evidence: `Soul`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch010\ch010.md: English token remains in product surface; review if intentional. Evidence: `the Sword Master`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch010\ch010.md: English token remains in product surface; review if intentional. Evidence: `LoEl`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch010\ch010.md: English token remains in product surface; review if intentional. Evidence: `RPG`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch010\ch010.md: English token remains in product surface; review if intentional. Evidence: `Lost Elder`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch010\ch010.md: English token remains in product surface; review if intentional. Evidence: `Stamina`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch010\ch010.md: English token remains in product surface; review if intentional. Evidence: `Strength`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch010\ch010.md: English token remains in product surface; review if intentional. Evidence: `Peter Pan`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch010\ch010.md: English token remains in product surface; review if intentional. Evidence: `the Kidnapper`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch010\ch010.md: English token remains in product surface; review if intentional. Evidence: `Dungard`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch010\ch010.md: English token remains in product surface; review if intentional. Evidence: `Mental Power`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch010\ch010.md: English token remains in product surface; review if intentional. Evidence: `MAX`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch010\ch010.md: English token remains in product surface; review if intentional. Evidence: `Feather Sword`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch011\ch011.md: English token remains in product surface; review if intentional. Evidence: `Lost Elder`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch011\ch011.md: English token remains in product surface; review if intentional. Evidence: `LoEl`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch011\ch011.md: English token remains in product surface; review if intentional. Evidence: `NPC`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch011\ch011.md: English token remains in product surface; review if intentional. Evidence: `bullet hell shooter`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch011\ch011.md: English token remains in product surface; review if intentional. Evidence: `MAX`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch011\ch011.md: English token remains in product surface; review if intentional. Evidence: `Ritardando`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Trial`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Ancient God`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Swordmaster`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Elders`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Dark City Dungard`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Good-aligned`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Requiem`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Skill`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Vengeful Spirits`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Aura`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Adelia von Goldheart`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Hidden Dungeon`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `RPG`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Lost Elder`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `NPC`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Human Butcher Barba`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Star Mythical Skill`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Lea`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Karayan`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Master`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `the Second Hand and`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `the Moment`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Ritardando`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `True`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `True Ending`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Free City Vertas`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Undead`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `necromancer`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Soul`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `the Sword Master`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch012\ch012.md: English token remains in product surface; review if intentional. Evidence: `Undead Barba`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch013\ch013.md: English token remains in product surface; review if intentional. Evidence: `Silk-road`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch013\ch013.md: English token remains in product surface; review if intentional. Evidence: `Uncharted Territory`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch013\ch013.md: English token remains in product surface; review if intentional. Evidence: `LoEl`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch013\ch013.md: English token remains in product surface; review if intentional. Evidence: `Ruins Caravan`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch013\ch013.md: English token remains in product surface; review if intentional. Evidence: `MAX`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch014\ch014.md: English token remains in product surface; review if intentional. Evidence: `Ritardando`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch014\ch014.md: English token remains in product surface; review if intentional. Evidence: `LoEl`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch014\ch014.md: English token remains in product surface; review if intentional. Evidence: `NPC`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch015\ch015.md: English token remains in product surface; review if intentional. Evidence: `Divine Family`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch015\ch015.md: English token remains in product surface; review if intentional. Evidence: `Uncharted Territory`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch015\ch015.md: English token remains in product surface; review if intentional. Evidence: `Soul`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch015\ch015.md: English token remains in product surface; review if intentional. Evidence: `the Sword Master`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch015\ch015.md: English token remains in product surface; review if intentional. Evidence: `Free City Vertas`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch015\ch015.md: English token remains in product surface; review if intentional. Evidence: `Lost Elder`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch015\ch015.md: English token remains in product surface; review if intentional. Evidence: `Trial`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch015\ch015.md: English token remains in product surface; review if intentional. Evidence: `Monster Wave`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md: English token remains in product surface; review if intentional. Evidence: `Lost Elder`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md: English token remains in product surface; review if intentional. Evidence: `Free City Vertas`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md: English token remains in product surface; review if intentional. Evidence: `NPC`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md: English token remains in product surface; review if intentional. Evidence: `Dark City Dungard`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md: English token remains in product surface; review if intentional. Evidence: `Uncharted Territory`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md: English token remains in product surface; review if intentional. Evidence: `Silk-road`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md: English token remains in product surface; review if intentional. Evidence: `Magic Stone`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md: English token remains in product surface; review if intentional. Evidence: `Vertas`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md: English token remains in product surface; review if intentional. Evidence: `Monster Wave`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md: English token remains in product surface; review if intentional. Evidence: `Skill`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md: English token remains in product surface; review if intentional. Evidence: `Soul`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md: English token remains in product surface; review if intentional. Evidence: `the Sword Master`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md: English token remains in product surface; review if intentional. Evidence: `Scavenger Wolf`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md: English token remains in product surface; review if intentional. Evidence: `Ritardando`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md: English token remains in product surface; review if intentional. Evidence: `MAX`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch016\ch016.md: English token remains in product surface; review if intentional. Evidence: `True`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch017\ch017.md: English token remains in product surface; review if intentional. Evidence: `RPG`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch017\ch017.md: English token remains in product surface; review if intentional. Evidence: `Lost Elder`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch017\ch017.md: English token remains in product surface; review if intentional. Evidence: `LoEl`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch017\ch017.md: English token remains in product surface; review if intentional. Evidence: `Ritardando`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch017\ch017.md: English token remains in product surface; review if intentional. Evidence: `True`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch017\ch017.md: English token remains in product surface; review if intentional. Evidence: `Strength`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch017\ch017.md: English token remains in product surface; review if intentional. Evidence: `Soul`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch017\ch017.md: English token remains in product surface; review if intentional. Evidence: `the Sword Master`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch017\ch017.md: English token remains in product surface; review if intentional. Evidence: `Sword`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch017\ch017.md: English token remains in product surface; review if intentional. Evidence: `Stamina`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch017\ch017.md: English token remains in product surface; review if intentional. Evidence: `Magic`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch017\ch017.md: English token remains in product surface; review if intentional. Evidence: `Perception`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch017\ch017.md: English token remains in product surface; review if intentional. Evidence: `Agility`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch018\ch018.md: English token remains in product surface; review if intentional. Evidence: `Soul`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch018\ch018.md: English token remains in product surface; review if intentional. Evidence: `the Sword Master`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch018\ch018.md: English token remains in product surface; review if intentional. Evidence: `Ritardando`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch018\ch018.md: English token remains in product surface; review if intentional. Evidence: `True`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch018\ch018.md: English token remains in product surface; review if intentional. Evidence: `Heavenly Dragon Bird`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch018\ch018.md: English token remains in product surface; review if intentional. Evidence: `Feather Sword`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch018\ch018.md: English token remains in product surface; review if intentional. Evidence: `Ultimate Auto-Parrying`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch018\ch018.md: English token remains in product surface; review if intentional. Evidence: `LoEl`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch018\ch018.md: English token remains in product surface; review if intentional. Evidence: `Pantheon`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch018\ch018.md: English token remains in product surface; review if intentional. Evidence: `Sword`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch018\ch018.md: English token remains in product surface; review if intentional. Evidence: `Max`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch018\ch018.md: English token remains in product surface; review if intentional. Evidence: `Underground World Arena`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch018\ch018.md: English token remains in product surface; review if intentional. Evidence: `Monster Wave`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md: English token remains in product surface; review if intentional. Evidence: `Shilling`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md: English token remains in product surface; review if intentional. Evidence: `Dark City Dungard`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md: English token remains in product surface; review if intentional. Evidence: `Silk-road`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md: English token remains in product surface; review if intentional. Evidence: `LoEl`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md: English token remains in product surface; review if intentional. Evidence: `NPC`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md: English token remains in product surface; review if intentional. Evidence: `Heavenly Dragon Bird`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md: English token remains in product surface; review if intentional. Evidence: `Ancient God Elder`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md: English token remains in product surface; review if intentional. Evidence: `Free City Vertas`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md: English token remains in product surface; review if intentional. Evidence: `Adelia von Goldheart`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md: English token remains in product surface; review if intentional. Evidence: `Holy City Middle Temple`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md: English token remains in product surface; review if intentional. Evidence: `Passive Skill`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md: English token remains in product surface; review if intentional. Evidence: `Ultimate Auto-Parrying`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md: English token remains in product surface; review if intentional. Evidence: `Sword`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md: English token remains in product surface; review if intentional. Evidence: `Max`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md: English token remains in product surface; review if intentional. Evidence: `Sir Gaon`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md: English token remains in product surface; review if intentional. Evidence: `Dungard`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch019\ch019.md: English token remains in product surface; review if intentional. Evidence: `Lost Elder`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md: English token remains in product surface; review if intentional. Evidence: `Free City Vertas`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md: English token remains in product surface; review if intentional. Evidence: `Four Great Cities`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md: English token remains in product surface; review if intentional. Evidence: `Middle Temple`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md: English token remains in product surface; review if intentional. Evidence: `Silk-road`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md: English token remains in product surface; review if intentional. Evidence: `Heavenly Dragon Bird`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md: English token remains in product surface; review if intentional. Evidence: `Swordmaster`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md: English token remains in product surface; review if intentional. Evidence: `Uncharted Territory`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md: English token remains in product surface; review if intentional. Evidence: `LoEl`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md: English token remains in product surface; review if intentional. Evidence: `NPC`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md: English token remains in product surface; review if intentional. Evidence: `Durdamel`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md: English token remains in product surface; review if intentional. Evidence: `Golden Merchant Guild`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md: English token remains in product surface; review if intentional. Evidence: `Dark City Dungard`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md: English token remains in product surface; review if intentional. Evidence: `Divine Family`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster\05_Output\ch020\ch020.md: English token remains in product surface; review if intentional. Evidence: `Max`.

@@ -17,6 +17,7 @@ from novel_pipeline import lean
 from novel_pipeline import cli
 from novel_pipeline.types import ProviderResponse, TextBlock, WorkspacePaths
 from novel_pipeline.project_setup import initialize_novel_project
+from novel_pipeline.stages.refine import _clean_refined_output
 
 
 ROOT = Path(__file__).resolve().parent
@@ -30,6 +31,11 @@ class WorkspaceRoutingTests(unittest.TestCase):
         "One Hit Kill Swordmaster/.system/config.yaml",
         "Re Zero Watching Him Die Again and Again/.system/config.yaml",
     )
+
+    def test_refinement_cleaner_preserves_story_lists_and_scene_tail(self) -> None:
+        story = "ก่อนฉาก\n\n- นิรนาม: ใครส่งข้อความมา?\n* ผู้ดูแล: ยินดีต้อนรับ\n\n---\n\nหลังฉาก"
+        self.assertEqual(_clean_refined_output(story), story)
+        self.assertEqual(_clean_refined_output(story + "\n**Craft notes\n- provider note"), story)
 
     def test_each_registered_novel_uses_lean_and_its_own_context(self) -> None:
         for relative_config in self.CONFIGS:
@@ -159,6 +165,14 @@ class WorkspaceRoutingTests(unittest.TestCase):
             with patch.dict(os.environ, {"NOVEL_SENTINEL_SKIP_EXISTING_GUARDRAILS": "1"}):
                 result = lean._run_production_sentinel(config, run_id="test", chapters="ch001", staged_output_root=staged)
                 self.assertFalse(result["failed"], result)
+                first_report = Path(result["json_path"])
+                self.assertIn("lean-test-ch001_", first_report.name)
+                second_chapter = staged / "ch002/ch002.md"
+                second_chapter.parent.mkdir(parents=True)
+                second_chapter.write_text(paths[0].read_text(encoding="utf-8"), encoding="utf-8")
+                second_result = lean._run_production_sentinel(config, run_id="test", chapters="ch002", staged_output_root=staged)
+                self.assertNotEqual(first_report, Path(second_result["json_path"]))
+                self.assertEqual(json.loads(first_report.read_text(encoding="utf-8"))["chapters"], "ch001")
                 paths[0].write_text("# Title\n\n\u0e21\u0e35\u0e40\u0e25\u0e02 \u0e51\n", encoding="utf-8")
                 result = lean._run_production_sentinel(config, run_id="test", chapters="ch001", staged_output_root=staged)
                 self.assertTrue(result["failed"], result)
@@ -268,7 +282,7 @@ class WorkspaceRoutingTests(unittest.TestCase):
                 )
             self.assertEqual((workspace.output / "ch001/ch001.md").read_text(encoding="utf-8"), "# Candidate\n\nnew\n")
 
-    def test_production_preserves_existing_output_when_sentinel_blocks(self) -> None:
+    def test_production_quarantines_sentinel_block_without_overwriting_output(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             workspace = SimpleNamespace(
@@ -310,9 +324,57 @@ class WorkspaceRoutingTests(unittest.TestCase):
                             "fixture-blocked",
                         ]
                     ),
-                    2,
+                    0,
                 )
             self.assertEqual(existing.read_text(encoding="utf-8"), "# Existing\n\nkeep\n")
+
+    def test_production_continues_after_chapter_failure(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            workspace = SimpleNamespace(
+                root=root,
+                work=root / "04_Work",
+                output=root / "05_Output",
+                glossary_dir=root / "01_Glossary",
+            )
+            config = SimpleNamespace(novel_id="fixture", workspace=workspace)
+            workspace.work.mkdir(parents=True)
+            workspace.glossary_dir.mkdir(parents=True)
+
+            def fake_chapter(config, chapter_id, run_id, output_dir, trace_dir, **kwargs):
+                if chapter_id == "ch001":
+                    raise lean.ChapterQualityError("QA hard-fail: known chapter-local defect")
+                path = output_dir / chapter_id
+                path.mkdir(parents=True, exist_ok=True)
+                output = path / f"{chapter_id}.md"
+                output.write_text("# Candidate\n", encoding="utf-8")
+                return {"chapter_id": chapter_id, "staged_output": str(output)}
+
+            with patch.object(lean, "load_app_config", return_value=config), patch.object(
+                lean, "run_chapter", side_effect=fake_chapter
+            ), patch.object(
+                lean,
+                "_run_production_sentinel",
+                return_value={"counts": {"blocker": 0, "major": 0}, "failed": False},
+            ):
+                self.assertEqual(
+                    lean.main(
+                        [
+                            "--config",
+                            "fixture.yaml",
+                            "--chapters",
+                            "ch001-ch002",
+                            "--run-id",
+                            "fixture-partial",
+                        ]
+                    ),
+                    0,
+                )
+            report = json.loads((workspace.work / "_lean_runs/fixture-partial/lean_run_report.json").read_text(encoding="utf-8"))
+            self.assertEqual(report["status"], "partial")
+            self.assertEqual([item["chapter_id"] for item in report["quarantined_chapters"]], ["ch001"])
+            self.assertEqual(report["promoted_outputs"], [str(workspace.output / "ch002/ch002.md")])
+            self.assertTrue((workspace.output / "ch002/ch002.md").is_file())
 
 
 if __name__ == "__main__":

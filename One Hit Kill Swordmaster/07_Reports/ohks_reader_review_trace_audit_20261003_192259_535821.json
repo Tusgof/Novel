@@ -1,0 +1,1325 @@
+{
+  "created_at": "2026-10-03T19:22:59.535858+00:00",
+  "order": "OHKS-LEAN-READER-REVIEW-20261003B",
+  "novel": "one-hit-kill-swordmaster",
+  "chapters": "ch001-ch020",
+  "review_scope": "narrow source-backed QA repairs and cleaner-loss audit; no re-refinement",
+  "repairs": {
+    "final_and_staged_pairs": 20,
+    "terms_repaired": [
+      "Strength",
+      "Agility",
+      "Stamina",
+      "Magic",
+      "Perception",
+      "Mental Power",
+      "Soul of the Sword Master",
+      "Feather Sword",
+      "Golden Eye",
+      "Awakening",
+      "Magical Engineering Machine",
+      "Sacred Piece",
+      "Trial",
+      "Divine Artifact",
+      "Hidden Dungeon",
+      "Magic Stone",
+      "Monster Wave",
+      "Skill",
+      "Passive Skill",
+      "Ultimate Auto-Parrying",
+      "Shilling",
+      "MAX/Max",
+      "Ritardando (True)",
+      "True Ending",
+      "bullet hell shooter"
+    ],
+    "ordinary_unresolved": [],
+    "justification": "Source-backed Thai replacements for ordinary stats/UI/skills/items/currency and the ch011 ordinary genre parenthetical; proper names, brands, acronyms, usernames, factions, locations, and named song/skill labels were retained."
+  },
+  "outputs": [
+    {
+      "chapter": "ch001",
+      "final_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "staged_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-retranslate-20261003-ch001-ch005\\_staged_output\\ch001\\ch001.md",
+      "final_sha256": "e64e9589ddc79620a075f0a08b683003e69faf30f80e68c5d3b1e417f30f98b0",
+      "staged_sha256": "e64e9589ddc79620a075f0a08b683003e69faf30f80e68c5d3b1e417f30f98b0",
+      "final_bytes": 30573,
+      "staged_bytes": 30573,
+      "pairwise_equal": true,
+      "pipeline": {
+        "run_id": "ohks-lean-retranslate-20261003-ch001-ch005",
+        "run_report": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-retranslate-20261003-ch001-ch005\\lean_run_report.json",
+        "qa_passed": true,
+        "status": "complete",
+        "source_chars": 12050,
+        "sentinel_failed": false,
+        "sentinel_counts": {
+          "blocker": 0,
+          "info": 0,
+          "major": 0,
+          "minor": 0
+        }
+      }
+    },
+    {
+      "chapter": "ch002",
+      "final_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "staged_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-retranslate-20261003-ch001-ch005\\_staged_output\\ch002\\ch002.md",
+      "final_sha256": "86fbbcc30b3dd898b3d974e6471a2b021fc3e22c1858dc8c543d0b9dd43566cc",
+      "staged_sha256": "86fbbcc30b3dd898b3d974e6471a2b021fc3e22c1858dc8c543d0b9dd43566cc",
+      "final_bytes": 43477,
+      "staged_bytes": 43477,
+      "pairwise_equal": true,
+      "pipeline": {
+        "run_id": "ohks-lean-retranslate-20261003-ch001-ch005",
+        "run_report": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-retranslate-20261003-ch001-ch005\\lean_run_report.json",
+        "qa_passed": true,
+        "status": "complete",
+        "source_chars": 15978,
+        "sentinel_failed": false,
+        "sentinel_counts": {
+          "blocker": 0,
+          "info": 0,
+          "major": 0,
+          "minor": 0
+        }
+      }
+    },
+    {
+      "chapter": "ch003",
+      "final_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch003\\ch003.md",
+      "staged_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-retranslate-20261003-ch001-ch005\\_staged_output\\ch003\\ch003.md",
+      "final_sha256": "48b92f64865b438e3ddebfc6dc06f77216e164db7de28fa0cc89afd72782e043",
+      "staged_sha256": "48b92f64865b438e3ddebfc6dc06f77216e164db7de28fa0cc89afd72782e043",
+      "final_bytes": 34307,
+      "staged_bytes": 34307,
+      "pairwise_equal": true,
+      "pipeline": {
+        "run_id": "ohks-lean-retranslate-20261003-ch001-ch005",
+        "run_report": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-retranslate-20261003-ch001-ch005\\lean_run_report.json",
+        "qa_passed": true,
+        "status": "complete",
+        "source_chars": 13210,
+        "sentinel_failed": false,
+        "sentinel_counts": {
+          "blocker": 0,
+          "info": 0,
+          "major": 0,
+          "minor": 0
+        }
+      }
+    },
+    {
+      "chapter": "ch004",
+      "final_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch004\\ch004.md",
+      "staged_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-retranslate-20261003-ch001-ch005\\_staged_output\\ch004\\ch004.md",
+      "final_sha256": "edda3fcc68881e15a8ec341d9a216b94201157b66848d341d0fe108d7fe4ebc5",
+      "staged_sha256": "edda3fcc68881e15a8ec341d9a216b94201157b66848d341d0fe108d7fe4ebc5",
+      "final_bytes": 31762,
+      "staged_bytes": 31762,
+      "pairwise_equal": true,
+      "pipeline": {
+        "run_id": "ohks-lean-retranslate-20261003-ch001-ch005",
+        "run_report": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-retranslate-20261003-ch001-ch005\\lean_run_report.json",
+        "qa_passed": true,
+        "status": "complete",
+        "source_chars": 11519,
+        "sentinel_failed": false,
+        "sentinel_counts": {
+          "blocker": 0,
+          "info": 0,
+          "major": 0,
+          "minor": 0
+        }
+      }
+    },
+    {
+      "chapter": "ch005",
+      "final_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch005\\ch005.md",
+      "staged_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-retranslate-20261003-ch001-ch005\\_staged_output\\ch005\\ch005.md",
+      "final_sha256": "0c0d22ea9b14126c1c3f656d24a741b118fe8767f9a410c5028d0c449f9becef",
+      "staged_sha256": "0c0d22ea9b14126c1c3f656d24a741b118fe8767f9a410c5028d0c449f9becef",
+      "final_bytes": 40687,
+      "staged_bytes": 40687,
+      "pairwise_equal": true,
+      "pipeline": {
+        "run_id": "ohks-lean-retranslate-20261003-ch001-ch005",
+        "run_report": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-retranslate-20261003-ch001-ch005\\lean_run_report.json",
+        "qa_passed": true,
+        "status": "complete",
+        "source_chars": 14749,
+        "sentinel_failed": false,
+        "sentinel_counts": {
+          "blocker": 0,
+          "info": 0,
+          "major": 0,
+          "minor": 0
+        }
+      }
+    },
+    {
+      "chapter": "ch006",
+      "final_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch006\\ch006.md",
+      "staged_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-production-20261003-ch006-ch010\\_staged_output\\ch006\\ch006.md",
+      "final_sha256": "7890c128bb0904481b16dc167c23ff95871b0b5e02abe1da3cdfb5d4a74796d1",
+      "staged_sha256": "7890c128bb0904481b16dc167c23ff95871b0b5e02abe1da3cdfb5d4a74796d1",
+      "final_bytes": 29245,
+      "staged_bytes": 29245,
+      "pairwise_equal": true,
+      "pipeline": {
+        "run_id": "ohks-lean-production-20261003-ch006-ch010",
+        "run_report": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-production-20261003-ch006-ch010\\lean_run_report.json",
+        "qa_passed": true,
+        "status": "complete",
+        "source_chars": 10885,
+        "sentinel_failed": false,
+        "sentinel_counts": {
+          "blocker": 0,
+          "info": 0,
+          "major": 0,
+          "minor": 0
+        }
+      }
+    },
+    {
+      "chapter": "ch007",
+      "final_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch007\\ch007.md",
+      "staged_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-production-20261003-ch006-ch010\\_staged_output\\ch007\\ch007.md",
+      "final_sha256": "271dbc94edf611ac8bf4608ac623cc33f2f83d86b280e52973099d8fefd3b486",
+      "staged_sha256": "271dbc94edf611ac8bf4608ac623cc33f2f83d86b280e52973099d8fefd3b486",
+      "final_bytes": 33770,
+      "staged_bytes": 33770,
+      "pairwise_equal": true,
+      "pipeline": {
+        "run_id": "ohks-lean-production-20261003-ch006-ch010",
+        "run_report": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-production-20261003-ch006-ch010\\lean_run_report.json",
+        "qa_passed": true,
+        "status": "complete",
+        "source_chars": 12253,
+        "sentinel_failed": false,
+        "sentinel_counts": {
+          "blocker": 0,
+          "info": 0,
+          "major": 0,
+          "minor": 0
+        }
+      }
+    },
+    {
+      "chapter": "ch008",
+      "final_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch008\\ch008.md",
+      "staged_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-production-20261003-ch006-ch010\\_staged_output\\ch008\\ch008.md",
+      "final_sha256": "e09a1980634b6487d8f8a1b21a1fb46c7ad3328f76555e1b0f8a830a5c47300f",
+      "staged_sha256": "e09a1980634b6487d8f8a1b21a1fb46c7ad3328f76555e1b0f8a830a5c47300f",
+      "final_bytes": 29836,
+      "staged_bytes": 29836,
+      "pairwise_equal": true,
+      "pipeline": {
+        "run_id": "ohks-lean-production-20261003-ch006-ch010",
+        "run_report": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-production-20261003-ch006-ch010\\lean_run_report.json",
+        "qa_passed": true,
+        "status": "complete",
+        "source_chars": 11389,
+        "sentinel_failed": false,
+        "sentinel_counts": {
+          "blocker": 0,
+          "info": 0,
+          "major": 0,
+          "minor": 0
+        }
+      }
+    },
+    {
+      "chapter": "ch009",
+      "final_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch009\\ch009.md",
+      "staged_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-production-20261003-ch006-ch010\\_staged_output\\ch009\\ch009.md",
+      "final_sha256": "b23ad0c556a938e5cc27179815299e28ae6678bb27bd6ba42f4d58d0f227aec6",
+      "staged_sha256": "b23ad0c556a938e5cc27179815299e28ae6678bb27bd6ba42f4d58d0f227aec6",
+      "final_bytes": 31592,
+      "staged_bytes": 31592,
+      "pairwise_equal": true,
+      "pipeline": {
+        "run_id": "ohks-lean-production-20261003-ch006-ch010",
+        "run_report": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-production-20261003-ch006-ch010\\lean_run_report.json",
+        "qa_passed": true,
+        "status": "complete",
+        "source_chars": 11089,
+        "sentinel_failed": false,
+        "sentinel_counts": {
+          "blocker": 0,
+          "info": 0,
+          "major": 0,
+          "minor": 0
+        }
+      }
+    },
+    {
+      "chapter": "ch010",
+      "final_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch010\\ch010.md",
+      "staged_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-production-20261003-ch006-ch010\\_staged_output\\ch010\\ch010.md",
+      "final_sha256": "d99cb01c4fbb2d11279e67b8cdab942106fba0db7c076859169b154ef84962cf",
+      "staged_sha256": "d99cb01c4fbb2d11279e67b8cdab942106fba0db7c076859169b154ef84962cf",
+      "final_bytes": 33844,
+      "staged_bytes": 33844,
+      "pairwise_equal": true,
+      "pipeline": {
+        "run_id": "ohks-lean-production-20261003-ch006-ch010",
+        "run_report": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-production-20261003-ch006-ch010\\lean_run_report.json",
+        "qa_passed": true,
+        "status": "complete",
+        "source_chars": 11765,
+        "sentinel_failed": false,
+        "sentinel_counts": {
+          "blocker": 0,
+          "info": 0,
+          "major": 0,
+          "minor": 0
+        }
+      }
+    },
+    {
+      "chapter": "ch011",
+      "final_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch011\\ch011.md",
+      "staged_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-production-20261003-ch011-ch015-ch011\\_staged_output\\ch011\\ch011.md",
+      "final_sha256": "afe27f08091a696f80020eb005f9cedfec74aafec4fe7d5259f7fed69f2c1943",
+      "staged_sha256": "afe27f08091a696f80020eb005f9cedfec74aafec4fe7d5259f7fed69f2c1943",
+      "final_bytes": 31693,
+      "staged_bytes": 31693,
+      "pairwise_equal": true,
+      "pipeline": {
+        "run_id": "ohks-lean-production-20261003-ch011-ch015-ch011",
+        "run_report": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-production-20261003-ch011-ch015-ch011\\lean_run_report.json",
+        "qa_passed": true,
+        "status": "promoted",
+        "source_chars": 11492,
+        "sentinel_failed": false,
+        "sentinel_counts": {
+          "blocker": 0,
+          "info": 0,
+          "major": 0,
+          "minor": 0
+        }
+      }
+    },
+    {
+      "chapter": "ch012",
+      "final_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch012\\ch012.md",
+      "staged_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-production-20261003-ch011-ch015-ch012\\_staged_output\\ch012\\ch012.md",
+      "final_sha256": "40ea093adba459be89859678953bcde750c8e62246f34182d556ea0dd3ad09ad",
+      "staged_sha256": "40ea093adba459be89859678953bcde750c8e62246f34182d556ea0dd3ad09ad",
+      "final_bytes": 30992,
+      "staged_bytes": 30992,
+      "pairwise_equal": true,
+      "pipeline": {
+        "run_id": "ohks-lean-production-20261003-ch011-ch015-ch012",
+        "run_report": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-production-20261003-ch011-ch015-ch012\\lean_run_report.json",
+        "qa_passed": true,
+        "status": "promoted",
+        "source_chars": 11472,
+        "sentinel_failed": false,
+        "sentinel_counts": {
+          "blocker": 0,
+          "info": 0,
+          "major": 0,
+          "minor": 0
+        }
+      }
+    },
+    {
+      "chapter": "ch013",
+      "final_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch013\\ch013.md",
+      "staged_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-production-20261003-ch011-ch015-ch013\\_staged_output\\ch013\\ch013.md",
+      "final_sha256": "f45456b65203ce63d6877f3b7e9cb7d65d0682c48d9c52b149e64cb369e69d9f",
+      "staged_sha256": "f45456b65203ce63d6877f3b7e9cb7d65d0682c48d9c52b149e64cb369e69d9f",
+      "final_bytes": 33213,
+      "staged_bytes": 33213,
+      "pairwise_equal": true,
+      "pipeline": {
+        "run_id": "ohks-lean-production-20261003-ch011-ch015-ch013",
+        "run_report": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-production-20261003-ch011-ch015-ch013\\lean_run_report.json",
+        "qa_passed": true,
+        "status": "promoted",
+        "source_chars": 12348,
+        "sentinel_failed": false,
+        "sentinel_counts": {
+          "blocker": 0,
+          "info": 0,
+          "major": 0,
+          "minor": 0
+        }
+      }
+    },
+    {
+      "chapter": "ch014",
+      "final_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch014\\ch014.md",
+      "staged_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-production-20261003-ch011-ch015-ch014\\_staged_output\\ch014\\ch014.md",
+      "final_sha256": "667296671b36bbcbf8bb0c558a04b7c28c04417f0b9bfa7ec77c587b58c182ce",
+      "staged_sha256": "667296671b36bbcbf8bb0c558a04b7c28c04417f0b9bfa7ec77c587b58c182ce",
+      "final_bytes": 33629,
+      "staged_bytes": 33629,
+      "pairwise_equal": true,
+      "pipeline": {
+        "run_id": "ohks-lean-production-20261003-ch011-ch015-ch014",
+        "run_report": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-production-20261003-ch011-ch015-ch014\\lean_run_report.json",
+        "qa_passed": true,
+        "status": "promoted",
+        "source_chars": 11941,
+        "sentinel_failed": false,
+        "sentinel_counts": {
+          "blocker": 0,
+          "info": 0,
+          "major": 0,
+          "minor": 0
+        }
+      }
+    },
+    {
+      "chapter": "ch015",
+      "final_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch015\\ch015.md",
+      "staged_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-production-20261003-ch011-ch015-ch015\\_staged_output\\ch015\\ch015.md",
+      "final_sha256": "ed4bbbfe45841137417d5c1c8413a898dc594eac1c5b94960d6df5d4830715af",
+      "staged_sha256": "ed4bbbfe45841137417d5c1c8413a898dc594eac1c5b94960d6df5d4830715af",
+      "final_bytes": 35997,
+      "staged_bytes": 35997,
+      "pairwise_equal": true,
+      "pipeline": {
+        "run_id": "ohks-lean-production-20261003-ch011-ch015-ch015",
+        "run_report": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-production-20261003-ch011-ch015-ch015\\lean_run_report.json",
+        "qa_passed": true,
+        "status": "promoted",
+        "source_chars": 13175,
+        "sentinel_failed": false,
+        "sentinel_counts": {
+          "blocker": 0,
+          "info": 0,
+          "major": 0,
+          "minor": 0
+        }
+      }
+    },
+    {
+      "chapter": "ch016",
+      "final_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch016\\ch016.md",
+      "staged_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-rest-20261003-ch016-ch020\\_staged_output\\ch016\\ch016.md",
+      "final_sha256": "ec919d4067bca73a746f6c13f572d4281d125e7c75a53daa88117ecf9afe1cb0",
+      "staged_sha256": "ec919d4067bca73a746f6c13f572d4281d125e7c75a53daa88117ecf9afe1cb0",
+      "final_bytes": 32853,
+      "staged_bytes": 32853,
+      "pairwise_equal": true,
+      "pipeline": {
+        "run_id": "ohks-lean-rest-20261003-ch016-ch020",
+        "run_report": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-rest-20261003-ch016-ch020\\lean_run_report.json",
+        "qa_passed": true,
+        "status": "promoted",
+        "source_chars": 12007,
+        "sentinel_failed": false,
+        "sentinel_counts": {
+          "blocker": 0,
+          "info": 0,
+          "major": 0,
+          "minor": 0
+        }
+      }
+    },
+    {
+      "chapter": "ch017",
+      "final_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch017\\ch017.md",
+      "staged_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-rest-20261003-ch016-ch020\\_staged_output\\ch017\\ch017.md",
+      "final_sha256": "5b864b166f25d14375487cf9b0ec6517be411edafa85974c81474c95f4a3734d",
+      "staged_sha256": "5b864b166f25d14375487cf9b0ec6517be411edafa85974c81474c95f4a3734d",
+      "final_bytes": 35499,
+      "staged_bytes": 35499,
+      "pairwise_equal": true,
+      "pipeline": {
+        "run_id": "ohks-lean-rest-20261003-ch016-ch020",
+        "run_report": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-rest-20261003-ch016-ch020\\lean_run_report.json",
+        "qa_passed": true,
+        "status": "promoted",
+        "source_chars": 13291,
+        "sentinel_failed": false,
+        "sentinel_counts": {
+          "blocker": 0,
+          "info": 0,
+          "major": 0,
+          "minor": 0
+        }
+      }
+    },
+    {
+      "chapter": "ch018",
+      "final_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch018\\ch018.md",
+      "staged_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-rest-20261003-ch016-ch020\\_staged_output\\ch018\\ch018.md",
+      "final_sha256": "ab3cc7e108a2473a72b9a09b5498f57b092b4aeb0dab1b50e7efcfa828ad4c6b",
+      "staged_sha256": "ab3cc7e108a2473a72b9a09b5498f57b092b4aeb0dab1b50e7efcfa828ad4c6b",
+      "final_bytes": 32779,
+      "staged_bytes": 32779,
+      "pairwise_equal": true,
+      "pipeline": {
+        "run_id": "ohks-lean-rest-20261003-ch016-ch020",
+        "run_report": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-rest-20261003-ch016-ch020\\lean_run_report.json",
+        "qa_passed": true,
+        "status": "promoted",
+        "source_chars": 12826,
+        "sentinel_failed": false,
+        "sentinel_counts": {
+          "blocker": 0,
+          "info": 0,
+          "major": 0,
+          "minor": 0
+        }
+      }
+    },
+    {
+      "chapter": "ch019",
+      "final_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch019\\ch019.md",
+      "staged_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-rest-20261003-ch016-ch020\\_staged_output\\ch019\\ch019.md",
+      "final_sha256": "de85bd0cb2179a156986926d939a1d7f97b24bf4ee9be8e3a1c88816cf943ab2",
+      "staged_sha256": "de85bd0cb2179a156986926d939a1d7f97b24bf4ee9be8e3a1c88816cf943ab2",
+      "final_bytes": 30550,
+      "staged_bytes": 30550,
+      "pairwise_equal": true,
+      "pipeline": {
+        "run_id": "ohks-lean-rest-20261003-ch016-ch020",
+        "run_report": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-rest-20261003-ch016-ch020\\lean_run_report.json",
+        "qa_passed": true,
+        "status": "promoted",
+        "source_chars": 11635,
+        "sentinel_failed": false,
+        "sentinel_counts": {
+          "blocker": 0,
+          "info": 0,
+          "major": 0,
+          "minor": 0
+        }
+      }
+    },
+    {
+      "chapter": "ch020",
+      "final_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch020\\ch020.md",
+      "staged_path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-rest-20261003-ch016-ch020\\_staged_output\\ch020\\ch020.md",
+      "final_sha256": "e747e9b10b5d09d090e258bf932f7b29884b8a23de3d3c8f1c7d9efc109bbc30",
+      "staged_sha256": "e747e9b10b5d09d090e258bf932f7b29884b8a23de3d3c8f1c7d9efc109bbc30",
+      "final_bytes": 36306,
+      "staged_bytes": 36306,
+      "pairwise_equal": true,
+      "pipeline": {
+        "run_id": "ohks-lean-rest-20261003-ch016-ch020",
+        "run_report": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_lean_runs\\ohks-lean-rest-20261003-ch016-ch020\\lean_run_report.json",
+        "qa_passed": true,
+        "status": "promoted",
+        "source_chars": 13399,
+        "sentinel_failed": false,
+        "sentinel_counts": {
+          "blocker": 0,
+          "info": 0,
+          "major": 0,
+          "minor": 0
+        }
+      }
+    }
+  ],
+  "trace_audit": {
+    "ch001": {
+      "trace_count": 5,
+      "trace_stdout_list_lines": 0,
+      "trace_stdout_ascii_scene_breaks_total": 0,
+      "source_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 38
+      },
+      "refined_candidate_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 40
+      },
+      "staged_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 40
+      },
+      "final_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 40
+      },
+      "list_loss_guard": true,
+      "scene_break_guard": true
+    },
+    "ch002": {
+      "trace_count": 5,
+      "trace_stdout_list_lines": 0,
+      "trace_stdout_ascii_scene_breaks_total": 0,
+      "source_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 14
+      },
+      "refined_candidate_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 14
+      },
+      "staged_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 14
+      },
+      "final_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 14
+      },
+      "list_loss_guard": true,
+      "scene_break_guard": true
+    },
+    "ch003": {
+      "trace_count": 8,
+      "trace_stdout_list_lines": 0,
+      "trace_stdout_ascii_scene_breaks_total": 0,
+      "source_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 6
+      },
+      "refined_candidate_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 6
+      },
+      "staged_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 6
+      },
+      "final_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 6
+      },
+      "list_loss_guard": true,
+      "scene_break_guard": true
+    },
+    "ch004": {
+      "trace_count": 5,
+      "trace_stdout_list_lines": 0,
+      "trace_stdout_ascii_scene_breaks_total": 2,
+      "source_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 1,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 13
+      },
+      "refined_candidate_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 1,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 13
+      },
+      "staged_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 1,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 13
+      },
+      "final_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 1,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 13
+      },
+      "list_loss_guard": true,
+      "scene_break_guard": true
+    },
+    "ch005": {
+      "trace_count": 6,
+      "trace_stdout_list_lines": 0,
+      "trace_stdout_ascii_scene_breaks_total": 0,
+      "source_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 1
+      },
+      "refined_candidate_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 2
+      },
+      "staged_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 2
+      },
+      "final_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 2
+      },
+      "list_loss_guard": true,
+      "scene_break_guard": true
+    },
+    "ch006": {
+      "trace_count": 5,
+      "trace_stdout_list_lines": 0,
+      "trace_stdout_ascii_scene_breaks_total": 0,
+      "source_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 1,
+        "bracket_ui_lines": 1
+      },
+      "refined_candidate_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 1,
+        "bracket_ui_lines": 2
+      },
+      "staged_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 1,
+        "bracket_ui_lines": 2
+      },
+      "final_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 1,
+        "bracket_ui_lines": 2
+      },
+      "list_loss_guard": true,
+      "scene_break_guard": true
+    },
+    "ch007": {
+      "trace_count": 5,
+      "trace_stdout_list_lines": 0,
+      "trace_stdout_ascii_scene_breaks_total": 0,
+      "source_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 3,
+        "bracket_ui_lines": 9
+      },
+      "refined_candidate_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 3,
+        "bracket_ui_lines": 9
+      },
+      "staged_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 3,
+        "bracket_ui_lines": 9
+      },
+      "final_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 3,
+        "bracket_ui_lines": 9
+      },
+      "list_loss_guard": true,
+      "scene_break_guard": true
+    },
+    "ch008": {
+      "trace_count": 6,
+      "trace_stdout_list_lines": 0,
+      "trace_stdout_ascii_scene_breaks_total": 3,
+      "source_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 1,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 7
+      },
+      "refined_candidate_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 1,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 7
+      },
+      "staged_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 1,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 7
+      },
+      "final_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 1,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 7
+      },
+      "list_loss_guard": true,
+      "scene_break_guard": true
+    },
+    "ch009": {
+      "trace_count": 5,
+      "trace_stdout_list_lines": 0,
+      "trace_stdout_ascii_scene_breaks_total": 0,
+      "source_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 1
+      },
+      "refined_candidate_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 2
+      },
+      "staged_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 2
+      },
+      "final_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 2
+      },
+      "list_loss_guard": true,
+      "scene_break_guard": true
+    },
+    "ch010": {
+      "trace_count": 6,
+      "trace_stdout_list_lines": 0,
+      "trace_stdout_ascii_scene_breaks_total": 0,
+      "source_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 12
+      },
+      "refined_candidate_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 12
+      },
+      "staged_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 12
+      },
+      "final_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 12
+      },
+      "list_loss_guard": true,
+      "scene_break_guard": true
+    },
+    "ch011": {
+      "trace_count": 5,
+      "trace_stdout_list_lines": 0,
+      "trace_stdout_ascii_scene_breaks_total": 0,
+      "source_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 3,
+        "bracket_ui_lines": 17
+      },
+      "refined_candidate_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 3,
+        "bracket_ui_lines": 17
+      },
+      "staged_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 3,
+        "bracket_ui_lines": 17
+      },
+      "final_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 3,
+        "bracket_ui_lines": 17
+      },
+      "list_loss_guard": true,
+      "scene_break_guard": true
+    },
+    "ch012": {
+      "trace_count": 5,
+      "trace_stdout_list_lines": 0,
+      "trace_stdout_ascii_scene_breaks_total": 0,
+      "source_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 4,
+        "bracket_ui_lines": 10
+      },
+      "refined_candidate_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 4,
+        "bracket_ui_lines": 10
+      },
+      "staged_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 4,
+        "bracket_ui_lines": 10
+      },
+      "final_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 4,
+        "bracket_ui_lines": 10
+      },
+      "list_loss_guard": true,
+      "scene_break_guard": true
+    },
+    "ch013": {
+      "trace_count": 5,
+      "trace_stdout_list_lines": 0,
+      "trace_stdout_ascii_scene_breaks_total": 0,
+      "source_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 3,
+        "bracket_ui_lines": 7
+      },
+      "refined_candidate_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 3,
+        "bracket_ui_lines": 8
+      },
+      "staged_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 3,
+        "bracket_ui_lines": 8
+      },
+      "final_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 3,
+        "bracket_ui_lines": 8
+      },
+      "list_loss_guard": true,
+      "scene_break_guard": true
+    },
+    "ch014": {
+      "trace_count": 5,
+      "trace_stdout_list_lines": 0,
+      "trace_stdout_ascii_scene_breaks_total": 0,
+      "source_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 1,
+        "bracket_ui_lines": 6
+      },
+      "refined_candidate_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 1,
+        "bracket_ui_lines": 6
+      },
+      "staged_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 1,
+        "bracket_ui_lines": 6
+      },
+      "final_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 1,
+        "bracket_ui_lines": 6
+      },
+      "list_loss_guard": true,
+      "scene_break_guard": true
+    },
+    "ch015": {
+      "trace_count": 5,
+      "trace_stdout_list_lines": 0,
+      "trace_stdout_ascii_scene_breaks_total": 0,
+      "source_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 1
+      },
+      "refined_candidate_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 1
+      },
+      "staged_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 1
+      },
+      "final_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 1
+      },
+      "list_loss_guard": true,
+      "scene_break_guard": true
+    },
+    "ch016": {
+      "trace_count": 5,
+      "trace_stdout_list_lines": 0,
+      "trace_stdout_ascii_scene_breaks_total": 0,
+      "source_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 4
+      },
+      "refined_candidate_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 4
+      },
+      "staged_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 4
+      },
+      "final_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 4
+      },
+      "list_loss_guard": true,
+      "scene_break_guard": true
+    },
+    "ch017": {
+      "trace_count": 6,
+      "trace_stdout_list_lines": 0,
+      "trace_stdout_ascii_scene_breaks_total": 0,
+      "source_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 6
+      },
+      "refined_candidate_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 6
+      },
+      "staged_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 6
+      },
+      "final_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 6
+      },
+      "list_loss_guard": true,
+      "scene_break_guard": true
+    },
+    "ch018": {
+      "trace_count": 5,
+      "trace_stdout_list_lines": 0,
+      "trace_stdout_ascii_scene_breaks_total": 0,
+      "source_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 9
+      },
+      "refined_candidate_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 9
+      },
+      "staged_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 9
+      },
+      "final_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 9
+      },
+      "list_loss_guard": true,
+      "scene_break_guard": true
+    },
+    "ch019": {
+      "trace_count": 5,
+      "trace_stdout_list_lines": 0,
+      "trace_stdout_ascii_scene_breaks_total": 0,
+      "source_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 13
+      },
+      "refined_candidate_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 13
+      },
+      "staged_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 13
+      },
+      "final_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 13
+      },
+      "list_loss_guard": true,
+      "scene_break_guard": true
+    },
+    "ch020": {
+      "trace_count": 6,
+      "trace_stdout_list_lines": 0,
+      "trace_stdout_ascii_scene_breaks_total": 0,
+      "source_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 5
+      },
+      "refined_candidate_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 5
+      },
+      "staged_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 5
+      },
+      "final_markers": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 5
+      },
+      "list_loss_guard": true,
+      "scene_break_guard": true
+    }
+  },
+  "spot_checks": {
+    "ch001": {
+      "source_title": "Chapter 1: Prologue",
+      "output_title_present": true,
+      "opening_present": true,
+      "middle_present": true,
+      "ending_present": true,
+      "paragraph_density": {
+        "paragraphs": 211,
+        "opening_chars": 15,
+        "middle_chars": 10,
+        "ending_chars": 37,
+        "max_paragraph_chars": 187,
+        "paragraphs_over_600_chars": 0
+      },
+      "dialogue_or_thought_lines": 67,
+      "marker_counts": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 40
+      },
+      "metadata_leak_lines": [],
+      "truncation_markers": []
+    },
+    "ch003": {
+      "source_title": "Chapter 3: Underground World Arena (2)",
+      "output_title_present": true,
+      "opening_present": true,
+      "middle_present": true,
+      "ending_present": true,
+      "paragraph_density": {
+        "paragraphs": 226,
+        "opening_chars": 33,
+        "middle_chars": 15,
+        "ending_chars": 52,
+        "max_paragraph_chars": 166,
+        "paragraphs_over_600_chars": 0
+      },
+      "dialogue_or_thought_lines": 53,
+      "marker_counts": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 6
+      },
+      "metadata_leak_lines": [],
+      "truncation_markers": []
+    },
+    "ch008": {
+      "source_title": "Chapter 8: Adelia von Goldheart (1)",
+      "output_title_present": true,
+      "opening_present": true,
+      "middle_present": true,
+      "ending_present": true,
+      "paragraph_density": {
+        "paragraphs": 191,
+        "opening_chars": 37,
+        "middle_chars": 59,
+        "ending_chars": 30,
+        "max_paragraph_chars": 188,
+        "paragraphs_over_600_chars": 0
+      },
+      "dialogue_or_thought_lines": 7,
+      "marker_counts": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 1,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 7
+      },
+      "metadata_leak_lines": [],
+      "truncation_markers": []
+    },
+    "ch010": {
+      "source_title": "Chapter 10: Revelation and Trial (1)",
+      "output_title_present": true,
+      "opening_present": true,
+      "middle_present": true,
+      "ending_present": true,
+      "paragraph_density": {
+        "paragraphs": 220,
+        "opening_chars": 37,
+        "middle_chars": 3,
+        "ending_chars": 124,
+        "max_paragraph_chars": 165,
+        "paragraphs_over_600_chars": 0
+      },
+      "dialogue_or_thought_lines": 27,
+      "marker_counts": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 2,
+        "bracket_ui_lines": 12
+      },
+      "metadata_leak_lines": [],
+      "truncation_markers": []
+    },
+    "ch017": {
+      "source_title": "Chapter 17: Momentary Enlightenment (5)",
+      "output_title_present": true,
+      "opening_present": true,
+      "middle_present": true,
+      "ending_present": true,
+      "paragraph_density": {
+        "paragraphs": 229,
+        "opening_chars": 38,
+        "middle_chars": 106,
+        "ending_chars": 81,
+        "max_paragraph_chars": 166,
+        "paragraphs_over_600_chars": 0
+      },
+      "dialogue_or_thought_lines": 21,
+      "marker_counts": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 6
+      },
+      "metadata_leak_lines": [],
+      "truncation_markers": []
+    },
+    "ch020": {
+      "source_title": "Chapter 20: Free City Vertas (2)",
+      "output_title_present": true,
+      "opening_present": true,
+      "middle_present": true,
+      "ending_present": true,
+      "paragraph_density": {
+        "paragraphs": 196,
+        "opening_chars": 32,
+        "middle_chars": 81,
+        "ending_chars": 68,
+        "max_paragraph_chars": 317,
+        "paragraphs_over_600_chars": 0
+      },
+      "dialogue_or_thought_lines": 14,
+      "marker_counts": {
+        "list_lines": 0,
+        "ascii_scene_breaks": 0,
+        "equals_scene_breaks": 0,
+        "bracket_ui_lines": 5
+      },
+      "metadata_leak_lines": [],
+      "truncation_markers": []
+    }
+  },
+  "gates": {
+    "guardrails": {
+      "command": "python -X utf8 scripts/check_output_quality_guardrails.py --novel one-hit-kill-swordmaster --chapters ch001-ch020",
+      "result": "passed"
+    },
+    "blocking_sentinel": {
+      "path": "D:\\Fogust\\Workspace\\Novel\\07_Reports\\sentinel_quality_ohks-reader-review-20261003b-repaired-final_20261003_185041.json",
+      "counts": {
+        "blocker": 0,
+        "major": 0,
+        "minor": 0,
+        "info": 0
+      },
+      "safe_to_publish": true
+    },
+    "uncapped_advisory": {
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\07_Reports\\sentinel_quality_lean-ohks-exhaustive-advisory-repaired_20261003_185242.json",
+      "max_examples": 10000,
+      "findings_count": 105,
+      "retained_justified_count": 105,
+      "ordinary_unresolved_count": 0,
+      "classification_counts": {
+        "brand/acronym/username": 45,
+        "proper_name/location/faction/title": 51,
+        "named_song_or_skill_label": 9
+      }
+    }
+  },
+  "scope_controls": {
+    "provider_calls": 0,
+    "retranslation": false,
+    "glossary_changes": false,
+    "routing_changes": false,
+    "git_changes": false,
+    "publish": false
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-10-03T19:24:43.611607+00:00",
+  "scope": "accept-dse-all",
+  "chapters": "ch001-ch020",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

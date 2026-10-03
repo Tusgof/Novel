@@ -1,0 +1,63 @@
+{
+  "created_at": "2026-10-03T11:36:58.285513+00:00",
+  "scope": "verify-hgd-ch001-ch005-20261003",
+  "chapters": "ch001-ch005",
+  "counts": {
+    "blocker": 1,
+    "major": 1,
+    "minor": 5,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch002.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "The Orchestrator -> ผู้บงการ; glossary=The Orchestrator.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch002.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Silent Requiem -> เรเควียมเงียบงัน; glossary=Silent Requiem.md"
+    },
+    {
+      "severity": "major",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch002.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Blank Mask -> หน้ากากว่างเปล่า; glossary=Blank Mask.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch002.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Requiem -> เรเควียม; glossary=The Requiem.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch005.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous-Type Gates -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md"
+    },
+    {
+      "severity": "minor",
+      "category": "glossary_coverage_missing",
+      "path": "D:\\Fogust\\Workspace\\Novel\\MoonRead\\content\\generated\\books\\horror-game-developer\\chapters\\ch005.md",
+      "message": "moonread: source contains approved glossary term but output is missing thai_term",
+      "evidence": "Anomalous-Type Gate -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Gate"
+    }
+  ]
+}

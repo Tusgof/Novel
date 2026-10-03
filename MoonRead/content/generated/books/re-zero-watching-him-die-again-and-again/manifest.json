@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-17T14:02:21.025Z",
+  "generatedAt": "2026-10-03T20:11:24.162Z",
   "sourceRoot": "../Re Zero Watching Him Die Again and Again/05_Output",
   "targetRange": "ch001-ch008",
   "novel": {
@@ -42,8 +42,9 @@
       "sourcePath": "ch001/ch001.md",
       "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch001.md",
       "href": "/books/re-zero-watching-him-die-again-and-again/read/ch001",
-      "charCount": 67995,
-      "readingMinutes": 16
+      "charCount": 69638,
+      "readingMinutes": 16,
+      "translator": "[Lean]"
     },
     {
       "id": "ch002",
@@ -53,8 +54,9 @@
       "sourcePath": "ch002/ch002.md",
       "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch002.md",
       "href": "/books/re-zero-watching-him-die-again-and-again/read/ch002",
-      "charCount": 248132,
-      "readingMinutes": 56
+      "charCount": 260982,
+      "readingMinutes": 58,
+      "translator": "[Lean]"
     },
     {
       "id": "ch003",
@@ -64,8 +66,9 @@
       "sourcePath": "ch003/ch003.md",
       "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch003.md",
       "href": "/books/re-zero-watching-him-die-again-and-again/read/ch003",
-      "charCount": 166394,
-      "readingMinutes": 37
+      "charCount": 174300,
+      "readingMinutes": 39,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch004",
@@ -75,8 +78,9 @@
       "sourcePath": "ch004/ch004.md",
       "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch004.md",
       "href": "/books/re-zero-watching-him-die-again-and-again/read/ch004",
-      "charCount": 147051,
-      "readingMinutes": 33
+      "charCount": 154857,
+      "readingMinutes": 35,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch005",
@@ -86,8 +90,9 @@
       "sourcePath": "ch005/ch005.md",
       "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch005.md",
       "href": "/books/re-zero-watching-him-die-again-and-again/read/ch005",
-      "charCount": 210836,
-      "readingMinutes": 47
+      "charCount": 218790,
+      "readingMinutes": 49,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch006",
@@ -98,7 +103,8 @@
       "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch006.md",
       "href": "/books/re-zero-watching-him-die-again-and-again/read/ch006",
       "charCount": 151437,
-      "readingMinutes": 34
+      "readingMinutes": 34,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch007",
@@ -109,7 +115,8 @@
       "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch007.md",
       "href": "/books/re-zero-watching-him-die-again-and-again/read/ch007",
       "charCount": 129924,
-      "readingMinutes": 29
+      "readingMinutes": 29,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch008",
@@ -120,7 +127,8 @@
       "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch008.md",
       "href": "/books/re-zero-watching-him-die-again-and-again/read/ch008",
       "charCount": 158637,
-      "readingMinutes": 36
+      "readingMinutes": 36,
+      "translator": "[Pipe]"
     }
   ]
 }

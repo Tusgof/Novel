@@ -200,6 +200,54 @@ async function main() {
       }), { chapterTitle: infiniteBook.firstChapter.title, available: infiniteBook.summary.available });
     }
 
+    const translationEvidence = [];
+    for (const book of library.books) {
+      const bookManifest = JSON.parse(await fs.readFile(
+        path.join(root, "content", "generated", "books", book.slug, "manifest.json"), "utf8"
+      ));
+      const readable = bookManifest.chapters.filter((chapter) => chapter.status === "available");
+      const lean = readable.filter((chapter) => chapter.translator === "[Lean]");
+      const pipe = readable.find((chapter) => chapter.translator === "[Pipe]");
+      const evidence = { slug: book.slug, leanCount: lean.length, pages: [], toc: [] };
+      for (const viewport of [{ width: 1440, height: 1000 }, { width: 390, height: 844 }]) {
+        await page.setViewportSize(viewport);
+        await page.goto(`${baseUrl}${book.chaptersHref}`, { waitUntil: "networkidle" });
+        evidence.toc.push(await page.evaluate(({ count, hasLean, hasPipe }) => ({
+          width: window.innerWidth,
+          rowCountMatches: document.querySelectorAll(".toc-list .ch-row").length === count,
+          labelsMatch: (!hasLean || document.body.innerText.includes("[Lean]")) &&
+            (!hasPipe || document.body.innerText.includes("[Pipe]")),
+          overflowX: document.documentElement.scrollWidth > window.innerWidth + 2,
+        }), { count: bookManifest.chapters.length, hasLean: lean.length > 0, hasPipe: Boolean(pipe) }));
+        const samples = [...new Map([lean[0], lean.at(-1), pipe].filter(Boolean).map(
+          (chapter) => [chapter.id, chapter]
+        )).values()];
+        for (const chapter of samples) {
+          await page.goto(`${baseUrl}${chapter.href}`, { waitUntil: "networkidle" });
+          evidence.pages.push(await page.evaluate(({ title, translator, id }) => ({
+            id,
+            width: window.innerWidth,
+            titleMatches: document.querySelector(".reader-head h1")?.textContent === title,
+            translatorMatches: document.querySelector(".reader-head .translator")?.textContent === translator,
+            duplicateTitle: [...document.querySelectorAll(".reader-article .reader-title")].some(
+              (heading) => heading.textContent === title
+            ),
+            leakedEmphasis: [...document.querySelectorAll(".reader-paragraph")].some(
+              (paragraph) => /\*{3,}/.test(paragraph.textContent)
+            ),
+            paragraphCount: document.querySelectorAll(".reader-paragraph").length,
+            overflowX: document.documentElement.scrollWidth > window.innerWidth + 2,
+          }), { title: chapter.title, translator: chapter.translator, id: chapter.id }));
+          if (chapter.id === lean[0]?.id) {
+            await page.screenshot({
+              path: path.join(outputDir, `lean-${book.slug}-${viewport.width}.png`), fullPage: false,
+            });
+          }
+        }
+      }
+      translationEvidence.push(evidence);
+    }
+
     const ogEvidence = await page.evaluate(() => ({
       hasOgTitle: Boolean(document.querySelector('meta[property="og:title"]')),
       hasOgImage: Boolean(document.querySelector('meta[property="og:image"]')),
@@ -264,6 +312,11 @@ async function main() {
         infiniteChaptersEvidence.hasAppbar &&
         infiniteChaptersEvidence.hasTocRows &&
         !infiniteChaptersEvidence.hasLegacyHeader &&
+        translationEvidence.every((book) =>
+          book.toc.every((toc) => toc.rowCountMatches && toc.labelsMatch && !toc.overflowX) &&
+          book.pages.every((reader) => reader.titleMatches && reader.translatorMatches &&
+            reader.paragraphCount > 0 && !reader.overflowX && !reader.duplicateTitle && !reader.leakedEmphasis)
+        ) &&
         mobileEvidence.hasTopbar &&
         !mobileEvidence.overflowX &&
         ogEvidence.hasOgTitle &&
@@ -283,6 +336,7 @@ async function main() {
       emphasisEvidence,
       horrorEvidence,
       infiniteChaptersEvidence,
+      translationEvidence,
       mobileEvidence,
       ogEvidence,
       notFoundEvidence,

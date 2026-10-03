@@ -32,12 +32,14 @@ function blockClass(block) {
 }
 function renderInline(text) {
   const parts = [];
-  const pattern = /(\*\*([^*]+)\*\*|\*([^*]+)\*)/g;
+  const pattern = /\*{4}([^*]+)\*{4}|\*{3}([^*]+)\*{3}|\*\*([^*]+)\*\*|\*([^*]+)\*/g;
   let last = 0, m;
   while ((m = pattern.exec(text)) !== null) {
     if (m.index > last) parts.push(text.slice(last, m.index));
-    if (m[2]) parts.push(<strong key={`s${m.index}`}>{m[2]}</strong>);
-    else if (m[3]) parts.push(<em key={`e${m.index}`}>{m[3]}</em>);
+    if (m[1]) parts.push(<strong key={`s${m.index}`}>{m[1]}</strong>);
+    else if (m[2]) parts.push(<strong key={`se${m.index}`}><em>{m[2]}</em></strong>);
+    else if (m[3]) parts.push(<strong key={`s${m.index}`}>{m[3]}</strong>);
+    else if (m[4]) parts.push(<em key={`e${m.index}`}>{m[4]}</em>);
     last = pattern.lastIndex;
   }
   if (last < text.length) parts.push(text.slice(last));
@@ -143,12 +145,14 @@ export default function ReaderShell({ chapter, neighbors, chapters, blocks, book
         <div className="reader-meta">
           <span><BookOpen size={14} /> {book?.title || "MoonRead"}</span>
           <span><Type size={14} /> ~{chapter.readingMinutes} นาที</span>
+          <span>ผู้แปล <span className="translator">{chapter.translator}</span></span>
         </div>
       </section>
 
       <article className="reader-article">
         {blocks.map((block, i) => {
-          if (block.type === "title") return <h2 className={blockClass(block)} key={i}>{block.text}</h2>;
+          if (block.type === "title") return block.text === chapter.title ? null : <h2 className={blockClass(block)} key={i}>{block.text}</h2>;
+          if (block.type === "separator") return <hr key={i} />;
           if (block.type === "heading") return <h3 className={blockClass(block)} key={i}>{block.text}</h3>;
           return <p className={blockClass(block)} key={i}>{renderInline(block.text)}</p>;
         })}
@@ -200,7 +204,7 @@ export default function ReaderShell({ chapter, neighbors, chapters, blocks, book
               {tocFiltered.map((item) => (
                 <Link key={item.id} className={`ch-row${item.id === chapter.id ? " reading" : ""}`} href={item.href} onClick={() => setTocOpen(false)}>
                   <span className="num">{String(item.number).padStart(3, "0")}</span>
-                  <span className="ct"><small>{chapterLabel(item)}</small><strong>{item.title}</strong></span>
+                  <span className="ct"><small>{chapterLabel(item)} · ผู้แปล <span className="translator">{item.translator}</span></small><strong>{item.title}</strong></span>
                   <span className="cm">{store.isBookmarked(slug, item.id) ? <Bookmark size={14} fill="currentColor" color="var(--gold)" /> : null}</span>
                 </Link>
               ))}

@@ -1,0 +1,574 @@
+{
+  "created_at": "2026-10-03T15:28:52.997771+00:00",
+  "scope": "lean-close-ohks-output",
+  "chapters": "ch001-ch020",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 80,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": [
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Strawberry Latte"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "RPG"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Lost Elder"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "LoEl"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Bad Ending"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Middle Finger"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "League"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Legends"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Strength"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Stamina"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Mana"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Perception"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Hidden Mastery"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Weaponry"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Agility"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Magic"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Weaponry\n\nSword"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "MAX"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Soul"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "the Sword Master"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Mythic"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Off"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Sword Master"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Mental Power"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Meteor"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Tutorial Point"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Strength"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Agility"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Stamina"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Magic"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Perception"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Hidden Mastery"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Weaponry\n\nSword"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "MAX"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "LoEl"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Soul"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "the Sword Master"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Grade"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Star"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Mythic"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Type"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Off Skill\n\nCost"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "per second"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Unavailable"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Necromancer"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Available"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Underground World Arena"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Ruins caravan"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Swordmaster"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "the Tyrant Dragon"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Ultimate"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Soul"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "the Sword Master"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Lost Elder"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "MAX"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Lost Elder"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "NPC"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "NEW"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Player"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "User"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "LoEl"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Veteran"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch004\\ch004.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Superhuman"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "VVIP"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "LoEl"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "RPG"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch005\\ch005.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "NPC"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch006\\ch006.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Soul"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch006\\ch006.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "the Sword Master"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch006\\ch006.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Master"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch006\\ch006.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Flame and Blacksmith"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch006\\ch006.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Feather Sword"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch006\\ch006.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "F-Feather Sword"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch006\\ch006.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "LoEl"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch006\\ch006.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "True Name Release"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch006\\ch006.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "True Name Release Form"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch008\\ch008.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Underground World Arena"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch008\\ch008.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Frostfall"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch008\\ch008.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Ruins Caravan"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch008\\ch008.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "Ruins Investigation Team"
+    }
+  ]
+}

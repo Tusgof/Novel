@@ -34,7 +34,7 @@ export default function ChaptersPage() {
             const inner = (
               <>
                 <span className="num">{String(c.number).padStart(3, "0")}</span>
-                <span className="ct"><small>{label}</small><strong>{disabled ? `${label} ยังไม่พร้อมอ่าน` : c.title}</strong></span>
+                <span className="ct"><small>{label}{!disabled ? <> · ผู้แปล <span className="translator">{c.translator}</span></> : null}</small><strong>{disabled ? `${label} ยังไม่พร้อมอ่าน` : c.title}</strong></span>
                 <span className="cm"><Clock3 size={13} /> {disabled ? (c.status === "rejected" ? "รอตรวจไฟล์" : "เร็วๆ นี้") : `${c.readingMinutes} น.`}</span>
                 <span className={`ch-state ${c.status}`}>{icon(c.status)}</span>
               </>

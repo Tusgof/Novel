@@ -26,7 +26,7 @@ export default function ChapterList({ chapters, compact = false }) {
           <>
             <span className={`chapter-state ${chapter.status}`}>{statusIcon(chapter.status)}</span>
             <span className="chapter-main">
-              <small>{chapterLabel(chapter)}</small>
+              <small>{chapterLabel(chapter)}{chapter.status === "available" ? <> · ผู้แปล <span className="translator">{chapter.translator}</span></> : null}</small>
               <strong>{displayTitle}</strong>
             </span>
             <span className="chapter-meta">

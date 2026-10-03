@@ -1,0 +1,20 @@
+schema_version: 1
+title: Ten Day Ultimatum
+aliases:
+- 十日终焉
+source_url: https://xszj.org/b/351379/cs/1
+status: active
+synopsis: 'เรื่องราวของผู้คนที่ติดอยู่ในสถานการณ์ปิดตายและต้องเผชิญกติกา ความลับ และเส้นตายสิบวัน โดยความจริงของโลกจะค่อยๆ เปิดเผยผ่านการเอาชีวิตรอดและการตัดสินใจของตัวละคร'
+tags:
+- ลึกลับ
+- ระทึกขวัญ
+- เอาชีวิตรอด
+- แฟนตาซีเชิง speculative
+style_notes: 'โทนกดดัน ลึกลับ และมีจังหวะเฉลยเป็นชั้นๆ รักษาความคลุมเครือของต้นฉบับจนกว่าจะมีหลักฐานในเนื้อเรื่อง'
+reader_expectations: 'ผู้อ่านคาดหวัง mystery แบบปิดตาย กติกาที่มีเดิมพันสูง และตัวละครที่ต้องตัดสินใจภายใต้เวลา'
+review_summary: 'ยืนยันชื่อจีน 十日终焉 ชื่ออังกฤษ Ten Day Ultimatum แหล่งต้นฉบับ XSZJ และ adapter xszj; catalog ตรวจพบ 1,385 ตอนก่อนเริ่ม pilot'
+last_reviewed_at: '2026-10-04'
+reviewed_by: codex_source_setup_20261004
+terminology: []
+reference_links: []
+notes: 'ยังไม่เปิด MoonRead จนกว่า ch001-ch010 จะผ่าน deterministic guardrails, blocking Sentinel และ spot-check'

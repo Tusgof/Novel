@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-17T14:02:21.305Z",
+  "generatedAt": "2026-10-03T20:11:24.451Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -10,9 +10,9 @@
     }
   },
   "summary": {
-    "books": 4,
-    "chapters": 649,
-    "available": 649,
+    "books": 6,
+    "chapters": 679,
+    "available": 679,
     "missing": 0,
     "rejected": 0
   },
@@ -50,7 +50,8 @@
         "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch281.md",
         "href": "/read/ch281",
         "charCount": 8294,
-        "readingMinutes": 2
+        "readingMinutes": 2,
+        "translator": "[Pipe]"
       },
       "firstChapter": {
         "id": "ch001",
@@ -60,8 +61,9 @@
         "sourcePath": "ch001/ch001.md",
         "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch001.md",
         "href": "/read/ch001",
-        "charCount": 7583,
-        "readingMinutes": 2
+        "charCount": 8302,
+        "readingMinutes": 2,
+        "translator": "[Lean]"
       }
     },
     {
@@ -97,7 +99,8 @@
         "generatedPath": "content/generated/books/horror-game-developer/chapters/ch290.md",
         "href": "/books/horror-game-developer/read/ch290",
         "charCount": 5023,
-        "readingMinutes": 2
+        "readingMinutes": 2,
+        "translator": "[Pipe]"
       },
       "firstChapter": {
         "id": "ch001",
@@ -107,8 +110,9 @@
         "sourcePath": "ch001/ch001.md",
         "generatedPath": "content/generated/books/horror-game-developer/chapters/ch001.md",
         "href": "/books/horror-game-developer/read/ch001",
-        "charCount": 6153,
-        "readingMinutes": 2
+        "charCount": 7008,
+        "readingMinutes": 2,
+        "translator": "[Lean]"
       }
     },
     {
@@ -145,7 +149,8 @@
         "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch070.md",
         "href": "/books/infinite-regressor-stories/read/ch070",
         "charCount": 11940,
-        "readingMinutes": 3
+        "readingMinutes": 3,
+        "translator": "[Pipe]"
       },
       "firstChapter": {
         "id": "ch001",
@@ -155,8 +160,9 @@
         "sourcePath": "ch001/ch001.md",
         "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch001.md",
         "href": "/books/infinite-regressor-stories/read/ch001",
-        "charCount": 9787,
-        "readingMinutes": 3
+        "charCount": 10181,
+        "readingMinutes": 3,
+        "translator": "[Lean]"
       }
     },
     {
@@ -189,7 +195,8 @@
         "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch008.md",
         "href": "/books/re-zero-watching-him-die-again-and-again/read/ch008",
         "charCount": 158637,
-        "readingMinutes": 36
+        "readingMinutes": 36,
+        "translator": "[Pipe]"
       },
       "firstChapter": {
         "id": "ch001",
@@ -199,8 +206,99 @@
         "sourcePath": "ch001/ch001.md",
         "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch001.md",
         "href": "/books/re-zero-watching-him-die-again-and-again/read/ch001",
-        "charCount": 67995,
-        "readingMinutes": 16
+        "charCount": 69638,
+        "readingMinutes": 16,
+        "translator": "[Lean]"
+      }
+    },
+    {
+      "slug": "one-hit-kill-swordmaster",
+      "title": "One Hit Kill Swordmaster",
+      "thaiTitle": "จอมดาบสังหารในดาบเดียว",
+      "tags": [
+        "แฟนตาซี",
+        "แอ็กชัน",
+        "ระบบเกม",
+        "ย้อนกลับ"
+      ],
+      "href": "/books/one-hit-kill-swordmaster",
+      "chaptersHref": "/books/one-hit-kill-swordmaster/chapters",
+      "targetRange": "ch001-ch020",
+      "summary": {
+        "total": 20,
+        "available": 20,
+        "missing": 0,
+        "rejected": 0,
+        "skipped": 0
+      },
+      "latestChapter": {
+        "id": "ch020",
+        "number": 20,
+        "title": "บทที่ 20: นครอิสระเวอร์ทัส (2)",
+        "status": "available",
+        "sourcePath": "ch020/ch020.md",
+        "generatedPath": "content/generated/books/one-hit-kill-swordmaster/chapters/ch020.md",
+        "href": "/books/one-hit-kill-swordmaster/read/ch020",
+        "charCount": 11971,
+        "readingMinutes": 3,
+        "translator": "[Lean]"
+      },
+      "firstChapter": {
+        "id": "ch001",
+        "number": 1,
+        "title": "บทที่ 1: บทนำ",
+        "status": "available",
+        "sourcePath": "ch001/ch001.md",
+        "generatedPath": "content/generated/books/one-hit-kill-swordmaster/chapters/ch001.md",
+        "href": "/books/one-hit-kill-swordmaster/read/ch001",
+        "charCount": 10371,
+        "readingMinutes": 3,
+        "translator": "[Lean]"
+      }
+    },
+    {
+      "slug": "ten-day-ultimatum",
+      "title": "Ten Day Ultimatum",
+      "thaiTitle": "คำขาดสิบวัน",
+      "tags": [
+        "ลึกลับ",
+        "เอาชีวิตรอด",
+        "ระทึกขวัญ",
+        "แฟนตาซี"
+      ],
+      "href": "/books/ten-day-ultimatum",
+      "chaptersHref": "/books/ten-day-ultimatum/chapters",
+      "targetRange": "ch001-ch010",
+      "summary": {
+        "total": 10,
+        "available": 10,
+        "missing": 0,
+        "rejected": 0,
+        "skipped": 0
+      },
+      "latestChapter": {
+        "id": "ch010",
+        "number": 10,
+        "title": "บทที่ 10: จบสิ้นแล้วหรือ?",
+        "status": "available",
+        "sourcePath": "ch010/ch010.md",
+        "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch010.md",
+        "href": "/books/ten-day-ultimatum/read/ch010",
+        "charCount": 3113,
+        "readingMinutes": 1,
+        "translator": "[Lean]"
+      },
+      "firstChapter": {
+        "id": "ch001",
+        "number": 1,
+        "title": "บทที่ 1: บ้านร้างไร้ผู้คน",
+        "status": "available",
+        "sourcePath": "ch001/ch001.md",
+        "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch001.md",
+        "href": "/books/ten-day-ultimatum/read/ch001",
+        "charCount": 2396,
+        "readingMinutes": 1,
+        "translator": "[Lean]"
       }
     }
   ]

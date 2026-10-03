@@ -65,7 +65,7 @@ export default async function BookChaptersPage({ params }) {
               <>
                 <span className="num">{String(chapter.number).padStart(3, "0")}</span>
                 <span className="ct">
-                  <small>{label}</small>
+                  <small>{label}{!disabled ? <> · ผู้แปล <span className="translator">{chapter.translator}</span></> : null}</small>
                   <strong>{disabled ? `${label} ยังไม่พร้อมอ่าน` : chapter.title}</strong>
                 </span>
                 <span className="cm">

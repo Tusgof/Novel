@@ -26,6 +26,7 @@ function loadRegistryBooks() {
         rawRoot,
         firstChapter: Number(process.env[reader.first_chapter_env] || reader.first_chapter || "1"),
         lastChapter: Number(process.env[reader.last_chapter_env] || reader.last_chapter || "1"),
+        leanRetranslatedThrough: Number(reader.lean_retranslated_through || 0),
         legacyDefault: Boolean(reader.legacy_default),
         titleNormalizer: novel.title_policy?.normalizer || "",
         novel: {
@@ -286,6 +287,7 @@ function buildBookManifest(book) {
       href: chapterHref(book, id),
       charCount,
       readingMinutes,
+      translator: number <= book.leanRetranslatedThrough ? "[Lean]" : "[Pipe]",
     };
     chapters.push(entry);
     included.push(entry);

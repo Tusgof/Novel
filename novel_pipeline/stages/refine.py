@@ -84,7 +84,7 @@ def _clean_refined_output(stdout: str) -> str:
     text = stdout.strip()
     if not text:
         return ""
-    for marker in ("\n---", "\n**Craft notes", "\nCraft notes", "\nหมายเหตุ"):
+    for marker in ("\n**Craft notes", "\nCraft notes", "\nหมายเหตุ"):
         marker_index = text.find(marker)
         if marker_index != -1:
             text = text[:marker_index].strip()
@@ -95,10 +95,9 @@ def _clean_refined_output(stdout: str) -> str:
         if not stripped:
             lines.append("")
             continue
-        # A leading asterisk is valid novel markup for sound effects and
-        # italicized prose. Strip only list/fence markers so a whole story
-        # line is not lost before QA (and glossary coverage) sees it.
-        if stripped.startswith(("- ", "* ", "#", "```")):
+        # Lists, comments and scene separators can be story content.
+        # Remove only envelope headings/fences, never their body lines.
+        if stripped.startswith(("#", "```")):
             continue
         if "Craft notes" in stripped:
             continue

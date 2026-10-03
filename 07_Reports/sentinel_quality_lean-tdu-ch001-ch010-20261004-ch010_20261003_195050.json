@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-10-03T19:50:50.209557+00:00",
+  "scope": "lean-tdu-ch001-ch010-20261004-ch010",
+  "chapters": "ch010",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

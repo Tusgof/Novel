@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-17T14:02:20.213Z",
+  "generatedAt": "2026-10-03T20:11:23.412Z",
   "sourceRoot": "../Deep Sea Embers/05_Output",
   "targetRange": "ch001-ch281",
   "novel": {
@@ -45,8 +45,9 @@
       "sourcePath": "ch001/ch001.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch001.md",
       "href": "/read/ch001",
-      "charCount": 7583,
-      "readingMinutes": 2
+      "charCount": 8302,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch002",
@@ -56,8 +57,9 @@
       "sourcePath": "ch002/ch002.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch002.md",
       "href": "/read/ch002",
-      "charCount": 8447,
-      "readingMinutes": 2
+      "charCount": 9688,
+      "readingMinutes": 3,
+      "translator": "[Lean]"
     },
     {
       "id": "ch003",
@@ -67,8 +69,9 @@
       "sourcePath": "ch003/ch003.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch003.md",
       "href": "/read/ch003",
-      "charCount": 8207,
-      "readingMinutes": 2
+      "charCount": 9067,
+      "readingMinutes": 3,
+      "translator": "[Lean]"
     },
     {
       "id": "ch004",
@@ -78,8 +81,9 @@
       "sourcePath": "ch004/ch004.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch004.md",
       "href": "/read/ch004",
-      "charCount": 9854,
-      "readingMinutes": 3
+      "charCount": 10806,
+      "readingMinutes": 3,
+      "translator": "[Lean]"
     },
     {
       "id": "ch005",
@@ -89,8 +93,9 @@
       "sourcePath": "ch005/ch005.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch005.md",
       "href": "/read/ch005",
-      "charCount": 7725,
-      "readingMinutes": 2
+      "charCount": 8594,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch006",
@@ -100,8 +105,9 @@
       "sourcePath": "ch006/ch006.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch006.md",
       "href": "/read/ch006",
-      "charCount": 8489,
-      "readingMinutes": 2
+      "charCount": 8976,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch007",
@@ -111,8 +117,9 @@
       "sourcePath": "ch007/ch007.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch007.md",
       "href": "/read/ch007",
-      "charCount": 7969,
-      "readingMinutes": 2
+      "charCount": 8565,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch008",
@@ -122,8 +129,9 @@
       "sourcePath": "ch008/ch008.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch008.md",
       "href": "/read/ch008",
-      "charCount": 7550,
-      "readingMinutes": 2
+      "charCount": 8564,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch009",
@@ -133,8 +141,9 @@
       "sourcePath": "ch009/ch009.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch009.md",
       "href": "/read/ch009",
-      "charCount": 9394,
-      "readingMinutes": 3
+      "charCount": 10178,
+      "readingMinutes": 3,
+      "translator": "[Lean]"
     },
     {
       "id": "ch010",
@@ -144,8 +153,9 @@
       "sourcePath": "ch010/ch010.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch010.md",
       "href": "/read/ch010",
-      "charCount": 8187,
-      "readingMinutes": 2
+      "charCount": 9060,
+      "readingMinutes": 3,
+      "translator": "[Lean]"
     },
     {
       "id": "ch011",
@@ -155,8 +165,9 @@
       "sourcePath": "ch011/ch011.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch011.md",
       "href": "/read/ch011",
-      "charCount": 7685,
-      "readingMinutes": 2
+      "charCount": 8510,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch012",
@@ -166,8 +177,9 @@
       "sourcePath": "ch012/ch012.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch012.md",
       "href": "/read/ch012",
-      "charCount": 7420,
-      "readingMinutes": 2
+      "charCount": 8138,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch013",
@@ -177,8 +189,9 @@
       "sourcePath": "ch013/ch013.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch013.md",
       "href": "/read/ch013",
-      "charCount": 7453,
-      "readingMinutes": 2
+      "charCount": 8246,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch014",
@@ -188,8 +201,9 @@
       "sourcePath": "ch014/ch014.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch014.md",
       "href": "/read/ch014",
-      "charCount": 7458,
-      "readingMinutes": 2
+      "charCount": 8315,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch015",
@@ -199,19 +213,21 @@
       "sourcePath": "ch015/ch015.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch015.md",
       "href": "/read/ch015",
-      "charCount": 8181,
-      "readingMinutes": 2
+      "charCount": 9037,
+      "readingMinutes": 3,
+      "translator": "[Lean]"
     },
     {
       "id": "ch016",
       "number": 16,
-      "title": "บทที่ 16: การย่างกรายในมิติวิญญาณ",
+      "title": "บทที่ 16: การเดินทางในมิติวิญญาณ",
       "status": "available",
       "sourcePath": "ch016/ch016.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch016.md",
       "href": "/read/ch016",
-      "charCount": 8097,
-      "readingMinutes": 2
+      "charCount": 8824,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch017",
@@ -221,8 +237,9 @@
       "sourcePath": "ch017/ch017.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch017.md",
       "href": "/read/ch017",
-      "charCount": 7234,
-      "readingMinutes": 2
+      "charCount": 8195,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch018",
@@ -232,8 +249,9 @@
       "sourcePath": "ch018/ch018.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch018.md",
       "href": "/read/ch018",
-      "charCount": 7092,
-      "readingMinutes": 2
+      "charCount": 8170,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch019",
@@ -243,8 +261,9 @@
       "sourcePath": "ch019/ch019.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch019.md",
       "href": "/read/ch019",
-      "charCount": 7772,
-      "readingMinutes": 2
+      "charCount": 8463,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch020",
@@ -254,8 +273,9 @@
       "sourcePath": "ch020/ch020.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch020.md",
       "href": "/read/ch020",
-      "charCount": 8408,
-      "readingMinutes": 2
+      "charCount": 9110,
+      "readingMinutes": 3,
+      "translator": "[Lean]"
     },
     {
       "id": "ch021",
@@ -266,7 +286,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch021.md",
       "href": "/read/ch021",
       "charCount": 8723,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch022",
@@ -277,7 +298,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch022.md",
       "href": "/read/ch022",
       "charCount": 7719,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch023",
@@ -288,7 +310,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch023.md",
       "href": "/read/ch023",
       "charCount": 7947,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch024",
@@ -299,7 +322,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch024.md",
       "href": "/read/ch024",
       "charCount": 7780,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch025",
@@ -310,7 +334,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch025.md",
       "href": "/read/ch025",
       "charCount": 7320,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch026",
@@ -321,7 +346,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch026.md",
       "href": "/read/ch026",
       "charCount": 7673,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch027",
@@ -332,7 +358,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch027.md",
       "href": "/read/ch027",
       "charCount": 7765,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch028",
@@ -343,7 +370,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch028.md",
       "href": "/read/ch028",
       "charCount": 7940,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch029",
@@ -354,7 +382,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch029.md",
       "href": "/read/ch029",
       "charCount": 8064,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch030",
@@ -365,7 +394,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch030.md",
       "href": "/read/ch030",
       "charCount": 7994,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch031",
@@ -376,7 +406,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch031.md",
       "href": "/read/ch031",
       "charCount": 7708,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch032",
@@ -387,7 +418,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch032.md",
       "href": "/read/ch032",
       "charCount": 8348,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch033",
@@ -398,7 +430,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch033.md",
       "href": "/read/ch033",
       "charCount": 7513,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch034",
@@ -409,7 +442,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch034.md",
       "href": "/read/ch034",
       "charCount": 8198,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch035",
@@ -420,7 +454,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch035.md",
       "href": "/read/ch035",
       "charCount": 7699,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch036",
@@ -431,7 +466,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch036.md",
       "href": "/read/ch036",
       "charCount": 8157,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch037",
@@ -442,7 +478,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch037.md",
       "href": "/read/ch037",
       "charCount": 9158,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch038",
@@ -453,7 +490,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch038.md",
       "href": "/read/ch038",
       "charCount": 8147,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch039",
@@ -464,7 +502,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch039.md",
       "href": "/read/ch039",
       "charCount": 7728,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch040",
@@ -475,7 +514,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch040.md",
       "href": "/read/ch040",
       "charCount": 8107,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch041",
@@ -486,7 +526,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch041.md",
       "href": "/read/ch041",
       "charCount": 7773,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch042",
@@ -497,7 +538,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch042.md",
       "href": "/read/ch042",
       "charCount": 7792,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch043",
@@ -508,7 +550,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch043.md",
       "href": "/read/ch043",
       "charCount": 7545,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch044",
@@ -519,7 +562,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch044.md",
       "href": "/read/ch044",
       "charCount": 8044,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch045",
@@ -530,7 +574,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch045.md",
       "href": "/read/ch045",
       "charCount": 8667,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch046",
@@ -541,7 +586,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch046.md",
       "href": "/read/ch046",
       "charCount": 8532,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch047",
@@ -552,7 +598,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch047.md",
       "href": "/read/ch047",
       "charCount": 7736,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch048",
@@ -563,7 +610,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch048.md",
       "href": "/read/ch048",
       "charCount": 8908,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch049",
@@ -574,7 +622,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch049.md",
       "href": "/read/ch049",
       "charCount": 8939,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch050",
@@ -585,7 +634,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch050.md",
       "href": "/read/ch050",
       "charCount": 8128,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch051",
@@ -596,7 +646,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch051.md",
       "href": "/read/ch051",
       "charCount": 8285,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch052",
@@ -607,7 +658,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch052.md",
       "href": "/read/ch052",
       "charCount": 7811,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch053",
@@ -618,7 +670,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch053.md",
       "href": "/read/ch053",
       "charCount": 8273,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch054",
@@ -629,7 +682,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch054.md",
       "href": "/read/ch054",
       "charCount": 8879,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch055",
@@ -640,7 +694,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch055.md",
       "href": "/read/ch055",
       "charCount": 7524,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch056",
@@ -651,7 +706,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch056.md",
       "href": "/read/ch056",
       "charCount": 9597,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch057",
@@ -662,7 +718,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch057.md",
       "href": "/read/ch057",
       "charCount": 8747,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch058",
@@ -673,7 +730,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch058.md",
       "href": "/read/ch058",
       "charCount": 8451,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch059",
@@ -684,7 +742,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch059.md",
       "href": "/read/ch059",
       "charCount": 8358,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch060",
@@ -695,7 +754,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch060.md",
       "href": "/read/ch060",
       "charCount": 8377,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch061",
@@ -706,7 +766,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch061.md",
       "href": "/read/ch061",
       "charCount": 7991,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch062",
@@ -717,7 +778,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch062.md",
       "href": "/read/ch062",
       "charCount": 8221,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch063",
@@ -728,7 +790,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch063.md",
       "href": "/read/ch063",
       "charCount": 7888,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch064",
@@ -739,7 +802,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch064.md",
       "href": "/read/ch064",
       "charCount": 9083,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch065",
@@ -750,7 +814,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch065.md",
       "href": "/read/ch065",
       "charCount": 10025,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch066",
@@ -761,7 +826,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch066.md",
       "href": "/read/ch066",
       "charCount": 7383,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch067",
@@ -772,7 +838,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch067.md",
       "href": "/read/ch067",
       "charCount": 8539,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch068",
@@ -783,7 +850,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch068.md",
       "href": "/read/ch068",
       "charCount": 8856,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch069",
@@ -794,7 +862,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch069.md",
       "href": "/read/ch069",
       "charCount": 9220,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch070",
@@ -805,7 +874,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch070.md",
       "href": "/read/ch070",
       "charCount": 7840,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch071",
@@ -816,7 +886,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch071.md",
       "href": "/read/ch071",
       "charCount": 8933,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch072",
@@ -827,7 +898,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch072.md",
       "href": "/read/ch072",
       "charCount": 8376,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch073",
@@ -838,7 +910,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch073.md",
       "href": "/read/ch073",
       "charCount": 8030,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch074",
@@ -849,7 +922,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch074.md",
       "href": "/read/ch074",
       "charCount": 8534,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch075",
@@ -860,7 +934,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch075.md",
       "href": "/read/ch075",
       "charCount": 7425,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch076",
@@ -871,7 +946,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch076.md",
       "href": "/read/ch076",
       "charCount": 8509,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch077",
@@ -882,7 +958,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch077.md",
       "href": "/read/ch077",
       "charCount": 8714,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch078",
@@ -893,7 +970,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch078.md",
       "href": "/read/ch078",
       "charCount": 8306,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch079",
@@ -904,7 +982,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch079.md",
       "href": "/read/ch079",
       "charCount": 8386,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch080",
@@ -915,7 +994,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch080.md",
       "href": "/read/ch080",
       "charCount": 7725,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch081",
@@ -926,7 +1006,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch081.md",
       "href": "/read/ch081",
       "charCount": 7445,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch082",
@@ -937,7 +1018,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch082.md",
       "href": "/read/ch082",
       "charCount": 9188,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch083",
@@ -948,7 +1030,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch083.md",
       "href": "/read/ch083",
       "charCount": 7980,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch084",
@@ -959,7 +1042,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch084.md",
       "href": "/read/ch084",
       "charCount": 8147,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch085",
@@ -970,7 +1054,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch085.md",
       "href": "/read/ch085",
       "charCount": 8127,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch086",
@@ -981,7 +1066,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch086.md",
       "href": "/read/ch086",
       "charCount": 8154,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch087",
@@ -992,7 +1078,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch087.md",
       "href": "/read/ch087",
       "charCount": 8099,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch088",
@@ -1003,7 +1090,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch088.md",
       "href": "/read/ch088",
       "charCount": 7618,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch089",
@@ -1014,7 +1102,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch089.md",
       "href": "/read/ch089",
       "charCount": 7876,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch090",
@@ -1025,7 +1114,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch090.md",
       "href": "/read/ch090",
       "charCount": 8506,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch091",
@@ -1036,7 +1126,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch091.md",
       "href": "/read/ch091",
       "charCount": 8655,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch092",
@@ -1047,7 +1138,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch092.md",
       "href": "/read/ch092",
       "charCount": 8076,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch093",
@@ -1058,7 +1150,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch093.md",
       "href": "/read/ch093",
       "charCount": 8783,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch094",
@@ -1069,7 +1162,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch094.md",
       "href": "/read/ch094",
       "charCount": 8461,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch095",
@@ -1080,7 +1174,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch095.md",
       "href": "/read/ch095",
       "charCount": 8008,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch096",
@@ -1091,7 +1186,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch096.md",
       "href": "/read/ch096",
       "charCount": 8761,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch097",
@@ -1102,7 +1198,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch097.md",
       "href": "/read/ch097",
       "charCount": 8282,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch098",
@@ -1113,7 +1210,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch098.md",
       "href": "/read/ch098",
       "charCount": 8132,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch099",
@@ -1124,7 +1222,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch099.md",
       "href": "/read/ch099",
       "charCount": 7782,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch100",
@@ -1135,7 +1234,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch100.md",
       "href": "/read/ch100",
       "charCount": 8164,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch101",
@@ -1146,7 +1246,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch101.md",
       "href": "/read/ch101",
       "charCount": 8377,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch102",
@@ -1157,7 +1258,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch102.md",
       "href": "/read/ch102",
       "charCount": 8540,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch103",
@@ -1168,7 +1270,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch103.md",
       "href": "/read/ch103",
       "charCount": 8679,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch104",
@@ -1179,7 +1282,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch104.md",
       "href": "/read/ch104",
       "charCount": 8385,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch105",
@@ -1190,7 +1294,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch105.md",
       "href": "/read/ch105",
       "charCount": 8780,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch106",
@@ -1201,7 +1306,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch106.md",
       "href": "/read/ch106",
       "charCount": 8200,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch107",
@@ -1212,7 +1318,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch107.md",
       "href": "/read/ch107",
       "charCount": 7933,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch108",
@@ -1223,7 +1330,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch108.md",
       "href": "/read/ch108",
       "charCount": 8511,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch109",
@@ -1234,7 +1342,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch109.md",
       "href": "/read/ch109",
       "charCount": 8570,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch110",
@@ -1245,7 +1354,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch110.md",
       "href": "/read/ch110",
       "charCount": 8218,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch111",
@@ -1256,7 +1366,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch111.md",
       "href": "/read/ch111",
       "charCount": 8115,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch112",
@@ -1267,7 +1378,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch112.md",
       "href": "/read/ch112",
       "charCount": 8376,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch113",
@@ -1278,7 +1390,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch113.md",
       "href": "/read/ch113",
       "charCount": 8045,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch114",
@@ -1289,7 +1402,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch114.md",
       "href": "/read/ch114",
       "charCount": 7911,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch115",
@@ -1300,7 +1414,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch115.md",
       "href": "/read/ch115",
       "charCount": 7776,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch116",
@@ -1311,7 +1426,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch116.md",
       "href": "/read/ch116",
       "charCount": 7925,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch117",
@@ -1322,7 +1438,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch117.md",
       "href": "/read/ch117",
       "charCount": 8369,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch118",
@@ -1333,7 +1450,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch118.md",
       "href": "/read/ch118",
       "charCount": 9202,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch119",
@@ -1344,7 +1462,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch119.md",
       "href": "/read/ch119",
       "charCount": 9357,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch120",
@@ -1355,7 +1474,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch120.md",
       "href": "/read/ch120",
       "charCount": 8038,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch121",
@@ -1366,7 +1486,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch121.md",
       "href": "/read/ch121",
       "charCount": 8410,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch122",
@@ -1377,7 +1498,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch122.md",
       "href": "/read/ch122",
       "charCount": 8164,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch123",
@@ -1388,7 +1510,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch123.md",
       "href": "/read/ch123",
       "charCount": 8476,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch124",
@@ -1399,7 +1522,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch124.md",
       "href": "/read/ch124",
       "charCount": 8218,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch125",
@@ -1410,7 +1534,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch125.md",
       "href": "/read/ch125",
       "charCount": 8326,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch126",
@@ -1421,7 +1546,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch126.md",
       "href": "/read/ch126",
       "charCount": 7608,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch127",
@@ -1432,7 +1558,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch127.md",
       "href": "/read/ch127",
       "charCount": 7849,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch128",
@@ -1443,7 +1570,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch128.md",
       "href": "/read/ch128",
       "charCount": 8530,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch129",
@@ -1454,7 +1582,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch129.md",
       "href": "/read/ch129",
       "charCount": 9637,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch130",
@@ -1465,7 +1594,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch130.md",
       "href": "/read/ch130",
       "charCount": 8267,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch131",
@@ -1476,7 +1606,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch131.md",
       "href": "/read/ch131",
       "charCount": 8127,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch132",
@@ -1487,7 +1618,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch132.md",
       "href": "/read/ch132",
       "charCount": 8124,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch133",
@@ -1498,7 +1630,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch133.md",
       "href": "/read/ch133",
       "charCount": 8308,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch134",
@@ -1509,7 +1642,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch134.md",
       "href": "/read/ch134",
       "charCount": 8905,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch135",
@@ -1520,7 +1654,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch135.md",
       "href": "/read/ch135",
       "charCount": 8387,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch136",
@@ -1531,7 +1666,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch136.md",
       "href": "/read/ch136",
       "charCount": 8334,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch137",
@@ -1542,7 +1678,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch137.md",
       "href": "/read/ch137",
       "charCount": 8379,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch138",
@@ -1553,7 +1690,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch138.md",
       "href": "/read/ch138",
       "charCount": 9045,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch139",
@@ -1564,7 +1702,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch139.md",
       "href": "/read/ch139",
       "charCount": 8883,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch140",
@@ -1575,7 +1714,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch140.md",
       "href": "/read/ch140",
       "charCount": 8043,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch141",
@@ -1586,7 +1726,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch141.md",
       "href": "/read/ch141",
       "charCount": 8613,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch142",
@@ -1597,7 +1738,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch142.md",
       "href": "/read/ch142",
       "charCount": 8439,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch143",
@@ -1608,7 +1750,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch143.md",
       "href": "/read/ch143",
       "charCount": 7958,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch144",
@@ -1619,7 +1762,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch144.md",
       "href": "/read/ch144",
       "charCount": 9181,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch145",
@@ -1630,7 +1774,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch145.md",
       "href": "/read/ch145",
       "charCount": 8074,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch146",
@@ -1641,7 +1786,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch146.md",
       "href": "/read/ch146",
       "charCount": 7816,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch147",
@@ -1652,7 +1798,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch147.md",
       "href": "/read/ch147",
       "charCount": 7744,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch148",
@@ -1663,7 +1810,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch148.md",
       "href": "/read/ch148",
       "charCount": 8954,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch149",
@@ -1674,7 +1822,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch149.md",
       "href": "/read/ch149",
       "charCount": 8160,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch150",
@@ -1685,7 +1834,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch150.md",
       "href": "/read/ch150",
       "charCount": 8525,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch151",
@@ -1696,7 +1846,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch151.md",
       "href": "/read/ch151",
       "charCount": 8293,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch152",
@@ -1707,7 +1858,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch152.md",
       "href": "/read/ch152",
       "charCount": 9332,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch153",
@@ -1718,7 +1870,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch153.md",
       "href": "/read/ch153",
       "charCount": 8599,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch154",
@@ -1729,7 +1882,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch154.md",
       "href": "/read/ch154",
       "charCount": 8706,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch155",
@@ -1740,7 +1894,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch155.md",
       "href": "/read/ch155",
       "charCount": 8872,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch156",
@@ -1751,7 +1906,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch156.md",
       "href": "/read/ch156",
       "charCount": 9251,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch157",
@@ -1762,7 +1918,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch157.md",
       "href": "/read/ch157",
       "charCount": 8426,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch158",
@@ -1773,7 +1930,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch158.md",
       "href": "/read/ch158",
       "charCount": 9046,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch159",
@@ -1784,7 +1942,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch159.md",
       "href": "/read/ch159",
       "charCount": 8026,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch160",
@@ -1795,7 +1954,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch160.md",
       "href": "/read/ch160",
       "charCount": 7980,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch161",
@@ -1806,7 +1966,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch161.md",
       "href": "/read/ch161",
       "charCount": 7463,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch162",
@@ -1817,7 +1978,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch162.md",
       "href": "/read/ch162",
       "charCount": 8279,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch163",
@@ -1828,7 +1990,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch163.md",
       "href": "/read/ch163",
       "charCount": 7757,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch164",
@@ -1839,7 +2002,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch164.md",
       "href": "/read/ch164",
       "charCount": 8319,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch165",
@@ -1850,7 +2014,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch165.md",
       "href": "/read/ch165",
       "charCount": 7925,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch166",
@@ -1861,7 +2026,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch166.md",
       "href": "/read/ch166",
       "charCount": 8689,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch167",
@@ -1872,7 +2038,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch167.md",
       "href": "/read/ch167",
       "charCount": 8472,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch168",
@@ -1883,7 +2050,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch168.md",
       "href": "/read/ch168",
       "charCount": 8918,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch169",
@@ -1894,7 +2062,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch169.md",
       "href": "/read/ch169",
       "charCount": 7695,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch170",
@@ -1905,7 +2074,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch170.md",
       "href": "/read/ch170",
       "charCount": 8943,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch171",
@@ -1916,7 +2086,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch171.md",
       "href": "/read/ch171",
       "charCount": 8754,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch172",
@@ -1927,7 +2098,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch172.md",
       "href": "/read/ch172",
       "charCount": 8202,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch173",
@@ -1938,7 +2110,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch173.md",
       "href": "/read/ch173",
       "charCount": 8209,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch174",
@@ -1949,7 +2122,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch174.md",
       "href": "/read/ch174",
       "charCount": 8079,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch175",
@@ -1960,7 +2134,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch175.md",
       "href": "/read/ch175",
       "charCount": 8116,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch176",
@@ -1971,7 +2146,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch176.md",
       "href": "/read/ch176",
       "charCount": 8067,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch177",
@@ -1982,7 +2158,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch177.md",
       "href": "/read/ch177",
       "charCount": 8031,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch178",
@@ -1993,7 +2170,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch178.md",
       "href": "/read/ch178",
       "charCount": 8021,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch179",
@@ -2004,7 +2182,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch179.md",
       "href": "/read/ch179",
       "charCount": 8075,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch180",
@@ -2015,7 +2194,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch180.md",
       "href": "/read/ch180",
       "charCount": 8669,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch181",
@@ -2026,7 +2206,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch181.md",
       "href": "/read/ch181",
       "charCount": 8810,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch182",
@@ -2037,7 +2218,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch182.md",
       "href": "/read/ch182",
       "charCount": 8565,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch183",
@@ -2048,7 +2230,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch183.md",
       "href": "/read/ch183",
       "charCount": 8382,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch184",
@@ -2059,7 +2242,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch184.md",
       "href": "/read/ch184",
       "charCount": 8625,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch185",
@@ -2070,7 +2254,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch185.md",
       "href": "/read/ch185",
       "charCount": 8282,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch186",
@@ -2081,7 +2266,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch186.md",
       "href": "/read/ch186",
       "charCount": 7942,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch187",
@@ -2092,7 +2278,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch187.md",
       "href": "/read/ch187",
       "charCount": 8375,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch188",
@@ -2103,7 +2290,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch188.md",
       "href": "/read/ch188",
       "charCount": 8856,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch189",
@@ -2114,7 +2302,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch189.md",
       "href": "/read/ch189",
       "charCount": 7996,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch190",
@@ -2125,7 +2314,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch190.md",
       "href": "/read/ch190",
       "charCount": 8234,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch191",
@@ -2136,7 +2326,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch191.md",
       "href": "/read/ch191",
       "charCount": 8029,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch192",
@@ -2147,7 +2338,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch192.md",
       "href": "/read/ch192",
       "charCount": 8504,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch193",
@@ -2158,7 +2350,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch193.md",
       "href": "/read/ch193",
       "charCount": 7756,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch194",
@@ -2169,7 +2362,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch194.md",
       "href": "/read/ch194",
       "charCount": 8912,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch195",
@@ -2180,7 +2374,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch195.md",
       "href": "/read/ch195",
       "charCount": 7993,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch196",
@@ -2191,7 +2386,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch196.md",
       "href": "/read/ch196",
       "charCount": 8265,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch197",
@@ -2202,7 +2398,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch197.md",
       "href": "/read/ch197",
       "charCount": 8347,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch198",
@@ -2213,7 +2410,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch198.md",
       "href": "/read/ch198",
       "charCount": 8494,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch199",
@@ -2224,7 +2422,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch199.md",
       "href": "/read/ch199",
       "charCount": 8574,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch200",
@@ -2235,7 +2434,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch200.md",
       "href": "/read/ch200",
       "charCount": 7976,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch201",
@@ -2246,7 +2446,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch201.md",
       "href": "/read/ch201",
       "charCount": 9126,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch202",
@@ -2257,7 +2458,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch202.md",
       "href": "/read/ch202",
       "charCount": 8832,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch203",
@@ -2268,7 +2470,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch203.md",
       "href": "/read/ch203",
       "charCount": 9403,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch204",
@@ -2279,7 +2482,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch204.md",
       "href": "/read/ch204",
       "charCount": 8914,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch205",
@@ -2290,7 +2494,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch205.md",
       "href": "/read/ch205",
       "charCount": 9084,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch206",
@@ -2301,7 +2506,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch206.md",
       "href": "/read/ch206",
       "charCount": 9080,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch207",
@@ -2312,7 +2518,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch207.md",
       "href": "/read/ch207",
       "charCount": 9594,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch208",
@@ -2323,7 +2530,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch208.md",
       "href": "/read/ch208",
       "charCount": 9449,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch209",
@@ -2334,7 +2542,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch209.md",
       "href": "/read/ch209",
       "charCount": 8956,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch210",
@@ -2345,7 +2554,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch210.md",
       "href": "/read/ch210",
       "charCount": 9735,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch211",
@@ -2356,7 +2566,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch211.md",
       "href": "/read/ch211",
       "charCount": 8398,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch212",
@@ -2367,7 +2578,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch212.md",
       "href": "/read/ch212",
       "charCount": 8783,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch213",
@@ -2378,7 +2590,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch213.md",
       "href": "/read/ch213",
       "charCount": 9518,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch214",
@@ -2389,7 +2602,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch214.md",
       "href": "/read/ch214",
       "charCount": 9171,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch215",
@@ -2400,7 +2614,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch215.md",
       "href": "/read/ch215",
       "charCount": 8615,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch216",
@@ -2411,7 +2626,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch216.md",
       "href": "/read/ch216",
       "charCount": 8891,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch217",
@@ -2422,7 +2638,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch217.md",
       "href": "/read/ch217",
       "charCount": 8690,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch218",
@@ -2433,7 +2650,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch218.md",
       "href": "/read/ch218",
       "charCount": 9327,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch219",
@@ -2444,7 +2662,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch219.md",
       "href": "/read/ch219",
       "charCount": 9344,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch220",
@@ -2455,7 +2674,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch220.md",
       "href": "/read/ch220",
       "charCount": 9154,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch221",
@@ -2466,7 +2686,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch221.md",
       "href": "/read/ch221",
       "charCount": 8651,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch222",
@@ -2477,7 +2698,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch222.md",
       "href": "/read/ch222",
       "charCount": 8874,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch223",
@@ -2488,7 +2710,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch223.md",
       "href": "/read/ch223",
       "charCount": 8593,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch224",
@@ -2499,7 +2722,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch224.md",
       "href": "/read/ch224",
       "charCount": 8858,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch225",
@@ -2510,7 +2734,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch225.md",
       "href": "/read/ch225",
       "charCount": 9096,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch226",
@@ -2521,7 +2746,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch226.md",
       "href": "/read/ch226",
       "charCount": 9051,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch227",
@@ -2532,7 +2758,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch227.md",
       "href": "/read/ch227",
       "charCount": 9144,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch228",
@@ -2543,7 +2770,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch228.md",
       "href": "/read/ch228",
       "charCount": 9465,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch229",
@@ -2554,7 +2782,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch229.md",
       "href": "/read/ch229",
       "charCount": 8895,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch230",
@@ -2565,7 +2794,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch230.md",
       "href": "/read/ch230",
       "charCount": 9710,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch231",
@@ -2576,7 +2806,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch231.md",
       "href": "/read/ch231",
       "charCount": 8535,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch232",
@@ -2587,7 +2818,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch232.md",
       "href": "/read/ch232",
       "charCount": 8947,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch233",
@@ -2598,7 +2830,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch233.md",
       "href": "/read/ch233",
       "charCount": 8472,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch234",
@@ -2609,7 +2842,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch234.md",
       "href": "/read/ch234",
       "charCount": 8619,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch235",
@@ -2620,7 +2854,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch235.md",
       "href": "/read/ch235",
       "charCount": 9007,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch236",
@@ -2631,7 +2866,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch236.md",
       "href": "/read/ch236",
       "charCount": 9395,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch237",
@@ -2642,7 +2878,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch237.md",
       "href": "/read/ch237",
       "charCount": 8919,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch238",
@@ -2653,7 +2890,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch238.md",
       "href": "/read/ch238",
       "charCount": 9065,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch239",
@@ -2664,7 +2902,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch239.md",
       "href": "/read/ch239",
       "charCount": 9197,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch240",
@@ -2675,7 +2914,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch240.md",
       "href": "/read/ch240",
       "charCount": 9237,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch241",
@@ -2686,7 +2926,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch241.md",
       "href": "/read/ch241",
       "charCount": 9038,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch242",
@@ -2697,7 +2938,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch242.md",
       "href": "/read/ch242",
       "charCount": 9107,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch243",
@@ -2708,7 +2950,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch243.md",
       "href": "/read/ch243",
       "charCount": 9037,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch244",
@@ -2719,7 +2962,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch244.md",
       "href": "/read/ch244",
       "charCount": 8067,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch245",
@@ -2730,7 +2974,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch245.md",
       "href": "/read/ch245",
       "charCount": 7774,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch246",
@@ -2741,7 +2986,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch246.md",
       "href": "/read/ch246",
       "charCount": 8586,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch247",
@@ -2752,7 +2998,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch247.md",
       "href": "/read/ch247",
       "charCount": 7971,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch248",
@@ -2763,7 +3010,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch248.md",
       "href": "/read/ch248",
       "charCount": 7584,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch249",
@@ -2774,7 +3022,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch249.md",
       "href": "/read/ch249",
       "charCount": 8252,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch250",
@@ -2785,7 +3034,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch250.md",
       "href": "/read/ch250",
       "charCount": 8264,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch251",
@@ -2796,7 +3046,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch251.md",
       "href": "/read/ch251",
       "charCount": 8631,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch252",
@@ -2807,7 +3058,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch252.md",
       "href": "/read/ch252",
       "charCount": 8838,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch253",
@@ -2818,7 +3070,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch253.md",
       "href": "/read/ch253",
       "charCount": 9208,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch254",
@@ -2829,7 +3082,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch254.md",
       "href": "/read/ch254",
       "charCount": 8376,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch255",
@@ -2840,7 +3094,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch255.md",
       "href": "/read/ch255",
       "charCount": 8055,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch256",
@@ -2851,7 +3106,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch256.md",
       "href": "/read/ch256",
       "charCount": 8501,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch257",
@@ -2862,7 +3118,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch257.md",
       "href": "/read/ch257",
       "charCount": 7971,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch258",
@@ -2873,7 +3130,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch258.md",
       "href": "/read/ch258",
       "charCount": 8027,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch259",
@@ -2884,7 +3142,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch259.md",
       "href": "/read/ch259",
       "charCount": 8638,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch260",
@@ -2895,7 +3154,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch260.md",
       "href": "/read/ch260",
       "charCount": 8417,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch261",
@@ -2906,7 +3166,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch261.md",
       "href": "/read/ch261",
       "charCount": 8389,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch262",
@@ -2917,7 +3178,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch262.md",
       "href": "/read/ch262",
       "charCount": 8103,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch263",
@@ -2928,7 +3190,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch263.md",
       "href": "/read/ch263",
       "charCount": 8408,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch264",
@@ -2939,7 +3202,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch264.md",
       "href": "/read/ch264",
       "charCount": 9323,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch265",
@@ -2950,7 +3214,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch265.md",
       "href": "/read/ch265",
       "charCount": 8226,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch266",
@@ -2961,7 +3226,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch266.md",
       "href": "/read/ch266",
       "charCount": 8171,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch267",
@@ -2972,7 +3238,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch267.md",
       "href": "/read/ch267",
       "charCount": 8837,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch268",
@@ -2983,7 +3250,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch268.md",
       "href": "/read/ch268",
       "charCount": 8179,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch269",
@@ -2994,7 +3262,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch269.md",
       "href": "/read/ch269",
       "charCount": 8708,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch270",
@@ -3005,7 +3274,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch270.md",
       "href": "/read/ch270",
       "charCount": 7884,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch271",
@@ -3016,7 +3286,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch271.md",
       "href": "/read/ch271",
       "charCount": 9492,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch272",
@@ -3027,7 +3298,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch272.md",
       "href": "/read/ch272",
       "charCount": 7896,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch273",
@@ -3038,7 +3310,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch273.md",
       "href": "/read/ch273",
       "charCount": 7818,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch274",
@@ -3049,7 +3322,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch274.md",
       "href": "/read/ch274",
       "charCount": 8325,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch275",
@@ -3060,7 +3334,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch275.md",
       "href": "/read/ch275",
       "charCount": 8523,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch276",
@@ -3071,7 +3346,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch276.md",
       "href": "/read/ch276",
       "charCount": 8838,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch277",
@@ -3082,7 +3358,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch277.md",
       "href": "/read/ch277",
       "charCount": 8088,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch278",
@@ -3093,7 +3370,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch278.md",
       "href": "/read/ch278",
       "charCount": 8535,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch279",
@@ -3104,7 +3382,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch279.md",
       "href": "/read/ch279",
       "charCount": 8769,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch280",
@@ -3115,7 +3394,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch280.md",
       "href": "/read/ch280",
       "charCount": 8320,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch281",
@@ -3126,7 +3406,8 @@
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch281.md",
       "href": "/read/ch281",
       "charCount": 8294,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     }
   ]
 }

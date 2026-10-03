@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-10-03T13:10:20.865891+00:00",
+  "scope": "lean-dse-lean-rest-20261003-ch016-ch020-v1",
+  "chapters": "ch020",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

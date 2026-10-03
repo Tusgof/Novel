@@ -273,8 +273,9 @@ img { display: block; }
 .reader-head { max-width: var(--reader-width); margin: 0 auto; padding: 40px 20px 24px; }
 .reader-kicker { display: block; font-size: 12.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; opacity: .65; }
 .reader-head h1 { font-size: clamp(30px,4.4vw,46px); line-height: 1.1; margin: 12px 0 0; }
-.reader-meta { display: flex; gap: 14px; font-size: 13.5px; opacity: .72; margin-top: 12px; }
+.reader-meta { display: flex; flex-wrap: wrap; gap: 14px; font-size: 13.5px; opacity: .72; margin-top: 12px; }
 .reader-meta span { display: inline-flex; gap: 5px; align-items: center; }
+.translator { font-size: 12px; font-weight: 700; letter-spacing: 0; white-space: nowrap; }
 
 .reader-article { max-width: var(--reader-width); margin: 0 auto; padding: 8px 20px 40px; font-family: var(--reader-font-family); font-size: var(--reader-font-size); line-height: var(--reader-line-height); }
 .reader-paragraph { margin: 0 0 var(--reader-paragraph-spacing); text-wrap: pretty; }

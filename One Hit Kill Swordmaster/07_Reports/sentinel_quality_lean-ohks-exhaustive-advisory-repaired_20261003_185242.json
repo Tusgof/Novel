@@ -1,0 +1,778 @@
+{
+  "created_at": "2026-10-03T18:52:42.680271+00:00",
+  "scope": "lean-ohks-exhaustive-advisory-repaired",
+  "novel": "one-hit-kill-swordmaster",
+  "chapters": "ch001-ch020",
+  "max_examples": 10000,
+  "pre_repair_advisory": "07_Reports/sentinel_quality_lean-ohks-exhaustive-advisory_20261003_163324.json",
+  "findings_count": 105,
+  "ordinary_unresolved_count": 0,
+  "retained_justified_count": 105,
+  "retained_classifications": [
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "evidence": "Strawberry Latte",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "evidence": "RPG",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "evidence": "Lost Elder",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "evidence": "LoEl",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "evidence": "Middle Finger",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "evidence": "League",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch001\\ch001.md",
+      "evidence": "Legends",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch002\\ch002.md",
+      "evidence": "LoEl",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch003\\ch003.md",
+      "evidence": "Lost Elder",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch004\\ch004.md",
+      "evidence": "Lost Elder",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch004\\ch004.md",
+      "evidence": "NPC",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch004\\ch004.md",
+      "evidence": "LoEl",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch005\\ch005.md",
+      "evidence": "VVIP",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch005\\ch005.md",
+      "evidence": "LoEl",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch005\\ch005.md",
+      "evidence": "RPG",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch005\\ch005.md",
+      "evidence": "NPC",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch006\\ch006.md",
+      "evidence": "LoEl",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch008\\ch008.md",
+      "evidence": "Dark City Dungard",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch008\\ch008.md",
+      "evidence": "Ruins Royal Stay",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch008\\ch008.md",
+      "evidence": "LoEl",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch008\\ch008.md",
+      "evidence": "Human Butcher Barba",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch008\\ch008.md",
+      "evidence": "Lost Elder",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch008\\ch008.md",
+      "evidence": "NPC",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch008\\ch008.md",
+      "evidence": "Adelia von Goldheart",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch008\\ch008.md",
+      "evidence": "Shadow Knight Loren",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch008\\ch008.md",
+      "evidence": "Twelve Swordmasters",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch009\\ch009.md",
+      "evidence": "NPC",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch010\\ch010.md",
+      "evidence": "LoEl",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch010\\ch010.md",
+      "evidence": "RPG",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch010\\ch010.md",
+      "evidence": "Lost Elder",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch010\\ch010.md",
+      "evidence": "Peter Pan",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch010\\ch010.md",
+      "evidence": "the Kidnapper",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch010\\ch010.md",
+      "evidence": "Dungard",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch011\\ch011.md",
+      "evidence": "Lost Elder",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch011\\ch011.md",
+      "evidence": "LoEl",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch011\\ch011.md",
+      "evidence": "NPC",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch011\\ch011.md",
+      "evidence": "Ritardando",
+      "classification": "named_song_or_skill_label"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch012\\ch012.md",
+      "evidence": "Elders",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch012\\ch012.md",
+      "evidence": "Dark City Dungard",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch012\\ch012.md",
+      "evidence": "Requiem",
+      "classification": "named_song_or_skill_label"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch012\\ch012.md",
+      "evidence": "Adelia von Goldheart",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch012\\ch012.md",
+      "evidence": "RPG",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch012\\ch012.md",
+      "evidence": "Lost Elder",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch012\\ch012.md",
+      "evidence": "NPC",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch012\\ch012.md",
+      "evidence": "Human Butcher Barba",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch012\\ch012.md",
+      "evidence": "Lea",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch012\\ch012.md",
+      "evidence": "Karayan",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch012\\ch012.md",
+      "evidence": "Master",
+      "classification": "named_song_or_skill_label"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch012\\ch012.md",
+      "evidence": "the Second Hand and",
+      "classification": "named_song_or_skill_label"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch012\\ch012.md",
+      "evidence": "the Moment",
+      "classification": "named_song_or_skill_label"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch012\\ch012.md",
+      "evidence": "Free City Vertas",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch012\\ch012.md",
+      "evidence": "Undead Barba",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch013\\ch013.md",
+      "evidence": "Silk-road",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch013\\ch013.md",
+      "evidence": "Uncharted Territory",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch013\\ch013.md",
+      "evidence": "LoEl",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch013\\ch013.md",
+      "evidence": "Ruins Caravan",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch014\\ch014.md",
+      "evidence": "Ritardando",
+      "classification": "named_song_or_skill_label"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch014\\ch014.md",
+      "evidence": "LoEl",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch014\\ch014.md",
+      "evidence": "NPC",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch015\\ch015.md",
+      "evidence": "Divine Family",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch015\\ch015.md",
+      "evidence": "Uncharted Territory",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch015\\ch015.md",
+      "evidence": "Free City Vertas",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch015\\ch015.md",
+      "evidence": "Lost Elder",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch016\\ch016.md",
+      "evidence": "Lost Elder",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch016\\ch016.md",
+      "evidence": "Free City Vertas",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch016\\ch016.md",
+      "evidence": "NPC",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch016\\ch016.md",
+      "evidence": "Dark City Dungard",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch016\\ch016.md",
+      "evidence": "Uncharted Territory",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch016\\ch016.md",
+      "evidence": "Silk-road",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch016\\ch016.md",
+      "evidence": "Vertas",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch016\\ch016.md",
+      "evidence": "Scavenger Wolf",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch016\\ch016.md",
+      "evidence": "Ritardando",
+      "classification": "named_song_or_skill_label"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch017\\ch017.md",
+      "evidence": "RPG",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch017\\ch017.md",
+      "evidence": "Lost Elder",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch017\\ch017.md",
+      "evidence": "LoEl",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch017\\ch017.md",
+      "evidence": "Ritardando",
+      "classification": "named_song_or_skill_label"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch018\\ch018.md",
+      "evidence": "Ritardando",
+      "classification": "named_song_or_skill_label"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch018\\ch018.md",
+      "evidence": "Heavenly Dragon Bird",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch018\\ch018.md",
+      "evidence": "LoEl",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch018\\ch018.md",
+      "evidence": "Pantheon",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch018\\ch018.md",
+      "evidence": "Underground World Arena",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch019\\ch019.md",
+      "evidence": "Dark City Dungard",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch019\\ch019.md",
+      "evidence": "Silk-road",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch019\\ch019.md",
+      "evidence": "LoEl",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch019\\ch019.md",
+      "evidence": "NPC",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch019\\ch019.md",
+      "evidence": "Heavenly Dragon Bird",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch019\\ch019.md",
+      "evidence": "Ancient God Elder",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch019\\ch019.md",
+      "evidence": "Free City Vertas",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch019\\ch019.md",
+      "evidence": "Adelia von Goldheart",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch019\\ch019.md",
+      "evidence": "Holy City Middle Temple",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch019\\ch019.md",
+      "evidence": "Sir Gaon",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch019\\ch019.md",
+      "evidence": "Dungard",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch019\\ch019.md",
+      "evidence": "Lost Elder",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch020\\ch020.md",
+      "evidence": "Free City Vertas",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch020\\ch020.md",
+      "evidence": "Four Great Cities",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch020\\ch020.md",
+      "evidence": "Middle Temple",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch020\\ch020.md",
+      "evidence": "Silk-road",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch020\\ch020.md",
+      "evidence": "Heavenly Dragon Bird",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch020\\ch020.md",
+      "evidence": "Uncharted Territory",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch020\\ch020.md",
+      "evidence": "LoEl",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch020\\ch020.md",
+      "evidence": "NPC",
+      "classification": "brand/acronym/username"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch020\\ch020.md",
+      "evidence": "Durdamel",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch020\\ch020.md",
+      "evidence": "Golden Merchant Guild",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch020\\ch020.md",
+      "evidence": "Dark City Dungard",
+      "classification": "proper_name/location/faction/title"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\05_Output\\ch020\\ch020.md",
+      "evidence": "Divine Family",
+      "classification": "proper_name/location/faction/title"
+    }
+  ],
+  "repair_classification": {
+    "ordinary_source_backed_terms_repaired": [
+      "Strength",
+      "Agility",
+      "Stamina",
+      "Magic",
+      "Perception",
+      "Mental Power",
+      "Soul of the Sword Master",
+      "Feather Sword",
+      "Golden Eye",
+      "Awakening",
+      "Magical Engineering Machine",
+      "Sacred Piece",
+      "Trial",
+      "Divine Artifact",
+      "Hidden Dungeon",
+      "Magic Stone",
+      "Monster Wave",
+      "Skill",
+      "Passive Skill",
+      "Ultimate Auto-Parrying",
+      "Shilling",
+      "MAX/Max",
+      "Ritardando (True)",
+      "True Ending",
+      "bullet hell shooter"
+    ],
+    "ordinary_unresolved": []
+  }
+}

@@ -23,6 +23,7 @@
         "legacy_default": true,
         "first_chapter": 1,
         "last_chapter": 281,
+        "lean_retranslated_through": 20,
         "title": "Deep Sea Embers",
         "thai_title": "เถ้าถ่านแห่งทะเลลึก",
         "author": "远瞳 (Yuan Tong)",
@@ -60,6 +61,7 @@
         "legacy_default": false,
         "first_chapter": 1,
         "last_chapter": 290,
+        "lean_retranslated_through": 20,
         "title": "Horror Game Developer: My Games Aren't That Scary!",
         "thai_title": "นักพัฒนาเกมสยองขวัญ: เกมของผมไม่ได้น่ากลัวขนาดนั้นซะหน่อย!",
         "author": "Entrail_JI",
@@ -170,6 +172,7 @@
         "legacy_default": false,
         "first_chapter": 1,
         "last_chapter": 70,
+        "lean_retranslated_through": 5,
         "title": "I'm an Infinite Regressor, But I've Got Stories to Tell",
         "thai_title": "ผมเป็นผู้ย้อนกลับอนันต์ แต่มีเรื่องจะเล่า",
         "author": "Sinnoa (신노아)",
@@ -219,6 +222,7 @@
         "legacy_default": false,
         "first_chapter": 1,
         "last_chapter": 8,
+        "lean_retranslated_through": 2,
         "title": "Re:Zero - Watching Him Die Again and Again",
         "thai_title": "Re:Zero - เฝ้ามองเขาตายซ้ำแล้วซ้ำเล่า",
         "author": "Reactionist",
@@ -256,12 +260,13 @@
       "source_url": "https://wntl.net/series/ohks",
       "source_site": "wntl.net",
       "reader": {
-        "enabled": false,
+        "enabled": true,
         "legacy_default": false,
-        "first_chapter": 0,
-        "last_chapter": 0,
+        "first_chapter": 1,
+        "last_chapter": 20,
+        "lean_retranslated_through": 20,
         "title": "One Hit Kill Swordmaster",
-        "thai_title": "",
+        "thai_title": "จอมดาบสังหารในดาบเดียว",
         "author": "단비령",
         "tags": [
           "แฟนตาซี",
@@ -282,6 +287,47 @@
           {
             "pattern": "[๐-๙]",
             "label": "Thai numeral; One Hit Kill Swordmaster output must use Arabic digits"
+          }
+        ]
+      }
+    }
+    ,{
+      "slug": "ten-day-ultimatum",
+      "folder": "Ten Day Ultimatum",
+      "source_language": "zh",
+      "raw_dir": "03_Raw",
+      "work_dir": "04_Work",
+      "output_dir": "05_Output",
+      "source_url": "https://xszj.org/b/351379/cs/1",
+      "source_site": "xszj.org",
+      "reader": {
+        "enabled": true,
+        "legacy_default": false,
+        "first_chapter": 1,
+        "last_chapter": 10,
+        "lean_retranslated_through": 10,
+        "title": "Ten Day Ultimatum",
+        "thai_title": "คำขาดสิบวัน",
+        "author": "杀虫队队员",
+        "tags": [
+          "ลึกลับ",
+          "เอาชีวิตรอด",
+          "ระทึกขวัญ",
+          "แฟนตาซี"
+        ]
+      },
+      "title_policy": {
+        "named_chinese_source_titles_require_sidecar": true,
+        "generic_title_prefix": "บทที่"
+      },
+      "quality": {
+        "max_paragraph_chars": 700,
+        "truncation_min_source_chars": 500,
+        "truncation_min_ratio": 0.45,
+        "forbidden_output_patterns": [
+          {
+            "pattern": "[๐-๙]",
+            "label": "Thai numeral; TDU output must use Arabic digits"
           }
         ]
       }

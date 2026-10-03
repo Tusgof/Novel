@@ -94,16 +94,17 @@ explicit novel config
 
 The original source remains the semantic source of truth. Harvested terms are proposals until reviewed; they are never silently promoted to the production glossary. Checkpoints and provider traces live under `<Novel>/04_Work/_lean_runs/<run-id>/`, not in product output.
 
-Production runs remain bounded by explicit chapter range and run ID. A provider failure, validation failure, QA hard-fail, manual action, Sentinel blocker or major finding, or unexpected scope expansion stops the run.
+Production runs remain bounded by explicit chapter range and run ID, but they are recover-and-continue by default. A chapter-local provider failure, validation failure, QA hard-fail, or Sentinel blocker/major finding quarantines only that chapter, preserves its checkpoints for recovery, and lets later chapters continue. The worker stops only for a global blocker such as exhausted provider routes/credit, a required manual decision, missing source scope, unexpected scope expansion, or a workspace/security violation.
 
 Shared Lean prompts live in root `prompts/lean/`; only the refinement voice is
 novel-specific. Production Sentinel always includes deterministic guardrails,
 regardless of an inherited experiment skip flag.
 
-No product file is written before the chapter set passes the production gate. A failed gate leaves the existing `05_Output` unchanged. The run report records staged paths, promotion results, and the Sentinel report.
+No product file is written before that chapter passes its production gate. A failed chapter gate leaves that chapter's existing `05_Output` unchanged while other passing chapters may be promoted independently. The run report records staged paths, promotion results, Sentinel results, and quarantined chapters.
 
 Promotion is atomic per file, not a multi-file transaction. If a disk error occurs
-after some files are promoted, the run is blocked and reports those exact paths.
+after some files are promoted, the run stops as a global runtime failure and
+reports those exact paths; already-promoted chapters remain valid.
 Literal, refinement, QA and harvest honor their configured provider routes and
 fallbacks; routing changes require separate authorization.
 

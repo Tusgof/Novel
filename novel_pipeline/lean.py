@@ -40,6 +40,10 @@ from novel_pipeline.types import GlossaryEntry, LiteralDraft, LiteralSentencePai
 from novel_pipeline.files import atomic_write_json
 
 
+class ChapterQualityError(RuntimeError):
+    """An unsafe chapter candidate that may be recovered without stopping others."""
+
+
 def _utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
@@ -242,7 +246,7 @@ def _run_refinement_with_configured_fallbacks(
                 style_instructions=(config.workspace.system / "lean_voice.md").read_text(encoding="utf-8"),
             )
             if "[...]" in draft.refined_text or "[…]" in draft.refined_text:
-                raise RuntimeError("Refinement returned an omission placeholder.")
+                raise ChapterQualityError("Refinement returned an omission placeholder.")
             draft.metadata["refinement_route_index"] = index
             draft.metadata["refinement_fallback_used"] = index > 0
             if failures:
@@ -577,7 +581,7 @@ def _run_production_sentinel(config: Any, *, run_id: str, chapters: str, staged_
     try:
         spec.loader.exec_module(module)
         result = module.generate_sentinel_report(
-            scope=f"lean-{run_id}",
+            scope=f"lean-{run_id}-{chapters}",
             novel=config.novel_id,
             chapters=chapters,
             fail_on="major",
@@ -753,7 +757,7 @@ def run_chapter(
         )
         atomic_write_json(qa_checkpoint, {"stage": "qa_judge", "input_hash": qa_input_hash, "report": qa.to_dict()})
     if not qa.passed:
-        raise RuntimeError(f"Lean QA failed for {chapter_id}: {qa.feedback}")
+        raise ChapterQualityError(f"Lean QA failed for {chapter_id}: {qa.feedback}")
     formatting_input_hash = _checkpoint_input_hash(
         stage="formatting",
         source_hash=source_hash,
@@ -786,7 +790,7 @@ def run_chapter(
         )
     validation_issues = validate_formatted_text(formatted, source_text=refined.refined_text)
     if validation_issues:
-        raise RuntimeError(
+        raise ChapterQualityError(
             f"Lean formatting validation failed for {chapter_id}: "
             + "; ".join(validation_issues)
         )
@@ -933,9 +937,9 @@ def main(argv: list[str] | None = None) -> int:
     promoted_terms: list[GlossaryEntry] = []
     status = "complete"
     error = ""
-    try:
-        for chapter_id in chapters:
-            print(f"[{args.run_id}] START {chapter_id}", flush=True)
+    for chapter_id in chapters:
+        print(f"[{args.run_id}] START {chapter_id}", flush=True)
+        try:
             result = run_chapter(
                 config,
                 chapter_id,
@@ -954,6 +958,7 @@ def main(argv: list[str] | None = None) -> int:
                 promoted_terms.extend(promoted)
                 result["glossary_promoted_experiment_only"] = [entry.original_term for entry in promoted]
                 result["glossary_promotion_decisions"] = promotion_decisions
+            result["status"] = "staged"
             results.append(result)
             atomic_write_json(checkpoint_dir / chapter_id / "chapter_result.json", result)
             if args.mode == "experiment":
@@ -962,27 +967,63 @@ def main(argv: list[str] | None = None) -> int:
                     [entry.to_dict() for entry in glossary.values() if entry.metadata.get("experiment_only")],
                 )
             print(f"[{args.run_id}] COMPLETE {chapter_id}", flush=True)
-    except Exception as exc:  # preserve a machine-readable stopped experiment result
-        status = "blocked"
-        error = f"{type(exc).__name__}: {exc}"
-    sentinel = None
-    promoted_outputs: list[str] = []
-    if status == "complete" and args.mode == "production":
-        try:
-            sentinel = _run_production_sentinel(
-                config,
-                run_id=args.run_id,
-                chapters=args.chapters,
-                staged_output_root=output_dir,
-            )
-            if sentinel["failed"]:
+        except ChapterQualityError as exc:
+            if args.mode != "production":
                 status = "blocked"
-                error = "Production Sentinel reported blocker/major findings."
-            else:
-                _promote_staged_outputs(config, results, promoted=promoted_outputs)
+                error = f"{type(exc).__name__}: {exc}"
+                break
+            # A chapter-local defect is quarantined so later chapters can keep
+            # moving. The quarantined chapter remains unpublished and resumable.
+            result = {
+                "chapter_id": chapter_id,
+                "status": "quarantined",
+                "error": f"{type(exc).__name__}: {exc}",
+                "staged_output": "",
+            }
+            results.append(result)
+            atomic_write_json(checkpoint_dir / chapter_id / "chapter_result.json", result)
+            print(f"[{args.run_id}] QUARANTINED {chapter_id}: {result['error']}", flush=True)
         except Exception as exc:
             status = "blocked"
-            error = f"ProductionGateError: {exc}"
+            error = f"{type(exc).__name__}: {exc}"
+            break
+    sentinel = None
+    sentinel_runs: list[dict[str, Any]] = []
+    promoted_outputs: list[str] = []
+    if args.mode == "production":
+        for result in results:
+            if result.get("status") != "staged":
+                continue
+            chapter_id = str(result["chapter_id"])
+            try:
+                chapter_sentinel = _run_production_sentinel(
+                    config,
+                    run_id=args.run_id,
+                    chapters=chapter_id,
+                    staged_output_root=output_dir,
+                )
+                sentinel_runs.append({"chapter_id": chapter_id, **chapter_sentinel})
+                result["sentinel"] = chapter_sentinel
+                if chapter_sentinel["failed"]:
+                    result["status"] = "quarantined"
+                    result["error"] = "Production Sentinel reported blocker/major findings."
+                    atomic_write_json(checkpoint_dir / chapter_id / "chapter_result.json", result)
+                    continue
+                _promote_staged_outputs(config, [result], promoted=promoted_outputs)
+                result["status"] = "promoted"
+                atomic_write_json(checkpoint_dir / chapter_id / "chapter_result.json", result)
+            except Exception as exc:
+                status = "blocked"
+                error = f"ProductionGateError: {exc}"
+                break
+        sentinel = {
+            "failed": any(item.get("failed") for item in sentinel_runs),
+            "runs": sentinel_runs,
+        }
+    quarantined = [result for result in results if result.get("status") == "quarantined"]
+    if quarantined and status != "blocked":
+        status = "partial"
+        error = f"{len(quarantined)} chapter(s) quarantined for recovery."
     report = {
         "schema": "novel.lean-run.v1",
         "mode": args.mode,
@@ -998,6 +1039,10 @@ def main(argv: list[str] | None = None) -> int:
         "output_dir": str(config.workspace.output if args.mode == "production" else output_dir),
         "staged_output_dir": str(output_dir) if args.mode == "production" else "",
         "promoted_outputs": promoted_outputs,
+        "quarantined_chapters": [
+            {"chapter_id": result["chapter_id"], "error": result.get("error", "")}
+            for result in quarantined
+        ],
         "checkpoint_dir": str(checkpoint_dir),
         "glossary_policy": "production-approved terms are projected into source copies; harvested terms remain proposed until separately reviewed",
         "experiment_glossary_promoted_count": len(promoted_terms),
@@ -1008,7 +1053,9 @@ def main(argv: list[str] | None = None) -> int:
     }
     atomic_write_json(checkpoint_dir / "lean_run_report.json", report)
     print(json.dumps(report, ensure_ascii=False, indent=2))
-    return 0 if status == "complete" else 2
+    # Workers inspect partial reports for recovery rather than treating a
+    # nonzero quality result as an instruction to stop their entire work order.
+    return 0 if status in {"complete", "partial"} else 2
 
 
 if __name__ == "__main__":

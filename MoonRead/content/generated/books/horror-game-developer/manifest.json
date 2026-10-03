@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-17T14:02:20.686Z",
+  "generatedAt": "2026-10-03T20:11:23.851Z",
   "sourceRoot": "../Horror Game Developers/05_Output",
   "targetRange": "ch001-ch290",
   "novel": {
@@ -45,8 +45,9 @@
       "sourcePath": "ch001/ch001.md",
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch001.md",
       "href": "/books/horror-game-developer/read/ch001",
-      "charCount": 6153,
-      "readingMinutes": 2
+      "charCount": 7008,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch002",
@@ -56,8 +57,9 @@
       "sourcePath": "ch002/ch002.md",
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch002.md",
       "href": "/books/horror-game-developer/read/ch002",
-      "charCount": 6308,
-      "readingMinutes": 2
+      "charCount": 6790,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch003",
@@ -67,8 +69,9 @@
       "sourcePath": "ch003/ch003.md",
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch003.md",
       "href": "/books/horror-game-developer/read/ch003",
-      "charCount": 7568,
-      "readingMinutes": 2
+      "charCount": 8160,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch004",
@@ -78,8 +81,9 @@
       "sourcePath": "ch004/ch004.md",
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch004.md",
       "href": "/books/horror-game-developer/read/ch004",
-      "charCount": 4108,
-      "readingMinutes": 1
+      "charCount": 6668,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch005",
@@ -89,8 +93,9 @@
       "sourcePath": "ch005/ch005.md",
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch005.md",
       "href": "/books/horror-game-developer/read/ch005",
-      "charCount": 5046,
-      "readingMinutes": 2
+      "charCount": 6595,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch006",
@@ -100,8 +105,9 @@
       "sourcePath": "ch006/ch006.md",
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch006.md",
       "href": "/books/horror-game-developer/read/ch006",
-      "charCount": 6782,
-      "readingMinutes": 2
+      "charCount": 6794,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch007",
@@ -111,8 +117,9 @@
       "sourcePath": "ch007/ch007.md",
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch007.md",
       "href": "/books/horror-game-developer/read/ch007",
-      "charCount": 6139,
-      "readingMinutes": 2
+      "charCount": 6865,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch008",
@@ -122,8 +129,9 @@
       "sourcePath": "ch008/ch008.md",
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch008.md",
       "href": "/books/horror-game-developer/read/ch008",
-      "charCount": 5649,
-      "readingMinutes": 2
+      "charCount": 6208,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch009",
@@ -133,8 +141,9 @@
       "sourcePath": "ch009/ch009.md",
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch009.md",
       "href": "/books/horror-game-developer/read/ch009",
-      "charCount": 4006,
-      "readingMinutes": 1
+      "charCount": 5793,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch010",
@@ -144,8 +153,9 @@
       "sourcePath": "ch010/ch010.md",
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch010.md",
       "href": "/books/horror-game-developer/read/ch010",
-      "charCount": 5642,
-      "readingMinutes": 2
+      "charCount": 6651,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch011",
@@ -155,8 +165,9 @@
       "sourcePath": "ch011/ch011.md",
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch011.md",
       "href": "/books/horror-game-developer/read/ch011",
-      "charCount": 6003,
-      "readingMinutes": 2
+      "charCount": 7326,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch012",
@@ -166,8 +177,9 @@
       "sourcePath": "ch012/ch012.md",
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch012.md",
       "href": "/books/horror-game-developer/read/ch012",
-      "charCount": 5222,
-      "readingMinutes": 2
+      "charCount": 6964,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch013",
@@ -177,8 +189,9 @@
       "sourcePath": "ch013/ch013.md",
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch013.md",
       "href": "/books/horror-game-developer/read/ch013",
-      "charCount": 6126,
-      "readingMinutes": 2
+      "charCount": 6881,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch014",
@@ -188,8 +201,9 @@
       "sourcePath": "ch014/ch014.md",
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch014.md",
       "href": "/books/horror-game-developer/read/ch014",
-      "charCount": 6804,
-      "readingMinutes": 2
+      "charCount": 7298,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch015",
@@ -199,8 +213,9 @@
       "sourcePath": "ch015/ch015.md",
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch015.md",
       "href": "/books/horror-game-developer/read/ch015",
-      "charCount": 5877,
-      "readingMinutes": 2
+      "charCount": 6540,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch016",
@@ -210,8 +225,9 @@
       "sourcePath": "ch016/ch016.md",
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch016.md",
       "href": "/books/horror-game-developer/read/ch016",
-      "charCount": 6700,
-      "readingMinutes": 2
+      "charCount": 7225,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch017",
@@ -221,8 +237,9 @@
       "sourcePath": "ch017/ch017.md",
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch017.md",
       "href": "/books/horror-game-developer/read/ch017",
-      "charCount": 4872,
-      "readingMinutes": 2
+      "charCount": 7433,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch018",
@@ -232,8 +249,9 @@
       "sourcePath": "ch018/ch018.md",
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch018.md",
       "href": "/books/horror-game-developer/read/ch018",
-      "charCount": 6917,
-      "readingMinutes": 2
+      "charCount": 7399,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch019",
@@ -243,8 +261,9 @@
       "sourcePath": "ch019/ch019.md",
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch019.md",
       "href": "/books/horror-game-developer/read/ch019",
-      "charCount": 7903,
-      "readingMinutes": 2
+      "charCount": 8638,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch020",
@@ -254,8 +273,9 @@
       "sourcePath": "ch020/ch020.md",
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch020.md",
       "href": "/books/horror-game-developer/read/ch020",
-      "charCount": 5555,
-      "readingMinutes": 2
+      "charCount": 6170,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
     },
     {
       "id": "ch021",
@@ -266,7 +286,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch021.md",
       "href": "/books/horror-game-developer/read/ch021",
       "charCount": 7662,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch022",
@@ -277,7 +298,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch022.md",
       "href": "/books/horror-game-developer/read/ch022",
       "charCount": 5708,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch023",
@@ -288,7 +310,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch023.md",
       "href": "/books/horror-game-developer/read/ch023",
       "charCount": 5976,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch024",
@@ -299,7 +322,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch024.md",
       "href": "/books/horror-game-developer/read/ch024",
       "charCount": 4916,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch025",
@@ -310,7 +334,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch025.md",
       "href": "/books/horror-game-developer/read/ch025",
       "charCount": 6255,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch026",
@@ -321,7 +346,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch026.md",
       "href": "/books/horror-game-developer/read/ch026",
       "charCount": 5548,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch027",
@@ -332,7 +358,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch027.md",
       "href": "/books/horror-game-developer/read/ch027",
       "charCount": 5690,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch028",
@@ -343,7 +370,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch028.md",
       "href": "/books/horror-game-developer/read/ch028",
       "charCount": 5163,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch029",
@@ -354,7 +382,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch029.md",
       "href": "/books/horror-game-developer/read/ch029",
       "charCount": 5311,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch030",
@@ -365,7 +394,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch030.md",
       "href": "/books/horror-game-developer/read/ch030",
       "charCount": 6173,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch031",
@@ -376,7 +406,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch031.md",
       "href": "/books/horror-game-developer/read/ch031",
       "charCount": 4953,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch032",
@@ -387,7 +418,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch032.md",
       "href": "/books/horror-game-developer/read/ch032",
       "charCount": 5793,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch033",
@@ -398,7 +430,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch033.md",
       "href": "/books/horror-game-developer/read/ch033",
       "charCount": 5798,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch034",
@@ -409,7 +442,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch034.md",
       "href": "/books/horror-game-developer/read/ch034",
       "charCount": 5091,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch035",
@@ -420,7 +454,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch035.md",
       "href": "/books/horror-game-developer/read/ch035",
       "charCount": 5894,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch036",
@@ -431,7 +466,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch036.md",
       "href": "/books/horror-game-developer/read/ch036",
       "charCount": 6559,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch037",
@@ -442,7 +478,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch037.md",
       "href": "/books/horror-game-developer/read/ch037",
       "charCount": 6002,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch038",
@@ -453,7 +490,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch038.md",
       "href": "/books/horror-game-developer/read/ch038",
       "charCount": 4799,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch039",
@@ -464,7 +502,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch039.md",
       "href": "/books/horror-game-developer/read/ch039",
       "charCount": 5643,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch040",
@@ -475,7 +514,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch040.md",
       "href": "/books/horror-game-developer/read/ch040",
       "charCount": 5992,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch041",
@@ -486,7 +526,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch041.md",
       "href": "/books/horror-game-developer/read/ch041",
       "charCount": 5702,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch042",
@@ -497,7 +538,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch042.md",
       "href": "/books/horror-game-developer/read/ch042",
       "charCount": 14613,
-      "readingMinutes": 4
+      "readingMinutes": 4,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch043",
@@ -508,7 +550,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch043.md",
       "href": "/books/horror-game-developer/read/ch043",
       "charCount": 6003,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch044",
@@ -519,7 +562,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch044.md",
       "href": "/books/horror-game-developer/read/ch044",
       "charCount": 6574,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch045",
@@ -530,7 +574,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch045.md",
       "href": "/books/horror-game-developer/read/ch045",
       "charCount": 6300,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch046",
@@ -541,7 +586,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch046.md",
       "href": "/books/horror-game-developer/read/ch046",
       "charCount": 5637,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch047",
@@ -552,7 +598,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch047.md",
       "href": "/books/horror-game-developer/read/ch047",
       "charCount": 6245,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch048",
@@ -563,7 +610,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch048.md",
       "href": "/books/horror-game-developer/read/ch048",
       "charCount": 5663,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch049",
@@ -574,7 +622,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch049.md",
       "href": "/books/horror-game-developer/read/ch049",
       "charCount": 12685,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch050",
@@ -585,7 +634,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch050.md",
       "href": "/books/horror-game-developer/read/ch050",
       "charCount": 6238,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch051",
@@ -596,7 +646,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch051.md",
       "href": "/books/horror-game-developer/read/ch051",
       "charCount": 5745,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch052",
@@ -607,7 +658,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch052.md",
       "href": "/books/horror-game-developer/read/ch052",
       "charCount": 6302,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch053",
@@ -618,7 +670,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch053.md",
       "href": "/books/horror-game-developer/read/ch053",
       "charCount": 6491,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch054",
@@ -629,7 +682,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch054.md",
       "href": "/books/horror-game-developer/read/ch054",
       "charCount": 6882,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch055",
@@ -640,7 +694,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch055.md",
       "href": "/books/horror-game-developer/read/ch055",
       "charCount": 7143,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch056",
@@ -651,7 +706,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch056.md",
       "href": "/books/horror-game-developer/read/ch056",
       "charCount": 6343,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch057",
@@ -662,7 +718,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch057.md",
       "href": "/books/horror-game-developer/read/ch057",
       "charCount": 5286,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch058",
@@ -673,7 +730,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch058.md",
       "href": "/books/horror-game-developer/read/ch058",
       "charCount": 4950,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch059",
@@ -684,7 +742,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch059.md",
       "href": "/books/horror-game-developer/read/ch059",
       "charCount": 5283,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch060",
@@ -695,7 +754,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch060.md",
       "href": "/books/horror-game-developer/read/ch060",
       "charCount": 6211,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch061",
@@ -706,7 +766,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch061.md",
       "href": "/books/horror-game-developer/read/ch061",
       "charCount": 4976,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch062",
@@ -717,7 +778,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch062.md",
       "href": "/books/horror-game-developer/read/ch062",
       "charCount": 5246,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch063",
@@ -728,7 +790,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch063.md",
       "href": "/books/horror-game-developer/read/ch063",
       "charCount": 6945,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch064",
@@ -739,7 +802,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch064.md",
       "href": "/books/horror-game-developer/read/ch064",
       "charCount": 4781,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch065",
@@ -750,7 +814,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch065.md",
       "href": "/books/horror-game-developer/read/ch065",
       "charCount": 6097,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch066",
@@ -761,7 +826,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch066.md",
       "href": "/books/horror-game-developer/read/ch066",
       "charCount": 6856,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch067",
@@ -772,7 +838,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch067.md",
       "href": "/books/horror-game-developer/read/ch067",
       "charCount": 5547,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch068",
@@ -783,7 +850,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch068.md",
       "href": "/books/horror-game-developer/read/ch068",
       "charCount": 7209,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch069",
@@ -794,7 +862,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch069.md",
       "href": "/books/horror-game-developer/read/ch069",
       "charCount": 6240,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch070",
@@ -805,7 +874,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch070.md",
       "href": "/books/horror-game-developer/read/ch070",
       "charCount": 5830,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch071",
@@ -816,7 +886,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch071.md",
       "href": "/books/horror-game-developer/read/ch071",
       "charCount": 4656,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch072",
@@ -827,7 +898,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch072.md",
       "href": "/books/horror-game-developer/read/ch072",
       "charCount": 5519,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch073",
@@ -838,7 +910,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch073.md",
       "href": "/books/horror-game-developer/read/ch073",
       "charCount": 5696,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch074",
@@ -849,7 +922,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch074.md",
       "href": "/books/horror-game-developer/read/ch074",
       "charCount": 5221,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch075",
@@ -860,7 +934,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch075.md",
       "href": "/books/horror-game-developer/read/ch075",
       "charCount": 4760,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch076",
@@ -871,7 +946,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch076.md",
       "href": "/books/horror-game-developer/read/ch076",
       "charCount": 5847,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch077",
@@ -882,7 +958,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch077.md",
       "href": "/books/horror-game-developer/read/ch077",
       "charCount": 5122,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch078",
@@ -893,7 +970,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch078.md",
       "href": "/books/horror-game-developer/read/ch078",
       "charCount": 5666,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch079",
@@ -904,7 +982,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch079.md",
       "href": "/books/horror-game-developer/read/ch079",
       "charCount": 6486,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch080",
@@ -915,7 +994,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch080.md",
       "href": "/books/horror-game-developer/read/ch080",
       "charCount": 6113,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch081",
@@ -926,7 +1006,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch081.md",
       "href": "/books/horror-game-developer/read/ch081",
       "charCount": 6652,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch082",
@@ -937,7 +1018,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch082.md",
       "href": "/books/horror-game-developer/read/ch082",
       "charCount": 5562,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch083",
@@ -948,7 +1030,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch083.md",
       "href": "/books/horror-game-developer/read/ch083",
       "charCount": 5537,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch084",
@@ -959,7 +1042,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch084.md",
       "href": "/books/horror-game-developer/read/ch084",
       "charCount": 6974,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch085",
@@ -970,7 +1054,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch085.md",
       "href": "/books/horror-game-developer/read/ch085",
       "charCount": 5384,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch086",
@@ -981,7 +1066,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch086.md",
       "href": "/books/horror-game-developer/read/ch086",
       "charCount": 5961,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch087",
@@ -992,7 +1078,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch087.md",
       "href": "/books/horror-game-developer/read/ch087",
       "charCount": 5866,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch088",
@@ -1003,7 +1090,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch088.md",
       "href": "/books/horror-game-developer/read/ch088",
       "charCount": 6331,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch089",
@@ -1014,7 +1102,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch089.md",
       "href": "/books/horror-game-developer/read/ch089",
       "charCount": 4268,
-      "readingMinutes": 1
+      "readingMinutes": 1,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch090",
@@ -1025,7 +1114,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch090.md",
       "href": "/books/horror-game-developer/read/ch090",
       "charCount": 5610,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch091",
@@ -1036,7 +1126,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch091.md",
       "href": "/books/horror-game-developer/read/ch091",
       "charCount": 6427,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch092",
@@ -1047,7 +1138,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch092.md",
       "href": "/books/horror-game-developer/read/ch092",
       "charCount": 6380,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch093",
@@ -1058,7 +1150,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch093.md",
       "href": "/books/horror-game-developer/read/ch093",
       "charCount": 5699,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch094",
@@ -1069,7 +1162,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch094.md",
       "href": "/books/horror-game-developer/read/ch094",
       "charCount": 6031,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch095",
@@ -1080,7 +1174,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch095.md",
       "href": "/books/horror-game-developer/read/ch095",
       "charCount": 5463,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch096",
@@ -1091,7 +1186,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch096.md",
       "href": "/books/horror-game-developer/read/ch096",
       "charCount": 6710,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch097",
@@ -1102,7 +1198,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch097.md",
       "href": "/books/horror-game-developer/read/ch097",
       "charCount": 6334,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch098",
@@ -1113,7 +1210,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch098.md",
       "href": "/books/horror-game-developer/read/ch098",
       "charCount": 5984,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch099",
@@ -1124,7 +1222,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch099.md",
       "href": "/books/horror-game-developer/read/ch099",
       "charCount": 6329,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch100",
@@ -1135,7 +1234,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch100.md",
       "href": "/books/horror-game-developer/read/ch100",
       "charCount": 5422,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch101",
@@ -1146,7 +1246,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch101.md",
       "href": "/books/horror-game-developer/read/ch101",
       "charCount": 5823,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch102",
@@ -1157,7 +1258,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch102.md",
       "href": "/books/horror-game-developer/read/ch102",
       "charCount": 5561,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch103",
@@ -1168,7 +1270,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch103.md",
       "href": "/books/horror-game-developer/read/ch103",
       "charCount": 6483,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch104",
@@ -1179,7 +1282,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch104.md",
       "href": "/books/horror-game-developer/read/ch104",
       "charCount": 6482,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch105",
@@ -1190,7 +1294,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch105.md",
       "href": "/books/horror-game-developer/read/ch105",
       "charCount": 5572,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch106",
@@ -1201,7 +1306,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch106.md",
       "href": "/books/horror-game-developer/read/ch106",
       "charCount": 6078,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch107",
@@ -1212,7 +1318,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch107.md",
       "href": "/books/horror-game-developer/read/ch107",
       "charCount": 5759,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch108",
@@ -1223,7 +1330,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch108.md",
       "href": "/books/horror-game-developer/read/ch108",
       "charCount": 5713,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch109",
@@ -1234,7 +1342,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch109.md",
       "href": "/books/horror-game-developer/read/ch109",
       "charCount": 4934,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch110",
@@ -1245,7 +1354,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch110.md",
       "href": "/books/horror-game-developer/read/ch110",
       "charCount": 4742,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch111",
@@ -1256,7 +1366,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch111.md",
       "href": "/books/horror-game-developer/read/ch111",
       "charCount": 6731,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch112",
@@ -1267,7 +1378,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch112.md",
       "href": "/books/horror-game-developer/read/ch112",
       "charCount": 6645,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch113",
@@ -1278,7 +1390,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch113.md",
       "href": "/books/horror-game-developer/read/ch113",
       "charCount": 6521,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch114",
@@ -1289,7 +1402,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch114.md",
       "href": "/books/horror-game-developer/read/ch114",
       "charCount": 5728,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch115",
@@ -1300,7 +1414,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch115.md",
       "href": "/books/horror-game-developer/read/ch115",
       "charCount": 6131,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch116",
@@ -1311,7 +1426,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch116.md",
       "href": "/books/horror-game-developer/read/ch116",
       "charCount": 5636,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch117",
@@ -1322,7 +1438,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch117.md",
       "href": "/books/horror-game-developer/read/ch117",
       "charCount": 5654,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch118",
@@ -1333,7 +1450,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch118.md",
       "href": "/books/horror-game-developer/read/ch118",
       "charCount": 5545,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch119",
@@ -1344,7 +1462,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch119.md",
       "href": "/books/horror-game-developer/read/ch119",
       "charCount": 6086,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch120",
@@ -1355,7 +1474,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch120.md",
       "href": "/books/horror-game-developer/read/ch120",
       "charCount": 5511,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch121",
@@ -1366,7 +1486,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch121.md",
       "href": "/books/horror-game-developer/read/ch121",
       "charCount": 5260,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch122",
@@ -1377,7 +1498,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch122.md",
       "href": "/books/horror-game-developer/read/ch122",
       "charCount": 6249,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch123",
@@ -1388,7 +1510,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch123.md",
       "href": "/books/horror-game-developer/read/ch123",
       "charCount": 5489,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch124",
@@ -1399,7 +1522,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch124.md",
       "href": "/books/horror-game-developer/read/ch124",
       "charCount": 6033,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch125",
@@ -1410,7 +1534,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch125.md",
       "href": "/books/horror-game-developer/read/ch125",
       "charCount": 5085,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch126",
@@ -1421,7 +1546,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch126.md",
       "href": "/books/horror-game-developer/read/ch126",
       "charCount": 4731,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch127",
@@ -1432,7 +1558,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch127.md",
       "href": "/books/horror-game-developer/read/ch127",
       "charCount": 5422,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch128",
@@ -1443,7 +1570,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch128.md",
       "href": "/books/horror-game-developer/read/ch128",
       "charCount": 5876,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch129",
@@ -1454,7 +1582,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch129.md",
       "href": "/books/horror-game-developer/read/ch129",
       "charCount": 5508,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch130",
@@ -1465,7 +1594,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch130.md",
       "href": "/books/horror-game-developer/read/ch130",
       "charCount": 6624,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch131",
@@ -1476,7 +1606,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch131.md",
       "href": "/books/horror-game-developer/read/ch131",
       "charCount": 6665,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch132",
@@ -1487,7 +1618,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch132.md",
       "href": "/books/horror-game-developer/read/ch132",
       "charCount": 5805,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch133",
@@ -1498,7 +1630,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch133.md",
       "href": "/books/horror-game-developer/read/ch133",
       "charCount": 4651,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch134",
@@ -1509,7 +1642,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch134.md",
       "href": "/books/horror-game-developer/read/ch134",
       "charCount": 5974,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch135",
@@ -1520,7 +1654,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch135.md",
       "href": "/books/horror-game-developer/read/ch135",
       "charCount": 4740,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch136",
@@ -1531,7 +1666,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch136.md",
       "href": "/books/horror-game-developer/read/ch136",
       "charCount": 5380,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch137",
@@ -1542,7 +1678,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch137.md",
       "href": "/books/horror-game-developer/read/ch137",
       "charCount": 5291,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch138",
@@ -1553,7 +1690,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch138.md",
       "href": "/books/horror-game-developer/read/ch138",
       "charCount": 5528,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch139",
@@ -1564,7 +1702,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch139.md",
       "href": "/books/horror-game-developer/read/ch139",
       "charCount": 5297,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch140",
@@ -1575,7 +1714,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch140.md",
       "href": "/books/horror-game-developer/read/ch140",
       "charCount": 5104,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch141",
@@ -1586,7 +1726,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch141.md",
       "href": "/books/horror-game-developer/read/ch141",
       "charCount": 5458,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch142",
@@ -1597,7 +1738,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch142.md",
       "href": "/books/horror-game-developer/read/ch142",
       "charCount": 5700,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch143",
@@ -1608,7 +1750,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch143.md",
       "href": "/books/horror-game-developer/read/ch143",
       "charCount": 6394,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch144",
@@ -1619,7 +1762,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch144.md",
       "href": "/books/horror-game-developer/read/ch144",
       "charCount": 5633,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch145",
@@ -1630,7 +1774,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch145.md",
       "href": "/books/horror-game-developer/read/ch145",
       "charCount": 6202,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch146",
@@ -1641,7 +1786,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch146.md",
       "href": "/books/horror-game-developer/read/ch146",
       "charCount": 5781,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch147",
@@ -1652,7 +1798,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch147.md",
       "href": "/books/horror-game-developer/read/ch147",
       "charCount": 6731,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch148",
@@ -1663,7 +1810,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch148.md",
       "href": "/books/horror-game-developer/read/ch148",
       "charCount": 5719,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch149",
@@ -1674,7 +1822,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch149.md",
       "href": "/books/horror-game-developer/read/ch149",
       "charCount": 5653,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch150",
@@ -1685,7 +1834,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch150.md",
       "href": "/books/horror-game-developer/read/ch150",
       "charCount": 5735,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch151",
@@ -1696,7 +1846,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch151.md",
       "href": "/books/horror-game-developer/read/ch151",
       "charCount": 5893,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch152",
@@ -1707,7 +1858,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch152.md",
       "href": "/books/horror-game-developer/read/ch152",
       "charCount": 5162,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch153",
@@ -1718,7 +1870,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch153.md",
       "href": "/books/horror-game-developer/read/ch153",
       "charCount": 5817,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch154",
@@ -1729,7 +1882,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch154.md",
       "href": "/books/horror-game-developer/read/ch154",
       "charCount": 6162,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch155",
@@ -1740,7 +1894,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch155.md",
       "href": "/books/horror-game-developer/read/ch155",
       "charCount": 6396,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch156",
@@ -1751,7 +1906,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch156.md",
       "href": "/books/horror-game-developer/read/ch156",
       "charCount": 7335,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch157",
@@ -1762,7 +1918,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch157.md",
       "href": "/books/horror-game-developer/read/ch157",
       "charCount": 7434,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch158",
@@ -1773,7 +1930,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch158.md",
       "href": "/books/horror-game-developer/read/ch158",
       "charCount": 5012,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch159",
@@ -1784,7 +1942,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch159.md",
       "href": "/books/horror-game-developer/read/ch159",
       "charCount": 3949,
-      "readingMinutes": 1
+      "readingMinutes": 1,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch160",
@@ -1795,7 +1954,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch160.md",
       "href": "/books/horror-game-developer/read/ch160",
       "charCount": 5352,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch161",
@@ -1806,7 +1966,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch161.md",
       "href": "/books/horror-game-developer/read/ch161",
       "charCount": 6367,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch162",
@@ -1817,7 +1978,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch162.md",
       "href": "/books/horror-game-developer/read/ch162",
       "charCount": 7101,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch163",
@@ -1828,7 +1990,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch163.md",
       "href": "/books/horror-game-developer/read/ch163",
       "charCount": 7218,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch164",
@@ -1839,7 +2002,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch164.md",
       "href": "/books/horror-game-developer/read/ch164",
       "charCount": 6846,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch165",
@@ -1850,7 +2014,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch165.md",
       "href": "/books/horror-game-developer/read/ch165",
       "charCount": 5436,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch166",
@@ -1861,7 +2026,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch166.md",
       "href": "/books/horror-game-developer/read/ch166",
       "charCount": 5912,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch167",
@@ -1872,7 +2038,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch167.md",
       "href": "/books/horror-game-developer/read/ch167",
       "charCount": 5970,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch168",
@@ -1883,7 +2050,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch168.md",
       "href": "/books/horror-game-developer/read/ch168",
       "charCount": 6144,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch169",
@@ -1894,7 +2062,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch169.md",
       "href": "/books/horror-game-developer/read/ch169",
       "charCount": 5341,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch170",
@@ -1905,7 +2074,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch170.md",
       "href": "/books/horror-game-developer/read/ch170",
       "charCount": 5871,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch171",
@@ -1916,7 +2086,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch171.md",
       "href": "/books/horror-game-developer/read/ch171",
       "charCount": 6943,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch172",
@@ -1927,7 +2098,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch172.md",
       "href": "/books/horror-game-developer/read/ch172",
       "charCount": 4447,
-      "readingMinutes": 1
+      "readingMinutes": 1,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch173",
@@ -1938,7 +2110,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch173.md",
       "href": "/books/horror-game-developer/read/ch173",
       "charCount": 6554,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch174",
@@ -1949,7 +2122,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch174.md",
       "href": "/books/horror-game-developer/read/ch174",
       "charCount": 5081,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch175",
@@ -1960,7 +2134,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch175.md",
       "href": "/books/horror-game-developer/read/ch175",
       "charCount": 6288,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch176",
@@ -1971,7 +2146,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch176.md",
       "href": "/books/horror-game-developer/read/ch176",
       "charCount": 5848,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch177",
@@ -1982,7 +2158,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch177.md",
       "href": "/books/horror-game-developer/read/ch177",
       "charCount": 5332,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch178",
@@ -1993,7 +2170,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch178.md",
       "href": "/books/horror-game-developer/read/ch178",
       "charCount": 4675,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch179",
@@ -2004,7 +2182,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch179.md",
       "href": "/books/horror-game-developer/read/ch179",
       "charCount": 5200,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch180",
@@ -2015,7 +2194,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch180.md",
       "href": "/books/horror-game-developer/read/ch180",
       "charCount": 6433,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch181",
@@ -2026,7 +2206,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch181.md",
       "href": "/books/horror-game-developer/read/ch181",
       "charCount": 5557,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch182",
@@ -2037,7 +2218,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch182.md",
       "href": "/books/horror-game-developer/read/ch182",
       "charCount": 6601,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch183",
@@ -2048,7 +2230,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch183.md",
       "href": "/books/horror-game-developer/read/ch183",
       "charCount": 6464,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch184",
@@ -2059,7 +2242,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch184.md",
       "href": "/books/horror-game-developer/read/ch184",
       "charCount": 5472,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch185",
@@ -2070,7 +2254,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch185.md",
       "href": "/books/horror-game-developer/read/ch185",
       "charCount": 6060,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch186",
@@ -2081,7 +2266,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch186.md",
       "href": "/books/horror-game-developer/read/ch186",
       "charCount": 5871,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch187",
@@ -2092,7 +2278,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch187.md",
       "href": "/books/horror-game-developer/read/ch187",
       "charCount": 5874,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch188",
@@ -2103,7 +2290,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch188.md",
       "href": "/books/horror-game-developer/read/ch188",
       "charCount": 5240,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch189",
@@ -2114,7 +2302,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch189.md",
       "href": "/books/horror-game-developer/read/ch189",
       "charCount": 6310,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch190",
@@ -2125,7 +2314,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch190.md",
       "href": "/books/horror-game-developer/read/ch190",
       "charCount": 5264,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch191",
@@ -2136,7 +2326,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch191.md",
       "href": "/books/horror-game-developer/read/ch191",
       "charCount": 5804,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch192",
@@ -2147,7 +2338,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch192.md",
       "href": "/books/horror-game-developer/read/ch192",
       "charCount": 5968,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch193",
@@ -2158,7 +2350,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch193.md",
       "href": "/books/horror-game-developer/read/ch193",
       "charCount": 5727,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch194",
@@ -2169,7 +2362,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch194.md",
       "href": "/books/horror-game-developer/read/ch194",
       "charCount": 6457,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch195",
@@ -2180,7 +2374,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch195.md",
       "href": "/books/horror-game-developer/read/ch195",
       "charCount": 5488,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch196",
@@ -2191,7 +2386,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch196.md",
       "href": "/books/horror-game-developer/read/ch196",
       "charCount": 6545,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch197",
@@ -2202,7 +2398,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch197.md",
       "href": "/books/horror-game-developer/read/ch197",
       "charCount": 5475,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch198",
@@ -2213,7 +2410,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch198.md",
       "href": "/books/horror-game-developer/read/ch198",
       "charCount": 6440,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch199",
@@ -2224,7 +2422,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch199.md",
       "href": "/books/horror-game-developer/read/ch199",
       "charCount": 5545,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch200",
@@ -2235,7 +2434,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch200.md",
       "href": "/books/horror-game-developer/read/ch200",
       "charCount": 5932,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch201",
@@ -2246,7 +2446,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch201.md",
       "href": "/books/horror-game-developer/read/ch201",
       "charCount": 7047,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch202",
@@ -2257,7 +2458,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch202.md",
       "href": "/books/horror-game-developer/read/ch202",
       "charCount": 6105,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch203",
@@ -2268,7 +2470,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch203.md",
       "href": "/books/horror-game-developer/read/ch203",
       "charCount": 5995,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch204",
@@ -2279,7 +2482,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch204.md",
       "href": "/books/horror-game-developer/read/ch204",
       "charCount": 5782,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch205",
@@ -2290,7 +2494,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch205.md",
       "href": "/books/horror-game-developer/read/ch205",
       "charCount": 4399,
-      "readingMinutes": 1
+      "readingMinutes": 1,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch206",
@@ -2301,7 +2506,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch206.md",
       "href": "/books/horror-game-developer/read/ch206",
       "charCount": 5529,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch207",
@@ -2312,7 +2518,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch207.md",
       "href": "/books/horror-game-developer/read/ch207",
       "charCount": 5234,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch208",
@@ -2323,7 +2530,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch208.md",
       "href": "/books/horror-game-developer/read/ch208",
       "charCount": 5890,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch209",
@@ -2334,7 +2542,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch209.md",
       "href": "/books/horror-game-developer/read/ch209",
       "charCount": 5964,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch210",
@@ -2345,7 +2554,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch210.md",
       "href": "/books/horror-game-developer/read/ch210",
       "charCount": 6156,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch211",
@@ -2356,7 +2566,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch211.md",
       "href": "/books/horror-game-developer/read/ch211",
       "charCount": 6336,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch212",
@@ -2367,7 +2578,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch212.md",
       "href": "/books/horror-game-developer/read/ch212",
       "charCount": 6979,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch213",
@@ -2378,7 +2590,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch213.md",
       "href": "/books/horror-game-developer/read/ch213",
       "charCount": 5814,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch214",
@@ -2389,7 +2602,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch214.md",
       "href": "/books/horror-game-developer/read/ch214",
       "charCount": 5860,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch215",
@@ -2400,7 +2614,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch215.md",
       "href": "/books/horror-game-developer/read/ch215",
       "charCount": 6532,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch216",
@@ -2411,7 +2626,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch216.md",
       "href": "/books/horror-game-developer/read/ch216",
       "charCount": 5939,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch217",
@@ -2422,7 +2638,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch217.md",
       "href": "/books/horror-game-developer/read/ch217",
       "charCount": 6190,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch218",
@@ -2433,7 +2650,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch218.md",
       "href": "/books/horror-game-developer/read/ch218",
       "charCount": 5579,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch219",
@@ -2444,7 +2662,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch219.md",
       "href": "/books/horror-game-developer/read/ch219",
       "charCount": 5668,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch220",
@@ -2455,7 +2674,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch220.md",
       "href": "/books/horror-game-developer/read/ch220",
       "charCount": 6110,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch221",
@@ -2466,7 +2686,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch221.md",
       "href": "/books/horror-game-developer/read/ch221",
       "charCount": 6446,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch222",
@@ -2477,7 +2698,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch222.md",
       "href": "/books/horror-game-developer/read/ch222",
       "charCount": 6682,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch223",
@@ -2488,7 +2710,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch223.md",
       "href": "/books/horror-game-developer/read/ch223",
       "charCount": 5587,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch224",
@@ -2499,7 +2722,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch224.md",
       "href": "/books/horror-game-developer/read/ch224",
       "charCount": 6216,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch225",
@@ -2510,7 +2734,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch225.md",
       "href": "/books/horror-game-developer/read/ch225",
       "charCount": 6284,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch226",
@@ -2521,7 +2746,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch226.md",
       "href": "/books/horror-game-developer/read/ch226",
       "charCount": 5704,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch227",
@@ -2532,7 +2758,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch227.md",
       "href": "/books/horror-game-developer/read/ch227",
       "charCount": 6383,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch228",
@@ -2543,7 +2770,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch228.md",
       "href": "/books/horror-game-developer/read/ch228",
       "charCount": 6431,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch229",
@@ -2554,7 +2782,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch229.md",
       "href": "/books/horror-game-developer/read/ch229",
       "charCount": 5324,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch230",
@@ -2565,7 +2794,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch230.md",
       "href": "/books/horror-game-developer/read/ch230",
       "charCount": 5799,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch231",
@@ -2576,7 +2806,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch231.md",
       "href": "/books/horror-game-developer/read/ch231",
       "charCount": 6874,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch232",
@@ -2587,7 +2818,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch232.md",
       "href": "/books/horror-game-developer/read/ch232",
       "charCount": 5880,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch233",
@@ -2598,7 +2830,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch233.md",
       "href": "/books/horror-game-developer/read/ch233",
       "charCount": 5371,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch234",
@@ -2609,7 +2842,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch234.md",
       "href": "/books/horror-game-developer/read/ch234",
       "charCount": 5480,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch235",
@@ -2620,7 +2854,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch235.md",
       "href": "/books/horror-game-developer/read/ch235",
       "charCount": 5582,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch236",
@@ -2631,7 +2866,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch236.md",
       "href": "/books/horror-game-developer/read/ch236",
       "charCount": 5325,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch237",
@@ -2642,7 +2878,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch237.md",
       "href": "/books/horror-game-developer/read/ch237",
       "charCount": 5942,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch238",
@@ -2653,7 +2890,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch238.md",
       "href": "/books/horror-game-developer/read/ch238",
       "charCount": 5792,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch239",
@@ -2664,7 +2902,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch239.md",
       "href": "/books/horror-game-developer/read/ch239",
       "charCount": 6035,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch240",
@@ -2675,7 +2914,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch240.md",
       "href": "/books/horror-game-developer/read/ch240",
       "charCount": 5752,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch241",
@@ -2686,7 +2926,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch241.md",
       "href": "/books/horror-game-developer/read/ch241",
       "charCount": 5554,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch242",
@@ -2697,7 +2938,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch242.md",
       "href": "/books/horror-game-developer/read/ch242",
       "charCount": 6182,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch243",
@@ -2708,7 +2950,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch243.md",
       "href": "/books/horror-game-developer/read/ch243",
       "charCount": 6179,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch244",
@@ -2719,7 +2962,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch244.md",
       "href": "/books/horror-game-developer/read/ch244",
       "charCount": 6369,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch245",
@@ -2730,7 +2974,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch245.md",
       "href": "/books/horror-game-developer/read/ch245",
       "charCount": 6206,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch246",
@@ -2741,7 +2986,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch246.md",
       "href": "/books/horror-game-developer/read/ch246",
       "charCount": 6193,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch247",
@@ -2752,7 +2998,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch247.md",
       "href": "/books/horror-game-developer/read/ch247",
       "charCount": 6256,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch248",
@@ -2763,7 +3010,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch248.md",
       "href": "/books/horror-game-developer/read/ch248",
       "charCount": 5197,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch249",
@@ -2774,7 +3022,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch249.md",
       "href": "/books/horror-game-developer/read/ch249",
       "charCount": 5493,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch250",
@@ -2785,7 +3034,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch250.md",
       "href": "/books/horror-game-developer/read/ch250",
       "charCount": 6307,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch251",
@@ -2796,7 +3046,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch251.md",
       "href": "/books/horror-game-developer/read/ch251",
       "charCount": 6131,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch252",
@@ -2807,7 +3058,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch252.md",
       "href": "/books/horror-game-developer/read/ch252",
       "charCount": 5822,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch253",
@@ -2818,7 +3070,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch253.md",
       "href": "/books/horror-game-developer/read/ch253",
       "charCount": 4679,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch254",
@@ -2829,7 +3082,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch254.md",
       "href": "/books/horror-game-developer/read/ch254",
       "charCount": 5848,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch255",
@@ -2840,7 +3094,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch255.md",
       "href": "/books/horror-game-developer/read/ch255",
       "charCount": 6269,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch256",
@@ -2851,7 +3106,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch256.md",
       "href": "/books/horror-game-developer/read/ch256",
       "charCount": 6557,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch257",
@@ -2862,7 +3118,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch257.md",
       "href": "/books/horror-game-developer/read/ch257",
       "charCount": 7089,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch258",
@@ -2873,7 +3130,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch258.md",
       "href": "/books/horror-game-developer/read/ch258",
       "charCount": 7790,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch259",
@@ -2884,7 +3142,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch259.md",
       "href": "/books/horror-game-developer/read/ch259",
       "charCount": 5623,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch260",
@@ -2895,7 +3154,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch260.md",
       "href": "/books/horror-game-developer/read/ch260",
       "charCount": 7090,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch261",
@@ -2906,7 +3166,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch261.md",
       "href": "/books/horror-game-developer/read/ch261",
       "charCount": 7641,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch262",
@@ -2917,7 +3178,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch262.md",
       "href": "/books/horror-game-developer/read/ch262",
       "charCount": 6310,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch263",
@@ -2928,7 +3190,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch263.md",
       "href": "/books/horror-game-developer/read/ch263",
       "charCount": 5357,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch264",
@@ -2939,7 +3202,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch264.md",
       "href": "/books/horror-game-developer/read/ch264",
       "charCount": 5216,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch265",
@@ -2950,7 +3214,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch265.md",
       "href": "/books/horror-game-developer/read/ch265",
       "charCount": 5998,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch266",
@@ -2961,7 +3226,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch266.md",
       "href": "/books/horror-game-developer/read/ch266",
       "charCount": 6347,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch267",
@@ -2972,7 +3238,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch267.md",
       "href": "/books/horror-game-developer/read/ch267",
       "charCount": 6401,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch268",
@@ -2983,7 +3250,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch268.md",
       "href": "/books/horror-game-developer/read/ch268",
       "charCount": 6452,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch269",
@@ -2994,7 +3262,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch269.md",
       "href": "/books/horror-game-developer/read/ch269",
       "charCount": 5497,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch270",
@@ -3005,7 +3274,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch270.md",
       "href": "/books/horror-game-developer/read/ch270",
       "charCount": 6508,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch271",
@@ -3016,7 +3286,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch271.md",
       "href": "/books/horror-game-developer/read/ch271",
       "charCount": 5328,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch272",
@@ -3027,7 +3298,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch272.md",
       "href": "/books/horror-game-developer/read/ch272",
       "charCount": 5997,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch273",
@@ -3038,7 +3310,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch273.md",
       "href": "/books/horror-game-developer/read/ch273",
       "charCount": 6264,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch274",
@@ -3049,7 +3322,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch274.md",
       "href": "/books/horror-game-developer/read/ch274",
       "charCount": 5745,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch275",
@@ -3060,7 +3334,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch275.md",
       "href": "/books/horror-game-developer/read/ch275",
       "charCount": 5674,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch276",
@@ -3071,7 +3346,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch276.md",
       "href": "/books/horror-game-developer/read/ch276",
       "charCount": 5742,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch277",
@@ -3082,7 +3358,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch277.md",
       "href": "/books/horror-game-developer/read/ch277",
       "charCount": 5974,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch278",
@@ -3093,7 +3370,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch278.md",
       "href": "/books/horror-game-developer/read/ch278",
       "charCount": 5868,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch279",
@@ -3104,7 +3382,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch279.md",
       "href": "/books/horror-game-developer/read/ch279",
       "charCount": 5479,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch280",
@@ -3115,7 +3394,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch280.md",
       "href": "/books/horror-game-developer/read/ch280",
       "charCount": 5868,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch281",
@@ -3126,7 +3406,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch281.md",
       "href": "/books/horror-game-developer/read/ch281",
       "charCount": 6047,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch282",
@@ -3137,7 +3418,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch282.md",
       "href": "/books/horror-game-developer/read/ch282",
       "charCount": 5609,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch283",
@@ -3148,7 +3430,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch283.md",
       "href": "/books/horror-game-developer/read/ch283",
       "charCount": 5709,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch284",
@@ -3159,7 +3442,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch284.md",
       "href": "/books/horror-game-developer/read/ch284",
       "charCount": 5823,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch285",
@@ -3170,7 +3454,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch285.md",
       "href": "/books/horror-game-developer/read/ch285",
       "charCount": 6118,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch286",
@@ -3181,7 +3466,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch286.md",
       "href": "/books/horror-game-developer/read/ch286",
       "charCount": 6158,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch287",
@@ -3192,7 +3478,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch287.md",
       "href": "/books/horror-game-developer/read/ch287",
       "charCount": 5465,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch288",
@@ -3203,7 +3490,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch288.md",
       "href": "/books/horror-game-developer/read/ch288",
       "charCount": 5720,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch289",
@@ -3214,7 +3502,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch289.md",
       "href": "/books/horror-game-developer/read/ch289",
       "charCount": 6404,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch290",
@@ -3225,7 +3514,8 @@
       "generatedPath": "content/generated/books/horror-game-developer/chapters/ch290.md",
       "href": "/books/horror-game-developer/read/ch290",
       "charCount": 5023,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     }
   ]
 }

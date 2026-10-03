@@ -336,7 +336,7 @@ def test_wntl_markdown_adapter_extracts_and_validates_markdown():
 
 
 def test_refine_cleaner_preserves_story_lines_starting_with_asterisk():
-    text = "*เสียงฝีเท้า—*\n*รีวิวจาก Nightmare Forge Studios แย่มาก*\n- note from provider"
+    text = "*เสียงฝีเท้า—*\n*รีวิวจาก Nightmare Forge Studios แย่มาก*\n**Craft notes\n- note from provider"
     cleaned = _clean_refined_output(text)
     assert "*เสียงฝีเท้า—*" in cleaned
     assert "Nightmare Forge Studios" in cleaned

@@ -1,0 +1,42 @@
+{
+  "created_at": "2026-10-03T21:25:19.333579+00:00",
+  "scope": "tdu-v2-independent-001-003",
+  "chapters": "ch001-ch003",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 4,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": [
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Ten Day Ultimatum\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "xszj"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Ten Day Ultimatum\\05_Output\\ch002\\ch002.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "org"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Ten Day Ultimatum\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "xszj"
+    },
+    {
+      "severity": "minor",
+      "category": "suspicious_english",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Ten Day Ultimatum\\05_Output\\ch003\\ch003.md",
+      "message": "English token remains in product surface; review if intentional",
+      "evidence": "org"
+    }
+  ]
+}

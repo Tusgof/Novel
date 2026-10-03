@@ -1,0 +1,22 @@
+schema_version: 1
+novel_id: ten-day-ultimatum
+title: Ten Day Ultimatum
+aliases:
+- 十日终焉
+languages:
+  source: zh
+  target: th
+genre: mystery thriller
+style_profile: dark_fantasy
+source:
+  adapter: xszj
+  toc_url: https://xszj.org/b/351379/cs/1
+research:
+  status: pending
+  profile_path: RESEARCH_PROFILE.yaml
+  title: Ten Day Ultimatum
+  source_url: https://xszj.org/b/351379/cs/1
+setup:
+  created_at: '2026-10-03T18:28:30.655227+00:00'
+  created_from_workspace: D:\Fogust\Workspace\Novel\Deep Sea Embers
+notes: ''

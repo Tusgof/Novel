@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-17T14:02:20.846Z",
+  "generatedAt": "2026-10-03T20:11:23.993Z",
   "sourceRoot": "../Infinite Regressor Stories/05_Output",
   "targetRange": "ch001-ch070",
   "novel": {
@@ -46,8 +46,9 @@
       "sourcePath": "ch001/ch001.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch001.md",
       "href": "/books/infinite-regressor-stories/read/ch001",
-      "charCount": 9787,
-      "readingMinutes": 3
+      "charCount": 10181,
+      "readingMinutes": 3,
+      "translator": "[Lean]"
     },
     {
       "id": "ch002",
@@ -57,8 +58,9 @@
       "sourcePath": "ch002/ch002.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch002.md",
       "href": "/books/infinite-regressor-stories/read/ch002",
-      "charCount": 9014,
-      "readingMinutes": 3
+      "charCount": 9438,
+      "readingMinutes": 3,
+      "translator": "[Lean]"
     },
     {
       "id": "ch003",
@@ -68,8 +70,9 @@
       "sourcePath": "ch003/ch003.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch003.md",
       "href": "/books/infinite-regressor-stories/read/ch003",
-      "charCount": 11952,
-      "readingMinutes": 3
+      "charCount": 12799,
+      "readingMinutes": 3,
+      "translator": "[Lean]"
     },
     {
       "id": "ch004",
@@ -79,19 +82,21 @@
       "sourcePath": "ch004/ch004.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch004.md",
       "href": "/books/infinite-regressor-stories/read/ch004",
-      "charCount": 15361,
-      "readingMinutes": 4
+      "charCount": 16211,
+      "readingMinutes": 4,
+      "translator": "[Lean]"
     },
     {
       "id": "ch005",
       "number": 5,
-      "title": "วีรบุรุษ",
+      "title": "ผู้กล้า",
       "status": "available",
       "sourcePath": "ch005/ch005.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch005.md",
       "href": "/books/infinite-regressor-stories/read/ch005",
-      "charCount": 12681,
-      "readingMinutes": 3
+      "charCount": 13155,
+      "readingMinutes": 3,
+      "translator": "[Lean]"
     },
     {
       "id": "ch006",
@@ -101,8 +106,9 @@
       "sourcePath": "ch006/ch006.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch006.md",
       "href": "/books/infinite-regressor-stories/read/ch006",
-      "charCount": 12574,
-      "readingMinutes": 3
+      "charCount": 13799,
+      "readingMinutes": 4,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch007",
@@ -112,8 +118,9 @@
       "sourcePath": "ch007/ch007.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch007.md",
       "href": "/books/infinite-regressor-stories/read/ch007",
-      "charCount": 12603,
-      "readingMinutes": 3
+      "charCount": 13490,
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch008",
@@ -123,8 +130,9 @@
       "sourcePath": "ch008/ch008.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch008.md",
       "href": "/books/infinite-regressor-stories/read/ch008",
-      "charCount": 11591,
-      "readingMinutes": 3
+      "charCount": 13286,
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch009",
@@ -134,8 +142,9 @@
       "sourcePath": "ch009/ch009.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch009.md",
       "href": "/books/infinite-regressor-stories/read/ch009",
-      "charCount": 11854,
-      "readingMinutes": 3
+      "charCount": 12900,
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch010",
@@ -145,8 +154,9 @@
       "sourcePath": "ch010/ch010.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch010.md",
       "href": "/books/infinite-regressor-stories/read/ch010",
-      "charCount": 10155,
-      "readingMinutes": 3
+      "charCount": 11063,
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch011",
@@ -156,8 +166,9 @@
       "sourcePath": "ch011/ch011.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch011.md",
       "href": "/books/infinite-regressor-stories/read/ch011",
-      "charCount": 9962,
-      "readingMinutes": 3
+      "charCount": 10599,
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch012",
@@ -167,8 +178,9 @@
       "sourcePath": "ch012/ch012.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch012.md",
       "href": "/books/infinite-regressor-stories/read/ch012",
-      "charCount": 13445,
-      "readingMinutes": 3
+      "charCount": 14714,
+      "readingMinutes": 4,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch013",
@@ -178,8 +190,9 @@
       "sourcePath": "ch013/ch013.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch013.md",
       "href": "/books/infinite-regressor-stories/read/ch013",
-      "charCount": 13770,
-      "readingMinutes": 4
+      "charCount": 14971,
+      "readingMinutes": 4,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch014",
@@ -189,8 +202,9 @@
       "sourcePath": "ch014/ch014.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch014.md",
       "href": "/books/infinite-regressor-stories/read/ch014",
-      "charCount": 13443,
-      "readingMinutes": 3
+      "charCount": 14212,
+      "readingMinutes": 4,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch015",
@@ -200,8 +214,9 @@
       "sourcePath": "ch015/ch015.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch015.md",
       "href": "/books/infinite-regressor-stories/read/ch015",
-      "charCount": 10557,
-      "readingMinutes": 3
+      "charCount": 11648,
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch016",
@@ -211,8 +226,9 @@
       "sourcePath": "ch016/ch016.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch016.md",
       "href": "/books/infinite-regressor-stories/read/ch016",
-      "charCount": 11797,
-      "readingMinutes": 3
+      "charCount": 12313,
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch017",
@@ -222,8 +238,9 @@
       "sourcePath": "ch017/ch017.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch017.md",
       "href": "/books/infinite-regressor-stories/read/ch017",
-      "charCount": 10576,
-      "readingMinutes": 3
+      "charCount": 11551,
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch018",
@@ -233,8 +250,9 @@
       "sourcePath": "ch018/ch018.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch018.md",
       "href": "/books/infinite-regressor-stories/read/ch018",
-      "charCount": 12655,
-      "readingMinutes": 3
+      "charCount": 14116,
+      "readingMinutes": 4,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch019",
@@ -244,8 +262,9 @@
       "sourcePath": "ch019/ch019.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch019.md",
       "href": "/books/infinite-regressor-stories/read/ch019",
-      "charCount": 11936,
-      "readingMinutes": 3
+      "charCount": 12833,
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch020",
@@ -255,8 +274,9 @@
       "sourcePath": "ch020/ch020.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch020.md",
       "href": "/books/infinite-regressor-stories/read/ch020",
-      "charCount": 14299,
-      "readingMinutes": 4
+      "charCount": 15861,
+      "readingMinutes": 4,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch021",
@@ -267,7 +287,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch021.md",
       "href": "/books/infinite-regressor-stories/read/ch021",
       "charCount": 13373,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch022",
@@ -278,7 +299,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch022.md",
       "href": "/books/infinite-regressor-stories/read/ch022",
       "charCount": 10727,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch023",
@@ -289,7 +311,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch023.md",
       "href": "/books/infinite-regressor-stories/read/ch023",
       "charCount": 12889,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch024",
@@ -300,7 +323,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch024.md",
       "href": "/books/infinite-regressor-stories/read/ch024",
       "charCount": 10235,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch025",
@@ -311,7 +335,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch025.md",
       "href": "/books/infinite-regressor-stories/read/ch025",
       "charCount": 12947,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch026",
@@ -322,7 +347,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch026.md",
       "href": "/books/infinite-regressor-stories/read/ch026",
       "charCount": 14814,
-      "readingMinutes": 4
+      "readingMinutes": 4,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch027",
@@ -333,7 +359,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch027.md",
       "href": "/books/infinite-regressor-stories/read/ch027",
       "charCount": 10647,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch028",
@@ -344,7 +371,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch028.md",
       "href": "/books/infinite-regressor-stories/read/ch028",
       "charCount": 12120,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch029",
@@ -355,7 +383,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch029.md",
       "href": "/books/infinite-regressor-stories/read/ch029",
       "charCount": 10096,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch030",
@@ -366,7 +395,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch030.md",
       "href": "/books/infinite-regressor-stories/read/ch030",
       "charCount": 11269,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch031",
@@ -377,7 +407,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch031.md",
       "href": "/books/infinite-regressor-stories/read/ch031",
       "charCount": 10933,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch032",
@@ -388,7 +419,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch032.md",
       "href": "/books/infinite-regressor-stories/read/ch032",
       "charCount": 10131,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch033",
@@ -399,7 +431,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch033.md",
       "href": "/books/infinite-regressor-stories/read/ch033",
       "charCount": 13271,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch034",
@@ -410,7 +443,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch034.md",
       "href": "/books/infinite-regressor-stories/read/ch034",
       "charCount": 9850,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch035",
@@ -421,7 +455,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch035.md",
       "href": "/books/infinite-regressor-stories/read/ch035",
       "charCount": 11552,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch036",
@@ -432,7 +467,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch036.md",
       "href": "/books/infinite-regressor-stories/read/ch036",
       "charCount": 10088,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch037",
@@ -443,7 +479,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch037.md",
       "href": "/books/infinite-regressor-stories/read/ch037",
       "charCount": 13386,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch038",
@@ -454,7 +491,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch038.md",
       "href": "/books/infinite-regressor-stories/read/ch038",
       "charCount": 12265,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch039",
@@ -465,7 +503,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch039.md",
       "href": "/books/infinite-regressor-stories/read/ch039",
       "charCount": 11224,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch040",
@@ -476,7 +515,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch040.md",
       "href": "/books/infinite-regressor-stories/read/ch040",
       "charCount": 14510,
-      "readingMinutes": 4
+      "readingMinutes": 4,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch041",
@@ -487,7 +527,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch041.md",
       "href": "/books/infinite-regressor-stories/read/ch041",
       "charCount": 10261,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch042",
@@ -498,7 +539,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch042.md",
       "href": "/books/infinite-regressor-stories/read/ch042",
       "charCount": 9819,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch043",
@@ -509,7 +551,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch043.md",
       "href": "/books/infinite-regressor-stories/read/ch043",
       "charCount": 12600,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch044",
@@ -520,7 +563,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch044.md",
       "href": "/books/infinite-regressor-stories/read/ch044",
       "charCount": 10820,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch045",
@@ -531,7 +575,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch045.md",
       "href": "/books/infinite-regressor-stories/read/ch045",
       "charCount": 13389,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch046",
@@ -542,7 +587,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch046.md",
       "href": "/books/infinite-regressor-stories/read/ch046",
       "charCount": 14977,
-      "readingMinutes": 4
+      "readingMinutes": 4,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch047",
@@ -553,7 +599,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch047.md",
       "href": "/books/infinite-regressor-stories/read/ch047",
       "charCount": 15021,
-      "readingMinutes": 4
+      "readingMinutes": 4,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch048",
@@ -564,7 +611,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch048.md",
       "href": "/books/infinite-regressor-stories/read/ch048",
       "charCount": 10647,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch049",
@@ -575,7 +623,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch049.md",
       "href": "/books/infinite-regressor-stories/read/ch049",
       "charCount": 16558,
-      "readingMinutes": 4
+      "readingMinutes": 4,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch050",
@@ -586,7 +635,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch050.md",
       "href": "/books/infinite-regressor-stories/read/ch050",
       "charCount": 11973,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch051",
@@ -597,7 +647,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch051.md",
       "href": "/books/infinite-regressor-stories/read/ch051",
       "charCount": 11424,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch052",
@@ -608,7 +659,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch052.md",
       "href": "/books/infinite-regressor-stories/read/ch052",
       "charCount": 8943,
-      "readingMinutes": 2
+      "readingMinutes": 2,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch053",
@@ -619,7 +671,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch053.md",
       "href": "/books/infinite-regressor-stories/read/ch053",
       "charCount": 10971,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch054",
@@ -630,7 +683,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch054.md",
       "href": "/books/infinite-regressor-stories/read/ch054",
       "charCount": 10591,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch055",
@@ -641,7 +695,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch055.md",
       "href": "/books/infinite-regressor-stories/read/ch055",
       "charCount": 10157,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch056",
@@ -652,7 +707,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch056.md",
       "href": "/books/infinite-regressor-stories/read/ch056",
       "charCount": 9411,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch057",
@@ -663,7 +719,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch057.md",
       "href": "/books/infinite-regressor-stories/read/ch057",
       "charCount": 9690,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch058",
@@ -674,7 +731,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch058.md",
       "href": "/books/infinite-regressor-stories/read/ch058",
       "charCount": 13689,
-      "readingMinutes": 4
+      "readingMinutes": 4,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch059",
@@ -685,7 +743,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch059.md",
       "href": "/books/infinite-regressor-stories/read/ch059",
       "charCount": 10806,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch060",
@@ -696,7 +755,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch060.md",
       "href": "/books/infinite-regressor-stories/read/ch060",
       "charCount": 9437,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch061",
@@ -707,7 +767,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch061.md",
       "href": "/books/infinite-regressor-stories/read/ch061",
       "charCount": 10011,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch062",
@@ -718,7 +779,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch062.md",
       "href": "/books/infinite-regressor-stories/read/ch062",
       "charCount": 14273,
-      "readingMinutes": 4
+      "readingMinutes": 4,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch063",
@@ -729,7 +791,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch063.md",
       "href": "/books/infinite-regressor-stories/read/ch063",
       "charCount": 10706,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch064",
@@ -740,7 +803,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch064.md",
       "href": "/books/infinite-regressor-stories/read/ch064",
       "charCount": 9821,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch065",
@@ -751,7 +815,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch065.md",
       "href": "/books/infinite-regressor-stories/read/ch065",
       "charCount": 9971,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch066",
@@ -762,7 +827,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch066.md",
       "href": "/books/infinite-regressor-stories/read/ch066",
       "charCount": 10674,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch067",
@@ -773,7 +839,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch067.md",
       "href": "/books/infinite-regressor-stories/read/ch067",
       "charCount": 11579,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch068",
@@ -784,7 +851,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch068.md",
       "href": "/books/infinite-regressor-stories/read/ch068",
       "charCount": 15967,
-      "readingMinutes": 4
+      "readingMinutes": 4,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch069",
@@ -795,7 +863,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch069.md",
       "href": "/books/infinite-regressor-stories/read/ch069",
       "charCount": 11881,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     },
     {
       "id": "ch070",
@@ -806,7 +875,8 @@
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch070.md",
       "href": "/books/infinite-regressor-stories/read/ch070",
       "charCount": 11940,
-      "readingMinutes": 3
+      "readingMinutes": 3,
+      "translator": "[Pipe]"
     }
   ]
 }

@@ -161,6 +161,12 @@ export function markdownToBlocks(markdown) {
       continue;
     }
 
+    if (/^(?:-{3,}|\*{3,}|_{3,})$/.test(trimmed)) {
+      flushParagraph();
+      blocks.push({ type: "separator" });
+      continue;
+    }
+
     if (trimmed.startsWith("# ")) {
       flushParagraph();
       blocks.push({ type: "title", text: trimmed.replace(/^#\s+/, "") });

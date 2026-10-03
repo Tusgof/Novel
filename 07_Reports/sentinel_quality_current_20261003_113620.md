@@ -1,0 +1,20 @@
+# Sentinel Quality Report - current
+
+- Created: 2026-10-03T11:36:20.691088+00:00
+- Chapters: ch001-ch005
+- Safe to publish: no
+- Blocker/Major/Minor/Info: 1/1/5/0
+
+## Next Action
+
+- Stop publish. Repair blocker findings, then rerun Sentinel.
+
+## Findings
+
+- **blocker** `glossary_coverage_missing` D:\Fogust\Workspace\Novel\MoonRead\content\generated\books\horror-game-developer\chapters\ch002.md: moonread: source contains approved glossary term but output is missing thai_term. Evidence: `The Orchestrator -> ผู้บงการ; glossary=The Orchestrator.md`.
+- **minor** `glossary_coverage_missing` D:\Fogust\Workspace\Novel\MoonRead\content\generated\books\horror-game-developer\chapters\ch002.md: moonread: source contains approved glossary term but output is missing thai_term. Evidence: `Silent Requiem -> เรเควียมเงียบงัน; glossary=Silent Requiem.md`.
+- **major** `glossary_coverage_missing` D:\Fogust\Workspace\Novel\MoonRead\content\generated\books\horror-game-developer\chapters\ch002.md: moonread: source contains approved glossary term but output is missing thai_term. Evidence: `Blank Mask -> หน้ากากว่างเปล่า; glossary=Blank Mask.md`.
+- **minor** `glossary_coverage_missing` D:\Fogust\Workspace\Novel\MoonRead\content\generated\books\horror-game-developer\chapters\ch002.md: moonread: source contains approved glossary term but output is missing thai_term. Evidence: `Requiem -> เรเควียม; glossary=The Requiem.md`.
+- **minor** `glossary_coverage_missing` D:\Fogust\Workspace\Novel\MoonRead\content\generated\books\horror-game-developer\chapters\ch005.md: moonread: source contains approved glossary term but output is missing thai_term. Evidence: `Anomalous-Type Gates -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md`.
+- **minor** `glossary_coverage_missing` D:\Fogust\Workspace\Novel\MoonRead\content\generated\books\horror-game-developer\chapters\ch005.md: moonread: source contains approved glossary term but output is missing thai_term. Evidence: `Anomalous-Type Gate -> ประตูชนิดผิดปกติ; glossary=Anomalous-Type Gate.md`.
+- **minor** `suspicious_english` D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\ch005\ch005.md: English token remains in product surface; review if intentional. Evidence: `Gate`.

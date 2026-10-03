@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-10-03T11:49:50.086959+00:00",
+  "scope": "lean-lean-retranslate-20261003-hgd-ch006-ch010",
+  "chapters": "ch006",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

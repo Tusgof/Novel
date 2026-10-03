@@ -1,0 +1,105 @@
+{
+  "created_at": "2026-10-03T08:49:30.646773+00:00",
+  "scope": "lean-lean-retranslate-20261003-dse-ch001-ch005",
+  "chapters": "ch001-ch005",
+  "counts": {
+    "blocker": 13,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch001\\ch001.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch001\\ch001.md: paragraph 8 too dense (1860 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch001\\ch001.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch001\\ch001.md: paragraph 9 too dense (930 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch001\\ch001.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch001\\ch001.md: paragraph 17 too dense (976 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch002\\ch002.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch002\\ch002.md: paragraph 2 too dense (967 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch002\\ch002.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch002\\ch002.md: paragraph 23 too dense (1085 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch003\\ch003.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch003\\ch003.md: paragraph 22 too dense (1147 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch003\\ch003.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch003\\ch003.md: paragraph 24 too dense (1410 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch004\\ch004.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch004\\ch004.md: paragraph 2 too dense (965 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch004\\ch004.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch004\\ch004.md: paragraph 3 too dense (1013 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch004\\ch004.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch004\\ch004.md: paragraph 8 too dense (919 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch004\\ch004.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch004\\ch004.md: paragraph 20 too dense (963 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch004\\ch004.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch004\\ch004.md: paragraph 22 too dense (981 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch004\\ch004.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\lean-retranslate-20261003-dse-ch001-ch005\\_staged_output\\ch004\\ch004.md: paragraph 28 too dense (1557 chars)",
+      "evidence": ""
+    }
+  ]
+}

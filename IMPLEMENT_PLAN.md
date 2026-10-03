@@ -14,26 +14,24 @@ selected production dispatch path for every registered novel. OOS and the full
 Libra - Pilot Gate remain optional research methods when promoting a shared-layer
 change; they are not mandatory setup steps for every novel.
 
-## Current Session Work Order: Lean Runtime Replacement And Layer Separation
+## Current Session Work Order: Lean Retranslation And MoonRead Replacement
 
-This session has three explicit scopes:
+The active production order supersedes the completed migration-only session:
 
-1. Make the root `novel_pipeline/` package the only canonical runtime and keep
-   novel-local imports as compatibility shims only.
-2. Enforce explicit selected-novel context for provider helpers, working
-   directories, Sentinel, staging, and CLI commands; reject DSE/sibling
-   fallback and legacy Lean stage commands.
-3. Separate project-layer architecture from novel-layer configuration in the
-   canonical architecture/control documents, then verify the migration without
-   starting a paid translation or MoonRead publication.
+1. Retranslate DSE, HGD, IRS, and OHKS ch001-ch020; Re:Zero ch001-ch002 only.
+2. Independently accept source-backed QA, guardrails, Sentinel and spot checks;
+   routine chapter-local recovery stays inside each worker's isolated range.
+3. Replace those 82 chapters on MoonRead, display `[Lean]` for replacements and
+   `[Pipe]` for retained legacy chapters, verify reader rendering and push git.
 
 Session gates:
 
-- No provider-backed translation or publication is authorized by this migration
-  milestone.
-- A real Lean run must stage candidate output, stop on provider/QA/validation/
-  Sentinel/manual/scope failure, and promote only after the blocking gate passes.
-- Existing source, output, logs, reports, and dirty WIP remain untouched.
+- Provider-backed translation and publication are authorized only for the exact
+  replacement scope above. Re:Zero ch003+ remains outside this order.
+- Stage candidates and promote each passing chapter only after its blocking gate;
+  quarantine chapter-local failures while continuing later authorized chapters.
+- Preserve source, glossary, historical evidence, retained legacy output and
+  unrelated dirty WIP; do not change provider routing or quality thresholds.
 - The completed scope requires independent tests, control-document updates, and
   a commit/push of the intended changes.
 
@@ -93,7 +91,9 @@ Current progress:
 - Post-V6.34 DSE follow-up continuation complete: `dse-ch231-ch235-v1`, `dse-ch236-ch240-v1`, `dse-ch241-ch245-v1`, `dse-ch246-ch250-v1`, and `dse-ch251-v1` completed and MoonRead publishes DSE through `ch251`. Checkpoint: `07_Reports/dse_ch231_ch251_production_checkpoint_20260709.md`.
 - Milestone 7 complete: post-experiment production closure validated the V6.34 recommendation with bounded sequential DSE batches through `ch210`, documented checkpoints, scoped Sentinel, output guardrails, MoonRead publish verification, and clean git push.
 
-Current scope: V6.38 Lean runtime replacement and layer separation. V6.35 Re:Zero production remains paused; it is not the active migration work order.
+Current scope: the 82-chapter Lean replacement order, tracked in
+`07_Reports/lean_retranslation_publication_20261003.md`. V6.38 is complete;
+V6.35 Re:Zero ch009-ch010 remains paused and is not a dependency of this order.
 
 ## V6.35: Re:Zero Chapter-Isolated Parallel Pilot
 
@@ -389,6 +389,8 @@ Status: complete after the v2 rerun. All five chapters passed blocking Sentinel 
 Status: complete on 2026-10-03. No provider-backed translation or MoonRead publication was run. Evidence: `07_Reports/v6_38_lean_runtime_migration_20261003.md`, root regression suite, existing DSE suite through the compatibility shim, scoped quality checks, and the control-document updates. Shared prompt rendering, local formatting, checkpoint reuse, staged Sentinel isolation, path confinement and new-novel Lean selection have provider-free regression coverage.
 
 ## Execution Notes
+
+- **Lean production continuation policy (2026-10-03)**: within an explicitly authorized chapter range, chapter-local provider, QA, validation, guardrail, or Sentinel failures are quarantined and later chapters continue. Only global provider exhaustion, required manual input, missing source, scope expansion, workspace/security violations, or unrecoverable disk/runtime failures stop the worker. Passing chapters are promoted independently; quarantined chapters remain resumable and unpublished.
 
 - **Blocked items**:
   - Production publication from experiment output is blocked by design.

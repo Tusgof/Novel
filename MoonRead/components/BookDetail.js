@@ -19,7 +19,7 @@ function ChapterRow({ slug, chapter, reading, read }) {
   const inner = (
     <>
       <span className={`num${read ? " read" : ""}`}>{read ? <Check size={16} /> : String(chapter.number).padStart(3, "0")}</span>
-      <span className="ct"><small>{chLabel(chapter.number)}</small><strong>{disabled ? `${chLabel(chapter.number)} ยังไม่พร้อมอ่าน` : chapter.title}</strong></span>
+      <span className="ct"><small>{chLabel(chapter.number)}{!disabled ? <> · ผู้แปล <span className="translator">{chapter.translator}</span></> : null}</small><strong>{disabled ? `${chLabel(chapter.number)} ยังไม่พร้อมอ่าน` : chapter.title}</strong></span>
       <span className="cm"><Clock3 size={13} /> {disabled ? "เร็วๆ นี้" : `${chapter.readingMinutes} น.`}</span>
       {!disabled ? (
         <button className={`ch-star${starred ? " on" : ""}`} type="button" aria-label="คั่นหน้า"

@@ -1,0 +1,35 @@
+{
+  "created_at": "2026-10-03T12:37:49.606970+00:00",
+  "scope": "lean-dse-lean-rest-20261003-ch016-ch020-v1",
+  "chapters": "ch020",
+  "counts": {
+    "blocker": 3,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\dse-lean-rest-20261003-ch016-ch020-v1\\_staged_output\\ch020\\ch020.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\dse-lean-rest-20261003-ch016-ch020-v1\\_staged_output\\ch020\\ch020.md: paragraph 2 too dense (1049 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\dse-lean-rest-20261003-ch016-ch020-v1\\_staged_output\\ch020\\ch020.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\dse-lean-rest-20261003-ch016-ch020-v1\\_staged_output\\ch020\\ch020.md: paragraph 6 too dense (1036 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\dse-lean-rest-20261003-ch016-ch020-v1\\_staged_output\\ch020\\ch020.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\dse-lean-rest-20261003-ch016-ch020-v1\\_staged_output\\ch020\\ch020.md: paragraph 19 too dense (1220 chars)",
+      "evidence": ""
+    }
+  ]
+}

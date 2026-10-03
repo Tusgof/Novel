@@ -1,0 +1,70 @@
+{
+  "created_at": "2026-10-03T15:53:44.519494+00:00",
+  "scope": "lean-R0-LEAN-CONTINUE-20261003-v1-ch003-ch005",
+  "chapters": "ch005",
+  "counts": {
+    "blocker": 8,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\04_Work\\_lean_runs\\R0-LEAN-CONTINUE-20261003-v1-ch003-ch005\\_staged_output\\ch005\\ch005.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\04_Work\\_lean_runs\\R0-LEAN-CONTINUE-20261003-v1-ch003-ch005\\_staged_output\\ch005\\ch005.md: paragraph 503 too dense (778 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\04_Work\\_lean_runs\\R0-LEAN-CONTINUE-20261003-v1-ch003-ch005\\_staged_output\\ch005\\ch005.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\04_Work\\_lean_runs\\R0-LEAN-CONTINUE-20261003-v1-ch003-ch005\\_staged_output\\ch005\\ch005.md: paragraph 611 too dense (660 chars)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\04_Work\\_lean_runs\\R0-LEAN-CONTINUE-20261003-v1-ch003-ch005\\_staged_output\\ch005\\ch005.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\04_Work\\_lean_runs\\R0-LEAN-CONTINUE-20261003-v1-ch003-ch005\\_staged_output\\ch005\\ch005.md:3: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\04_Work\\_lean_runs\\R0-LEAN-CONTINUE-20261003-v1-ch003-ch005\\_staged_output\\ch005\\ch005.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\04_Work\\_lean_runs\\R0-LEAN-CONTINUE-20261003-v1-ch003-ch005\\_staged_output\\ch005\\ch005.md:9: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\04_Work\\_lean_runs\\R0-LEAN-CONTINUE-20261003-v1-ch003-ch005\\_staged_output\\ch005\\ch005.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\04_Work\\_lean_runs\\R0-LEAN-CONTINUE-20261003-v1-ch003-ch005\\_staged_output\\ch005\\ch005.md:2380: malformed markdown has trailing extra emphasis markers",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\04_Work\\_lean_runs\\R0-LEAN-CONTINUE-20261003-v1-ch003-ch005\\_staged_output\\ch005\\ch005.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\04_Work\\_lean_runs\\R0-LEAN-CONTINUE-20261003-v1-ch003-ch005\\_staged_output\\ch005\\ch005.md:2932: malformed markdown has trailing extra emphasis markers",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\04_Work\\_lean_runs\\R0-LEAN-CONTINUE-20261003-v1-ch003-ch005\\_staged_output\\ch005\\ch005.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\04_Work\\_lean_runs\\R0-LEAN-CONTINUE-20261003-v1-ch003-ch005\\_staged_output\\ch005\\ch005.md:4182: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\04_Work\\_lean_runs\\R0-LEAN-CONTINUE-20261003-v1-ch003-ch005\\_staged_output\\ch005\\ch005.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Re Zero Watching Him Die Again and Again\\04_Work\\_lean_runs\\R0-LEAN-CONTINUE-20261003-v1-ch003-ch005\\_staged_output\\ch005\\ch005.md:4216: malformed markdown has spaced emphasis wrapper",
+      "evidence": ""
+    }
+  ]
+}

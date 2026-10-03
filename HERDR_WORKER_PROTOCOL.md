@@ -36,7 +36,7 @@ ACK -> SMOKE -> START -> RETURN
 
 The validator checks one envelope at a time; Inspector verifies that the observed messages occurred in this order.
 
-For a multi-order production chain, the Inspector must record the expected next phase before each `START`. After every `RETURN`, the Inspector must immediately do exactly one of these: issue the next bounded order, begin independent acceptance/publication, or record a concrete blocked state. A successful prep-only `RETURN` is not permission to leave the work idle and is never chapter completion. Workers do not self-chain across authority boundaries.
+For a multi-order production chain, the Inspector must record the expected next phase before each `START`. Within an explicitly authorized chapter range, the worker may self-chain routine recovery, quarantine an unsafe chapter, and continue later chapters. After every `RETURN`, the Inspector must immediately issue the next bounded order, begin independent acceptance/publication, or record a concrete global blocker. A successful prep-only `RETURN` is not permission to leave the work idle and is never chapter completion.
 
 ## Envelope shape
 
@@ -59,7 +59,7 @@ Every envelope is a JSON object with `protocol: "HERDR/1"`, a `phase` from `ACK`
     "forbidden_actions": ["network"],
     "dirty_wip_boundary": "exact pre-existing modified/untracked paths remain untouched"
   },
-  "stop_conditions": ["unexpected scope expansion"],
+  "stop_conditions": ["global provider exhaustion", "required manual decision", "missing source", "unexpected scope expansion", "workspace or security violation"],
   "handoff": {
     "transport": "Herdr",
     "recipient": "Inspector",
@@ -85,9 +85,9 @@ The worker reports facts; the validator does not execute commands or infer provi
 
 ## Scope, concurrency, and stop rules
 
-Never reset, clean, stage, commit, push, publish, delete, move, or overwrite the pre-existing dirty WIP. Do not edit a file concurrently with another worker. If a dirty path, ownership conflict, scope expansion, missing authority, credential request, unauthorized provider/network/MCP request, external action outside the order, unexpected diff, or forbidden file need appears, stop immediately and report a blocked `RETURN`.
+Never reset, clean, stage, commit, push, publish, delete, move, or overwrite the pre-existing dirty WIP. Do not edit a file concurrently with another worker. If a dirty path, ownership conflict, scope expansion, missing authority, credential request, unauthorized provider/network/MCP request, external action outside the order, unexpected diff, or forbidden file need appears, stop immediately and report a blocked `RETURN`. Chapter-local quality or provider failures are recoverable: quarantine the chapter, preserve evidence, and continue within the authorized range.
 
-Routine recovery is allowed only when both the failure and recovery command are covered by the work order and an existing documented recovery path. A manual prompt, hard fail, exhausted provider route, source mismatch, proposed force-accept, gate reduction, routing change, or unfamiliar recurring failure is not routine: preserve evidence and return `blocked` to the Inspector.
+Routine recovery is allowed when the failure is chapter-local and the recovery stays within the work order. A manual prompt, exhausted global provider route, source mismatch, proposed force-accept, gate reduction, routing change, or unfamiliar workspace/security incident is not routine: preserve evidence and return a global `blocked` state. A chapter-local QA hard-fail or Sentinel finding is quarantined and does not stop later chapters.
 
 A timeout is not success: stop new work, preserve the last safe state, report the last completed command and blocker, and return `blocked`. Do not broaden scope or silently retry; the Inspector must issue a new `START` if work may resume.
 

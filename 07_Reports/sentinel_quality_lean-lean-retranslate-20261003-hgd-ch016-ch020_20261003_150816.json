@@ -1,0 +1,21 @@
+{
+  "created_at": "2026-10-03T15:08:16.893177+00:00",
+  "scope": "lean-lean-retranslate-20261003-hgd-ch016-ch020",
+  "chapters": "ch017",
+  "counts": {
+    "blocker": 1,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\04_Work\\_lean_runs\\lean-retranslate-20261003-hgd-ch016-ch020\\_staged_output\\ch017\\ch017.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Horror Game Developers\\04_Work\\_lean_runs\\lean-retranslate-20261003-hgd-ch016-ch020\\_staged_output\\ch017\\ch017.md: paragraph 2 too dense (7685 chars)",
+      "evidence": ""
+    }
+  ]
+}
