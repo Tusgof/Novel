@@ -301,7 +301,7 @@
       "source_url": "https://xszj.org/b/351379/cs/1",
       "source_site": "xszj.org",
       "reader": {
-        "enabled": true,
+        "enabled": false,
         "legacy_default": false,
         "first_chapter": 1,
         "last_chapter": 10,

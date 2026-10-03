@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-03T20:11:24.451Z",
+  "generatedAt": "2026-10-03T21:28:27.701Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -10,9 +10,9 @@
     }
   },
   "summary": {
-    "books": 6,
-    "chapters": 679,
-    "available": 679,
+    "books": 5,
+    "chapters": 669,
+    "available": 669,
     "missing": 0,
     "rejected": 0
   },
@@ -253,51 +253,6 @@
         "href": "/books/one-hit-kill-swordmaster/read/ch001",
         "charCount": 10371,
         "readingMinutes": 3,
-        "translator": "[Lean]"
-      }
-    },
-    {
-      "slug": "ten-day-ultimatum",
-      "title": "Ten Day Ultimatum",
-      "thaiTitle": "คำขาดสิบวัน",
-      "tags": [
-        "ลึกลับ",
-        "เอาชีวิตรอด",
-        "ระทึกขวัญ",
-        "แฟนตาซี"
-      ],
-      "href": "/books/ten-day-ultimatum",
-      "chaptersHref": "/books/ten-day-ultimatum/chapters",
-      "targetRange": "ch001-ch010",
-      "summary": {
-        "total": 10,
-        "available": 10,
-        "missing": 0,
-        "rejected": 0,
-        "skipped": 0
-      },
-      "latestChapter": {
-        "id": "ch010",
-        "number": 10,
-        "title": "บทที่ 10: จบสิ้นแล้วหรือ?",
-        "status": "available",
-        "sourcePath": "ch010/ch010.md",
-        "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch010.md",
-        "href": "/books/ten-day-ultimatum/read/ch010",
-        "charCount": 3113,
-        "readingMinutes": 1,
-        "translator": "[Lean]"
-      },
-      "firstChapter": {
-        "id": "ch001",
-        "number": 1,
-        "title": "บทที่ 1: บ้านร้างไร้ผู้คน",
-        "status": "available",
-        "sourcePath": "ch001/ch001.md",
-        "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch001.md",
-        "href": "/books/ten-day-ultimatum/read/ch001",
-        "charCount": 2396,
-        "readingMinutes": 1,
         "translator": "[Lean]"
       }
     }
