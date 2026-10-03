@@ -316,13 +316,13 @@ class PiaotiaAdapter(FetchAdapter):
             raw = raw[2:]
         else:
             encoding = None
-        
+
         # Try to extract charset from meta tag
         if encoding is None:
             meta_charset = self._extract_charset_from_meta(raw)
             if meta_charset:
                 encoding = meta_charset
-        
+
         # Candidate encodings to try (order matters)
         candidates = []
         if encoding:
@@ -338,7 +338,7 @@ class PiaotiaAdapter(FetchAdapter):
             if enc not in seen:
                 seen.add(enc)
                 unique_candidates.append(enc)
-        
+
         best_score = -1
         best_text = None
         for enc in unique_candidates:
@@ -351,19 +351,19 @@ class PiaotiaAdapter(FetchAdapter):
             if score > best_score:
                 best_score = score
                 best_text = text
-        
+
         if best_text is None:
             raise ValueError(
                 f"Could not decode raw bytes with any candidate encoding: {unique_candidates}. "
                 "Raw hex starts with: " + raw[:100].hex()
             )
-        
+
         # Do not return decode-replace output as valid source
         if '\ufffd' in best_text:
             raise ValueError(
                 "Decoded text contains replacement characters (�), indicating invalid encoding."
             )
-        
+
         return best_text
 
     def _extract_charset_from_meta(self, raw: bytes) -> str | None:
@@ -375,7 +375,7 @@ class PiaotiaAdapter(FetchAdapter):
         except UnicodeDecodeError:
             # If ascii fails, try latin-1 which never fails
             sample = raw[:5000].decode('latin-1', errors='ignore')
-        
+
         # Pattern for <meta charset="...">
         import re
         match = re.search(r'<meta\s+charset=["\']?([^"\'\s>]+)', sample, re.IGNORECASE)
@@ -386,7 +386,7 @@ class PiaotiaAdapter(FetchAdapter):
             if enc in ('utf-8', 'utf8'):
                 return 'utf-8'
             return enc
-        
+
         # Pattern for <meta http-equiv="Content-Type" content="...">
         match = re.search(
             r'<meta\s+http-equiv=["\']?Content-Type["\']?\s+content=["\'][^"\']*charset=([^"\'\s>]+)',
@@ -399,7 +399,7 @@ class PiaotiaAdapter(FetchAdapter):
             if enc in ('utf-8', 'utf8'):
                 return 'utf-8'
             return enc
-        
+
         return None
 
     def _score_decoded_html(self, text: str) -> int:
@@ -407,7 +407,7 @@ class PiaotiaAdapter(FetchAdapter):
         Prefer high Han ratio, zero replacement chars, low Thai count, low control/other chars."""
         # Strip HTML tags, scripts, styles, comments, and decode entities
         stripped = self._strip_html_tags(text)
-        
+
         # Count characters by category
         han_count = 0
         thai_count = 0
@@ -418,7 +418,7 @@ class PiaotiaAdapter(FetchAdapter):
         control_count = 0
         other_count = 0
         replacement_count = 0
-        
+
         for char in stripped:
             if char == '\ufffd':  # replacement character
                 replacement_count += 1
@@ -442,11 +442,11 @@ class PiaotiaAdapter(FetchAdapter):
                     latin_count += 1
             else:
                 other_count += 1
-        
+
         total_chars = len(stripped)
         if total_chars == 0:
             return -1000
-        
+
         # Penalties and rewards
         score = 0
         # Han ratio reward (0-100)
@@ -467,7 +467,7 @@ class PiaotiaAdapter(FetchAdapter):
         whitespace_ratio = whitespace_count / total_chars
         if whitespace_ratio > 0.5:
             score -= int((whitespace_ratio - 0.5) * 100)
-        
+
         return score
 
     def _strip_html_tags(self, text: str) -> str:

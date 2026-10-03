@@ -61,12 +61,13 @@ Re:Zero Watching Him Die Again and Again:
 - Commit `249c7a7` adds cross-process JSONL append locking and chapter timing telemetry. `status` and checkpoint reports now expose chapter wall time, provider time, stage/provider totals, failed/retry provider time, counts, and timing coverage. Full `python test_translation.py` passes, including a four-process/100-record lossless append test.
 - `ch003` timing is recorded but has partial coverage because the run began before telemetry was added: wall `19,684.9s`, captured provider `7,043.0s`, failed provider `5,431.9s`, and coverage `39/94` provider calls. Treat it as a recovery-heavy sequential baseline; use `ch004+` for clean per-chapter timing comparison.
 - V6.35 may pilot at most two chapter-isolated Luna workers after sequential glossary/title approval. Each worker must use a separate chapter, run ID, and artifact paths; Codex accepts and publishes sequentially by chapter number. Stage-level or same-run parallelism remains disallowed.
-- V6.36 lean-pipeline experiment implementation is present. Approved chapter-relevant glossary terms are projected longest-first into a source copy before literal translation; the literal prompt receives no glossary list, while the original source remains the refinement/QA source of truth. The harness remains experiment-only and harvested terms remain `proposed`. Compileall and the full `Deep Sea Embers/test_translation.py` suite pass.
+- V6.36 lean-pipeline behavior is now the selected runtime for all five registered novel configs. Approved chapter-relevant glossary terms are projected longest-first into a source copy before literal translation; the literal prompt receives no glossary list, while the original source remains the refinement/QA source of truth. Harvested terms remain `proposed`. The root package, selected-novel routing, staged Sentinel gate, and atomic promotion path are covered by provider-free regression tests.
 - HGD Lean follow-up isolated and fixed the shared refinement-cleaner bug where story prose beginning with `*` was discarded. The cleaner now removes only list/fence markers and the regression test passes. HGD minimal pilot `ch001` completed literal, chapter refinement, QA, local formatting, and term harvest with 4 provider calls, 0 failures, and Sentinel `0/0/0/0`. Evidence: `Horror Game Developers/04_Work/_experiments/v6_36_minimal_hgd_v6/` and `07_Reports/v6_36_lean_pipeline_experiment_completion_20261003.md`.
 - One Hit Kill Swordmaster setup is complete as an isolated vault. WNTL `wntl_markdown` fetched and validated `03_Raw/ch001-ch095` with no missing IDs. The fixed seed `20261003` sample was used as one 10-chapter bounded evaluation: `ch001,ch004,ch014,ch019,ch037,ch044,ch064,ch068,ch079,ch080`. All 10 experiment outputs passed deterministic checks and final Sentinel `0/0/0/0`; no production output or MoonRead publication occurred. Three provider failures were recovered by the configured QA fallback, and no output was force-accepted. Evidence: `07_Reports/v6_36_lean_pipeline_experiment_completion_20261003.md` and `07_Reports/v6_36_one_hit_kill_swordmaster_setup_and_lean_pilot_20261003.md`.
-- V6.36 operating decision: a new-novel pilot is not required to run OOS or the full Libra - Pilot Gate. The pilot evaluates the shared minimal pipeline plus the novel-specific refine profile; OOS remains optional research evidence only when a shared-layer change is being considered for promotion across existing novels. A valid AI QA FAIL now receives independent fallback adjudication, while deterministic rule failures still block. The experiment is viable but not approved to replace production routing until a separately approved bounded production comparison.
+- V6.36 operating decision: a new-novel pilot is not required to run OOS or the full Libra - Pilot Gate. The pilot evaluates the shared minimal pipeline plus the novel-specific refine profile; OOS remains optional research evidence only when a shared-layer change is being considered for promotion across existing novels. A valid AI QA FAIL now receives independent fallback adjudication, while deterministic rule failures still block. The Lean runtime is now the production dispatch path, but each provider-backed batch remains bounded and must pass its own production gates.
 - V6.37 OHKS follow-up v2 completed on `ch002,ch017,ch032,ch055,ch090`: checkpoint hashes, targeted QA feedback plumbing, compact OHKS refinement guidance, experiment-only glossary feedback, retry-inclusive metrics, and UTF-8 source-aligned spot-checks are verified. All five chapters passed blocking Sentinel `0/0/0/0`; advisory Sentinel found `33` minor English/title or game/UI findings. The first v2 attempt stopped safely on truncated `ch090` literal output; resume reran only that broken chapter, and a second complete resume added zero provider calls while reusing all five stages for all five chapters. Metrics were `25` calls, `4` failures, `1,122.728s`, `182,904` tokens, and `$0.286459146`; compared with the prior slice, this is not a cost/speed win. No experiment term was written to production glossary and no output was published. Evidence: `07_Reports/v6_37_ohks_five_chapter_checkpoint_review_v2_20261003.md`.
 - The fetch CLI persistence gap is fixed: adapter-backed `fetch --chapter-id` now calls `run_fetch_stage` and writes `03_Raw/chXXX/source.json`, instead of only printing a fetched character count.
+- V6.38 architecture convergence was verified on 2026-10-03: root `novel_pipeline/` is canonical; all five configs select Lean; 36 duplicate DSE-local modules were removed, leaving only the import shim; provider helper and working-directory routing is selected-vault-bound; and production candidates stage before blocking Sentinel and atomic per-file promotion. All 12 root regression tests pass, including real Lean stages with mocked transport, checkpoint reuse, staged Sentinel isolation, inherited skip-flag rejection, path confinement, new-novel Lean selection, configured literal/harvest fallback and truthful partial-promotion reporting. No provider-backed translation batch or MoonRead publication was run in this migration. Verification evidence: `07_Reports/v6_38_lean_runtime_migration_20261003.md`.
 
 Deep Sea Embers:
 
@@ -261,8 +262,7 @@ Current intended routing:
 - refinement: OpenRouter `deepseek/deepseek-v4-flash-0731`
 - QA primary: OpenRouter `deepseek/deepseek-v4-flash-0731` with reasoning enabled
 - QA fallback: OpenRouter `google/gemini-3.7-flash`. DeepSeek V4 Pro is removed from production routing. Qwen and Codex remain excluded because recent IRS evidence showed qwen headless empty stdout on Windows and Codex quota failures.
-- formatting primary: OpenRouter `deepseek/deepseek-v4-flash-0731`
-- formatting fallback/cleanup: local deterministic formatter
+- Lean formatting: local Markdown spacing normalization only; no formatting provider call. Historical formatting routes are retained only for legacy recovery evidence.
 - OpenRouter API key env var: `NOVEL_OPENROUTER_API`; do not use the legacy OpenRouter env var name for current work.
 
 Provider warning: the cost-priority QA route did not fully clear the original benchmark gate. Inspect QA artifacts closely on the next bounded production run.
@@ -334,7 +334,7 @@ Requires explicit user approval:
 | Timing totals are misleading on historical runs | display timing coverage; historical records may lack translate/refine/QA duration metadata, while new records capture provider start/end/duration. Wall time includes human waits and recovery gaps by design |
 | HGD Seth pronoun drift | keep HGD Obsidian pronoun policy, prompt/profile rules, and published-scope guardrail checks aligned |
 | New novel setup without vault | create/open the novel Obsidian vault first, then add profile/glossary/source/output folders inside it |
-| Dense or broken formatting | AI formatting plus deterministic validation; use `C:\Users\ASUS\Downloads\good format.md` as style reference |
+| Dense or broken formatting | Lean refinement preserves source structure; local formatting does not rewrite prose; deterministic validation and staged Sentinel block unsafe output |
 | HGD English title fallback | keep HGD title normalization and title sidecars through the published range |
 | HGD English/glossary leakage in final output | keep approved glossary notes natural Thai, reject known leakage variants with output guardrails, and add regression tests whenever a user reports a repeated term leak |
 | HGD final output truncation after force-accept/retry | compare output length against source and reject dangling endings before MoonRead publication |
@@ -343,7 +343,7 @@ Requires explicit user approval:
 | MoonRead generator contains HGD-specific title/term policy in code | keep changes surgical for now; move policy into registry/shared quality config in a dedicated refactor |
 | Full unscoped Sentinel scan is slow | use scoped Sentinel gates for publication and only run full scans intentionally with explicit range/all confirmation |
 | Full unscoped output guardrail hits historical HGD backlog | run output guardrails against the touched chapter range before publication; clean broad historical backlog as a dedicated quality pass |
-| Codex provider config is tied to the Deep Sea Embers cwd/read-only sandbox | use explicit novel paths for setup/fetch work until provider config is generalized for multi-novel routing |
+| Provider helper or `--cd` routing could accidentally cross novel boundaries | config loading now resolves helpers only from the selected novel or root `scripts/`, binds provider working directories to the selected novel, rejects sibling/absolute escapes, and has regression coverage |
 | Infinite Regressor Stories `ch395+` unavailable from WeTried TLS | keep fetched source scope at `ch001-ch394` until the source page exposes body payload; do not create placeholder source chapters |
 | IRS long-run reliability is not stable enough for unmonitored parallel production | use bounded sequential IRS production pilots; keep reasoning-enabled OpenRouter QA disabled for long QA prompts until a later probe proves it no longer returns empty assistant messages; promote long repeated-character detection before scaling |
 | Thai numeral drift and duplicate title tails | product output should use Arabic digits across registered novels; global output guardrail rejects Thai numerals in final output and MoonRead generated chapters, including legacy reader paths. Duplicate-title guardrail rejects `บทที่/ตอนที่ N ...` body tails after H1. Old archive/experiment artifacts may still contain historical Thai numerals and are not product surface |
@@ -357,54 +357,63 @@ Requires explicit user approval:
 | Glossary harvest may promote noise or conflicting mappings | require source and final-Thai evidence, store candidates as `proposed`, freeze production glossary during the experiment, and review precision before approval |
 | Lean/HGD and One Hit Kill pilot QA routes can return empty assistant messages with `finish_reason=length` | preserve traces, try the configured QA fallback chain, and stop only when all configured routes fail; do not weaken blocking QA or change production routing |
 | Fetch CLI can report success without persisting source artifacts | keep the adapter-backed CLI path routed through `run_fetch_stage`, assert the persisted `source.json`, and run a raw-pool count/sequence check before sampling |
+| Lean migration could be mistaken for a provider-backed quality result | treat provider-free migration tests as architecture evidence only; every real batch still requires its own provider trace, deterministic guardrails, blocking Sentinel, spot-check, and publication gate |
+| Stale experiment skip flags or paths can cross production boundaries | production clears the skip-guardrails flag during Sentinel; checkpoint/trace paths stay inside selected-vault run state; experiment paths stay outside product output; safe run IDs and fixed resume scope prevent accidental traversal or expansion |
+| Disk errors can interrupt a multi-chapter promotion after earlier files succeed | promotion is atomic per file, not a batch transaction; the blocked run report retains the successful promotion list, prevalidates staged files, and has a simulated second-file disk-failure regression test |
+| Historical scripts and global skills still describe the old block pipeline | use root CLI and `NOVEL_OPERATOR_GUIDE.md` for Lean work; compatibility files remain for old artifacts, not new production dispatch; migrate global skills separately rather than silently changing user-level policy |
+| HGD production QA fallbacks contradict the intended routing summary | `Horror Game Developers/.system/providers.yaml` still lists Qwen/Codex QA fallbacks while the summary excludes them. Migration preserves routing and makes no provider calls; reconcile and approve the exact route before a paid HGD run, not silently during architecture work |
 
 ## Core Commands
 
-Run from repo root:
+Run from the multi-novel workspace root. Every command selects one novel explicitly:
 
 ```powershell
-cd "D:\Fogust\Workspace\Novel\Deep Sea Embers"
+cd "D:\Fogust\Workspace\Novel"
 $env:PYTHONIOENCODING='utf-8'
+python -m pip install -e .
 ```
 
 Validate pipeline:
 
 ```powershell
 python -m compileall novel_pipeline
+python -m unittest -v test_workspace_routing.py
+Push-Location "Deep Sea Embers"
 python test_translation.py
-novel-pipeline --config ".system/config.yaml" preflight
-python scripts\check_output_quality_guardrails.py --chapters chXXX-chYYY
+Pop-Location
+novel-pipeline --config "Horror Game Developers\.system\config.yaml" preflight
+python scripts\check_output_quality_guardrails.py --novel horror-game-developer --chapters chXXX-chYYY
+python scripts\sentinel_quality_report.py --novel horror-game-developer --chapters chXXX-chYYY --fail-on major
 ```
 
 Read run status:
 
 ```powershell
-novel-pipeline --config ".system/config.yaml" status --run-id <run-id>
+novel-pipeline --config "Horror Game Developers\.system\config.yaml" status --run-id <run-id>
 ```
 
-Plan a bounded run:
+Inspect the selected Lean run:
 
 ```powershell
-novel-pipeline --config ".system/config.yaml" report run-plan --run-id <run-id>
+novel-pipeline --config "Horror Game Developers\.system\config.yaml" status --run-id <run-id>
 ```
 
-Run a scan-only gate:
+Run a bounded Lean batch:
 
 ```powershell
-novel-pipeline --config ".system/config.yaml" run --range chXXX-chYYY --run-id <run-id> --stop-after glossary-scan
+novel-pipeline --config "Horror Game Developers\.system\config.yaml" lean-run --chapters chXXX-chYYY --run-id <run-id>
 ```
 
 Resume bounded work:
 
 ```powershell
-novel-pipeline --config ".system/config.yaml" resume --run-id <run-id> --until-chapter chXXX --manual-action-mode stop
+novel-pipeline --config "Horror Game Developers\.system\config.yaml" resume --run-id <run-id>
 ```
 
-Inspect/recover one block:
+Inspect the Lean report and staged/promotion evidence:
 
 ```powershell
-novel-pipeline --config ".system/config.yaml" inspect-block --run-id <run-id> --block-id <block-id>
-novel-pipeline --config ".system/config.yaml" rerun-block --run-id <run-id> --block-id <block-id> --from-stage <stage>
+Get-Content "Horror Game Developers\04_Work\_lean_runs\<run-id>\lean_run_report.json"
 ```
 
 MoonRead:
@@ -420,9 +429,10 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
-The V6.36 and V6.37 OHKS experiments are complete. The lean pipeline remains experiment-only and production routing is unchanged. Next safe action is to prepare OHKS title sidecars and review the 33 advisory game/UI findings into a small novel-specific profile, then run a separately approved bounded comparison before any publication. Do not publish the experiment outputs directly. V6.35 Re:Zero `ch005-ch010` remains paused and unpublished after provider exhaustion; `ch008` is live at commit `5e3fbfc`.
+The V6.36 and V6.37 OHKS experiments are complete, and V6.38 has made Lean the production dispatch path. No new provider-backed batch was started in the architecture migration. Next safe action is to prepare OHKS title sidecars and review the 33 advisory game/UI findings into a small novel-specific profile, then run one explicitly bounded Lean production batch with the provider health and publication gates. The migration gate scan of the five OHKS experiment files correctly reports five blockers for English titles; do not publish experiment output directly. V6.35 Re:Zero `ch009-ch010` remains paused and unpublished after provider exhaustion; `ch008` is live at commit `5e3fbfc`.
 
 1. Prepare and validate OHKS title sidecars and the small game/UI terminology profile; do not add one-off word rules.
 2. Run a separately approved bounded OHKS comparison focused on advisory findings and reader quality, not an unpaired cost claim.
-3. Keep production routing unchanged until the comparison and publication gates pass.
+3. Keep provider routing unchanged; the Lean engine replacement does not authorize a model or spend change.
+   Before paid HGD work, resolve its documented QA-fallback/config conflict with explicit routing authorization.
 4. Stop on provider exhaustion after all configured fallbacks, manual prompt, QA hard-fail, ledger collision, missing trace, validation failure, Sentinel blocker/major, or scope expansion.

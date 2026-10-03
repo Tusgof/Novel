@@ -248,6 +248,7 @@ def initialize_novel_project(
 
     config_payload: dict[str, Any] = {
         "novel_id": resolved_novel_id,
+        "pipeline_engine": "lean",
         "vault_root": ".",
         "source_language": source_language.strip() or template_config.source_language,
         "default_batch_size": template_config.batch.default_batch_size,
@@ -267,6 +268,15 @@ def initialize_novel_project(
     atomic_write_text(
         target_system / "config.yaml",
         yaml.safe_dump(config_payload, allow_unicode=True, sort_keys=False),
+    )
+    atomic_write_text(
+        target_system / "lean_voice.md",
+        f"# {title.strip()}\n\n"
+        f"Genre: {genre.strip() or 'not researched yet'}.\n\n"
+        "Use natural Thai appropriate to the scene, speaker and relationships. "
+        "Preserve meaning, names, humour, dialogue and source formatting. "
+        "Research this novel's tone and point of view before a bounded pilot; "
+        "do not inherit another novel's character or pronoun policy.\n",
     )
 
     _copy_tree(source_workspace / "prompts", target_root / "prompts")

@@ -1,0 +1,1 @@
+Deep Sea Embers is maritime cosmic mystery with restrained dry humour. Use clear, atmospheric Thai without inventing horror or archaic grandeur. Duncan is measured and pragmatic; distinguish his narration and dialogue from other speakers. Choose pronouns by identity, relationship and scene context. Preserve the understated contrast between ordinary concerns and uncanny events.

@@ -21,6 +21,7 @@ def run_qa_stage(
     retry_count: int = 0,
     style_profile_key: str = "",
     retry_feedback: str = "",
+    prompt_store: PromptStore | None = None,
 ) -> QAReport:
     findings = run_rule_checks(literal_draft=literal_draft, refined_draft=refined_draft, glossary_subset=glossary_subset)
     blocking_findings = [item for item in findings if item.severity == "error"]
@@ -34,7 +35,7 @@ def run_qa_stage(
             retry_count=retry_count,
             judge_provider="rules",
         )
-    prompt_store = PromptStore(config.workspace.prompts)
+    prompt_store = prompt_store or PromptStore(config.workspace.prompts)
     style_profile = config.style_profile_for_name(style_profile_key or None)
     prompt = prompt_store.render(
         "qa_judge",

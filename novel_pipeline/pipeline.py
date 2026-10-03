@@ -3510,7 +3510,7 @@ def _remove_duplicate_title_paragraph(body: str, *, has_header: bool) -> str:
     return "\n\n".join(kept).strip()
 
 
-def _sentinel_env_overrides(workspace_root: Path) -> dict[str, str]:
+def _sentinel_env_overrides(workspace_root: Path, *, novel_id: str = "") -> dict[str, str]:
     """Point Sentinel at the experiment registry and output, never production."""
     resolved_root = workspace_root.resolve()
     if not any(part.lower() == "_experiments" for part in resolved_root.parts):
@@ -3524,6 +3524,7 @@ def _sentinel_env_overrides(workspace_root: Path) -> dict[str, str]:
                 "NOVEL_SENTINEL_REGISTRY_PATH": str(registry_path),
                 "NOVEL_SENTINEL_MOONREAD_ROOT": str(candidate / "MoonRead"),
                 "NOVEL_SENTINEL_REPORT_ROOT": str(resolved_root / "07_Reports"),
+                "NOVEL_SENTINEL_NOVEL": novel_id,
                 "NOVEL_SENTINEL_SKIP_EXISTING_GUARDRAILS": "1",
             }
         if candidate.name.lower() == "_experiments":
@@ -3542,7 +3543,7 @@ def _run_sentinel_gate_for_chapter(
     if mode != "blocking":
         return
 
-    env_override = _sentinel_env_overrides(config.workspace.root)
+    env_override = _sentinel_env_overrides(config.workspace.root, novel_id=config.novel_id)
     previous_env = {key: os.environ.get(key) for key in env_override}
     script_path = Path(__file__).resolve().parents[1] / "scripts" / "sentinel_quality_report.py"
     try:

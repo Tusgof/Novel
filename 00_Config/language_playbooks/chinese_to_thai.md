@@ -24,7 +24,7 @@ Example:
 
 ## Glossary And Voice
 
-- Scan each bounded batch before translation and show exactly three safe Thai candidates for new terms.
+- Lean projects already-approved chapter-relevant terms into a source copy before literal translation; new terms are harvested after the chapter as proposals for review.
 - Reject source-script fallback text, provider/meta text, and generic terms that do not need stable translation.
 - Prefer one approved Thai form; record aliases and rejected variants instead of creating duplicate notes.
 - Keep register consistent with the novel profile. Use elevated diction for cultivation fiction, but do not force archaic pronouns into ordinary narration.
@@ -33,7 +33,7 @@ Example:
 ## Formatting Expectations
 
 - Preserve dialogue, internal thought, system/UI text, skills, ranks, sound effects, and paragraph boundaries as separate source beats.
-- Apply AI formatting only after QA, then validate Markdown deterministically.
+- Lean normalizes Markdown spacing locally after chapter QA; refinement owns prose and structure, not a separate AI formatter.
 - Keep dialogue readable with consistent paragraph spacing; use `**ข้อความ**` for bold and `*ข้อความ*` for italics when the reader surface requires emphasis.
 - Never let formatting cleanup remove, merge, or invent a source beat.
 

@@ -2,7 +2,21 @@
 
 คู่มือสั่งงานระบบแปลนิยายให้ได้มาตรฐานและมีประสิทธิภาพ
 
-Last updated: 2026-07-02
+Last updated: 2026-10-03
+
+## Runtime ปัจจุบัน: Lean
+
+คำสั่งทุกเรื่องเลือก `.system/config.yaml` ของเรื่องนั้นอย่างชัดเจน ใช้ runtime กลางที่ `Novel/novel_pipeline/` ไม่เรียก pipeline จากโฟลเดอร์ DSE
+
+ขั้นตอนกลาง: แทนคำที่อนุมัติแล้วในสำเนาต้นฉบับ -> แปล literal เป็น block -> รวมทั้งตอนและ refine ตาม voice ของเรื่อง -> QA เทียบต้นฉบับเดิม -> format แบบ local -> guardrails/Sentinel บน staging -> ส่งเข้า `05_Output`
+
+หลังจบตอน AI เสนอคำศัพท์พร้อมหลักฐานไว้ให้ตรวจ ไม่อนุมัติลง glossary จริงเอง การ publish ยังต้อง spot-check และผ่าน MoonRead verification ก่อน
+
+```powershell
+novel-pipeline --config "Horror Game Developers/.system/config.yaml" lean-run --chapters ch271-ch275 --run-id hgd-ch271-ch275-lean-v1
+novel-pipeline --config "Horror Game Developers/.system/config.yaml" status --run-id hgd-ch271-ch275-lean-v1
+novel-pipeline --config "Horror Game Developers/.system/config.yaml" resume --run-id hgd-ch271-ch275-lean-v1
+```
 
 ## หลักสั้นที่สุด
 
@@ -27,8 +41,8 @@ Last updated: 2026-07-02
 ```text
 ช่วยแปล [ชื่อเรื่อง] ตอน [ช่วงตอน] ให้หน่อย
 ใช้ workflow มาตรฐาน:
-- scan glossary ก่อน
-- approve/reject glossary อย่างระวัง
+- ใช้ Lean และ glossary ที่อนุมัติแล้วของเรื่อง
+- refine ทั้งตอนตาม voice profile ของเรื่อง
 - แปลเป็น bounded batch
 - รัน output guardrails + Sentinel
 - spot-check หลังจบ batch
@@ -46,9 +60,8 @@ Last updated: 2026-07-02
 
 ระบบควรทำ:
 
-- รัน scan-only gate
-- ตรวจ candidate glossary
-- อนุมัติ glossary ที่ควรล็อกจริง
+- ตรวจ raw source, title และ glossary ที่อนุมัติแล้ว
+- ใช้ Lean และเก็บคำศัพท์ใหม่เป็น proposed หลังจบตอน
 - แปลแบบ bounded batch
 - หยุดถ้าเจอปัญหา
 - ตรวจ output
@@ -121,7 +134,7 @@ Last updated: 2026-07-02
 - setup fetch adapter/playbook
 - fetch raw source ให้ได้มากที่สุดก่อน
 - validate chapter sequence
-- ทำ Libra - Pilot Gate 20 ตอน
+- ทำ bounded Lean pilot ขนาดเล็กและตรวจ voice ของเรื่อง
 - สรุปปัญหา pipeline
 - เสนอ production batch แรก
 ```
@@ -136,7 +149,7 @@ Last updated: 2026-07-02
 ลิงก์ fetch: https://wetriedtls.com/series/im-an-infinite-regressor-but-ive-got-stories-to-tell/chapter-1
 เป้าหมาย: แปลไทยและขึ้น MoonRead
 
-fetch ให้ได้มากที่สุดก่อน แล้วทำ Libra - Pilot Gate 20 ตอน
+fetch ให้ได้มากที่สุดก่อน แล้วทำ bounded Lean pilot ขนาดเล็ก
 ```
 
 ระบบควรทำ:
@@ -146,15 +159,13 @@ fetch ให้ได้มากที่สุดก่อน แล้วท�
 3. ตรวจแหล่ง fetch
 4. fetch raw source
 5. ตรวจ chapter gaps
-6. สุ่ม 20 ตอนจาก raw source
-7. แปล in-sample 10 ตอน
-8. วิเคราะห์ปัญหา
-9. ปรับ pipeline เฉพาะที่จำเป็น
-10. แปล out-of-sample 10 ตอน
-11. วัดผลว่าดีขึ้นจริงไหม
-12. สรุปว่าเริ่ม production ได้หรือยัง
+6. เตรียม glossary ตั้งต้น, title sidecars และ voice profile ของเรื่อง
+7. แปล pilot ขนาดเล็กจาก raw source ด้วย Lean กลาง
+8. ตรวจ QA, guardrails, Sentinel และอ่านเทียบต้นฉบับ
+9. ปรับ voice ของเรื่องเฉพาะที่มีหลักฐาน แล้วทดสอบซ้ำถ้าจำเป็น
+10. สรุปว่าเริ่ม production ได้หรือยัง
 
-เหตุผลที่ต้องทำ Pilot Gate: นิยายแต่ละเรื่องมีปัญหาต่างกัน เช่น ชื่อตัวละคร สรรพนาม ระบบเกม ชื่อสกิล title format author note source site แปลก และ chapter gaps
+Pilot ใช้ตรวจบริบทและ voice ของเรื่อง ไม่บังคับ Libra 20 ตอนหรือ OOS อีกต่อไป วิธีเหล่านั้นเป็นงานวิจัยที่สั่งแยกได้เมื่อจำเป็นต้องวัดการเปลี่ยนระบบกลาง
 
 ## 4. Publish MoonRead อย่างเดียว
 
@@ -224,7 +235,7 @@ publish MoonRead และ push git
 ลิงก์ fetch:
 ภาษา source:
 เป้าหมาย:
-ให้ fetch raw ให้มากที่สุดก่อน แล้วทำ Libra - Pilot Gate 20 ตอน
+ให้ fetch raw ให้มากที่สุดก่อน เตรียม voice/glossary/title แล้วทำ bounded Lean pilot
 ```
 
 ## สถานะระบบที่เหมาะกับการใช้งานตอนนี้
@@ -234,7 +245,7 @@ publish MoonRead และ push git
 - แปล batch ละ 5 ตอน
 - ซ่อม quality issue แบบมีหลักฐาน
 - publish MoonRead
-- setup นิยายใหม่แบบมี Pilot Gate
+- setup นิยายใหม่ด้วย bounded Lean pilot
 - ตรวจซ้ำด้วย Sentinel/guardrails
 
 ยังไม่ควรใช้กับ:

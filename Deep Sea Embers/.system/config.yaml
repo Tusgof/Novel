@@ -1,9 +1,18 @@
 novel_id: deep-sea-embers
+pipeline_engine: lean
 vault_root: .
 source_language: zh
 default_batch_size: 10
 chapter_unit: chapters
 default_style_profile: deep_sea_embers
+
+glossary:
+  curated_options:
+    周铭: [โจวหมิง, โจว หมิง, คุณโจวหมิง]
+    浓雾: [หมอกหนาทึบ, ม่านหมอกหนา, หมอกเข้มข้น]
+    雾气: [ไอหมอก, ละอองหมอก, หมอกบาง]
+    日记: [บันทึกประจำวัน, สมุดบันทึก, ไดอารี]
+    镜子: [กระจก, บานกระจก, คันฉ่อง]
 
 chunking:
   chinese_character_limit: 600

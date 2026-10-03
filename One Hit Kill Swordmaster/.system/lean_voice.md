@@ -1,0 +1,2 @@
+One Hit Kill Swordmaster is game-world action fantasy with a veteran gamer's dry humour. Gaon's narration normally uses ผม; casual chat and fantasy-world dialogue have different social registers. Follow speaker relationships and scene context naturally, without making every line ominous or archaic.
+Translate short standalone action beats by scene context; for example, "Grit." describes clenching one's teeth, not hugging.

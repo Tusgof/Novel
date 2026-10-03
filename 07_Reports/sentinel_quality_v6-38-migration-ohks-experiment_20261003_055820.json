@@ -1,0 +1,49 @@
+{
+  "created_at": "2026-10-03T05:58:20.161984+00:00",
+  "scope": "v6-38-migration-ohks-experiment",
+  "chapters": "ch002,ch017,ch032,ch055,ch090",
+  "counts": {
+    "blocker": 5,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_experiments\\v6_36_ohks_lean_v1\\05_Output\\pilot_v12\\ch002\\ch002.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_experiments\\v6_36_ohks_lean_v1\\05_Output\\pilot_v12\\ch002\\ch002.md: one-hit-kill-swordmaster heading must contain a Thai chapter title: # Chapter 2: Underground World Arena (1)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_experiments\\v6_36_ohks_lean_v1\\05_Output\\pilot_v12\\ch017\\ch017.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_experiments\\v6_36_ohks_lean_v1\\05_Output\\pilot_v12\\ch017\\ch017.md: one-hit-kill-swordmaster heading must contain a Thai chapter title: # Chapter 17: Momentary Enlightenment (5)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_experiments\\v6_36_ohks_lean_v1\\05_Output\\pilot_v12\\ch032\\ch032.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_experiments\\v6_36_ohks_lean_v1\\05_Output\\pilot_v12\\ch032\\ch032.md: one-hit-kill-swordmaster heading must contain a Thai chapter title: # Chapter 32: Cutting Out the Rotten Flesh (2)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_experiments\\v6_36_ohks_lean_v1\\05_Output\\pilot_v12\\ch055\\ch055.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_experiments\\v6_36_ohks_lean_v1\\05_Output\\pilot_v12\\ch055\\ch055.md: one-hit-kill-swordmaster heading must contain a Thai chapter title: # Chapter 55: Sacred Covenant (4)",
+      "evidence": ""
+    },
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_experiments\\v6_36_ohks_lean_v1\\05_Output\\pilot_v12\\ch090\\ch090.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\One Hit Kill Swordmaster\\04_Work\\_experiments\\v6_36_ohks_lean_v1\\05_Output\\pilot_v12\\ch090\\ch090.md: one-hit-kill-swordmaster heading must contain a Thai chapter title: # Chapter 90: Emergency Strategy Meeting (4)",
+      "evidence": ""
+    }
+  ]
+}

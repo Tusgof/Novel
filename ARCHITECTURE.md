@@ -1,244 +1,137 @@
-# Architecture: Novel Translation System
+# Architecture: Novel Translation Workspace
 
-Last updated: 2026-10-01
+Last updated: 2026-10-03
 
-This document explains stable system structure. It is not the roadmap, current status, or incident log.
+This document defines stable ownership and runtime boundaries. Current status belongs in `PROJECT_BRAIN.md`; planned work belongs in `IMPLEMENT_PLAN.md`.
 
-## System Purpose
+## 1. Product Boundary
 
-The system translates web novels into Thai through an auditable pipeline:
+The workspace translates source web novels into Thai and publishes only verified Markdown to MoonRead. It supports multiple novels, languages, source adapters, novel-specific voice profiles, auditable bounded runs, recovery, and quality gates.
 
-- fetch and validate source chapters
-- scan/approve glossary terms
-- translate, refine, QA, format, and assemble bounded batches
-- run deterministic quality gates and Sentinel
-- publish verified output into MoonRead
-- support multiple novels without relying on Codex memory
+The selected novel is always explicit. The runtime must never infer DSE from the current directory, a missing config argument, or a provider helper path.
 
-It does not rewrite ledger history, treat generated reader files as source of truth, silently publish incomplete chapters, or change provider routing without explicit approval.
+## 2. Two-Level Architecture
 
-Main roles:
+### Project layer: `Novel/` (Layer 0)
 
-- user: chooses priorities, glossary decisions, and production approval
-- Codex Inspector/Orchestrator: plans, owns architecture and Layer 0 policy, reviews, verifies, accepts, and updates durable rules
-- Luna Max bounded worker: executes an exact assigned implementation or translation-pipeline work order
-HERDR workers are transport-scoped execution actors. A translation work order may authorize Luna Max to invoke existing pipeline stages for an exact bounded scope; worker labels and provider routing still grant no authority by themselves.
+This is the multi-novel system and owns behavior that must be safe for every novel:
 
-## Source Of Truth Map
+| Area | Canonical location | Responsibility |
+| --- | --- | --- |
+| Shared runtime | `novel_pipeline/` | CLI, Lean stages, config loading, ledger/artifact helpers, provider execution |
+| Shared helpers | `scripts/` | OpenRouter shim, deterministic guardrails, Sentinel, source/reader checks |
+| Registry and shared policy | `00_Config/` | novel registry, cross-novel quality thresholds, reader policy |
+| Reader | `MoonRead/` | generated reader content, UI, publish verification, lint/build/smoke |
+| Durable project memory | root `PROJECT_BRAIN.md`, `IMPLEMENT_PLAN.md`, `ARCHITECTURE.md`, `AGENTS.md` | intent, roadmap, structure, behavior policy |
+| Evidence | root `01_Research_Log/`, `07_Reports/` | experiments, audits, checkpoints, incident evidence |
 
-Workspace control docs:
+Project-layer code may read a selected novel context, but it must not contain default paths to a specific novel. Shared code must use `AppConfig.workspace` and the selected config's registry identity.
 
-- `AGENTS.md`: work policy and agent behavior
-- `PROJECT_BRAIN.md`: current verified state, active risks, guardrails, next safe action
-- `IMPLEMENT_PLAN.md`: roadmap, milestones, acceptance gates
-- `ARCHITECTURE.md`: structure, boundaries, flows, ownership
-- `HERDR_WORKER_PROTOCOL.md`: bounded transport, translation-operation authority, and verification rules for Luna Max
-- `DOC_RECOVERY.md`: canonical doc hashes and recovery steps
+### Migration status (verified 2026-10-03)
 
-Shared/system config:
+- The root `novel_pipeline/` package is the only canonical runtime package.
+- All five registered novel configs select `pipeline_engine: lean`.
+- `Deep Sea Embers/novel_pipeline/__init__.py` is only a compatibility shim; it redirects submodule resolution to the root package. It is not a second engine.
+- The 36 old DSE-local runtime modules were removed; their migrated root counterparts retain historical recovery support. Git preserves the old source history.
+- `novel_pipeline/pipeline.py` remains as a compatibility/recovery module for historical tests and artifacts. Lean production dispatch does not call its legacy end-to-end runner, and the CLI rejects legacy stage commands for Lean configs.
+- This migration was verified without provider calls. A new provider-backed production batch is still a separate bounded operation, not evidence silently inferred from the migration tests.
 
-- `00_Config/novel_registry.json`: registered novels, reader scope, title policy, shared quality metadata
-- `00_Config/language_playbooks/*.md`: reusable language rules when implemented
-- `Deep Sea Embers/.system/config.yaml`: current pipeline execution settings
-- `Deep Sea Embers/.system/providers.yaml`: provider routing and fallback chains
+### Novel layer: `<Novel>/` (Layer 1 and Layer 2)
 
-Novel/runtime state:
+Each novel is an isolated Obsidian vault and runtime context:
 
-- `03_Raw/`: fetched source cache
-- `04_Work/`: block, batch, glossary, QA, and formatting artifacts
-- `05_Output/`: final translated Markdown product
-- `06_Logs/run_ledger.jsonl`: append-only execution history
-- `07_Reports/`: audits, checkpoints, handoffs, evidence
+| Area | Canonical location | Responsibility |
+| --- | --- | --- |
+| Runtime selection | `<Novel>/.system/config.yaml` | novel ID, source language, source adapter, `pipeline_engine`, batch/chunk policy |
+| Provider policy | `<Novel>/.system/providers.yaml` | stage routes and fallbacks; helper paths must resolve to this novel or root shared scripts |
+| Novel voice | `<Novel>/.system/lean_voice.md`, `style_profiles.yaml`, `RESEARCH_PROFILE.yaml` | compact refine guidance, genre, tone, source-specific context |
+| Terms and policy | `<Novel>/01_Glossary/`, `02_Database_Views/` | approved terms, aliases, rejected variants, Obsidian notes and novel-specific policies |
+| Source | `<Novel>/03_Raw/` | fetched source and manifest; source of truth for translation input |
+| Run state | `<Novel>/04_Work/`, `<Novel>/06_Logs/` | bounded checkpoints, artifacts, append-only ledger, recovery state |
+| Product | `<Novel>/05_Output/` | final Thai Markdown only; never used as source input |
+| Evidence | `<Novel>/07_Reports/` | novel-specific reports and checkpoints |
 
-Reader state:
+Novel-layer rules may tune voice, terminology, source parsing, and known false positives. They may not silently change shared quality gates, provider safety, or reader publication policy.
 
-- `MoonRead/`: workspace-level reader app
-- `MoonRead/content/generated/`: generated reader copy; disposable/regenerable
-- `Deep Sea Embers/reader-web/`: compatibility stub only
+## 3. Context Contract
 
-## Layer Model
+Every command that can read or write novel data must receive an explicit `--config <Novel>/.system/config.yaml`. The loader derives the novel root from that config path and constructs every runtime path from it.
 
-Layer 0: multi-novel shared policy
+Provider helper resolution follows this order only:
 
-- registry, shared guardrails, generic Sentinel rules, MoonRead import rules
+1. `<Novel>/scripts/<helper>` if the novel owns a helper;
+2. `<Workspace>/scripts/<helper>` for shared helpers;
+3. fail closed if the helper does not exist.
 
-Layer 1: language playbook
+Sibling novel paths are rejected. Provider `--cd` must equal the selected novel root. The root CLI has no DSE default config.
 
-- source-language risks such as title handling, pronouns, names, UI terms, sound effects, and glossary patterns
+Production checkpoint and trace paths stay under the selected novel's
+`04_Work/_lean_runs/`; experiment paths stay under its `04_Work/`. Run IDs are
+single safe directory names, and resume cannot change the original chapter scope.
+New-novel scaffolding selects Lean and creates its own voice profile, not a copy
+of the template novel's character policy.
 
-Layer 2: novel profile and vault
+The old copies under novel folders are compatibility files only; they are not canonical entrypoints. New work uses the root package and root shared scripts. Provider helper resolution rejects absolute or relative paths that escape the selected novel or root `scripts/` boundary.
 
-- per-novel glossary, pronoun policy, title policy, source-site quirks, known false positives
+## 4. Production Lean Pipeline
 
-Layer 3: run and batch state
-
-- run IDs, block artifacts, ledger records, recovery reports, checkpoint reports
-
-Layer 4: reader surface
-
-- MoonRead generated content, reader UI, publish verification, smoke tests
-
-Rule placement:
-
-- Fix a recurring defect at the lowest layer that catches it safely.
-- Promote a rule upward only after evidence proves it is general and low false-positive risk.
-- Keep story-specific voice and terminology in the novel layer.
-
-## Main Workflow
+All registered novel configs currently declare `pipeline_engine: lean`. `novel-pipeline run` dispatches to the chapter-aware Lean engine for those configs; the explicit `lean-run` command is available for diagnostics.
 
 ```text
-setup/fetch
-  -> source validation and chapter numbering check
-  -> block splitting
-  -> glossary scan
-  -> glossary approval
-  -> literal translation
-  -> refinement
-  -> QA
-  -> AI formatting
+explicit novel config
+  -> verify raw source and novel context
+  -> project approved, chapter-relevant glossary terms into a source copy
+  -> literal translation in transport-safe blocks
+  -> assemble the chapter
+  -> refine once with the novel's compact style profile
+  -> chapter-level QA against original source + refined text (literal retained for rule checks)
+  -> local Markdown spacing normalization (no AI content rewrite)
   -> deterministic output validation
-  -> Sentinel
-  -> final assembly
-  -> report generation
-  -> MoonRead generation
-  -> scoped publish verification
+  -> stage candidate Markdown under 04_Work/_lean_runs/<run-id>/_staged_output
+  -> blocking Sentinel on the staged candidate only
+  -> atomically promote verified Markdown into 05_Output
 ```
 
-Workflow rules:
+The original source remains the semantic source of truth. Harvested terms are proposals until reviewed; they are never silently promoted to the production glossary. Checkpoints and provider traces live under `<Novel>/04_Work/_lean_runs/<run-id>/`, not in product output.
 
-- Bound runs by explicit chapter/block range.
-- Stop on manual QA prompt, provider failure, command length failure, validation failure, Sentinel blocker/major finding, or scope expansion.
-- Repair from the earliest broken stage.
-- Historical failed ledger records remain; use latest-state inspection for current truth.
-- Default production mode remains bounded sequential batches with scan/glossary gates, blocking Sentinel, deterministic output guardrails, and major-run spot-checks.
-- A bounded chapter-isolated parallel pilot may use at most two HERDR workers only after scan/glossary approval is complete and glossary mutation is frozen for the active window. Every worker must own one chapter, one run ID, and disjoint `04_Work`/`05_Output` paths. Shared JSONL append uses the cross-process lock in `novel_pipeline.files`; the Inspector accepts and publishes completed chapters sequentially by chapter number.
-- Never run two processes against blocks in the same chapter/run. Fall back to one worker on provider failure/timeout growth, manual prompt, ledger decode error, artifact collision, or unexpected scope expansion. Broad unattended stage-level translate/refine/QA concurrency remains experimental.
-- Run status and checkpoint reports expose chapter wall time, provider time, stage/provider time, retry/failure time, and timing coverage. Compare provider time only when coverage is complete; wall time intentionally includes waits and recovery gaps.
+Production runs remain bounded by explicit chapter range and run ID. A provider failure, validation failure, QA hard-fail, manual action, Sentinel blocker or major finding, or unexpected scope expansion stops the run.
 
-## Component Map
+Shared Lean prompts live in root `prompts/lean/`; only the refinement voice is
+novel-specific. Production Sentinel always includes deterministic guardrails,
+regardless of an inherited experiment skip flag.
 
-Pipeline CLI (`Deep Sea Embers/novel_pipeline/`):
+No product file is written before the chapter set passes the production gate. A failed gate leaves the existing `05_Output` unchanged. The run report records staged paths, promotion results, and the Sentinel report.
 
-- owns fetch, scan, translate, refine, QA, formatting, assembly, status, and reports
-- must not publish reader changes without generated-reader validation
-- adapter registry includes site-specific fetchers such as `wntl_markdown`; adapter-backed CLI fetches persist validated source artifacts through `run_fetch_stage` before sampling or translation
+Promotion is atomic per file, not a multi-file transaction. If a disk error occurs
+after some files are promoted, the run is blocked and reports those exact paths.
+Literal, refinement, QA and harvest honor their configured provider routes and
+fallbacks; routing changes require separate authorization.
 
-- Provider routing: `providers.yaml` maps stages to provider/model/fallback chains; output is untrusted until parsed and validated.
-- Glossary system: owns approved terms, aliases, rejected variants, and per-novel terminology policy.
-- Sentinel: post-output gate over final Markdown and MoonRead generated content; run scoped by touched range for publication work.
-- MoonRead: owns reader UI and generated reader content; must not mutate source, glossary, ledger, work artifacts, or final outputs.
-- Reports: preserve evidence and handoff context; do not override files, tests, or current status.
+## 5. Guardrail Ownership
 
-## Provider Routing Map
+1. provider response validation: shared runtime
+2. chapter QA: shared runtime plus novel style profile
+3. deterministic output checks: root `scripts/check_output_quality_guardrails.py`
+4. glossary coverage and conflict checks: shared runtime plus novel glossary
+5. Sentinel: root `scripts/sentinel_quality_report.py`
+6. MoonRead generation and reader checks: `MoonRead/`
+7. human/Inspector spot-check: project acceptance gate
 
-Current intended production routing:
+Fix recurring defects at the lowest layer that safely catches them. Promote a novel rule to project layer only after evidence shows it is cross-novel and has low false-positive risk.
 
-- setup/fetch: Codex / GPT-5.4
-- glossary scan: OpenRouter `google/gemini-3.7-flash`
-- glossary option suggestion: OpenRouter `deepseek/deepseek-v4-flash-0731`
-- literal translation: OpenRouter `google/gemini-3.7-flash`
-- refinement: OpenRouter `deepseek/deepseek-v4-flash-0731`
-- QA primary: OpenRouter `deepseek/deepseek-v4-flash-0731` with reasoning enabled
-- QA fallback: OpenRouter `google/gemini-3.7-flash`; DeepSeek V4 Pro is disabled
-- formatting primary: OpenRouter `deepseek/deepseek-v4-flash-0731`
-- formatting fallback/cleanup: local deterministic formatter
-- OpenRouter API key env var: `NOVEL_OPENROUTER_API`
+## 6. Ownership
 
-Rules:
+- Codex owns project architecture, layer promotion, provider-routing changes, run scope, acceptance, documentation, commit, and publication decisions.
+- Luna Max may execute explicitly bounded translation work through the HERDR protocol. It cannot change project policy, routing, quality thresholds, or canonical docs without a separate authorized work order.
+- Novel configuration owns data and voice for that novel, not the shared runtime.
+- MoonRead consumes verified generated content and never mutates translation source, glossary, ledger, or work artifacts.
 
-- Do not use Elephant or Nemotron for state-changing work.
-- Do not use OpenRouter `deepseek/deepseek-v4-pro` in normal HGD QA routing unless a future benchmark re-approves it.
-- Provider smoke tests and production route changes require explicit user approval.
+## 7. Non-Negotiable Boundaries
 
-## Guardrail Stack
-
-Quality protection is layered:
-
-1. provider output validation
-2. QA stage
-3. deterministic output guardrail
-4. Libra glossary coverage
-5. Sentinel report/gate
-6. MoonRead generator validation
-7. scoped MoonRead `publish:verify`
-8. major-run spot-check checklist
-
-Use scoped checks for touched ranges. Full unscoped scans can hit historical backlog and should be intentional.
-
-## Failure And Recovery Model
-
-- Provider failure: stop or follow configured fallback; never commit provider error/meta output.
-- Command length failure: rerun with safe transport/config.
-- QA hard-fail: inspect source/literal/refined/QA artifacts, rerun from earliest broken stage, and force-accept only with explicit approval.
-- Formatting validation failure: rerun formatting from latest refined artifact.
-- Sentinel blocker/major: stop publication, repair the full affected pattern, rerun scoped verification.
-- Source numbering mismatch: stop fetch/translation, run source sequence checks, fix mapping first.
-- MoonRead failure: inspect generator rejection, lint, build, and smoke output; fix final output for content issues and reader code for UI issues.
-
-Recurring failures need cause/prevention recorded in the right document.
-
-## New Novel Setup Flow
-
-1. Create/open the novel vault.
-2. Add a registry entry.
-3. Choose the source language playbook.
-4. Research the novel and save a compact profile.
-5. Configure or adapt fetch logic.
-6. Fetch a bounded source sample.
-7. Validate source numbering and metadata.
-8. Run glossary scan.
-9. Approve/reject glossary terms.
-10. Generate a bounded run plan.
-11. Run **Libra - Pilot Gate**, the mandatory 20-chapter randomized setup experiment:
-   - fetch the intended source scope into `03_Raw/` before sampling; sampling is invalid until the raw source pool exists.
-   - if the source site is partially unavailable, record the verified fetchable scope first and sample only from that fetched scope.
-   - sample from fetched `03_Raw/` source chapters, not only chapters that were already translated or already problematic.
-   - use a recorded fixed seed so the raw-source pool and selected chapters are reproducible.
-   - 10 in-sample chapters to tune pipeline behavior.
-   - 10 out-of-sample chapters to prove the fixes generalize.
-   - classify every fix as multi-novel, language-level, novel-level, or run-local.
-   - do not scale production batches until the experiment passes its measured gates.
-12. Run the first production bounded translation batch only after the experiment recommends a safe execution mode.
-13. Verify output, Sentinel, reports, and MoonRead before scaling further.
-
-## Cross-Novel Experiment Gate
-
-Use this gate when testing whether a pipeline improvement generalizes across active novels.
-
-- Sampling source is always `03_Raw/`, never `05_Output/`, MoonRead generated content, or only previously translated chapters.
-- Audit the fetched raw-source pool before sampling. If the upstream novel has more chapters than the local raw pool, either fetch/validate the broader scope first or explicitly record the verified local scope as the experiment boundary.
-- Use stratified random sampling across the verified raw range so the sample covers early, middle, late, and unseen chapters.
-- Keep in-sample and out-of-sample sets separate. Tune only on in-sample; use out-of-sample as the generalization proof.
-- Run treatment waves from isolated experiment vaults unless the milestone is explicitly a production run. Production `05_Output`, MoonRead generated content, and the production ledger must not be overwritten by exploratory evidence.
-- Isolated experiment vaults that run Sentinel must include a local `00_Config/novel_registry.json`; runtime Sentinel must scan the experiment vault's `03_Raw` and `05_Output`, not production output or MoonRead.
-- Start each treatment wave with a scan-only/glossary approval gate before translation. Translation without experiment-local glossary approval is an invalid treatment run.
-- For glossary experiments, classify scan candidates before approval into approve-new, alias-to-existing, reject/noise, and ask-human/source-aware. Alias-to-existing should not create duplicate glossary notes.
-- Record seed, source pool, selected chapters, commands, metrics, failures, fixes, and decisions in `01_Research_Log/` using `RESEARCH_LOG_FORMAT.md`.
-- Classify every fix by layer before implementation:
-  - Layer 0 multi-novel shared rule
-  - Layer 1 language playbook
-  - Layer 2 novel profile/vault
-  - Layer 3 run-local recovery
-  - Layer 4 MoonRead reader surface
-- Do not publish experiment output unless a separate production publication gate approves it.
-
-## Boundaries And Non-Goals
-
-- `PROJECT_BRAIN.md` is current memory, not architecture.
-- `IMPLEMENT_PLAN.md` is roadmap, not architecture.
-- `AGENTS.md` is behavior policy, not runtime design.
-- `MoonRead/content/generated/` is generated output, not source of truth.
+- `03_Raw` is source input; `05_Output` is product output.
 - `06_Logs/run_ledger.jsonl` is append-only.
-- `05_Output/` is final product text; treat it as product surface.
-- Novel folders must not own durable cross-novel policy.
-- Worker models must not rewrite canonical docs without Codex review.
-- Docs-only architecture work must not call providers or run production workflows.
-
-## Maintenance Rule
-
-Update this file only for stable structure and ownership rules.
-
-- Current state belongs in `PROJECT_BRAIN.md`.
-- Future work belongs in `IMPLEMENT_PLAN.md`.
-- Agent behavior belongs in `AGENTS.md`.
-- Evidence and long incident detail belong in `07_Reports/`.
+- Experiment artifacts never overwrite production artifacts.
+- No provider key or transcript containing credentials is committed.
+- No command may silently fall back to DSE or another sibling novel.
+- A command must not mutate novel identity with `--novel`; the selected `.system/config.yaml` is authoritative.
+- No experiment or production run is complete without deterministic checks, blocking Sentinel, and the major-run spot-check policy where applicable.

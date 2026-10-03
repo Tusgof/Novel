@@ -823,19 +823,19 @@ def detect_mojibake(text: str, expected_language: str) -> bool:
         # Allow Latin, digits, punctuation, whitespace as neutral
         if total_chars == 0:
             return False
-        
+
         # Thai-heavy text must fail zh
         if thai_count >= 2 or (meaningful_chars > 0 and thai_count / meaningful_chars > 0.05):
             return True
-        
+
         # Other-script-heavy text must fail zh
         if other_count > max(1, meaningful_chars * 0.05):
             return True
-        
+
         # Latin/digit/punctuation/whitespace-only text should not be classified as mojibake
         if cjk_count == 0 and thai_count == 0 and other_count == 0:
             return False
-        
+
         # Chinese source must have meaningful CJK
         if meaningful_chars >= 10:
             if cjk_count < max(2, meaningful_chars * 0.20):
@@ -844,7 +844,7 @@ def detect_mojibake(text: str, expected_language: str) -> bool:
             # Short text: must have at least one CJK character if there are meaningful chars
             if meaningful_chars > 0 and cjk_count == 0:
                 return True
-        
+
         return False
 
     elif expected_language.startswith("th"):
@@ -852,7 +852,7 @@ def detect_mojibake(text: str, expected_language: str) -> bool:
         # Allow whitespace, Latin, digits, punctuation, marks
         if total_chars == 0:
             return False
-        
+
         # Thai text should pass if it has enough Thai script
         if meaningful_chars >= 10:
             if thai_count < max(3, meaningful_chars * 0.30):
@@ -861,15 +861,15 @@ def detect_mojibake(text: str, expected_language: str) -> bool:
             # Short text: must have at least one Thai character if there are meaningful chars
             if meaningful_chars > 0 and thai_count == 0:
                 return True
-        
+
         # CJK proper names are allowed in Thai output
         if cjk_count > max(4, meaningful_chars * 0.20):
             return True
-        
+
         # Other scripts must be limited
         if other_count > max(1, meaningful_chars * 0.05):
             return True
-        
+
         return False
 
     else:

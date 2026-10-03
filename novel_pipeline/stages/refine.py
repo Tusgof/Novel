@@ -17,19 +17,21 @@ def run_refine_stage(
     provider_runner: ProviderRunner,
     model: str = "",
     retry_feedback: str = "",
+    prompt_store: PromptStore | None = None,
+    style_instructions: str | None = None,
 ) -> RefinedDraft:
-    prompt_store = PromptStore(config.workspace.prompts)
+    prompt_store = prompt_store or PromptStore(config.workspace.prompts)
     style_profile = config.style_profile_for_name(style_profile_key)
-    
+
     formatted_glossary = format_glossary_subset(glossary_subset)
     formatted_literal = "\n\n".join(pair.literal_sentence for pair in literal_draft.sentence_pairs)
-    
+
     prompt = prompt_store.render(
         "refinement",
         literal_draft=formatted_literal,
         source_block=block.source_text,
         glossary_subset=formatted_glossary,
-        style_instructions=style_profile.instruction_text(),
+        style_instructions=style_instructions if style_instructions is not None else style_profile.instruction_text(),
         retry_feedback=retry_feedback or "none",
         research_context=config.research_context_text(),
     )

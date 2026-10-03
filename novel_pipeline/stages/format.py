@@ -99,7 +99,7 @@ def _strip_non_dialogue_quotes(text: str) -> str:
 
 def _format_sound_effects(text: str) -> str:
     """Convert standalone sound-effect paragraphs to italic.
-    
+
     A paragraph qualifies if:
     - After stripping punctuation/ellipsis/repeated punctuation and whitespace,
       it is a short sound-effect token or a short sequence of such tokens.
@@ -134,7 +134,7 @@ def _format_sound_effects(text: str) -> str:
 
 def _split_long_paragraphs(text: str, max_len: int = 550) -> str:
     """Split paragraphs longer than max_len at sentence boundaries.
-    
+
     Only splits at sentence punctuation boundaries.
     Accumulates sentences into new paragraphs up to max_len.
     """

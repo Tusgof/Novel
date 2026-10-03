@@ -71,10 +71,87 @@ def _parse_stage_routing(data: Mapping[str, Any]) -> dict[str, StageRouting]:
     return routing
 
 
-def _parse_provider_specs(data: Mapping[str, Any], *, base_dir: Path) -> dict[str, ProviderSpec]:
+def _resolve_provider_command(
+    command: tuple[str, ...],
+    *,
+    novel_root: Path,
+    workspace_root: Path,
+) -> tuple[str, ...]:
+    """Resolve local helper scripts without falling back to another novel.
+
+    Provider configs are shared in shape but execute in the selected novel's
+    context. A relative ``scripts/...`` token must resolve to that novel or to
+    the workspace shared scripts directory, never to a sibling vault.
+    """
+    novel_root = novel_root.resolve()
+    workspace_root = workspace_root.resolve()
+
+    def is_within(path: Path, root: Path) -> bool:
+        try:
+            path.relative_to(root)
+            return True
+        except ValueError:
+            return False
+
+    def is_shared_helper(path: Path) -> bool:
+        try:
+            relative = path.relative_to(workspace_root)
+        except ValueError:
+            return False
+        return bool(relative.parts) and relative.parts[0].lower() == "scripts"
+
+    resolved: list[str] = []
+    for token in command:
+        candidate = Path(token)
+        normalized = str(token).replace("/", "\\")
+        if candidate.is_absolute():
+            absolute = candidate.resolve()
+            if candidate.suffix.lower() == ".py" and not (
+                is_within(absolute, novel_root) or is_shared_helper(absolute)
+            ):
+                raise ConfigError(
+                    f"Provider helper '{token}' escapes the selected novel/shared scripts boundary."
+                )
+            resolved.append(str(absolute))
+            continue
+        is_helper = normalized.lower().startswith("scripts\\") or candidate.suffix.lower() == ".py"
+        if not is_helper:
+            resolved.append(token)
+            continue
+        local_candidate = (novel_root / candidate).resolve()
+        shared_candidate = (workspace_root / candidate).resolve()
+        local_is_novel = local_candidate.exists() and novel_root.resolve() in local_candidate.parents
+        local_is_shared = False
+        if local_candidate.exists():
+            try:
+                local_is_shared = local_candidate.relative_to(workspace_root.resolve()).parts[:1] == ("scripts",)
+            except ValueError:
+                local_is_shared = False
+        if local_is_novel or local_is_shared:
+            resolved.append(str(local_candidate))
+        elif shared_candidate.exists() and is_shared_helper(shared_candidate):
+            resolved.append(str(shared_candidate))
+        else:
+            raise ConfigError(
+                f"Provider helper '{token}' is missing for novel '{novel_root}'. "
+                "The resolver will not use a sibling novel's scripts."
+            )
+    return tuple(resolved)
+
+
+def _parse_provider_specs(
+    data: Mapping[str, Any],
+    *,
+    base_dir: Path,
+    novel_root: Path,
+    workspace_root: Path,
+) -> dict[str, ProviderSpec]:
     providers_section = data.get("providers")
     if providers_section is None:
-        return default_provider_specs()
+        defaults = default_provider_specs()
+        for spec in defaults.values():
+            spec.working_dir = novel_root.resolve()
+        return defaults
     if not isinstance(providers_section, Mapping):
         raise ConfigError("providers.yaml providers section must be a mapping.")
     defaults = default_provider_specs()
@@ -84,11 +161,22 @@ def _parse_provider_specs(data: Mapping[str, Any], *, base_dir: Path) -> dict[st
         if isinstance(value, Mapping):
             merged = dict(defaults.get(provider_key, ProviderSpec(name=provider_key, executable=(provider_key,))).to_dict())
             merged.update({str(key): item for key, item in value.items()})
-            specs[provider_key] = ProviderSpec.from_mapping(provider_key, merged, base_dir=base_dir)
+            spec = ProviderSpec.from_mapping(provider_key, merged, base_dir=base_dir)
+            spec.executable = _resolve_provider_command(
+                spec.executable,
+                novel_root=novel_root,
+                workspace_root=workspace_root,
+            )
+            if spec.working_dir is None:
+                spec.working_dir = novel_root.resolve()
+            specs[provider_key] = spec
         else:
             specs[provider_key] = build_provider_spec(provider_key, base_dir=base_dir)
     for provider_key, spec in defaults.items():
         specs.setdefault(provider_key, spec)
+    for spec in specs.values():
+        if spec.working_dir is None:
+            spec.working_dir = novel_root.resolve()
     return specs
 
 
@@ -158,7 +246,13 @@ def load_app_config(config_path: Path | str = Path(".system/config.yaml")) -> Ap
             "default": StyleProfile(key="default", name="default", description="Neutral polished Thai prose.")
         }
 
-    providers = _parse_provider_specs(providers_doc, base_dir=system_root)
+    workspace_parent = workspace_root.parent
+    providers = _parse_provider_specs(
+        providers_doc,
+        base_dir=system_root,
+        novel_root=workspace_root,
+        workspace_root=workspace_parent,
+    )
     stage_routing = _parse_stage_routing(providers_doc)
 
     _validate_config(
@@ -223,6 +317,22 @@ def _validate_config(
                 raise ConfigError(f"Stage '{stage}' references unknown fallback provider '{fallback_provider}'.")
     if not workspace.root.exists():
         raise ConfigError(f"Workspace root does not exist: {workspace.root}")
+    for provider_name, spec in providers.items():
+        if spec.working_dir is not None and spec.working_dir.resolve() != workspace.root.resolve():
+            raise ConfigError(
+                f"Provider '{provider_name}' working_dir points to '{spec.working_dir}', "
+                f"but selected novel root is '{workspace.root}'."
+            )
+        extra = list(spec.extra_args)
+        for index, token in enumerate(extra[:-1]):
+            if token != "--cd":
+                continue
+            configured_root = Path(extra[index + 1]).expanduser().resolve()
+            if configured_root != workspace.root.resolve():
+                raise ConfigError(
+                    f"Provider '{provider_name}' --cd points to '{configured_root}', "
+                    f"but selected novel root is '{workspace.root}'."
+                )
 
 
 load_workspace_config = load_app_config

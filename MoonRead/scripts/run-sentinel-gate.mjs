@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 const scriptRoot = path.dirname(fileURLToPath(import.meta.url));
 const appRoot = path.resolve(scriptRoot, "..");
 const workspaceRoot = path.resolve(appRoot, "..");
-const sentinelScript = path.join(workspaceRoot, "Deep Sea Embers", "scripts", "sentinel_quality_report.py");
+const sentinelScript = path.join(workspaceRoot, "scripts", "sentinel_quality_report.py");
 
 if (!fs.existsSync(sentinelScript)) {
   console.error(`Sentinel script not found: ${sentinelScript}`);

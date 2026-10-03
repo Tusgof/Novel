@@ -16,8 +16,9 @@ def run_literal_translation_stage(
     glossary_subset: list[GlossaryEntry],
     provider_runner: ProviderRunner,
     model: str = "",
+    prompt_store: PromptStore | None = None,
 ) -> LiteralDraft:
-    prompt_store = PromptStore(config.workspace.prompts)
+    prompt_store = prompt_store or PromptStore(config.workspace.prompts)
     formatted_glossary = format_glossary_subset(glossary_subset)
     source_for_prompt = " ".join(line.strip() for line in block.source_text.splitlines() if line.strip())
     prompt = prompt_store.render(
@@ -88,7 +89,7 @@ def parse_literal_pairs(source_text: str, stdout: str) -> tuple[LiteralSentenceP
     # LLMs sometimes output empty lines between sentences even if asked not to.
     lines = [_clean_provider_line(line) for line in stdout.splitlines()]
     lines = [line for line in lines if line]
-    
+
     if not source_sentences:
         return ()
 
@@ -122,7 +123,7 @@ def parse_literal_pairs(source_text: str, stdout: str) -> tuple[LiteralSentenceP
                 cleaned = target
         else:
             cleaned = target
-        
+
         pairs.append(LiteralSentencePair(source_sentence=source, literal_sentence=cleaned))
     return tuple(pairs)
 

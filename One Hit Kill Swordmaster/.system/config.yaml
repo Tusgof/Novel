@@ -1,4 +1,5 @@
 novel_id: one-hit-kill-swordmaster
+pipeline_engine: lean
 vault_root: .
 source_language: en
 default_batch_size: 10

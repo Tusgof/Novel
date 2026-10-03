@@ -163,13 +163,13 @@ def choose_option_interactively(suggestion: TermSuggestion) -> str | None:
         print(f"Context: {suggestion.context[0]}")
     if suggestion.rationale:
         print(f"Summary: {suggestion.rationale}")
-    
+
     for index, option in enumerate(suggestion.options, start=1):
         rationale = suggestion.rationales[index - 1] if index - 1 < len(suggestion.rationales) else ""
         print(f"{index}. {option}")
         if rationale:
             print(f"   Note: {rationale}")
-    
+
     print("4. Enter a custom translation")
     print("r. Reject as non-glossary noise")
 

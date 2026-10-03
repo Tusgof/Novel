@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import re
 from collections import OrderedDict
-from collections.abc import Iterable
+from collections.abc import Iterable, Mapping
 from dataclasses import dataclass
 from os import PathLike
 from pathlib import Path
@@ -243,7 +243,7 @@ def build_glossary_scan_queue(
             candidates = _extract_english_candidate_terms(text)
         else:
             candidates = list(extract_candidate_terms(text))
-        
+
         # Optional provider supplement (if enabled and routing exists)
         provider_terms = []
         if provider_enabled and routing:
@@ -253,7 +253,7 @@ def build_glossary_scan_queue(
             # Check failure limit (already disabled if failures reached)
             if provider_enabled and max_failures is not None and provider_failures >= max_failures:
                 provider_enabled = False
-        
+
         if provider_enabled and routing:
             result = _extract_provider_candidate_terms_with_status(config, text)
             provider_calls += 1
@@ -268,9 +268,9 @@ def build_glossary_scan_queue(
                 t for t in provider_terms
                 if _looks_like_source_candidate(t, source_language=config.source_language)
             ]
-        
+
         candidates.extend(provider_terms)
-        
+
         filtered_candidates: list[str] = []
         for term in _dedupe_candidates(candidates):
             if term in blocked_exact_terms:
@@ -567,13 +567,13 @@ def build_term_suggestion(
 ) -> TermSuggestion:
     """Build 3 safe Thai translation options or stop the glossary gate."""
     category = infer_category(term)
-    curated_options = _curated_fallback_options(term)
+    curated_options = _curated_fallback_options(config, term)
     if curated_options:
         return TermSuggestion(
             original_term=term,
             category=category,
             context=(context,),
-            rationale="Curated local fallback for known Deep Sea Embers terms.",
+            rationale="Curated local fallback configured for the selected novel.",
             options=tuple(curated_options),
             rationales=(
                 f"Curated option 1 for {term}",
@@ -648,7 +648,7 @@ def build_term_suggestion(
 
 def parse_suggestion_options(stdout: str) -> list[tuple[str, str]]:
     """Parse numbered or bulleted list of options from provider stdout.
-    
+
     Expected format: "Term | Rationale" or just "Term".
     """
     lines = stdout.splitlines()
@@ -665,7 +665,7 @@ def parse_suggestion_options(stdout: str) -> list[tuple[str, str]]:
         cleaned = re.sub(r"[\*_]{1,2}", "", cleaned).strip()
         if not cleaned or len(cleaned) < 1:
             continue
-        
+
         if "|" in cleaned:
             term, rationale = cleaned.split("|", 1)
             term = term.strip()
@@ -697,14 +697,14 @@ def _looks_like_thai_option(value: str) -> bool:
 
 
 def infer_category(term: str) -> str:
-    """Infer a rough category for a term based on heuristics for Deep Sea Embers."""
+    """Infer a conservative category from the term's shape."""
     # Chinese characters:
     if re.match(r"^[\u4e00-\u9fff]{2}$", term):
         # 2 chars are often just words unless they appear extremely frequently
         # but here we just infer category. Let's default to 'term' for 2 chars
         # unless it's a known name pattern (which we don't have yet)
         return "term"
-        
+
     if re.match(r"^[\u4e00-\u9fff]{3}$", term):
         # 3 chars could be names, but still risky
         return "term"
@@ -716,32 +716,35 @@ def infer_category(term: str) -> str:
         if any(x in term for x in ("都", "市", "岛", "海")):
             return "location"
         return "title"
-        
+
     # Longer Chinese phrases in this novel are often entities or phenomena
     if re.match(r"^[\u4e00-\u9fff]{5,7}$", term):
         if any(x in term for x in ("雾", "光", "声")):
             return "phenomenon"
         return "entity"
-        
+
     # Latin capitalized words are likely names or titles
     if re.match(r"^[A-Z][a-zA-Z]+$", term):
         # If all caps and short, maybe an acronym/term
         if term.isupper() and len(term) <= 4:
             return "term"
         return "character"
-        
+
     return "term"
 
 
-def _curated_fallback_options(term: str) -> list[str]:
-    curated = {
-        "周铭": ["โจวหมิง", "โจว หมิง", "คุณโจวหมิง"],
-        "浓雾": ["หมอกหนาทึบ", "ม่านหมอกหนา", "หมอกเข้มข้น"],
-        "雾气": ["ไอหมอก", "ละอองหมอก", "หมอกบาง"],
-        "日记": ["บันทึกประจำวัน", "สมุดบันทึก", "ไดอารี"],
-        "镜子": ["กระจก", "บานกระจก", "คันฉ่อง"],
-    }
-    return curated.get(term, [])
+def _curated_fallback_options(config: AppConfig, term: str) -> list[str]:
+    """Read optional novel-local fallback suggestions; shared code has no defaults."""
+    glossary_config = config.raw_config.get("glossary", {})
+    if not isinstance(glossary_config, Mapping):
+        return []
+    curated = glossary_config.get("curated_options", {})
+    if not isinstance(curated, Mapping):
+        return []
+    options = curated.get(term, [])
+    if not isinstance(options, (list, tuple)):
+        return []
+    return [str(option).strip() for option in options if str(option).strip()]
 
 
 def _default_term_template() -> str:

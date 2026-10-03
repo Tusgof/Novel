@@ -9,41 +9,33 @@ Last updated: 2026-10-03
 - **Total milestones**: 7
 - **Estimated total effort**: XL
 
-V6.36 Lean Pipeline experiment is now active. For a new novel, it is a
-bounded pilot for tuning the novel-specific refine profile and observing the
-minimal shared pipeline. OOS and the full Libra - Pilot Gate are optional and
-only apply when promoting a shared-layer change across existing novels.
+V6.36 Lean Pipeline research is complete. V6.38 now makes the Lean engine the
+selected production dispatch path for every registered novel. OOS and the full
+Libra - Pilot Gate remain optional research methods when promoting a shared-layer
+change; they are not mandatory setup steps for every novel.
 
-## Current Session Work Order: HGD Lean, One Hit Kill Swordmaster, And Recursive Workspace Organization
+## Current Session Work Order: Lean Runtime Replacement And Layer Separation
 
 This session has three explicit scopes:
 
-1. Finish the HGD Lean Pipeline experiment evidence to the point supported by
-   the isolated run, including diagnosis, smallest regression-tested repair,
-   rerun, guardrails, Sentinel, and a report. This does not authorize a claim
-  that Lean is production-ready across novels.
-2. Set up **One Hit Kill Swordmaster** from the verified WNTL source, fetch and
-   validate the available raw scope before sampling, then run an experiment-only
-   10-chapter bounded test with the Lean pipeline. Record prompts, artifacts,
-   metrics, observations, and recommendations. This is not a replacement for
-  the normal 20-chapter Libra - Pilot Gate; this is a single novel-specific pilot.
-3. Inventory and organize every file recursively under this workspace. Preserve
-   canonical docs, active novel vaults, source/output/log evidence, and required
-   runtime/config files. Archive or delete only files proven transient,
-   duplicated, or obsolete, with a manifest and verification record.
+1. Make the root `novel_pipeline/` package the only canonical runtime and keep
+   novel-local imports as compatibility shims only.
+2. Enforce explicit selected-novel context for provider helpers, working
+   directories, Sentinel, staging, and CLI commands; reject DSE/sibling
+   fallback and legacy Lean stage commands.
+3. Separate project-layer architecture from novel-layer configuration in the
+   canonical architecture/control documents, then verify the migration without
+   starting a paid translation or MoonRead publication.
 
 Session gates:
 
-- No experiment output may overwrite production `03_Raw`, `01_Glossary`,
-  `05_Output`, `06_Logs`, or MoonRead content.
-- HGD and One Hit Kill runs stop when all configured provider routes fail, manual prompt, QA
-  hard-fail, validation failure, Sentinel blocker/major, source mismatch, or
-  unexpected scope expansion.
-- Recursive cleanup must not remove pre-existing dirty WIP or evidence needed
-  to support the two experiments; uncertain items are archived or logged for
-  review instead of deleted.
-- Every completed scope gets independent verification before the combined final
-  report, and the session ends with a commit and push of the intended changes.
+- No provider-backed translation or publication is authorized by this migration
+  milestone.
+- A real Lean run must stage candidate output, stop on provider/QA/validation/
+  Sentinel/manual/scope failure, and promote only after the blocking gate passes.
+- Existing source, output, logs, reports, and dirty WIP remain untouched.
+- The completed scope requires independent tests, control-document updates, and
+  a commit/push of the intended changes.
 
 This plan is research-first. Experiment output is not production output and must not be published to MoonRead unless a separate production publication gate approves it.
 
@@ -101,7 +93,7 @@ Current progress:
 - Post-V6.34 DSE follow-up continuation complete: `dse-ch231-ch235-v1`, `dse-ch236-ch240-v1`, `dse-ch241-ch245-v1`, `dse-ch246-ch250-v1`, and `dse-ch251-v1` completed and MoonRead publishes DSE through `ch251`. Checkpoint: `07_Reports/dse_ch231_ch251_production_checkpoint_20260709.md`.
 - Milestone 7 complete: post-experiment production closure validated the V6.34 recommendation with bounded sequential DSE batches through `ch210`, documented checkpoints, scoped Sentinel, output guardrails, MoonRead publish verification, and clean git push.
 
-Active milestone: V6.35 Re:Zero bounded production and chapter-isolated parallel pilot.
+Current scope: V6.38 Lean runtime replacement and layer separation. V6.35 Re:Zero production remains paused; it is not the active migration work order.
 
 ## V6.35: Re:Zero Chapter-Isolated Parallel Pilot
 
@@ -376,13 +368,33 @@ Status: complete as an experiment-only evaluation. HGD `ch001` completed the min
 
 Status: complete after the v2 rerun. All five chapters passed blocking Sentinel `0/0/0/0`; advisory Sentinel found `33` minor English/title or game/UI findings. The first v2 attempt stopped safely on truncated `ch090` literal output, then resume reran only the broken chapter. A second complete resume added zero provider calls and reused all five stages for all five chapters. Metrics were `25` calls, `4` failures, `1,122.728s`, `182,904` tokens, and `$0.286459146`; cost/speed did not improve versus the prior slice. No experiment output was published. Evidence: `07_Reports/v6_37_ohks_five_chapter_checkpoint_review_v2_20261003.md`, `07_Reports/sentinel_quality_experiment_20261003_024140.md`, and the isolated experiment vault.
 
+---
+
+## Milestone 10: V6.38 Lean Runtime Replacement And Layer Separation
+
+**Goal**: Make Lean the canonical bounded translation runtime for all registered novels and enforce a strict project-layer/novel-layer boundary without starting a provider-backed batch.
+**Dependencies**: Milestones 8-9; architecture review
+
+| # | Task | Effort | Risk | Verification |
+|:--|:-----|:------:|:----:|:-------------|
+| 10.1 | Move the canonical runtime and shared helpers to the workspace root | L | ⚠️ | Root package compiles, package metadata is present, and the DSE-local import shim resolves submodules to root |
+| 10.2 | Set every registered novel config to Lean and route provider helpers/cwd to the selected vault or root shared scripts only | M | ⚠️ | Routing tests load all five configs and reject sibling/absolute helper escapes |
+| 10.3 | Add staged output, selected-novel Sentinel, and atomic promotion for production Lean runs | L | ⚠️ | Provider-free tests prove pass promotes and Sentinel failure preserves an existing product file |
+| 10.4 | Prevent Lean CLI commands from silently invoking legacy block stages or mutating novel identity | M | ✅ | CLI rejects unsupported legacy options/stages and `--novel` mismatch |
+| 10.5 | Update architecture/brain/plan/recovery documentation to match verified ownership and runtime boundaries | S | ✅ | Control docs describe root project layer, isolated novel layer, staging gate, and migration limits |
+| 10.6 | Run verification without paid provider calls and record the result | S | ✅ | compileall, routing tests, DSE regression suite, scoped guardrails/Sentinel, and novel dry-run pass |
+
+**Milestone complete when**: Root runtime ownership, selected-novel routing, staged quality gate, CLI boundary, and documentation are all verified; no existing product output is changed by the migration.
+
+Status: complete on 2026-10-03. No provider-backed translation or MoonRead publication was run. Evidence: `07_Reports/v6_38_lean_runtime_migration_20261003.md`, root regression suite, existing DSE suite through the compatibility shim, scoped quality checks, and the control-document updates. Shared prompt rendering, local formatting, checkpoint reuse, staged Sentinel isolation, path confinement and new-novel Lean selection have provider-free regression coverage.
+
 ## Execution Notes
 
 - **Blocked items**:
   - Production publication from experiment output is blocked by design.
   - Long unattended production translation remains blocked; V6.34 and the IRS Pilot support bounded sequential execution only, not hands-off parallel scaling.
   - Any provider routing change remains blocked unless explicitly approved and measured.
-  - V6.36 must not replace the production pipeline or publish experiment artifacts until the bounded pilot decision and publication gates are complete.
+  - V6.38 migration does not itself authorize a provider-backed batch or MoonRead publication; each future Lean run still needs its own bounded production gate.
   - HGD and One Hit Kill Lean pilot resumption uses the configured fallback chain; current empty `finish_reason=length` failures remain recorded, and the run stops only if all configured routes fail.
   - Recursive cache deletion is blocked by the host command policy; generated paths are ignored and documented instead.
 
@@ -408,9 +420,10 @@ Status: complete after the v2 rerun. All five chapters passed blocking Sentinel 
 - **Standard verification**:
   - `git diff --check`
   - `python -m compileall novel_pipeline`
-  - `python test_translation.py`
-  - `python scripts\run_lean_pipeline_experiment.py --help`
-  - `novel-pipeline --config ".system/config.yaml" preflight`
+  - `python -m unittest -v test_workspace_routing.py`
+  - From `Deep Sea Embers/`: `python test_translation.py`
+  - `python -m novel_pipeline.lean --help`
+  - `novel-pipeline --config "<Novel>\.system\config.yaml" preflight`
   - scoped output guardrails for touched experiment outputs
   - scoped Sentinel for touched experiment outputs
   - MoonRead checks only if a separate production publication gate changes reader content
@@ -423,4 +436,4 @@ These notes preserve durable lessons that existing tests expect while the active
 - HGD title fallback risk guarded by title sidecars.
 - Completed Milestone: V6.17.1 HGD Title And Format Re-Audit.
 - Completed Milestone: V6.18 Translation Speed Without Quality Loss.
-- AI formatting remains primary; use `C:\Users\ASUS\Downloads\good format.md` as the style reference for paragraph spacing, dialogue, thoughts, sound effects, and UI/system formatting.
+- Historical AI-formatting routes are compatibility evidence only. Lean uses local Markdown normalization after chapter refinement and QA.

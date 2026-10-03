@@ -1,13 +1,4 @@
-"""Compatibility shim; the canonical package lives at the workspace root."""
-
-from pathlib import Path
-
-_CANONICAL_PACKAGE = Path(__file__).resolve().parents[2] / "novel_pipeline"
-if not _CANONICAL_PACKAGE.is_dir():
-    raise ImportError(f"Canonical workspace package is missing: {_CANONICAL_PACKAGE}")
-
-# Keep older DSE-local imports working without loading a second engine.
-__path__ = [str(_CANONICAL_PACKAGE)]
+"""Novel translation pipeline support package."""
 
 from novel_pipeline.config import ConfigError, load_app_config
 from novel_pipeline.ledger import LedgerDecodeError, LedgerError, ResumeState, RunLedger
@@ -45,7 +36,7 @@ from novel_pipeline.types import (
     WorkspacePaths,
 )
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __all__ = [
     "__version__",

@@ -59,8 +59,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--config",
         type=Path,
-        default=Path(".system/config.yaml"),
-        help="Path to the main config file.",
+        default=None,
+        help="Path to the selected novel's main config file. Required at the workspace root.",
     )
     parser.add_argument(
         "--novel",
@@ -256,16 +256,53 @@ def build_parser() -> argparse.ArgumentParser:
     fmt_p.add_argument("--run-id", default=argparse.SUPPRESS, help="Optional run ID for ledger commit.")
     fmt_p.add_argument("--force", action="store_true", default=argparse.SUPPRESS, help="Rerun even if committed.")
 
+    lean_p = subparsers.add_parser("lean-run", help="Run the chapter-aware Lean production pipeline.")
+    lean_p.add_argument("--chapters", required=True, help="Chapter range or comma-separated chapter IDs.")
+    lean_p.add_argument("--run-id", required=True, help="Explicit bounded run ID.")
+    lean_p.add_argument("--resume", action="store_true", help="Reuse valid Lean checkpoints.")
+    lean_p.add_argument("--trace-dir", type=Path, default=None, help="Optional isolated provider trace directory.")
+    lean_p.add_argument("--checkpoint-dir", type=Path, default=None, help="Optional checkpoint directory.")
+    lean_p.add_argument("--dry-run", action="store_true", help="Validate paths and raw source without provider calls.")
+
     return parser
 
 
 def cmd_run(args: argparse.Namespace, config) -> int:
     chapter_id = args.chapter_id or config.novel_id
-    
+
     # Override adapter if provided
     if args.adapter:
         config.source.adapter = args.adapter
-    
+
+    if config.raw_config.get("pipeline_engine", "legacy") == "lean":
+        unsupported = []
+        if args.input_file or args.text or args.adapter:
+            unsupported.append("input/adapter override")
+        if args.force:
+            unsupported.append("--force")
+        if args.style_profile:
+            unsupported.append("--style-profile")
+        if args.stop_after:
+            unsupported.append("--stop-after")
+        if unsupported:
+            print(
+                "[ERROR] Lean runs accept only persisted raw source and the bounded chapter scope; "
+                f"unsupported: {', '.join(unsupported)}.",
+                file=sys.stderr,
+            )
+            return 1
+        chapter_scope = args.chapter_range or chapter_id
+        return cmd_lean_run(
+            argparse.Namespace(
+                chapters=chapter_scope,
+                run_id=args.run_id or "",
+                resume=False,
+                trace_dir=None,
+                checkpoint_dir=None,
+            ),
+            config,
+        )
+
     # Batch mode
     if args.stop_after and not args.chapter_range:
         print("[ERROR] --stop-after is currently supported only for batch --range runs.", file=sys.stderr)
@@ -305,7 +342,7 @@ def cmd_run(args: argparse.Namespace, config) -> int:
         except Exception as exc:
             print(f"[ERROR] Batch run failed: {exc}", file=sys.stderr)
             return 1
-    
+
     # Single chapter mode (existing code)
     readiness_result = _warn_research_readiness(config, bounded=True)
     if readiness_result:
@@ -330,6 +367,40 @@ def cmd_run(args: argparse.Namespace, config) -> int:
 
 
 def cmd_resume(args: argparse.Namespace, config) -> int:
+    if config.raw_config.get("pipeline_engine", "legacy") == "lean":
+        run_id = args.run_id
+        unsupported = []
+        if args.force:
+            unsupported.append("--force")
+        if args.until_chapter or args.until_block:
+            unsupported.append("--until-chapter/--until-block")
+        if unsupported:
+            print(f"[ERROR] Lean resume does not support legacy options: {', '.join(unsupported)}.", file=sys.stderr)
+            return 1
+        if not run_id:
+            print("[ERROR] Lean resume requires --run-id.", file=sys.stderr)
+            return 1
+        report_path = config.workspace.work / "_lean_runs" / run_id / "lean_run_report.json"
+        try:
+            import json
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            chapters = report.get("chapters_requested", "")
+        except (OSError, ValueError) as exc:
+            print(f"[ERROR] Cannot load Lean checkpoint report: {exc}", file=sys.stderr)
+            return 1
+        if not chapters:
+            print("[ERROR] Lean checkpoint report has no requested chapter scope.", file=sys.stderr)
+            return 1
+        return cmd_lean_run(
+            argparse.Namespace(
+                chapters=chapters,
+                run_id=run_id,
+                resume=True,
+                trace_dir=None,
+                checkpoint_dir=None,
+            ),
+            config,
+        )
     run_id = args.run_id
     if run_id is None:
         # Try to find the latest run_id from ledger
@@ -377,11 +448,36 @@ def cmd_resume(args: argparse.Namespace, config) -> int:
 
 
 def cmd_status(args: argparse.Namespace, config) -> int:
+    if config.raw_config.get("pipeline_engine", "legacy") == "lean":
+        run_id = args.run_id
+        run_root = config.workspace.work / "_lean_runs"
+        if not run_id:
+            candidates = sorted(
+                (path for path in run_root.glob("*") if (path / "lean_run_report.json").exists()),
+                key=lambda path: path.stat().st_mtime,
+                reverse=True,
+            )
+            if not candidates:
+                print("No Lean runs found.", file=sys.stderr)
+                return 1
+            run_id = candidates[0].name
+        report_path = run_root / run_id / "lean_run_report.json"
+        try:
+            import json
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+        except (OSError, ValueError) as exc:
+            print(f"[ERROR] Cannot load Lean run report: {exc}", file=sys.stderr)
+            return 1
+        print(json.dumps(report, ensure_ascii=False, indent=2))
+        return 0
     result = status_run(config=config, run_id=args.run_id)
     return 0
 
 
 def cmd_report(args: argparse.Namespace, config) -> int:
+    if config.raw_config.get("pipeline_engine", "legacy") == "lean":
+        print("[ERROR] Legacy report commands are not available for Lean runs; use the run report under 04_Work/_lean_runs/<run-id>/.", file=sys.stderr)
+        return 1
     if args.report_command == "checkpoint":
         result = build_checkpoint_report(config=config, run_id=args.run_id, output=args.output)
     elif args.report_command == "cleanliness":
@@ -422,6 +518,9 @@ def cmd_report(args: argparse.Namespace, config) -> int:
 
 
 def cmd_inspect_block(args: argparse.Namespace, config) -> int:
+    if config.raw_config.get("pipeline_engine", "legacy") == "lean":
+        print("[ERROR] inspect-block is a legacy block recovery command and is not valid for Lean runs.", file=sys.stderr)
+        return 1
     try:
         inspect_block_command(config=config, run_id=args.run_id, block_id=args.block_id)
         return 0
@@ -468,6 +567,9 @@ def cmd_init_novel(args: argparse.Namespace, config) -> int:
 
 
 def cmd_rerun_block(args: argparse.Namespace, config) -> int:
+    if config.raw_config.get("pipeline_engine", "legacy") == "lean":
+        print("[ERROR] rerun-block is a legacy block recovery command and is not valid for Lean runs; resume the bounded Lean run.", file=sys.stderr)
+        return 1
     if not args.run_id:
         print("[ERROR] rerun-block requires --run-id.", file=sys.stderr)
         return 1
@@ -538,6 +640,9 @@ def cmd_fetch(args: argparse.Namespace, config) -> int:
 
 
 def cmd_scan_terms(args: argparse.Namespace, config) -> int:
+    if config.raw_config.get("pipeline_engine", "legacy") == "lean":
+        print("[ERROR] scan-terms is a legacy stage and is not valid for Lean runs.", file=sys.stderr)
+        return 1
     try:
         scan_terms_command(
             config=config,
@@ -552,6 +657,9 @@ def cmd_scan_terms(args: argparse.Namespace, config) -> int:
 
 
 def cmd_approve_terms(args: argparse.Namespace, config) -> int:
+    if config.raw_config.get("pipeline_engine", "legacy") == "lean":
+        print("[ERROR] approve-terms is a legacy stage and is not valid for Lean runs.", file=sys.stderr)
+        return 1
     try:
         approve_terms_command(
             config=config,
@@ -568,6 +676,9 @@ def cmd_approve_terms(args: argparse.Namespace, config) -> int:
 
 
 def cmd_translate_literal(args: argparse.Namespace, config) -> int:
+    if config.raw_config.get("pipeline_engine", "legacy") == "lean":
+        print("[ERROR] translate-literal is a legacy stage and is not valid for Lean runs.", file=sys.stderr)
+        return 1
     readiness_result = _warn_research_readiness(config, bounded=True)
     if readiness_result:
         return readiness_result
@@ -586,6 +697,9 @@ def cmd_translate_literal(args: argparse.Namespace, config) -> int:
 
 
 def cmd_refine(args: argparse.Namespace, config) -> int:
+    if config.raw_config.get("pipeline_engine", "legacy") == "lean":
+        print("[ERROR] refine is a legacy stage and is not valid for Lean runs.", file=sys.stderr)
+        return 1
     readiness_result = _warn_research_readiness(config, bounded=True)
     if readiness_result:
         return readiness_result
@@ -605,6 +719,9 @@ def cmd_refine(args: argparse.Namespace, config) -> int:
 
 
 def cmd_qa(args: argparse.Namespace, config) -> int:
+    if config.raw_config.get("pipeline_engine", "legacy") == "lean":
+        print("[ERROR] qa is a legacy stage and is not valid for Lean runs.", file=sys.stderr)
+        return 1
     readiness_result = _warn_research_readiness(config, bounded=True)
     if readiness_result:
         return readiness_result
@@ -626,6 +743,9 @@ def cmd_qa(args: argparse.Namespace, config) -> int:
 
 
 def cmd_format(args: argparse.Namespace, config) -> int:
+    if config.raw_config.get("pipeline_engine", "legacy") == "lean":
+        print("[ERROR] format is a legacy stage and is not valid for Lean runs.", file=sys.stderr)
+        return 1
     try:
         format_command(
             config=config,
@@ -637,6 +757,32 @@ def cmd_format(args: argparse.Namespace, config) -> int:
         return 0
     except Exception as exc:
         print(f"[ERROR] format failed: {exc}", file=sys.stderr)
+        return 1
+
+
+def cmd_lean_run(args: argparse.Namespace, config) -> int:
+    if not args.run_id:
+        print("[ERROR] Lean production run requires --run-id.", file=sys.stderr)
+        return 1
+    try:
+        from novel_pipeline import lean
+        argv = [
+            "--config", str(config.config_path),
+            "--chapters", str(args.chapters),
+            "--run-id", str(args.run_id),
+            "--mode", "production",
+        ]
+        if getattr(args, "resume", False):
+            argv.append("--resume")
+        if getattr(args, "trace_dir", None):
+            argv.extend(["--trace-dir", str(args.trace_dir)])
+        if getattr(args, "checkpoint_dir", None):
+            argv.extend(["--checkpoint-dir", str(args.checkpoint_dir)])
+        if getattr(args, "dry_run", False):
+            argv.append("--dry-run")
+        return lean.main(argv)
+    except Exception as exc:
+        print(f"[ERROR] Lean run failed: {exc}", file=sys.stderr)
         return 1
 
 
@@ -656,6 +802,7 @@ COMMAND_HANDLERS = {
     "refine": cmd_refine,
     "qa": cmd_qa,
     "format": cmd_format,
+    "lean-run": cmd_lean_run,
 }
 
 
@@ -665,14 +812,31 @@ def main() -> int:
 
     configure_logging()
 
+    if args.config is None:
+        print("[ERROR] --config is required at the multi-novel workspace root. Select one novel explicitly.", file=sys.stderr)
+        return 1
+
     try:
         config = load_app_config(args.config)
     except Exception as exc:
         print(f"[ERROR] Failed to load config: {exc}", file=sys.stderr)
         return 1
 
-    if args.novel:
-        config.novel_id = args.novel
+    if args.novel and args.novel != config.novel_id:
+        print(
+            f"[ERROR] --novel '{args.novel}' does not match the selected config novel '{config.novel_id}'. "
+            "Select the correct .system/config.yaml instead.",
+            file=sys.stderr,
+        )
+        return 1
+
+    if config.raw_config.get("pipeline_engine") != "lean":
+        print(
+            "[ERROR] The workspace CLI supports Lean configs only. "
+            "Legacy engines are retained for historical artifact recovery/tests, not production dispatch.",
+            file=sys.stderr,
+        )
+        return 1
 
     handler = COMMAND_HANDLERS.get(args.command)
     if handler is None:

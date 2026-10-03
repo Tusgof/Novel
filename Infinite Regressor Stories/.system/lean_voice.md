@@ -1,0 +1,1 @@
+Infinite Regressor Stories combines an experienced first-person narrator, apocalypse, melancholy and deadpan humour. The Undertaker's narration normally uses ผม. Keep his conversational storytelling, shifts between absurdity and grief, and loop chronology intact. Match dialogue register to each relationship, without flattening all characters into the narrator's voice.
