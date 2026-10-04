@@ -1,11 +1,11 @@
 # Reader Import Report
 
-Generated at: 2026-10-04T06:04:06.319Z
+Generated at: 2026-10-04T09:22:40.269Z
 
 ## Summary
 
-- books: 5
-- available chapters: 669
+- books: 6
+- available chapters: 679
 - missing chapters: 0
 - rejected chapters: 0
 
@@ -78,6 +78,22 @@ Generated at: 2026-10-04T06:04:06.319Z
 - source root: ../One Hit Kill Swordmaster/05_Output
 - target range: ch001-ch020
 - available: 20
+- missing: 0
+- rejected: 0
+
+### Rejected
+
+- none
+
+### Missing
+
+- none
+
+## Ten Day Ultimatum
+
+- source root: ../Ten Day Ultimatum/05_Output
+- target range: ch001-ch010
+- available: 10
 - missing: 0
 - rejected: 0
 

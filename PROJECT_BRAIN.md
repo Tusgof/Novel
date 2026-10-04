@@ -49,8 +49,9 @@ Keep this section short. Update `PROJECT_BRAIN.md` for current state, active ris
 Ten Day Ultimatum:
 
 - Corrected XSZJ fetch is verified: manifest `1385`, raw files `1385`, missing `0`, extra `0`, invalid source files `0`.
-- `TDU-LEAN-PILOT-20261004-ch001-010-v2` remains blocked, not complete. Corrected-source recovery promoted `ch004`, `ch005`, `ch006`, `ch007`, and `ch008`; `ch001-ch003` were already promoted. `ch006` required a narrow ending-typo recovery. `ch009` hit the configured Codex provider failure again and `ch010` was not reached. The previous incomplete-raw run remains invalidated.
-- No TDU chapter from this partial run is accepted for MoonRead publication. The exact failure is recorded in `Ten Day Ultimatum/07_Reports/tdu_lean_pilot_v2_blocked_20261004.md` and the order-02 Sentinel evidence; resume requires provider authorization/health recovery, then `ch009-ch010` continuation and final scoped verification.
+- `TDU-LEAN-CLOSE-20261004-ch001-010` completed all 10 chapters after the corrected XSZJ footer cleanup. `ch001-ch005` and `ch007-ch010` passed on the first close pass; `ch006` was quarantined for a source-backed QA issue and then recovered within the bounded run without force-accept. The final run report is `Ten Day Ultimatum/04_Work/_lean_runs/TDU-LEAN-CLOSE-20261004-ch001-010/lean_run_report.json` with status `complete`, 10 promoted outputs, and no quarantine.
+- TDU output guardrails passed; the final blocking Sentinel was `0/0/0/0` for `ch001-ch010`. The Inspector spot-check covered `ch001`, `ch003`, `ch005`, `ch008`, and `ch010`; the only advisory finding was intentional medical text `CT scan` in `ch005`. Corrected raw chapters contain no trailing XSZJ promotion footer. Evidence includes `07_Reports/sentinel_quality_tdu-close-inspector_20261004_091529.md` and `07_Reports/sentinel_quality_moonread-tdu-close_20261004_092242.md`.
+- TDU is enabled in the MoonRead registry and publish verification passed: 6 books, 679 available chapters, 0 missing, 0 rejected; scoped generated-content Sentinel `0/0/0/0`; lint, build, smoke, and desktop/mobile reader checks passed. The adapter regression suite passed 6 tests and workspace routing passed 14 tests. TDU remains limited to `ch001-ch010` until a new bounded range is authorized.
 
 Lean replacement publication:
 
@@ -443,10 +444,9 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
-The five-novel Lean replacement order is complete and live at commit `14020e6120d61483971b68197ce5b8fa6cbf50b5`. The next safe action is TDU `ch009-ch010` only after the configured Codex provider authorization/health is restored and verified. Do not enable TDU or reuse its stale incomplete outputs before both chapters pass independent gates. Re:Zero `ch003+` remains outside the replacement order.
+The TDU `ch001-ch010` bounded close is complete and published in the generated MoonRead reader. The next safe action is to wait for a new explicit chapter range; do not start TDU `ch011+` automatically. Keep provider routing unchanged and retain the corrected XSZJ adapter behavior for future fetches. Re:Zero `ch003+` remains outside the replacement order.
 
-1. Restore and verify the configured provider route that failed at TDU `ch009`; do not silently reroute or weaken limits.
-2. Issue a new bounded TDU continuation for `ch009-ch010`, preserving accepted `ch001-ch008` and rejecting stale incomplete outputs.
-3. Keep provider routing unchanged; the Lean replacement publication does not authorize a model or spend change.
-   The historical HGD fallback/config conflict remains documented debt; this order does not change routing.
-4. Quarantine chapter-local QA/validation/Sentinel failures and continue within the authorized range. Stop only for global provider exhaustion, required manual input, missing source, scope/security violations or unrecoverable runtime/disk failure. No unresolved quarantined replacement is publication-ready.
+1. For a future TDU range, fetch/validate the requested raw scope first and use a new bounded Lean run ID.
+2. Preserve the blocking output guardrail, Sentinel, spot-check, and MoonRead publish gates.
+3. Quarantine chapter-local QA/validation/Sentinel failures and continue only within the authorized range; stop for global provider exhaustion, required manual input, missing source, scope/security violations, or unrecoverable runtime/disk failure.
+4. Keep provider routing unchanged; the historical HGD fallback/config conflict remains documented debt.

@@ -13,6 +13,17 @@ from novel_pipeline.types import ChapterMeta
 
 _CHAPTER_RE = re.compile(r"/b/(?P<book>[^/]+)/c/(?P<chapter>\d+)$")
 _NUMBER_RE = re.compile(r"第\s*(\d+)\s*章")
+_SITE_FOOTER_RE = re.compile(
+    r"\n\n小说之家为广大书友们提供好看的网络小说全文免费在线阅读，"
+    r"如果您喜欢本站，请分享给更多的书友们！\n\n"
+    r"如果您觉得《[^\n]+》小说很精彩的话，请粘贴以下网址分享给您的好友，谢谢支持！\n\n"
+    r"（\s*本书网址：https://xszj\.org/b/\d+\s*）\s*$"
+)
+
+
+def strip_site_footer(content: str) -> str:
+    """Remove only the complete, trailing XSZJ promotion, never story text."""
+    return _SITE_FOOTER_RE.sub("", content).strip()
 
 
 class _CatalogParser(HTMLParser):
@@ -158,7 +169,7 @@ class XszjAdapter(FetchAdapter):
     def extract_content(self, html_bytes: bytes, *, encoding: str = "") -> str:
         parser = _ContentParser()
         parser.feed(html_bytes.decode(encoding or self.config.encoding or "utf-8", errors="strict"))
-        content = "\n\n".join(parser.paragraphs).strip()
+        content = strip_site_footer("\n\n".join(parser.paragraphs))
         if not content:
             raise ValueError("XszjAdapter found empty chapter content")
         validate_text_script(content, "zh")

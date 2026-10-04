@@ -388,6 +388,24 @@ Status: complete after the v2 rerun. All five chapters passed blocking Sentinel 
 
 Status: complete on 2026-10-03. No provider-backed translation or MoonRead publication was run. Evidence: `07_Reports/v6_38_lean_runtime_migration_20261003.md`, root regression suite, existing DSE suite through the compatibility shim, scoped quality checks, and the control-document updates. Shared prompt rendering, local formatting, checkpoint reuse, staged Sentinel isolation, path confinement and new-novel Lean selection have provider-free regression coverage.
 
+---
+
+## Milestone 11: TDU Lean Close And MoonRead Publication
+
+**Goal**: Complete and publish Ten Day Ultimatum `ch001-ch010` after the corrected XSZJ fetch adapter removes only the trailing promotional footer.
+**Dependencies**: Milestone 10; corrected raw source; provider health
+
+| # | Task | Effort | Risk | Verification |
+|:--|:-----|:------:|:----:|:-------------|
+| 11.1 | Run the bounded Lean close for TDU `ch001-ch010`, quarantining and recovering chapter-local QA issues without force-accept | L | ⚠️ | `TDU-LEAN-CLOSE-20261004-ch001-010` reports `complete`, 10 promoted, 0 quarantined |
+| 11.2 | Verify raw/footer integrity, output guardrails, blocking Sentinel, and five-chapter spot-check | M | ⚠️ | Raw has no XSZJ footer; output guardrails pass; Sentinel is `0/0/0/0`; spot-check evidence exists |
+| 11.3 | Enable TDU in the reader registry and run MoonRead generation plus scoped publish verification | M | ⚠️ | 6 books, 679 available, 0 missing, 0 rejected; generated TDU Sentinel `0/0/0/0`; lint/build/smoke pass |
+| 11.4 | Commit and push the adapter regression, verified TDU artifacts, registry, reports, and control-document updates | S | ✅ | Remote HEAD contains the complete TDU state and no unresolved TDU publication blocker |
+
+**Milestone complete when**: TDU `ch001-ch010` is independently accepted, visible in the generated MoonRead reader, and the verified state is committed and pushed. No automatic TDU continuation is started.
+
+Status: complete on 2026-10-04. Evidence: `Ten Day Ultimatum/04_Work/_lean_runs/TDU-LEAN-CLOSE-20261004-ch001-010/lean_run_report.json`, `07_Reports/sentinel_quality_tdu-close-inspector_20261004_091529.md`, `07_Reports/sentinel_quality_moonread-tdu-close_20261004_092242.md`, and the MoonRead publish verification output.
+
 ## Execution Notes
 
 - **Lean production continuation policy (2026-10-03)**: within an explicitly authorized chapter range, chapter-local provider, QA, validation, guardrail, or Sentinel failures are quarantined and later chapters continue. Only global provider exhaustion, required manual input, missing source, scope expansion, workspace/security violations, or unrecoverable disk/runtime failures stop the worker. Passing chapters are promoted independently; quarantined chapters remain resumable and unpublished.

@@ -1,6 +1,6 @@
 import unittest
 
-from novel_pipeline.adapters.xszj import XszjAdapter
+from novel_pipeline.adapters.xszj import XszjAdapter, strip_site_footer
 from novel_pipeline.types import SourceConfig
 
 
@@ -26,6 +26,21 @@ class XszjAdapterTests(unittest.TestCase):
         manifest = self.adapter.build_manifest()
         self.assertEqual([item.chapter_id for item in manifest], ["ch001", "ch002"])
         self.assertEqual(manifest[0].metadata["source_site"], "xszj")
+
+    def test_trailing_site_promotion_is_removed_without_story_loss(self) -> None:
+        story = "众人都已经死了。"
+        footer = (
+            "小说之家为广大书友们提供好看的网络小说全文免费在线阅读，如果您喜欢本站，请分享给更多的书友们！"
+            "\n\n如果您觉得《十日终焉》小说很精彩的话，请粘贴以下网址分享给您的好友，谢谢支持！"
+            "\n\n（ 本书网址：https://xszj.org/b/351379 ）"
+        )
+        self.assertEqual(strip_site_footer(story + "\n\n" + footer), story)
+        raw = ('<div id="content"><p>' + story + '</p>' +
+               ''.join('<p>' + p + '</p>' for p in footer.split("\n\n")) + '</div>')
+        self.assertEqual(self.adapter.extract_content(raw.encode("utf-8")), story)
+        self.assertEqual(strip_site_footer(story + "\n\n" + footer + "\n\n故事继续。"),
+                         story + "\n\n" + footer + "\n\n故事继续。")
+        self.assertEqual(strip_site_footer("他说：本书网址是一个线索。"), "他说：本书网址是一个线索。")
 
     def test_catalog_parser_follows_next_page_anchor(self) -> None:
         self.adapter.fetch_url = lambda url: (

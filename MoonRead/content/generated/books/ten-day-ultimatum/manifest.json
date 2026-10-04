@@ -1,0 +1,157 @@
+{
+  "generatedAt": "2026-10-04T09:22:40.045Z",
+  "sourceRoot": "../Ten Day Ultimatum/05_Output",
+  "targetRange": "ch001-ch010",
+  "novel": {
+    "slug": "ten-day-ultimatum",
+    "title": "Ten Day Ultimatum",
+    "thaiTitle": "คำขาดสิบวัน",
+    "author": "杀虫队队员",
+    "tags": [
+      "ลึกลับ",
+      "เอาชีวิตรอด",
+      "ระทึกขวัญ",
+      "แฟนตาซี"
+    ]
+  },
+  "href": "/books/ten-day-ultimatum",
+  "chaptersHref": "/books/ten-day-ultimatum/chapters",
+  "reader": {
+    "name": "MoonRead",
+    "theme": "Stardust",
+    "colors": {
+      "navy": "#121926",
+      "gold": "#EBC05F",
+      "cream": "#F0F0F0"
+    }
+  },
+  "summary": {
+    "total": 10,
+    "available": 10,
+    "missing": 0,
+    "rejected": 0,
+    "skipped": 0
+  },
+  "chapters": [
+    {
+      "id": "ch001",
+      "number": 1,
+      "title": "บทที่ 1: บ้านร้างไร้ผู้คน",
+      "status": "available",
+      "sourcePath": "ch001/ch001.md",
+      "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch001.md",
+      "href": "/books/ten-day-ultimatum/read/ch001",
+      "charCount": 7298,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch002",
+      "number": 2,
+      "title": "บทที่ 2: คำลวง",
+      "status": "available",
+      "sourcePath": "ch002/ch002.md",
+      "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch002.md",
+      "href": "/books/ten-day-ultimatum/read/ch002",
+      "charCount": 6716,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch003",
+      "number": 3,
+      "title": "บทที่ 3: ผู้มีฝีมือ",
+      "status": "available",
+      "sourcePath": "ch003/ch003.md",
+      "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch003.md",
+      "href": "/books/ten-day-ultimatum/read/ch003",
+      "charCount": 6207,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch004",
+      "number": 4,
+      "title": "บทที่ 4: หายนะอย่างนั้นหรือ?",
+      "status": "available",
+      "sourcePath": "ch004/ch004.md",
+      "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch004.md",
+      "href": "/books/ten-day-ultimatum/read/ch004",
+      "charCount": 6238,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch005",
+      "number": 5,
+      "title": "บทที่ 5: แพทย์",
+      "status": "available",
+      "sourcePath": "ch005/ch005.md",
+      "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch005.md",
+      "href": "/books/ten-day-ultimatum/read/ch005",
+      "charCount": 5906,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch006",
+      "number": 6,
+      "title": "บทที่ 6: นายตำรวจ",
+      "status": "available",
+      "sourcePath": "ch006/ch006.md",
+      "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch006.md",
+      "href": "/books/ten-day-ultimatum/read/ch006",
+      "charCount": 7116,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch007",
+      "number": 7,
+      "title": "บทที่ 7: โอกาสชนะ",
+      "status": "available",
+      "sourcePath": "ch007/ch007.md",
+      "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch007.md",
+      "href": "/books/ten-day-ultimatum/read/ch007",
+      "charCount": 7059,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch008",
+      "number": 8,
+      "title": "บทที่ 8: เผยไพ่ในมือ",
+      "status": "available",
+      "sourcePath": "ch008/ch008.md",
+      "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch008.md",
+      "href": "/books/ten-day-ultimatum/read/ch008",
+      "charCount": 6409,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch009",
+      "number": 9,
+      "title": "บทที่ 9: ความจริงที่ยากจะยอมรับ",
+      "status": "available",
+      "sourcePath": "ch009/ch009.md",
+      "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch009.md",
+      "href": "/books/ten-day-ultimatum/read/ch009",
+      "charCount": 6176,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch010",
+      "number": 10,
+      "title": "บทที่ 10: จบสิ้นแล้วหรือ?",
+      "status": "available",
+      "sourcePath": "ch010/ch010.md",
+      "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch010.md",
+      "href": "/books/ten-day-ultimatum/read/ch010",
+      "charCount": 6359,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
+    }
+  ]
+}
