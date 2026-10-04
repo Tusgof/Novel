@@ -10,15 +10,15 @@
 
 ## Checkpoint
 
-Publication is pending. This file is not a completion claim.
+The five-novel replacement publication gate passed on 2026-10-04. TDU setup is valid but its ten-chapter translation remains blocked and is not enabled in MoonRead. This file is a partial-scope completion record, not a claim that TDU is complete.
 
 | Novel | Production evidence | Inspector checks | Remaining |
 | --- | --- | --- | --- |
-| DSE | Four complete runs cover ch001-ch020 | Output guardrails passed; Sentinel 0/0/1/0; sampled ch001,ch005,ch010,ch015,ch020 | Reader regeneration and publication |
-| HGD | Four complete runs cover ch001-ch020, all promoted with QA pass | Output guardrails passed; Sentinel 0/0/18/0; sampled ch001,ch005,ch010,ch017,ch020 | Narrow ordinary English/UI repair, then final acceptance |
-| IRS | `LEAN-RETRANSLATE-20261003-IRS-b01` complete ch001-ch005 | Final acceptance pending remaining chapters | ch006-ch010 recovery; separate ch011-ch020 worker |
-| OHKS | Complete production runs cover ch001-ch020 | Output guardrails passed; Sentinel 0/0/80/0 | Source-backed UI/stat English review, then reader acceptance |
-| R0 | `LEAN-RETRANSLATE-20261003-R0` complete ch001-ch002 | Output guardrails passed; Sentinel 0/0/29/0; both chapters sampled | Narrow ch002 prose English repair, then final acceptance |
+| DSE | Lean replacement ch001-ch020 accepted | Output guardrails passed; MoonRead Sentinel 0/0/0/0; desktop/mobile spot-check passed | Complete: reader regenerated and publication artifacts ready |
+| HGD | Lean replacement ch001-ch020 accepted | Output guardrails passed; MoonRead Sentinel 0/0/0/0; desktop/mobile spot-check passed | Complete: reader regenerated and publication artifacts ready |
+| IRS | Lean replacement ch001-ch020 accepted | Output guardrails passed; MoonRead Sentinel 0/0/0/0; desktop/mobile spot-check passed | Complete: reader regenerated and publication artifacts ready |
+| OHKS | Lean replacement ch001-ch020 accepted | Output guardrails passed; MoonRead Sentinel 0/0/0/0; desktop/mobile spot-check passed | Complete: reader regenerated and publication artifacts ready |
+| R0 | Lean replacement ch001-ch002 accepted | Output guardrails passed; MoonRead Sentinel 0/0/0/0; desktop/mobile spot-check passed | Complete: reader regenerated and publication artifacts ready |
 
 Counts are blocker/major/minor/info. Advisory English findings require source-backed classification, not automatic removal of brands, usernames, or author references.
 
@@ -38,9 +38,9 @@ Counts are blocker/major/minor/info. Advisory English findings require source-ba
 - From `Deep Sea Embers`, `python -X utf8 test_translation.py`: all tests passed.
 - From `MoonRead`, `npm.cmd run lint`: passed.
 - Independent output-only Sentinel uses `NOVEL_SENTINEL_STAGE_ONLY=1`; reader-inclusive gates will run after regeneration.
-- New reader content has not been committed or pushed at this checkpoint.
-- Reader preview generation: 5 books, 669 available, 0 missing, 0 rejected; IRS still labels only ch001-ch005 as Lean pending final acceptance.
-- Updated reader smoke: passed 28 reader samples and 10 TOC layouts across 1440px/390px, no unexpected console errors or horizontal overflow. Renderer now avoids duplicate chapter H1 and handles triple/quadruple emphasis plus ASCII separators. This preview is not a publication claim.
+- Reader generation: 5 books, 669 available, 0 missing, 0 rejected. Replacement labels are `[Lean]` through the requested ranges and retained legacy chapters are `[Pipe]`.
+- MoonRead scoped Sentinel: DSE/HGD/IRS/OHKS ch001-ch020 and R0 ch001-ch002 each report `0/0/0/0` at `07_Reports/sentinel_quality_moonread-lean-final-20261004_20261004_060429.md` through `060435.md`.
+- `npm.cmd run lint`, `npm.cmd run build`, and `npm.cmd run smoke` passed. Smoke checked 1440px/390px reader pages, TOCs, labels, titles, emphasis, and no horizontal overflow; no unexpected console errors occurred.
 - HGD ch001-ch020 source sequence check: passed, source chapter numbers 1-20 match local IDs.
 
 ## Incidents And Backlog
@@ -64,4 +64,4 @@ Counts are blocker/major/minor/info. Advisory English findings require source-ba
 
 ## Publication Gate
 
-Require all 82 replacements to have source-backed QA, no current quarantine/manual gate, deterministic guardrail pass, blocking Sentinel pass, and Inspector spot-check acceptance. Then regenerate reader content, verify labels and Markdown parity, run scoped `publish:verify`, lint/build/smoke, inspect desktop/mobile output, commit/push, verify remote HEAD and live reader before claiming ready.
+For the five-novel replacement scope, all 82 replacements have source-backed QA, no current quarantine/manual gate, deterministic guardrail pass, blocking Sentinel pass, Inspector spot-check acceptance, regenerated reader content, correct labels, and passing lint/build/smoke. Commit/push and live deployment verification remain the final persistence steps for this session. TDU is excluded until all ten chapters pass its own gate.

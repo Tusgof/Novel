@@ -1,6 +1,6 @@
 # Project Brain: Novel Translation System
 
-Last updated: 2026-10-03
+Last updated: 2026-10-04
 
 This is the durable memory for the workspace. Keep it compact. Put long evidence, experiments, and historical detail in root-level `07_Reports/` or `01_Research_Log/` as appropriate.
 
@@ -49,8 +49,12 @@ Keep this section short. Update `PROJECT_BRAIN.md` for current state, active ris
 Ten Day Ultimatum:
 
 - Corrected XSZJ fetch is verified: manifest `1385`, raw files `1385`, missing `0`, extra `0`, invalid source files `0`.
-- `TDU-LEAN-PILOT-20261004-ch001-010-v2` is blocked, not complete. `ch001-ch003` and `ch005-ch008` were promoted by the run; `ch004` is quarantined after a source-backed child/student meaning error; `ch009-ch010` were not completed. The previous incomplete-raw run remains invalidated.
-- No TDU chapter from this partial run is accepted for MoonRead publication. Resume requires restoring the provider fallback authorization, then recovery and final scoped verification. Evidence: `Ten Day Ultimatum/07_Reports/tdu_lean_pilot_v2_blocked_20261004.md`.
+- `TDU-LEAN-PILOT-20261004-ch001-010-v2` remains blocked, not complete. Corrected-source recovery promoted `ch004`, `ch005`, `ch006`, `ch007`, and `ch008`; `ch001-ch003` were already promoted. `ch006` required a narrow ending-typo recovery. `ch009` hit the configured Codex provider failure again and `ch010` was not reached. The previous incomplete-raw run remains invalidated.
+- No TDU chapter from this partial run is accepted for MoonRead publication. The exact failure is recorded in `Ten Day Ultimatum/07_Reports/tdu_lean_pilot_v2_blocked_20261004.md` and the order-02 Sentinel evidence; resume requires provider authorization/health recovery, then `ch009-ch010` continuation and final scoped verification.
+
+Lean replacement publication:
+
+- DSE/HGD/IRS/OHKS `ch001-ch020` and Re:Zero `ch001-ch002` are independently accepted for the replacement scope. Reader regeneration reports 5 books, 669 available chapters, 0 missing, and 0 rejected; scoped MoonRead Sentinel is `0/0/0/0` for every replacement range, and lint/build/smoke plus desktop/mobile reader checks pass. The generated manifests label replacements `[Lean]` and retained chapters `[Pipe]`. Evidence: `07_Reports/sentinel_quality_moonread-lean-final-20261004_20261004_060429.md` through `060435.md` and the current MoonRead generated manifests.
 
 Re:Zero Watching Him Die Again and Again:
 
