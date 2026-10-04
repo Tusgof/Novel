@@ -10,7 +10,7 @@
 
 ## Checkpoint
 
-The five-novel replacement publication gate passed on 2026-10-04. TDU setup is valid but its ten-chapter translation remains blocked and is not enabled in MoonRead. This file is a partial-scope completion record, not a claim that TDU is complete.
+The five-novel replacement publication gate passed on 2026-10-04 and was pushed/live-verified at commit `14020e6120d61483971b68197ce5b8fa6cbf50b5`. TDU setup is valid but its ten-chapter translation remains blocked and is not enabled in MoonRead. This file is a partial-scope completion record, not a claim that TDU is complete.
 
 | Novel | Production evidence | Inspector checks | Remaining |
 | --- | --- | --- | --- |
@@ -64,4 +64,4 @@ Counts are blocker/major/minor/info. Advisory English findings require source-ba
 
 ## Publication Gate
 
-For the five-novel replacement scope, all 82 replacements have source-backed QA, no current quarantine/manual gate, deterministic guardrail pass, blocking Sentinel pass, Inspector spot-check acceptance, regenerated reader content, correct labels, and passing lint/build/smoke. Commit/push and live deployment verification remain the final persistence steps for this session. TDU is excluded until all ten chapters pass its own gate.
+For the five-novel replacement scope, all 82 replacements have source-backed QA, no current quarantine/manual gate, deterministic guardrail pass, blocking Sentinel pass, Inspector spot-check acceptance, regenerated reader content, correct labels, and passing lint/build/smoke. Commit/push and live deployment verification passed at `14020e6120d61483971b68197ce5b8fa6cbf50b5`; all five chapter-1 live URLs returned HTTP 200 and displayed `[Lean]`. TDU is excluded until all ten chapters pass its own gate.

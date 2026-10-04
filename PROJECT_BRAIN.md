@@ -54,7 +54,7 @@ Ten Day Ultimatum:
 
 Lean replacement publication:
 
-- DSE/HGD/IRS/OHKS `ch001-ch020` and Re:Zero `ch001-ch002` are independently accepted for the replacement scope. Reader regeneration reports 5 books, 669 available chapters, 0 missing, and 0 rejected; scoped MoonRead Sentinel is `0/0/0/0` for every replacement range, and lint/build/smoke plus desktop/mobile reader checks pass. The generated manifests label replacements `[Lean]` and retained chapters `[Pipe]`. Evidence: `07_Reports/sentinel_quality_moonread-lean-final-20261004_20261004_060429.md` through `060435.md` and the current MoonRead generated manifests.
+- DSE/HGD/IRS/OHKS `ch001-ch020` and Re:Zero `ch001-ch002` are independently accepted for the replacement scope. Reader regeneration reports 5 books, 669 available chapters, 0 missing, and 0 rejected; scoped MoonRead Sentinel is `0/0/0/0` for every replacement range, and lint/build/smoke plus desktop/mobile reader checks pass. The generated manifests label replacements `[Lean]` and retained chapters `[Pipe]`. Commit `14020e6120d61483971b68197ce5b8fa6cbf50b5` is pushed, and all five live chapter URLs returned HTTP 200 with `[Lean]` visible. Evidence: `07_Reports/sentinel_quality_moonread-lean-final-20261004_20261004_060429.md` through `060435.md` and the current MoonRead generated manifests.
 
 Re:Zero Watching Him Die Again and Again:
 
@@ -443,10 +443,10 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
-The migration-only next action has been superseded by the user-authorized Lean replacement order: DSE/HGD/IRS/OHKS `ch001-ch020` and Re:Zero `ch001-ch002`, 82 chapters total. Track verified progress and worker ownership in `07_Reports/lean_retranslation_publication_20261003.md`; publication is still pending. Continue the existing IRS workers and narrow source-backed English/UI QA repairs, then independently accept all replacements before MoonRead generation, reader checks, commit/push and live verification. Do not start overlapping runs. Re:Zero `ch003+` is not authorized by this replacement order, and the historical `ch009-ch010` provider-limit work remains paused.
+The five-novel Lean replacement order is complete and live at commit `14020e6120d61483971b68197ce5b8fa6cbf50b5`. The next safe action is TDU `ch009-ch010` only after the configured Codex provider authorization/health is restored and verified. Do not enable TDU or reuse its stale incomplete outputs before both chapters pass independent gates. Re:Zero `ch003+` remains outside the replacement order.
 
-1. Finish the existing bounded workers and source-backed routine recoveries; preserve valid checkpoints and good prose.
-2. Verify the exact 82-chapter replacement scope, final output/reader parity, translator labels and retained legacy ranges.
-3. Keep provider routing unchanged; the Lean engine replacement does not authorize a model or spend change.
+1. Restore and verify the configured provider route that failed at TDU `ch009`; do not silently reroute or weaken limits.
+2. Issue a new bounded TDU continuation for `ch009-ch010`, preserving accepted `ch001-ch008` and rejecting stale incomplete outputs.
+3. Keep provider routing unchanged; the Lean replacement publication does not authorize a model or spend change.
    The historical HGD fallback/config conflict remains documented debt; this order does not change routing.
 4. Quarantine chapter-local QA/validation/Sentinel failures and continue within the authorized range. Stop only for global provider exhaustion, required manual input, missing source, scope/security violations or unrecoverable runtime/disk failure. No unresolved quarantined replacement is publication-ready.
