@@ -12,6 +12,7 @@ For this workspace, the project-level control files live at the repository root:
 - `PROJECT_BRAIN.md`: durable project memory, current state, risks, and guardrails.
 - `IMPLEMENT_PLAN.md`: active roadmap and next milestones.
 - `ARCHITECTURE.md`: system structure, boundaries, flows, and ownership.
+- `.agents/skills/novel-verify/SKILL.md`: how to verify work on its real surfaces (output, Sentinel, MoonRead) and the Feature Map of every workspace feature with its commands and gotchas. Read it before claiming translation, repair, glossary, setup, or publication work is done.
 - `HERDR_WORKER_PROTOCOL.md`: bounded Inspector/Worker handoff rules, including explicitly authorized translation-pipeline execution; it never overrides provider routing or quality policy.
 
 Novel-specific folders such as `Deep Sea Embers` may keep short compatibility stubs for older tools or links. Do not put durable cross-novel planning content in a single-novel folder.
