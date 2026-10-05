@@ -24,4 +24,4 @@ A manual prompt, a QA hard-fail, a provider failure, a Sentinel blocker or major
 
 ## Maintaining this skill
 
-When a command, flag, path, or gotcha changes, update the matching feature file in the same change. `python tools/yuehua.py doctor` from the Yuehua Kit fails the map when it names a path that no longer exists.
+When a command, flag, path, or gotcha changes, update the matching feature file in the same change. The Yuehua `doctor` (bundled in the installed `yuehua-mode` skill as `scripts/yuehua.py`) fails the map when it names a path that no longer exists.
