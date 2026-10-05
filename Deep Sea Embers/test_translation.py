@@ -1309,7 +1309,11 @@ def test_glossary_scan_validates_source_mojibake():
     # Mock config
     config = Mock(spec=AppConfig)
     config.source_language = "zh"
-    config.workspace.glossary_dir = Path("/nonexistent")
+    # A scratch folder, not a path at the filesystem root: the glossary loader creates the folder.
+    import shutil
+    import tempfile
+    scratch = Path(tempfile.mkdtemp())
+    config.workspace.glossary_dir = scratch / "glossary"
     config.novel_id = "test"
     
     # Thai mojibake block
@@ -1327,6 +1331,8 @@ def test_glossary_scan_validates_source_mojibake():
         assert False, "Expected ValueError for mojibake source"
     except ValueError as e:
         assert "mojibake" in str(e) or "unexpected characters" in str(e)
+    finally:
+        shutil.rmtree(scratch, ignore_errors=True)
 
 def test_chinese_source_kaomoji_thai_digits_are_not_mojibake():
     from novel_pipeline.text_utils import validate_text_script
