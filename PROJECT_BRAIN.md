@@ -450,3 +450,11 @@ The TDU `ch001-ch010` bounded close is complete and published in the generated M
 2. Preserve the blocking output guardrail, Sentinel, spot-check, and MoonRead publish gates.
 3. Quarantine chapter-local QA/validation/Sentinel failures and continue only within the authorized range; stop for global provider exhaustion, required manual input, missing source, scope/security violations, or unrecoverable runtime/disk failure.
 4. Keep provider routing unchanged; the historical HGD fallback/config conflict remains documented debt.
+
+## Decision Log
+
+Append-only. A reversal is a new entry marked `SUPERSEDES #N` with its reason.
+
+| # | Date | Decision | Reason | Consequence | Approval |
+|:--|:--|:--|:--|:--|:--|
+| 1 | 2026-10-05 | Adopt Yuehua Kit v4.0 (`.yuehua-kit.json`): level **UNIT** (a standing translation system over many like-kind novels, registered in `00_Config/novel_registry.json`), tier **T2**. | The owner set T2 because the unit's stakes are the quality of its translation output. The kit's computed tier would be T3 because paid provider calls spend money; the kit allows a lower tier with the owner's sign-off and reasons, recorded here. | CI on every push and pull request (`tests` workflow); the verification skill and Feature Map in `.agents/skills/novel-verify/` define "verified"; work is done when merged to `main` with CI green. Paid provider usage still follows the existing routing, caps, and approvals. | Owner decision 2026-10-05. |
