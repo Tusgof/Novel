@@ -7287,7 +7287,8 @@ def test_output_guardrail_scopes_infinite_regressor_config_path():
 
     slug = module.requested_novel_slug([
         "--config",
-        str(Path("D:/Fogust/Workspace/Novel/Infinite Regressor Stories/.system/config.yaml")),
+        # Absolute on every OS and independent of any one machine's folder layout.
+        str(Path(__file__).resolve().parents[1] / "Infinite Regressor Stories" / ".system" / "config.yaml"),
     ])
 
     assert slug == "infinite-regressor-stories"
