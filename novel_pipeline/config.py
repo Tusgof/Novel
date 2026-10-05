@@ -126,7 +126,8 @@ def _resolve_provider_command(
 
     resolved: list[str] = []
     for index, token in enumerate(command):
-        candidate = Path(token)
+        # Configs may write helper paths with Windows separators; accept both on every OS.
+        candidate = Path(str(token).replace("\\", "/"))
         normalized = str(token).replace("/", "\\")
         if index == 0 and _is_bare_command(token):
             # Configs name commands, not machine paths. On Windows a bare name cannot launch an
