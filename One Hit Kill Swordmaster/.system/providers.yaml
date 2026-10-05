@@ -129,7 +129,7 @@ providers:
       - nonzero_exit
       - empty_stdout
   gemini:
-    executable: C:\Users\ASUS\AppData\Roaming\npm\gemini.cmd
+    executable: gemini
     default_model: pro
     timeout_seconds: 300
     max_command_chars: 24000
@@ -141,7 +141,7 @@ providers:
       - quota
       - timeout
   claude:
-    executable: C:\Users\ASUS\AppData\Roaming\npm\claude.cmd
+    executable: claude
     default_model: sonnet
     prompt_transport: stdin
     retry:
@@ -152,7 +152,7 @@ providers:
       - quota
       - timeout
   qwen:
-    executable: C:\Users\ASUS\AppData\Roaming\npm\qwen.cmd
+    executable: qwen
     prompt_flag: null
     prompt_position: positional
     prompt_transport: stdin
@@ -169,7 +169,7 @@ providers:
       - timeout
   codex:
     executable:
-    - C:\Users\ASUS\AppData\Roaming\npm\codex.cmd
+    - codex
     - exec
     prompt_flag: '-'
     prompt_position: positional
@@ -180,7 +180,7 @@ providers:
     extra_args:
     - --skip-git-repo-check
     - --cd
-    - D:\Fogust\Workspace\Novel\One Hit Kill Swordmaster
+    - .
     - --sandbox
     - read-only
     retry:
