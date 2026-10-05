@@ -2166,7 +2166,10 @@ def test_provider_timeout_fallback():
     config = Mock(spec=AppConfig)
     config.source_language = "zh"
     config.novel_id = "test"
-    config.workspace.glossary_dir = "/fake/glossary"
+    # The glossary loader creates this folder; keep it in the OS temp area, not at the filesystem root.
+    import tempfile
+    from pathlib import Path
+    config.workspace.glossary_dir = Path(tempfile.mkdtemp()) / "glossary"
     config.stage_routing = {"term_extraction": "gemini"}
     config.stage_routing_for = Mock(return_value=Mock(
         model="pro",
