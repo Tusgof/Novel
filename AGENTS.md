@@ -6,7 +6,7 @@ Behavioral guidelines to reduce common LLM coding mistakes in Codex. Merge with 
 
 ## Canonical Project Files
 
-For this workspace, the project-level control files live at `D:\Fogust\Workspace\Novel`:
+For this workspace, the project-level control files live at the repository root:
 
 - `AGENTS.md`: work policy and behavior rules.
 - `PROJECT_BRAIN.md`: durable project memory, current state, risks, and guardrails.

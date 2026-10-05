@@ -86,7 +86,8 @@ def build_novel_profile(
         metadata={
             "schema_version": 1,
             "created_at": utc_now_iso(),
-            "created_from_workspace": str(created_from_workspace),
+            # Record the template novel by folder name, never by one machine's absolute path.
+            "created_from_workspace": created_from_workspace.name,
             "research_profile_status": "pending",
         },
     )

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import os
+import shutil
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -71,6 +73,28 @@ def _parse_stage_routing(data: Mapping[str, Any]) -> dict[str, StageRouting]:
     return routing
 
 
+def _is_bare_command(token: str) -> bool:
+    return bool(token) and not any(sep in token for sep in ("/", "\\", ":")) and not token.lower().endswith(".py")
+
+
+def _launchable_command(token: str) -> str:
+    if os.name != "nt":
+        return token
+    found = shutil.which(token)
+    if found and Path(found).suffix.lower() in {".cmd", ".bat"}:
+        return found
+    return token
+
+
+def _resolve_cd_argument(extra_args: tuple[str, ...], *, novel_root: Path) -> tuple[str, ...]:
+    """Resolve a relative ``--cd`` value against the selected novel root."""
+    args = list(extra_args)
+    for index, token in enumerate(args[:-1]):
+        if token == "--cd" and not Path(args[index + 1]).is_absolute():
+            args[index + 1] = str((novel_root / args[index + 1]).resolve())
+    return tuple(args)
+
+
 def _resolve_provider_command(
     command: tuple[str, ...],
     *,
@@ -101,9 +125,14 @@ def _resolve_provider_command(
         return bool(relative.parts) and relative.parts[0].lower() == "scripts"
 
     resolved: list[str] = []
-    for token in command:
+    for index, token in enumerate(command):
         candidate = Path(token)
         normalized = str(token).replace("/", "\\")
+        if index == 0 and _is_bare_command(token):
+            # Configs name commands, not machine paths. On Windows a bare name cannot launch an
+            # npm .cmd shim through CreateProcess, so resolve it through PATH/PATHEXT here.
+            resolved.append(_launchable_command(token))
+            continue
         if candidate.is_absolute():
             absolute = candidate.resolve()
             if candidate.suffix.lower() == ".py" and not (
@@ -167,6 +196,7 @@ def _parse_provider_specs(
                 novel_root=novel_root,
                 workspace_root=workspace_root,
             )
+            spec.extra_args = _resolve_cd_argument(tuple(spec.extra_args), novel_root=novel_root)
             if spec.working_dir is None:
                 spec.working_dir = novel_root.resolve()
             specs[provider_key] = spec
