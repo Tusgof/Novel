@@ -1,0 +1,32 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  hermetic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONUTF8: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install the declared package and dependencies
+        run: python -m pip install -e .
+
+      - name: Routing and adapter tests
+        run: python -m unittest test_workspace_routing test_xszj_adapter -v
+
+      - name: Deep Sea Embers pipeline tests
+        working-directory: Deep Sea Embers
+        run: python test_translation.py
