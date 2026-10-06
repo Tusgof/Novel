@@ -27,6 +27,7 @@ if str(ROOT) not in sys.path:
 from novel_pipeline.config import load_app_config
 from novel_pipeline.glossary_support import load_glossary_index, select_non_overlapping_glossary_entries
 from novel_pipeline.pipeline import (
+    _apply_source_script_annotation_repairs,
     _load_chapter_source_and_blocks,
     _resolve_chapter_output_title,
     validate_formatted_text,
@@ -42,6 +43,70 @@ from novel_pipeline.files import atomic_write_json
 
 class ChapterQualityError(RuntimeError):
     """An unsafe chapter candidate that may be recovered without stopping others."""
+
+
+def _repair_refined_source_annotations(refined: RefinedDraft, *, novel_id: str = "") -> RefinedDraft:
+    """Remove copied source-script annotations before Lean's deterministic QA."""
+    repaired_text, source_script_repairs = _apply_source_script_annotation_repairs(refined.refined_text)
+    repaired_text, tdu_repairs = _apply_tdu_repairs(repaired_text, novel_id=novel_id)
+    if not source_script_repairs and not tdu_repairs:
+        return refined
+    return RefinedDraft(
+        block_id=refined.block_id,
+        chapter_id=refined.chapter_id,
+        refined_text=repaired_text,
+        provider=refined.provider,
+        style_profile=refined.style_profile,
+        source_text=refined.source_text,
+        metadata={
+            **refined.metadata,
+            "source_script_annotation_repairs": source_script_repairs,
+            "tdu_repairs": tdu_repairs,
+        },
+    )
+
+
+_TDU_REPAIR_RULES: tuple[tuple[str, str], ...] = (
+    ("\u0e09\u0e35\u0e0b\u0e35\u0e48\u0e22", "\u0e09\u0e35\u0e40\u0e0b\u0e35\u0e48\u0e22"),
+    ("\u0e09\u0e35\u0e0b\u0e35\u0e48", "\u0e09\u0e35\u0e40\u0e0b\u0e35\u0e48\u0e22"),
+    ("\u0e2e\u0e27\u0e32\u0e2d\u0e35\u0e42\u0e21\u0e48", "\u0e2b\u0e32\u0e19\u0e2d\u0e35\u0e42\u0e21\u0e48"),
+    ("\u0e1e\u0e27\u0e01\u0e40\u0e02\u0e48\u0e32", "\u0e1e\u0e27\u0e01\u0e40\u0e02\u0e32"),
+    ("\u0e1e\u0e27\u0e01\u0e40\u0e23\u0e21\u0e35", "\u0e1e\u0e27\u0e01\u0e40\u0e23\u0e32\u0e21\u0e35"),
+    ("\u0e1e\u0e27\u0e01\u0e40\u0e23\u0e08\u0e30", "\u0e1e\u0e27\u0e01\u0e40\u0e23\u0e32\u0e08\u0e30"),
+    ("\u0e1e\u0e27\u0e01\u0e40\u0e23\u0e17\u0e38\u0e01\u0e04\u0e19", "\u0e1e\u0e27\u0e01\u0e40\u0e23\u0e32\u0e17\u0e38\u0e01\u0e04\u0e19"),
+    ("\u0e1e\u0e27\u0e01\u0e40\u0e23\u0e01\u0e47", "\u0e1e\u0e27\u0e01\u0e40\u0e23\u0e32\u0e01\u0e47"),
+    ("\u0e1e\u0e27\u0e01\u0e40\u0e02\u0e01\u0e47", "\u0e1e\u0e27\u0e01\u0e40\u0e02\u0e32\u0e01\u0e47"),
+    ("\u0e21\u0e32\u0e08\u0e08\u0e19\u0e16\u0e36\u0e07", "\u0e21\u0e32\u0e08\u0e19\u0e16\u0e36\u0e07"),
+    ("\u0e04\u0e27\u0e32\u0e21\u0e0b\u0e37\u0e48\u0e2d\u0e2a\u0e31\u0e22\u0e4c", "\u0e04\u0e27\u0e32\u0e21\u0e0b\u0e37\u0e48\u0e2d\u0e2a\u0e31\u0e15\u0e22\u0e4c"),
+    ("\u0e04\u0e48\u0e2d\u0e19\u0e01", "\u0e04\u0e48\u0e2d\u0e19\u0e02\u0e49\u0e32\u0e07"),
+    ("\u0e41\u0e48\u0e41\u0e25\u0e49\u0e27", "\u0e41\u0e22\u0e48\u0e41\u0e25\u0e49\u0e27"),
+    ("\u0e40\u0e02\u0e04\u0e48\u0e2d\u0e22", "\u0e40\u0e02\u0e32\u0e04\u0e48\u0e2d\u0e22"),
+    ("\u0e40\u0e18\u0e08\u0e30", "\u0e40\u0e18\u0e2d\u0e08\u0e30"),
+    ("\u0e40\u0e18\u0e40\u0e0a\u0e37\u0e48\u0e2d", "\u0e40\u0e18\u0e2d\u0e40\u0e0a\u0e37\u0e48\u0e2d"),
+    ("\u0e1e\u0e27\u0e01\u0e40\u0e18\u0e25\u0e2d\u0e07", "\u0e1e\u0e27\u0e01\u0e40\u0e18\u0e2d\u0e25\u0e2d\u0e07"),
+    ("\u0e40\u0e18\u0e01\u0e47", "\u0e40\u0e18\u0e2d\u0e01\u0e47"),
+    ("\u0e40\u0e0a\u0e37\u0e48\u0e2d\u0e40\u0e18", "\u0e40\u0e0a\u0e37\u0e48\u0e2d\u0e40\u0e18\u0e2d"),
+    ("\u0e40\u0e18\u0e14\u0e39", "\u0e40\u0e18\u0e2d\u0e14\u0e39"),
+    ("\u0e40\u0e2b\u0e23?", "\u0e40\u0e2b\u0e23\u0e2d?"),
+    ("\u0e40\u0e02\u0e49\u0e32\u0e23\u0e39\u0e49\u0e14\u0e35\u0e27\u0e48\u0e32", "\u0e40\u0e02\u0e32\u0e23\u0e39\u0e49\u0e14\u0e35\u0e27\u0e48\u0e32"),
+    ("\u0e09\u0e35\u0e40\u0e0b\u0e35\u0e48\u0e22\u0e35\u0e48\u0e15\u0e32\u0e25\u0e07", "\u0e09\u0e35\u0e40\u0e0b\u0e35\u0e48\u0e22\u0e2b\u0e23\u0e35\u0e48\u0e15\u0e32\u0e25\u0e07"),
+    ("\u0e09\u0e35\u0e40\u0e0b\u0e35\u0e48\u0e22\u0e37\u0e19\u0e2d\u0e22\u0e39\u0e48", "\u0e09\u0e35\u0e40\u0e0b\u0e35\u0e48\u0e22\u0e22\u0e37\u0e19\u0e2d\u0e22\u0e39\u0e48"),
+)
+
+
+def _apply_tdu_repairs(text: str, *, novel_id: str) -> tuple[str, list[dict[str, str]]]:
+    """Repair only observed, source-backed TDU spelling/name variants."""
+    if novel_id != "ten-day-ultimatum":
+        return text, []
+    repaired = text
+    repairs: list[dict[str, str]] = []
+    for source, target in _TDU_REPAIR_RULES:
+        count = repaired.count(source)
+        if not count:
+            continue
+        repaired = repaired.replace(source, target)
+        repairs.append({"source": source, "target": target, "count": str(count)})
+    return repaired, repairs
 
 
 def _utc_now() -> str:
@@ -724,6 +789,13 @@ def run_chapter(
             glossary_subset=_chapter_glossary_subset(chapter_block, glossary),
             style_profile_key=config.default_style_profile,
         )
+        atomic_write_json(
+            refined_checkpoint,
+            {"stage": "refinement", "input_hash": refinement_input_hash, "draft": refined.to_dict()},
+        )
+    repaired_refined = _repair_refined_source_annotations(refined, novel_id=config.novel_id)
+    if repaired_refined is not refined:
+        refined = repaired_refined
         atomic_write_json(
             refined_checkpoint,
             {"stage": "refinement", "input_hash": refinement_input_hash, "draft": refined.to_dict()},

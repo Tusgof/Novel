@@ -406,6 +406,24 @@ Status: complete on 2026-10-03. No provider-backed translation or MoonRead publi
 
 Status: complete on 2026-10-04. Evidence: `Ten Day Ultimatum/04_Work/_lean_runs/TDU-LEAN-CLOSE-20261004-ch001-010/lean_run_report.json`, `07_Reports/sentinel_quality_tdu-close-inspector_20261004_091529.md`, `07_Reports/sentinel_quality_moonread-tdu-close_20261004_092242.md`, and the MoonRead publish verification output.
 
+---
+
+## Milestone 12: TDU Lean Continuation `ch011-ch020`
+
+**Goal**: Translate, verify, and publish only Ten Day Ultimatum `ch011-ch020` with the Lean bounded-batch pipeline after the corrected XSZJ source cleanup.
+**Dependencies**: Milestone 11; provider health; no migration work.
+
+| # | Task | Effort | Risk | Verification |
+|:--|:-----|:------:|:----:|:-------------|
+| 12.1 | Run the exact `ch011-ch020` Lean range with resumable checkpoints and no force-accept | L | ⚠️ | A complete run report has 10 promoted chapters, no current failed blocks, and no manual action |
+| 12.2 | Repair observed QA defects in-process at the narrowest safe layer | M | ⚠️ | Source-backed repair rules have regression coverage and repaired chapters pass QA/guardrails |
+| 12.3 | Run final output guardrails, blocking Sentinel, and the five-chapter spot-check | M | ⚠️ | Full range is checked, including first/last, early/late middle, and the incident chapter |
+| 12.4 | Regenerate and publish the scoped MoonRead content, then push the verified change set | M | ⚠️ | Reader manifest has the exact range; lint/build/smoke and reader inspection pass; pushed commit is recorded |
+
+**Milestone complete when**: all ten chapters pass independent acceptance and MoonRead publication checks, then the verified state is committed and pushed. No chapter outside `ch011-ch020` may be changed by this milestone.
+
+Status: **blocked on provider failure** as of 2026-10-07. `r0` stopped at `ch011` on the XSZJ footer, `r1` stopped at `ch013` on copied CJK puzzle annotations, and `r2` reached staged checkpoints for `ch011-ch018` before the configured `openrouter_reasoning` QA route returned an empty assistant message (`finish_reason=length`, 4096 completion tokens). The explicit stop rule halted execution while `ch019` was starting; `ch019-ch020` have no accepted output, no chapter was promoted by this continuation, and MoonRead publication was skipped. Checkpoint: `Ten Day Ultimatum/07_Reports/tdu_lean_ch011_ch020_provider_stop_20261007.md`.
+
 ## Execution Notes
 
 - **Lean production continuation policy (2026-10-03)**: within an explicitly authorized chapter range, chapter-local provider, QA, validation, guardrail, or Sentinel failures are quarantined and later chapters continue. Only global provider exhaustion, required manual input, missing source, scope expansion, workspace/security violations, or unrecoverable disk/runtime failures stop the worker. Passing chapters are promoted independently; quarantined chapters remain resumable and unpublished.

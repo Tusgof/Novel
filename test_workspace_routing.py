@@ -37,6 +37,46 @@ class WorkspaceRoutingTests(unittest.TestCase):
         self.assertEqual(_clean_refined_output(story), story)
         self.assertEqual(_clean_refined_output(story + "\n**Craft notes\n- provider note"), story)
 
+    def test_lean_repair_removes_cjk_source_annotations_before_qa(self) -> None:
+        draft = lean.RefinedDraft(
+            block_id="ch013-assembled",
+            chapter_id="ch013",
+            refined_text="ตัวอักษร 'โย่ว (右 - ขวา)' และ 'ขีดปัดซ้าย (撇)'",
+            provider="fixture",
+            style_profile="dark_fantasy",
+            source_text="source",
+        )
+        repaired = lean._repair_refined_source_annotations(draft)
+        self.assertNotRegex(repaired.refined_text, r"[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]")
+        self.assertIn("ตัวอักษร 'โย่ว'", repaired.refined_text)
+        self.assertEqual(repaired.metadata["source_script_annotation_repairs"], [{"type": "paren_cjk", "count": "2"}])
+
+    def test_tdu_repair_normalizes_observed_names_and_typos(self) -> None:
+        draft = lean.RefinedDraft(
+            block_id="ch017-assembled",
+            chapter_id="ch017",
+            refined_text=(
+                "\u0e09\u0e35\u0e0b\u0e35\u0e48\u0e22 \u0e2e\u0e27\u0e32\u0e2d\u0e35\u0e42\u0e21\u0e48 "
+                "\u0e1e\u0e27\u0e01\u0e40\u0e02\u0e48\u0e32 \u0e1e\u0e27\u0e01\u0e40\u0e23\u0e08\u0e30 \u0e04\u0e48\u0e2d\u0e19\u0e01 "
+                "\u0e40\u0e18\u0e08\u0e30 \u0e40\u0e02\u0e49\u0e32\u0e23\u0e39\u0e49\u0e14\u0e35\u0e27\u0e48\u0e32 "
+                "\u0e09\u0e35\u0e40\u0e0b\u0e35\u0e48\u0e22\u0e35\u0e48\u0e15\u0e32\u0e25\u0e07 \u0e09\u0e35\u0e40\u0e0b\u0e35\u0e48\u0e22\u0e37\u0e19\u0e2d\u0e22\u0e39\u0e48"
+            ),
+            provider="fixture",
+            style_profile="dark_fantasy",
+            source_text="source",
+        )
+        repaired = lean._repair_refined_source_annotations(draft, novel_id="ten-day-ultimatum")
+        self.assertIn("\u0e09\u0e35\u0e40\u0e0b\u0e35\u0e48\u0e22", repaired.refined_text)
+        self.assertIn("\u0e2b\u0e32\u0e19\u0e2d\u0e35\u0e42\u0e21\u0e48", repaired.refined_text)
+        self.assertIn("\u0e1e\u0e27\u0e01\u0e40\u0e02\u0e32", repaired.refined_text)
+        self.assertIn("\u0e1e\u0e27\u0e01\u0e40\u0e23\u0e32\u0e08\u0e30", repaired.refined_text)
+        self.assertIn("\u0e04\u0e48\u0e2d\u0e19\u0e02\u0e49\u0e32\u0e07", repaired.refined_text)
+        self.assertIn("\u0e40\u0e18\u0e2d\u0e08\u0e30", repaired.refined_text)
+        self.assertIn("\u0e40\u0e02\u0e32\u0e23\u0e39\u0e49\u0e14\u0e35\u0e27\u0e48\u0e32", repaired.refined_text)
+        self.assertIn("\u0e09\u0e35\u0e40\u0e0b\u0e35\u0e48\u0e22\u0e2b\u0e23\u0e35\u0e48\u0e15\u0e32\u0e25\u0e07", repaired.refined_text)
+        self.assertIn("\u0e09\u0e35\u0e40\u0e0b\u0e35\u0e48\u0e22\u0e22\u0e37\u0e19\u0e2d\u0e22\u0e39\u0e48", repaired.refined_text)
+        self.assertTrue(repaired.metadata["tdu_repairs"])
+
     def test_each_registered_novel_uses_lean_and_its_own_context(self) -> None:
         for relative_config in self.CONFIGS:
             config = load_app_config(ROOT / relative_config)
