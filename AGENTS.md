@@ -99,3 +99,49 @@ After every multi-chapter translation batch, broad repair pass, or MoonRead publ
 ---
 
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
+
+## Yuehua Kit v4 Contract
+
+This repository is a Yuehua Kit v4 `UNIT` at tier `T2`. The pinned kit version and commit are recorded in `.yuehua-kit.json`; procedures live in the installed `yuehua-mode` and `yuehua-land` skills.
+
+### Work From The Goal And The Check
+
+- Restate the goal, scope, and definition of done before acting.
+- State assumptions and surface ambiguity instead of guessing.
+- Prefer the smallest change that works; do not add speculative layers, schemas, or configuration.
+- Report out-of-scope findings as backlog instead of doing them silently.
+
+### Verify Where The Work Lands
+
+- Start non-trivial work by running the Yuehua doctor on the default branch.
+- A red default branch must be fixed, redesigned, or retired by a recorded decision; it must never be ignored.
+- Tests are necessary but not sufficient. Verify the real product surface, including translated output, Sentinel, and MoonRead where applicable.
+- If a check cannot run, report it as unverified rather than passing it by assumption.
+
+### Claims, Completion, And Authority
+
+- Label claims as measured, inferred, or guessed.
+- Work is complete only when merged to the default branch with CI green on the merged commit, or parked by a recorded decision.
+- The owner must approve a merge; an agent must not self-approve. T3 work also requires the named independent reviewer.
+- Do not stop for reversible actions. Stop before spending money, publishing, production writes, deletion, credentials, or locked gates unless authority is explicit.
+
+### Secrets, Vaults, And Provenance
+
+- Never put secrets in the repository, logs, reports, prompts, or worker handoffs. Reference environment-variable names only.
+- Keep payroll, contracts, personal data, financial statements, legal documents, and other vault-class material outside the working repository.
+- Do not change repository visibility without the required pre-publication scan.
+- Record money, accounts, and data purchases with true provenance. Do not misrepresent an account or identity.
+- Before using a credential, confirm that it is registered for this unit and within its cap.
+
+### Portability And State
+
+- Do not add absolute machine paths to code, configuration, or durable control documents; use commands or named environment variables.
+- Declare dependencies, pin runtime versions, and make CI install exactly what the repository needs.
+- Project state must be reproducible from versioned repository files, not from a browser session, personal cloud storage, or agent memory.
+
+### Browser Work
+
+- Read the Yuehua browser policy before agent-driven browser work: use `policies/agent-browser.md` from a kit checkout or `assets/policies/agent-browser.md` from the installed `yuehua-mode` skill. The policy is the v3.2 `12-Operate-[AGENT_BROWSER].txt` rule map and is bundled with Kit v4.
+- Verify the browser product, version, connection, profile, and authority at runtime; do not hard-code installed paths or expose tunnel URLs.
+
+**Working if:** the default branch is green or has a recorded decision, claims survive a clean-clone check, finished work is merged, and audits find no surprises.

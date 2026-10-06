@@ -1,6 +1,6 @@
 # Project Brain: Novel Translation System
 
-Last updated: 2026-10-04
+Last updated: 2026-10-06
 
 This is the durable memory for the workspace. Keep it compact. Put long evidence, experiments, and historical detail in root-level `07_Reports/` or `01_Research_Log/` as appropriate.
 
@@ -458,3 +458,4 @@ Append-only. A reversal is a new entry marked `SUPERSEDES #N` with its reason.
 | # | Date | Decision | Reason | Consequence | Approval |
 |:--|:--|:--|:--|:--|:--|
 | 1 | 2026-10-05 | Adopt Yuehua Kit v4.0 (`.yuehua-kit.json`): level **UNIT** (a standing translation system over many like-kind novels, registered in `00_Config/novel_registry.json`), tier **T2**. | The owner set T2 because the unit's stakes are the quality of its translation output. The kit's computed tier would be T3 because paid provider calls spend money; the kit allows a lower tier with the owner's sign-off and reasons, recorded here. | CI on every push and pull request (`tests` workflow); the verification skill and Feature Map in `.agents/skills/novel-verify/` define "verified"; work is done when merged to `main` with CI green. Paid provider usage still follows the existing routing, caps, and approvals. | Owner decision 2026-10-05. |
+| 2 | 2026-10-06 | Complete the v3-to-v4 unit migration and refresh the pin to Yuehua Kit v4.0.1 (`.yuehua-kit.json`): retain level **UNIT**, tier **T2**, user-facing status, and the MoonRead real surface. | The repository already had the v4.0 adoption shape; this decision records the owner's confirmation for the v4.0.1 kit pin, the merged v4 contract in `AGENTS.md`, and the existing T2 Feature Map/CI arrangement. No provider call, routing change, credential use, publication, or production write is part of this migration. | Future non-trivial work starts with `yuehua-mode` doctor and lands through `yuehua-land`; claims require tests plus real-surface evidence. The portability warning remains a tracked backlog item because it is limited to existing docs/data/tests/examples. | Owner decision 2026-10-06. |
