@@ -102,7 +102,7 @@ After every multi-chapter translation batch, broad repair pass, or MoonRead publ
 
 ## Yuehua Kit v4 Contract
 
-This repository is a Yuehua Kit v4 `UNIT` at tier `T2`. The pinned kit version and commit are recorded in `.yuehua-kit.json`; procedures live in the installed `yuehua-mode` and `yuehua-land` skills.
+This repository is a Yuehua Kit v4.0.3 `UNIT` at tier `T2`. The pinned kit version and commit are recorded in `.yuehua-kit.json`; procedures live in the installed `yuehua-mode` and `yuehua-land` skills.
 
 ### Work From The Goal And The Check
 
