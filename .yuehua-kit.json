@@ -1,13 +1,13 @@
 {
-  "kit_version": "4.0.1",
-  "kit_commit": "3ac58ebe7123f56cca1f3deec3a0b6eff32430d5",
-  "adopted_on": "2026-10-06",
+  "kit_version": "4.0.3",
+  "kit_commit": "e3db9a3754f4d6b37b86bc90290ebe318d0915da",
+  "adopted_on": "2026-10-07",
   "level": "UNIT",
   "tier": "T2",
   "status": {
     "state": "active",
-    "decided_on": "2026-10-06",
-    "decision_ref": "PROJECT_BRAIN.md Decision Log #2"
+    "decided_on": "2026-10-07",
+    "decision_ref": "PROJECT_BRAIN.md Decision Log #3"
   },
   "user_facing": true,
   "real_surface": "Each novel's final chapter output, gated by output guardrails and Sentinel, and the MoonRead reader built from it",
