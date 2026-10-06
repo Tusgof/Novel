@@ -122,8 +122,11 @@ This repository is a Yuehua Kit v4 `UNIT` at tier `T2`. The pinned kit version a
 
 - Label claims as measured, inferred, or guessed.
 - Work is complete only when merged to the default branch with CI green on the merged commit, or parked by a recorded decision.
+- Report partial completion as the exact done and not-done items; never imply that an unfinished scope is complete.
 - The owner must approve a merge; an agent must not self-approve. T3 work also requires the named independent reviewer.
 - Do not stop for reversible actions. Stop before spending money, publishing, production writes, deletion, credentials, or locked gates unless authority is explicit.
+- Technical access, a logged-in browser, full access, or a skipped prompt is not authority by itself.
+- Locked decisions and gates change only through their approval process. Keep decision logs append-only; record reversals as superseding decisions with reasons.
 
 ### Secrets, Vaults, And Provenance
 
@@ -132,6 +135,7 @@ This repository is a Yuehua Kit v4 `UNIT` at tier `T2`. The pinned kit version a
 - Do not change repository visibility without the required pre-publication scan.
 - Record money, accounts, and data purchases with true provenance. Do not misrepresent an account or identity.
 - Before using a credential, confirm that it is registered for this unit and within its cap.
+- In public repositories, use the identity already present in the repository history; do not introduce a personal email.
 
 ### Portability And State
 
@@ -142,6 +146,9 @@ This repository is a Yuehua Kit v4 `UNIT` at tier `T2`. The pinned kit version a
 ### Browser Work
 
 - Read the Yuehua browser policy before agent-driven browser work: use `policies/agent-browser.md` from a kit checkout or `assets/policies/agent-browser.md` from the installed `yuehua-mode` skill. The policy is the v3.2 `12-Operate-[AGENT_BROWSER].txt` rule map and is bundled with Kit v4.
+- BrowserOS is the default surface for interactive or signed-in pages; prefer a purpose-built API or CLI when one fits, and keep Playwright as the hermetic test surface.
 - Verify the browser product, version, connection, profile, and authority at runtime; do not hard-code installed paths or expose tunnel URLs.
+- Remote browser exposure requires an explicit work order and a private tunnel by default. Never commit or log an active tunnel URL.
+- Browser session history, screenshots, and extracted page data may be sensitive and stay out of the repository.
 
 **Working if:** the default branch is green or has a recorded decision, claims survive a clean-clone check, finished work is merged, and audits find no surprises.
