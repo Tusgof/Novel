@@ -78,7 +78,7 @@ def _request_once(
     reasoning_exclude: bool,
     reasoning_disabled: bool = False,
     reasoning_effort: str = "",
-) -> tuple[int, dict[str, Any] | None, str]:
+) -> tuple[int, dict[str, Any] | None, str, float]:
     payload = {
         "model": model,
         "messages": [
@@ -111,12 +111,17 @@ def _request_once(
     try:
         with urllib.request.urlopen(request, timeout=timeout) as response:
             body = response.read().decode("utf-8", errors="replace")
-            return response.status, json.loads(body), ""
+            return response.status, json.loads(body), "", 0.0
     except urllib.error.HTTPError as exc:
         body = exc.read().decode("utf-8", errors="replace")
-        return exc.code, None, _safe_error_preview(body)
+        retry_after = 0.0
+        try:
+            retry_after = max(0.0, float(exc.headers.get("Retry-After", "0")))
+        except (TypeError, ValueError):
+            pass
+        return exc.code, None, _safe_error_preview(body), retry_after
     except Exception as exc:  # noqa: BLE001 - CLI shim must convert transport failures to stderr.
-        return 0, None, _safe_error_preview(str(exc))
+        return 0, None, _safe_error_preview(str(exc)), 0.0
 
 
 def _safe_error_preview(value: str) -> str:
@@ -218,7 +223,7 @@ def main(argv: list[str]) -> int:
     for index, candidate in enumerate(candidates):
         use_next_key = False
         for attempt in range(args.transient_retries + 1):
-            status, payload, error = _request_once(
+            status, payload, error, retry_after = _request_once(
                 api_key=candidate.value,
                 model=args.model,
                 prompt=prompt,
@@ -248,8 +253,9 @@ def main(argv: list[str]) -> int:
                 transient = _is_transient_failure(status)
 
             if transient and attempt < args.transient_retries:
-                if args.retry_delay_seconds:
-                    time.sleep(args.retry_delay_seconds)
+                delay = max(args.retry_delay_seconds, retry_after)
+                if delay:
+                    time.sleep(delay)
                 continue
 
             # User changed the key while Codex was running; a stale process env key
