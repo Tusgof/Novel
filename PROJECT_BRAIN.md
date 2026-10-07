@@ -58,6 +58,7 @@ Ten Day Ultimatum:
 - TDU output guardrails passed; the final blocking Sentinel was `0/0/0/0` for `ch001-ch010`. The Inspector spot-check covered `ch001`, `ch003`, `ch005`, `ch008`, and `ch010`; the only advisory finding was intentional medical text `CT scan` in `ch005`. Corrected raw chapters contain no trailing XSZJ promotion footer. Evidence includes `07_Reports/sentinel_quality_tdu-close-inspector_20261004_091529.md` and `07_Reports/sentinel_quality_moonread-tdu-close_20261004_092242.md`.
 - TDU is enabled in the MoonRead registry and publish verification passed: 6 books, 679 available chapters, 0 missing, 0 rejected; scoped generated-content Sentinel `0/0/0/0`; lint, build, smoke, and desktop/mobile reader checks passed. The adapter regression suite passed 6 tests and workspace routing passed 14 tests. TDU remains limited to `ch001-ch010` until a new bounded range is authorized.
 - The authorized Lean continuation `TDU-LEAN-PROD-20261007-ch011-020` remains blocked before promotion. Earlier `r2 --resume` attempts reused `ch011-ch018`, applied the `ch017` repair, and hit the old `openrouter_reasoning` empty-response incident (`finish_reason=length`, 4096 completion tokens). The owner-approved QA correction is committed as `aabd5d0`: `qa_judge` now uses `openrouter_qa` with reasoning disabled and a 12000-token limit; route probe, config load, preflight, and the exact 44-block dry-run passed. The latest r2 report is `blocked` with 92 aggregate provider calls, 14 failures, and 0 promoted outputs: the OpenRouter literal route returned HTTP 429 admission/quota failure, then the Codex fallback returned `No accounts with a plan supporting model 'gpt-5.4'`. The explicit provider-failure stop rule remains active. No `ch011-ch020` output was promoted or published. Evidence: `Ten Day Ultimatum/07_Reports/tdu_lean_ch011_ch020_provider_stop_20261007.md` and `Ten Day Ultimatum/04_Work/_lean_runs/TDU-LEAN-PROD-20261007-ch011-020-r2/lean_run_report.json`.
+- The TDU route-recovery change is prepared but not yet provider-proven: all OpenRouter shims now honor numeric `Retry-After`, and TDU replaces the unsupported `codex/gpt-5.4` fallback with direct authenticated `claude/sonnet` for term extraction, literal translation, and refinement. `claude auth status` and TDU preflight are measured, but no real generation call has been made. Evidence: `Ten Day Ultimatum/07_Reports/tdu_provider_route_recovery_20261007.md`; the next safe action is a fresh bounded resume of exactly `ch011-ch020` after the change is landed.
 - During that bounded work, Lean gained a pre-QA source-script repair hook and a narrow TDU-only repair table for the observed name/pronoun/typo variants. A staged `ch017` spot-check found two additional source-backed variants, which were added with regression coverage; the 22-test routing/adapter suite, compileall, and diff check pass. The repaired code is not evidence that the incomplete range is publish-ready.
 
 Lean replacement publication:
@@ -451,12 +452,12 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
-The TDU `ch001-ch010` bounded close is complete and published in the generated MoonRead reader. The next safe action is to wait for a new explicit chapter range; do not start TDU `ch011+` automatically. Keep provider routing unchanged and retain the corrected XSZJ adapter behavior for future fetches. Re:Zero `ch003+` remains outside the replacement order.
+The TDU `ch001-ch010` bounded close is complete and published in the generated MoonRead reader. The authorized `ch011-ch020` continuation is currently blocked pending the newly prepared provider route recovery; do not resume until the change is landed and the provider-backed route is checked. Re:Zero `ch003+` remains outside the replacement order.
 
 1. For a future TDU range, fetch/validate the requested raw scope first and use a new bounded Lean run ID.
 2. Preserve the blocking output guardrail, Sentinel, spot-check, and MoonRead publish gates.
 3. Quarantine chapter-local QA/validation/Sentinel failures and continue only within the authorized range; stop for global provider exhaustion, required manual input, missing source, scope/security violations, or unrecoverable runtime/disk failure.
-4. Keep provider routing unchanged; the historical HGD fallback/config conflict remains documented debt.
+4. Use the recorded TDU route recovery only for the exact TDU continuation; do not generalize it to other novels without separate evidence. The historical HGD fallback/config conflict remains documented debt.
 
 ## Decision Log
 

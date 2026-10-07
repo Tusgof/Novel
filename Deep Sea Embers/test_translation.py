@@ -8502,7 +8502,7 @@ def test_openrouter_shim_sends_reasoning_payload():
     with patch.object(shim.urllib.request, "Request", FakeRequest), patch.object(
         shim.urllib.request, "urlopen", return_value=FakeResponse()
     ):
-        status, payload, error = shim._request_once(
+        status, payload, error, retry_after = shim._request_once(
             api_key="test-key",
             model="deepseek/deepseek-v4-flash",
             prompt="ตรวจ QA",
@@ -8517,6 +8517,7 @@ def test_openrouter_shim_sends_reasoning_payload():
 
     assert status == 200
     assert error == ""
+    assert retry_after == 0.0
     assert payload is not None
     request_payload = json.loads(captured["data"].decode("utf-8"))  # type: ignore[union-attr]
     assert request_payload["model"] == "deepseek/deepseek-v4-flash"
@@ -8568,8 +8569,9 @@ def test_openrouter_shim_retries_empty_response_once_then_succeeds():
                 "usage": {"completion_tokens": 0},
             },
             "",
+            0.0,
         ),
-        (200, {"choices": [{"message": {"content": "usable output"}}]}, ""),
+        (200, {"choices": [{"message": {"content": "usable output"}}]}, "", 0.0),
     ]
     with patch.object(shim, "_key_candidates", return_value=[shim.KeyCandidate("secret", "process")]), patch.object(
         shim, "_request_once", side_effect=responses
@@ -8597,7 +8599,7 @@ def test_openrouter_shim_does_not_retry_permanent_error():
     spec.loader.exec_module(shim)
 
     with patch.object(shim, "_key_candidates", return_value=[shim.KeyCandidate("secret", "process")]), patch.object(
-        shim, "_request_once", return_value=(400, None, "bad request")
+        shim, "_request_once", return_value=(400, None, "bad request", 0.0)
     ) as request_once:
         stderr = io.StringIO()
         with redirect_stderr(stderr):
@@ -8632,7 +8634,7 @@ def test_openrouter_shim_does_not_retry_length_limited_empty_response():
         "usage": {"completion_tokens": 1500},
     }
     with patch.object(shim, "_key_candidates", return_value=[shim.KeyCandidate("secret", "process")]), patch.object(
-        shim, "_request_once", return_value=(200, payload, "")
+        shim, "_request_once", return_value=(200, payload, "", 0.0)
     ) as request_once, patch.object(shim.time, "sleep") as sleep:
         stderr = io.StringIO()
         with redirect_stderr(stderr):
@@ -8643,6 +8645,35 @@ def test_openrouter_shim_does_not_retry_length_limited_empty_response():
     sleep.assert_not_called()
     assert "finish_reason=length" in stderr.getvalue()
     assert "completion_tokens=1500" in stderr.getvalue()
+
+
+def test_openrouter_shim_honors_retry_after_header():
+    """Admission-control retries wait for the provider's requested delay."""
+    import importlib.util
+    import sys
+
+    shim_path = Path("scripts/openrouter_provider_shim.py")
+    spec = importlib.util.spec_from_file_location("openrouter_provider_shim_retry_after_test", shim_path)
+    assert spec is not None and spec.loader is not None
+    shim = importlib.util.module_from_spec(spec)
+    sys.modules["openrouter_provider_shim_retry_after_test"] = shim
+    spec.loader.exec_module(shim)
+
+    responses = [
+        (429, None, "could not verify available credits", 10.0),
+        (200, {"choices": [{"message": {"content": "usable output"}}]}, "", 0.0),
+    ]
+    with patch.object(shim, "_key_candidates", return_value=[shim.KeyCandidate("secret", "process")]), patch.object(
+        shim, "_request_once", side_effect=responses
+    ) as request_once, patch.object(shim.time, "sleep") as sleep:
+        stdout = io.StringIO()
+        with redirect_stdout(stdout):
+            result = shim.main(["--model", "test-model", "--prompt", "test prompt"])
+
+    assert result == 0
+    assert stdout.getvalue() == "usable output"
+    assert request_once.call_count == 2
+    sleep.assert_called_once_with(10.0)
 
 
 def test_interactive_glossary_choice_supports_custom_and_reject():
@@ -8972,6 +9003,7 @@ if __name__ == "__main__":
     test_openrouter_shim_retries_empty_response_once_then_succeeds()
     test_openrouter_shim_does_not_retry_permanent_error()
     test_openrouter_shim_does_not_retry_length_limited_empty_response()
+    test_openrouter_shim_honors_retry_after_header()
     test_provider_trace_captures_full_prompt_response_and_redacts_secret()
     test_interactive_glossary_choice_supports_custom_and_reject()
     test_production_provider_routing_enables_ai_scan_and_formatting()
