@@ -46,6 +46,13 @@ The completed r2 chapter metadata records the same failure on the configured `op
 
 A further owner-requested retry of the same bounded `r2 --resume` was attempted after a clean doctor/preflight/dry-run. It again reused `ch011-ch018`, reached the start of `ch019`, and stopped on the identical `ch018` provider failure. `ch019` still has no result, so the accepted state and publication decision are unchanged.
 
+## Available staged-surface audit
+
+- Rechecked staged `ch011-ch018` without provider calls: deterministic output guardrails passed.
+- The scoped staged Sentinel report is `07_Reports/sentinel_quality_TDU-LEAN-PROD-20261007-ch011-020-r2-available_20261007_060354.md` with `0 blocker / 0 major / 0 minor / 0 info`.
+- The available eight staged chapters have titles, non-empty opening/middle/ending paragraphs, zero CJK characters, and no provider/meta markers. The spot-check sample remains `ch011`, `ch012`, `ch013`, `ch017`, and `ch018`; `ch017` now contains the repaired source-backed phrases.
+- The reader registry still ends TDU at `last_chapter: 10`; no `ch011-ch020` directory exists under `Ten Day Ultimatum/05_Output` or MoonRead generated content. No publication write was attempted.
+
 ## Quality checks on the partial staged range
 
 - Deterministic guardrails on the staged candidates `ch011-ch018`: **passed**.
