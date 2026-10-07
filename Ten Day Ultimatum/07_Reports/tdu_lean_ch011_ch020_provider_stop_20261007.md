@@ -2,16 +2,16 @@
 
 ## Decision
 
-- **Measured status:** stopped and blocked by the explicit provider-failure stop rule.
+- **Measured status:** stopped and blocked by the explicit QA hard-fail stop rule; the earlier provider-failure block remains recorded below.
 - **Scope:** Ten Day Ultimatum (`ten-day-ultimatum`), exactly `ch011-ch020`.
 - **Runtime:** Lean bounded batch; no migration work was included.
 - **Publication:** no chapter from this continuation was promoted to `05_Output`; MoonRead generation and publish were not run.
-- **Resume:** do not resume automatically. Verify provider health first, then issue a new bounded start for the same range.
+- **Resume:** do not resume automatically. Repair `ch011` from its earliest broken stage, then issue the next bounded resume for the same range.
 
 ## Boot and scope evidence
 
 - Yuehua doctor after the stop: `fail=0`, `unverified=0`, `warn=1`; the only warning is the existing absolute-path portability finding in 397 files.
-- Selected branch: `main`; current HEAD after the authorized QA-route correction is `aabd5d0` (`Use non-reasoning QA route for TDU`).
+- Selected branch: `main`; the provider-route recovery is landed at `09ff5bf` (`Fix TDU provider fallback recovery`).
 - Current TDU preflight is `ready`; all configured provider executables are detected as ready and the working tree is clean at the time of the check.
 - The dry-run locked 10 chapters and 44 blocks. Source character counts were: `ch011 2481`, `ch012 2221`, `ch013 2690`, `ch014 2298`, `ch015 2294`, `ch016 2304`, `ch017 2332`, `ch018 2526`, `ch019 2661`, `ch020 2164`.
 - The canonical XSZJ `strip_site_footer()` cleanup removed 126 characters from each of `ch011`, `ch012`, `ch014`, `ch017`, `ch018`, `ch019`, and `ch020`; it removed 0 characters from `ch013`, `ch015`, and `ch016`. Metadata, titles, URLs, and chapter IDs were unchanged, and the cleanup is idempotent.
@@ -53,6 +53,15 @@ A further owner-requested retry of the same bounded `r2 --resume` was attempted 
 - The new global provider failure occurred during literal translation: the OpenRouter shim returned HTTP `429` admission-control/quota failure (`could not verify available credits for this request in time`, `Retry-After: 10`). The configured Codex fallback then failed with HTTP `503` / `No accounts with a plan supporting model 'gpt-5.4'`. Evidence is in the timestamped trace files under `r2/trace/` and the run report error field.
 - The explicit stop condition therefore remains active. No further resume was started after this failure; `ch019` and `ch020` have no accepted result, no chapter from this continuation was promoted, and MoonRead was not changed.
 
+## Latest bounded resume after provider-route recovery
+
+- **Measured setup:** doctor was `fail=0`, preflight was `ready`, the working tree was clean, and the exact dry-run remained `ch011-ch020` / 44 blocks. The command was `lean-run --chapters ch011-ch020 --run-id TDU-LEAN-PROD-20261007-ch011-020-r2 --resume`.
+- **Measured stop:** `ch011` reached QA and was quarantined. QA primary `openrouter_qa` and its configured `openrouter` fallback both returned `FAIL` for a major omission: the refined text ended mid-word at `กำแพ` and omitted the source passage from `这看起来不符合任何的科学道理` through `齐夏微微思索了一下，知道事情不可能这么简单。` The chapter result is `ch011/chapter_result.json` with status `quarantined` and the QA evidence is `ch011/qa_checkpoint.json`.
+- **Earliest broken stage:** `ch011-block-004` literal translation returned only 1,001 characters with provider metadata `finish_reason=content_filter` / `native_finish_reason=PROHIBITED_CONTENT`; the runtime accepted the non-empty response, refinement propagated the omission, and QA caught it. This is a source-backed truncation/omission incident, so no force-accept or final-file patch was used.
+- **Stop enforcement:** the pipeline printed `START ch012` after quarantining `ch011`; the Inspector interrupted it immediately per the explicit hard-fail stop rule. `ch012` had only two in-memory literal calls before interruption and has no accepted new result. The process exited with `KeyboardInterrupt`; no provider failure occurred in this attempt.
+- **Measured attempt metrics from the new trace window:** 10 calls (`literal_translation=7`, `refinement=1`, `qa_judge=2`), 0 provider failures, 31,929 total tokens, measured cost `$0.049092003`, and 186.436 seconds of provider time. Trace evidence is under `r2/trace/` with timestamps beginning `2026-10-07T115546...`.
+- **Product state:** no chapter from this continuation was promoted; `Ten Day Ultimatum/05_Output` still ends at `ch010`; MoonRead was not changed. The existing `lean_run_report.json` remains the prior blocked report because this hard-fail run was intentionally interrupted before a new aggregate report could be written.
+
 ## Available staged-surface audit
 
 - Rechecked staged `ch011-ch018` without provider calls: deterministic output guardrails passed.
@@ -67,8 +76,8 @@ A further owner-requested retry of the same bounded `r2 --resume` was attempted 
 - Independent read-only recheck after the route correction also passed guardrails and Sentinel `0/0/0/0`; the latest report is `07_Reports/sentinel_quality_TDU-LEAN-PROD-20261007-ch011-020-r2-live-check_20261007_063422.md` (and its JSON companion).
 - Inspector spot-check covered five available staged chapters: `ch011`, `ch012`, `ch013`, `ch017`, and `ch018`. Titles, opening/middle/ending structure, paragraph density, dialogue markers, and CJK/meta leakage were inspected. `ch017` exposed the two variants recorded above and is therefore not treated as publish-ready evidence. `ch020` was unavailable because the provider stop occurred first.
 
-These partial checks do not satisfy the final `ch011-ch020` production gate. The full-range guardrails, final Sentinel, five-chapter acceptance sample including `ch020`, MoonRead regeneration, reader lint/build/smoke, and publication remain pending.
+These partial checks do not satisfy the final `ch011-ch020` production gate. The full-range guardrails, final Sentinel, five-chapter acceptance sample including `ch020`, MoonRead regeneration, reader lint/build/smoke, and publication remain pending. The latest `ch011` candidate is quarantined and must be repaired before any of those gates can be considered.
 
 ## Next safe action
 
-Restore and verify both the OpenRouter admission route and the Codex fallback (or obtain an explicitly authorized replacement route), then issue a fresh bounded continuation for exactly `ch011-ch020`. Reuse only hash-matching checkpoints, rerun the corrected `ch017` path, complete `ch019-ch020`, and require final guardrails, blocking Sentinel, spot-check, and MoonRead checks before any promotion or publish.
+Repair `ch011` from `ch011-block-004` (the content-filter-truncated literal artifact) using the already configured fallback chain, rerun its QA/guardrails/Sentinel gates, and only then resume exactly `ch011-ch020`. Do not force-accept or patch the final Markdown. After all ten chapters pass, require full guardrails, blocking Sentinel, spot-check, and MoonRead checks before any promotion or publish.
