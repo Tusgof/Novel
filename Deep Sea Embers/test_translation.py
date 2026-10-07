@@ -8303,6 +8303,62 @@ def test_classify_command_too_long():
     print("✓ classify_command_too_long passes")
 
 
+def test_provider_partial_output_finish_reason_is_rejected():
+    """A non-empty partial answer with a terminal finish reason is unusable."""
+    from novel_pipeline.providers.base import ProviderOutputError, ensure_provider_response
+
+    response = ProviderResponse(
+        provider="openrouter",
+        command=(),
+        stdout="partial translation",
+        usage={"finish_reason": "length", "native_finish_reason": "length"},
+    )
+    assert classify_provider_response(response) == "truncated_output"
+    try:
+        ensure_provider_response(response)
+    except ProviderOutputError as exc:
+        assert "truncated_output" in str(exc)
+        assert "finish_reason=length" in str(exc)
+    else:
+        raise AssertionError("partial output with finish_reason=length must be rejected")
+    print("✓ provider_partial_output_finish_reason_is_rejected passes")
+
+
+def test_tdu_repair_rules_are_scoped_and_idempotent():
+    """Observed TDU repairs apply only to TDU and record deterministic changes."""
+    from novel_pipeline.lean import _TDU_CHAPTER_REPAIR_RULES, _TDU_REPAIR_RULES, _apply_tdu_repairs
+
+    source, target = _TDU_REPAIR_RULES[0]
+    repaired, repairs = _apply_tdu_repairs(source, novel_id="ten-day-ultimatum")
+    assert repaired == target
+    assert repairs == [{"source": source, "target": target, "count": "1"}]
+    unchanged, no_repairs = _apply_tdu_repairs(source, novel_id="deep-sea-embers")
+    assert unchanged == source
+    assert no_repairs == []
+    repaired_again, no_second_repairs = _apply_tdu_repairs(repaired, novel_id="ten-day-ultimatum")
+    assert repaired_again == repaired
+    assert no_second_repairs == []
+    time_source, time_target = _TDU_CHAPTER_REPAIR_RULES["ch012"][0]
+    repaired_time, time_repairs = _apply_tdu_repairs(
+        time_source,
+        novel_id="ten-day-ultimatum",
+        chapter_id="ch012",
+    )
+    assert repaired_time == time_target
+    assert time_repairs == [{"source": time_source, "target": time_target, "count": "1"}]
+    unchanged_time, no_time_repairs = _apply_tdu_repairs(
+        time_source,
+        novel_id="ten-day-ultimatum",
+        chapter_id="ch014",
+    )
+    assert unchanged_time == time_source
+    assert no_time_repairs == []
+    cjk_source, cjk_target = _TDU_CHAPTER_REPAIR_RULES["ch013"][0]
+    repaired_cjk, _ = _apply_tdu_repairs(cjk_source, novel_id="ten-day-ultimatum", chapter_id="ch013")
+    assert repaired_cjk == cjk_target
+    print("✓ tdu_repair_rules_are_scoped_and_idempotent passes")
+
+
 def test_preflight_blocks_long_argv_prompt():
     """ProviderRunner preflight prevents subprocess call for long argv prompt."""
     from novel_pipeline.providers.base import ProviderRunner, ProviderSpec, ProviderRequest, ProviderResponse
@@ -8813,9 +8869,20 @@ def test_production_provider_routing_enables_ai_scan_and_formatting():
         if production_qa_provider.name == "openrouter_reasoning":
             budget_index = production_qa_provider.extra_args.index("--max-tokens")
             assert production_qa_provider.extra_args[budget_index + 1] == "12000"
-        assert "--reasoning-disabled" not in production_qa_provider.extra_args
-        qa_effort_index = production_qa_provider.extra_args.index("--reasoning-effort")
-        assert production_qa_provider.extra_args[qa_effort_index + 1] == "medium"
+            assert "--reasoning-enabled" in production_qa_provider.extra_args
+            assert "--reasoning-exclude" in production_qa_provider.extra_args
+            assert "--reasoning-disabled" not in production_qa_provider.extra_args
+            qa_effort_index = production_qa_provider.extra_args.index("--reasoning-effort")
+            assert production_qa_provider.extra_args[qa_effort_index + 1] == "medium"
+        elif production_qa_provider.name == "openrouter_qa":
+            assert "--reasoning-disabled" in production_qa_provider.extra_args
+            assert "--reasoning-enabled" not in production_qa_provider.extra_args
+            assert "--reasoning-exclude" not in production_qa_provider.extra_args
+            assert "--reasoning-effort" not in production_qa_provider.extra_args
+        elif production_qa_provider.name == "openrouter":
+            assert production_qa_provider.extra_args == regular_args
+        else:
+            raise AssertionError(f"Unexpected QA provider: {production_qa_provider.name}")
         qa_budget_index = production_qa_provider.extra_args.index("--max-tokens")
         assert production_qa_provider.extra_args[qa_budget_index + 1] == "12000"
     print("✓ production_provider_routing_enables_ai_scan_and_formatting passes")
@@ -8994,6 +9061,8 @@ if __name__ == "__main__":
     test_cli_rejects_stop_after_without_range()
     test_run_batch_pipeline_stop_after_glossary_scan()
     test_classify_command_too_long()
+    test_provider_partial_output_finish_reason_is_rejected()
+    test_tdu_repair_rules_are_scoped_and_idempotent()
     test_preflight_blocks_long_argv_prompt()
     test_preflight_blocks_before_unicode_wrapper()
     test_stdin_providers_not_blocked()

@@ -325,6 +325,21 @@ def classify_provider_response(response: ProviderResponse, *, require_stdout: bo
     for kind, pattern in _FAILURE_PATTERNS:
         if pattern.search(combined):
             return kind
+    # OpenAI-compatible providers may return a non-empty partial answer with a
+    # terminal reason that proves the answer is unusable.  The OpenRouter shim
+    # records these reasons in ``response.usage`` so a caller can route to its
+    # configured fallback instead of accepting the truncated artifact.
+    finish_reasons = {
+        str(response.usage.get(key, "")).strip().lower()
+        for key in ("finish_reason", "native_finish_reason")
+        if response.usage.get(key) is not None
+    }
+    if finish_reasons & {"length", "max_tokens", "max_output_tokens"}:
+        return "truncated_output"
+    if finish_reasons & {"content_filter", "prohibited_content", "safety", "blocked"}:
+        return "content_filter"
+    if finish_reasons & {"error", "failed"}:
+        return "provider_output"
     if require_stdout and not stdout.strip():
         return "empty_stdout"
     return ""
@@ -334,6 +349,16 @@ def ensure_provider_response(response: ProviderResponse, *, require_stdout: bool
     failure_kind = classify_provider_response(response, require_stdout=require_stdout)
     if failure_kind:
         preview = (response.stderr or response.stdout or "").strip().replace("\n", " ")[:300]
+        finish_reason = next(
+            (
+                str(response.usage.get(key, "")).strip()
+                for key in ("finish_reason", "native_finish_reason")
+                if response.usage.get(key)
+            ),
+            "",
+        )
+        if finish_reason:
+            preview = f"{preview} finish_reason={finish_reason}.".strip()
         raise ProviderOutputError(
             response,
             f"Provider '{response.provider}' returned unusable output ({failure_kind}). {preview}",

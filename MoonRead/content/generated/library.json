@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-04T09:22:40.269Z",
+  "generatedAt": "2026-10-07T16:32:46.375Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,8 +11,8 @@
   },
   "summary": {
     "books": 6,
-    "chapters": 679,
-    "available": 679,
+    "chapters": 689,
+    "available": 689,
     "missing": 0,
     "rejected": 0
   },
@@ -268,23 +268,23 @@
       ],
       "href": "/books/ten-day-ultimatum",
       "chaptersHref": "/books/ten-day-ultimatum/chapters",
-      "targetRange": "ch001-ch010",
+      "targetRange": "ch001-ch020",
       "summary": {
-        "total": 10,
-        "available": 10,
+        "total": 20,
+        "available": 20,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch010",
-        "number": 10,
-        "title": "บทที่ 10: จบสิ้นแล้วหรือ?",
+        "id": "ch020",
+        "number": 20,
+        "title": "บทที่ 20: เสาะหามรรคา",
         "status": "available",
-        "sourcePath": "ch010/ch010.md",
-        "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch010.md",
-        "href": "/books/ten-day-ultimatum/read/ch010",
-        "charCount": 6359,
+        "sourcePath": "ch020/ch020.md",
+        "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch020.md",
+        "href": "/books/ten-day-ultimatum/read/ch020",
+        "charCount": 5828,
         "readingMinutes": 2,
         "translator": "[Lean]"
       },

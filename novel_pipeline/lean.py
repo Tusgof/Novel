@@ -45,10 +45,19 @@ class ChapterQualityError(RuntimeError):
     """An unsafe chapter candidate that may be recovered without stopping others."""
 
 
-def _repair_refined_source_annotations(refined: RefinedDraft, *, novel_id: str = "") -> RefinedDraft:
+def _repair_refined_source_annotations(
+    refined: RefinedDraft,
+    *,
+    novel_id: str = "",
+    chapter_id: str = "",
+) -> RefinedDraft:
     """Remove copied source-script annotations before Lean's deterministic QA."""
     repaired_text, source_script_repairs = _apply_source_script_annotation_repairs(refined.refined_text)
-    repaired_text, tdu_repairs = _apply_tdu_repairs(repaired_text, novel_id=novel_id)
+    repaired_text, tdu_repairs = _apply_tdu_repairs(
+        repaired_text,
+        novel_id=novel_id,
+        chapter_id=chapter_id or refined.chapter_id,
+    )
     if not source_script_repairs and not tdu_repairs:
         return refined
     return RefinedDraft(
@@ -67,6 +76,18 @@ def _repair_refined_source_annotations(refined: RefinedDraft, *, novel_id: str =
 
 
 _TDU_REPAIR_RULES: tuple[tuple[str, str], ...] = (
+    (
+        "แม้แต่คนที่ดูฉลาดที่สุดก็เพี้ยนไปแล้วงั้นเหรอ?",
+        "แม้แต่คนที่ดูฉลาดที่สุดก็กลายเป็นคนทรยศไปแล้วงั้นเหรอ?",
+    ),
+    (
+        "คำพูดท่อนนี้ไม่ใช่ ‘คำใบ้’",
+        "คำพูดท่อนนี้ไม่ใช่ ‘คำตอบ’",
+    ),
+    (
+        "คิดดูแล้วมีความเป็นไปได้สองทาง ไม่นี่เป็นเกมสุดท้าย ก็แปลว่า",
+        "คิดดูแล้วมีความเป็นไปได้สองทาง ไม่ก็หมายความว่านี่คือเกมสุดท้าย หรือไม่ก็",
+    ),
     ("\u0e09\u0e35\u0e0b\u0e35\u0e48\u0e22", "\u0e09\u0e35\u0e40\u0e0b\u0e35\u0e48\u0e22"),
     ("\u0e09\u0e35\u0e0b\u0e35\u0e48", "\u0e09\u0e35\u0e40\u0e0b\u0e35\u0e48\u0e22"),
     ("\u0e2e\u0e27\u0e32\u0e2d\u0e35\u0e42\u0e21\u0e48", "\u0e2b\u0e32\u0e19\u0e2d\u0e35\u0e42\u0e21\u0e48"),
@@ -94,13 +115,30 @@ _TDU_REPAIR_RULES: tuple[tuple[str, str], ...] = (
 )
 
 
-def _apply_tdu_repairs(text: str, *, novel_id: str) -> tuple[str, list[dict[str, str]]]:
+_TDU_CHAPTER_REPAIR_RULES: dict[str, tuple[tuple[str, str], ...]] = {
+    "ch012": (
+        ("ตีหนึ่งสิบห้านาที", "บ่ายโมงสิบห้านาที"),
+    ),
+    "ch013": (
+        ("ตัวอักษร '右' (ขวา)", "ตัวอักษร 'โย่ว' (ขวา)"),
+        ("ตัวอักษร '口' ทั้งสิ้น", "ตัวอักษร 'โข่ว' (ปาก) ทั้งสิ้น"),
+    ),
+}
+
+
+def _apply_tdu_repairs(
+    text: str,
+    *,
+    novel_id: str,
+    chapter_id: str = "",
+) -> tuple[str, list[dict[str, str]]]:
     """Repair only observed, source-backed TDU spelling/name variants."""
     if novel_id != "ten-day-ultimatum":
         return text, []
     repaired = text
     repairs: list[dict[str, str]] = []
-    for source, target in _TDU_REPAIR_RULES:
+    rules = (*_TDU_REPAIR_RULES, *_TDU_CHAPTER_REPAIR_RULES.get(chapter_id, ()))
+    for source, target in rules:
         count = repaired.count(source)
         if not count:
             continue
@@ -793,7 +831,11 @@ def run_chapter(
             refined_checkpoint,
             {"stage": "refinement", "input_hash": refinement_input_hash, "draft": refined.to_dict()},
         )
-    repaired_refined = _repair_refined_source_annotations(refined, novel_id=config.novel_id)
+    repaired_refined = _repair_refined_source_annotations(
+        refined,
+        novel_id=config.novel_id,
+        chapter_id=chapter_id,
+    )
     if repaired_refined is not refined:
         refined = repaired_refined
         atomic_write_json(
