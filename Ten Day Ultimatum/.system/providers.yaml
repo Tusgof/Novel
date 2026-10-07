@@ -48,7 +48,7 @@ refinement:
   - provider: qwen
     model: deepseek-reasoner
 qa_judge:
-  provider: openrouter_reasoning
+  provider: openrouter_qa
   model: deepseek/deepseek-v4-flash-0731
   fallbacks:
   - provider: openrouter
@@ -95,15 +95,14 @@ providers:
       - quota
       - timeout
       - nonzero_exit
-  openrouter_reasoning:
+  openrouter_qa:
     executable:
     - python
     - scripts\openrouter_provider_shim.py
     extra_args:
-    - --reasoning-enabled
-    - --reasoning-exclude
+    - --reasoning-disabled
     - --max-tokens
-    - '4096'
+    - '12000'
     - --system-prompt
     - 'You are a strict translation QA judge. Return exactly one line. The first characters
       of your response must be exactly PASS: or FAIL:. Do not output markdown, JSON,
