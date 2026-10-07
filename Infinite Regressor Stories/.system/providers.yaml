@@ -74,7 +74,7 @@ providers:
     - --reasoning-enabled
     - --reasoning-exclude
     - --reasoning-effort
-    - low
+    - medium
     - --max-tokens
     - '12000'
     prompt_flag: null
@@ -102,8 +102,10 @@ providers:
     extra_args:
     - --reasoning-enabled
     - --reasoning-exclude
+    - --reasoning-effort
+    - medium
     - --max-tokens
-    - '4096'
+    - '12000'
     - --system-prompt
     - 'You are a strict translation QA judge. Return exactly one line. The first characters
       of your response must be exactly PASS: or FAIL:. Do not output markdown, JSON,

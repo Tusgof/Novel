@@ -8735,12 +8735,12 @@ def test_production_provider_routing_enables_ai_scan_and_formatting():
     assert "--reasoning-exclude" in qa_provider.extra_args
     assert "--max-tokens" in qa_provider.extra_args
     qa_budget_index = qa_provider.extra_args.index("--max-tokens")
-    assert qa_provider.extra_args[qa_budget_index + 1] == "4096"
+    assert qa_provider.extra_args[qa_budget_index + 1] == "12000"
     assert "--reasoning-enabled" in config.providers["openrouter"].extra_args
     assert "--reasoning-exclude" in config.providers["openrouter"].extra_args
     assert "--reasoning-effort" in config.providers["openrouter"].extra_args
     regular_effort_index = config.providers["openrouter"].extra_args.index("--reasoning-effort")
-    assert config.providers["openrouter"].extra_args[regular_effort_index + 1] == "low"
+    assert config.providers["openrouter"].extra_args[regular_effort_index + 1] == "medium"
     regular_budget_index = config.providers["openrouter"].extra_args.index("--max-tokens")
     assert config.providers["openrouter"].extra_args[regular_budget_index + 1] == "12000"
     assert "--reasoning-disabled" not in config.providers["openrouter"].extra_args
@@ -8750,6 +8750,9 @@ def test_production_provider_routing_enables_ai_scan_and_formatting():
         workspace_root / "Deep Sea Embers/.system/config.yaml",
         workspace_root / "Horror Game Developers/.system/config.yaml",
         workspace_root / "Infinite Regressor Stories/.system/config.yaml",
+        workspace_root / "One Hit Kill Swordmaster/.system/config.yaml",
+        workspace_root / "Re Zero Watching Him Die Again and Again/.system/config.yaml",
+        workspace_root / "Ten Day Ultimatum/.system/config.yaml",
     )
     expected_models = {
         "term_extraction": "google/gemini-3.7-flash",
@@ -8773,12 +8776,17 @@ def test_production_provider_routing_enables_ai_scan_and_formatting():
         assert "--reasoning-exclude" in regular_args
         assert "--reasoning-disabled" not in regular_args
         regular_effort_index = regular_args.index("--reasoning-effort")
-        assert regular_args[regular_effort_index + 1] == "low"
+        assert regular_args[regular_effort_index + 1] == "medium"
         regular_budget_index = regular_args.index("--max-tokens")
         assert regular_args[regular_budget_index + 1] == "12000"
         if production_qa_provider.name == "openrouter_reasoning":
             budget_index = production_qa_provider.extra_args.index("--max-tokens")
-            assert production_qa_provider.extra_args[budget_index + 1] == "4096"
+            assert production_qa_provider.extra_args[budget_index + 1] == "12000"
+        assert "--reasoning-disabled" not in production_qa_provider.extra_args
+        qa_effort_index = production_qa_provider.extra_args.index("--reasoning-effort")
+        assert production_qa_provider.extra_args[qa_effort_index + 1] == "medium"
+        qa_budget_index = production_qa_provider.extra_args.index("--max-tokens")
+        assert production_qa_provider.extra_args[qa_budget_index + 1] == "12000"
     print("✓ production_provider_routing_enables_ai_scan_and_formatting passes")
 
 

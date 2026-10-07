@@ -46,6 +46,11 @@ Keep this section short. Update `PROJECT_BRAIN.md` for current state, active ris
 
 ## Current Verified State
 
+Cross-novel production policy (configuration change, 2026-10-07):
+
+- All six registered novel provider configs now use OpenRouter reasoning `medium` for the configured generation/refinement and QA routes; QA routes use a `12000` completion-token ceiling. Config parsing, conflicting-flag checks, compile, tests, and per-novel preflight are required evidence for this change.
+- This policy change has not yet had a provider-backed production probe. Quality, latency, cost, and empty-response behavior remain unmeasured until a bounded run is executed; do not treat configuration verification as a translation-quality result.
+
 Ten Day Ultimatum:
 
 - Corrected XSZJ fetch is verified: manifest `1385`, raw files `1385`, missing `0`, extra `0`, invalid source files `0`.
@@ -273,12 +278,12 @@ Current intended routing:
 - glossary option suggestion: OpenRouter `deepseek/deepseek-v4-flash-0731`
 - literal translation: OpenRouter `google/gemini-3.7-flash`
 - refinement: OpenRouter `deepseek/deepseek-v4-flash-0731`
-- QA primary: OpenRouter `deepseek/deepseek-v4-flash-0731` with reasoning enabled
+- QA primary: OpenRouter `deepseek/deepseek-v4-flash-0731` with reasoning enabled at `medium`, using a `12000` completion-token ceiling
 - QA fallback: OpenRouter `google/gemini-3.7-flash`. DeepSeek V4 Pro is removed from production routing. Qwen and Codex remain excluded because recent IRS evidence showed qwen headless empty stdout on Windows and Codex quota failures.
 - Lean formatting: local Markdown spacing normalization only; no formatting provider call. Historical formatting routes are retained only for legacy recovery evidence.
 - OpenRouter API key env var: `NOVEL_OPENROUTER_API`; do not use the legacy OpenRouter env var name for current work.
 
-Provider warning: the cost-priority QA route did not fully clear the original benchmark gate. Inspect QA artifacts closely on the next bounded production run.
+Provider warning: reasoning `medium` and the `12000` QA ceiling are now the production default, but the change has not cleared a provider-backed benchmark. Inspect exact-route behavior and QA artifacts closely on the next bounded production run.
 
 Do not use Elephant or Nemotron for state-changing work.
 
@@ -329,7 +334,7 @@ Requires explicit user approval:
 | Ledger confusion from historical failures | use latest-state status/inspect commands |
 | Provider crash, timeout, quota, malformed output | bounded run, fallback chain, stop and report if unsafe |
 | OpenRouter credit cannot fund the configured output ceiling and Codex fallback auth is stale | run exact-route health checks before a long chapter window; restore credit and CLI login rather than silently reducing token limits or changing routing |
-| DeepSeek V4 Flash may return an empty assistant message without reasoning; glossary fallback may produce non-Thai options | require a bounded model-health probe for the exact stage mode; fail closed on empty/unparseable term suggestions and never accept source-script fallback text |
+| DeepSeek V4 Flash may return an empty assistant message or hit a length limit, especially on long reasoning-enabled QA prompts; glossary fallback may produce non-Thai options | require a bounded model-health probe for the exact stage mode; the 12000-token ceiling reduces truncation risk but does not prove provider health; fail closed on empty/unparseable term suggestions and never accept source-script fallback text |
 | Pilot title sidecars may be missing when a sampled chapter reaches final assembly; fallback credentials may be expired | prepare and validate all sample title sidecars before translation; run exact provider health checks before resume; keep fallback-aware title execution covered by regression tests |
 | QA false pass | add deterministic guardrails after confirmed misses; inspect risky QA artifacts |
 - Checkpoint stale-artifact reuse | require source, glossary, prompt, and upstream artifact hashes before reusing an experiment checkpoint; invalidate the stage when any dependency changes |
@@ -358,7 +363,7 @@ Requires explicit user approval:
 | Full unscoped output guardrail hits historical HGD backlog | run output guardrails against the touched chapter range before publication; clean broad historical backlog as a dedicated quality pass |
 | Provider helper or `--cd` routing could accidentally cross novel boundaries | config loading now resolves helpers only from the selected novel or root `scripts/`, binds provider working directories to the selected novel, rejects sibling/absolute escapes, and has regression coverage |
 | Infinite Regressor Stories `ch395+` unavailable from WeTried TLS | keep fetched source scope at `ch001-ch394` until the source page exposes body payload; do not create placeholder source chapters |
-| IRS long-run reliability is not stable enough for unmonitored parallel production | use bounded sequential IRS production pilots; keep reasoning-enabled OpenRouter QA disabled for long QA prompts until a later probe proves it no longer returns empty assistant messages; promote long repeated-character detection before scaling |
+| IRS long-run reliability is not stable enough for unmonitored parallel production | use bounded sequential IRS production pilots; probe the new reasoning-medium/12000 QA policy on a bounded range before scaling; promote long repeated-character detection before scaling |
 | Thai numeral drift and duplicate title tails | product output should use Arabic digits across registered novels; global output guardrail rejects Thai numerals in final output and MoonRead generated chapters, including legacy reader paths. Duplicate-title guardrail rejects `บทที่/ตอนที่ N ...` body tails after H1. Old archive/experiment artifacts may still contain historical Thai numerals and are not product surface |
 | Empty source footnote markers in English novels | `split_blocks()` strips bare trailing `Footnotes:` markers for non-CJK source while preserving real markers; keep Sentinel glossary-note leakage checks blocking |
 | MoonRead rendering mismatch | run reader smoke after generated content changes |

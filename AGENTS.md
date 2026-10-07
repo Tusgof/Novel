@@ -13,6 +13,7 @@ For this workspace, the project-level control files live at the repository root:
 - `IMPLEMENT_PLAN.md`: active roadmap and next milestones.
 - `ARCHITECTURE.md`: system structure, boundaries, flows, and ownership.
 - `.agents/skills/novel-verify/SKILL.md`: how to verify work on its real surfaces (output, Sentinel, MoonRead) and the Feature Map of every workspace feature with its commands and gotchas. Read it before claiming translation, repair, glossary, setup, or publication work is done.
+- `.agents/skills/novel-translation-repair/SKILL.md`: Worker-owned post-QA diagnosis, bounded recovery, and verification. Read it for chapter-local repair orders.
 - `.yuehua-kit.json`: Yuehua Kit v4.0 adoption record (UNIT, T2). Start non-trivial work with the `yuehua-mode` skill: run its bundled `doctor` first, restate the task, pick a playbook, verify on the real surface, and land through `yuehua-land` (done means merged to `main` with the `tests` CI green on the merged commit; report claims as measured, inferred, or guessed).
 - `HERDR_WORKER_PROTOCOL.md`: bounded Inspector/Worker handoff rules, including explicitly authorized translation-pipeline execution; it never overrides provider routing or quality policy.
 
@@ -83,6 +84,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Prefer low-risk deterministic repairs for approved terminology, repeated known variants, paragraph reflow, and reader rendering bugs.
 - If a final output is truncated, contains runaway repeated characters, or has missing content, quarantine that chapter and rerun it from the earliest broken stage instead of manually patching around the loss. Continue later chapters within the authorized range when their inputs and worker state remain healthy.
 - When a quality issue is fixed, record the cause and prevention mechanism in the project brain or implementation plan if it can recur.
+- For post-QA chapter-local recovery, the Worker follows `.agents/skills/novel-translation-repair/SKILL.md`; the Inspector retains policy, routing, scope, and final acceptance.
 
 ### Major-Run Spot-Check Checklist
 
