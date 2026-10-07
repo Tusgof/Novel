@@ -422,7 +422,7 @@ Status: complete on 2026-10-04. Evidence: `Ten Day Ultimatum/04_Work/_lean_runs/
 
 **Milestone complete when**: all ten chapters pass independent acceptance and MoonRead publication checks, then the verified state is committed and pushed. No chapter outside `ch011-ch020` may be changed by this milestone.
 
-Status: **blocked on provider failure** as of 2026-10-07. `r0` stopped at `ch011` on the XSZJ footer, `r1` stopped at `ch013` on copied CJK puzzle annotations, and the owner-authorized `r2 --resume` reused `ch011-ch018`, applied the `ch017` repair, then stopped when `ch018` again recorded an empty `openrouter_reasoning` assistant message (`finish_reason=length`, 4096 completion tokens). The explicit stop rule halted execution while `ch019` was starting; `ch019-ch020` have no accepted output, no chapter was promoted by this continuation, and MoonRead publication was skipped. Checkpoint: `Ten Day Ultimatum/07_Reports/tdu_lean_ch011_ch020_provider_stop_20261007.md`.
+Status: **blocked on provider failure** as of 2026-10-07. `r0` stopped at `ch011` on the XSZJ footer, `r1` stopped at `ch013` on copied CJK puzzle annotations, and repeated owner-authorized `r2 --resume` attempts reused `ch011-ch018`, applied the `ch017` repair, then stopped when `ch018` recorded the same empty `openrouter_reasoning` assistant message (`finish_reason=length`, 4096 completion tokens). The explicit stop rule halted execution while `ch019` was starting; `ch019-ch020` have no accepted output, no chapter was promoted by this continuation, and MoonRead publication was skipped. Checkpoint: `Ten Day Ultimatum/07_Reports/tdu_lean_ch011_ch020_provider_stop_20261007.md`.
 
 ## Execution Notes
 

@@ -44,6 +44,8 @@ The completed r2 chapter metadata records the same failure on the configured `op
 - The process reached `ch019` only after `ch018` completed, then was stopped when `ch018/chapter_result.json` again recorded the same `openrouter_reasoning` provider failure. `ch019` has no result and no final output; no run report or promotion was created.
 - Rechecked the available staged range after the repair: output guardrails passed and Sentinel remained `0 blocker / 0 major / 0 minor / 0 info`. New evidence: `07_Reports/sentinel_quality_TDU-LEAN-PROD-20261007-ch011-020-r2-resume-staged_20261007_054754.md` and its JSON companion.
 
+A further owner-requested retry of the same bounded `r2 --resume` was attempted after a clean doctor/preflight/dry-run. It again reused `ch011-ch018`, reached the start of `ch019`, and stopped on the identical `ch018` provider failure. `ch019` still has no result, so the accepted state and publication decision are unchanged.
+
 ## Quality checks on the partial staged range
 
 - Deterministic guardrails on the staged candidates `ch011-ch018`: **passed**.
