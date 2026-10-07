@@ -37,6 +37,13 @@ The r2 run was interrupted immediately after detecting the provider failure. No 
 
 The completed r2 chapter metadata records the same failure on the configured `openrouter_reasoning` QA route: the OpenRouter shim returned an empty assistant message with `finish_reason=length`, `native_finish_reason=length`, and `completion_tokens=4096`. The configured fallback made each affected chapter QA-pass, but the user stop rule treats the provider failure itself as a stop. The process was stopped while `ch019` was beginning literal translation; no new provider run was started afterward.
 
+## Resume attempt after owner continuation
+
+- `preflight` was `ready`, and the explicit dry-run again confirmed exactly `ch011-ch020` / 44 blocks.
+- `--resume` reused the existing checkpoints for `ch011-ch018`; the new deterministic repair was visible in staged `ch017` (`ฉีเซี่ยหรี่ตาลง`, `ฉีเซี่ยยืนอยู่`).
+- The process reached `ch019` only after `ch018` completed, then was stopped when `ch018/chapter_result.json` again recorded the same `openrouter_reasoning` provider failure. `ch019` has no result and no final output; no run report or promotion was created.
+- Rechecked the available staged range after the repair: output guardrails passed and Sentinel remained `0 blocker / 0 major / 0 minor / 0 info`. New evidence: `07_Reports/sentinel_quality_TDU-LEAN-PROD-20261007-ch011-020-r2-resume-staged_20261007_054754.md` and its JSON companion.
+
 ## Quality checks on the partial staged range
 
 - Deterministic guardrails on the staged candidates `ch011-ch018`: **passed**.
