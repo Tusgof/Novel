@@ -53,6 +53,12 @@ Measured result:
 - generated TDU chapters match verified `05_Output` files: 10/10
 - reader smoke covered TDU desktop/mobile chapter and navigation evidence; no console errors or horizontal overflow were reported
 
-## Next action
+## Landed and live
 
-Commit and push this verified change set. After push, check CI by the exact commit SHA, confirm the remote `main` head, rerun Yuehua doctor, and verify the MoonRead deployment surface. Keep future work bounded to a newly authorized range.
+- commit `fa63f611c33c04a5a92993b92f5dfbc7a08e4b79` is pushed to `origin/main`
+- CI `tests` for that exact SHA passed: [GitHub Actions run 37653793386](https://github.com/Tusgof/Novel/actions/runs/37653793386)
+- post-push Yuehua doctor: `fail=0`, `unverified=0`; the existing portability warning is unchanged
+- live MoonRead alias: `https://novel-pink-nu.vercel.app`
+- live reader checks returned HTTP 200 for `ch011`, `ch020`, and the TDU chapter list; both reader pages show their Thai H1/title and `[Lean]`, and the list contains `ch011` and `ch020`
+
+The range is closed. Keep future work bounded to a newly authorized TDU range.
