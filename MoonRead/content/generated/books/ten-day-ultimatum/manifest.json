@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-07T16:32:46.132Z",
+  "generatedAt": "2026-10-08T09:18:40.333Z",
   "sourceRoot": "../Ten Day Ultimatum/05_Output",
-  "targetRange": "ch001-ch020",
+  "targetRange": "ch001-ch025",
   "novel": {
     "slug": "ten-day-ultimatum",
     "title": "Ten Day Ultimatum",
@@ -26,8 +26,8 @@
     }
   },
   "summary": {
-    "total": 20,
-    "available": 20,
+    "total": 25,
+    "available": 25,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -270,6 +270,66 @@
       "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch020.md",
       "href": "/books/ten-day-ultimatum/read/ch020",
       "charCount": 5828,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch021",
+      "number": 21,
+      "title": "บทที่ 21: ดินแดนตอนใน",
+      "status": "available",
+      "sourcePath": "ch021/ch021.md",
+      "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch021.md",
+      "href": "/books/ten-day-ultimatum/read/ch021",
+      "charCount": 6540,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch022",
+      "number": 22,
+      "title": "บทที่ 22: พนักงานร้าน",
+      "status": "available",
+      "sourcePath": "ch022/ch022.md",
+      "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch022.md",
+      "href": "/books/ten-day-ultimatum/read/ch022",
+      "charCount": 6735,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch023",
+      "number": 23,
+      "title": "บทที่ 23: การซื้อขาย",
+      "status": "available",
+      "sourcePath": "ch023/ch023.md",
+      "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch023.md",
+      "href": "/books/ten-day-ultimatum/read/ch023",
+      "charCount": 6077,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch024",
+      "number": 24,
+      "title": "บทที่ 24: แยกจากฝูง",
+      "status": "available",
+      "sourcePath": "ch024/ch024.md",
+      "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch024.md",
+      "href": "/books/ten-day-ultimatum/read/ch024",
+      "charCount": 6630,
+      "readingMinutes": 2,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch025",
+      "number": 25,
+      "title": "บทที่ 25: จุดแตกแขนง",
+      "status": "available",
+      "sourcePath": "ch025/ch025.md",
+      "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch025.md",
+      "href": "/books/ten-day-ultimatum/read/ch025",
+      "charCount": 6711,
       "readingMinutes": 2,
       "translator": "[Lean]"
     }

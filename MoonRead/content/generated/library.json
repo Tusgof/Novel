@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-07T16:32:46.375Z",
+  "generatedAt": "2026-10-08T09:18:40.546Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,8 +11,8 @@
   },
   "summary": {
     "books": 6,
-    "chapters": 689,
-    "available": 689,
+    "chapters": 694,
+    "available": 694,
     "missing": 0,
     "rejected": 0
   },
@@ -268,23 +268,23 @@
       ],
       "href": "/books/ten-day-ultimatum",
       "chaptersHref": "/books/ten-day-ultimatum/chapters",
-      "targetRange": "ch001-ch020",
+      "targetRange": "ch001-ch025",
       "summary": {
-        "total": 20,
-        "available": 20,
+        "total": 25,
+        "available": 25,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch020",
-        "number": 20,
-        "title": "บทที่ 20: เสาะหามรรคา",
+        "id": "ch025",
+        "number": 25,
+        "title": "บทที่ 25: จุดแตกแขนง",
         "status": "available",
-        "sourcePath": "ch020/ch020.md",
-        "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch020.md",
-        "href": "/books/ten-day-ultimatum/read/ch020",
-        "charCount": 5828,
+        "sourcePath": "ch025/ch025.md",
+        "generatedPath": "content/generated/books/ten-day-ultimatum/chapters/ch025.md",
+        "href": "/books/ten-day-ultimatum/read/ch025",
+        "charCount": 6711,
         "readingMinutes": 2,
         "translator": "[Lean]"
       },

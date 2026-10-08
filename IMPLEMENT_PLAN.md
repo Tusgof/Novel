@@ -1,6 +1,6 @@
 # IMPLEMENT_PLAN.md
 
-Last updated: 2026-10-03
+Last updated: 2026-10-08
 
 ## Overview
 
@@ -14,7 +14,18 @@ selected production dispatch path for every registered novel. OOS and the full
 Libra - Pilot Gate remain optional research methods when promoting a shared-layer
 change; they are not mandatory setup steps for every novel.
 
-## Current Session Work Order: Lean Retranslation And MoonRead Replacement
+## Current Session Work Order: TDU `ch021-ch025`
+
+The active production order is the exact five-chapter TDU continuation recorded in Milestone 13:
+
+1. Translate only `Ten Day Ultimatum ch021-ch025` with the bounded Lean pipeline.
+2. Recover chapter-local QA/provider incidents inside the configured fallback chain; stop for global provider failure, hard-fail, manual prompt, or scope drift.
+3. Independently verify guardrails, Sentinel, five-chapter spot-checks, and MoonRead rendering.
+4. Publish with translator label `[Lean]`, update the registry, and commit/push only this TDU change set while preserving unrelated dirty WIP.
+
+Status: artifacts, quality gates, and MoonRead verification passed on 2026-10-08; commit/CI/live-alias evidence is recorded after landing.
+
+## Prior Session Work Order: Lean Retranslation And MoonRead Replacement
 
 The active production order supersedes the completed migration-only session:
 
@@ -423,6 +434,22 @@ Status: complete on 2026-10-04. Evidence: `Ten Day Ultimatum/04_Work/_lean_runs/
 **Milestone complete when**: all ten chapters pass independent acceptance and MoonRead publication checks, then the verified state is committed and pushed. No chapter outside `ch011-ch020` may be changed by this milestone.
 
 Status: **complete on 2026-10-07**. `TDU-LEAN-PROD-20261007-ch011-020-r2` promoted all 10 requested chapters with no quarantine, current failed block, or manual action. The approved TDU QA route uses `openrouter_qa` with reasoning disabled and a 12000-token ceiling; the run measured 291 provider calls, 37 recovered provider failures, 1,197,471 total tokens, and `$1.8494568702` measured cost. Chapter-local repairs corrected the `ch012` time contradiction and `ch013` puzzle glyphs; `ch020` passed configured QA adjudication with source and Thai evidence. Output guardrails passed, independent blocking Sentinel reported `0/0/0/0`, and the required spot-check covered `ch011`, `ch012`, `ch013`, `ch018`, and `ch020`. Scoped MoonRead `publish:verify` passed with 6 books, 689 available chapters, 0 missing, 0 rejected, exact TDU range `ch001-ch020`, generated Sentinel `0/0/0/0`, lint, build, and smoke. The generated `ch011-ch020` files match verified TDU outputs `10/10`. Commit `fa63f611c33c04a5a92993b92f5dfbc7a08e4b79` is pushed, its CI is green, and the live MoonRead alias serves `ch011` and `ch020` with HTTP 200, Thai titles, and `[Lean]`. Evidence: `Ten Day Ultimatum/04_Work/_lean_runs/TDU-LEAN-PROD-20261007-ch011-020-r2/lean_run_report.json`, `Ten Day Ultimatum/07_Reports/tdu_ch011_ch020_production_checkpoint_20261007.md`, `07_Reports/sentinel_quality_tdu-lean-final-independent-20261007_20261007_163131.md`, and `07_Reports/sentinel_quality_moonread-generated_20261007_163248.md`.
+
+## Milestone 13: TDU Lean Continuation `ch021-ch025`
+
+**Goal**: Translate, independently verify, and publish only Ten Day Ultimatum `ch021-ch025` with the bounded Lean pipeline, keeping the translator label `[Lean]`.
+**Dependencies**: Milestone 12; provider health; no migration work.
+
+| # | Task | Effort | Risk | Verification |
+|:--|:-----|:------:|:----:|:-------------|
+| 13.1 | Run the exact five-chapter Lean range with checkpointed resume | M | 🟠 | `TDU-LEAN-PROD-20261008-ch021-025` complete, 5 promoted, 0 quarantined |
+| 13.2 | Recover chapter-local QA/provider incidents within the configured fallback chain | M | 🟠 | 10 recovered provider failures remain traceable; no force-accept or manual action |
+| 13.3 | Run guardrails, independent Sentinel, and the five-chapter spot-check | M | 🟠 | guardrails pass; independent Sentinel blocker/major `0/0`; spot-check covers `ch021-ch025` |
+| 13.4 | Regenerate MoonRead, run reader gates, and land the exact TDU change set | M | 🟠 | TDU manifest `ch001-ch025`, `[Lean]`, publish gates pass, pushed commit and live alias evidence recorded |
+
+**Milestone complete when**: all five chapters pass independent acceptance, MoonRead publication gates, CI, and live reader checks; unrelated dirty WIP remains untouched.
+
+Status: **artifacts and quality gates complete on 2026-10-08; landing evidence pending**. Checkpoint: `Ten Day Ultimatum/07_Reports/tdu_ch021_ch025_production_checkpoint_20261008.md`.
 
 ## Execution Notes
 

@@ -1,11 +1,11 @@
 # Reader Import Report
 
-Generated at: 2026-10-07T16:32:46.375Z
+Generated at: 2026-10-08T09:18:40.546Z
 
 ## Summary
 
 - books: 6
-- available chapters: 689
+- available chapters: 694
 - missing chapters: 0
 - rejected chapters: 0
 
@@ -92,8 +92,8 @@ Generated at: 2026-10-07T16:32:46.375Z
 ## Ten Day Ultimatum
 
 - source root: ../Ten Day Ultimatum/05_Output
-- target range: ch001-ch020
-- available: 20
+- target range: ch001-ch025
+- available: 25
 - missing: 0
 - rejected: 0
 
