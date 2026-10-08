@@ -48,4 +48,5 @@ Runs: IRS-LEAN-PROD-20261008-ch021-025 and IRS-LEAN-PROD-20261008-ch026-030
 - Yuehua doctor before landing: fail=0, unverified=0; the existing portability warning remains for absolute paths in 401 document/data/test/example files.
 - IRS preflight found every configured provider ready. Its only warning was the pre-existing dirty working tree containing unrelated WIP.
 - The exact change set stages only the IRS registry update, IRS generated reader chapters/manifest, IRS quality evidence, this checkpoint, and control-document updates. Existing DSE and other-novel WIP remains unstaged.
-- Commit, CI, and post-push live-reader evidence are appended after the change is landed.
+- Measured landing: commit `a4d18a1dce082f650d0a4dc4f98b8b46c08bedab` is pushed to `main`; GitHub `tests` run `37775243403` completed successfully on that exact commit.
+- Measured live reader: `https://novel-pink-nu.vercel.app/books/infinite-regressor-stories/read/ch021`, `/read/ch030`, and `/books/infinite-regressor-stories/chapters` returned HTTP 200. Both chapter pages contained Thai title/body text and `[Lean]`; the chapter list contained both chapter IDs and `[Lean]`.

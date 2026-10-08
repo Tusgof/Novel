@@ -476,7 +476,7 @@ Status: **complete on 2026-10-08**. Commit `7b83203052b6d0313f8cb848f5f409ab80a8
 
 **Milestone complete when**: all ten chapters pass independent acceptance, MoonRead publication gates, CI, and live reader checks; unrelated dirty WIP remains untouched.
 
-Status: **complete on 2026-10-08**. The checkpoint report is 07_Reports/irs_ch021_ch030_production_checkpoint_20261008.md; commit, CI, and live-reader evidence are recorded after landing.
+Status: **complete on 2026-10-08**. Commit `a4d18a1dce082f650d0a4dc4f98b8b46c08bedab` is pushed to `main`; CI run `37775243403` passed on that SHA. Live ch021, ch030, and chapter-list URLs returned HTTP 200 with Thai content and `[Lean]`. Checkpoint: 07_Reports/irs_ch021_ch030_production_checkpoint_20261008.md.
 
 ## Execution Notes
 
