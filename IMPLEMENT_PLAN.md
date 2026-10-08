@@ -14,7 +14,18 @@ selected production dispatch path for every registered novel. OOS and the full
 Libra - Pilot Gate remain optional research methods when promoting a shared-layer
 change; they are not mandatory setup steps for every novel.
 
-## Current Session Work Order: TDU `ch021-ch025`
+## Current Session Work Order: IRS `ch021-ch030`
+
+The active production order is the exact ten-chapter IRS continuation recorded in Milestone 14:
+
+1. Translate only Infinite Regressor Stories ch021-ch030 with the bounded Lean pipeline.
+2. Recover chapter-local QA/provider incidents inside the configured fallback chain; stop for global provider failure, hard-fail, manual prompt, or scope drift.
+3. Independently verify guardrails, Sentinel, the five-chapter spot-check sample, and MoonRead rendering.
+4. Publish with translator label [Lean], update the registry, and commit/push only this IRS change set while preserving unrelated dirty WIP.
+
+Status: artifacts, repair evidence, quality gates, and MoonRead verification passed on 2026-10-08; commit/CI/live-alias evidence is recorded after landing.
+
+## Previous Session Work Order: TDU `ch021-ch025`
 
 The active production order is the exact five-chapter TDU continuation recorded in Milestone 13:
 
@@ -450,6 +461,22 @@ Status: **complete on 2026-10-07**. `TDU-LEAN-PROD-20261007-ch011-020-r2` promot
 **Milestone complete when**: all five chapters pass independent acceptance, MoonRead publication gates, CI, and live reader checks; unrelated dirty WIP remains untouched.
 
 Status: **complete on 2026-10-08**. Commit `7b83203052b6d0313f8cb848f5f409ab80a8cefa` is pushed, CI run `37757493750` is green, and the live MoonRead alias serves `ch021`, `ch025`, and the chapter list with Thai content and `[Lean]`. Checkpoint: `Ten Day Ultimatum/07_Reports/tdu_ch021_ch025_production_checkpoint_20261008.md`.
+
+## Milestone 14: IRS Lean Continuation ch021-ch030
+
+**Goal**: Translate, independently verify, and publish only Infinite Regressor Stories ch021-ch030 with the bounded Lean pipeline, replacing the prior Pipe reader content and keeping the translator label [Lean].
+**Dependencies**: Milestone 13; provider health; no migration work.
+
+| # | Task | Effort | Risk | Verification |
+|:--|:-----|:------:|:----:|:-------------|
+| 14.1 | Run the exact two five-chapter Lean ranges with checkpointed resume | M | ?? | Both IRS-LEAN-PROD-20261008 runs complete, 10 promoted, 0 quarantined |
+| 14.2 | Repair chapter-local quality incidents at the earliest safe stage | M | ?? | Repair cycle 3 is closed; no truncation, unresolved manual action, or force-accept |
+| 14.3 | Run output guardrails, independent Sentinel, and the major-run spot-check | M | ?? | Guardrails pass; blocking Sentinel 0/0/0/0; advisory findings are source-backed |
+| 14.4 | Regenerate MoonRead, run reader gates, and land the exact IRS change set | M | ?? | IRS manifest ch001-ch070, ch021-ch030 [Lean], publish gates pass, live alias evidence recorded |
+
+**Milestone complete when**: all ten chapters pass independent acceptance, MoonRead publication gates, CI, and live reader checks; unrelated dirty WIP remains untouched.
+
+Status: **complete on 2026-10-08**. The checkpoint report is 07_Reports/irs_ch021_ch030_production_checkpoint_20261008.md; commit, CI, and live-reader evidence are recorded after landing.
 
 ## Execution Notes
 

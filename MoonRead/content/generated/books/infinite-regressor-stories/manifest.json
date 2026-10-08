@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-07T16:32:45.847Z",
+  "generatedAt": "2026-10-08T11:40:19.150Z",
   "sourceRoot": "../Infinite Regressor Stories/05_Output",
   "targetRange": "ch001-ch070",
   "novel": {
@@ -286,9 +286,9 @@
       "sourcePath": "ch021/ch021.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch021.md",
       "href": "/books/infinite-regressor-stories/read/ch021",
-      "charCount": 13373,
-      "readingMinutes": 3,
-      "translator": "[Pipe]"
+      "charCount": 14767,
+      "readingMinutes": 4,
+      "translator": "[Lean]"
     },
     {
       "id": "ch022",
@@ -298,9 +298,9 @@
       "sourcePath": "ch022/ch022.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch022.md",
       "href": "/books/infinite-regressor-stories/read/ch022",
-      "charCount": 10727,
+      "charCount": 11522,
       "readingMinutes": 3,
-      "translator": "[Pipe]"
+      "translator": "[Lean]"
     },
     {
       "id": "ch023",
@@ -310,9 +310,9 @@
       "sourcePath": "ch023/ch023.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch023.md",
       "href": "/books/infinite-regressor-stories/read/ch023",
-      "charCount": 12889,
+      "charCount": 13456,
       "readingMinutes": 3,
-      "translator": "[Pipe]"
+      "translator": "[Lean]"
     },
     {
       "id": "ch024",
@@ -322,9 +322,9 @@
       "sourcePath": "ch024/ch024.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch024.md",
       "href": "/books/infinite-regressor-stories/read/ch024",
-      "charCount": 10235,
+      "charCount": 10886,
       "readingMinutes": 3,
-      "translator": "[Pipe]"
+      "translator": "[Lean]"
     },
     {
       "id": "ch025",
@@ -334,9 +334,9 @@
       "sourcePath": "ch025/ch025.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch025.md",
       "href": "/books/infinite-regressor-stories/read/ch025",
-      "charCount": 12947,
-      "readingMinutes": 3,
-      "translator": "[Pipe]"
+      "charCount": 13567,
+      "readingMinutes": 4,
+      "translator": "[Lean]"
     },
     {
       "id": "ch026",
@@ -346,9 +346,9 @@
       "sourcePath": "ch026/ch026.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch026.md",
       "href": "/books/infinite-regressor-stories/read/ch026",
-      "charCount": 14814,
+      "charCount": 16265,
       "readingMinutes": 4,
-      "translator": "[Pipe]"
+      "translator": "[Lean]"
     },
     {
       "id": "ch027",
@@ -358,9 +358,9 @@
       "sourcePath": "ch027/ch027.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch027.md",
       "href": "/books/infinite-regressor-stories/read/ch027",
-      "charCount": 10647,
+      "charCount": 11090,
       "readingMinutes": 3,
-      "translator": "[Pipe]"
+      "translator": "[Lean]"
     },
     {
       "id": "ch028",
@@ -370,9 +370,9 @@
       "sourcePath": "ch028/ch028.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch028.md",
       "href": "/books/infinite-regressor-stories/read/ch028",
-      "charCount": 12120,
+      "charCount": 12863,
       "readingMinutes": 3,
-      "translator": "[Pipe]"
+      "translator": "[Lean]"
     },
     {
       "id": "ch029",
@@ -382,9 +382,9 @@
       "sourcePath": "ch029/ch029.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch029.md",
       "href": "/books/infinite-regressor-stories/read/ch029",
-      "charCount": 10096,
+      "charCount": 10612,
       "readingMinutes": 3,
-      "translator": "[Pipe]"
+      "translator": "[Lean]"
     },
     {
       "id": "ch030",
@@ -394,9 +394,9 @@
       "sourcePath": "ch030/ch030.md",
       "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch030.md",
       "href": "/books/infinite-regressor-stories/read/ch030",
-      "charCount": 11269,
+      "charCount": 12606,
       "readingMinutes": 3,
-      "translator": "[Pipe]"
+      "translator": "[Lean]"
     },
     {
       "id": "ch031",
