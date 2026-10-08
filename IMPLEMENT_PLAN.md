@@ -449,7 +449,7 @@ Status: **complete on 2026-10-07**. `TDU-LEAN-PROD-20261007-ch011-020-r2` promot
 
 **Milestone complete when**: all five chapters pass independent acceptance, MoonRead publication gates, CI, and live reader checks; unrelated dirty WIP remains untouched.
 
-Status: **artifacts and quality gates complete on 2026-10-08; landing evidence pending**. Checkpoint: `Ten Day Ultimatum/07_Reports/tdu_ch021_ch025_production_checkpoint_20261008.md`.
+Status: **complete on 2026-10-08**. Commit `7b83203052b6d0313f8cb848f5f409ab80a8cefa` is pushed, CI run `37757493750` is green, and the live MoonRead alias serves `ch021`, `ch025`, and the chapter list with Thai content and `[Lean]`. Checkpoint: `Ten Day Ultimatum/07_Reports/tdu_ch021_ch025_production_checkpoint_20261008.md`.
 
 ## Execution Notes
 

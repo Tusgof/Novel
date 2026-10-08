@@ -41,4 +41,6 @@ Run: `TDU-LEAN-PROD-20261008-ch021-025`
 - `python -m compileall novel_pipeline scripts/sentinel_quality_report.py scripts/check_output_quality_guardrails.py`: passed.
 - `python -m unittest -v test_workspace_routing.py test_xszj_adapter.py`: `23` tests passed.
 - Unrelated DSE/IRS generated files and reports were left unstaged as dirty WIP. Only TDU artifacts, TDU reader metadata, quality evidence, registry, checkpoint, and control-document updates belong to this change.
-- Commit/push and post-push live alias evidence are recorded in the follow-up landing update.
+- Commit `7b83203052b6d0313f8cb848f5f409ab80a8cefa` is pushed to `origin/main`.
+- CI for that exact SHA: GitHub Actions `tests` run `37757493750`, conclusion `success` — https://github.com/Tusgof/Novel/actions/runs/37757493750.
+- Post-push live alias checks: `https://novel-pink-nu.vercel.app/books/ten-day-ultimatum/read/ch021` and `/read/ch025` returned HTTP `200`, Thai chapter titles, Thai reader content, and `[Lean]`; `/books/ten-day-ultimatum/chapters` returned HTTP `200` with both chapter links and `[Lean]` labels.
