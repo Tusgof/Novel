@@ -25,6 +25,7 @@ Runs: IRS-LEAN-PROD-20261008-ch021-025 and IRS-LEAN-PROD-20261008-ch026-030
   07_Reports/sentinel_quality_IRS-LEAN-PROD-20261008-ch021-030-inspector-postpublish_20261008_112206.md
 - An earlier pre-publish scan saw one stale generated-content glossary blocker for Puppeteer in ch027. Regenerating MoonRead from the final output removed that stale blocker; the post-publish scan above is the accepted reader-surface result. The earlier evidence is retained at 07_Reports/sentinel_quality_IRS-LEAN-PROD-20261008-ch021-030-inspector_20261008_111451.md.
 - Inspector spot-check covered ch021, ch023, ch028, ch029, and ch030. Source-to-output length ratios were approximately 1.01, 0.99, 0.93, 0.99, and 1.00; maximum paragraph sizes were 591, 584, 590, 599, and 381 characters. Titles, opening/middle/ending passages, dialogue/thought spacing, and chapter endings were inspected. No Han/CJK body text, provider metadata, or runaway repeated characters were found.
+- The committed Inspector report copies use workspace-relative source paths; finding counts and evidence text are unchanged.
 
 ## Chapter-local repairs
 
