@@ -1,6 +1,6 @@
 # Architecture: Novel Translation Workspace
 
-Last updated: 2026-10-03
+Last updated: 2026-11-05
 
 This document defines stable ownership and runtime boundaries. Current status belongs in `PROJECT_BRAIN.md`; planned work belongs in `IMPLEMENT_PLAN.md`.
 
@@ -20,6 +20,7 @@ This is the multi-novel system and owns behavior that must be safe for every nov
 | --- | --- | --- |
 | Shared runtime | `novel_pipeline/` | CLI, Lean stages, config loading, ledger/artifact helpers, provider execution |
 | Shared helpers | `scripts/` | OpenRouter shim, deterministic guardrails, Sentinel, source/reader checks |
+| OpenCode execution | `scripts/opencode_provider_shim.py`, `.opencode/agents/novel-worker.md` | Go text-stage transport and the bounded Worker profile; credentials remain outside the repository |
 | Registry and shared policy | `00_Config/` | novel registry, cross-novel quality thresholds, reader policy |
 | Reader | `MoonRead/` | generated reader content, UI, publish verification, lint/build/smoke |
 | Durable project memory | root `PROJECT_BRAIN.md`, `IMPLEMENT_PLAN.md`, `ARCHITECTURE.md`, `AGENTS.md` | intent, roadmap, structure, behavior policy |
@@ -123,9 +124,20 @@ Fix recurring defects at the lowest layer that safely catches them. Promote a no
 ## 6. Ownership
 
 - Codex owns project architecture, layer promotion, provider-routing changes, run scope, acceptance, documentation, commit, and publication decisions.
-- Luna Max may execute explicitly bounded translation work through the HERDR protocol. It cannot change project policy, routing, quality thresholds, or canonical docs without a separate authorized work order.
+- The current Worker profile uses OpenCode Go through the HERDR sequence. Historical Luna handoffs are compatibility evidence. A Worker cannot change project policy, routing, quality thresholds, or canonical docs without a separate authorized order.
 - Novel configuration owns data and voice for that novel, not the shared runtime.
 - MoonRead consumes verified generated content and never mutates translation source, glossary, ledger, or work artifacts.
+
+### OpenCode Go transport
+
+The selected novel's provider config passes the complete `provider/model#variant`
+reference through the existing ProviderRunner stdin contract. The shared shim runs
+native OpenCode CLI with a private server and a text-only, tool-denied agent in a
+temporary location, so it cannot read or edit novel state. Only one completed
+`stop` step becomes assistant output; malformed, empty, partial, tool, and error
+results are rejected. Native usage counters are retained without inferring Go
+allowance or dollar spend from a subscription cost of zero. The execution Worker
+is a separate child session with an explicit work order, not this text agent.
 
 ## 7. Non-Negotiable Boundaries
 

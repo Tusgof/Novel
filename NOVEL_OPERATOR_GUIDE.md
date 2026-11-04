@@ -2,7 +2,7 @@
 
 คู่มือสั่งงานระบบแปลนิยายให้ได้มาตรฐานและมีประสิทธิภาพ
 
-Last updated: 2026-10-03
+Last updated: 2026-11-05
 
 ## Runtime ปัจจุบัน: Lean
 
@@ -19,6 +19,27 @@ novel-pipeline --config "Horror Game Developers/.system/config.yaml" resume --ru
 ```
 
 ## หลักสั้นที่สุด
+
+### โมเดล OpenCode Go ที่เลือกใช้
+
+| งาน | โมเดลหลัก | Reasoning | เหตุผลในการเลือกเริ่มต้น |
+| --- | --- | --- | --- |
+| แปล literal / สแกนศัพท์ / เก็บศัพท์หลังจบตอน | Claude Haiku 5.5 | low | เน้นถ่ายทอดและดึงข้อมูลตรงตามข้อความ |
+| เสนอคำแปลศัพท์ | Claude Haiku 5.5 | medium | ต้องแยกความหมายและบริบทก่อนเสนอ |
+| Refine / QA | DeepSeek V4.1 Flash | high | เทียบความหมาย ความครบถ้วน และความต่อเนื่องทั้งตอน |
+| Worker รันและซ่อม pipeline | DeepSeek V4.1 Flash | high | วิเคราะห์หลักฐานและเลือกขั้นซ่อม; ใช้ max เฉพาะคำสั่งที่จำเป็น |
+| Format / fetch | local / source adapter | ไม่ใช้โมเดล | คงพฤติกรรม Lean เดิม |
+
+Fallback ใช้อีกโมเดลตาม `.system/providers.yaml` เท่านั้น โดย QA/refine fallback
+ใช้ Haiku high ไม่มีการย้อนกลับไปใช้เครดิต OpenRouter หรือ provider อื่นอัตโนมัติ
+ตารางนี้เป็นจุดเริ่มทดลอง ไม่ใช่ผลพิสูจน์ว่าแต่ละโมเดลดีที่สุด
+
+เชื่อม Go ผ่าน `/connect` ของ OpenCode โดยไม่ใส่ key ใน repository ก่อนงานจริงต้อง
+ตรวจ allowance และ Extra Usage ให้ไม่ใช้เครดิตที่ยังไม่อนุมัติ การเปลี่ยน provider
+ทำให้ checkpoint hash เก่าใช้ต่อไม่ได้โดยอัตโนมัติ จึงต้องตรวจแผน rerun ก่อน resume
+ดูคำสั่งตรวจที่ `.agents/skills/novel-verify/references/features/provider-routing.md`
+
+### การกำหนดขอบเขตงาน
 
 เวลาจะสั่งงาน ให้บอก 4 อย่างนี้ก่อนเสมอ:
 

@@ -13,6 +13,10 @@ from typing import Any
 PROTOCOL = "HERDR/1"
 PHASES = {"ACK", "SMOKE", "START", "RETURN"}
 SHA1 = re.compile(r"^[0-9a-fA-F]{40}$")
+GO_WORKER_REASONING = {
+    "opencode-go/deepseek-v4.1-flash": {"high", "max"},
+    "opencode-go/claude-haiku-5-5": {"low", "medium", "high"},
+}
 
 
 def _required_mapping(value: Any, path: str, errors: list[str]) -> dict[str, Any] | None:
@@ -152,15 +156,21 @@ def validate_envelope(envelope: Any) -> list[str]:
     _required_sha1(root, "base_hash", errors)
 
     worker = _required_mapping(root.get("worker"), "worker", errors)
+    go_worker = worker is not None and isinstance(worker.get("runtime"), str) and worker["runtime"] in GO_WORKER_REASONING
     if worker is not None:
         expected_worker = {
             "kind": "coding-agent-worker",
-            "surface": "separate-tab-pane",
-            "runtime": "gpt-5.6-luna",
-            "reasoning": "max",
-            "sandbox": "workspace-write",
-            "approval": "never",
+            "surface": "opencode-child-session" if go_worker else "separate-tab-pane",
+            "sandbox": "opencode-permissions" if go_worker else "workspace-write",
+            "approval": "work-order" if go_worker else "never",
         }
+        if go_worker:
+            if not isinstance(worker.get("reasoning"), str) or worker["reasoning"] not in GO_WORKER_REASONING[worker["runtime"]]:
+                errors.append("worker.reasoning: unsupported level for the approved Go worker")
+        else:
+            # Preserve validation of historical Luna envelopes, without selecting
+            # Luna for new work or weakening the new runtime allowlist.
+            expected_worker.update(runtime="gpt-5.6-luna", reasoning="max")
         for key, expected in expected_worker.items():
             if worker.get(key) != expected:
                 errors.append(f"worker.{key}: expected {expected!r}")
@@ -185,10 +195,10 @@ def validate_envelope(envelope: Any) -> list[str]:
     handoff = _required_mapping(root.get("handoff"), "handoff", errors)
     if handoff is not None:
         expected_handoff = {
-            "transport": "Herdr",
+            "transport": "OpenCode" if go_worker else "Herdr",
             "recipient": "Inspector",
             "return_required": True,
-            "worker_must_press_enter": True,
+            "worker_must_press_enter": not go_worker,
         }
         for key, expected in expected_handoff.items():
             if handoff.get(key) != expected:

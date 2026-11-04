@@ -1,14 +1,12 @@
 term_extraction:
-  provider: openrouter
-  model: google/gemini-3.7-flash
+  provider: opencode_go
+  model: opencode-go/claude-haiku-5-5#low
   timeout_seconds: 120
   max_calls_per_scan: 8
   max_failures_per_scan: 2
   fallbacks:
-  - provider: openrouter
-    model: deepseek/deepseek-v4-flash-0731
-  - provider: codex
-    model: gpt-5.4
+  - provider: opencode_go
+    model: opencode-go/deepseek-v4.1-flash#low
   retry:
     max_attempts: 1
     initial_delay_seconds: 0
@@ -19,53 +17,56 @@ term_extraction:
     - nonzero_exit
     - empty_stdout
 term_suggestion:
-  provider: openrouter
-  model: deepseek/deepseek-v4-flash-0731
+  provider: opencode_go
+  model: opencode-go/claude-haiku-5-5#medium
   timeout_seconds: 120
   fallbacks:
-  - provider: openrouter
-    model: google/gemini-3.7-flash
-  - provider: claude
-    model: sonnet
+  - provider: opencode_go
+    model: opencode-go/deepseek-v4.1-flash#high
 literal_translation:
-  provider: openrouter
-  model: google/gemini-3.7-flash
+  provider: opencode_go
+  model: opencode-go/claude-haiku-5-5#low
   fallbacks:
-  - provider: openrouter
-    model: deepseek/deepseek-v4-flash-0731
-  - provider: codex
-    model: gpt-5.4
+  - provider: opencode_go
+    model: opencode-go/deepseek-v4.1-flash#low
 refinement:
-  provider: openrouter
-  model: deepseek/deepseek-v4-flash-0731
+  provider: opencode_go
+  model: opencode-go/deepseek-v4.1-flash#high
   fallbacks:
-  - provider: openrouter
-    model: google/gemini-3.7-flash
-  - provider: openrouter
-    model: anthropic/claude-sonnet-4.6
-  - provider: codex
-    model: gpt-5.4
-  - provider: qwen
-    model: deepseek-reasoner
+  - provider: opencode_go
+    model: opencode-go/claude-haiku-5-5#high
 qa_judge:
-  provider: openrouter
-  model: deepseek/deepseek-v4-flash-0731
+  provider: opencode_go
+  model: opencode-go/deepseek-v4.1-flash#high
   fallbacks:
-  - provider: openrouter
-    model: google/gemini-3.7-flash
+  - provider: opencode_go
+    model: opencode-go/claude-haiku-5-5#high
+# Lean formats locally; retained only for explicit legacy recovery.
 formatting:
-  provider: openrouter
-  model: deepseek/deepseek-v4-flash-0731
-  fallbacks:
-  - provider: openrouter
-    model: google/gemini-3.7-flash
+  provider: opencode_go
+  model: opencode-go/claude-haiku-5-5#low
 project_setup:
-  provider: codex
-  model: gpt-5.4
+  provider: opencode_go
+  model: opencode-go/deepseek-v4.1-flash#high
+# Fetch itself is adapter-backed and does not call a model.
 fetch:
-  provider: codex
-  model: gpt-5.4
+  provider: opencode_go
+  model: opencode-go/claude-haiku-5-5#low
 providers:
+  opencode_go:
+    executable: [python, scripts/opencode_provider_shim.py]
+    prompt_flag:
+    prompt_position: positional
+    prompt_transport: stdin
+    model_flag: -m
+    model_position: before_prompt
+    timeout_seconds: 660
+    env:
+      PYTHONIOENCODING: utf-8
+      PYTHONUTF8: "1"
+    retry:
+      max_attempts: 1
+  # Unrouted legacy definitions are retained for historical recovery only.
   openrouter:
     executable:
     - python

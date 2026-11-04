@@ -2106,10 +2106,7 @@ def test_config_refinement_fallback_chain_order():
     config = load_app_config(Path(__file__).resolve().parent / ".system" / "config.yaml")
     routes = config.fallback_routes_for_stage("refinement")
     assert [(spec.name, model) for spec, model in routes] == [
-        ("openrouter", "google/gemini-3.7-flash"),
-        ("openrouter", "anthropic/claude-sonnet-4.6"),
-        ("codex", "gpt-5.4"),
-        ("qwen", "deepseek-reasoner"),
+        ("opencode_go", "opencode-go/claude-haiku-5-5#high"),
     ]
 
 
@@ -8793,44 +8790,16 @@ def test_provider_trace_captures_full_prompt_response_and_redacts_secret():
                 os.environ[secret_name] = previous
 
 
-def test_production_provider_routing_enables_ai_scan_and_formatting():
-    """Production routing keeps AI glossary scan and AI formatting enabled."""
+def test_production_provider_routing_uses_go_and_local_lean_formatting():
+    """Active routes use the two approved Go models; Lean formatting stays local."""
     from novel_pipeline.config import load_app_config
 
     config = load_app_config(Path(".system/config.yaml"))
     term_routing = config.stage_routing_for("term_extraction")
-    format_routing = config.stage_routing_for("formatting")
-    qa_routing = config.stage_routing_for("qa_judge")
-
-    assert term_routing.provider == "openrouter"
-    assert term_routing.model == "google/gemini-3.7-flash"
     assert isinstance(term_routing.max_calls_per_scan, int)
     assert term_routing.max_calls_per_scan > 0
     assert term_routing.timeout_seconds is not None
     assert term_routing.timeout_seconds >= 30
-    assert format_routing.provider == "openrouter"
-    assert format_routing.model == "deepseek/deepseek-v4-flash-0731"
-    assert qa_routing.provider == "openrouter_reasoning"
-    assert qa_routing.model == "deepseek/deepseek-v4-flash-0731"
-    qa_routes = config.fallback_routes_for_stage("qa_judge")
-    assert [(spec.name, model) for spec, model in qa_routes][:1] == [
-        ("openrouter", "google/gemini-3.7-flash"),
-    ]
-    assert all(spec.name not in {"codex", "qwen"} for spec, _ in qa_routes)
-    qa_provider = config.provider_for_stage("qa_judge")
-    assert "--reasoning-enabled" in qa_provider.extra_args
-    assert "--reasoning-exclude" in qa_provider.extra_args
-    assert "--max-tokens" in qa_provider.extra_args
-    qa_budget_index = qa_provider.extra_args.index("--max-tokens")
-    assert qa_provider.extra_args[qa_budget_index + 1] == "12000"
-    assert "--reasoning-enabled" in config.providers["openrouter"].extra_args
-    assert "--reasoning-exclude" in config.providers["openrouter"].extra_args
-    assert "--reasoning-effort" in config.providers["openrouter"].extra_args
-    regular_effort_index = config.providers["openrouter"].extra_args.index("--reasoning-effort")
-    assert config.providers["openrouter"].extra_args[regular_effort_index + 1] == "medium"
-    regular_budget_index = config.providers["openrouter"].extra_args.index("--max-tokens")
-    assert config.providers["openrouter"].extra_args[regular_budget_index + 1] == "12000"
-    assert "--reasoning-disabled" not in config.providers["openrouter"].extra_args
 
     workspace_root = Path(__file__).resolve().parents[1]
     production_configs = (
@@ -8842,50 +8811,22 @@ def test_production_provider_routing_enables_ai_scan_and_formatting():
         workspace_root / "Ten Day Ultimatum/.system/config.yaml",
     )
     expected_models = {
-        "term_extraction": "google/gemini-3.7-flash",
-        "term_suggestion": "deepseek/deepseek-v4-flash-0731",
-        "literal_translation": "google/gemini-3.7-flash",
-        "refinement": "deepseek/deepseek-v4-flash-0731",
-        "qa_judge": "deepseek/deepseek-v4-flash-0731",
-        "formatting": "deepseek/deepseek-v4-flash-0731",
+        "term_extraction": "opencode-go/claude-haiku-5-5#low",
+        "term_suggestion": "opencode-go/claude-haiku-5-5#medium",
+        "literal_translation": "opencode-go/claude-haiku-5-5#low",
+        "refinement": "opencode-go/deepseek-v4.1-flash#high",
+        "qa_judge": "opencode-go/deepseek-v4.1-flash#high",
     }
     for config_path in production_configs:
         production_config = load_app_config(config_path)
         for stage, expected_model in expected_models.items():
             assert production_config.stage_routing_for(stage).model == expected_model
-        assert all(
-            model != "deepseek/deepseek-v4-pro"
-            for _, model in production_config.fallback_routes_for_stage("qa_judge")
-        )
-        production_qa_provider = production_config.provider_for_stage("qa_judge")
-        regular_args = production_config.providers["openrouter"].extra_args
-        assert "--reasoning-enabled" in regular_args
-        assert "--reasoning-exclude" in regular_args
-        assert "--reasoning-disabled" not in regular_args
-        regular_effort_index = regular_args.index("--reasoning-effort")
-        assert regular_args[regular_effort_index + 1] == "medium"
-        regular_budget_index = regular_args.index("--max-tokens")
-        assert regular_args[regular_budget_index + 1] == "12000"
-        if production_qa_provider.name == "openrouter_reasoning":
-            budget_index = production_qa_provider.extra_args.index("--max-tokens")
-            assert production_qa_provider.extra_args[budget_index + 1] == "12000"
-            assert "--reasoning-enabled" in production_qa_provider.extra_args
-            assert "--reasoning-exclude" in production_qa_provider.extra_args
-            assert "--reasoning-disabled" not in production_qa_provider.extra_args
-            qa_effort_index = production_qa_provider.extra_args.index("--reasoning-effort")
-            assert production_qa_provider.extra_args[qa_effort_index + 1] == "medium"
-        elif production_qa_provider.name == "openrouter_qa":
-            assert "--reasoning-disabled" in production_qa_provider.extra_args
-            assert "--reasoning-enabled" not in production_qa_provider.extra_args
-            assert "--reasoning-exclude" not in production_qa_provider.extra_args
-            assert "--reasoning-effort" not in production_qa_provider.extra_args
-        elif production_qa_provider.name == "openrouter":
-            assert production_qa_provider.extra_args == regular_args
-        else:
-            raise AssertionError(f"Unexpected QA provider: {production_qa_provider.name}")
-        qa_budget_index = production_qa_provider.extra_args.index("--max-tokens")
-        assert production_qa_provider.extra_args[qa_budget_index + 1] == "12000"
-    print("✓ production_provider_routing_enables_ai_scan_and_formatting passes")
+            assert production_config.stage_routing_for(stage).provider == "opencode_go"
+        assert [(spec.name, model) for spec, model in production_config.fallback_routes_for_stage("qa_judge")] == [
+            ("opencode_go", "opencode-go/claude-haiku-5-5#high"),
+        ]
+        assert production_config.provider_for_stage("qa_judge").prompt_transport == "stdin"
+    print("✓ production_provider_routing_uses_go_and_local_lean_formatting passes")
 
 
 if __name__ == "__main__":
@@ -9075,5 +9016,5 @@ if __name__ == "__main__":
     test_openrouter_shim_honors_retry_after_header()
     test_provider_trace_captures_full_prompt_response_and_redacts_secret()
     test_interactive_glossary_choice_supports_custom_and_reject()
-    test_production_provider_routing_enables_ai_scan_and_formatting()
+    test_production_provider_routing_uses_go_and_local_lean_formatting()
     print("All tests passed!")

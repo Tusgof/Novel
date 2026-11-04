@@ -30,6 +30,7 @@ class WorkspaceRoutingTests(unittest.TestCase):
         "Infinite Regressor Stories/.system/config.yaml",
         "One Hit Kill Swordmaster/.system/config.yaml",
         "Re Zero Watching Him Die Again and Again/.system/config.yaml",
+        "Ten Day Ultimatum/.system/config.yaml",
     )
 
     def test_refinement_cleaner_preserves_story_lists_and_scene_tail(self) -> None:
@@ -89,16 +90,16 @@ class WorkspaceRoutingTests(unittest.TestCase):
                         self.assertTrue(Path(token).exists(), token)
                         self.assertNotIn("Deep Sea Embers", str(Path(token))) if config.novel_id != "deep-sea-embers" else None
 
-    def test_tdu_fallbacks_do_not_use_unavailable_codex_route(self) -> None:
+    def test_tdu_fallbacks_stay_on_the_approved_go_models(self) -> None:
         config = load_app_config(ROOT / "Ten Day Ultimatum/.system/config.yaml")
         providers = config.providers
         self.assertTrue(providers["claude"].working_dir == config.workspace.root.resolve())
         for stage in ("term_extraction", "literal_translation", "refinement"):
             routes = config.fallback_routes_for_stage(stage)
-            self.assertNotIn(("codex", "gpt-5.4"), [(spec.name, model) for spec, model in routes])
-            self.assertIn(("claude", "sonnet"), [(spec.name, model) for spec, model in routes])
-        self.assertEqual(config.stage_routing_for("project_setup").provider, "claude")
-        self.assertEqual(config.stage_routing_for("fetch").provider, "claude")
+            self.assertTrue(routes)
+            self.assertTrue(all(spec.name == "opencode_go" for spec, _ in routes))
+        self.assertEqual(config.stage_routing_for("project_setup").provider, "opencode_go")
+        self.assertEqual(config.stage_routing_for("fetch").provider, "opencode_go")
 
     def test_sibling_provider_helper_is_rejected(self) -> None:
         with self.assertRaises(ConfigError):

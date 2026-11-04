@@ -1,6 +1,6 @@
 # Project Brain: Novel Translation System
 
-Last updated: 2026-10-08
+Last updated: 2026-11-05
 
 This is the durable memory for the workspace. Keep it compact. Put long evidence, experiments, and historical detail in root-level `07_Reports/` or `01_Research_Log/` as appropriate.
 
@@ -16,7 +16,7 @@ Build a practical Chinese/English-to-Thai novel translation system that can:
 - publish verified Markdown into MoonRead
 - support multiple novels and genres without relying on Codex memory
 
-Codex is the Inspector/Orchestrator, architect, reviewer, and verifier. Luna Max is the preferred execution worker for bounded translation-pipeline work and routine pipeline recovery. Worker reports remain claims until Codex independently verifies files, ledgers, tests, reports, diffs, and reader output. Lean production runs use recover-and-continue semantics: chapter-local failures are quarantined and later chapters continue; only global blockers stop the worker.
+Codex is the Inspector/Orchestrator, architect, reviewer, and verifier. OpenCode Go is the selected execution provider; the preferred bounded Worker is DeepSeek V4.1 Flash at `high`. Worker reports remain claims until Codex independently verifies files, ledgers, tests, reports, diffs, and reader output. Lean production runs use recover-and-continue semantics: chapter-local failures are quarantined and later chapters continue; only global blockers stop the worker.
 
 ## Canonical Files
 
@@ -39,12 +39,20 @@ Keep this section short. Update `PROJECT_BRAIN.md` for current state, active ris
 ## Operating Ownership
 
 - Codex owns architecture, Layer 0/multi-novel policy, work-order design, risk decisions, provider-routing changes, independent acceptance, control-document updates, and the final commit/push/publish decision.
-- Luna Max (`gpt-5.6-luna`, `reasoning=max`) is the preferred HERDR worker for explicitly bounded translation operations: pipeline preflight, scan/glossary stages, translation/refinement/QA/format execution, artifact inspection, and routine recovery that follows an existing documented recovery path.
-- Every Luna order must use the repository `HERDR_WORKER_PROTOCOL.md` sequence (`ACK -> SMOKE -> START -> RETURN`) and specify exact chapter/run scope, allowed commands and paths, provider/network authority, spend boundary, protected dirty WIP, verification, and stop conditions.
-- Luna must not change architecture, Layer 0 policy, provider routing, quality thresholds, force-accept rules, publication state, or control documents unless a separate work order explicitly authorizes that exact change. Ambiguous or novel incidents return to Codex for diagnosis and a new bounded order.
+- `.opencode/agents/novel-worker.md` selects the current bounded Worker. The Inspector may choose the other approved Go model or a deeper supported variant for a specific order; stage routes remain in each novel's `.system/providers.yaml`.
+- Every Worker order must use the repository `HERDR_WORKER_PROTOCOL.md` sequence (`ACK -> SMOKE -> START -> RETURN`) and specify exact chapter/run scope, allowed commands and paths, provider/network authority, spend boundary, protected dirty WIP, verification, and stop conditions.
+- Workers must not change architecture, Layer 0 policy, provider routing, quality thresholds, force-accept rules, publication state, or control documents unless a separate work order explicitly authorizes that exact change. Ambiguous or novel incidents return to Codex for diagnosis and a new bounded order.
 - Codex does not repeat routine worker execution by default. It reviews the returned evidence, reruns targeted verification independently, classifies recurring failures at the correct layer, and issues a narrower repair order or changes the system-level prevention mechanism when evidence supports it.
 
 ## Current Verified State
+
+OpenCode Go routing trial (2026-11-05; implementation branch pending landing):
+
+- The owner selected DeepSeek V4.1 Flash and, replacing the proposed Gemini route, Claude Haiku 5.5 through Go. All six novel configs now select these two models with explicit task-specific variants; old provider definitions are retained but are not in active fallback chains. `NOVEL_OPERATOR_GUIDE.md` describes the division of work.
+- The shared Go shim uses native OpenCode CLI JSON with a tool-denied text agent in an isolated temporary directory and private server. It accepts one completed `stop` step, rejects partial/tool/error results, and preserves native usage metadata. OpenCode's reported subscription cost is not a measurement of Go allowance consumed.
+- No production chapter, glossary, ledger, MoonRead content, or existing dirty WIP is changed by this trial. Existing dated production claims below are history, not evidence that the new route has passed a full-chapter quality pilot.
+- Provider changes invalidate Lean checkpoint input hashes. Before resuming a historical run, inspect that consequence and obtain a bounded rerun order; do not rewrite hashes to make old checkpoints look compatible.
+- The proposed $30 comparison SOP remains unapproved. No top-up, pay-as-you-go Extra Usage, publication, or automatic batch continuation is authorized by the routing change.
 
 Cross-novel production policy (configuration change, 2026-10-07):
 
@@ -277,19 +285,11 @@ Clean & Simple phase (2026-10-01):
 
 ## Provider Routing
 
-Current intended routing:
+Active routing is defined by each novel's `.system/providers.yaml` and the Worker profile, not historical model names in reports. New routes use OpenCode Go only: Haiku for literal/term work, DeepSeek for refinement/QA, with the other model as the configured fallback. See `NOVEL_OPERATOR_GUIDE.md` for reasoning choices and `.agents/skills/novel-verify/references/features/provider-routing.md` for verification.
 
-- setup/fetch authority: Codex / GPT-5.4
-- glossary scan: OpenRouter `google/gemini-3.7-flash`
-- glossary option suggestion: OpenRouter `deepseek/deepseek-v4-flash-0731`
-- literal translation: OpenRouter `google/gemini-3.7-flash`
-- refinement: OpenRouter `deepseek/deepseek-v4-flash-0731`
-- QA primary: OpenRouter `deepseek/deepseek-v4-flash-0731` with reasoning enabled at `medium`, using a `12000` completion-token ceiling
-- QA fallback: OpenRouter `google/gemini-3.7-flash`. DeepSeek V4 Pro is removed from production routing. Qwen and Codex remain excluded because recent IRS evidence showed qwen headless empty stdout on Windows and Codex quota failures.
-- Lean formatting: local Markdown spacing normalization only; no formatting provider call. Historical formatting routes are retained only for legacy recovery evidence.
-- OpenRouter API key env var: `NOVEL_OPENROUTER_API`; do not use the legacy OpenRouter env var name for current work.
+OpenCode owns credentials and native output limits; the shim does not read auth files or reduce token limits to make a call pass. A length-limited result fails closed. Lean formatting stays local. `NOVEL_OPENROUTER_API` belongs only to explicitly authorized historical OpenRouter recovery.
 
-Provider warning: reasoning `medium` and the `12000` QA ceiling are now the production default, but the change has not cleared a provider-backed benchmark. Inspect exact-route behavior and QA artifacts closely on the next bounded production run.
+Before production, confirm Go allowance and that Extra Usage cannot spend unapproved credit, then run the exact bounded quality pilot. The short synthetic smoke is transport evidence, not a translation-quality benchmark.
 
 Do not use Elephant or Nemotron for state-changing work.
 
@@ -389,7 +389,7 @@ Requires explicit user approval:
 | Stale experiment skip flags or paths can cross production boundaries | production clears the skip-guardrails flag during Sentinel; checkpoint/trace paths stay inside selected-vault run state; experiment paths stay outside product output; safe run IDs and fixed resume scope prevent accidental traversal or expansion |
 | Disk errors can interrupt a multi-chapter promotion after earlier files succeed | promotion is atomic per file, not a batch transaction; the blocked run report retains the successful promotion list, prevalidates staged files, and has a simulated second-file disk-failure regression test |
 | Historical scripts and global skills still describe the old block pipeline | use root CLI and `NOVEL_OPERATOR_GUIDE.md` for Lean work; compatibility files remain for old artifacts, not new production dispatch; migrate global skills separately rather than silently changing user-level policy |
-| HGD production QA fallbacks contradict the intended routing summary | `Horror Game Developers/.system/providers.yaml` still lists Qwen/Codex QA fallbacks while the summary excludes them. Migration preserves routing and makes no provider calls; reconcile and approve the exact route before a paid HGD run, not silently during architecture work |
+| Historical provider reports can be mistaken for the current route | The 2026-11-05 Go trial replaces active Qwen/Codex/OpenRouter fallbacks in all six configs; preserve old reports as history and verify the selected config before calls |
 
 ## Core Commands
 
@@ -457,6 +457,8 @@ npm.cmd run smoke
 
 ## Next Safe Action
 
+Finish independent review and owner-approved landing of the Go routing branch before using it in the primary checkout. Then obtain one explicit chapter/range for a quality pilot; do not automatically resume DSE/R0, regenerate MoonRead, or run the unapproved $30 experiment.
+
 The IRS ch021-ch030 bounded close is complete and published in the generated MoonRead reader. The next safe action is to leave this range closed until a new explicit IRS range is authorized; TDU ch001-ch025 remains closed and Re:Zero ch003+ remains outside the replacement order.
 
 1. For a future IRS range, fetch/validate the requested raw scope first and use a new bounded Lean run ID.
@@ -476,3 +478,4 @@ Append-only. A reversal is a new entry marked `SUPERSEDES #N` with its reason.
 | 4 | 2026-10-07 | Make canonical control-document integrity reproducible by pinning their line endings to LF in `.gitattributes` and refreshing their hashes. | Post-merge verification found `core.autocrlf=true` converted `AGENTS.md` and `PROJECT_BRAIN.md` to CRLF in the working tree, invalidating a byte-level hash gate despite correct repository blobs. | Future checkouts use LF for all canonical docs; the active TDU worker files remain outside this corrective scope. | Owner decision 2026-10-07. |
 | 5 | 2026-10-07 | Complete and publish the bounded TDU `ch011-ch020` continuation. | The owner authorized resume after the QA route was corrected. The run recovered chapter-local QA defects at the narrowest safe stages, passed independent guardrails/Sentinel and spot-checks, then passed scoped MoonRead publication verification. | TDU is published through `ch020`; no migration or other-novel continuation is opened by this decision. | Owner decision in this session, 2026-10-07. |
 | 6 | 2026-10-08 | Complete and publish the bounded IRS ch021-ch030 Lean continuation. | The owner authorized chapter-local recovery, replacement of the prior Pipe reader content, and the [Lean] translator label for this exact range. | IRS is published through ch030; no broader IRS range or provider-routing change is opened by this decision. | Owner decision in this session, 2026-10-08. |
+| 7 | 2026-11-05 | Select OpenCode Go DeepSeek V4.1 Flash and Claude Haiku 5.5 for new Worker/stage routing across the six registered novels; Haiku replaces the proposed Gemini route. | The owner requested replacement of the prior model assignments and delegated task-appropriate reasoning choices, then explicitly selected Haiku. Keep Inspector acceptance, Lean structure, and quality gates unchanged. | Implement and test on an isolated branch; historical checkpoints and WIP stay preserved. Synthetic transport checks do not authorize a production range, the proposed $30 experiment, top-ups, Extra Usage, or publication. Merge still requires owner approval. | Owner messages in this session, 2026-11-05. |

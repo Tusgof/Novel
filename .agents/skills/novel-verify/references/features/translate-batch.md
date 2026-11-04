@@ -19,4 +19,5 @@ Add `--resume` to `lean-run` to reuse valid checkpoints after an interruption.
 - Keep batches small (5 chapters): longer runs raise timeout, QA hard-fail, and glossary-drift risk.
 - A valid QA `FAIL` is adjudicated by the configured fallback; a deterministic rule failure blocks immediately. Neither is a reason to force-accept.
 - Provider routing and fallbacks come from each novel's `<Novel>/.system/providers.yaml`; do not edit routing to get a run through.
+- Current Go model/variant and Worker checks are in [provider-routing.md](provider-routing.md); historical checkpoints are invalidated by a route change, so inspect rerun scope before resume.
 - `preflight` blocks when the novel's local data folders (`01_Glossary`, `03_Raw`, `04_Work`, `05_Output`, `06_Logs`) are missing — they are local and not in Git.

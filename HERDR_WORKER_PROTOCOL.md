@@ -1,13 +1,13 @@
 # HERDR Worker Protocol
 
-HERDR is the bounded handoff protocol for Luna Max and an independent Inspector. It coordinates repository work and, when an explicit translation work order authorizes it, bounded execution of the existing translation pipeline. HERDR never grants authority by itself and does not change provider routing, quality gates, or publication state.
+HERDR is the bounded handoff protocol for an execution Worker and an independent Inspector. New workers use OpenCode Go; historical Luna envelopes remain readable. It coordinates repository work and, when an explicit translation work order authorizes it, bounded execution of the existing translation pipeline. HERDR never grants authority by itself and does not change provider routing, quality gates, or publication state.
 
 ## Actors and boundaries
 
 - Codex is the Inspector/Orchestrator and owns architecture, Layer 0 policy, work-order design, independent verification, acceptance, and publication decisions.
-- A HERDR worker is Luna Max running in a separate terminal tab or pane. Its declared runtime is `gpt-5.6-luna` with `reasoning=max`.
+- The default Worker is `.opencode/agents/novel-worker.md`: `opencode-go/deepseek-v4.1-flash#high` in an OpenCode child session. An order may select DeepSeek `max` for a difficult diagnosis, or `opencode-go/claude-haiku-5-5` at `low`, `medium`, or `high` for a suitably bounded task. Match the model and variant to the order; never silently substitute another provider.
 - Historical worker labels are not HERDR worker identities, runtime permissions, or authorization sources.
-- Translation provider stages remain pipeline stages, not worker identities. A translation work order may authorize Luna to invoke existing pinned routes for an exact run/chapter range, but Luna must not reroute providers, weaken gates, force-accept QA, or alter publication state.
+- Translation provider stages remain pipeline stages, not worker identities. A translation work order may authorize the Worker to invoke existing pinned routes for an exact run/chapter range, but the Worker must not reroute providers, weaken gates, force-accept QA, or alter publication state.
 - The order is the authority. `allowed_paths` and `allowed_actions` are the complete write scope; `forbidden_*` entries and the dirty-WIP boundary remain in force.
 
 ## Preflight and transport
@@ -15,12 +15,13 @@ HERDR is the bounded handoff protocol for Luna Max and an independent Inspector.
 When the Inspector launches the worker through the agent tool, the launch arguments are literal:
 
 ```text
-model = gpt-5.6-luna
-reasoning_effort = max
-surface = separate agent pane
+model = opencode-go/deepseek-v4.1-flash#high
+surface = OpenCode child session
 ```
 
-Do not substitute `xhigh` for `max`. The agent tool creates the separate pane; do not use a manual right split.
+The model reference includes the reasoning variant. OpenCode permissions are not an OS sandbox: shell tools still inherit host authority, so the bounded order remains mandatory. OpenCode handoffs return programmatically and do not require pressing Enter.
+
+Legacy `gpt-5.6-luna` / `max` envelopes retain their original `separate-tab-pane`, `workspace-write`, `never`, `Herdr`, and press-Enter fields for validation of historical evidence. They are not an automatic fallback for new work.
 
 1. Inspector sends an order with a unique `order_id`, `nonce`, repository, branch, and `base_hash`.
 2. Worker confirms the identifiers and scope in `ACK`. Before an explicit smoke authorization, it does not read repository files, run commands, or edit.
@@ -46,11 +47,11 @@ Every envelope is a JSON object with `protocol: "HERDR/1"`, a `phase` from `ACK`
 {
   "worker": {
     "kind": "coding-agent-worker",
-    "surface": "separate-tab-pane",
-    "runtime": "gpt-5.6-luna",
-    "reasoning": "max",
-    "sandbox": "workspace-write",
-    "approval": "never"
+    "surface": "opencode-child-session",
+    "runtime": "opencode-go/deepseek-v4.1-flash",
+    "reasoning": "high",
+    "sandbox": "opencode-permissions",
+    "approval": "work-order"
   },
   "scope": {
     "allowed_paths": ["relative/path"],
@@ -61,17 +62,17 @@ Every envelope is a JSON object with `protocol: "HERDR/1"`, a `phase` from `ACK`
   },
   "stop_conditions": ["global provider exhaustion", "required manual decision", "missing source", "unexpected scope expansion", "workspace or security violation"],
   "handoff": {
-    "transport": "Herdr",
+    "transport": "OpenCode",
     "recipient": "Inspector",
     "return_required": true,
-    "worker_must_press_enter": true
+    "worker_must_press_enter": false
   }
 }
 ```
 
 Paths are repository-relative exact paths. New files are listed by their file path. `ACK` additionally carries `ack: {"scope_echoed": true, "commands": 0, "files_read": 0, "edits": 0}`. `SMOKE` carries a `smoke` object with `cwd`, `branch`, `head`, exact `status`, and integer `edits: 0`. `START` carries `authorization: {"authorized": true}`. `RETURN` carries a `result` object with:
 
-For a translation order, the envelope must additionally declare the exact `run_id`, chapter/block range, allowed pipeline commands and stages, pinned provider configuration, provider/network authority, spend boundary, required gates, and stop conditions. Credentials may be inherited from the approved environment but their values must never be read back, requested, printed, copied, or logged.
+For a translation order, the envelope must additionally declare the exact `run_id`, chapter/block range, allowed pipeline commands and stages, pinned provider configuration, provider/network authority, spend boundary, required gates, and stop conditions. OpenCode manages the connected Go credential; never read, print, copy, or log its value. A Go subscription is not authorization to top up or use pay-as-you-go Extra Usage. Confirm allowance and billing boundaries before a production order.
 
 - `status`: `complete` or `blocked`
 - `local_hashes`: one or more labeled 40-character hexadecimal hashes

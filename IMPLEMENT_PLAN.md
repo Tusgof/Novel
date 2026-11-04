@@ -1,6 +1,6 @@
 # IMPLEMENT_PLAN.md
 
-Last updated: 2026-10-08
+Last updated: 2026-11-05
 
 ## Overview
 
@@ -14,7 +14,18 @@ selected production dispatch path for every registered novel. OOS and the full
 Libra - Pilot Gate remain optional research methods when promoting a shared-layer
 change; they are not mandatory setup steps for every novel.
 
-## Current Session Work Order: IRS `ch021-ch030`
+## Current Session Work Order: OpenCode Go Routing Trial
+
+1. Replace active routes in all six novel configs with the two owner-selected Go models and explicit supported reasoning variants.
+2. Preserve the existing ProviderRunner contract, selected-vault boundaries, local formatting, QA adjudication, and staged Sentinel gate.
+3. Select the native OpenCode Worker and keep HERDR scope/acceptance rules; retain validation of historical Luna evidence.
+4. Verify hermetic regressions and a synthetic transport/pipeline smoke outside production data, then request owner-approved landing.
+
+No production chapter/range, MoonRead regeneration, $30 comparison experiment, credit top-up, or Extra Usage is included. Provider changes invalidate checkpoint hashes; historical runs need a separately bounded rerun decision before resume.
+
+Status: implementation in `opencode-go-routing`; regression and synthetic evidence are recorded in `07_Reports/opencode_go_routing_trial_20261105.md`. Landing/merge CI remain pending until approved.
+
+## Completed Session Work Order: IRS `ch021-ch030`
 
 The active production order is the exact ten-chapter IRS continuation recorded in Milestone 14:
 
