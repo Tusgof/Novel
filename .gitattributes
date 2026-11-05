@@ -3,3 +3,6 @@
 /IMPLEMENT_PLAN.md text eol=lf
 /ARCHITECTURE.md text eol=lf
 /DOC_RECOVERY.md text eol=lf
+/policies/*.md text eol=lf
+/.opencode/agents/execution-worker.md text eol=lf
+/Backup_/** -text
