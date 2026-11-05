@@ -84,12 +84,16 @@ def build_preflight_summary(config: AppConfig) -> dict[str, Any]:
     for provider_name in sorted(provider_stage_map):
         spec = config.providers[provider_name]
         found, resolved_path = _resolve_executable(spec.executable)
-        command_preview = list(spec.executable) + list(spec.extra_args)
-        provider_status = "ready" if found else "blocked"
         if not found:
             blocking_reasons.append(
                 f"Provider executable not found: {provider_name} ({spec.executable[0]})."
             )
+        uses_opencode = any(Path(token).name == "opencode_provider_shim.py" for token in spec.executable)
+        if uses_opencode and shutil.which("opencode") is None:
+            found = False
+            blocking_reasons.append("OpenCode CLI not found in PATH; the Go shim cannot run.")
+        command_preview = list(spec.executable) + list(spec.extra_args)
+        provider_status = "ready" if found else "blocked"
         provider_checks.append(
             {
                 "provider": provider_name,

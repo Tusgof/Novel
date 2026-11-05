@@ -25,7 +25,11 @@ jobs:
         run: python -m pip install -e .
 
       - name: Routing and adapter tests
-        run: python -m unittest test_workspace_routing test_xszj_adapter -v
+        run: python -m unittest test_workspace_routing test_xszj_adapter test_opencode_provider -v
+
+      - name: Worker envelope tests
+        working-directory: scripts
+        run: python -m unittest test_validate_herdr_envelope -v
 
       - name: Deep Sea Embers pipeline tests
         working-directory: Deep Sea Embers

@@ -83,6 +83,36 @@ class ValidateHerdrEnvelopeTests(unittest.TestCase):
             with self.subTest(phase=phase):
                 self.assert_valid(envelope(phase))
 
+    def test_go_workers_use_truthful_transport_and_supported_reasoning(self):
+        for runtime, efforts in validator.GO_WORKER_REASONING.items():
+            for effort in efforts:
+                for phase in ("ACK", "SMOKE", "START", "RETURN"):
+                    value = envelope(phase)
+                    value["worker"].update(
+                        runtime=runtime, reasoning=effort,
+                        surface="opencode-child-session", sandbox="opencode-permissions",
+                        approval="work-order",
+                    )
+                    value["handoff"].update(transport="OpenCode", worker_must_press_enter=False)
+                    self.assert_valid(value)
+
+    def test_go_worker_does_not_accept_unsupported_reasoning_or_legacy_transport(self):
+        value = envelope()
+        value["worker"].update(
+            runtime="opencode-go/deepseek-v4.1-flash", reasoning="medium",
+            surface="opencode-child-session", sandbox="opencode-permissions", approval="work-order",
+        )
+        self.assert_error_contains(value, "worker.reasoning")
+        self.assert_error_contains(value, "handoff.transport")
+
+    def test_malformed_worker_fields_are_rejected_without_crashing(self):
+        value = envelope()
+        value["worker"]["runtime"] = []
+        self.assert_error_contains(value, "worker.runtime")
+        value["worker"]["runtime"] = "opencode-go/deepseek-v4.1-flash"
+        value["worker"]["reasoning"] = []
+        self.assert_error_contains(value, "worker.reasoning")
+
     def test_return_rejects_path_outside_allowed_scope(self):
         value = envelope("RETURN")
         value["result"]["changed_paths"] = ["PROJECT_BRAIN.md"]
