@@ -25,7 +25,7 @@ jobs:
         run: python -m pip install -e .
 
       - name: Routing and adapter tests
-        run: python -m unittest test_workspace_routing test_xszj_adapter test_opencode_provider -v
+        run: python -m unittest test_workspace_routing test_xszj_adapter test_opencode_provider test_kit_adoption -v
 
       - name: Worker envelope tests
         working-directory: scripts

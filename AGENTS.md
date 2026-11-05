@@ -104,7 +104,9 @@ After every multi-chapter translation batch, broad repair pass, or MoonRead publ
 
 ## Yuehua Kit v4 Contract
 
-This repository is a Yuehua Kit v4.0.3 `UNIT` at tier `T2`. The pinned kit version and commit are recorded in `.yuehua-kit.json`; procedures live in the installed `yuehua-mode` and `yuehua-land` skills.
+This repository adopts Yuehua Kit v4.0.5 as a `UNIT` at tier `T2`. The verified release commit is pinned in `.yuehua-kit.json`; the stronger novel-specific rules above remain in force. This adoption changes only this repository; its six child novels retain the registry, product routes, and quality gates.
+
+Use `yuehua-mode` and `yuehua-land` from the pinned release. Check installed `INSTALLED_FROM.json` against the lock; if it is older, follow the verified tag checkout's skills and CLI outside this repository instead of inheriting stale policy. See the Feature Map's [kit adoption checks](.agents/skills/novel-verify/references/features/kit-adoption.md). Shared user-level skills require separate approval to update; an installer dry-run is not permission to install.
 
 ### Work From The Goal And The Check
 
@@ -118,6 +120,7 @@ This repository is a Yuehua Kit v4.0.3 `UNIT` at tier `T2`. The pinned kit versi
 - Start non-trivial work by running the Yuehua doctor on the default branch.
 - A red default branch must be fixed, redesigned, or retired by a recorded decision; it must never be ignored.
 - Tests are necessary but not sufficient. Verify the real product surface, including translated output, Sentinel, and MoonRead where applicable.
+- Never weaken a test, validator, or gate to get green.
 - If a check cannot run, report it as unverified rather than passing it by assumption.
 
 ### Claims, Completion, And Authority
@@ -132,8 +135,8 @@ This repository is a Yuehua Kit v4.0.3 `UNIT` at tier `T2`. The pinned kit versi
 
 ### Secrets, Vaults, And Provenance
 
-- Never put secrets in the repository, logs, reports, prompts, or worker handoffs. Reference environment-variable names only.
-- Keep payroll, contracts, personal data, financial statements, legal documents, and other vault-class material outside the working repository.
+- Never put secrets in the repository, logs, reports, prompts, routines, work orders, or worker handoffs. Reference environment-variable or secret names only. A discovered secret is an EXPOSURE finding: stop, report, and ask the owner to revoke it.
+- Keep payroll, contracts, personal data, financial statements, legal documents, and other vault-class material outside the working repository, referenced by pointer. Finding vault material in the repository is an EXPOSURE finding and must be flagged immediately.
 - Do not change repository visibility without the required pre-publication scan.
 - Record money, accounts, and data purchases with true provenance. Do not misrepresent an account or identity.
 - Before using a credential, confirm that it is registered for this unit and within its cap.
@@ -147,10 +150,17 @@ This repository is a Yuehua Kit v4.0.3 `UNIT` at tier `T2`. The pinned kit versi
 
 ### Browser Work
 
-- Read the Yuehua browser policy before agent-driven browser work: use `policies/agent-browser.md` from a kit checkout or `assets/policies/agent-browser.md` from the installed `yuehua-mode` skill. The policy is the v3.2 `12-Operate-[AGENT_BROWSER].txt` rule map and is bundled with Kit v4.
-- BrowserOS is the default surface for interactive or signed-in pages; prefer a purpose-built API or CLI when one fits, and keep Playwright as the hermetic test surface.
-- Verify the browser product, version, connection, profile, and authority at runtime; do not hard-code installed paths or expose tunnel URLs.
-- Remote browser exposure requires an explicit work order and a private tunnel by default. Never commit or log an active tunnel URL.
+- Read the pinned, tool-neutral [agent-browser policy](policies/agent-browser.md) before agent-driven browser work. Select a suitable available API, CLI, or browser tool; no browser product is required or preferred. Playwright remains the declared hermetic reader-test surface, not a default for signed-in work.
+- Verify the actual product, version, connection, profile, and task authority at runtime; discover endpoints and schemas from the active tool rather than hard-coding installation paths or example ports.
+- Preserve credential/resource registration, caps, vault handling, profile isolation, and observed-result evidence for every tool. Remote exposure requires an explicit bounded work order and a private tunnel by default; never commit or log an active control URL.
+- OAuth grants and prompt-skipping with a signed-in profile or consequential action require explicit bounded authority. Technical access never widens the work order; inspect uncertain results before retrying an external write.
 - Browser session history, screenshots, and extracted page data may be sensitive and stay out of the repository.
+
+### Low-Reasoning Execution
+
+- Before implementation, classify reasoning demand separately from T1/T2/T3. Read [execution-workers policy](policies/execution-workers.md): only settled, bounded low-reasoning implementation goes to `.opencode/agents/execution-worker.md` using `opencode-go/deepseek-v4.1-flash#low`, after resource/data, included-allowance/cap, native runtime, and effective-permission checks.
+- Medium/high work, the main model, reviewers, and other agent/model assignments remain unchanged. The existing novel translation Worker and its HERDR approval/acceptance boundary are not replaced by the low-reasoning coding profile.
+- If unavailable, quota-blocked, unverified, or unsuccessful, the main agent immediately takes over using its current model, reports why, confirms the worker stopped, and inspects partial work before editing the same files. Do not wait for owner input or retry indefinitely to choose a fallback.
+- The lead owns decomposition, diff review, tests, integration, and existing approvals. Do not enable Extra Usage, top up credits, change privacy, add credentials, or substitute a different paid provider to keep delegation running. Without a safe native child-session path, use main-agent fallback.
 
 **Working if:** the default branch is green or has a recorded decision, claims survive a clean-clone check, finished work is merged, and audits find no surprises.

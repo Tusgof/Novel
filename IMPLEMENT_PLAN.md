@@ -14,7 +14,16 @@ selected production dispatch path for every registered novel. OOS and the full
 Libra - Pilot Gate remain optional research methods when promoting a shared-layer
 change; they are not mandatory setup steps for every novel.
 
-## Current Session Work Order: OpenCode Go Routing Trial
+## Current Session Work Order: Yuehua Kit v4.0.5 Adoption Only
+
+1. Verify the latest stable release/tag containing K-024/K-025 and follow its start-unit playbook for this existing UNIT/T2.
+2. Archive replaced policy/decision documents, merge the tool-neutral browser contract and bounded low-reasoning execution policy, and pin the resolved release commit.
+3. Preserve product routes/data, existing agents, stronger translation/HERDR gates, shared skills, and all unrelated work; use current-main-model fallback when Go allowance is unverified.
+4. Verify required tests, archive/control hashes, clean-clone behavior, effective permissions, and a fresh agent session, then land through owner-approved exact-head CI.
+
+Scope excludes product development, translation, publication, billing/privacy/MCP changes, other repositories, and shared-skill installation. The current installed skill is older, so this task uses the verified release checkout's procedures and CLI outside the repository. Evidence: `07_Reports/yuehua_kit_v4_0_5_adoption_20261105.md`.
+
+## Completed Session Work Order: OpenCode Go Routing Trial
 
 1. Replace active routes in all six novel configs with the two owner-selected Go models and explicit supported reasoning variants.
 2. Preserve the existing ProviderRunner contract, selected-vault boundaries, local formatting, QA adjudication, and staged Sentinel gate.
@@ -23,7 +32,7 @@ change; they are not mandatory setup steps for every novel.
 
 No production chapter/range, MoonRead regeneration, $30 comparison experiment, credit top-up, or Extra Usage is included. Provider changes invalidate checkpoint hashes; historical runs need a separately bounded rerun decision before resume.
 
-Status: implementation in `opencode-go-routing`; regression and synthetic evidence are recorded in `07_Reports/opencode_go_routing_trial_20261105.md`. Landing/merge CI remain pending until approved.
+Status: owner-approved PR #12 merged as `0595265ce1d059a6384a35074f6ac95f37f3ef50`; `tests` run `41979363954` passed on the merged SHA. Regression and synthetic evidence remain in `07_Reports/opencode_go_routing_trial_20261105.md`. No production range was opened by landing.
 
 ## Completed Session Work Order: IRS `ch021-ch030`
 

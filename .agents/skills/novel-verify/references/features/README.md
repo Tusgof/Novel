@@ -12,5 +12,6 @@ One line per feature: what it is and where its details live. Commands assume the
 | Set up a new novel | Scaffold, fetch raw source, pilot the voice | [new-novel-setup.md](new-novel-setup.md) |
 | Preflight, status, recovery | Readiness checks, run status, resuming interrupted runs, reports | [preflight-status-recovery.md](preflight-status-recovery.md) |
 | Provider and Worker routing | Verify OpenCode Go model/variant assignments and transport without changing output | [provider-routing.md](provider-routing.md) |
+| Kit adoption and agent policy | Verify the pinned release, tool-neutral browser policy, low-only worker, and control archives | [kit-adoption.md](kit-adoption.md) |
 
 Owner-facing phrasing for each request (Thai) is in `NOVEL_OPERATOR_GUIDE.md`; system structure is in `ARCHITECTURE.md`.
