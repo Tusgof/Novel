@@ -3,25 +3,17 @@
 This is a short queue, not a changelog or a copy of chapter totals. Replace an
 outcome when it closes; Git history and linked evidence retain the earlier plan.
 
-## 1. Governance and detection repair — locally verified; landing pending
+## 1. Adjudicate newly detected historical quality findings
 
-Owner goal: a simple, sustainable system that detects stale state and escaped
-defects instead of accumulating prose. Evidence/design/checklist:
+Inspector evidence and the governance implementation's acceptance checks:
 `07_Reports/governance_detection_fix_20261115.md`.
 
-Acceptance checks:
-
-- Control-document budgets fail in CI; prior decisions and byte archives survive.
-- One read-only status command derives desired / snapshot / local state. No
-  automatic registry expansion or raw-source reproducibility claim.
-- Evidence has searchable latest-per-scope results; new machine reports no longer
-  create a flat tracked/untracked queue. Existing evidence/WIP is preserved.
-- Source-backed Chinese term/rejected-variant mutations fail the staged gate;
-  missing semantic inputs are visible. Passing checks do not claim full semantics.
-- Reader incidents and publication exposure have deduplication, evidence, tests,
-  and honest partial-history reporting.
-- Root and compatibility tests, clean-checkout checks, and doctor pass, or the
-  exact unresolved failure is reported. Landing requires owner approval and CI.
+- Classify source/output/glossary mismatches and layout findings before treating
+  them as confirmed defects or detector false positives. Keep evidence intact.
+- Affected old ranges need adjudication before republication. No threshold
+  relaxation or automatic final-output rewrite is authorized by this queue.
+- Any resulting repair uses a separately bounded, source-backed order and reruns
+  the existing quality/reader gates; record real reader escapes in the ledger.
 
 ## 2. New novel setups — source/pilot gates pending
 
