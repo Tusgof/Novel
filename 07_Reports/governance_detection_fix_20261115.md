@@ -163,3 +163,19 @@ Before delivery, repeat the existing checks on the final commit/clone. Landing,
 remote exact-head CI, and historical product-backlog adjudication remain separate
 pending items. This report is closure evidence for the bounded implementation,
 not a new checkpoint appended to startup controls.
+
+The final code/setup commit `5de3b5f8ec3c128fce302bffbfef936288d326c2` passed all
+86 root tests, governance, Worker-envelope and compatibility tests, reader lint,
+production build and desktop/mobile smoke on the clean clone updated to that exact
+commit. Git remained clean; the source corpus was absent and no chapter content
+was regenerated or deployed. The active plan now contains only unresolved
+adjudication/source/pilot work, not a transient "landing pending" checkpoint.
+
+Owner authority was subsequently recorded in OpenCode's question harness:
+**เปิด PR และ merge**, conditional on green CI, for governance and the two
+source-pending setups only. This supersedes the earlier no-push/merge boundary,
+not the local-only chapter/public-reader boundary. Create the PR, require exact-head
+checks, then verify default-branch CI on the actual merged SHA before claiming
+landing. Reader content, provider routing of existing novels, and other WIP remain
+outside this authorization. Historical quality backlog and novel production
+readiness remain pending after landing too.
