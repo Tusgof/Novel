@@ -3,18 +3,114 @@ title: A Gacha Addict's Fusionpunk Life
 aliases:
 - A Gacha Addicts Fusionpunk Life
 - A Gacha Addicts Life in Fusionpunk
+- I Became the Count's Scoundrel
+- I Became the Count's Wastrel
 source_url: https://wetriedtls.com/series/a-gacha-addicts-life-in-fusionpunk
-status: pending
-synopsis: Fusionpunk novel by seomgejineunkkot, originally published in Korean as 가챠 중독자의 퓨전펑크 생활. Literary synopsis and character-specific voice are not approved without supplied source text.
-tags: [fusionpunk, fantasy, science-fiction]
-style_notes: Draft only. Use a source-backed pilot to establish narrator, pronouns, comic timing and the balance of technology, magic and game-system language. Do not copy the template novel's character voices.
-reader_expectations: Faithful, natural Thai with stable names and readable dialogue/UI; personal local reading only.
-review_summary: Bibliography and access metadata checked. No chapter-body corpus or translation pilot has been accepted.
-last_reviewed_at: ''
-reviewed_by: ''
-terminology: []
+status: drafted
+synopsis: >
+  Cedric Montraven is the disgraced son of Count Montraven's house, a wastrel whose
+  older sister Arbel is the family's real talent and a First Rank mage. He is also a
+  gambling and gacha addict. When his original body dies mid-pull, he wakes in
+  Cedric's place and is promptly abandoned through a magic device into Necropolis, an
+  orphan city where Black Dust, rifts, and corporate blocs set the rules and where
+  your address decides your class. His only edge is regression: death returns him to
+  a save point with his memories intact. He spends that edge like a gacha player,
+  trading points and Universal Coins for random boxes to assemble a necromancer
+  build. The first run goes badly, with Arbel dead and her body sold to fund more
+  pulls, and it drags him into the orbit of Ceres Cassian, the executive everyone
+  calls Mama Ceres. On the second run he becomes her driver, saves Arbel, and is
+  pulled into Project Z, rift expeditions such as the Hotel Abyss and the Mushroom
+  Factory, and finally a system order that puts both Ceres and Arbel on his kill list.
+tags:
+- fusionpunk
+- dark-fantasy
+- regression
+- litrpg
+- gacha
+- black-comedy
+- anti-hero
+- romance
+style_notes: >
+  First-person male voice, profane, self-mocking, and openly mercenary; do not soften
+  insults, cursing, or his callous decisions into polite Thai. Roughly one paragraph
+  in four opens with dialogue, so keep speaker turns crisp and never merge them into
+  narration. System output, draw results, and quest lines appear as their own bracketed
+  blocks and must stay separate from prose. Keep Grade, Rank, currency, item, district,
+  and project names stable and distinct from ordinary nouns. Gacha ritual language and
+  pull-count jokes should read as gambling slang, not as poetry. The source is an
+  English relay of a Korean original, so transliterations already used in the source
+  win over new inventions, and translator footnotes explaining Korean wordplay must
+  stay visibly detached from the story. Part titles repeat across multi-part chapters
+  ending in (n); the episode number, not that suffix, is the chapter number.
+reader_expectations: >
+  Faithful, natural Thai with stable names and readable dialogue and system blocks;
+  personal local reading only, no public publication.
+review_summary: >
+  Bibliography confirmed: Korean original on Novelpia, English official on Novelpia
+  Global, and multiple fan translations. Country-of-origin status is ongoing at around
+  258 chapters, and the author also wrote City of Witches. Reader reception is split
+  rather than poor: NovelUpdates shows 4.0/5 from 61 votes with a heavy cluster of top
+  scores alongside a visible low-score cluster. Recurring praise covers planned arcs, a
+  coherent power system, and unexpectedly deep side characters; recurring criticism
+  covers a slow opening and the protagonist's early callous acts, especially selling
+  Arbel's body. The most consistent reader warning is that the story only settles
+  several chapters in and reads much better after roughly chapter 40, which matches the
+  arc titles in our fetched range. Reviews were used for orientation only; every plot
+  claim in this profile was re-checked against our own fetched source.
+last_reviewed_at: '2026-11-15'
+reviewed_by: Inspector (source survey and external review check, no translation acceptance)
+terminology:
+- Cedric Montraven
+- Arbel Montraven
+- Ceres Cassian
+- Mama Ceres
+- Ines
+- Gisela
+- Yiming
+- Sunming
+- Kisara
+- Necropolis
+- Aden
+- Crowley Academy
+- Black Dust
+- Hotel Abyss
+- Mushroom Factory
+- Project Z
+- Twilight Resource
+- Overnus Pharmaceuticals
+- Universal Coins
+- Achievement Ticket
+- Artifact Random Box
+- Joker Random Box
+- Save Point
+- Second Run
+- Grade
+- Rank
+- Mind's Eye
+- Bios
+- Commandment
 reference_links:
 - https://novelpia.com/novel/387014
 - https://global.novelpia.com/novel/3216
 - https://www.novelupdates.com/series/gacha-addicts-fusionpunk-life/
-notes: Keep status pending until user-supplied source or explicit permission is available, chapter 1-40 parity is checked and the Inspector approves the pilot. No new-novel body fetch or provider translation has run.
+- https://en.namu.wiki/w/%EA%B0%80%EC%B1%A0%20%EC%A4%91%EB%8F%85%EC%9E%90%EC%9D%98%20%ED%93%A8%EC%A0%84%ED%8E%91%ED%81%AC%20%EC%83%9D%ED%99%9C
+notes: >
+  Terms above are candidates observed in the fetched source or shared across public
+  listings, not approved glossary entries; approve them through the glossary gate before
+  a pilot. Evidence: 82/82 free chapters in 03_Raw (1,055,669 characters, 10,094-15,943
+  per chapter), fetched 2026-11-15 after owner authorization for the wetriedtls
+  adapter. ch083 onward is a paid chapter on that site (the page returns 200 but only
+  a locked shell with no body), so 82 is the free ceiling; that is source access, not
+  an adapter defect. A standalone "?????" line is an authored wordless-confusion beat
+  in ch055, ch059 and ch082 and must be translated consistently.
+  Arcs in the fetched range run: wastrel origin (ch001-ch003), gutter life (ch004-ch008),
+  second run (ch009-ch011), work and rifts (ch012-ch020), The Eight-Foot Widow and Ceres
+  (ch021-ch024), Project Z through Build: Necromancer (ch025-ch033), fixer jobs and Save
+  Point (ch034-ch038), then Premium Fever (ch039-ch040). 26 of 40 chapter titles carry a
+  multi-part (n) suffix. ch007 holds one Hangul token inside an explicit Footnotes block
+  that must stay distinguishable from prose. Alternative English titles render ch001 as
+  "I Became the Count's Scoundrel" while our source says "I Became the Wastrel of a
+  Count's House"; keep one canonical Thai handling. Because readers place the stronger
+  material after roughly chapter 40, a ch001-ch003 pilot tests mechanics and voice but
+  not the story at its best. Public reader registration remains withheld and no provider
+  translation has run.

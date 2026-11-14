@@ -1,6 +1,6 @@
 # A Gacha Addict's Fusionpunk Life
 
-**Status: source fetched (`ch001-ch040`), translation not started.**
+**Status: source fetched (`ch001-ch082`), translation not started.**
 
 - Novel ID: `a-gacha-addicts-fusionpunk-life`.
 - Original: `가챠 중독자의 퓨전펑크 생활`, by `섦게지는꽃` / `seomgejineunkkot`.
@@ -11,10 +11,11 @@
 - The selected English reference is the owner-provided WeTried TLS series URL.
   No public Korean source meeting the no-login/free ch001-ch040 requirement was
   verified. Index/access findings are not a downstream translation license.
-- The owner authorized the `wetriedtls` adapter on 2026-11-15; `ch001-ch040` were
-  then fetched into `03_Raw/` (40/40, titles carried from the page heading).
-  `setup.source_state: fetched` records this, and `preflight` compares it against
-  what `03_Raw` actually holds.
+- The owner authorized the `wetriedtls` adapter on 2026-11-15; `ch001-ch082` were
+  then fetched into `03_Raw/` (82/82 free chapters, titles carried from the page
+  heading). `ch083` onward is a paid chapter on that site, so the free run stops
+  at `ch082`. `setup.source_state: fetched` records this, and `preflight` compares
+  it against what `03_Raw` actually holds.
 - Glossary approval, title sidecars for Thai output, and the `ch001-ch003` pilot
   are still pending.
 - Reader scope is **local only**. This draft is not added to the public reader
