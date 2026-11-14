@@ -1,6 +1,6 @@
 # Architecture: Novel Translation Workspace
 
-Last updated: 2026-11-05
+Current ownership only; historical migrations are in Git/evidence, not this file.
 
 This document defines stable ownership and runtime boundaries. Current status belongs in `PROJECT_BRAIN.md`; planned work belongs in `IMPLEMENT_PLAN.md`.
 
@@ -24,18 +24,19 @@ This is the multi-novel system and owns behavior that must be safe for every nov
 | Registry and shared policy | `00_Config/` | novel registry, cross-novel quality thresholds, reader policy |
 | Reader | `MoonRead/` | generated reader content, UI, publish verification, lint/build/smoke |
 | Durable project memory | root `PROJECT_BRAIN.md`, `IMPLEMENT_PLAN.md`, `ARCHITECTURE.md`, `AGENTS.md` | intent, roadmap, structure, behavior policy |
-| Evidence | root `01_Research_Log/`, `07_Reports/` | experiments, audits, checkpoints, incident evidence |
+| Evidence | root `01_Research_Log/`, `07_Reports/` | curated conclusions; generated Sentinel runs live under ignored `07_Reports/generated/`; read-only scope index in `scripts/workspace_health.py` |
+| Decisions / quality measurement | `DECISIONS.md`, `00_Config/quality_incidents.json` | append-only policy history and evidenced publication/reader-incident cohorts; no duplicate current chapter tally |
 
 Project-layer code may read a selected novel context, but it must not contain default paths to a specific novel. Shared code must use `AppConfig.workspace` and the selected config's registry identity.
 
-### Migration status (verified 2026-10-03)
+### Runtime boundary
 
 - The root `novel_pipeline/` package is the only canonical runtime package.
-- All five registered novel configs select `pipeline_engine: lean`.
+- Runtime selection belongs to each registered novel config, not a count in this document.
 - `Deep Sea Embers/novel_pipeline/__init__.py` is only a compatibility shim; it redirects submodule resolution to the root package. It is not a second engine.
 - The 36 old DSE-local runtime modules were removed; their migrated root counterparts retain historical recovery support. Git preserves the old source history.
 - `novel_pipeline/pipeline.py` remains as a compatibility/recovery module for historical tests and artifacts. Lean production dispatch does not call its legacy end-to-end runner, and the CLI rejects legacy stage commands for Lean configs.
-- This migration was verified without provider calls. A new provider-backed production batch is still a separate bounded operation, not evidence silently inferred from the migration tests.
+- Provider-free runtime verification does not authorize a provider-backed batch.
 
 ### Novel layer: `<Novel>/` (Layer 1 and Layer 2)
 
@@ -120,6 +121,11 @@ fallbacks; routing changes require separate authorization.
 7. human/Inspector spot-check: project acceptance gate
 
 Fix recurring defects at the lowest layer that safely catches them. Promote a novel rule to project layer only after evidence shows it is cross-novel and has low false-positive risk.
+
+Source-backed glossary coverage includes Chinese as well as Latin source terms
+and explicit rejected variants. Missing source makes that check unverified, not
+semantically green. These checks and Inspector samples are limited detectors,
+not a proof of meaning preservation; track escaped incidents separately.
 
 ## 6. Ownership
 

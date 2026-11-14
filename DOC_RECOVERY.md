@@ -1,66 +1,30 @@
-# Canonical Doc Recovery
+# Control-document recovery
 
-Last updated: 2026-11-05
+Paths are repository-relative. Git is the normal history/recovery mechanism;
+inspect the diff and preserve WIP before any owner-authorized restore.
 
-This workspace keeps the canonical control files at `D:\Fogust\Workspace\Novel`, outside any single-novel folder.
-
-Canonical files:
-
-- `D:\Fogust\Workspace\Novel\AGENTS.md`
-- `D:\Fogust\Workspace\Novel\PROJECT_BRAIN.md`
-- `D:\Fogust\Workspace\Novel\IMPLEMENT_PLAN.md`
-- `D:\Fogust\Workspace\Novel\ARCHITECTURE.md`
-
-Current SHA256 hashes after the latest root-doc sync:
+## Current SHA256 (LF bytes)
 
 | file | sha256 |
 | --- | --- |
-| `AGENTS.md` | `3EF0E9906E544269DA0C255FA61DCDDA08C787A7E2D9303E42F71DA6AE4FE150` |
-| `PROJECT_BRAIN.md` | `7A7A9C695AF4F61850C2F161A7B66BB65DABA0205C891B69A7451C14A8057FED` |
-| `IMPLEMENT_PLAN.md` | `48B851BE5D64BAA74359D5659A8E68093EC34C414C4794FCB276338863857AB6` |
-| `ARCHITECTURE.md` | `C9201DFF2C7AC9698D9DF3BB9B0BBA0A6208ABA5A8BC8C244320438E52282EB8` |
+| `AGENTS.md` | `6dff6a274f3e380ea5cbb982d8ce267e0c2f8b9d8b34efc934f32d918b366991` |
+| `PROJECT_BRAIN.md` | `32c2330f2daa5d99fc8ab0022b94f1c411bcc6675fff1f377300c1621ac7ba5c` |
+| `IMPLEMENT_PLAN.md` | `0e663dd4fba4bfb326e52e95dc6319dbb8409f51a0588e778b9ad4a475f34045` |
+| `ARCHITECTURE.md` | `bdaada76598a2d19291fa368b03a83556f51a97867f7b67308d920e8e94ce4d8` |
 
-Latest local snapshot:
+The CI integrity test verifies these hashes. An intentional edit updates its hash
+in the same change; a hash is integrity evidence, not proof of current truth.
 
-- `D:\Fogust\Workspace\Novel\99_Adhoc_Scripts\canonical_docs_backup_20260616_v618_runtime_slice`
+## Compaction / rotation
 
-## Check Integrity
-
-```powershell
-cd "D:\Fogust\Workspace\Novel"
-Get-FileHash AGENTS.md,PROJECT_BRAIN.md,IMPLEMENT_PLAN.md,ARCHITECTURE.md -Algorithm SHA256
-```
-
-## Backup
-
-Use a dated folder outside any novel-specific directory:
-
-```powershell
-cd "D:\Fogust\Workspace\Novel"
-$stamp = Get-Date -Format "yyyyMMdd_HHmmss"
-$target = "D:\Fogust\Workspace\Novel\99_Adhoc_Scripts\canonical_docs_backup_$stamp"
-New-Item -ItemType Directory -Force -Path $target
-Copy-Item AGENTS.md,PROJECT_BRAIN.md,IMPLEMENT_PLAN.md,ARCHITECTURE.md,DOC_RECOVERY.md -Destination $target
-Get-FileHash "$target\AGENTS.md","$target\PROJECT_BRAIN.md","$target\IMPLEMENT_PLAN.md","$target\ARCHITECTURE.md" -Algorithm SHA256
-```
-
-## Restore
-
-Only restore these files if they are damaged or accidentally overwritten:
-
-```powershell
-cd "D:\Fogust\Workspace\Novel"
-$backup = "D:\Fogust\Workspace\Novel\99_Adhoc_Scripts\canonical_docs_backup_20260616_v618_runtime_slice"
-Copy-Item "$backup\AGENTS.md" .
-Copy-Item "$backup\PROJECT_BRAIN.md" .
-Copy-Item "$backup\IMPLEMENT_PLAN.md" .
-Copy-Item "$backup\ARCHITECTURE.md" .
-Get-FileHash AGENTS.md,PROJECT_BRAIN.md,IMPLEMENT_PLAN.md,ARCHITECTURE.md -Algorithm SHA256
-```
-
-## Rules
-
-- Do not store durable cross-novel planning inside a single novel folder.
-- Do not let worker models rewrite these files without Codex review.
-- If a worker report conflicts with these files, inspect disk state before updating the docs.
-- If these hashes change intentionally, update this file in the same turn.
+- `python scripts/workspace_health.py check` enforces both line and character
+  budgets. Keep current state in BRAIN, open outcomes in PLAN and boundaries in
+  ARCHITECTURE. Close/rewrite items instead of appending checkpoints indefinitely.
+- Put durable incident/prevention evidence in the quality ledger/report, then
+  link it. Generated Sentinel evidence belongs in the ignored generated subtree.
+- Read `DECISIONS.md` only for a relevant policy decision; preserve its prior rows
+  and append superseding decisions when authorized. It is not a startup document.
+- The one-time pre-compaction snapshot and byte hashes are in
+  `Backup_/governance/2026-11-15/manifest.json`. Earlier policy archives retain
+  their original bytes. Use an archive only after diagnosing the damage; do not
+  overwrite valid current documents with a historical checkpoint.

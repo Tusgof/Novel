@@ -11,6 +11,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable
 
+import yaml
+
 
 SCRIPT_PATH = Path(__file__).resolve()
 SHARED_ROOT = SCRIPT_PATH.parents[1]
@@ -19,7 +21,7 @@ REGISTRY_PATH = Path(
     os.environ.get("NOVEL_SENTINEL_REGISTRY_PATH", str(WORKSPACE_ROOT / "00_Config" / "novel_registry.json"))
 ).resolve()
 MOONREAD_ROOT = Path(os.environ.get("NOVEL_SENTINEL_MOONREAD_ROOT", str(WORKSPACE_ROOT / "MoonRead"))).resolve()
-REPORT_ROOT = Path(os.environ.get("NOVEL_SENTINEL_REPORT_ROOT", str(WORKSPACE_ROOT / "07_Reports"))).resolve()
+REPORT_ROOT = Path(os.environ.get("NOVEL_SENTINEL_REPORT_ROOT", str(WORKSPACE_ROOT / "07_Reports/generated"))).resolve()
 KNOWN_GLOSSARY_NEAR_MISSES = {
     "Kaelen": ["ไคลน์", "ไคล์น"],
     "Kaelen Jacobs": ["ไคลน์", "ไคล์น"],
@@ -44,6 +46,7 @@ class GlossaryTerm:
     thai: str
     category: str
     path: Path
+    rejected: tuple[str, ...] = ()
 
 
 def read_text(path: Path) -> str:
@@ -129,25 +132,18 @@ def in_scope(chapter: str, scoped: set[str] | None) -> bool:
     return scoped is None or chapter in scoped
 
 
-def parse_frontmatter(path: Path) -> dict[str, str]:
+def parse_frontmatter(path: Path) -> dict:
     text = read_text(path).lstrip("\ufeff")
     match = re.match(r"^---\n(.*?)\n---", text, re.DOTALL)
     if not match:
         return {}
-    values: dict[str, str] = {}
-    for line in match.group(1).splitlines():
-        if ":" not in line:
-            continue
-        key, value = line.split(":", 1)
-        values[key.strip()] = value.strip().strip("'\"")
-    return values
+    values = yaml.safe_load(match.group(1))
+    return values if isinstance(values, dict) else {}
 
 
-def parse_inline_list(raw: str) -> list[str]:
-    raw = raw.strip()
-    if not raw.startswith("[") or not raw.endswith("]"):
-        return []
-    return [part.strip().strip("'\"") for part in raw[1:-1].split(",") if part.strip()]
+def parse_inline_list(raw: object) -> list[str]:
+    values = yaml.safe_load(raw) if isinstance(raw, str) else raw
+    return [str(value).strip() for value in values if str(value).strip()] if isinstance(values, list) else []
 
 
 def iter_markdown_files(root: Path, scoped: set[str] | None) -> Iterable[Path]:
@@ -221,8 +217,9 @@ def approved_glossary_terms(novel_root: Path, findings: list[Finding]) -> list[G
         category = meta.get("category", "").strip().lower()
         originals = [meta.get("original_term", "").strip(), *parse_inline_list(meta.get("aliases", ""))]
         for original in originals:
-            if original and original != thai and re.search(r"[A-Za-z]", original) and original not in thai:
-                terms.append(GlossaryTerm(original=original, thai=thai, category=category, path=path))
+            if original and original != thai and original not in thai:
+                terms.append(GlossaryTerm(original=original, thai=thai, category=category, path=path,
+                                          rejected=tuple(parse_inline_list(meta.get("rejected_variants", [])))))
     terms.sort(key=lambda item: len(item.original), reverse=True)
     return terms
 
@@ -373,6 +370,13 @@ def scan_glossary_source_coverage(registry: dict, scoped: set[str] | None) -> li
                     continue
                 translated_text = read_text(path)
                 for term in matched_terms:
+                    rejected = [variant for variant in term.rejected if variant in translated_text]
+                    if rejected:
+                        findings.append(Finding(
+                            "blocker", "glossary_rejected_variant", str(path),
+                            f"{surface}: rejected variant remains even if canonical Thai also appears",
+                            f"{term.original} -> {term.thai}; rejected={', '.join(rejected)}",
+                        ))
                     if output_has_glossary_translation(term, translated_text):
                         continue
                     if covered_by_related_source_term(term, matched_terms, translated_text):
@@ -507,19 +511,25 @@ def summarize(findings: list[Finding]) -> dict[str, int]:
     return counts
 
 
-def write_reports(findings: list[Finding], *, scope: str, chapters: str | None) -> tuple[Path, Path]:
-    REPORT_ROOT.mkdir(parents=True, exist_ok=True)
-    stamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+def write_reports(findings: list[Finding], *, scope: str, chapters: str | None, coverage: dict | None = None) -> tuple[Path, Path]:
+    if not re.fullmatch(r"[A-Za-z0-9_.-]+", scope):
+        raise ValueError("report scope must be a safe filename label")
+    now = datetime.now(timezone.utc)
+    report_dir = REPORT_ROOT / now.strftime("%Y-%m")
+    report_dir.mkdir(parents=True, exist_ok=True)
+    stamp = now.strftime("%Y%m%d_%H%M%S_%f")
     base = f"sentinel_quality_{scope}_{stamp}"
-    json_path = REPORT_ROOT / f"{base}.json"
-    md_path = REPORT_ROOT / f"{base}.md"
+    json_path = report_dir / f"{base}.json"
+    md_path = report_dir / f"{base}.md"
     counts = summarize(findings)
     payload = {
         "created_at": datetime.now(timezone.utc).isoformat(),
         "scope": scope,
         "chapters": chapters or "all configured/current",
         "counts": counts,
-        "safe_to_publish": counts.get("blocker", 0) == 0,
+        "safe_to_publish": counts.get("blocker", 0) == 0 and counts.get("major", 0) == 0 and bool(coverage and coverage["status"] == "evaluated"),
+        "source_coverage": coverage or {"status": "unverified"},
+        "semantic_fidelity": "not proven; checks cover declared glossary/format invariants, not all meaning or speaker attribution",
         "findings": [asdict(finding) for finding in findings],
     }
     json_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -531,6 +541,8 @@ def write_reports(findings: list[Finding], *, scope: str, chapters: str | None) 
         f"- Chapters: {payload['chapters']}",
         f"- Safe to publish: {'yes' if payload['safe_to_publish'] else 'no'}",
         f"- Blocker/Major/Minor/Info: {counts.get('blocker', 0)}/{counts.get('major', 0)}/{counts.get('minor', 0)}/{counts.get('info', 0)}",
+        f"- Source-backed coverage: {payload['source_coverage']}",
+        f"- Semantic fidelity: {payload['semantic_fidelity']}",
         "",
         "## Next Action",
         "",
@@ -540,7 +552,7 @@ def write_reports(findings: list[Finding], *, scope: str, chapters: str | None) 
     elif counts.get("major", 0):
         lines.append("- Inspect major findings before publish. Promote recurring true positives into blocker guardrails.")
     else:
-        lines.append("- Product surface has no blocker findings under current Sentinel rules.")
+        lines.append("- No findings in evaluated invariants; semantic fidelity and independent acceptance are still required.")
     lines.extend(["", "## Findings", ""])
     if not findings:
         lines.append("- None")
@@ -554,6 +566,22 @@ def write_reports(findings: list[Finding], *, scope: str, chapters: str | None) 
     return json_path, md_path
 
 
+def semantic_coverage(registry: dict, scoped: set[str] | None) -> dict:
+    evaluated = 0
+    missing = []
+    for novel in registry.get("novels", []):
+        root = WORKSPACE_ROOT / novel["folder"]
+        ids = chapters_with_outputs(root, novel.get("output_dir", "05_Output"), novel["slug"], scoped)
+        for cid in sorted(ids):
+            if source_text_for_chapter(root, novel.get("raw_dir", "03_Raw"), cid):
+                evaluated += 1
+            else:
+                missing.append(f"{novel['slug']}/{cid}")
+        if scoped and not ids:
+            missing.append(f"{novel['slug']}: no requested product surface")
+    return {"status": "evaluated" if evaluated and not missing else "unverified", "chapters_with_source": evaluated, "missing": missing}
+
+
 def collect_findings(*, novel: str | None = None, chapters: str | None = None, skip_advisory_english: bool = False) -> list[Finding]:
     scoped = parse_chapter_scope(chapters)
     registry = filter_registry(load_registry(), novel)
@@ -562,6 +590,10 @@ def collect_findings(*, novel: str | None = None, chapters: str | None = None, s
     findings.extend(scan_approved_glossary_leakage(registry, scoped))
     findings.extend(scan_glossary_source_coverage(registry, scoped))
     findings.extend(scan_glossary_note_leakage(registry, scoped))
+    coverage = semantic_coverage(registry, scoped)
+    for missing in coverage["missing"] or (["no source-backed chapter evaluated"] if coverage["status"] == "unverified" else []):
+        findings.append(Finding("major", "semantic_input_unavailable", missing,
+                                "source-backed checks are unverified; supply original source before acceptance"))
     if not skip_advisory_english:
         findings.extend(scan_suspicious_english(registry, scoped))
     return findings
@@ -576,7 +608,8 @@ def generate_sentinel_report(
     skip_advisory_english: bool = False,
 ) -> dict[str, object]:
     findings = collect_findings(novel=novel, chapters=chapters, skip_advisory_english=skip_advisory_english)
-    json_path, md_path = write_reports(findings, scope=scope, chapters=chapters)
+    coverage = semantic_coverage(filter_registry(load_registry(), novel), parse_chapter_scope(chapters))
+    json_path, md_path = write_reports(findings, scope=scope, chapters=chapters, coverage=coverage)
     counts = summarize(findings)
     thresholds = {
         "blocker": counts.get("blocker", 0),

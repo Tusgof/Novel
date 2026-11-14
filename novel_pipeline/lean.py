@@ -671,7 +671,7 @@ def _run_production_sentinel(config: Any, *, run_id: str, chapters: str, staged_
     previous_env = {key: os.environ.get(key) for key in env_keys}
     os.environ["NOVEL_SENTINEL_WORKSPACE_ROOT"] = str(workspace_root)
     os.environ["NOVEL_SENTINEL_REGISTRY_PATH"] = str(workspace_root / "00_Config" / "novel_registry.json")
-    os.environ["NOVEL_SENTINEL_REPORT_ROOT"] = str(workspace_root / "07_Reports")
+    os.environ["NOVEL_SENTINEL_REPORT_ROOT"] = str(workspace_root / "07_Reports/generated")
     os.environ["NOVEL_SENTINEL_NOVEL"] = config.novel_id
     os.environ["NOVEL_SENTINEL_OUTPUT_ROOT"] = str(staged_output_root)
     os.environ["NOVEL_SENTINEL_STAGE_ONLY"] = "1"

@@ -61,6 +61,7 @@ validation_mojibake.py
 
 # Archived/generated historical reports are kept locally, but root git tracks active docs and current reports first.
 **/07_Reports/archive/
+**/07_Reports/generated/
 
 # OS noise
 Thumbs.db

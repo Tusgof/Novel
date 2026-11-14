@@ -7,7 +7,7 @@
   "status": {
     "state": "active",
     "decided_on": "2026-10-07",
-    "decision_ref": "PROJECT_BRAIN.md Decision Log #3"
+    "decision_ref": "DECISIONS.md Decision Log #3"
   },
   "user_facing": true,
   "real_surface": "Each novel's final chapter output, gated by output guardrails and Sentinel, and the MoonRead reader built from it",

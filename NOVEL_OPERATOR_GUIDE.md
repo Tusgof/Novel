@@ -20,6 +20,16 @@ novel-pipeline --config "Horror Game Developers/.system/config.yaml" resume --ru
 
 ## หลักสั้นที่สุด
 
+### สถานะและข้อผิดพลาดที่หลุดถึงคนอ่าน
+
+ใช้ `python scripts/workspace_health.py status` แทนการคัดลอกยอดตอนลงเอกสาร:
+registry คือขอบเขต reader ที่ตั้งใจไว้ ไม่ใช่จำนวนไฟล์ local และไม่ใช่ผลตรวจเว็บสด
+ใช้ `reports --query <scope>` หา evidence ล่าสุด และ `quality` ดู incident ที่คนอ่านพบ
+หลังตรวจ release บนเว็บจริงแล้ว เพิ่ม publication cohort พร้อม revision/URL/evidence
+ใน `00_Config/quality_incidents.json` แล้วบันทึก reader incident ด้วย ID เดิมไม่ซ้ำ
+การ generate ซ้ำไม่นับเป็น publish ใหม่ ประวัติย้อนหลังที่ไม่ครบจะแสดงเป็น lower bound
+ไม่แสดงเป็นอัตราความผิดพลาดที่แน่นอน ดูขั้นตรวจใน Feature Map: `governance-health.md`
+
 ### โมเดล OpenCode Go ที่เลือกใช้
 
 | งาน | โมเดลหลัก | Reasoning | เหตุผลในการเลือกเริ่มต้น |

@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "definition": "Distinct reader-discovered incidents / distinct first-published chapter IDs * 10. One report affecting multiple chapters is one incident; retries and unchanged regeneration add no exposure.",
+  "reporting_started_on": "2026-11-15",
+  "history_complete": false,
+  "note": "Only the three explicitly identified escaped incidents are backfilled. Historical snapshot ranges below are frozen evidence at the stated commit, NOT another current-state registry and NOT live-publication probes. Record new verified-publication cohorts after live verification; preserve prior entries.",
+  "publication_cohorts": [
+    {
+      "id": "legacy-dse",
+      "kind": "historical-reader-snapshot",
+      "novel": "deep-sea-embers",
+      "chapters": ["ch001-ch281"],
+      "source_commit": "208fe61ddd97510306388d1b3ed712c5bf056e7a",
+      "evidence": "MoonRead/content/generated/books/deep-sea-embers/manifest.json"
+    },
+    {
+      "id": "legacy-hgd",
+      "kind": "historical-reader-snapshot",
+      "novel": "horror-game-developer",
+      "chapters": ["ch001-ch290"],
+      "source_commit": "208fe61ddd97510306388d1b3ed712c5bf056e7a",
+      "evidence": "MoonRead/content/generated/books/horror-game-developer/manifest.json"
+    },
+    {
+      "id": "legacy-irs",
+      "kind": "historical-reader-snapshot",
+      "novel": "infinite-regressor-stories",
+      "chapters": ["ch001-ch070"],
+      "source_commit": "208fe61ddd97510306388d1b3ed712c5bf056e7a",
+      "evidence": "MoonRead/content/generated/books/infinite-regressor-stories/manifest.json"
+    },
+    {
+      "id": "legacy-rezero",
+      "kind": "historical-reader-snapshot",
+      "novel": "re-zero-watching-him-die-again-and-again",
+      "chapters": ["ch001-ch008"],
+      "source_commit": "208fe61ddd97510306388d1b3ed712c5bf056e7a",
+      "evidence": "MoonRead/content/generated/books/re-zero-watching-him-die-again-and-again/manifest.json"
+    },
+    {
+      "id": "legacy-ohks",
+      "kind": "historical-reader-snapshot",
+      "novel": "one-hit-kill-swordmaster",
+      "chapters": ["ch001-ch020"],
+      "source_commit": "208fe61ddd97510306388d1b3ed712c5bf056e7a",
+      "evidence": "MoonRead/content/generated/books/one-hit-kill-swordmaster/manifest.json"
+    },
+    {
+      "id": "legacy-tdu",
+      "kind": "historical-reader-snapshot",
+      "novel": "ten-day-ultimatum",
+      "chapters": ["ch001-ch025"],
+      "source_commit": "208fe61ddd97510306388d1b3ed712c5bf056e7a",
+      "evidence": "MoonRead/content/generated/books/ten-day-ultimatum/manifest.json"
+    }
+  ],
+  "incidents": [
+    {
+      "id": "DSE-20260630-ADJUDICATOR",
+      "novel": "deep-sea-embers",
+      "publication_cohort": "legacy-dse",
+      "chapters": ["ch140-ch160"],
+      "discovered_on": "2026-06-30",
+      "detected_by": "reader",
+      "category": "approved-title-drift",
+      "status": "historically-repaired",
+      "evidence": "07_Reports/sentinel_quality_dse-ch140-ch160-user-review_20260630_174056.md",
+      "summary": "审判官 drift survived chapter gates; the reader found it. Canonical Thai is ตุลาการ."
+    },
+    {
+      "id": "HGD-20260621-GLOSSARY",
+      "novel": "horror-game-developer",
+      "publication_cohort": "legacy-hgd",
+      "chapters": ["ch149"],
+      "discovered_on": "2026-06-21",
+      "detected_by": "reader",
+      "category": "glossary-leakage",
+      "status": "historically-repaired",
+      "evidence": "Horror Game Developers/07_Reports/hgd_english_leakage_repair_20260621.md",
+      "summary": "Reader reported transliteration/English parenthetical leakage despite prior natural Thai."
+    },
+    {
+      "id": "HGD-20260622-VOICE-LEAKAGE",
+      "novel": "horror-game-developer",
+      "publication_cohort": "legacy-hgd",
+      "chapters": ["ch203", "ch206"],
+      "discovered_on": "2026-06-22",
+      "detected_by": "reader",
+      "category": "voice-and-glossary-leakage",
+      "status": "historically-repaired",
+      "evidence": "Backup_/governance/2026-11-15/PROJECT_BRAIN.md",
+      "summary": "One reader incident: Seth voice drift in ch203 and glossary leakage in ch206. Archived BRAIN records the trigger, repair and prevention."
+    }
+  ]
+}
