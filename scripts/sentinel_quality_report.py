@@ -254,8 +254,10 @@ def source_text_for_chapter(novel_root: Path, raw_dir: str, chapter: str) -> str
         data = json.loads(read_text(source_path))
     except (OSError, json.JSONDecodeError):
         return ""
+    if not isinstance(data, dict):
+        return ""
     parts: list[str] = []
-    for key in ("title", "raw_title", "raw_text", "source_text", "text"):
+    for key in ("raw_text", "source_text", "text"):
         value = data.get(key)
         if isinstance(value, str):
             parts.append(value)
@@ -268,7 +270,9 @@ def source_text_for_chapter(novel_root: Path, raw_dir: str, chapter: str) -> str
                 value = block.get(key)
                 if isinstance(value, str):
                     parts.append(value)
-    return "\n".join(parts)
+    if not any(part.strip() for part in parts):
+        return ""
+    return "\n".join([*(data.get(key, "") for key in ("title", "raw_title") if isinstance(data.get(key), str)), *parts])
 
 
 def final_output_path_for_chapter(novel_root: Path, output_dir: str, chapter: str) -> Path:
@@ -577,8 +581,8 @@ def semantic_coverage(registry: dict, scoped: set[str] | None) -> dict:
                 evaluated += 1
             else:
                 missing.append(f"{novel['slug']}/{cid}")
-        if scoped and not ids:
-            missing.append(f"{novel['slug']}: no requested product surface")
+        for cid in sorted((scoped or set()) - ids):
+            missing.append(f"{novel['slug']}/{cid}: requested product surface missing")
     return {"status": "evaluated" if evaluated and not missing else "unverified", "chapters_with_source": evaluated, "missing": missing}
 
 

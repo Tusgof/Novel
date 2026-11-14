@@ -7,9 +7,9 @@ inspect the diff and preserve WIP before any owner-authorized restore.
 
 | file | sha256 |
 | --- | --- |
-| `AGENTS.md` | `6dff6a274f3e380ea5cbb982d8ce267e0c2f8b9d8b34efc934f32d918b366991` |
-| `PROJECT_BRAIN.md` | `32c2330f2daa5d99fc8ab0022b94f1c411bcc6675fff1f377300c1621ac7ba5c` |
-| `IMPLEMENT_PLAN.md` | `0e663dd4fba4bfb326e52e95dc6319dbb8409f51a0588e778b9ad4a475f34045` |
+| `AGENTS.md` | `4d63935b798a14101668b4b136fe26efd4a24687251f36c574264368f75d3416` |
+| `PROJECT_BRAIN.md` | `886bdd6189041352c40b73e90d496e9033239ef05f028c0bf2b05ea002b7220e` |
+| `IMPLEMENT_PLAN.md` | `8620de9a072bf3b3556905ea8f52b1009e7143616d092db6112b88f10d880dad` |
 | `ARCHITECTURE.md` | `bdaada76598a2d19291fa368b03a83556f51a97867f7b67308d920e8e94ce4d8` |
 
 The CI integrity test verifies these hashes. An intentional edit updates its hash

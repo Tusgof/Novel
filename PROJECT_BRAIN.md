@@ -42,8 +42,8 @@ For the run's actual promotion/quarantine state, use the Feature Map's status pa
   it with reset, stash, blanket ignore rules or an unapproved content push.
 - Shared installed Kit skills may be older than `.yuehua-kit.json`; use the
   pinned procedures. Unverified included allowance means main-agent fallback.
-- Existing private TDU delivery and the source-pending Fusionpunk draft are local
-  work, not new public registry entries. The local reader process may be stopped.
+- Unregistered vaults and private reader deliveries need their own observed
+  source/run status. A remembered setup label or local URL is not current evidence.
 
 ## Where to go next
 

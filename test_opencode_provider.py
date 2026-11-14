@@ -97,7 +97,7 @@ class OpenCodeProviderTests(unittest.TestCase):
             self.assertNotIn("cost", usage)
             self.assertEqual(usage["cost_status"], "go_allowance_not_reported")
 
-    def test_all_six_novels_route_only_to_go_with_task_specific_reasoning(self):
+    def test_all_registered_novels_route_only_to_go_with_task_specific_reasoning(self):
         registry = json.loads((ROOT / "00_Config/novel_registry.json").read_text(encoding="utf-8"))
         expected = {
             "term_extraction": f"{HAIKU}#low",
@@ -108,7 +108,13 @@ class OpenCodeProviderTests(unittest.TestCase):
             "project_setup": f"{DEEPSEEK}#high",
             "fetch": f"{HAIKU}#low",
         }
-        self.assertEqual(len(registry["novels"]), 6)
+        slugs = [novel["slug"] for novel in registry["novels"]]
+        self.assertEqual(len(slugs), len(set(slugs)))
+        self.assertTrue({
+            "deep-sea-embers", "horror-game-developer", "infinite-regressor-stories",
+            "one-hit-kill-swordmaster", "re-zero-watching-him-die-again-and-again",
+            "ten-day-ultimatum",
+        } <= set(slugs), "Keep the existing novels; validate every new registry entry too")
         for novel in registry["novels"]:
             config = load_app_config(ROOT / novel["folder"] / ".system/config.yaml")
             for stage, model in expected.items():

@@ -1,0 +1,26 @@
+schema_version: 1
+novel_id: investing-in-my-crippled-wife
+title: 'Investing in My Crippled Wife: Every Return Makes Me Stronger'
+aliases: []
+languages:
+  source: en
+  target: th
+genre: progression-fantasy-romance
+style_profile: investment_fantasy
+source:
+  adapter: ''
+  toc_url: https://www.webnovel.com/book/investing-in-my-crippled-wife-every-return-makes-me-stronger_35147273900927805
+research:
+  status: pending
+  profile_path: RESEARCH_PROFILE.yaml
+  title: 'Investing in My Crippled Wife: Every Return Makes Me Stronger'
+  source_url: https://www.webnovel.com/book/investing-in-my-crippled-wife-every-return-makes-me-stronger_35147273900927805
+setup:
+  created_at: '2026-11-14T18:07:43.054207+00:00'
+  created_from_workspace: One Hit Kill Swordmaster
+  source_state: pending
+notes: Source-pending setup draft. Public metadata reviewed; chapter extraction, glossary approval and a bounded pilot remain pending. Not production-ready or authorized for publication.
+author: Peace_in_Chaos
+source_site: webnovel
+source_book_id: '35147273900927805'
+pipeline_label: Code
