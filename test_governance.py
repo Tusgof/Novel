@@ -97,6 +97,17 @@ class GovernanceTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "live URL"):
             health.quality_metrics(self.root)
 
+    def test_unknown_legacy_discovery_date_is_explicit_and_new_incidents_need_a_date(self):
+        cohort = self.cohort()
+        incident = self.incident()
+        incident.update(discovered_on=None, discovery_date_status="historical-unknown")
+        self.save()
+        self.assertEqual(health.quality_metrics(self.root)["known_reader_incidents"], 1)
+        cohort.update(kind="verified-publication", verified_at="2026-11-15T00:00:00Z", revision="revision", live_url="https://example.org/verified")
+        self.save()
+        with self.assertRaisesRegex(ValueError, "discovery date"):
+            health.quality_metrics(self.root)
+
     def test_evidence_pointer_must_resolve(self):
         self.cohort()["evidence"] = "missing.md"
         self.save()
@@ -158,19 +169,31 @@ class GovernanceTests(unittest.TestCase):
         result = health.check(ROOT)
         self.assertTrue(result["passed"], result["errors"])
 
-    def test_new_novel_has_its_own_voice_and_truthful_pending_state(self):
-        config = load_app_config(ROOT / "Investing in My Crippled Wife/.system/config.yaml")
-        self.assertEqual(config.novel_id, "investing-in-my-crippled-wife")
-        self.assertEqual(config.source_language, "en")
-        self.assertIn("investment_fantasy", config.style_profiles)
-        voice = (config.workspace.system / "lean_voice.md").read_text(encoding="utf-8")
-        self.assertNotIn("Duncan", voice)
-        self.assertNotIn("Gaon", voice)
-        if config.research_profile.status == "pending":
-            self.assertFalse(config.research_readiness_summary()["bounded_translation_ready"])
-            registry = health.load(ROOT / "00_Config/novel_registry.json")
-            entry = next(n for n in registry["novels"] if n["slug"] == config.novel_id)
-            self.assertFalse(entry["reader"]["enabled"])
+    def test_new_novels_have_their_own_voice_and_truthful_pending_state(self):
+        for folder, slug, style, other_terms in (
+            ("Investing in My Crippled Wife", "investing-in-my-crippled-wife", "investment_fantasy", ("Earth's System",)),
+            ("Im a Young God Wont You Raise Me", "im-a-young-god-wont-you-raise-me", "young_god", ("Soren", "Ethea", "Ice Empress")),
+        ):
+            with self.subTest(novel=slug):
+                config = load_app_config(ROOT / folder / ".system/config.yaml")
+                self.assertEqual(config.novel_id, slug)
+                self.assertEqual(config.source_language, "en")
+                self.assertIn(style, config.style_profiles)
+                voice = (config.workspace.system / "lean_voice.md").read_text(encoding="utf-8")
+                for foreign_term in ("Duncan", "Gaon", *other_terms):
+                    self.assertNotIn(foreign_term, voice)
+                if config.research_profile.status == "pending":
+                    self.assertFalse(config.research_readiness_summary()["bounded_translation_ready"])
+                    registry = health.load(ROOT / "00_Config/novel_registry.json")
+                    entry = next(n for n in registry["novels"] if n["slug"] == config.novel_id)
+                    self.assertFalse(entry["reader"]["enabled"])
+
+    def test_english_relay_listing_account_is_not_mislabeled_as_original_author(self):
+        import yaml
+        profile = yaml.safe_load((ROOT / "Im a Young God Wont You Raise Me/NOVEL_PROFILE.yaml").read_text(encoding="utf-8"))
+        self.assertTrue(profile["input_is_english_relay"])
+        self.assertEqual(profile["english_listing_account"], "Rein_lout")
+        self.assertEqual(profile["original_author_attribution"]["status"], "secondary-catalog-attribution-not-primary-verified")
 
 
 if __name__ == "__main__":

@@ -23,17 +23,18 @@ Acceptance checks:
 - Root and compatibility tests, clean-checkout checks, and doctor pass, or the
   exact unresolved failure is reported. Landing requires owner approval and CI.
 
-## 2. New novel setup — scaffold created; source/pilot gates pending
+## 2. New novel setups — source/pilot gates pending
 
-Set up the owner-provided Webnovel title as an isolated, source-pending vault.
+Set up the owner-provided Webnovel titles as isolated, source-pending vaults.
 Inspect public metadata/access, create its own language/voice/profile and Code
 routes, and verify the setup gate. No chapter-body acquisition, translation,
-reader registration, provider call, account purchase or public deployment is
+public reader enablement, provider call, account purchase or public deployment is
 included in this setup request.
 
-Draft: `Investing in My Crippled Wife/README.md`. The official English metadata,
-own voice/language guidance and disabled reader entry are set. No tested Webnovel
-body adapter, source corpus, approved glossary or accepted pilot exists yet.
+Drafts: `Investing in My Crippled Wife/README.md` and
+`Im a Young God Wont You Raise Me/README.md`. Each has its own voice/language
+guidance and disabled reader entry. Young God is an English relay, not a verified
+English original. No tested Webnovel body adapter, source corpus or pilot exists.
 
 ## Boundaries / parked work
 

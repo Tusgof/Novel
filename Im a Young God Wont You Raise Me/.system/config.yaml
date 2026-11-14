@@ -1,0 +1,19 @@
+novel_id: im-a-young-god-wont-you-raise-me
+pipeline_engine: lean
+vault_root: .
+source_language: en
+default_batch_size: 5
+chapter_unit: chapters
+default_style_profile: young_god
+chunking:
+  chinese_character_limit: 600
+  non_chinese_word_limit: 5000
+source:
+  adapter: ''
+  toc_url: https://www.webnovel.com/book/36319132800427205
+  delay_seconds: 1.0
+  encoding: utf-8
+execution:
+  sentinel:
+    mode: blocking
+    fail_on: major

@@ -1,0 +1,14 @@
+young_god:
+  name: young-god-system-fantasy-thai
+  description: Draft style for an English relay of game-becomes-reality action.
+  genre_label: action / system fantasy
+  tone: source-led tension, clear game logic, restrained humour
+  naming_notes: Verify names against chapter context. Preserve the distinction between protagonist-as-System and Players; do not invent original-language spellings.
+  narration_density: balanced
+  glossary_categories: [character, role, title, location, organization, item, skill, system, rank, term]
+  qa_criteria:
+    - Preserve conditions, quantities, negation, knowledge limits and narrative beats.
+    - Keep commands, game states, thoughts, dialogue and viewpoint boundaries distinct.
+    - Attribute speaker and perspective before selecting Thai pronouns.
+    - Do not conflate the protagonist with a Player or insert absent explanations.
+    - Preserve the English relay's uncertainty; do not invent corrections from an unavailable original.

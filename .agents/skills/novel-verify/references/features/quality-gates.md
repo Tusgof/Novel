@@ -14,6 +14,8 @@ python scripts/check_output_quality_guardrails.py --help
 and its report is saved under `07_Reports/generated/<UTC month>/`. Quote counts
 AND source-coverage status. The report's semantic-fidelity limit remains explicit;
 green glossary/format checks are not a semantic-quality certificate.
+The JSON separates `checked_invariants_passed` from `safe_to_publish`: the latter
+is false on blocked input and unknown (`null`) on green checks, never a release approval.
 
 **Gotchas.**
 - Always pass an explicit novel and chapter scope. Full-workspace scans are refused by the MoonRead gate unless deliberately allowed.

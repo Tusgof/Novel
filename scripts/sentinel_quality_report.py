@@ -526,24 +526,28 @@ def write_reports(findings: list[Finding], *, scope: str, chapters: str | None, 
     json_path = report_dir / f"{base}.json"
     md_path = report_dir / f"{base}.md"
     counts = summarize(findings)
+    invariants_passed = counts.get("blocker", 0) == 0 and counts.get("major", 0) == 0 and bool(coverage and coverage["status"] == "evaluated")
     payload = {
         "created_at": datetime.now(timezone.utc).isoformat(),
         "scope": scope,
         "chapters": chapters or "all configured/current",
         "counts": counts,
-        "safe_to_publish": counts.get("blocker", 0) == 0 and counts.get("major", 0) == 0 and bool(coverage and coverage["status"] == "evaluated"),
+        "checked_invariants_passed": invariants_passed,
+        "safe_to_publish": None if invariants_passed else False,
         "source_coverage": coverage or {"status": "unverified"},
         "semantic_fidelity": "not proven; checks cover declared glossary/format invariants, not all meaning or speaker attribution",
         "findings": [asdict(finding) for finding in findings],
     }
-    json_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    with json_path.open("x", encoding="utf-8") as report:
+        report.write(json.dumps(payload, ensure_ascii=False, indent=2))
 
     lines = [
         f"# Sentinel Quality Report - {scope}",
         "",
         f"- Created: {payload['created_at']}",
         f"- Chapters: {payload['chapters']}",
-        f"- Safe to publish: {'yes' if payload['safe_to_publish'] else 'no'}",
+        f"- Checked invariants passed: {'yes' if invariants_passed else 'no'}",
+        "- Publication readiness: requires independent acceptance; never certified by this report alone.",
         f"- Blocker/Major/Minor/Info: {counts.get('blocker', 0)}/{counts.get('major', 0)}/{counts.get('minor', 0)}/{counts.get('info', 0)}",
         f"- Source-backed coverage: {payload['source_coverage']}",
         f"- Semantic fidelity: {payload['semantic_fidelity']}",
@@ -566,7 +570,8 @@ def write_reports(findings: list[Finding], *, scope: str, chapters: str | None, 
             lines.append(f"- **{finding.severity}** `{finding.category}` {finding.path}: {finding.message}.{evidence}")
         if len(findings) > 200:
             lines.append(f"- ... {len(findings) - 200} additional findings omitted from Markdown; see JSON.")
-    md_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    with md_path.open("x", encoding="utf-8") as report:
+        report.write("\n".join(lines) + "\n")
     return json_path, md_path
 
 

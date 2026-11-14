@@ -84,12 +84,13 @@
       "novel": "horror-game-developer",
       "publication_cohort": "legacy-hgd",
       "chapters": ["ch203", "ch206"],
-      "discovered_on": "2026-06-22",
+      "discovered_on": null,
+      "discovery_date_status": "historical-unknown",
       "detected_by": "reader",
       "category": "voice-and-glossary-leakage",
       "status": "historically-repaired",
       "evidence": "Backup_/governance/2026-11-15/PROJECT_BRAIN.md",
-      "summary": "One reader incident: Seth voice drift in ch203 and glossary leakage in ch206. Archived BRAIN records the trigger, repair and prevention."
+      "summary": "One reader incident: Seth voice drift in ch203 and glossary leakage in ch206. Archived BRAIN records the trigger, repair and prevention, but not an exact discovery date. The 2026-06-22 repair-report date is not substituted for discovery."
     }
   ]
 }
