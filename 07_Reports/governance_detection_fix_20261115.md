@@ -128,3 +128,38 @@ live publication, merged status, or green CI for an unpushed commit.
   checks; **Smallest change** kept existing evidence paths and used a compatibility
   shim instead of another scanner; **Claims carry evidence** kept historical ratios,
   source availability, unadjudicated findings and unmerged status explicit.
+
+## Combined branch verification and second setup
+
+Rebased this branch onto observed default `ab13e65caf0edb334bebd68bc9dd230e4edd6ca8`.
+Resolved the CI command conflict by retaining **both** the concurrent source-fetch/
+source-readiness tests and this branch's governance/mutation tests. No default
+branch, prior WIP or external publication was changed by that rebase.
+
+A clean clone at `9b16940ebf3f13c56965330cd11d807aabf67f3a` passed fresh-venv
+installation, 83 root tests, governance checks, 11 Worker-envelope tests, the full
+translation compatibility suite, `npm ci`, lint, production build and desktop/
+mobile reader smoke. The input was the unchanged **versioned reader snapshot**,
+not regenerated output from an absent corpus. Git stayed clean after all checks.
+This is local measured evidence, not GitHub CI or a live deployment assertion.
+
+The owner then added a second setup request: `Im a Young God Wont You Raise Me/`.
+Both new vaults have their own voice/style, language guidance, English title/term
+prompts, selected Code routes and disabled reader entries. Their research/source
+state is pending with no imported bodies, approved pilot or production readiness.
+The Young God listing explicitly says English translation; Rein_lout is recorded
+as the listing account, with secondary original-author attribution kept separate.
+No chapter-count/access/authorship claims are inferred from a platform badge.
+
+Final local root tests now pass **86** cases. Additional regressions cover partial
+missing source/product scopes and title-only source, preserve unknown historical
+discovery dates rather than substituting repair dates, and keep green Sentinel
+invariants separate from publication readiness (`safe_to_publish` remains unknown
+on green, false on blocked). Report creation is exclusive so a filename collision
+cannot overwrite earlier evidence. Both primary vault copies were verified with
+line-ending-normalized text parity; existing primary registry/reader were untouched.
+
+Before delivery, repeat the existing checks on the final commit/clone. Landing,
+remote exact-head CI, and historical product-backlog adjudication remain separate
+pending items. This report is closure evidence for the bounded implementation,
+not a new checkpoint appended to startup controls.

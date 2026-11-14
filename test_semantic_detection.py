@@ -121,6 +121,15 @@ class SemanticDetectionTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             sentinel.write_reports([], scope="../outside", chapters=None)
 
+    def test_green_report_is_not_a_publication_or_semantic_certificate(self):
+        self.output("ch140", "ตุลาการเดินเข้ามา", "审判官走进来。")
+        result = self.gate("ch140")
+        payload = json.loads(result["json_path"].read_text(encoding="utf-8"))
+        self.assertFalse(result["failed"])
+        self.assertTrue(payload["checked_invariants_passed"])
+        self.assertIsNone(payload["safe_to_publish"])
+        self.assertIn("not proven", payload["semantic_fidelity"])
+
     def test_real_lean_staging_hook_rejects_chinese_drift_without_touching_product(self):
         scripts = self.root / "scripts"
         scripts.mkdir()

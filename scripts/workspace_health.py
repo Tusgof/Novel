@@ -144,7 +144,11 @@ def quality_metrics(root: Path) -> dict:
             raise ValueError(f"incident outside publication cohort: {key}")
         if incident.get("detected_by") not in {"reader", "inspector", "gate"} or not incident.get("evidence"):
             raise ValueError(f"incident needs detector and evidence: {key}")
-        date.fromisoformat(incident["discovered_on"])
+        if incident.get("discovered_on") is None:
+            if cohort["kind"] != "historical-reader-snapshot" or incident.get("discovery_date_status") != "historical-unknown":
+                raise ValueError(f"incident needs a discovery date: {key}")
+        else:
+            date.fromisoformat(incident["discovered_on"])
         if not (root / incident["evidence"]).is_file():
             raise ValueError(f"incident evidence missing: {key}")
         if incident["detected_by"] == "reader":

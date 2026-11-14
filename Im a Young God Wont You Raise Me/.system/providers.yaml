@@ -1,0 +1,58 @@
+term_extraction:
+  provider: opencode_go
+  model: opencode-go/claude-haiku-5-5#low
+  timeout_seconds: 120
+  max_calls_per_scan: 8
+  max_failures_per_scan: 2
+  fallbacks:
+  - provider: opencode_go
+    model: opencode-go/deepseek-v4.1-flash#low
+term_suggestion:
+  provider: opencode_go
+  model: opencode-go/claude-haiku-5-5#medium
+  fallbacks:
+  - provider: opencode_go
+    model: opencode-go/deepseek-v4.1-flash#high
+literal_translation:
+  provider: opencode_go
+  model: opencode-go/claude-haiku-5-5#low
+  fallbacks:
+  - provider: opencode_go
+    model: opencode-go/deepseek-v4.1-flash#low
+refinement:
+  provider: opencode_go
+  model: opencode-go/deepseek-v4.1-flash#high
+  fallbacks:
+  - provider: opencode_go
+    model: opencode-go/claude-haiku-5-5#high
+qa_judge:
+  provider: opencode_go
+  model: opencode-go/deepseek-v4.1-flash#high
+  fallbacks:
+  - provider: opencode_go
+    model: opencode-go/claude-haiku-5-5#high
+formatting:
+  provider: opencode_go
+  model: opencode-go/claude-haiku-5-5#low
+project_setup:
+  provider: opencode_go
+  model: opencode-go/deepseek-v4.1-flash#high
+fetch:
+  provider: opencode_go
+  model: opencode-go/claude-haiku-5-5#low
+providers:
+  opencode_go:
+    executable:
+    - python
+    - scripts/opencode_provider_shim.py
+    prompt_flag: null
+    prompt_position: positional
+    prompt_transport: stdin
+    model_flag: -m
+    model_position: before_prompt
+    timeout_seconds: 660
+    env:
+      PYTHONIOENCODING: utf-8
+      PYTHONUTF8: '1'
+    retry:
+      max_attempts: 1
