@@ -49,7 +49,8 @@ This improves known semantic invariants; it is not general semantic verification
 - Audit/fix: isolated worktree; baseline tests and primary WIP hashes captured.
 - Classify: GOVERNANCE, INCONSISTENT, FRAGILE, and missing detection coverage.
 - Architect-lite: interfaces above; implement and verify them on real snapshots.
-- Root tests and new mutation tests: passed locally; final clean clone still pending.
+- Root tests and new mutation tests: passed locally; clean clone and isolated-venv
+  install/tests also passed on local commit `f5dd38c01d0166f272f2050e11eda297398086c9`.
 - Owner-approved landing/merged-SHA CI: pending; no approval inferred.
 
 ## Measured before / after
@@ -100,3 +101,30 @@ read-only. Land/rebase this branch only after reviewing current ownership/diffs.
 This repairs detection/governance, not every historical product issue. It does
 not claim zero escaped defects, full semantic coverage, a clean primary tree,
 live publication, merged status, or green CI for an unpushed commit.
+
+## Verification and landing status
+
+- Measured: governance implementation's clean clone installed the declared package
+  in a fresh venv, passed 63 root tests, 11 Worker-envelope tests, the full legacy
+  translation suite, and the governance command. No local source/output was present
+  in that clone; Git stayed clean after tests. Source unavailability was reported
+  as such rather than manufactured from machine state.
+- Measured: doctor before on primary main had zero failures / one historical
+  portability warning (401 files). Isolated-branch doctor after has zero failures,
+  the expected no-upstream warning and the remaining historical portability warning
+  (399 files). This is not a new merged-commit CI result.
+- New novel work began only after that local clean-clone verification. It is a
+  separate source-pending setup, with a disabled registry entry and no change to
+  existing reader chapters. Final combined-branch verification is recorded below.
+- Land steps 1-3/6/11: scope, CI/identity/policy, diff, real-surface diagnostics and
+  doctor checked. Step 4: concurrent source-readiness work advanced default main to
+  `ab13e65caf0edb334bebd68bc9dd230e4edd6ca8`; integrate it on this isolated branch,
+  preserving both test sets, then recheck before any future merge.
+- Steps 5/7/9/10: **pending/skip** because no push/publication or owner merge approval
+  is inferred. No PR, remote exact-head CI, merge, branch deletion or deployment
+  was performed. Step 8: no deployment/configuration switch to roll back; prior
+  control/CI bytes and the base commit are retained.
+- Principle decisions: **Lever over prose** produced one read-only command and CI
+  checks; **Smallest change** kept existing evidence paths and used a compatibility
+  shim instead of another scanner; **Claims carry evidence** kept historical ratios,
+  source availability, unadjudicated findings and unmerged status explicit.

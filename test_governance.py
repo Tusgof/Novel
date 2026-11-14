@@ -7,6 +7,7 @@ import tempfile
 import unittest
 
 from scripts import workspace_health as health
+from novel_pipeline.config import load_app_config
 
 
 ROOT = Path(__file__).resolve().parent
@@ -156,6 +157,20 @@ class GovernanceTests(unittest.TestCase):
     def test_real_checkout_passes_governance_check(self):
         result = health.check(ROOT)
         self.assertTrue(result["passed"], result["errors"])
+
+    def test_new_novel_has_its_own_voice_and_truthful_pending_state(self):
+        config = load_app_config(ROOT / "Investing in My Crippled Wife/.system/config.yaml")
+        self.assertEqual(config.novel_id, "investing-in-my-crippled-wife")
+        self.assertEqual(config.source_language, "en")
+        self.assertIn("investment_fantasy", config.style_profiles)
+        voice = (config.workspace.system / "lean_voice.md").read_text(encoding="utf-8")
+        self.assertNotIn("Duncan", voice)
+        self.assertNotIn("Gaon", voice)
+        if config.research_profile.status == "pending":
+            self.assertFalse(config.research_readiness_summary()["bounded_translation_ready"])
+            registry = health.load(ROOT / "00_Config/novel_registry.json")
+            entry = next(n for n in registry["novels"] if n["slug"] == config.novel_id)
+            self.assertFalse(entry["reader"]["enabled"])
 
 
 if __name__ == "__main__":

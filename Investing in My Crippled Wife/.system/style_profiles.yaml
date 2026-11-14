@@ -1,0 +1,14 @@
+investment_fantasy:
+  name: investment-fantasy-romance-thai
+  description: Draft voice for English progression fantasy, care and slow-burn trust.
+  genre_label: progression fantasy / romance
+  tone: source-led, clear, restrained warmth, precise system/action passages
+  naming_notes: Keep English proper names consistent after glossary approval. Do not invent Chinese spellings or transplant another book's pronoun policy.
+  narration_density: balanced
+  glossary_categories: [character, title, location, organization, item, skill, system, rank, term]
+  qa_criteria:
+    - Preserve every fact, condition, grade, quantity, negation and story beat.
+    - Keep emotional care, relationship development and mechanical system returns distinct.
+    - Determine narration and speaker-specific pronouns from the actual source.
+    - Preserve UI/thought/dialogue boundaries without adding lore or medical claims.
+    - Respect disability context without introducing demeaning language absent from source.

@@ -83,6 +83,18 @@ class SemanticDetectionTests(unittest.TestCase):
         self.assertEqual(report["source_coverage"]["status"], "unverified")
         self.assertFalse(report["safe_to_publish"])
 
+    def test_title_only_or_whitespace_source_does_not_count_as_semantic_input(self):
+        self.output("ch140", "ตุลาการเดินเข้ามา", "审判官走进来。")
+        raw = self.novel / "03_Raw/ch140/source.json"
+        for payload in ({"title": "审判官"}, {"title": "审判官", "raw_text": "  \n "}, []):
+            with self.subTest(payload=payload):
+                raw.write_text(json.dumps(payload), encoding="utf-8")
+                self.assertTrue(self.gate("ch140")["failed"])
+
+    def test_partially_missing_product_scope_is_not_a_pass(self):
+        self.output("ch140", "ตุลาการเดินเข้ามา", "审判官走进来。")
+        self.assertTrue(self.gate("ch140-ch141")["failed"])
+
     def test_staged_gate_does_not_scan_an_old_reader_copy(self):
         self.term("审判官", "审判官", "ตุลาการ", "อินควิสิเตอร์")
         self.output("ch140", "ตุลาการเดินเข้ามา", "审判官走进来。")

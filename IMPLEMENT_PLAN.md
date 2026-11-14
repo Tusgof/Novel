@@ -3,7 +3,7 @@
 This is a short queue, not a changelog or a copy of chapter totals. Replace an
 outcome when it closes; Git history and linked evidence retain the earlier plan.
 
-## 1. Governance and detection repair — in verification
+## 1. Governance and detection repair — locally verified; landing pending
 
 Owner goal: a simple, sustainable system that detects stale state and escaped
 defects instead of accumulating prose. Evidence/design/checklist:
@@ -23,13 +23,17 @@ Acceptance checks:
 - Root and compatibility tests, clean-checkout checks, and doctor pass, or the
   exact unresolved failure is reported. Landing requires owner approval and CI.
 
-## 2. New novel setup — queued after outcome 1 local verification
+## 2. New novel setup — scaffold created; source/pilot gates pending
 
 Set up the owner-provided Webnovel title as an isolated, source-pending vault.
 Inspect public metadata/access, create its own language/voice/profile and Code
 routes, and verify the setup gate. No chapter-body acquisition, translation,
 reader registration, provider call, account purchase or public deployment is
 included in this setup request.
+
+Draft: `Investing in My Crippled Wife/README.md`. The official English metadata,
+own voice/language guidance and disabled reader entry are set. No tested Webnovel
+body adapter, source corpus, approved glossary or accepted pilot exists yet.
 
 ## Boundaries / parked work
 

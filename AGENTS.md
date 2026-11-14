@@ -104,7 +104,7 @@ After every multi-chapter translation batch, broad repair pass, or MoonRead publ
 
 ## Yuehua Kit v4 Contract
 
-This repository adopts Yuehua Kit v4.0.5 as a `UNIT` at tier `T2`. The verified release commit is pinned in `.yuehua-kit.json`; the stronger novel-specific rules above remain in force. This adoption changes only this repository; its six child novels retain the registry, product routes, and quality gates.
+This repository adopts Yuehua Kit v4.0.5 as a `UNIT` at tier `T2`. The verified release commit is pinned in `.yuehua-kit.json`; the stronger novel-specific rules above remain in force. This adoption changes only this repository; existing child novels retain the registry, product routes, and quality gates.
 
 Use `yuehua-mode` and `yuehua-land` from the pinned release. Check installed `INSTALLED_FROM.json` against the lock; if it is older, follow the verified tag checkout's skills and CLI outside this repository instead of inheriting stale policy. See the Feature Map's [kit adoption checks](.agents/skills/novel-verify/references/features/kit-adoption.md). Shared user-level skills require separate approval to update; an installer dry-run is not permission to install.
 
