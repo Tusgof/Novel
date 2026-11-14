@@ -10,8 +10,15 @@ python scripts/sentinel_quality_report.py --novel deep-sea-embers --chapters ch2
 python scripts/check_output_quality_guardrails.py --help
 ```
 
-**Verify.** Sentinel exits successfully at `--fail-on major` for the touched scope, and its report is saved; quote the blocker/major/minor/info counts in your report.
+**Verify.** Sentinel exits successfully at `--fail-on major` for the touched scope,
+and its report is saved under `07_Reports/generated/<UTC month>/`. Quote counts
+AND source-coverage status. The report's semantic-fidelity limit remains explicit;
+green glossary/format checks are not a semantic-quality certificate.
 
 **Gotchas.**
 - Always pass an explicit novel and chapter scope. Full-workspace scans are refused by the MoonRead gate unless deliberately allowed.
 - A Sentinel blocker or major finding means stop and report, not re-run until green.
+- Missing/unreadable source blocks source-backed acceptance rather than silently
+  reporting zero semantic findings. Chinese approved terms participate in coverage;
+  rejected variants remain blockers even if the canonical Thai also appears.
+- Inspect reader-discovered escapes with [governance-health.md](governance-health.md).

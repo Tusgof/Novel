@@ -239,12 +239,19 @@ class WorkspaceRoutingTests(unittest.TestCase):
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text("# Title\n\n\u0e21\u0e35\u0e40\u0e25\u0e02 \u0e51\n", encoding="utf-8")
             paths[0].write_text("# Title\n\n\u0e40\u0e19\u0e37\u0e49\u0e2d\u0e40\u0e23\u0e37\u0e48\u0e2d\u0e07\n", encoding="utf-8")
+            # A valid staged product needs original source for semantic coverage.
+            # Keep the isolation oracle unchanged; missing source has its own test.
+            for cid in ("ch001", "ch002"):
+                raw = root / "Selected/03_Raw" / cid
+                raw.mkdir(parents=True)
+                (raw / "source.json").write_text('{"raw_text": "A story."}', encoding="utf-8")
             config = SimpleNamespace(novel_id="fixture", workspace=SimpleNamespace(root=root / "Selected"))
             with patch.dict(os.environ, {"NOVEL_SENTINEL_SKIP_EXISTING_GUARDRAILS": "1"}):
                 result = lean._run_production_sentinel(config, run_id="test", chapters="ch001", staged_output_root=staged)
                 self.assertFalse(result["failed"], result)
                 first_report = Path(result["json_path"])
                 self.assertIn("lean-test-ch001_", first_report.name)
+                self.assertIn("generated", first_report.parts)
                 second_chapter = staged / "ch002/ch002.md"
                 second_chapter.parent.mkdir(parents=True)
                 second_chapter.write_text(paths[0].read_text(encoding="utf-8"), encoding="utf-8")

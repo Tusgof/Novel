@@ -1,0 +1,102 @@
+# Governance and detection repair
+
+## Goal and check
+
+Keep current controls bounded, derive chapter state instead of copying counts,
+make evidence searchable, and measure reader-discovered escapes honestly.
+Preserve all primary-checkout WIP and publication boundaries. No provider calls,
+translation, content deployment, deletion, or self-approved merge is authorized.
+
+## How / why
+
+- Registry owns the intended public reader range; local output is not publication.
+- Versioned generated Markdown is the clean-checkout reader input, not raw source.
+- Raw, work, logs and final source-vault output are intentionally ignored/local.
+- BRAIN and PLAN currently repeat historical checkpoints as current state.
+- Sentinel writes two flat root reports per invocation, including retries.
+- Its approved-term loader excludes non-Latin source terms: Chinese coverage is
+  silently absent even though the downstream matcher already supports Chinese.
+- Known-variant lists catch old incidents but do not establish semantic fidelity.
+- Existing adoption tests pin policy bytes and append-only decisions; preserve
+  these invariants while testing the new authoritative decision-log location.
+
+Git history introduced append-only adoption decisions and integrity hashes for
+recoverability. Those reasons still hold. Keeping all checkpoints in startup
+documents and machine reports in a versioned flat directory does not follow from
+them. Archive the old docs once, preserve decisions, and check current contracts.
+
+## Selected interface
+
+`python scripts/workspace_health.py {check,status,reports,quality}` is read-only.
+`--root` selects an observed checkout; `--query` filters reports. JSON is the
+output, so no generated dashboard/cache becomes another source of truth.
+
+- `check`: document budgets, decision preservation, reader snapshot consistency,
+  and quality-ledger validity; run in the existing CI job.
+- `status`: desired registry range / versioned reader snapshot / observed local
+  output / WIP, explicitly distinct; missing local data is unknown, not zero.
+- `reports`: latest report per scope, paths to older evidence, no moves/deletes.
+- `quality`: one incident per reader report, deduplicated publication exposure;
+  partial retrospective data is a lower bound, not a claimed prospective rate.
+
+Sentinel gains Chinese source-term coverage, explicit rejected-variant checks,
+source-availability reporting, and non-overwriting generated report storage.
+Historical regression mutations exercise the real staged gate, not a mock PASS.
+This improves known semantic invariants; it is not general semantic verification.
+
+## Procedure
+
+- Audit/fix: isolated worktree; baseline tests and primary WIP hashes captured.
+- Classify: GOVERNANCE, INCONSISTENT, FRAGILE, and missing detection coverage.
+- Architect-lite: interfaces above; implement and verify them on real snapshots.
+- Root tests and new mutation tests: passed locally; final clean clone still pending.
+- Owner-approved landing/merged-SHA CI: pending; no approval inferred.
+
+## Measured before / after
+
+- Before: AGENTS 166, BRAIN 491, PLAN 551, ARCHITECTURE 150 lines. BRAIN/PLAN
+  contained contradictory production checkpoints and obsolete provider statements.
+- After: bounded current documents plus on-demand decisions/history. Startup needs
+  only AGENTS and BRAIN plus observed status, not all historical plans/architecture.
+- The status command observes registry/reader agreement while separately exposing
+  extra local DSE/HGD/TDU files. It never promotes those extras into public scope.
+- Root reports originally contain 1,521 flat files. They remain intact. The new
+  index finds scope-specific evidence; new Lean and direct Sentinel runs use the
+  ignored generated/month subtree, including retries. No cleanup-through-deletion
+  or blanket ignore of existing reader WIP occurred.
+- Three named historical reader incidents are backfilled with evidence. The
+  retrospective snapshot ratio is explicitly a lower bound, not a publication-time
+  rate. Verified future cohorts can be measured without pretending legacy history
+  is complete; repeated generation does not increase the denominator.
+- Existing low-worker quota/resource entitlement was not freshly verified.
+  Medium/high design and implementation stayed with the main agent; no worker,
+  paid provider, billing or account operation was started.
+
+## Real product audit: detected backlog, NOT an all-clear
+
+The new root Sentinel was run read-only against isolated copies of current local
+source/output, with the current versioned glossaries: DSE ch140-ch160 and HGD
+ch149/ch203/ch206. It evaluated original source for every inspected chapter.
+
+- DSE: 18 blocker / 23 major / 10 minor glossary-coverage findings across 19
+  chapters. These are unadjudicated source/output/glossary mismatches, **not 51
+  confirmed semantic defects**. Examples include compound role/location terms.
+- HGD: two existing paragraph-density blockers in ch149; the named historical
+  voice/leakage strings are not present in this current local sample.
+- Both runs exit failing as expected. These results are not waived. The current
+  output files, public reader and source/checkpoints are not rewritten by this task.
+  Inspector adjudication is required before republication of these affected ranges.
+- Detailed machine findings and audit copies are local-only evidence. Hermetic
+  mutation fixtures preserve the detector regressions without publishing raw text.
+
+## Remaining ownership boundaries
+
+The primary checkout changed concurrently after the captured baseline (including
+source-readiness work and the other source-pending draft). This branch does not
+stage, revert, or integrate those changes. An unchanged-primary-WIP claim cannot
+be made across concurrent writers; all primary operations in this order were
+read-only. Land/rebase this branch only after reviewing current ownership/diffs.
+
+This repairs detection/governance, not every historical product issue. It does
+not claim zero escaped defects, full semantic coverage, a clean primary tree,
+live publication, merged status, or green CI for an unpushed commit.

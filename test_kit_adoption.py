@@ -41,7 +41,7 @@ class KitAdoptionTests(unittest.TestCase):
         self.assertEqual((lock["level"], lock["tier"]), ("UNIT", "T2"))
         self.assertEqual(lock["status"], {
             "state": "active", "decided_on": "2026-10-07",
-            "decision_ref": "PROJECT_BRAIN.md Decision Log #3",
+            "decision_ref": "DECISIONS.md Decision Log #3",
         })
         self.assertEqual(lock["deviations"], [])
         self.assertTrue(lock["user_facing"])
@@ -55,10 +55,12 @@ class KitAdoptionTests(unittest.TestCase):
         for name, sha in expected.items():
             self.assertEqual(digest(ARCHIVE / name), sha)
         old = (ARCHIVE / "PROJECT_BRAIN.md").read_text(encoding="utf-8")
-        current = (ROOT / "PROJECT_BRAIN.md").read_text(encoding="utf-8")
+        current = (ROOT / "DECISIONS.md").read_text(encoding="utf-8")
         rows = lambda text: [line for line in text.splitlines() if re.match(r"\| \d+ \|", line)]
         self.assertEqual(rows(current)[:len(rows(old))], rows(old))
-        self.assertEqual(len(rows(current)), len(rows(old)) + 1)
+        self.assertGreaterEqual(len(rows(current)), len(rows(old)) + 1)
+        before_compaction = (ROOT / "Backup_/governance/2026-11-15/PROJECT_BRAIN.md").read_text(encoding="utf-8")
+        self.assertEqual(rows(current)[:len(rows(before_compaction))], rows(before_compaction))
 
     def test_released_browser_and_execution_policies_are_pinned_bytes(self):
         expected = {
@@ -71,7 +73,11 @@ class KitAdoptionTests(unittest.TestCase):
     def test_unit_contract_retains_stronger_rules_and_uses_tool_neutral_policy(self):
         old = (ARCHIVE / "AGENTS.md").read_text(encoding="utf-8")
         current = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
-        self.assertEqual(current.split("## Yuehua Kit v4 Contract")[0], old.split("## Yuehua Kit v4 Contract")[0])
+        expected = old.split("## Yuehua Kit v4 Contract")[0].replace(
+            "When a quality issue is fixed, record the cause and prevention mechanism in the project brain or implementation plan if it can recur.",
+            "When a quality issue is fixed, record its cause/prevention in incident evidence and link the active risk if it can recur; keep checkpoint history out of startup docs.",
+        )
+        self.assertEqual(current.split("## Yuehua Kit v4 Contract")[0], expected)
         self.assertIn("policies/agent-browser.md", current)
         self.assertIn("policies/execution-workers.md", current)
         self.assertIn("no browser product is required or preferred", current)

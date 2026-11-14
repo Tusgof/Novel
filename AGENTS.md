@@ -83,7 +83,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Do not rely only on provider QA for name consistency, pronoun consistency, paragraph density, or Markdown rendering.
 - Prefer low-risk deterministic repairs for approved terminology, repeated known variants, paragraph reflow, and reader rendering bugs.
 - If a final output is truncated, contains runaway repeated characters, or has missing content, quarantine that chapter and rerun it from the earliest broken stage instead of manually patching around the loss. Continue later chapters within the authorized range when their inputs and worker state remain healthy.
-- When a quality issue is fixed, record the cause and prevention mechanism in the project brain or implementation plan if it can recur.
+- When a quality issue is fixed, record its cause/prevention in incident evidence and link the active risk if it can recur; keep checkpoint history out of startup docs.
 - For post-QA chapter-local recovery, the Worker follows `.agents/skills/novel-translation-repair/SKILL.md`; the Inspector retains policy, routing, scope, and final acceptance.
 
 ### Major-Run Spot-Check Checklist
@@ -146,7 +146,7 @@ Use `yuehua-mode` and `yuehua-land` from the pinned release. Check installed `IN
 
 - Do not add absolute machine paths to code, configuration, or durable control documents; use commands or named environment variables.
 - Declare dependencies, pin runtime versions, and make CI install exactly what the repository needs.
-- Project state must be reproducible from versioned repository files, not from a browser session, personal cloud storage, or agent memory.
+- Versioned code, policy, registry and accepted reader snapshot must work from a clean checkout. Ignored source/run/output artifacts are local evidence, not a reproducible translation corpus; mark them unavailable rather than inventing clean-clone state.
 
 ### Browser Work
 
@@ -164,3 +164,12 @@ Use `yuehua-mode` and `yuehua-land` from the pinned release. Check installed `IN
 - The lead owns decomposition, diff review, tests, integration, and existing approvals. Do not enable Extra Usage, top up credits, change privacy, add credentials, or substitute a different paid provider to keep delegation running. Without a safe native child-session path, use main-agent fallback.
 
 **Working if:** the default branch is green or has a recorded decision, claims survive a clean-clone check, finished work is merged, and audits find no surprises.
+
+## Governance checks and progressive disclosure
+
+- Startup: read this file and `PROJECT_BRAIN.md`; run `python scripts/workspace_health.py status`. Read `IMPLEMENT_PLAN.md` for the active outcome, `ARCHITECTURE.md` for boundary changes, and the relevant Feature Map entry for execution. Historical archives/decisions are on demand, not mandatory startup reading.
+- Before acceptance run `python scripts/workspace_health.py check`; CI enforces document line/character budgets and reader/ledger contracts. Rotate by replacing stale current state and linking evidence, never by raising the cap to append another checkpoint.
+- `00_Config/novel_registry.json` owns reader intent; local output, acceptance, generated snapshot and live publication are distinct. Obtain live evidence before claiming deployed state. Derive counts with the status command; do not copy chapter tallies into BRAIN/PLAN.
+- Find evidence with `python scripts/workspace_health.py reports --query <scope>`. New Sentinel runs write to ignored `07_Reports/generated/`; keep curated closure reports and append-only `DECISIONS.md` versioned. Never delete/ignore existing WIP to fake a clean result.
+- After a verified public release, record its evidenced publication cohort in `00_Config/quality_incidents.json`; record reader-discovered incidents against that cohort, including affected IDs, discovery date, detector and evidence. Repeated generation is not another publication. `python scripts/workspace_health.py quality` measures incidents per 10 distinct first-published chapters; incomplete history remains a lower bound.
+- Gates cover specified invariants, not general semantic truth. Check source availability and mutation regressions, retain source-backed QA and the major-run reading checklist, and report semantic coverage limits beside green counts.
