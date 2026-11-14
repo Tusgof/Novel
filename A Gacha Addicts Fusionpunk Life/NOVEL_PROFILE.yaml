@@ -1,0 +1,42 @@
+schema_version: 1
+novel_id: a-gacha-addicts-fusionpunk-life
+title: A Gacha Addict's Fusionpunk Life
+aliases:
+- A Gacha Addicts Fusionpunk Life
+- A Gacha Addicts Life in Fusionpunk
+languages:
+  source: en
+  target: th
+genre: fusionpunk
+style_profile: fusionpunk
+source:
+  adapter: wetriedtls
+  toc_url: https://wetriedtls.com/series/a-gacha-addicts-life-in-fusionpunk
+research:
+  status: pending
+  profile_path: RESEARCH_PROFILE.yaml
+  title: A Gacha Addict's Fusionpunk Life
+  source_url: https://wetriedtls.com/series/a-gacha-addicts-life-in-fusionpunk
+setup:
+  created_at: '2026-11-07T20:29:50.493527+00:00'
+  created_from_workspace: One Hit Kill Swordmaster
+  source_state: fetched
+notes: Draft prepared by the Inspector. Source bodies, glossary approval, title sidecars, source parity and the Code pilot remain pending. Not registered for public MoonRead.
+author:
+  original: 섦게지는꽃
+  romanized: seomgejineunkkot
+original_language: ko
+pipeline_label: Code
+source_plan:
+  preferred_original: https://novelpia.com/novel/387014
+  official_english: https://global.novelpia.com/novel/3216
+  owner_selected_english_fallback: https://wetriedtls.com/series/a-gacha-addicts-life-in-fusionpunk
+  input_language: en
+  access_requirement: public-without-login
+  body_acquisition: pending-user-supplied-files-or-explicit-translation-permission
+  chapter_range: ch001-ch040
+  numbering: episode number, not the internal story-section number in the title
+reader_plan:
+  visibility: local-only
+  translator_label: '[Code]'
+  public_publication_authorized: false

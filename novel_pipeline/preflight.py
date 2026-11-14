@@ -5,6 +5,8 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
+import yaml
+
 from novel_pipeline.types import AppConfig
 
 _GENERATED_REPORT_PREFIXES: tuple[str, ...] = (
@@ -67,6 +69,58 @@ def _is_generated_report_path(path_text: str) -> bool:
     if name in {"preflight_report.md", "recovery_drill.md"}:
         return True
     return any(name.startswith(prefix) and name.endswith(".md") for prefix in _GENERATED_REPORT_PREFIXES)
+
+
+def _declared_source_state(workspace_root: Path) -> str:
+    """Read setup.source_state from NOVEL_PROFILE.yaml. Empty means legacy/unset."""
+    profile_path = workspace_root / "NOVEL_PROFILE.yaml"
+    if not profile_path.exists():
+        return ""
+    try:
+        payload = yaml.safe_load(profile_path.read_text(encoding="utf-8")) or {}
+    except (OSError, yaml.YAMLError):
+        return ""
+    setup = payload.get("setup") if isinstance(payload, dict) else None
+    if not isinstance(setup, dict):
+        return ""
+    return str(setup.get("source_state", "")).strip().lower()
+
+
+def _count_imported_sources(workspace_root: Path) -> int:
+    raw_root = workspace_root / "03_Raw"
+    if not raw_root.exists():
+        return 0
+    return sum(1 for path in raw_root.glob("ch*/source.json") if path.is_file())
+
+
+def _source_readiness(workspace_root: Path, warnings: list[str]) -> dict[str, Any]:
+    """Compare the declared source state with what 03_Raw actually holds.
+
+    Vaults scaffolded before this field existed report 'unset' and are not
+    checked, so legacy novels keep their previous preflight result.
+    """
+    declared = _declared_source_state(workspace_root)
+    imported = _count_imported_sources(workspace_root)
+    state_warnings: list[str] = []
+
+    if declared == "pending" and imported:
+        state_warnings.append(
+            f"NOVEL_PROFILE.yaml declares setup.source_state: pending but 03_Raw holds "
+            f"{imported} imported chapter source(s); set the state once the source is verified."
+        )
+    elif declared in {"fetched", "validated"} and not imported:
+        state_warnings.append(
+            f"NOVEL_PROFILE.yaml declares setup.source_state: {declared} but 03_Raw holds "
+            f"no chapter source.json."
+        )
+
+    warnings.extend(state_warnings)
+    return {
+        "declared_state": declared or "unset",
+        "imported_chapters": imported,
+        "state_consistent": not state_warnings,
+        "warnings": state_warnings,
+    }
 
 
 def build_preflight_summary(config: AppConfig) -> dict[str, Any]:
@@ -173,6 +227,8 @@ def build_preflight_summary(config: AppConfig) -> dict[str, Any]:
     if missing_dirs:
         blocking_reasons.append("Workspace is missing required directories: " + ", ".join(missing_dirs))
 
+    source_readiness = _source_readiness(config.workspace.root, warnings)
+
     if blocking_reasons:
         status = "blocked"
     elif warnings:
@@ -193,6 +249,7 @@ def build_preflight_summary(config: AppConfig) -> dict[str, Any]:
         "git": git_summary,
         "research_readiness": research,
         "missing_directories": missing_dirs,
+        "source_readiness": source_readiness,
         "warnings": warnings,
         "blocking_reasons": blocking_reasons,
         "next_safe_action": next_safe_action,
@@ -232,6 +289,13 @@ def print_preflight_summary(summary: dict[str, Any]) -> None:
         f"{research['status']} / {research['readiness']} "
         f"(bounded={'yes' if research['bounded_translation_ready'] else 'no'}, "
         f"production={'yes' if research['translation_ready'] else 'no'})"
+    )
+    source = summary["source_readiness"]
+    print("Source readiness:")
+    print(
+        f"  - declared: {source['declared_state']} / "
+        f"imported chapters: {source['imported_chapters']} "
+        f"(consistent={'yes' if source['state_consistent'] else 'no'})"
     )
     if summary["missing_directories"]:
         print("Missing directories:")

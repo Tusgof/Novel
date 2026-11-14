@@ -10,6 +10,11 @@ import yaml
 from novel_pipeline.files import atomic_write_text
 from novel_pipeline.types import AppConfig, NovelProfile, ResearchProfile, utc_now_iso
 
+# Declared source lifecycle. `preflight` compares this against what is actually
+# stored under 03_Raw, so a scaffold cannot silently stay "pending" after a fetch
+# or claim source it does not have.
+SOURCE_STATES: tuple[str, ...] = ("pending", "fetched", "validated")
+
 
 def slugify_novel_id(value: str) -> str:
     compact = "".join(ch.lower() if ch.isalnum() else "-" for ch in value.strip())
@@ -71,8 +76,14 @@ def build_novel_profile(
     source_adapter: str,
     source_toc_url: str,
     created_from_workspace: Path,
+    source_state: str = "pending",
 ) -> NovelProfile:
     cleaned_aliases = tuple(alias.strip() for alias in (aliases or []) if alias.strip())
+    cleaned_state = source_state.strip().lower()
+    if cleaned_state not in SOURCE_STATES:
+        raise ValueError(
+            f"source_state must be one of {', '.join(SOURCE_STATES)}; got {source_state!r}."
+        )
     return NovelProfile(
         novel_id=novel_id,
         title=title.strip(),
@@ -89,6 +100,7 @@ def build_novel_profile(
             # Record the template novel by folder name, never by one machine's absolute path.
             "created_from_workspace": created_from_workspace.name,
             "research_profile_status": "pending",
+            "source_state": cleaned_state,
         },
     )
 
@@ -132,6 +144,7 @@ def render_novel_profile_yaml(profile: NovelProfile) -> str:
         "setup": {
             "created_at": str(profile.metadata.get("created_at", "")),
             "created_from_workspace": str(profile.metadata.get("created_from_workspace", "")),
+            "source_state": str(profile.metadata.get("source_state", "pending")),
         },
         "notes": profile.notes,
     }
@@ -223,6 +236,10 @@ def initialize_novel_project(
         raise ValueError("novel_id cannot be empty after normalization.")
 
     source_workspace = template_config.workspace.root
+    # Never inherit the template novel's fetch adapter: a new novel must name its
+    # own source explicitly or stay import-only. Inheriting would silently point a
+    # new vault at a sibling novel's site (for example the DSE adapter).
+    resolved_adapter = adapter.strip()
     resolved_style_profile = _resolve_style_profile_key(
         template_config=template_config,
         genre=genre,
@@ -260,7 +277,7 @@ def initialize_novel_project(
             "non_chinese_word_limit": template_config.chunking.non_chinese_word_limit,
         },
         "source": {
-            "adapter": adapter.strip() or template_config.source.adapter,
+            "adapter": resolved_adapter,
             "toc_url": source_url.strip(),
             "delay_seconds": template_config.source.delay_seconds,
             "encoding": template_config.source.encoding,
@@ -303,9 +320,10 @@ def initialize_novel_project(
         target_language=target_language.strip() or "th",
         genre=genre,
         style_profile=resolved_style_profile,
-        source_adapter=adapter.strip() or template_config.source.adapter,
+        source_adapter=resolved_adapter,
         source_toc_url=source_url,
         created_from_workspace=source_workspace,
+        source_state="pending",
     )
     atomic_write_text(target_root / "NOVEL_PROFILE.yaml", render_novel_profile_yaml(profile))
 
@@ -325,6 +343,7 @@ def initialize_novel_project(
 
 
 __all__ = [
+    "SOURCE_STATES",
     "build_novel_profile",
     "build_research_profile",
     "initialize_novel_project",

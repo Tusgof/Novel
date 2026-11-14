@@ -1,0 +1,196 @@
+term_extraction:
+  provider: opencode_go
+  model: opencode-go/claude-haiku-5-5#low
+  timeout_seconds: 120
+  max_calls_per_scan: 8
+  max_failures_per_scan: 2
+  fallbacks:
+  - provider: opencode_go
+    model: opencode-go/deepseek-v4.1-flash#low
+  retry:
+    max_attempts: 1
+    initial_delay_seconds: 0
+    backoff_multiplier: 1.0
+    failure_kinds:
+    - quota
+    - timeout
+    - nonzero_exit
+    - empty_stdout
+term_suggestion:
+  provider: opencode_go
+  model: opencode-go/claude-haiku-5-5#medium
+  timeout_seconds: 120
+  fallbacks:
+  - provider: opencode_go
+    model: opencode-go/deepseek-v4.1-flash#high
+literal_translation:
+  provider: opencode_go
+  model: opencode-go/claude-haiku-5-5#low
+  fallbacks:
+  - provider: opencode_go
+    model: opencode-go/deepseek-v4.1-flash#low
+refinement:
+  provider: opencode_go
+  model: opencode-go/deepseek-v4.1-flash#high
+  fallbacks:
+  - provider: opencode_go
+    model: opencode-go/claude-haiku-5-5#high
+qa_judge:
+  provider: opencode_go
+  model: opencode-go/deepseek-v4.1-flash#high
+  fallbacks:
+  - provider: opencode_go
+    model: opencode-go/claude-haiku-5-5#high
+formatting:
+  provider: opencode_go
+  model: opencode-go/claude-haiku-5-5#low
+project_setup:
+  provider: opencode_go
+  model: opencode-go/deepseek-v4.1-flash#high
+fetch:
+  provider: opencode_go
+  model: opencode-go/claude-haiku-5-5#low
+providers:
+  opencode_go:
+    executable:
+    - python
+    - scripts/opencode_provider_shim.py
+    prompt_flag: null
+    prompt_position: positional
+    prompt_transport: stdin
+    model_flag: -m
+    model_position: before_prompt
+    timeout_seconds: 660
+    env:
+      PYTHONIOENCODING: utf-8
+      PYTHONUTF8: '1'
+    retry:
+      max_attempts: 1
+  openrouter:
+    executable:
+    - python
+    - ..\scripts\openrouter_provider_shim.py
+    extra_args:
+    - --reasoning-enabled
+    - --reasoning-exclude
+    - --reasoning-effort
+    - medium
+    - --max-tokens
+    - '12000'
+    prompt_flag: null
+    prompt_position: positional
+    prompt_transport: stdin
+    model_flag: -m
+    model_position: before_prompt
+    default_model: google/gemini-3.7-flash
+    timeout_seconds: 360
+    env:
+      PYTHONIOENCODING: utf-8
+      PYTHONUTF8: '1'
+    retry:
+      max_attempts: 1
+      initial_delay_seconds: 0
+      backoff_multiplier: 1.0
+      failure_kinds:
+      - quota
+      - timeout
+      - nonzero_exit
+  openrouter_reasoning:
+    executable:
+    - python
+    - ..\scripts\openrouter_provider_shim.py
+    extra_args:
+    - --reasoning-enabled
+    - --reasoning-exclude
+    - --reasoning-effort
+    - medium
+    - --max-tokens
+    - '12000'
+    - --system-prompt
+    - 'You are a strict translation QA judge. Return exactly one line. The first characters
+      of your response must be exactly PASS: or FAIL:. Do not output markdown, JSON,
+      headings, analysis, or any text before PASS:/FAIL:. If uncertain, return FAIL:
+      followed by the concrete issue.'
+    prompt_flag: null
+    prompt_position: positional
+    prompt_transport: stdin
+    model_flag: -m
+    model_position: before_prompt
+    default_model: deepseek/deepseek-v4-flash-0731
+    timeout_seconds: 360
+    env:
+      PYTHONIOENCODING: utf-8
+      PYTHONUTF8: '1'
+    retry:
+      max_attempts: 1
+      initial_delay_seconds: 0
+      backoff_multiplier: 1.0
+      failure_kinds:
+      - quota
+      - timeout
+      - nonzero_exit
+      - empty_stdout
+  gemini:
+    executable: gemini
+    default_model: pro
+    timeout_seconds: 300
+    max_command_chars: 24000
+    retry:
+      max_attempts: 2
+      initial_delay_seconds: 60
+      backoff_multiplier: 2.0
+      failure_kinds:
+      - quota
+      - timeout
+  claude:
+    executable: claude
+    default_model: sonnet
+    prompt_transport: stdin
+    retry:
+      max_attempts: 1
+      initial_delay_seconds: 0
+      backoff_multiplier: 1.0
+      failure_kinds:
+      - quota
+      - timeout
+  qwen:
+    executable: qwen
+    prompt_flag: null
+    prompt_position: positional
+    prompt_transport: stdin
+    model_flag: -m
+    model_position: before_prompt
+    default_model: deepseek-reasoner
+    timeout_seconds: 300
+    retry:
+      max_attempts: 1
+      initial_delay_seconds: 0
+      backoff_multiplier: 1.0
+      failure_kinds:
+      - quota
+      - timeout
+  codex:
+    executable:
+    - codex
+    - exec
+    prompt_flag: '-'
+    prompt_position: positional
+    prompt_transport: stdin
+    model_flag: -m
+    model_position: before_prompt
+    timeout_seconds: 300
+    extra_args:
+    - --skip-git-repo-check
+    - --cd
+    - .
+    - --sandbox
+    - read-only
+    retry:
+      max_attempts: 1
+      initial_delay_seconds: 0
+      backoff_multiplier: 1.0
+      failure_kinds:
+      - quota
+      - timeout
+      - nonzero_exit
+      - empty_stdout

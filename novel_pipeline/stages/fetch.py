@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 from novel_pipeline.adapters.base import FetchAdapter
@@ -10,15 +11,27 @@ from novel_pipeline.text_utils import normalize_whitespace
 from novel_pipeline.types import AppConfig, ChapterMeta, ChapterSource
 
 
+_INLINE_TITLE_SEPARATOR_RE = re.compile(r"^\s*[:.\-\u2013\u2014]\s+\S")
+
+
 def _derive_title_from_body_if_generic(title: str, raw_text: str) -> str:
     """Use early body subtitle when the adapter only knows a generic Chapter N."""
     cleaned_title = title.strip()
     if not cleaned_title:
         return title
     lines = [line.strip() for line in raw_text.splitlines() if line.strip()]
-    if len(lines) < 3:
+    if not lines:
         return title
     if not lines[0].lower().startswith("chapter "):
+        return title
+
+    # Inline form used by sites that print number and title on one line, e.g.
+    # "Chapter 12: The Wastrel's Reward". The adapter only knows the number.
+    if lines[0] != cleaned_title and lines[0].startswith(cleaned_title):
+        if _INLINE_TITLE_SEPARATOR_RE.match(lines[0][len(cleaned_title):]):
+            return lines[0]
+
+    if len(lines) < 3:
         return title
     if lines[0] != cleaned_title:
         return title

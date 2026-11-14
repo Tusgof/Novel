@@ -188,7 +188,7 @@ def build_parser() -> argparse.ArgumentParser:
     init_novel_p.add_argument("--source-language", default="zh", help="Source language code.")
     init_novel_p.add_argument("--target-language", default="th", help="Target language code.")
     init_novel_p.add_argument("--genre", default="", help="Initial genre label.")
-    init_novel_p.add_argument("--adapter", default="", help="Fetch adapter name. Defaults to the current config adapter.")
+    init_novel_p.add_argument("--adapter", default="", help="Fetch adapter name. Leave empty for import-only (no inherited adapter).")
     init_novel_p.add_argument("--style-profile", default="", help="Default style profile key. Defaults to current config.")
 
     # rerun-block command

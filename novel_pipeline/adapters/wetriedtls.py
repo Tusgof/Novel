@@ -11,6 +11,8 @@ from novel_pipeline.types import ChapterMeta
 
 
 _CHAPTER_RE = re.compile(r"/chapter-(\d+)(?:\D|$)")
+# Chapter heading paragraph: either a bare "Chapter 12" or "Chapter 12: Title".
+_CHAPTER_MARKER_RE = re.compile(r"Chapter\s+\d+(?:\s*[:.\-–—]\s*\S.*)?")
 
 
 def _chapter_id(number: int) -> str:
@@ -147,7 +149,7 @@ class WetriedtlsAdapter(FetchAdapter):
         chapter_indexes = [
             index
             for index, value in enumerate(paragraphs)
-            if re.fullmatch(r"Chapter\s+\d+", value.strip(), flags=re.IGNORECASE)
+            if _CHAPTER_MARKER_RE.fullmatch(value.strip())
         ]
         if not chapter_indexes:
             raise ValueError("WetriedtlsAdapter could not find a chapter marker in the page payload")

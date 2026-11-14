@@ -1,0 +1,13 @@
+fusionpunk:
+  name: fusionpunk-thai
+  description: Draft voice profile pending a source-backed pilot.
+  genre_label: fusionpunk
+  tone: scene-dependent, clear, contemporary where the source is contemporary
+  naming_notes: Preserve verified names and consistent technology/game terminology; infer no character policy from the template novel.
+  narration_density: balanced
+  glossary_categories: [character, location, organization, item, skill, system, term]
+  qa_criteria:
+    - Preserve all source meaning, dialogue, quantities, conditions and story beats.
+    - Distinguish technology, magic, game UI, narration and speakers without adding lore.
+    - Preserve source humour and register without imposing constant grandeur or menace.
+    - Resolve point of view and pronouns from supplied source before production.

@@ -157,6 +157,32 @@ class WorkspaceRoutingTests(unittest.TestCase):
             self.assertIn("comedy", voice)
             self.assertNotIn("Duncan", voice)
 
+    def test_new_novel_setup_never_inherits_template_fetch_adapter(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            template = load_app_config(ROOT / self.CONFIGS[0])
+            self.assertTrue(template.source.adapter, "template novel must have an adapter for this check")
+            result = initialize_novel_project(
+                template_config=template, project_root=Path(temporary) / "Import Only",
+                title="Import Only", source_url="https://example.com/toc",
+            )
+            import yaml
+            generated = yaml.safe_load(result["config_path"].read_text(encoding="utf-8"))
+            self.assertEqual(generated["source"]["adapter"], "")
+            profile = yaml.safe_load(result["profile_path"].read_text(encoding="utf-8"))
+            self.assertEqual(profile["setup"]["source_state"], "pending")
+
+    def test_new_novel_setup_records_explicit_adapter(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            template = load_app_config(ROOT / self.CONFIGS[0])
+            result = initialize_novel_project(
+                template_config=template, project_root=Path(temporary) / "Explicit",
+                title="Explicit", source_url="https://example.com/toc",
+                adapter="wetriedtls",
+            )
+            import yaml
+            generated = yaml.safe_load(result["config_path"].read_text(encoding="utf-8"))
+            self.assertEqual(generated["source"]["adapter"], "wetriedtls")
+
     def test_real_lean_stages_use_shared_prompts_and_local_formatter(self) -> None:
         # Only the provider transport is mocked; prompt rendering and stages run.
         with tempfile.TemporaryDirectory() as temporary:

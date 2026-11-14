@@ -1,0 +1,15 @@
+novel_id: a-gacha-addicts-fusionpunk-life
+pipeline_engine: lean
+vault_root: .
+source_language: en
+default_batch_size: 5
+chapter_unit: chapters
+default_style_profile: fusionpunk
+chunking:
+  chinese_character_limit: 600
+  non_chinese_word_limit: 5000
+source:
+  adapter: wetriedtls
+  toc_url: https://wetriedtls.com/series/a-gacha-addicts-life-in-fusionpunk
+  delay_seconds: 1.0
+  encoding: utf-8
