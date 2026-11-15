@@ -310,3 +310,54 @@ test("reader sheets trap focus, close on Escape and restore the opener", async (
     assert.ok(await activeIn(page, fab), "mobile FAB must regain focus after Escape");
   });
 });
+
+test("authored newlines separate status rows and item details without changing text", async () => {
+  const examples = [
+    { route: "/books/a-gacha-addicts-fusionpunk-life/read/ch039", marker: "★★ [ฟีเวอร์พรีเมียม!] ★★", minLines: 10 },
+    { route: "/books/a-gacha-addicts-fusionpunk-life/read/ch039", marker: "「ตั๋วเสริมพลังโจ๊กเกอร์พรีเมียม」", minLines: 5 },
+    { route: "/books/investing-in-my-crippled-wife/read/ch015", marker: "[ข้อมูลส่วนบุคคล]", minLines: 6 },
+  ];
+  for (const width of [1440, 390]) {
+    await withPage({ width, height: 1000 }, async (page) => {
+      for (const example of examples) {
+        await page.goto(`${baseUrl}${example.route}`, { waitUntil: "networkidle" });
+        await page.evaluate(() => document.fonts.ready);
+        const paragraph = page.locator(".reader-paragraph").filter({ hasText: example.marker }).first();
+        const authoredText = await paragraph.textContent();
+        await paragraph.scrollIntoViewIfNeeded();
+        const lines = await paragraph.evaluate((element) => {
+          const nodes = [];
+          const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+          while (walker.nextNode()) nodes.push(walker.currentNode);
+          const rectAt = (offset) => {
+            for (const node of nodes) {
+              if (offset < node.textContent.length) {
+                const range = document.createRange();
+                range.setStart(node, offset);
+                range.setEnd(node, offset + 1);
+                const rect = range.getBoundingClientRect();
+                return { x: rect.x, y: rect.y };
+              }
+              offset -= node.textContent.length;
+            }
+            throw new Error("Authored character is missing from the rendered paragraph");
+          };
+          let offset = 0;
+          return element.textContent.split("\n").flatMap((line) => {
+            const row = line.trim() ? [{ text: line, first: rectAt(offset + line.search(/\S/)), last: rectAt(offset + line.trimEnd().length - 1) }] : [];
+            offset += line.length + 1;
+            return row;
+          });
+        });
+        assert.ok(lines.length >= example.minLines, "fixture must retain its authored status/item lines");
+        for (let index = 1; index < lines.length; index += 1) {
+          assert.ok(lines[index].first.y > lines[index - 1].last.y + 1,
+            `${width}px ${example.route}: authored line ${index + 1} must start below the preceding line, not run into it`);
+        }
+        assert.equal(await paragraph.textContent(), authoredText, "layout must not rewrite status text, numbers or item effects");
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 2), false,
+          "long status lines must still wrap without horizontal overflow");
+      }
+    });
+  }
+});
