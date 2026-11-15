@@ -11,15 +11,23 @@ source:
   adapter: ''
   toc_url: https://www.webnovel.com/book/investing-in-my-crippled-wife-every-return-makes-me-stronger_35147273900927805
 research:
-  status: pending
+  status: active
   profile_path: RESEARCH_PROFILE.yaml
   title: 'Investing in My Crippled Wife: Every Return Makes Me Stronger'
   source_url: https://www.webnovel.com/book/investing-in-my-crippled-wife-every-return-makes-me-stronger_35147273900927805
 setup:
   created_at: '2026-11-14T18:07:43.054207+00:00'
   created_from_workspace: One Hit Kill Swordmaster
-  source_state: pending
-notes: Source-pending setup draft. Public metadata reviewed; chapter extraction, glossary approval and a bounded pilot remain pending. Not production-ready or authorized for publication.
+  source_state: validated
+source_plan:
+  input_language: en
+  body_acquisition: existing owner-provided local corpus, byte-identical scoped import
+  chapter_range: ch001-ch060
+  provenance: Existing ToonNovel acquisition reported in the primary vault; no new fetch or adapter installation in this worktree. Original publisher metadata remains the public reference.
+reader_plan:
+  visibility: public-MoonRead-after-independent-acceptance
+  chapter_range: ch001-ch060
+notes: Owner authorized Code translation ch001-ch060 and later public MoonRead on 2026-11-15. Sixty unique English sources imported from the existing 249-chapter corpus with byte parity. Inspector accepted all mandatory 10 IS and 10 fixed-seed OOS corrected products with their original frozen contexts and full current gates. Separate bounded production orders may now cover only remaining requested IDs; accepted setup outputs and original contexts stay immutable. Source adapter remains empty because this work consumes local input, not a new fetch. Public-reader acceptance is separate and still pending.
 author: Peace_in_Chaos
 source_site: webnovel
 source_book_id: '35147273900927805'

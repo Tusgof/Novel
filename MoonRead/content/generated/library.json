@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-15T11:34:26.047Z",
+  "generatedAt": "2026-11-15T18:03:00.463Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -10,9 +10,9 @@
     }
   },
   "summary": {
-    "books": 7,
-    "chapters": 734,
-    "available": 734,
+    "books": 8,
+    "chapters": 755,
+    "available": 755,
     "missing": 0,
     "rejected": 0
   },
@@ -302,6 +302,45 @@
       }
     },
     {
+      "slug": "investing-in-my-crippled-wife",
+      "title": "Investing in My Crippled Wife: Every Return Makes Me Stronger",
+      "tags": [],
+      "href": "/books/investing-in-my-crippled-wife",
+      "chaptersHref": "/books/investing-in-my-crippled-wife/chapters",
+      "targetRange": "ch001-ch016",
+      "summary": {
+        "total": 16,
+        "available": 16,
+        "missing": 0,
+        "rejected": 0,
+        "skipped": 0
+      },
+      "latestChapter": {
+        "id": "ch016",
+        "number": 16,
+        "title": "บทที่ 16: จ้าวสไลม์!",
+        "status": "available",
+        "sourcePath": "ch016/ch016.md",
+        "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch016.md",
+        "href": "/books/investing-in-my-crippled-wife/read/ch016",
+        "charCount": 7613,
+        "readingMinutes": 2,
+        "translator": "[Code]"
+      },
+      "firstChapter": {
+        "id": "ch001",
+        "number": 1,
+        "title": "บทที่ 1: ผมแต่งงานกับจักรพรรดินีน้ำแข็ง",
+        "status": "available",
+        "sourcePath": "ch001/ch001.md",
+        "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch001.md",
+        "href": "/books/investing-in-my-crippled-wife/read/ch001",
+        "charCount": 5340,
+        "readingMinutes": 2,
+        "translator": "[Code]"
+      }
+    },
+    {
       "slug": "a-gacha-addicts-fusionpunk-life",
       "title": "A Gacha Addict's Fusionpunk Life",
       "thaiTitle": "ชีวิตฟิวชันพังก์ของคนติดกาชา",
@@ -314,23 +353,23 @@
       ],
       "href": "/books/a-gacha-addicts-fusionpunk-life",
       "chaptersHref": "/books/a-gacha-addicts-fusionpunk-life/chapters",
-      "targetRange": "ch001-ch040",
+      "targetRange": "ch001-ch045",
       "summary": {
-        "total": 40,
-        "available": 40,
+        "total": 45,
+        "available": 45,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch040",
-        "number": 40,
-        "title": "บทที่ 40: ฟีเวอร์พรีเมียม! (2)",
+        "id": "ch045",
+        "number": 45,
+        "title": "บทที่ 45: หนุ่มพบสาวเนื้อ (4)",
         "status": "available",
-        "sourcePath": "ch040/ch040.md",
-        "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch040.md",
-        "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch040",
-        "charCount": 12836,
+        "sourcePath": "ch045/ch045.md",
+        "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch045.md",
+        "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch045",
+        "charCount": 11113,
         "readingMinutes": 3,
         "translator": "[Code]"
       },

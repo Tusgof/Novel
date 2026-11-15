@@ -1,0 +1,223 @@
+{
+  "generatedAt": "2026-11-15T18:02:56.395Z",
+  "sourceRoot": "../Investing in My Crippled Wife/05_Output",
+  "targetRange": "ch001-ch016",
+  "novel": {
+    "slug": "investing-in-my-crippled-wife",
+    "title": "Investing in My Crippled Wife: Every Return Makes Me Stronger",
+    "author": "Peace_in_Chaos",
+    "tags": []
+  },
+  "href": "/books/investing-in-my-crippled-wife",
+  "chaptersHref": "/books/investing-in-my-crippled-wife/chapters",
+  "reader": {
+    "name": "MoonRead",
+    "theme": "Stardust",
+    "colors": {
+      "navy": "#121926",
+      "gold": "#EBC05F",
+      "cream": "#F0F0F0"
+    }
+  },
+  "summary": {
+    "total": 16,
+    "available": 16,
+    "missing": 0,
+    "rejected": 0,
+    "skipped": 0
+  },
+  "chapters": [
+    {
+      "id": "ch001",
+      "number": 1,
+      "title": "บทที่ 1: ผมแต่งงานกับจักรพรรดินีน้ำแข็ง",
+      "status": "available",
+      "sourcePath": "ch001/ch001.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch001.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch001",
+      "charCount": 5340,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch002",
+      "number": 2,
+      "title": "บทที่ 2: การตื่นรู้!",
+      "status": "available",
+      "sourcePath": "ch002/ch002.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch002.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch002",
+      "charCount": 5633,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch003",
+      "number": 3,
+      "title": "บทที่ 3: ผลตอบแทนครั้งแรก",
+      "status": "available",
+      "sourcePath": "ch003/ch003.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch003.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch003",
+      "charCount": 5582,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch004",
+      "number": 4,
+      "title": "บทที่ 4: ดวงตานักลงทุน",
+      "status": "available",
+      "sourcePath": "ch004/ch004.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch004.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch004",
+      "charCount": 4789,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch005",
+      "number": 5,
+      "title": "บทที่ 5: ยอดภูเขาน้ำแข็ง",
+      "status": "available",
+      "sourcePath": "ch005/ch005.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch005.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch005",
+      "charCount": 5099,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch006",
+      "number": 6,
+      "title": "บทที่ 6: คัมภีร์จักรพรรดิธารน้ำแข็ง",
+      "status": "available",
+      "sourcePath": "ch006/ch006.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch006.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch006",
+      "charCount": 5596,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch007",
+      "number": 7,
+      "title": "บทที่ 7: ทำไม? ทำไมกัน?",
+      "status": "available",
+      "sourcePath": "ch007/ch007.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch007.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch007",
+      "charCount": 5318,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch008",
+      "number": 8,
+      "title": "บทที่ 8: คำตอบของโซเรน",
+      "status": "available",
+      "sourcePath": "ch008/ch008.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch008.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch008",
+      "charCount": 5120,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch009",
+      "number": 9,
+      "title": "บทที่ 9: ผลตอบแทนอีกหรือ?",
+      "status": "available",
+      "sourcePath": "ch009/ch009.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch009.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch009",
+      "charCount": 6135,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch010",
+      "number": 10,
+      "title": "บทที่ 10: เผชิญความจริง",
+      "status": "available",
+      "sourcePath": "ch010/ch010.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch010.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch010",
+      "charCount": 6054,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch011",
+      "number": 11,
+      "title": "บทที่ 11: เชื่อใจแต่ต้องตรวจสอบ",
+      "status": "available",
+      "sourcePath": "ch011/ch011.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch011.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch011",
+      "charCount": 5945,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch012",
+      "number": 12,
+      "title": "บทที่ 12: ใบอนุญาตนักล่า",
+      "status": "available",
+      "sourcePath": "ch012/ch012.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch012.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch012",
+      "charCount": 7894,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch013",
+      "number": 13,
+      "title": "บทที่ 13: ฝึกฝน!",
+      "status": "available",
+      "sourcePath": "ch013/ch013.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch013.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch013",
+      "charCount": 8172,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch014",
+      "number": 14,
+      "title": "บทที่ 14: ผลตอบแทนเพิ่มเติม!",
+      "status": "available",
+      "sourcePath": "ch014/ch014.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch014.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch014",
+      "charCount": 6598,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch015",
+      "number": 15,
+      "title": "บทที่ 15: ประตูมิติแรก!",
+      "status": "available",
+      "sourcePath": "ch015/ch015.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch015.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch015",
+      "charCount": 6863,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch016",
+      "number": 16,
+      "title": "บทที่ 16: จ้าวสไลม์!",
+      "status": "available",
+      "sourcePath": "ch016/ch016.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch016.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch016",
+      "charCount": 7613,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    }
+  ]
+}
