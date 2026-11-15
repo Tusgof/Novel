@@ -6,6 +6,16 @@
   "note": "Only the three explicitly identified escaped incidents are backfilled. Historical snapshot ranges below are frozen evidence at the stated commit, NOT another current-state registry and NOT live-publication probes. Record new verified-publication cohorts after live verification; preserve prior entries.",
   "publication_cohorts": [
     {
+      "id": "fusion-code-first40-20261115",
+      "kind": "verified-publication",
+      "novel": "a-gacha-addicts-fusionpunk-life",
+      "chapters": ["ch001-ch040"],
+      "verified_at": "2026-11-15T13:18:46+00:00",
+      "revision": "474a6be1a7614c3c84dbb1d399a86e40b7f100d4",
+      "live_url": "https://novel-pink-nu.vercel.app/books/a-gacha-addicts-fusionpunk-life",
+      "evidence": "07_Reports/fusion_first40_publication_verified_20261115.md"
+    },
+    {
       "id": "legacy-dse",
       "kind": "historical-reader-snapshot",
       "novel": "deep-sea-embers",
