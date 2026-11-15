@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+import re
 import shutil
 import subprocess
 from pathlib import Path
@@ -123,6 +125,101 @@ def _source_readiness(workspace_root: Path, warnings: list[str]) -> dict[str, An
     }
 
 
+_PROFILE_NAME_RE = re.compile(r"\b[A-Z][a-z'\u2019-]+(?:\s+[A-Z][a-z'\u2019-]+)+\b")
+
+
+def _profile_name_candidates(payload: dict[str, Any]) -> list[str]:
+    """Proper nouns a research profile asserts: declared terms plus multiword names in the synopsis."""
+    names: set[str] = set()
+    synopsis = str(payload.get("synopsis") or "")
+    names.update(match.group(0) for match in _PROFILE_NAME_RE.finditer(synopsis))
+    for item in payload.get("terminology") or []:
+        text = str(item).strip()
+        if text:
+            names.add(text)
+    return sorted(names)
+
+
+def _profile_claims(workspace_root: Path, warnings: list[str]) -> dict[str, Any]:
+    """Check that names asserted by RESEARCH_PROFILE.yaml exist in the imported source.
+
+    A profile synopsis cannot be verified mechanically, but a name it claims and the
+    source never contains is a defect. The chapter spread where those names occur is
+    reported too, so a whole-novel synopsis written from one chapter is visible.
+    Vaults without a profile or without local source are skipped, which keeps a clean
+    checkout (no 03_Raw) working.
+    """
+    result: dict[str, Any] = {
+        "checked": False,
+        "names_checked": 0,
+        "unsupported_names": [],
+        "coverage_chapters": [],
+        "consistent": True,
+        "warnings": [],
+    }
+    profile_path = workspace_root / "RESEARCH_PROFILE.yaml"
+    raw_root = workspace_root / "03_Raw"
+    if not profile_path.exists() or not raw_root.exists():
+        return result
+    try:
+        payload = yaml.safe_load(profile_path.read_text(encoding="utf-8")) or {}
+    except (OSError, yaml.YAMLError):
+        return result
+    if not isinstance(payload, dict):
+        return result
+
+    chapters: dict[str, str] = {}
+    for path in sorted(raw_root.glob("ch*/source.json")):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        chapters[path.parent.name] = str(data.get("raw_text") or "").lower()
+    if not chapters:
+        return result
+
+    candidates = _profile_name_candidates(payload)
+    if not candidates:
+        return result
+
+    unsupported: list[str] = []
+    covered: set[str] = set()
+    for name in candidates:
+        needle = name.lower()
+        hits = [chapter_id for chapter_id, text in chapters.items() if needle in text]
+        if hits:
+            covered.update(hits)
+        else:
+            unsupported.append(name)
+
+    state_warnings: list[str] = []
+    if unsupported:
+        state_warnings.append(
+            "RESEARCH_PROFILE.yaml names with no occurrence in 03_Raw: "
+            + ", ".join(unsupported[:6])
+            + ("..." if len(unsupported) > 6 else "")
+            + "; verify them or mark the profile metadata-only."
+        )
+    if covered and len(covered) < 3:
+        state_warnings.append(
+            f"RESEARCH_PROFILE.yaml evidence covers only {len(covered)} chapter(s); "
+            "a whole-novel synopsis needs a spread of chapters."
+        )
+
+    warnings.extend(state_warnings)
+    result.update(
+        {
+            "checked": True,
+            "names_checked": len(candidates),
+            "unsupported_names": unsupported,
+            "coverage_chapters": sorted(covered),
+            "consistent": not state_warnings,
+            "warnings": state_warnings,
+        }
+    )
+    return result
+
+
 def build_preflight_summary(config: AppConfig) -> dict[str, Any]:
     warnings: list[str] = []
     blocking_reasons: list[str] = []
@@ -228,6 +325,7 @@ def build_preflight_summary(config: AppConfig) -> dict[str, Any]:
         blocking_reasons.append("Workspace is missing required directories: " + ", ".join(missing_dirs))
 
     source_readiness = _source_readiness(config.workspace.root, warnings)
+    profile_claims = _profile_claims(config.workspace.root, warnings)
 
     if blocking_reasons:
         status = "blocked"
@@ -250,6 +348,7 @@ def build_preflight_summary(config: AppConfig) -> dict[str, Any]:
         "research_readiness": research,
         "missing_directories": missing_dirs,
         "source_readiness": source_readiness,
+        "profile_claims": profile_claims,
         "warnings": warnings,
         "blocking_reasons": blocking_reasons,
         "next_safe_action": next_safe_action,
@@ -297,6 +396,15 @@ def print_preflight_summary(summary: dict[str, Any]) -> None:
         f"imported chapters: {source['imported_chapters']} "
         f"(consistent={'yes' if source['state_consistent'] else 'no'})"
     )
+    claims = summary["profile_claims"]
+    if claims["checked"]:
+        print("Profile claims:")
+        print(
+            f"  - names checked: {claims['names_checked']} / "
+            f"unsupported: {len(claims['unsupported_names'])} / "
+            f"coverage: {len(claims['coverage_chapters'])} chapter(s) "
+            f"(consistent={'yes' if claims['consistent'] else 'no'})"
+        )
     if summary["missing_directories"]:
         print("Missing directories:")
         for item in summary["missing_directories"]:

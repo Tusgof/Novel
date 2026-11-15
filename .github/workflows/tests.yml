@@ -25,7 +25,7 @@ jobs:
         run: python -m pip install -e .
 
       - name: Routing and adapter tests
-        run: python -m unittest test_workspace_routing test_xszj_adapter test_wetriedtls_adapter test_source_state_readiness test_opencode_provider test_kit_adoption test_governance test_semantic_detection -v
+        run: python -m unittest test_workspace_routing test_xszj_adapter test_wetriedtls_adapter test_toonnovel_adapter test_source_state_readiness test_profile_claims test_opencode_provider test_kit_adoption test_governance test_semantic_detection -v
 
       - name: Governance budgets, reader snapshot, and escaped-defect ledger
         run: python scripts/workspace_health.py check
