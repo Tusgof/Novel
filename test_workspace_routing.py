@@ -33,6 +33,71 @@ class WorkspaceRoutingTests(unittest.TestCase):
         "Ten Day Ultimatum/.system/config.yaml",
     )
 
+    def test_lean_assembly_removes_only_exact_leading_title_line_after_qa(self):
+        title = "บทที่ 1: การเสี่ยง"
+        body = title + "\n──────\n1.\nการเสี่ยงเป็นเรื่องสำคัญ\n\nตอนจบ"
+        expected = "# " + title + "\n\n──────\n1.\nการเสี่ยงเป็นเรื่องสำคัญ\n\nตอนจบ\n"
+        self.assertEqual(lean._assemble_chapter_markdown(body, title=title), expected)
+        source_title = "Chapter 1: Taking Risks"
+        self.assertEqual(lean._assemble_chapter_markdown(body.replace(title, source_title), title=title, source_title=source_title), expected)
+        self.assertEqual(lean._assemble_chapter_markdown(body.replace(title, "**" + title + "**"), title=title), expected)
+
+    def test_lean_assembly_preserves_unknown_inline_and_later_title_like_story_text(self):
+        title = "บทที่ 1: การเสี่ยง"
+        for body in (
+            "การเสี่ยงเป็นเรื่องสำคัญ\n\nตอนจบ",
+            title + " ผมอ่านออกเสียงแล้วเดินจากไป",
+            "บทที่ 2: คนละตอน\n\nการเสี่ยงเป็นเรื่องสำคัญ",
+            "การเสี่ยงเป็นเรื่องสำคัญ\n\n" + title + "\n\nตอนจบ",
+            "“" + title + "”\n\nการเสี่ยงเป็นเรื่องสำคัญ",
+        ):
+            self.assertEqual(lean._assemble_chapter_markdown(body, title=title), f"# {title}\n\n{body}\n")
+
+    def test_real_lean_keeps_source_heading_for_qa_but_not_duplicate_reader_heading(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            config = load_app_config(ROOT / "One Hit Kill Swordmaster/.system/config.yaml")
+            config.workspace = WorkspacePaths.from_root(Path(temporary))
+            config.workspace.system.mkdir(parents=True)
+            (config.workspace.system / "lean_voice.md").write_text("fixture", encoding="utf-8")
+            config.workspace.glossary_dir.mkdir()
+            raw = config.workspace.raw / "ch001"
+            raw.mkdir(parents=True)
+            source_title = "Chapter 1: Taking Risks"
+            (raw / "source.json").write_text(json.dumps({"novel_id": config.novel_id, "chapter_id": "ch001",
+                "title": source_title, "source_language": "en", "raw_text": source_title + "\n1.\nTaking risks was important."}), encoding="utf-8")
+            titles = config.workspace.work / "ch001"
+            titles.mkdir(parents=True)
+            thai_title = "บทที่ 1: การเสี่ยง"
+            (titles / "title.json").write_text(json.dumps({"thai_title": thai_title}), encoding="utf-8")
+            thai = thai_title + "\n1.\nการเสี่ยงเป็นเรื่องสำคัญ"
+            calls = []
+            def transport(_runner, request, **kwargs):
+                calls.append(request.stage)
+                if request.stage == "refinement":
+                    self.assertIn("AUTHORITATIVE THAI TITLE", request.prompt)
+                    self.assertIn(thai_title, request.prompt)
+                if request.stage == "qa_judge":
+                    self.assertIn(source_title, request.prompt)
+                    self.assertIn(thai, request.prompt)
+                text = {"literal_translation": thai, "refinement": thai, "qa_judge": "PASS: Exact source preserved.", "term_harvest": "[]"}[request.stage]
+                return ProviderResponse(provider=request.provider, command=("mock",), stdout=text, model=request.model, stage=request.stage)
+            staged = config.workspace.work / "_lean_runs/fixture/_staged_output"
+            with patch.object(lean.ProviderRunner, "run_with_retry", new=transport):
+                result = lean.run_chapter(config, "ch001", "fixture", staged, staged.parent / "trace", checkpoint_root=staged.parent)
+            self.assertTrue(result["qa_passed"])
+            self.assertEqual((staged / "ch001/ch001.md").read_text(encoding="utf-8"), "# " + thai_title + "\n\n1.\nการเสี่ยงเป็นเรื่องสำคัญ\n")
+            self.assertFalse(config.workspace.output.exists())
+            # Only changing the sidecar must invalidate refinement and its
+            # dependents even though source/literal/prompt files are unchanged.
+            thai_title = "บทที่ 1: ความสำคัญของการเสี่ยง"
+            thai = thai_title + "\n1.\nการเสี่ยงเป็นเรื่องสำคัญ"
+            (titles / "title.json").write_text(json.dumps({"thai_title": thai_title}), encoding="utf-8")
+            with patch.object(lean.ProviderRunner, "run_with_retry", new=transport):
+                resumed = lean.run_chapter(config, "ch001", "fixture", staged, staged.parent / "trace", checkpoint_root=staged.parent, resume=True)
+            self.assertEqual(calls, ["literal_translation", "refinement", "qa_judge", "term_harvest", "refinement", "qa_judge", "term_harvest"])
+            self.assertEqual(resumed["reused_stages"], ["literal_translation"])
+            self.assertEqual((staged / "ch001/ch001.md").read_text(encoding="utf-8"), "# " + thai_title + "\n\n1.\nการเสี่ยงเป็นเรื่องสำคัญ\n")
+
     def test_refinement_cleaner_preserves_story_lists_and_scene_tail(self) -> None:
         story = "ก่อนฉาก\n\n- นิรนาม: ใครส่งข้อความมา?\n* ผู้ดูแล: ยินดีต้อนรับ\n\n---\n\nหลังฉาก"
         self.assertEqual(_clean_refined_output(story), story)
@@ -208,6 +273,9 @@ class WorkspaceRoutingTests(unittest.TestCase):
             def fake_transport(_runner, request, **kwargs):
                 requests.append(request)
                 self.assertNotIn("{{", request.prompt)
+                if request.stage == "refinement":
+                    self.assertIn(source_text, request.prompt)
+                    self.assertIn("ORIGINAL SOURCE", request.prompt)
                 text = {"literal_translation": thai, "refinement": thai, "qa_judge": "PASS: Complete.", "term_harvest": "[]"}[request.stage]
                 return ProviderResponse(provider=request.provider, command=("mock",), stdout=text, model=request.model, stage=request.stage)
 

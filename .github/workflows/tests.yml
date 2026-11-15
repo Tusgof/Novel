@@ -30,6 +30,28 @@ jobs:
       - name: Governance budgets, reader snapshot, and escaped-defect ledger
         run: python scripts/workspace_health.py check
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24.14.0"
+          cache: npm
+          cache-dependency-path: MoonRead/package-lock.json
+
+      - name: Scoped reader generation and translation-label regressions
+        working-directory: MoonRead
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm run test:generate
+
+      - name: Reader production build and persisted-state regressions
+        working-directory: MoonRead
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+        run: |
+          npx playwright install --with-deps chromium
+          npm run lint
+          npm run build
+          npm run test:reader
+
       - name: Worker envelope tests
         working-directory: scripts
         run: python -m unittest test_validate_herdr_envelope -v

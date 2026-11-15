@@ -6,7 +6,9 @@ import { spawn } from "node:child_process";
 import { chromium } from "playwright";
 
 const root = process.cwd();
-const outputDir = path.join(root, "output", "playwright");
+const outputDir = process.env.MOONREAD_SMOKE_OUTPUT_DIR
+  ? path.resolve(process.env.MOONREAD_SMOKE_OUTPUT_DIR)
+  : path.join(root, "output", "playwright");
 
 function getFreePort() {
   return new Promise((resolve, reject) => {
@@ -207,19 +209,21 @@ async function main() {
       ));
       const readable = bookManifest.chapters.filter((chapter) => chapter.status === "available");
       const lean = readable.filter((chapter) => chapter.translator === "[Lean]");
+      const code = readable.filter((chapter) => chapter.translator === "[Code]");
       const pipe = readable.find((chapter) => chapter.translator === "[Pipe]");
-      const evidence = { slug: book.slug, leanCount: lean.length, pages: [], toc: [] };
+      const evidence = { slug: book.slug, leanCount: lean.length, codeCount: code.length, pages: [], toc: [] };
       for (const viewport of [{ width: 1440, height: 1000 }, { width: 390, height: 844 }]) {
         await page.setViewportSize(viewport);
         await page.goto(`${baseUrl}${book.chaptersHref}`, { waitUntil: "networkidle" });
-        evidence.toc.push(await page.evaluate(({ count, hasLean, hasPipe }) => ({
+        evidence.toc.push(await page.evaluate(({ count, hasLean, hasCode, hasPipe }) => ({
           width: window.innerWidth,
           rowCountMatches: document.querySelectorAll(".toc-list .ch-row").length === count,
           labelsMatch: (!hasLean || document.body.innerText.includes("[Lean]")) &&
+            (!hasCode || document.body.innerText.includes("[Code]")) &&
             (!hasPipe || document.body.innerText.includes("[Pipe]")),
           overflowX: document.documentElement.scrollWidth > window.innerWidth + 2,
-        }), { count: bookManifest.chapters.length, hasLean: lean.length > 0, hasPipe: Boolean(pipe) }));
-        const samples = [...new Map([lean[0], lean.at(-1), pipe].filter(Boolean).map(
+        }), { count: bookManifest.chapters.length, hasLean: lean.length > 0, hasCode: code.length > 0, hasPipe: Boolean(pipe) }));
+        const samples = [...new Map([lean[0], lean.at(-1), code[0], code.at(-1), pipe].filter(Boolean).map(
           (chapter) => [chapter.id, chapter]
         )).values()];
         for (const chapter of samples) {
@@ -241,6 +245,11 @@ async function main() {
           if (chapter.id === lean[0]?.id) {
             await page.screenshot({
               path: path.join(outputDir, `lean-${book.slug}-${viewport.width}.png`), fullPage: false,
+            });
+          }
+          if (chapter.id === code[0]?.id) {
+            await page.screenshot({
+              path: path.join(outputDir, `code-${book.slug}-${viewport.width}.png`), fullPage: false,
             });
           }
         }
@@ -341,9 +350,9 @@ async function main() {
       ogEvidence,
       notFoundEvidence,
       screenshots: [
-        "output/playwright/moonread-home-desktop.png",
-        "output/playwright/moonread-reader-mobile.png",
-        "output/playwright/moonread-404.png",
+        path.join(outputDir, "moonread-home-desktop.png"),
+        path.join(outputDir, "moonread-reader-mobile.png"),
+        path.join(outputDir, "moonread-404.png"),
       ],
     };
 

@@ -242,6 +242,21 @@ def _chapter_glossary_subset(block: TextBlock, glossary: dict[str, Any]) -> list
     return select_non_overlapping_glossary_entries(block.source_text, glossary.values())
 
 
+def _assemble_chapter_markdown(body: str, *, title: str, source_title: str = "") -> str:
+    """Keep headings visible to QA, then remove only an exact leading title line.
+
+    A paragraph may also contain section markers and the first story sentence.
+    Never discard that paragraph or strip title-like lines elsewhere in the story.
+    Unknown heading variants remain visible for the existing output gate to reject.
+    """
+    lines = body.strip().splitlines()
+    if lines:
+        candidate = re.sub(r"^#{1,6}\s+", "", lines[0].strip()).strip("*_` ")
+        if candidate in {value.strip() for value in (title, source_title) if value.strip()}:
+            lines = lines[1:]
+    return f"# {title}\n\n" + "\n".join(lines).strip() + "\n"
+
+
 def _run_qa_with_configured_fallbacks(
     *,
     config: Any,
@@ -324,6 +339,7 @@ def _run_refinement_with_configured_fallbacks(
     literal_draft: LiteralDraft,
     glossary_subset: list[Any],
     style_profile_key: str,
+    output_title: str = "",
 ) -> Any:
     """Run refinement through the configured primary and fallback routes."""
     routing = config.stage_routing_for("refinement")
@@ -347,6 +363,7 @@ def _run_refinement_with_configured_fallbacks(
                 ),
                 prompt_store=PromptStore(ROOT / "prompts" / "lean"),
                 style_instructions=(config.workspace.system / "lean_voice.md").read_text(encoding="utf-8"),
+                output_title=output_title,
             )
             if "[...]" in draft.refined_text or "[…]" in draft.refined_text:
                 raise ChapterQualityError("Refinement returned an omission placeholder.")
@@ -812,7 +829,7 @@ def run_chapter(
         source_hash=source_hash,
         glossary_hash=glossary_hash,
         prompt_hash=prompt_hash,
-        dependencies={"literal_hash": literal_hash},
+        dependencies={"literal_hash": literal_hash, "output_title": output_title},
     )
     refined_checkpoint_data = _read_matching_checkpoint(refined_checkpoint, refinement_input_hash) if resume else None
     if refined_checkpoint_data is not None:
@@ -826,6 +843,7 @@ def run_chapter(
             literal_draft=assembled_literal,
             glossary_subset=_chapter_glossary_subset(chapter_block, glossary),
             style_profile_key=config.default_style_profile,
+            output_title=output_title,
         )
         atomic_write_json(
             refined_checkpoint,
@@ -908,7 +926,7 @@ def run_chapter(
             f"Lean formatting validation failed for {chapter_id}: "
             + "; ".join(validation_issues)
         )
-    chapter_output = f"# {output_title}\n\n{formatted.strip()}\n"
+    chapter_output = _assemble_chapter_markdown(formatted, title=output_title, source_title=source.title)
     output_chapter_dir = output_dir / chapter_id
     output_chapter_dir.mkdir(parents=True, exist_ok=True)
     (output_chapter_dir / f"{chapter_id}.md").write_text(chapter_output, encoding="utf-8")

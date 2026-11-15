@@ -13,15 +13,15 @@ source:
   adapter: wetriedtls
   toc_url: https://wetriedtls.com/series/a-gacha-addicts-life-in-fusionpunk
 research:
-  status: drafted
+  status: active
   profile_path: RESEARCH_PROFILE.yaml
   title: A Gacha Addict's Fusionpunk Life
   source_url: https://wetriedtls.com/series/a-gacha-addicts-life-in-fusionpunk
 setup:
   created_at: '2026-11-07T20:29:50.493527+00:00'
   created_from_workspace: One Hit Kill Swordmaster
-  source_state: fetched
-notes: Draft prepared by the Inspector. Source fetched for ch001-ch040 on 2026-11-15 and the research profile is drafted for bounded translation. Glossary approval, title sidecars, source parity and the Code pilot remain pending. Not registered for public MoonRead.
+  source_state: validated
+notes: Inspector accepted ch001-ch040 locally after nine frozen-run checks, exact source-backed closes and full current gates on 2026-11-15. All twenty existing source files for the owner-authorized ch041-ch060 extension are imported with exact primary parity. New inputs belong to new bounded runs, not blind resumes of accepted earlier contexts. Public-reader authority remains ch001-ch040 only, and still needs scoped generation/reader gates/owner-approved landing/live evidence.
 author:
   original: 섦게지는꽃
   romanized: seomgejineunkkot
@@ -33,10 +33,11 @@ source_plan:
   owner_selected_english_fallback: https://wetriedtls.com/series/a-gacha-addicts-life-in-fusionpunk
   input_language: en
   access_requirement: public-without-login
-  body_acquisition: owner-authorized wetriedtls fetch for the free run
+  body_acquisition: owner-authorized wetriedtls free-source fetch through ch082 in the primary; isolated Code order imports only ch001-ch060 with byte parity
   chapter_range: ch001-ch082
   numbering: episode number, not the internal story-section number in the title
 reader_plan:
-  visibility: local-only
+  visibility: public-after-Inspector-acceptance
+  chapter_range: ch001-ch040
   translator_label: '[Code]'
-  public_publication_authorized: false
+  public_publication_authorized: true

@@ -1,5 +1,7 @@
 You are refining Thai web-novel chapter titles.
 
+Keep contemporary first-person titles in ผม (not ข้า); Count is เคานต์.
+
 Return JSON only. No Markdown, no commentary.
 
 Rules:

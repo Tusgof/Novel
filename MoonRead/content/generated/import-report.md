@@ -1,11 +1,11 @@
 # Reader Import Report
 
-Generated at: 2026-10-08T09:18:40.546Z
+Generated at: 2026-11-15T11:34:26.047Z
 
 ## Summary
 
-- books: 6
-- available chapters: 694
+- books: 7
+- available chapters: 734
 - missing chapters: 0
 - rejected chapters: 0
 
@@ -16,6 +16,7 @@ Generated at: 2026-10-08T09:18:40.546Z
 - available: 281
 - missing: 0
 - rejected: 0
+- processing: retained historical snapshot, not revalidated
 
 ### Rejected
 
@@ -32,6 +33,7 @@ Generated at: 2026-10-08T09:18:40.546Z
 - available: 290
 - missing: 0
 - rejected: 0
+- processing: retained historical snapshot, not revalidated
 
 ### Rejected
 
@@ -48,6 +50,7 @@ Generated at: 2026-10-08T09:18:40.546Z
 - available: 70
 - missing: 0
 - rejected: 0
+- processing: retained historical snapshot, not revalidated
 
 ### Rejected
 
@@ -64,6 +67,7 @@ Generated at: 2026-10-08T09:18:40.546Z
 - available: 8
 - missing: 0
 - rejected: 0
+- processing: retained historical snapshot, not revalidated
 
 ### Rejected
 
@@ -80,6 +84,7 @@ Generated at: 2026-10-08T09:18:40.546Z
 - available: 20
 - missing: 0
 - rejected: 0
+- processing: retained historical snapshot, not revalidated
 
 ### Rejected
 
@@ -96,6 +101,24 @@ Generated at: 2026-10-08T09:18:40.546Z
 - available: 25
 - missing: 0
 - rejected: 0
+- processing: retained historical snapshot, not revalidated
+
+### Rejected
+
+- none
+
+### Missing
+
+- none
+
+## A Gacha Addict's Fusionpunk Life
+
+- source root: ../A Gacha Addicts Fusionpunk Life/05_Output
+- target range: ch001-ch040
+- available: 40
+- missing: 0
+- rejected: 0
+- processing: generated and validated
 
 ### Rejected
 

@@ -1,5 +1,8 @@
 You are translating the supplied English web-novel chapter titles into Thai.
 
+Use this novel's contemporary narrator register: ผม for a title's first-person
+I, never ข้า. Use เคานต์ for Count and natural Thai rather than faux-archaic prose.
+
 Return JSON only. No Markdown, no commentary.
 
 Rules:

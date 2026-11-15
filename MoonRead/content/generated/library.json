@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-08T09:18:40.546Z",
+  "generatedAt": "2026-11-15T11:34:26.047Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -10,9 +10,9 @@
     }
   },
   "summary": {
-    "books": 6,
-    "chapters": 694,
-    "available": 694,
+    "books": 7,
+    "chapters": 734,
+    "available": 734,
     "missing": 0,
     "rejected": 0
   },
@@ -299,6 +299,52 @@
         "charCount": 7298,
         "readingMinutes": 2,
         "translator": "[Lean]"
+      }
+    },
+    {
+      "slug": "a-gacha-addicts-fusionpunk-life",
+      "title": "A Gacha Addict's Fusionpunk Life",
+      "thaiTitle": "ชีวิตฟิวชันพังก์ของคนติดกาชา",
+      "tags": [
+        "ฟิวชันพังก์",
+        "ย้อนเวลา",
+        "กาชา",
+        "ดาร์กแฟนตาซี",
+        "ตลกร้าย"
+      ],
+      "href": "/books/a-gacha-addicts-fusionpunk-life",
+      "chaptersHref": "/books/a-gacha-addicts-fusionpunk-life/chapters",
+      "targetRange": "ch001-ch040",
+      "summary": {
+        "total": 40,
+        "available": 40,
+        "missing": 0,
+        "rejected": 0,
+        "skipped": 0
+      },
+      "latestChapter": {
+        "id": "ch040",
+        "number": 40,
+        "title": "บทที่ 40: ฟีเวอร์พรีเมียม! (2)",
+        "status": "available",
+        "sourcePath": "ch040/ch040.md",
+        "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch040.md",
+        "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch040",
+        "charCount": 12836,
+        "readingMinutes": 3,
+        "translator": "[Code]"
+      },
+      "firstChapter": {
+        "id": "ch001",
+        "number": 1,
+        "title": "บทที่ 1: ผมกลายเป็นลูกเสเพลของตระกูลเคานต์",
+        "status": "available",
+        "sourcePath": "ch001/ch001.md",
+        "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch001.md",
+        "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch001",
+        "charCount": 11602,
+        "readingMinutes": 3,
+        "translator": "[Code]"
       }
     }
   ]

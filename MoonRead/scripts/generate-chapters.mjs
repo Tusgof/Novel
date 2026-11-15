@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { isDeepStrictEqual } from "node:util";
 import iconv from "iconv-lite";
 
 const scriptRoot = path.dirname(fileURLToPath(import.meta.url));
@@ -27,6 +28,7 @@ function loadRegistryBooks() {
         firstChapter: Number(process.env[reader.first_chapter_env] || reader.first_chapter || "1"),
         lastChapter: Number(process.env[reader.last_chapter_env] || reader.last_chapter || "1"),
         leanRetranslatedThrough: Number(reader.lean_retranslated_through || 0),
+        codeChapters: new Set(reader.code_chapters || []),
         legacyDefault: Boolean(reader.legacy_default),
         titleNormalizer: novel.title_policy?.normalizer || "",
         novel: {
@@ -45,6 +47,12 @@ function loadRegistryBooks() {
 }
 
 const books = loadRegistryBooks();
+const selectedSlugs = new Set((process.env.SENTINEL_NOVEL || "").split(",").map((value) => value.trim()).filter(Boolean));
+for (const slug of selectedSlugs) {
+  if (!books.some((book) => book.slug === slug)) {
+    throw new Error(`Generation scope is unknown or reader-disabled: ${slug}`);
+  }
+}
 
 const providerLeakPatterns = [
   /\b(as an ai|i cannot|i can't|here is the translation|translated text)\b/i,
@@ -287,7 +295,7 @@ function buildBookManifest(book) {
       href: chapterHref(book, id),
       charCount,
       readingMinutes,
-      translator: number <= book.leanRetranslatedThrough ? "[Lean]" : "[Pipe]",
+      translator: book.codeChapters.has(id) ? "[Code]" : number <= book.leanRetranslatedThrough ? "[Lean]" : "[Pipe]",
     };
     chapters.push(entry);
     included.push(entry);
@@ -331,10 +339,50 @@ function buildBookManifest(book) {
   return { manifest, included, missing, rejected, skipped };
 }
 
+// A scoped publication must not regenerate, recertify or remove other books.
+// Capture their exact checked-in snapshot before cleaning this generated tree.
+const retainedBooks = new Map();
+if (selectedSlugs.size > 0) {
+  for (const book of books.filter((entry) => !selectedSlugs.has(entry.slug))) {
+    const bookRoot = path.join(generatedBooksRoot, book.slug);
+    const manifestBytes = fs.readFileSync(path.join(bookRoot, "manifest.json"));
+    const manifest = JSON.parse(manifestBytes.toString("utf8"));
+    if (manifest.novel.slug !== book.slug || manifest.targetRange !== `${chapterId(book.firstChapter)}-${chapterId(book.lastChapter)}`) {
+      throw new Error(`Retained snapshot disagrees with registry: ${book.slug}`);
+    }
+    const chapterBytes = manifest.chapters.filter((chapter) => chapter.status === "available").map((chapter) => {
+      if (!/^ch\d+$/.test(chapter.id)) throw new Error(`Invalid retained chapter ID: ${chapter.id}`);
+      return [chapter.id, fs.readFileSync(path.join(bookRoot, "chapters", `${chapter.id}.md`))];
+    });
+    retainedBooks.set(book.slug, { manifest, manifestBytes, chapterBytes });
+  }
+}
+
+const defaultBookConfig = books.find((entry) => entry.legacyDefault) || books[0];
+const retainedRootManifestBytes = retainedBooks.has(defaultBookConfig.slug)
+  ? fs.readFileSync(path.join(generatedRoot, "manifest.json"))
+  : null;
+if (retainedRootManifestBytes) {
+  const retainedRootManifest = JSON.parse(retainedRootManifestBytes.toString("utf8"));
+  if (!isDeepStrictEqual(retainedRootManifest, retainedBooks.get(defaultBookConfig.slug).manifest)) {
+    throw new Error(`Retained legacy/default root manifest mismatch: ${defaultBookConfig.slug}`);
+  }
+}
+
 ensureCleanDirectory(generatedRoot);
 fs.mkdirSync(generatedBooksRoot, { recursive: true });
 
-const generated = books.map(buildBookManifest);
+const generated = books.map((book) => {
+  const retained = retainedBooks.get(book.slug);
+  if (!retained) return buildBookManifest(book);
+  const bookRoot = path.join(generatedBooksRoot, book.slug);
+  fs.mkdirSync(path.join(bookRoot, "chapters"), { recursive: true });
+  fs.writeFileSync(path.join(bookRoot, "manifest.json"), retained.manifestBytes);
+  for (const [id, bytes] of retained.chapterBytes) fs.writeFileSync(path.join(bookRoot, "chapters", `${id}.md`), bytes);
+  const byStatus = (status) => retained.manifest.chapters.filter((chapter) => chapter.status === status);
+  return { manifest: retained.manifest, included: byStatus("available"), missing: byStatus("missing"),
+    rejected: byStatus("rejected"), skipped: byStatus("skipped"), retained: true };
+});
 const defaultBook = generated.find((entry, index) => books[index].legacyDefault) || generated[0];
 
 fs.cpSync(
@@ -342,7 +390,11 @@ fs.cpSync(
   path.join(generatedRoot, "chapters"),
   { recursive: true }
 );
-fs.writeFileSync(path.join(generatedRoot, "manifest.json"), `${JSON.stringify(defaultBook.manifest, null, 2)}\n`, "utf8");
+if (retainedRootManifestBytes) {
+  fs.writeFileSync(path.join(generatedRoot, "manifest.json"), retainedRootManifestBytes);
+} else {
+  fs.writeFileSync(path.join(generatedRoot, "manifest.json"), `${JSON.stringify(defaultBook.manifest, null, 2)}\n`, "utf8");
+}
 
 const library = {
   generatedAt: new Date().toISOString(),
@@ -397,6 +449,7 @@ for (const entry of generated) {
     `- available: ${entry.included.length}`,
     `- missing: ${entry.missing.length}`,
     `- rejected: ${entry.rejected.length}`,
+    `- processing: ${entry.retained ? "retained historical snapshot, not revalidated" : "generated and validated"}`,
     "",
     "### Rejected",
     "",

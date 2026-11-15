@@ -7,7 +7,8 @@ import {
   AlignLeft, BookOpen, Bookmark, ChevronLeft, ChevronRight, List, Menu,
   Moon, Search, Settings2, Sun, Type, X, ArrowRight,
 } from "lucide-react";
-import { useReaderStore, defaultReader } from "../lib/reader-store";
+import { useReaderStore } from "../lib/reader-store";
+import { filterChapters } from "../lib/chapter-search";
 
 const readingFonts = [
   { id: "sarabun", label: "Sarabun", note: "สมดุล อ่านสบาย ใช้งานได้ยาว", var: "var(--reader-font-sarabun)" },
@@ -22,6 +23,64 @@ const readingThemes = [
 ];
 function fontVarFor(id) { return (readingFonts.find((f) => f.id === id) || readingFonts[0]).var; }
 function chapterLabel(c) { return `ตอน ${String(c.number).padStart(3, "0")}`; }
+
+const FOCUSABLE = "a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex=\"-1\"])";
+
+// Dialog behaviour shared by both reader sheets: focus the first control on
+// open, keep Tab/Shift+Tab inside, close on Escape, restore the opener.
+function useSheetFocus(open, onClose) {
+  const sheetRef = useRef(null);
+  const openerRef = useRef(null);
+  const closeRef = useRef(onClose);
+  useEffect(() => {
+    closeRef.current = onClose;
+  }, [onClose]);
+
+  useEffect(() => {
+    if (!open) return undefined;
+    openerRef.current = document.activeElement;
+    const sheet = sheetRef.current;
+    const focusables = () => (sheet ? [...sheet.querySelectorAll(FOCUSABLE)].filter((el) => el.offsetParent !== null) : []);
+    const first = focusables()[0];
+    if (first) first.focus();
+
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        event.stopPropagation();
+        closeRef.current();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const items = focusables();
+      if (!items.length) return;
+      const firstItem = items[0];
+      const lastItem = items[items.length - 1];
+      const active = document.activeElement;
+      if (!sheet.contains(active)) {
+        event.preventDefault();
+        (event.shiftKey ? lastItem : firstItem).focus();
+        return;
+      }
+      if (event.shiftKey && active === firstItem) {
+        event.preventDefault();
+        lastItem.focus();
+      } else if (!event.shiftKey && active === lastItem) {
+        event.preventDefault();
+        firstItem.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown, true);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown, true);
+      const opener = openerRef.current;
+      if (opener && typeof opener.focus === "function" && document.contains(opener)) opener.focus();
+    };
+  }, [open]);
+
+  return sheetRef;
+}
 
 function blockClass(block) {
   if (block.type === "title") return "reader-title";
@@ -51,7 +110,7 @@ export default function ReaderShell({ chapter, neighbors, chapters, blocks, book
   const router = useRouter();
   const slug = book?.slug || "deep-sea-embers";
 
-  const [settings, setSettings] = useState(() => ({ ...defaultReader, ...store.getReader() }));
+  const settings = store.getReader();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
   const [tocQuery, setTocQuery] = useState("");
@@ -59,6 +118,8 @@ export default function ReaderShell({ chapter, neighbors, chapters, blocks, book
   const [progress, setProgress] = useState(0);
   const [, setBookmarkVersion] = useState(0);
   const [countdown, setCountdown] = useState(null);
+  const tocRef = useSheetFocus(tocOpen, () => setTocOpen(false));
+  const settingsRef = useSheetFocus(settingsOpen, () => setSettingsOpen(false));
   const countRef = useRef(null);
   const canceled = useRef(false);
   const lastSave = useRef(0);
@@ -71,7 +132,6 @@ export default function ReaderShell({ chapter, neighbors, chapters, blocks, book
   }, [slug, chapter.id]);
 
   function update(patch) {
-    setSettings((s) => ({ ...s, ...patch }));
     store.setReader(patch);
   }
 
@@ -119,9 +179,7 @@ export default function ReaderShell({ chapter, neighbors, chapters, blocks, book
   };
   const sheetNight = settings.theme === "night" ? " night" : "";
   const bookmarked = store.isBookmarked(slug, chapter.id);
-  const tocFiltered = tocQuery
-    ? chapters.filter((c) => (c.title || "").toLowerCase().includes(tocQuery.toLowerCase()) || String(c.number).includes(tocQuery))
-    : chapters;
+  const tocFiltered = filterChapters(chapters, tocQuery);
 
   return (
     <main className={`reader-page theme-${settings.theme}`} style={readerStyle}>
@@ -193,9 +251,9 @@ export default function ReaderShell({ chapter, neighbors, chapters, blocks, book
 
       {tocOpen ? (
         <div className="scrim" onClick={() => setTocOpen(false)}>
-          <aside className={`sheet${sheetNight}`} onClick={(e) => e.stopPropagation()} aria-label="สารบัญตอน">
+          <aside ref={tocRef} className={`sheet${sheetNight}`} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="reader-toc-title">
             <div className="sheet-head">
-              <div><strong>สารบัญ</strong><span>{book?.title || "MoonRead"}</span></div>
+              <div><strong id="reader-toc-title">สารบัญ</strong><span>{book?.title || "MoonRead"}</span></div>
               <button className="icon-button" type="button" onClick={() => setTocOpen(false)} aria-label="ปิดสารบัญ"><X size={20} /></button>
             </div>
             <div className="searchbox"><span className="ic"><Search size={17} /></span>
@@ -215,9 +273,9 @@ export default function ReaderShell({ chapter, neighbors, chapters, blocks, book
 
       {settingsOpen ? (
         <div className="scrim" onClick={() => setSettingsOpen(false)}>
-          <aside className={`sheet${sheetNight}`} onClick={(e) => e.stopPropagation()} aria-label="ตั้งค่าการอ่าน">
+          <aside ref={settingsRef} className={`sheet${sheetNight}`} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="reader-settings-title">
             <div className="sheet-head">
-              <div><strong>ตั้งค่าการอ่าน</strong><span>ปรับให้สบายตาสำหรับการอ่านยาว</span></div>
+              <div><strong id="reader-settings-title">ตั้งค่าการอ่าน</strong><span>ปรับให้สบายตาสำหรับการอ่านยาว</span></div>
               <button className="icon-button" type="button" onClick={() => setSettingsOpen(false)} aria-label="ปิดการตั้งค่า"><X size={20} /></button>
             </div>
 

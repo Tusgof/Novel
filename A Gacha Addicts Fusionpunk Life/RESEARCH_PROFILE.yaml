@@ -3,10 +3,11 @@ title: A Gacha Addict's Fusionpunk Life
 aliases:
 - A Gacha Addicts Fusionpunk Life
 - A Gacha Addicts Life in Fusionpunk
+- A Gacha Addict's Life in Fusionpunk
 - I Became the Count's Scoundrel
 - I Became the Count's Wastrel
 source_url: https://wetriedtls.com/series/a-gacha-addicts-life-in-fusionpunk
-status: drafted
+status: active
 synopsis: >
   Cedric Montraven is the disgraced son of Count Montraven's house, a wastrel whose
   older sister Arbel is the family's real talent and a First Rank mage. He is also a
@@ -44,7 +45,7 @@ style_notes: >
   ending in (n); the episode number, not that suffix, is the chapter number.
 reader_expectations: >
   Faithful, natural Thai with stable names and readable dialogue and system blocks;
-  personal local reading only, no public publication.
+  public MoonRead reading for ch001-ch040 only after the owner-authorized gates.
 review_summary: >
   Bibliography confirmed: Korean original on Novelpia, English official on Novelpia
   Global, and multiple fan translations. Country-of-origin status is ongoing at around
@@ -58,7 +59,7 @@ review_summary: >
   arc titles in our fetched range. Reviews were used for orientation only; every plot
   claim in this profile was re-checked against our own fetched source.
 last_reviewed_at: '2026-11-15'
-reviewed_by: Inspector (source survey and external review check, no translation acceptance)
+reviewed_by: Inspector; first-forty corrected Code products and local reader accepted; deployment and merged-SHA CI still pending
 terminology:
 - Cedric Montraven
 - Arbel Montraven
@@ -97,12 +98,14 @@ reference_links:
 notes: >
   Terms above are candidates observed in the fetched source or shared across public
   listings, not approved glossary entries; approve them through the glossary gate before
-  a pilot. Evidence: 82/82 free chapters in 03_Raw (1,055,669 characters, 10,094-15,943
-  per chapter), fetched 2026-11-15 after owner authorization for the wetriedtls
-  adapter. ch083 onward is a paid chapter on that site (the page returns 200 but only
-  a locked shell with no body), so 82 is the free ceiling; that is source access, not
-  an adapter defect. A standalone "?????" line is an authored wordless-confusion beat
-  in ch055, ch059 and ch082 and must be translated consistently.
+  translation. The separately landed primary source report records ch001-ch082
+  free chapters (1,055,669 characters) after owner-authorized wetriedtls fetch;
+  ch083 onward returned a locked shell, not a usable chapter body or adapter defect.
+  Preserve that source-access evidence. The isolated Code order imported only its
+  requested ch001-ch060 subset with byte parity. A standalone "?????" source line
+  is recorded in ch055/ch059/ch082 as an authored confusion beat; do not infer
+  broader source or translation authority from availability. Local runtime may be
+  unavailable in a clean checkout; use observed status rather than inventing it.
   Arcs in the fetched range run: wastrel origin (ch001-ch003), gutter life (ch004-ch008),
   second run (ch009-ch011), work and rifts (ch012-ch020), The Eight-Foot Widow and Ceres
   (ch021-ch024), Project Z through Build: Necromancer (ch025-ch033), fixer jobs and Save
@@ -112,5 +115,6 @@ notes: >
   "I Became the Count's Scoundrel" while our source says "I Became the Wastrel of a
   Count's House"; keep one canonical Thai handling. Because readers place the stronger
   material after roughly chapter 40, a ch001-ch003 pilot tests mechanics and voice but
-  not the story at its best. Public reader registration remains withheld and no provider
-  translation has run.
+  not the story at its best. The corrected first-forty Code products and their
+  scoped local reader now pass independent gates; public deployment and owner-
+  approved landing remain separate from source access or local generation.
