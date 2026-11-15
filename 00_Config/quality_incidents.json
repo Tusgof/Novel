@@ -62,6 +62,26 @@
       "chapters": ["ch001-ch025"],
       "source_commit": "208fe61ddd97510306388d1b3ed712c5bf056e7a",
       "evidence": "MoonRead/content/generated/books/ten-day-ultimatum/manifest.json"
+    },
+    {
+      "id": "fusion-code-interim41-45-20261116",
+      "kind": "verified-publication",
+      "novel": "a-gacha-addicts-fusionpunk-life",
+      "chapters": ["ch041-ch045"],
+      "verified_at": "2026-11-15T19:06:15.051550+00:00",
+      "revision": "01795d12c1e32d2841011254ce5d71af878a402e",
+      "live_url": "https://novel-pink-nu.vercel.app/books/a-gacha-addicts-fusionpunk-life",
+      "evidence": "07_Reports/two_books_interim_publication_verified_20261116.md"
+    },
+    {
+      "id": "investing-code-interim1-16-20261116",
+      "kind": "verified-publication",
+      "novel": "investing-in-my-crippled-wife",
+      "chapters": ["ch001-ch016"],
+      "verified_at": "2026-11-15T19:06:15.051550+00:00",
+      "revision": "01795d12c1e32d2841011254ce5d71af878a402e",
+      "live_url": "https://novel-pink-nu.vercel.app/books/investing-in-my-crippled-wife",
+      "evidence": "07_Reports/two_books_interim_publication_verified_20261116.md"
     }
   ],
   "incidents": [
