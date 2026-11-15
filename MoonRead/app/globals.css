@@ -278,7 +278,7 @@ img { display: block; }
 .translator { font-size: 12px; font-weight: 700; letter-spacing: 0; white-space: nowrap; }
 
 .reader-article { max-width: var(--reader-width); margin: 0 auto; padding: 8px 20px 40px; font-family: var(--reader-font-family); font-size: var(--reader-font-size); line-height: var(--reader-line-height); }
-.reader-paragraph { margin: 0 0 var(--reader-paragraph-spacing); text-wrap: pretty; }
+.reader-paragraph { margin: 0 0 var(--reader-paragraph-spacing); white-space: pre-line; text-wrap: pretty; }
 .reader-paragraph.dialogue { padding-left: 1em; }
 .reader-paragraph.aside { font-style: italic; opacity: .85; }
 .reader-title { font-size: 1.4em; font-weight: 700; margin: 0 0 .6em; }

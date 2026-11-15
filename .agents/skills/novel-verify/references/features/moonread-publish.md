@@ -31,6 +31,10 @@ rebuilt. Other books retain their existing manifest/chapter bytes, are labeled
 - For persisted-state bugs, build first, then run `npm run test:reader`: it seeds
   saved progress/settings and checks hydration, restoration, TOC numbers and dialog
   keyboard/focus behaviour. Reader CI installs the declared Chromium and runs it.
+- Text equality does not prove visible line breaks. `test:reader` also checks actual
+  glyph positions in multiline status/item blocks at desktop/mobile widths. The
+  reader preserves authored newlines with `white-space: pre-line`; do not rewrite
+  accepted Markdown or insert extra blank paragraphs to mask a rendering defect.
 - Set `MOONREAD_SMOKE_OUTPUT_DIR` to task-owned storage outside the repository
   before `npm run smoke`; the printed screenshot paths use that actual directory.
   Baseline Code-label fixtures do not prove new-book runtime until scoped content

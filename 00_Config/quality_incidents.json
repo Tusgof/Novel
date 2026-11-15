@@ -121,6 +121,18 @@
       "status": "historically-repaired",
       "evidence": "Backup_/governance/2026-11-15/PROJECT_BRAIN.md",
       "summary": "One reader incident: Seth voice drift in ch203 and glossary leakage in ch206. Archived BRAIN records the trigger, repair and prevention, but not an exact discovery date. The 2026-06-22 repair-report date is not substituted for discovery."
+    },
+    {
+      "id": "FUSION-20261116-STATUS-LINEBREAKS",
+      "novel": "a-gacha-addicts-fusionpunk-life",
+      "publication_cohort": "fusion-code-first40-20261115",
+      "chapters": ["ch039"],
+      "discovered_on": "2026-11-16",
+      "detected_by": "reader",
+      "category": "reader-layout-newline-collapse",
+      "status": "repair-in-review",
+      "evidence": "07_Reports/moonread_status_linebreaks_20261116.md",
+      "summary": "Reader reported status-window rows running together in Gacha39. Live1440px/390px glyph positions confirm authored newlines exist in text but default normal whitespace collapses them visually. Prior paragraph-text comparisons missed this layout class. One shared renderer fix and geometric regression test, with no translation or exposure-count change. Other multiline blocks are candidates, not individually confirmed affected IDs."
     }
   ]
 }
