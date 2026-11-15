@@ -38,6 +38,6 @@ source_plan:
   numbering: episode number, not the internal story-section number in the title
 reader_plan:
   visibility: public-after-Inspector-acceptance
-  chapter_range: ch001-ch040
+  chapter_range: ch001-ch045
   translator_label: '[Code]'
   public_publication_authorized: true

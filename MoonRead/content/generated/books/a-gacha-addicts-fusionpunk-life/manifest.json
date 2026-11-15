@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-15T11:34:25.684Z",
+  "generatedAt": "2026-11-15T18:02:56.654Z",
   "sourceRoot": "../A Gacha Addicts Fusionpunk Life/05_Output",
-  "targetRange": "ch001-ch040",
+  "targetRange": "ch001-ch045",
   "novel": {
     "slug": "a-gacha-addicts-fusionpunk-life",
     "title": "A Gacha Addict's Fusionpunk Life",
@@ -27,8 +27,8 @@
     }
   },
   "summary": {
-    "total": 40,
-    "available": 40,
+    "total": 45,
+    "available": 45,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -511,6 +511,66 @@
       "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch040.md",
       "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch040",
       "charCount": 12836,
+      "readingMinutes": 3,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch041",
+      "number": 41,
+      "title": "บทที่ 41: ฟีเวอร์พรีเมียม! (3)",
+      "status": "available",
+      "sourcePath": "ch041/ch041.md",
+      "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch041.md",
+      "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch041",
+      "charCount": 10273,
+      "readingMinutes": 3,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch042",
+      "number": 42,
+      "title": "บทที่ 42: หนุ่มพบสาวเนื้อ",
+      "status": "available",
+      "sourcePath": "ch042/ch042.md",
+      "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch042.md",
+      "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch042",
+      "charCount": 9708,
+      "readingMinutes": 3,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch043",
+      "number": 43,
+      "title": "บทที่ 43: หนุ่มพบสาวเนื้อ (2)",
+      "status": "available",
+      "sourcePath": "ch043/ch043.md",
+      "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch043.md",
+      "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch043",
+      "charCount": 10531,
+      "readingMinutes": 3,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch044",
+      "number": 44,
+      "title": "บทที่ 44: หนุ่มพบสาวเนื้อ (3)",
+      "status": "available",
+      "sourcePath": "ch044/ch044.md",
+      "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch044.md",
+      "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch044",
+      "charCount": 12360,
+      "readingMinutes": 3,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch045",
+      "number": 45,
+      "title": "บทที่ 45: หนุ่มพบสาวเนื้อ (4)",
+      "status": "available",
+      "sourcePath": "ch045/ch045.md",
+      "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch045.md",
+      "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch045",
+      "charCount": 11113,
       "readingMinutes": 3,
       "translator": "[Code]"
     }
