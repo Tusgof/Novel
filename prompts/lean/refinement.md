@@ -7,5 +7,14 @@ Keep clearly marked translator notes, author notes, chat labels and other non-na
 Chapter-relevant approved terms: {{glossary_subset}}
 Feedback, if any: {{retry_feedback}}
 
+AUTHORITATIVE THAI TITLE (may be empty): {{output_title}}
+If the source has a leading chapter heading and a Thai title is supplied above,
+use that exact Thai title as a separate plain first line, without # or decoration.
+Do not retranslate it, delete the next section marker, or add a body heading when
+the source has none. The assembler supplies the final H1 after QA.
+
+ORIGINAL SOURCE (meaning authority; correct draft errors against this, not by invention):
+{{source_block}}
+
 THAI DRAFT:
 {{literal_draft}}

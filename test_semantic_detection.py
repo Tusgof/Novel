@@ -67,6 +67,37 @@ class SemanticDetectionTests(unittest.TestCase):
         self.output("ch149", "ทวิสเต็ดแมนยืนอยู่ข้างอโนมาลี", "Twisted Man stood near the Anomaly.")
         self.assertTrue(self.gate("ch149")["failed"])
 
+    def test_fusionpunk_unexpected_cyrillic_fragment_is_blocked_on_real_surface(self):
+        self.registry["novels"][0]["slug"] = "a-gacha-addicts-fusionpunk-life"
+        self.registry["novels"][0]["quality"] = {"forbidden_output_patterns": [
+            {"pattern": "[Ѐ-ԯ]", "label": "unexpected Cyrillic artifact"}]}
+        self.output("ch008", "ข้อความที่ мягนุ่ม", "The original contains only English prose.")
+        self.assertTrue(self.gate("ch008")["failed"])
+        self.output("ch008", "ข้อความที่นุ่ม", "The original contains only English prose.")
+        self.assertFalse(self.gate("ch008")["failed"])
+
+    def test_fusionpunk_attributed_turn_and_sibling_regressions_are_context_scoped(self):
+        registry = json.loads((Path(__file__).parent / "00_Config/novel_registry.json").read_text(encoding="utf-8"))
+        policy = next(n for n in registry["novels"] if n["slug"] == "a-gacha-addicts-fusionpunk-life")
+        self.registry["novels"][0].update(slug=policy["slug"], quality=policy["quality"])
+        cases = (
+            ("ch024", "“ทดลองกับมนุษย์เหรอ? ฉันยินดีนะ”\n\n“ฉันเปลี่ยนใจแล้ว”", "“ฉันเปลี่ยนใจแล้ว”", "“ผมเปลี่ยนใจแล้ว”"),
+            ("ch025", "“วันนี้ฉันก็สนุกนะ”\n\n“กัทส์”\n\n“ครับ?”", "“วันนี้ฉันก็สนุกนะ”", "“วันนี้ผมก็สนุกนะ”"),
+            ("ch032", "“แต่ทำไมฉันถึงรู้สึกไม่สบายใจนักนะ...”\n\nมาม่าเซเรสมีด้านขี้ประมาท", "“แต่ทำไมฉันถึงรู้สึกไม่สบายใจนักนะ...”", "“แต่ทำไมผมถึงรู้สึกไม่สบายใจนักนะ...”"),
+            ("ch024", "“เพื่อช่วยน้องสาวในนรกแห่งนี้ ผมต้องขายร่างกายถ้าจำเป็น”", "เพื่อช่วยน้องสาว", "เพื่อช่วยพี่สาว"),
+            ("ch024", "ผมตอบโต้ความรังเกียจและการดูถูกของไอซิสด้วยไพ่น้องสาวที่กำลังจะตาย", "ไพ่น้องสาว", "ไพ่พี่สาว"),
+        )
+        for cid, bad, old, new in cases:
+            with self.subTest(chapter=cid, rejected=old):
+                self.output(cid, bad, "Cedric speaks about his older sister and his own feelings.")
+                self.assertTrue(self.gate(cid)["failed"])
+                self.output(cid, bad.replace(old, new), "Cedric speaks about his older sister and his own feelings.")
+                self.assertFalse(self.gate(cid)["failed"])
+                self.output("ch040", bad, "A different speaker uses first person in a different scene.")
+                self.assertFalse(self.gate("ch040")["failed"])
+        self.output("ch024", "“ฉันยินดีนะ”\n\nเธอให้ความรู้สึกเหมือนน้องสาวมากกว่าพี่สาว", "Isis speaks. Arbel feels more like a younger sister than an older one.")
+        self.assertFalse(self.gate("ch024")["failed"])
+
     def test_hgd_203_and_206_escape_mutations_fail(self):
         self.registry["novels"][0]["slug"] = "horror-game-developer"
         for cid, bad in (("ch203", "กูจะทำเกมนี้"), ("ch206", "เขาเปิด A Twisted Game")):

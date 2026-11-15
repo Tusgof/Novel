@@ -290,8 +290,8 @@
           }
         ]
       }
-    }
-    ,{
+    },
+    {
       "slug": "ten-day-ultimatum",
       "folder": "Ten Day Ultimatum",
       "source_language": "zh",
@@ -381,6 +381,39 @@
         "max_paragraph_chars": 700,
         "truncation_min_source_chars": 2500,
         "truncation_min_ratio": 0.45
+      }
+    },
+    {
+      "slug": "a-gacha-addicts-fusionpunk-life",
+      "folder": "A Gacha Addicts Fusionpunk Life",
+      "source_language": "en",
+      "raw_dir": "03_Raw",
+      "work_dir": "04_Work",
+      "output_dir": "05_Output",
+      "source_url": "https://wetriedtls.com/series/a-gacha-addicts-life-in-fusionpunk",
+      "reader": {
+        "enabled": true,
+        "legacy_default": false,
+        "first_chapter": 1,
+        "last_chapter": 40,
+        "code_chapters": ["ch001", "ch002", "ch003", "ch004", "ch005", "ch006", "ch007", "ch008", "ch009", "ch010", "ch011", "ch012", "ch013", "ch014", "ch015", "ch016", "ch017", "ch018", "ch019", "ch020", "ch021", "ch022", "ch023", "ch024", "ch025", "ch026", "ch027", "ch028", "ch029", "ch030", "ch031", "ch032", "ch033", "ch034", "ch035", "ch036", "ch037", "ch038", "ch039", "ch040"],
+        "title": "A Gacha Addict's Fusionpunk Life",
+        "thai_title": "ชีวิตฟิวชันพังก์ของคนติดกาชา",
+        "author": "섦게지는꽃",
+        "tags": ["ฟิวชันพังก์", "ย้อนเวลา", "กาชา", "ดาร์กแฟนตาซี", "ตลกร้าย"]
+      },
+      "title_policy": {"english_source_titles_require_thai_output": true, "generic_title_prefix": "บทที่"},
+      "quality": {
+        "max_paragraph_chars": 900,
+        "truncation_min_source_chars": 2500,
+        "truncation_min_ratio": 0.45,
+        "forbidden_output_patterns": [
+          {"pattern": "[Ѐ-ԯ]", "label": "Unexpected Cyrillic script in Thai output; absent from the verified forty English sources"},
+          {"pattern": "(?s)\\A# บทที่ 24:[^\\n]*\\n.*?“ทดลองกับมนุษย์เหรอ\\? ฉันยินดีนะ”\\s+“ฉันเปลี่ยนใจแล้ว”", "label": "ch024 Cedric's reply to Isis must retain his own first-person register; Isis's offer is not his turn"},
+          {"pattern": "(?s)\\A# บทที่ 25:[^\\n]*\\n.*?“วันนี้ฉันก็สนุกนะ”\\s+“กัทส์”\\s+“ครับ\\?”", "label": "ch025 Cedric's farewell before Ceres calls Guts must not switch to her first-person register"},
+          {"pattern": "(?s)\\A# บทที่ 32:[^\\n]*\\n.*?“แต่ทำไมฉันถึงรู้สึกไม่สบายใจนักนะ\\.\\.\\.”\\s+มาม่าเซเรสมีด้านขี้ประมาท", "label": "ch032 Cedric's uneasy self-question before his observation of Ceres is his own speech"},
+          {"pattern": "(?s)\\A# บทที่ 24:[^\\n]*\\n.*?(?:“เพื่อช่วยน้องสาวในนรกแห่งนี้ ผมต้องขายร่างกายถ้าจำเป็น”|ผมตอบโต้ความรังเกียจและการดูถูกของไอซิสด้วยไพ่น้องสาวที่กำลังจะตาย)", "label": "ch024 factual references to established older sister Arbel must not call her younger; the source's younger-sister simile remains valid"}
+        ]
       }
     }
   ]

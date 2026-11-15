@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Compass, Heart, History, Search, Moon, Sun, X } from "lucide-react";
 import { useReaderStore } from "../lib/reader-store";
@@ -13,21 +13,55 @@ const NAV = [
   { href: "/history", label: "ประวัติ", icon: History, match: (p) => p.startsWith("/history") },
 ];
 
+// Site theme lives in localStorage under the existing key and is read through
+// an external store, so the server render and first hydration render stay
+// "light" and the stored value only takes over after hydration.
+const SITE_THEME_KEY = "moonread-site-theme";
+const siteThemeListeners = new Set();
+let siteThemeSnapshot = null;
+
+function readSiteTheme() {
+  try {
+    return window.localStorage.getItem(SITE_THEME_KEY) === "dark" ? "dark" : "light";
+  } catch {
+    return "light";
+  }
+}
+function getSiteTheme() {
+  if (siteThemeSnapshot === null) siteThemeSnapshot = readSiteTheme();
+  return siteThemeSnapshot;
+}
+function getServerSiteTheme() {
+  return "light";
+}
+function subscribeSiteTheme(listener) {
+  siteThemeListeners.add(listener);
+  return () => { siteThemeListeners.delete(listener); };
+}
+function setSiteTheme(next) {
+  siteThemeSnapshot = next;
+  if (typeof window !== "undefined") {
+    try { window.localStorage.setItem(SITE_THEME_KEY, next); } catch {}
+    document.documentElement.dataset.siteTheme = next;
+  }
+  siteThemeListeners.forEach((listener) => listener());
+}
+
 export default function AppHeader() {
   const pathname = usePathname();
   const router = useRouter();
   const [query, setQuery] = useState("");
-  const [dark, setDark] = useState(false);
+  const siteTheme = useSyncExternalStore(subscribeSiteTheme, getSiteTheme, getServerSiteTheme);
+  const dark = siteTheme === "dark";
 
   useReaderStore();
 
+  useEffect(() => {
+    document.documentElement.dataset.siteTheme = siteTheme;
+  }, [siteTheme]);
+
   function toggleDark() {
-    const next = dark ? "light" : "dark";
-    setDark(!dark);
-    if (typeof document !== "undefined") {
-      document.documentElement.dataset.siteTheme = next;
-      try { window.localStorage.setItem("moonread-site-theme", next); } catch {}
-    }
+    setSiteTheme(dark ? "light" : "dark");
   }
 
   function submit(e) {

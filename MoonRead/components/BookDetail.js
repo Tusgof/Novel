@@ -6,6 +6,7 @@ import {
   ArrowRight, BookOpenText, BellRing, Check, Clock3, Search, Bookmark,
 } from "lucide-react";
 import { useReaderStore } from "../lib/reader-store";
+import { filterChapters } from "../lib/chapter-search";
 import { getBookTitlePair } from "../lib/book-titles";
 import { Cover, EmptyState } from "./BookGrid";
 
@@ -47,9 +48,7 @@ export default function BookDetail({ book, chapters }) {
   const firstHref = available[0]?.href;
   const latestHref = available.at(-1)?.href;
 
-  const filtered = q
-    ? chapters.filter((c) => (c.title || "").toLowerCase().includes(q.toLowerCase()) || String(c.number).includes(q))
-    : chapters;
+  const filtered = filterChapters(chapters, q);
   const marks = store.bookmarksFor(book.slug);
   const { title, thaiTitle } = getBookTitlePair(book);
 

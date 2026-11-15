@@ -24,3 +24,7 @@ is false on blocked input and unknown (`null`) on green checks, never a release 
   reporting zero semantic findings. Chinese approved terms participate in coverage;
   rejected variants remain blockers even if the canonical Thai also appears.
 - Inspect reader-discovered escapes with [governance-health.md](governance-health.md).
+- A source heading stays visible to Lean QA. Final assembly removes only an exact
+  leading source/translated title line after QA; section markers and story text
+  sharing that paragraph must survive. Do not remove whole paragraphs or edit
+  refined headings away simply to satisfy the duplicate-title output check.

@@ -19,6 +19,7 @@ def run_refine_stage(
     retry_feedback: str = "",
     prompt_store: PromptStore | None = None,
     style_instructions: str | None = None,
+    output_title: str = "",
 ) -> RefinedDraft:
     prompt_store = prompt_store or PromptStore(config.workspace.prompts)
     style_profile = config.style_profile_for_name(style_profile_key)
@@ -34,6 +35,7 @@ def run_refine_stage(
         style_instructions=style_instructions if style_instructions is not None else style_profile.instruction_text(),
         retry_feedback=retry_feedback or "none",
         research_context=config.research_context_text(),
+        output_title=output_title,
     )
     response = provider_runner.run_with_retry(
         ProviderRequest(

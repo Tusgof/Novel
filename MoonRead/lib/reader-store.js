@@ -1,9 +1,13 @@
 "use client";
 
-import { useEffect, useReducer } from "react";
+import { useMemo, useSyncExternalStore } from "react";
 
 // MoonRead client store — reading progress, bookmarks, favorites, history,
 // and reader settings. Persists to localStorage; simple pub/sub for React.
+//
+// Server render and the first client (hydration) render both use the frozen
+// empty snapshot, so storage never leaks into SSR markup and hydration cannot
+// diverge. The persisted client snapshot only becomes visible after hydration.
 const KEY = "moonread-state-v1";
 const LEGACY_SETTINGS = ["moonread-reader-settings", "dse-reader-settings"];
 
@@ -17,14 +21,18 @@ const defaultReader = {
   autoAdvance: true,
 };
 
-const empty = { progress: {}, bookmarks: {}, favorites: [], reader: { ...defaultReader } };
+const emptySnapshot = Object.freeze({
+  progress: Object.freeze({}),
+  bookmarks: Object.freeze({}),
+  favorites: Object.freeze([]),
+  reader: Object.freeze({ ...defaultReader }),
+});
 
-let state = empty;
-let hydrated = false;
+let clientSnapshot = null;
 const listeners = new Set();
 
 function read() {
-  if (typeof window === "undefined") return empty;
+  if (typeof window === "undefined") return emptySnapshot;
   try {
     const raw = JSON.parse(window.localStorage.getItem(KEY) || "{}");
     let reader = { ...defaultReader, ...(raw.reader || {}) };
@@ -41,43 +49,53 @@ function read() {
       reader,
     };
   } catch {
-    return { ...empty, reader: { ...defaultReader } };
+    return { ...emptySnapshot, reader: { ...defaultReader } };
   }
 }
 
-function ensure() {
-  if (!hydrated && typeof window !== "undefined") { state = read(); hydrated = true; }
-  return state;
+function getSnapshot() {
+  if (typeof window === "undefined") return emptySnapshot;
+  if (!clientSnapshot) clientSnapshot = read();
+  return clientSnapshot;
+}
+
+function getServerSnapshot() {
+  return emptySnapshot;
+}
+
+function subscribe(listener) {
+  listeners.add(listener);
+  return () => { listeners.delete(listener); };
 }
 
 function commit(next) {
-  state = next;
+  clientSnapshot = next;
   if (typeof window !== "undefined") {
-    try { window.localStorage.setItem(KEY, JSON.stringify(state)); } catch {}
+    try { window.localStorage.setItem(KEY, JSON.stringify(next)); } catch {}
   }
   listeners.forEach((fn) => fn());
 }
 
 export const ReaderStore = {
-  get: () => ensure(),
-  subscribe(fn) { listeners.add(fn); return () => listeners.delete(fn); },
+  get: () => getSnapshot(),
+  subscribe,
 
-  getProgress(slug) { return ensure().progress[slug] || null; },
+  getProgress(slug) { return getSnapshot().progress[slug] || null; },
   setProgress(slug, entry) {
-    const s = ensure();
+    const s = getSnapshot();
     commit({ ...s, progress: { ...s.progress, [slug]: { ...entry, updatedAt: Date.now() } } });
   },
   history() {
-    const s = ensure();
+    const s = getSnapshot();
     return Object.entries(s.progress)
       .map(([slug, p]) => ({ slug, ...p }))
       .sort((a, b) => b.updatedAt - a.updatedAt);
   },
 
-  bookmarksFor(slug) { return ensure().bookmarks[slug] || []; },
-  isBookmarked(slug, id) { return (ensure().bookmarks[slug] || []).some((b) => b.id === id); },
+  bookmarksFor(slug) { return getSnapshot().bookmarks[slug] || []; },
+  isBookmarked(slug, id) { return (getSnapshot().bookmarks[slug] || []).some((b) => b.id === id); },
   toggleBookmark(slug, chapter) {
-    const s = ensure();
+    const s = getSnapshot();
     const list = s.bookmarks[slug] || [];
     const exists = list.some((b) => b.id === chapter.id);
     const next = exists
@@ -87,27 +105,44 @@ export const ReaderStore = {
     commit({ ...s, bookmarks: { ...s.bookmarks, [slug]: next } });
   },
 
-  isFavorite(slug) { return ensure().favorites.includes(slug); },
+  isFavorite(slug) { return getSnapshot().favorites.includes(slug); },
   toggleFavorite(slug) {
-    const s = ensure();
+    const s = getSnapshot();
     const next = s.favorites.includes(slug) ? s.favorites.filter((x) => x !== slug) : [...s.favorites, slug];
     commit({ ...s, favorites: next });
   },
 
-  getReader() { return ensure().reader; },
+  getReader() { return getSnapshot().reader; },
   setReader(patch) {
-    const s = ensure();
+    const s = getSnapshot();
     commit({ ...s, reader: { ...s.reader, ...patch } });
   },
 };
 
+// Queries read only the snapshot that produced the current render; mutations
+// stay on the shared imperative store so every subscriber sees one state.
+function readerFacade(snapshot) {
+  return {
+    snapshot,
+    get: () => snapshot,
+    getProgress: (slug) => snapshot.progress[slug] || null,
+    history: () => Object.entries(snapshot.progress)
+      .map(([slug, p]) => ({ slug, ...p }))
+      .sort((a, b) => b.updatedAt - a.updatedAt),
+    bookmarksFor: (slug) => snapshot.bookmarks[slug] || [],
+    isBookmarked: (slug, id) => (snapshot.bookmarks[slug] || []).some((b) => b.id === id),
+    isFavorite: (slug) => snapshot.favorites.includes(slug),
+    getReader: () => snapshot.reader,
+    setProgress: ReaderStore.setProgress,
+    toggleBookmark: ReaderStore.toggleBookmark,
+    toggleFavorite: ReaderStore.toggleFavorite,
+    setReader: ReaderStore.setReader,
+  };
+}
+
 export function useReaderStore() {
-  const [, force] = useReducer((x) => x + 1, 0);
-  useEffect(() => {
-    if (!hydrated) { state = read(); hydrated = true; force(); }
-    return ReaderStore.subscribe(force);
-  }, []);
-  return ReaderStore;
+  const snapshot = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  return useMemo(() => readerFacade(snapshot), [snapshot]);
 }
 
 export { defaultReader };

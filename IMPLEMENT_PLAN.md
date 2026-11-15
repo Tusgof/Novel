@@ -15,18 +15,30 @@ Inspector evidence and the governance implementation's acceptance checks:
 - Any resulting repair uses a separately bounded, source-backed order and reruns
   the existing quality/reader gates; record real reader escapes in the ledger.
 
-## 2. New novel setups — source/pilot gates pending
+## 2. Two supervised Code translation/public-reader scopes
 
-Set up the owner-provided Webnovel titles as isolated, source-pending vaults.
-Inspect public metadata/access, create its own language/voice/profile and Code
-routes, and verify the setup gate. No chapter-body acquisition, translation,
-public reader enablement, provider call, account purchase or public deployment is
-included in this setup request.
+The owner authorized Fusionpunk ch001-ch040 and Investing in My Crippled Wife
+ch001-ch060, then queued Fusionpunk ch041-ch060 only after first-forty acceptance.
+Separate Workers remain under main Inspector acceptance; the new translation
+request does not itself expand the explicitly approved public release range.
+Both use existing local English sources; no new fetch or primary-checkout writes.
+Included Go allowance and Extra Usage OFF were reconfirmed for both scopes;
+no overage, top-up or paid alternate. Current run counts come from status/evidence.
 
-Drafts: `Investing in My Crippled Wife/README.md` and
-`Im a Young God Wont You Raise Me/README.md`. Each has its own voice/language
-guidance and disabled reader entry. Young God is an English relay, not a verified
-English original. No tested Webnovel body adapter, source corpus or pilot exists.
+- Fusionpunk: bounded batches with frozen contexts and source-backed repairs;
+  preserve the existing public snapshot and exclude unrelated local-only output.
+- Investing: bounded pilot then mandatory 10 IS + 10 fixed-seed OOS setup chapters
+  inside its sixty before long production. Separate voice/glossary; returns are
+  rewards, not time loops. Drafted research stays production-gated during setup.
+- Public MoonRead is authorized only for each accepted exact range, with Code
+  labels, scoped generation, reader gates, owner-approved landing and live evidence.
+- Evidence: each novel's `07_Reports/`; private work orders/frozen contexts under
+  ignored root `04_Work/code_orders/`. Local promotions are not public acceptance.
+- Reader repairs and first-forty scoped local verification are accepted; the
+  landing review preserves incoming source metadata and excludes unfinished
+  novel work. Owner merge approval, exact-commit CI and live proof remain gates.
+
+Other draft: `Im a Young God Wont You Raise Me/README.md` stays outside these orders.
 
 ## Boundaries / parked work
 
