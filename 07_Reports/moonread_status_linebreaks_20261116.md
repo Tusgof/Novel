@@ -66,5 +66,16 @@ No new publication cohort or exposure is added for this renderer change.
 - All **1,047 versioned snapshot files** and the registry/ranges are unchanged.
   Existing incident/cohort entries are retained; one confirmed reader-layout
   incident is appended, with zero extra publication exposure.
-- Public deployment: not yet claimed; owner approval is required for this new
-  reader-code PR. Prior approval covered release/evidence only, not this code fix.
+- Owner explicitly approved PR[#20](https://github.com/Tusgof/Novel/pull/20) on
+  green CI and recording its verified closure. PR-head `ee8ffe384aeacc05746ee0e6873197fb9149fcd3`
+  passed tests run[43753205874](https://github.com/Tusgof/Novel/actions/runs/43753205874).
+  Rebase merge `c7a6b8a562ad9482e74a6fb0f2c6bc03ac5e990c` passed exact-SHA main
+  tests run[43801458808](https://github.com/Tusgof/Novel/actions/runs/43801458808).
+- Production `dpl_8wbihELJuBQeG2MaXeK8Wc5R3Qr3` is READY on that merged SHA,
+  targetproduction, with `novel-pink-nu.vercel.app` assigned and no alias error.
+  Live unsigned Chromium probing confirms `pre-line` and all ten authored
+  Gacha39 status lines separated at1440px/390px, with no horizontal overflow.
+  The observed before-false/after-true geometry matches local regression evidence.
+- Principle applied: verify the real surface rather than infer visual correctness
+  from unchanged text. Browser coverage is the measured Chromium viewport pair,
+  not every browser or independent confirmation of all static candidate blocks.
