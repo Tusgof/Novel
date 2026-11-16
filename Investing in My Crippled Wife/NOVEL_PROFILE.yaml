@@ -8,8 +8,8 @@ languages:
 genre: progression-fantasy-romance
 style_profile: investment_fantasy
 source:
-  adapter: ''
-  toc_url: https://www.webnovel.com/book/investing-in-my-crippled-wife-every-return-makes-me-stronger_35147273900927805
+  adapter: toonnovel
+  toc_url: https://toonnovel.com/novel/investing-in-my-crippled-wife-every-return-makes-me-stronger/
 research:
   status: active
   profile_path: RESEARCH_PROFILE.yaml
