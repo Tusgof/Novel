@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-16T11:10:43.088Z",
+  "generatedAt": "2026-11-16T15:09:14.007Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -305,6 +305,7 @@
       "slug": "investing-in-my-crippled-wife",
       "title": "Investing in My Crippled Wife: Every Return Makes Me Stronger",
       "tags": [],
+      "cover": "/images/investing-in-my-crippled-wife-cover.webp",
       "href": "/books/investing-in-my-crippled-wife",
       "chaptersHref": "/books/investing-in-my-crippled-wife/chapters",
       "targetRange": "ch001-ch060",
@@ -351,6 +352,7 @@
         "ดาร์กแฟนตาซี",
         "ตลกร้าย"
       ],
+      "cover": "/images/a-gacha-addicts-fusionpunk-life-cover.webp",
       "href": "/books/a-gacha-addicts-fusionpunk-life",
       "chaptersHref": "/books/a-gacha-addicts-fusionpunk-life/chapters",
       "targetRange": "ch001-ch060",

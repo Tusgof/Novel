@@ -23,8 +23,8 @@ were independently accepted. Neither novel's chapter60 is rewritten as a finale.
   or their timestamps. Literal checkpoint bytes remain unchanged by review passes.
 - The release branch starts from merged `aab34c12f4378de0d333da3d60fb3b146416cd0b`.
   Translation-tree WIP, primary-checkout WIP and unrelated branches are untouched.
-  Only the two registry reader ceilings and their explicit Code chapter IDs change;
-  existing source ceilings, author metadata, blurbs, covers and reader code stay.
+   The two registry reader ceilings, explicit Code chapter IDs and owner-requested
+   original cover paths change; source ceilings, authors, blurbs and reader code stay.
 
 ## Measured generation and gates
 
@@ -83,7 +83,49 @@ and Inspector reading can still miss semantic errors. No new exposure cohort is
 recorded until actual public verification: the prospective additions are exactly
 Gacha46–60 and Investing17–60,59 distinct IDs, not another120.
 
-**Not yet claimed:** owner-approved merge, exact merged-SHA CI, production deployment
-or live1–60 availability. Previous evidenced public ranges remain Gacha1–45 and
-Investing1–16 until those steps are observed. No agent self-approval, chapter61,
-account/config change or unrelated-book publication is authorized by this candidate.
+The owner subsequently explicitly approved merge/live update after creating both
+original covers, then selected `gpt-image-2` through the existing codex-lb connection
+and specifically the OpenAI SDK Responses API's `image_generation` tool. Both cover
+PNGs are generated and visually accepted; exact prompts/provenance/handoff are in
+`00_Assets/cover_art/20261116/README.md`. No source cover was copied, no text is baked
+in, and no account, global skill, credential-store or billing setting changed.
+
+The Images endpoint failed its backend-plan check, whereas Responses with the
+existing `gpt-6.1-sol` mainline model and requested `gpt-image-2` tool succeeded.
+One optional-parameter400 preceded the successful requests; automatic SDK retries0,
+one completed image call per cover. Reported usage does not establish dollar spend.
+
+## Cover integration checks (measured)
+
+The cover-inclusive scoped `publish:verify` passed again:8 books,814 available,
+0 missing/rejected, Sentinel0/0/0/0 with120-source coverage, lint,835-page production
+build and all eight books' desktop/mobile smoke. The expected bad-route404 is
+separate from the empty unexpected-console-error list.
+
+Compared to the chapter-only candidate,1102 generated files remain byte-identical,
+including all120 chapter files; only two manifests, library and import-report change.
+The61 previously public chapters still equal canonical parent Git blobs,982
+unrelated/legacy files and all33 reader-code files remain unchanged. Registry
+semantics differ only by the two cover paths;360 staged accepted-input hashes
+still match. WebP plates are139428/161390bytes; originals are retained in the
+project for future typography work without paying for regeneration.
+
+Root91/91, generator7/7, envelope11/11 and DSE pipeline tests refreshed and passed.
+The first DSE run hit Windows stdout encoding, then passed with Python UTF-8 mode;
+no test or app change was needed. A preservation checker initially compared the
+intentionally changed import report as an unrelated file; excluding that declared
+generated report corrected the checker without changing any product file.
+
+Cover-inclusive runtime verification passed all120 HTTP chapter pages and18,486
+paragraph comparisons,24 hydrated desktop/mobile samples, four60-row TOCs and
+both excluded61routes404. Both actual WebP files return200 with exact local hashes;
+homepage cards and desktop/mobile book heroes load their new covers. Four cover
+screenshots inspected: focal subjects/coin/wheelchair remain legible at thumbnail
+size and hero text stays readable. Console/page errors are empty. Reader
+regressions6/6 passed again, including actual multiline glyph positions.
+
+**Not yet claimed:** new exact-head CI, actual merge, exact merged-SHA CI,
+production deployment or live1–60 availability.
+Previous evidenced public ranges remain Gacha1–45/Investing1–16 until observed.
+No agent self-approval, chapter61, account/config change or unrelated-book
+publication is authorized by this candidate.
