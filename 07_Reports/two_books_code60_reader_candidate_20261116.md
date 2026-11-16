@@ -124,8 +124,8 @@ screenshots inspected: focal subjects/coin/wheelchair remain legible at thumbnai
 size and hero text stays readable. Console/page errors are empty. Reader
 regressions6/6 passed again, including actual multiline glyph positions.
 
-**Not yet claimed:** new exact-head CI, actual merge, exact merged-SHA CI,
-production deployment or live1–60 availability.
-Previous evidenced public ranges remain Gacha1–45/Investing1–16 until observed.
-No agent self-approval, chapter61, account/config change or unrelated-book
-publication is authorized by this candidate.
+**Subsequent measured closure:** PR22 merged after exact cover-head CI passed;
+exact merged-SHA CI and live120-page/paragraph/cover verification passed. See
+`two_books_code60_covers_publication_verified_20261116.md` for deployment identity,
+public-browser evidence,59new exposure IDs and retained limitations. No agent
+self-approval, chapter61, account/config change or unrelated-book publication.
