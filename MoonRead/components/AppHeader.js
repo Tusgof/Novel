@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Compass, Heart, History, Search, Moon, Sun, X } from "lucide-react";
-import { useReaderStore } from "../lib/reader-store";
 
 const NAV = [
   { href: "/", label: "ค้นพบ", icon: Compass, match: (p) => p === "/" || p.startsWith("/book") || p.startsWith("/books") },
@@ -54,8 +53,6 @@ export default function AppHeader() {
   const siteTheme = useSyncExternalStore(subscribeSiteTheme, getSiteTheme, getServerSiteTheme);
   const dark = siteTheme === "dark";
 
-  useReaderStore();
-
   useEffect(() => {
     document.documentElement.dataset.siteTheme = siteTheme;
   }, [siteTheme]);
@@ -67,17 +64,17 @@ export default function AppHeader() {
   function submit(e) {
     e.preventDefault();
     const q = query.trim();
-    router.push(q ? `/?q=${encodeURIComponent(q)}` : "/");
+    router.push(q ? `/?q=${encodeURIComponent(q)}#catalog` : "/");
   }
 
   return (
     <header className="appbar">
       <div className="appbar-inner">
-        <Link className="brand" href="/" aria-label="MoonRead home">
+        <Link className="brand" href="/" aria-label="หน้าแรก MoonRead">
           <Image src="/images/moonread-logo.svg" alt="MoonRead" width={168} height={44} priority />
         </Link>
 
-        <nav className="appbar-nav" aria-label="Primary navigation">
+        <nav className="appbar-nav" aria-label="เมนูหลัก">
           {NAV.map((n) => {
             const Icon = n.icon;
             const active = n.match(pathname);
@@ -89,10 +86,10 @@ export default function AppHeader() {
           })}
         </nav>
 
-        <form className="appbar-search" onSubmit={submit} role="search">
+        <form className="appbar-search" action="/#catalog" onSubmit={submit} role="search" aria-label="ค้นหาจากแถบนำทาง">
           <div className="searchbox">
             <span className="ic"><Search size={18} /></span>
-            <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="ค้นหานิยาย ผู้แต่ง หรือหมวด" aria-label="ค้นหานิยาย" />
+            <input type="search" name="q" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="ค้นหานิยาย ผู้แต่ง หรือหมวด" aria-label="ค้นหานิยาย" />
             {query ? <button type="button" className="ic clear" onClick={() => setQuery("")} aria-label="ล้างคำค้น"><X size={16} /></button> : null}
           </div>
         </form>

@@ -13,27 +13,17 @@ Brand palette:
 Run from this directory:
 
 ```powershell
-npm.cmd install
-npm.cmd run generate:chapters
-npm.cmd run dev
+npm.cmd ci --ignore-scripts --no-audit --no-fund
+npm.cmd run dev -- --hostname 127.0.0.1
 ```
 
-The importer reads translated chapters from:
-
-```text
-D:\Fogust\Workspace\Novel\Deep Sea Embers\05_Output\chXXX\chXXX.md
-D:\Fogust\Workspace\Novel\Horror Game Developers\05_Output\chXXX\chXXX.md
-```
-
-It writes read-only reader artifacts to:
-
-```text
-content/generated/
-```
+The versioned `content/generated/` snapshot is enough to develop and verify the UI. Do not regenerate it for UI-only changes. `generate:chapters` reads the local translated output configured in `../00_Config/novel_registry.json` when preparing a separately approved content update.
 
 The reader supports configured chapter ranges per book. Missing chapters are shown as unavailable until the source Markdown exists and passes validation.
 
-Current generated reader content: Deep Sea Embers `ch001-ch080` and Horror Game Developer `ch001-ch080`.
+Reading position, chapter bookmarks, favorites, and reading settings are saved in the current browser, not an account. An existing percentage-only position is restored approximately until a paragraph position is saved. Clearing website data removes saved state.
+
+Chapter links keep their original route IDs even when the published title prints a different number. The displayed episode number and numeric search use the title's number where available. Navigation inside the reader fetches the next chapter's data before replacing the visible passage; direct links still render on the server.
 
 ## Validation
 
@@ -90,8 +80,10 @@ Then commit the changed `MoonRead/content/generated/` files and push to GitHub. 
 ```powershell
 npm.cmd run lint
 npm.cmd audit --omit=dev
+npx.cmd playwright install chromium
 npm.cmd run build
+npm.cmd run test:reader
 npm.cmd run smoke
 ```
 
-`npm.cmd run smoke` starts a temporary local Next.js server, verifies desktop and mobile reader flows with Playwright, then writes screenshots and a JSON result under `output/playwright/`.
+`test:reader` and `smoke` use temporary local Next.js servers and fresh Playwright Chromium contexts, with no signed-in browser profile. `smoke` writes screenshots and a JSON result; set `MOONREAD_SMOKE_OUTPUT_DIR` to a task-owned directory outside the checkout.

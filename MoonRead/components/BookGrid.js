@@ -5,10 +5,12 @@ import Image from "next/image";
 import { BookOpen, Sparkles, Heart, Clock3 } from "lucide-react";
 import { useReaderStore } from "../lib/reader-store";
 import { getBookTitlePair } from "../lib/book-titles";
+import { episodeLabel } from "../lib/chapter-number";
+import { bookSynopsis } from "../lib/book-synopsis";
 
 function isLogo(cover) { return !cover || cover.includes("logo"); }
 
-export function Cover({ book }) {
+export function Cover({ book, sizes = "(max-width: 860px) 45vw, 220px", priority = false }) {
   const { title } = getBookTitlePair(book);
 
   if (isLogo(book.cover)) {
@@ -19,7 +21,7 @@ export function Cover({ book }) {
       </div>
     );
   }
-  return <Image src={book.cover} alt="" fill sizes="(max-width: 860px) 45vw, 200px" />;
+  return <Image src={book.cover} alt="" fill sizes={sizes} fetchPriority={priority ? "high" : undefined} loading={priority ? "eager" : "lazy"} />;
 }
 
 export function ProgressBar({ percent }) {
@@ -32,19 +34,13 @@ export function BookCard({ book }) {
   const prog = store.getProgress(book.slug);
   const available = book.summary?.available ?? 0;
   const { title, thaiTitle } = getBookTitlePair(book);
+  const synopsis = bookSynopsis(book);
 
   return (
-    <Link className="book-card" href={book.href}>
+    <article className="book-card">
+      <Link href={book.href}>
       <div className="cover">
         <Cover book={book} />
-        <button
-          className={`fav${fav ? " on" : ""}`}
-          type="button"
-          aria-label={fav ? "นำออกจากรายการโปรด" : "เพิ่มในรายการโปรด"}
-          onClick={(e) => { e.preventDefault(); e.stopPropagation(); store.toggleFavorite(book.slug); }}
-        >
-          <Heart size={17} fill={fav ? "currentColor" : "none"} />
-        </button>
       </div>
       <div className="info">
         <div className="t">{title}</div>
@@ -53,9 +49,14 @@ export function BookCard({ book }) {
           <span><BookOpen size={13} /> {available} ตอน</span>
           {book.tags?.[0] ? <span><Sparkles size={13} /> {book.tags[0]}</span> : null}
         </div>
+        {synopsis ? <p className="synopsis-preview">{synopsis}</p> : null}
         {prog ? <div style={{ marginTop: 8 }}><ProgressBar percent={prog.percent} /></div> : null}
       </div>
-    </Link>
+      </Link>
+      <button className={`fav${fav ? " on" : ""}`} type="button" aria-label={`รายการโปรด: ${title}`} aria-pressed={fav} onClick={() => store.toggleFavorite(book.slug)}>
+        <Heart size={19} fill={fav ? "currentColor" : "none"} />
+      </button>
+    </article>
   );
 }
 
@@ -73,10 +74,10 @@ export function ResumeCard({ book, entry }) {
 
   return (
     <Link className="resume" href={entry.href}>
-      <div className="thumb"><Cover book={book} /></div>
+      <div className="thumb"><Cover book={book} sizes="64px" /></div>
       <div className="meta">
         <div className="t">{title}</div>
-        <div className="c">ตอน {String(entry.number).padStart(3, "0")} · {entry.title}</div>
+        <div className="c">{episodeLabel(entry)} · {entry.title}</div>
         <div className="spacer" />
         <ProgressBar percent={entry.percent} />
         <div className="progress-row"><span>{entry.percent}%</span><span><Clock3 size={12} /> {timeAgo(entry.updatedAt)}</span></div>

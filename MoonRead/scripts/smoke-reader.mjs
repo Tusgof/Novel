@@ -127,7 +127,7 @@ async function main() {
 
     await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
     await page.screenshot({ path: path.join(outputDir, "moonread-home-desktop.png"), fullPage: true });
-    const hasHomeNavLink = await page.locator('nav[aria-label="Primary navigation"]').getByRole("link", { name: "ค้นพบ" }).isVisible();
+    const hasHomeNavLink = await page.getByRole("navigation", { name: "เมนูหลัก" }).getByRole("link", { name: "ค้นพบ" }).isVisible();
     const homeEvidence = await page.evaluate(({ hBookTitle }) => ({
       title: document.title,
       hasMoonRead: document.body.textContent.includes("MoonRead"),

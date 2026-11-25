@@ -18,7 +18,7 @@ const defaultReader = {
   width: 760,
   paragraphSpacing: 1.25,
   fontFamily: "sarabun",
-  autoAdvance: true,
+  autoAdvance: false,
 };
 
 const emptySnapshot = Object.freeze({
@@ -26,16 +26,19 @@ const emptySnapshot = Object.freeze({
   bookmarks: Object.freeze({}),
   favorites: Object.freeze([]),
   reader: Object.freeze({ ...defaultReader }),
+  positions: Object.freeze({}),
 });
 
 let clientSnapshot = null;
+let memoryOnly = false;
 const listeners = new Set();
+const record = (value) => value && typeof value === "object" && !Array.isArray(value) ? value : {};
 
 function read() {
   if (typeof window === "undefined") return emptySnapshot;
   try {
-    const raw = JSON.parse(window.localStorage.getItem(KEY) || "{}");
-    let reader = { ...defaultReader, ...(raw.reader || {}) };
+    const raw = record(JSON.parse(window.localStorage.getItem(KEY) || "{}"));
+    let reader = { ...defaultReader, ...record(raw.reader) };
     if (!raw.reader) {
       for (const k of LEGACY_SETTINGS) {
         const legacy = window.localStorage.getItem(k);
@@ -43,9 +46,10 @@ function read() {
       }
     }
     return {
-      progress: raw.progress || {},
-      bookmarks: raw.bookmarks || {},
-      favorites: raw.favorites || [],
+      progress: Object.fromEntries(Object.entries(record(raw.progress)).filter(([, p]) => p && typeof p.chapterId === "string" && typeof p.href === "string" && Number.isFinite(p.percent))),
+      bookmarks: Object.fromEntries(Object.entries(record(raw.bookmarks)).filter(([, list]) => Array.isArray(list)).map(([slug, list]) => [slug, list.filter((b) => b && typeof b.id === "string" && typeof b.href === "string")])),
+      favorites: Array.isArray(raw.favorites) ? raw.favorites.filter((slug) => typeof slug === "string") : [],
+      positions: record(raw.positions),
       reader,
     };
   } catch {
@@ -64,14 +68,31 @@ function getServerSnapshot() {
 }
 
 function subscribe(listener) {
+  if (!listeners.size) {
+    window.addEventListener("storage", syncStorage);
+    if (!memoryOnly) clientSnapshot = read();
+  }
   listeners.add(listener);
-  return () => { listeners.delete(listener); };
+  return () => {
+    listeners.delete(listener);
+    if (!listeners.size) window.removeEventListener("storage", syncStorage);
+  };
+}
+
+function syncStorage(event) {
+  if (memoryOnly || (event.key !== KEY && event.key !== null)) return;
+  clientSnapshot = read();
+  listeners.forEach((fn) => fn());
+}
+
+function latest() {
+  return memoryOnly ? getSnapshot() : read();
 }
 
 function commit(next) {
   clientSnapshot = next;
   if (typeof window !== "undefined") {
-    try { window.localStorage.setItem(KEY, JSON.stringify(next)); } catch {}
+    try { window.localStorage.setItem(KEY, JSON.stringify(next)); memoryOnly = false; } catch { memoryOnly = true; }
   }
   listeners.forEach((fn) => fn());
 }
@@ -81,9 +102,16 @@ export const ReaderStore = {
   subscribe,
 
   getProgress(slug) { return getSnapshot().progress[slug] || null; },
+  getChapterPosition(slug, id) {
+    const state = getSnapshot();
+    const current = state.progress[slug];
+    return current?.chapterId === id ? current : record(state.positions[slug])[id];
+  },
   setProgress(slug, entry) {
-    const s = getSnapshot();
-    commit({ ...s, progress: { ...s.progress, [slug]: { ...entry, updatedAt: Date.now() } } });
+    const s = latest();
+    const previous = record(s.positions[slug]);
+    const positions = { ...previous, [entry.chapterId]: { chapterId: entry.chapterId, percent: entry.percent, position: entry.position } };
+    commit({ ...s, positions: { ...s.positions, [slug]: positions }, progress: { ...s.progress, [slug]: { ...entry, updatedAt: Date.now() } } });
   },
   history() {
     const s = getSnapshot();
@@ -95,7 +123,7 @@ export const ReaderStore = {
   bookmarksFor(slug) { return getSnapshot().bookmarks[slug] || []; },
   isBookmarked(slug, id) { return (getSnapshot().bookmarks[slug] || []).some((b) => b.id === id); },
   toggleBookmark(slug, chapter) {
-    const s = getSnapshot();
+    const s = latest();
     const list = s.bookmarks[slug] || [];
     const exists = list.some((b) => b.id === chapter.id);
     const next = exists
@@ -107,14 +135,14 @@ export const ReaderStore = {
 
   isFavorite(slug) { return getSnapshot().favorites.includes(slug); },
   toggleFavorite(slug) {
-    const s = getSnapshot();
+    const s = latest();
     const next = s.favorites.includes(slug) ? s.favorites.filter((x) => x !== slug) : [...s.favorites, slug];
     commit({ ...s, favorites: next });
   },
 
   getReader() { return getSnapshot().reader; },
   setReader(patch) {
-    const s = getSnapshot();
+    const s = latest();
     commit({ ...s, reader: { ...s.reader, ...patch } });
   },
 };
