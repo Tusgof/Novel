@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-16T15:09:13.414Z",
+  "generatedAt": "2026-11-25T10:10:48.915Z",
   "sourceRoot": "../Investing in My Crippled Wife/05_Output",
-  "targetRange": "ch001-ch060",
+  "targetRange": "ch001-ch070",
   "novel": {
     "slug": "investing-in-my-crippled-wife",
     "title": "Investing in My Crippled Wife: Every Return Makes Me Stronger",
@@ -21,8 +21,8 @@
     }
   },
   "summary": {
-    "total": 60,
-    "available": 60,
+    "total": 70,
+    "available": 70,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -745,6 +745,126 @@
       "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch060.md",
       "href": "/books/investing-in-my-crippled-wife/read/ch060",
       "charCount": 5235,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch061",
+      "number": 61,
+      "title": "บทที่ 61: เผาเป็นเถ้าถ่าน!",
+      "status": "available",
+      "sourcePath": "ch061/ch061.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch061.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch061",
+      "charCount": 5046,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch062",
+      "number": 62,
+      "title": "บทที่ 62: ไร้ความปรานี ไร้ความลังเล",
+      "status": "available",
+      "sourcePath": "ch062/ch062.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch062.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch062",
+      "charCount": 5451,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch063",
+      "number": 63,
+      "title": "บทที่ 63: การตื่นรู้ของผู้มีศักยภาพระดับสูงสุด",
+      "status": "available",
+      "sourcePath": "ch063/ch063.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch063.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch063",
+      "charCount": 5154,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch064",
+      "number": 64,
+      "title": "บทที่ 64: สินทรัพย์ที่ประเมินค่ามิได้",
+      "status": "available",
+      "sourcePath": "ch064/ch064.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch064.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch064",
+      "charCount": 7670,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch065",
+      "number": 65,
+      "title": "บทที่ 65: การแลกเปลี่ยนที่เท่าเทียม",
+      "status": "available",
+      "sourcePath": "ch065/ch065.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch065.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch065",
+      "charCount": 5206,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch066",
+      "number": 66,
+      "title": "บทที่ 66: ประตูของผู้สิ้นหวัง",
+      "status": "available",
+      "sourcePath": "ch066/ch066.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch066.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch066",
+      "charCount": 5553,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch067",
+      "number": 67,
+      "title": "บทที่ 67: ความฝันที่งดงามที่สุด และการร่วงหล่นที่อันตรายที่สุด",
+      "status": "available",
+      "sourcePath": "ch067/ch067.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch067.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch067",
+      "charCount": 5623,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch068",
+      "number": 68,
+      "title": "บทที่ 68: เสียงสะท้อนแห่งยุคไร้แสงตะวัน",
+      "status": "available",
+      "sourcePath": "ch068/ch068.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch068.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch068",
+      "charCount": 5205,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch069",
+      "number": 69,
+      "title": "บทที่ 69: ผู้ถูกเลือก",
+      "status": "available",
+      "sourcePath": "ch069/ch069.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch069.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch069",
+      "charCount": 5253,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch070",
+      "number": 70,
+      "title": "บทที่ 70: ของขวัญอำลาของจักรพรรดิ",
+      "status": "available",
+      "sourcePath": "ch070/ch070.md",
+      "generatedPath": "content/generated/books/investing-in-my-crippled-wife/chapters/ch070.md",
+      "href": "/books/investing-in-my-crippled-wife/read/ch070",
+      "charCount": 5019,
       "readingMinutes": 2,
       "translator": "[Code]"
     }

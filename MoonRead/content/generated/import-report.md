@@ -1,11 +1,11 @@
 # Reader Import Report
 
-Generated at: 2026-11-16T15:09:14.007Z
+Generated at: 2026-11-25T10:10:49.648Z
 
 ## Summary
 
 - books: 8
-- available chapters: 814
+- available chapters: 834
 - missing chapters: 0
 - rejected chapters: 0
 
@@ -114,8 +114,8 @@ Generated at: 2026-11-16T15:09:14.007Z
 ## Investing in My Crippled Wife: Every Return Makes Me Stronger
 
 - source root: ../Investing in My Crippled Wife/05_Output
-- target range: ch001-ch060
-- available: 60
+- target range: ch001-ch070
+- available: 70
 - missing: 0
 - rejected: 0
 - processing: generated and validated
@@ -131,8 +131,8 @@ Generated at: 2026-11-16T15:09:14.007Z
 ## A Gacha Addict's Fusionpunk Life
 
 - source root: ../A Gacha Addicts Fusionpunk Life/05_Output
-- target range: ch001-ch060
-- available: 60
+- target range: ch001-ch070
+- available: 70
 - missing: 0
 - rejected: 0
 - processing: generated and validated

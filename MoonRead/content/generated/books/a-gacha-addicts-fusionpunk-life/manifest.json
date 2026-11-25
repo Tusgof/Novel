@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-16T15:09:13.658Z",
+  "generatedAt": "2026-11-25T10:10:49.166Z",
   "sourceRoot": "../A Gacha Addicts Fusionpunk Life/05_Output",
-  "targetRange": "ch001-ch060",
+  "targetRange": "ch001-ch070",
   "novel": {
     "slug": "a-gacha-addicts-fusionpunk-life",
     "title": "A Gacha Addict's Fusionpunk Life",
@@ -28,8 +28,8 @@
     }
   },
   "summary": {
-    "total": 60,
-    "available": 60,
+    "total": 70,
+    "available": 70,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -752,6 +752,126 @@
       "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch060.md",
       "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch060",
       "charCount": 11074,
+      "readingMinutes": 3,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch061",
+      "number": 61,
+      "title": "บทที่ 61: ท่อระบายน้ำเก่า (3)",
+      "status": "available",
+      "sourcePath": "ch061/ch061.md",
+      "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch061.md",
+      "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch061",
+      "charCount": 11606,
+      "readingMinutes": 3,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch062",
+      "number": 62,
+      "title": "บทที่ 62: ท่อระบายน้ำเก่า (4)",
+      "status": "available",
+      "sourcePath": "ch062/ch062.md",
+      "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch062.md",
+      "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch062",
+      "charCount": 9879,
+      "readingMinutes": 3,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch063",
+      "number": 63,
+      "title": "บทที่ 63: ท่อระบายน้ำเก่า (5)",
+      "status": "available",
+      "sourcePath": "ch063/ch063.md",
+      "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch063.md",
+      "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch063",
+      "charCount": 10493,
+      "readingMinutes": 3,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch064",
+      "number": 64,
+      "title": "บทที่ 64: การพบพานตามโชคชะตา",
+      "status": "available",
+      "sourcePath": "ch064/ch064.md",
+      "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch064.md",
+      "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch064",
+      "charCount": 10735,
+      "readingMinutes": 3,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch065",
+      "number": 65,
+      "title": "บทที่ 65: การพบพานตามโชคชะตา (2)",
+      "status": "available",
+      "sourcePath": "ch065/ch065.md",
+      "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch065.md",
+      "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch065",
+      "charCount": 9855,
+      "readingMinutes": 3,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch066",
+      "number": 66,
+      "title": "บทที่ 66: บกซุน",
+      "status": "available",
+      "sourcePath": "ch066/ch066.md",
+      "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch066.md",
+      "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch066",
+      "charCount": 9280,
+      "readingMinutes": 3,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch067",
+      "number": 67,
+      "title": "บทที่ 67: บกซุน (2)",
+      "status": "available",
+      "sourcePath": "ch067/ch067.md",
+      "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch067.md",
+      "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch067",
+      "charCount": 10826,
+      "readingMinutes": 3,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch068",
+      "number": 68,
+      "title": "บทที่ 68: บกซุน (3)",
+      "status": "available",
+      "sourcePath": "ch068/ch068.md",
+      "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch068.md",
+      "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch068",
+      "charCount": 10539,
+      "readingMinutes": 3,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch069",
+      "number": 69,
+      "title": "บทที่ 69: บกซุน (4)",
+      "status": "available",
+      "sourcePath": "ch069/ch069.md",
+      "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch069.md",
+      "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch069",
+      "charCount": 8852,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch070",
+      "number": 70,
+      "title": "บทที่ 70: บกซุน (5)",
+      "status": "available",
+      "sourcePath": "ch070/ch070.md",
+      "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch070.md",
+      "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch070",
+      "charCount": 9664,
       "readingMinutes": 3,
       "translator": "[Code]"
     }
