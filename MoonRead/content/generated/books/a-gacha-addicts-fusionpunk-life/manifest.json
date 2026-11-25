@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-25T10:10:49.166Z",
+  "generatedAt": "2026-11-25T18:15:39.494Z",
   "sourceRoot": "../A Gacha Addicts Fusionpunk Life/05_Output",
-  "targetRange": "ch001-ch070",
+  "targetRange": "ch001-ch075",
   "novel": {
     "slug": "a-gacha-addicts-fusionpunk-life",
     "title": "A Gacha Addict's Fusionpunk Life",
@@ -28,8 +28,8 @@
     }
   },
   "summary": {
-    "total": 70,
-    "available": 70,
+    "total": 75,
+    "available": 75,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -872,6 +872,66 @@
       "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch070.md",
       "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch070",
       "charCount": 9664,
+      "readingMinutes": 3,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch071",
+      "number": 71,
+      "title": "บทที่ 71: บกซุน (6)",
+      "status": "available",
+      "sourcePath": "ch071/ch071.md",
+      "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch071.md",
+      "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch071",
+      "charCount": 10003,
+      "readingMinutes": 3,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch072",
+      "number": 72,
+      "title": "บทที่ 72: ความเบาที่ทนไม่ไหวของการย้อนเวลา",
+      "status": "available",
+      "sourcePath": "ch072/ch072.md",
+      "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch072.md",
+      "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch072",
+      "charCount": 8859,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch073",
+      "number": 73,
+      "title": "บทที่ 73: ความเบาที่ทนไม่ไหวของการย้อนเวลา (2)",
+      "status": "available",
+      "sourcePath": "ch073/ch073.md",
+      "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch073.md",
+      "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch073",
+      "charCount": 9335,
+      "readingMinutes": 3,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch074",
+      "number": 74,
+      "title": "บทที่ 74: ความเบาที่ทนไม่ไหวของการย้อนเวลา (3)",
+      "status": "available",
+      "sourcePath": "ch074/ch074.md",
+      "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch074.md",
+      "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch074",
+      "charCount": 8426,
+      "readingMinutes": 2,
+      "translator": "[Code]"
+    },
+    {
+      "id": "ch075",
+      "number": 75,
+      "title": "บทที่ 75: ความเบาที่ทนไม่ไหวของการย้อนเวลา (4)",
+      "status": "available",
+      "sourcePath": "ch075/ch075.md",
+      "generatedPath": "content/generated/books/a-gacha-addicts-fusionpunk-life/chapters/ch075.md",
+      "href": "/books/a-gacha-addicts-fusionpunk-life/read/ch075",
+      "charCount": 10266,
       "readingMinutes": 3,
       "translator": "[Code]"
     }
