@@ -316,6 +316,7 @@ test("authored newlines separate status rows and item details without changing t
     { route: "/books/a-gacha-addicts-fusionpunk-life/read/ch039", marker: "★★ [ฟีเวอร์พรีเมียม!] ★★", minLines: 10 },
     { route: "/books/a-gacha-addicts-fusionpunk-life/read/ch039", marker: "「ตั๋วเสริมพลังโจ๊กเกอร์พรีเมียม」", minLines: 5 },
     { route: "/books/investing-in-my-crippled-wife/read/ch015", marker: "[ข้อมูลส่วนบุคคล]", minLines: 6 },
+    { route: "/books/investing-in-my-crippled-wife/read/ch063", marker: "═".repeat(36), minLines: 15 },
   ];
   for (const width of [1440, 390]) {
     await withPage({ width, height: 1000 }, async (page) => {
@@ -355,6 +356,8 @@ test("authored newlines separate status rows and item details without changing t
             `${width}px ${example.route}: authored line ${index + 1} must start below the preceding line, not run into it`);
         }
         assert.equal(await paragraph.textContent(), authoredText, "layout must not rewrite status text, numbers or item effects");
+        assert.ok(await paragraph.evaluate((element) => element.scrollWidth <= element.clientWidth + 1),
+          `${width}px ${example.route}: a long unbroken status rule must wrap inside its paragraph`);
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 2), false,
           "long status lines must still wrap without horizontal overflow");
       }
