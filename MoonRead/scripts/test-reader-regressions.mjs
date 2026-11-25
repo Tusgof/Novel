@@ -538,8 +538,12 @@ test("mobile search exposes the story, detail supports favorites, and bookmark r
     await page.getByRole("dialog").locator(`a[href="${book}/read/ch002?review=1"]`).click();
     await page.locator(".reader-review").waitFor();
     assert.equal(await page.evaluate(() => scrollY), 0);
-    await page.getByRole("link", { name: "กลับไปอ่านต่อ ตอน 003" }).click();
+    await page.locator(".reader-end").getByRole("link", { name: "กลับไปอ่านต่อ" }).click();
     await page.waitForFunction(() => document.querySelector(".reader-kicker")?.textContent.includes("003") && scrollY > 950);
+    await page.getByRole("link", { name: "กลับไปสารบัญ" }).click();
+    await page.waitForURL(`**${book}/chapters`);
+    const marked = page.locator(`.toc-list a[href="${book}/read/ch002?review=1"]`);
+    await marked.getByRole("img", { name: "คั่นไว้" }).waitFor();
     await page.goto(`${baseUrl}/shelf`);
     await page.locator(`a[href="${book}/read/ch002?review=1"]`).click();
     await page.locator(".reader-review").waitFor();

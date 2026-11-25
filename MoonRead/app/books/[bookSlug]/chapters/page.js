@@ -50,7 +50,7 @@ export default async function BookChaptersPage({ params }) {
           <div className="stat-card"><b>{manifest.summary.total}</b><span>จำนวนตอนทั้งหมด</span></div>
         </section>
 
-        <ChapterList chapters={manifest.chapters} />
+        <ChapterList chapters={manifest.chapters} slug={bookSlug} />
       </main>
 
       <SiteFooter />

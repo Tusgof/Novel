@@ -383,7 +383,12 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
       </article>
 
       <div className="reader-end">
-        {neighbors.next ? (
+        {resumeHref ? (
+          <div className="next-card">
+            <div className="nx"><small>ตำแหน่งอ่านค้างไว้</small><strong>{chapterLabel(resume)} · {resume.title}</strong></div>
+            <a className="pill-btn primary" href={resumeHref}>กลับไปอ่านต่อ <ArrowRight size={17} /></a>
+          </div>
+        ) : neighbors.next ? (
           <div className="next-card">
             <div className="ring" aria-hidden="true" style={{ "--deg": `${(shownCountdown !== null ? (5 - shownCountdown) / 5 : 0) * 360}deg` }}>
               <i>{shownCountdown ?? "▸"}</i>

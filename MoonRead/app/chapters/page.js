@@ -20,7 +20,7 @@ export default function ChaptersPage() {
           <p>รวม {summary.available} ตอนที่พร้อมอ่าน — ตอนที่ยังไม่พร้อมจะแสดงเป็นรายการปิดไว้จนกว่าจะเข้าคลัง</p>
         </section>
 
-        <ChapterList chapters={chapters} />
+        <ChapterList chapters={chapters} slug={novel.slug} />
       </main>
       <SiteFooter />
       <BottomNav />
