@@ -277,6 +277,11 @@ img { display: block; }
 .reader-meta span { display: inline-flex; gap: 5px; align-items: center; }
 .translator { font-size: 12px; font-weight: 700; letter-spacing: 0; white-space: nowrap; }
 
+.reader-top-nav { max-width: var(--reader-width); margin: 0 auto 8px; padding: 0 20px 12px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.reader-top-nav .previous { grid-column: 1; justify-self: start; }
+.reader-top-nav .next { grid-column: 2; justify-self: end; }
+.reader-top-nav .pill-btn { min-height: 44px; padding-inline: 12px; color: inherit; border-color: currentColor; font-size: 14px; }
+
 .reader-article { max-width: var(--reader-width); margin: 0 auto; padding: 8px 20px 40px; font-family: var(--reader-font-family); font-size: var(--reader-font-size); line-height: var(--reader-line-height); }
 .reader-paragraph { margin: 0 0 var(--reader-paragraph-spacing); white-space: pre-line; text-wrap: pretty; overflow-wrap: anywhere; }
 .reader-paragraph.dialogue { padding-left: 1em; }
