@@ -102,6 +102,26 @@
       "revision": "7349baef3c07b8c908eb6b993266e0a6ee05b757",
       "live_url": "https://novel-pink-nu.vercel.app/books/investing-in-my-crippled-wife",
       "evidence": "07_Reports/two_books_code60_covers_publication_verified_20261116.md"
+    },
+    {
+      "id": "fusion-code-61-70-20261125",
+      "kind": "verified-publication",
+      "novel": "a-gacha-addicts-fusionpunk-life",
+      "chapters": ["ch061-ch070"],
+      "verified_at": "2026-11-25T10:26:58.054Z",
+      "revision": "edc4d08ef02206fb1e974d66d34b764868ce8843",
+      "live_url": "https://novel-pink-nu.vercel.app/books/a-gacha-addicts-fusionpunk-life",
+      "evidence": "07_Reports/two_books_code70_publication_verified_20261125.md"
+    },
+    {
+      "id": "investing-code-61-70-20261125",
+      "kind": "verified-publication",
+      "novel": "investing-in-my-crippled-wife",
+      "chapters": ["ch061-ch070"],
+      "verified_at": "2026-11-25T10:26:58.054Z",
+      "revision": "edc4d08ef02206fb1e974d66d34b764868ce8843",
+      "live_url": "https://novel-pink-nu.vercel.app/books/investing-in-my-crippled-wife",
+      "evidence": "07_Reports/two_books_code70_publication_verified_20261125.md"
     }
   ],
   "incidents": [
