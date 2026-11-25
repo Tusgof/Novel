@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { withReaderHref } from "./chapter-routes.js";
 
 const generatedRoot = path.join(process.cwd(), "content", "generated");
 const generatedChapterRoot = path.join(generatedRoot, "chapters");
@@ -62,7 +63,15 @@ export function getLibraryManifest() {
     };
   }
 
-  return JSON.parse(fs.readFileSync(libraryPath, "utf8"));
+  const library = JSON.parse(fs.readFileSync(libraryPath, "utf8"));
+  return {
+    ...library,
+    books: library.books.map((book) => ({
+      ...book,
+      firstChapter: withReaderHref(book.slug, book.firstChapter),
+      latestChapter: withReaderHref(book.slug, book.latestChapter),
+    })),
+  };
 }
 
 export function getBookManifest(slug = defaultBookSlug) {
@@ -70,7 +79,8 @@ export function getBookManifest(slug = defaultBookSlug) {
 
   const bookManifestPath = path.join(generatedBooksRoot, slug, "manifest.json");
   if (!fs.existsSync(bookManifestPath)) return null;
-  return JSON.parse(fs.readFileSync(bookManifestPath, "utf8"));
+  const manifest = JSON.parse(fs.readFileSync(bookManifestPath, "utf8"));
+  return { ...manifest, chapters: manifest.chapters.map((chapter) => withReaderHref(slug, chapter)) };
 }
 
 export function getBooks() {

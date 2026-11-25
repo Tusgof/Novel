@@ -31,6 +31,11 @@ rebuilt. Other books retain their existing manifest/chapter bytes, are labeled
 - For persisted-state bugs, build first, then run `npm run test:reader`: it seeds
   saved progress/settings and checks hydration, restoration, TOC numbers and dialog
   keyboard/focus behaviour. Reader CI installs the declared Chromium and runs it.
+- The reader uses `/gacha/61` and `/investing/61` for the two short chapter-link
+  namespaces. Existing `/books/<slug>/read/ch061` links redirect to their short
+  versions; other series keep their existing routes. The chapter snapshot stays
+  unchanged. `test:reader` checks both top navigation and legacy redirect/boundary
+  behavior on a production build.
 - Text equality does not prove visible line breaks. `test:reader` also checks actual
   glyph positions in multiline status/item blocks at desktop/mobile widths. The
   reader preserves authored newlines with `white-space: pre-line`; do not rewrite

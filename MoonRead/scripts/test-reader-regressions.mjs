@@ -364,3 +364,64 @@ test("authored newlines separate status rows and item details without changing t
     });
   }
 });
+
+test("chapter navigation is available before the article on desktop and mobile", async () => {
+  for (const [width, alias] of [[1440, "gacha"], [390, "investing"]]) {
+    await withPage({ width, height: 800 }, async (page) => {
+      const nav = page.getByRole("navigation", { name: "เปลี่ยนตอนด้านบน" });
+      const prev = nav.getByRole("link", { name: "ตอนก่อนหน้า" });
+      const next = nav.getByRole("link", { name: "ตอนถัดไป" });
+      await page.goto(`${baseUrl}/${alias}/61`, { waitUntil: "networkidle" });
+      assert.equal(await prev.getAttribute("href"), `/${alias}/60`);
+      assert.equal(await next.getAttribute("href"), `/${alias}/62`);
+      assert.ok(await nav.evaluate((el) => el.getBoundingClientRect().bottom < innerHeight &&
+        (el.compareDocumentPosition(document.querySelector(".reader-article")) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0),
+      "navigation must be visible above the article without scrolling");
+      assert.equal(await page.locator(".reader-bottom-nav a.next").getAttribute("href"), `/${alias}/62`);
+      await next.click();
+      await page.waitForURL(`${baseUrl}/${alias}/62`);
+      await page.waitForFunction(() => document.querySelector(".reader-kicker")?.textContent === "ตอน 062" && scrollY === 0);
+      assert.equal(await prev.getAttribute("href"), `/${alias}/61`);
+      await prev.click();
+      await page.waitForURL(`${baseUrl}/${alias}/61`);
+      await page.goto(`${baseUrl}/${alias}/1`);
+      assert.equal(await prev.count(), 0, "first chapter has no previous link");
+      assert.equal(await next.getAttribute("href"), `/${alias}/2`);
+      await page.goto(`${baseUrl}/${alias}/70`);
+      assert.equal(await prev.getAttribute("href"), `/${alias}/69`);
+      assert.equal(await next.count(), 0, "latest chapter has no next link");
+    });
+  }
+
+  await withPage({ width: 390, height: 800 }, async (page) => {
+    await page.goto(`${baseUrl}/read/ch001`);
+    assert.equal(await page.locator(".reader-top-nav a.next").getAttribute("href"), "/read/ch002");
+  });
+});
+
+test("short links are used in both books without breaking old links or exposing unavailable chapters", async () => {
+  await withPage({ width: 390, height: 800 }, async (page) => {
+    for (const [alias, slug] of [
+      ["gacha", "a-gacha-addicts-fusionpunk-life"],
+      ["investing", "investing-in-my-crippled-wife"],
+    ]) {
+      const oldPath = `/books/${slug}/read/ch061`;
+      const oldResponse = await page.request.get(`${baseUrl}${oldPath}`, { maxRedirects: 0 });
+      assert.equal(oldResponse.status(), 308);
+      assert.equal(oldResponse.headers().location, `/${alias}/61`);
+      await page.goto(`${baseUrl}${oldPath}`);
+      assert.equal(new URL(page.url()).pathname, `/${alias}/61`);
+      assert.equal(await page.locator(".reader-head .translator").textContent(), "[Code]");
+      await page.locator('.reader-topbar button[aria-label="เปิดสารบัญ"]').click();
+      assert.equal(await page.locator(".sheet-toc .ch-row").count(), 70);
+      assert.equal(await page.locator(".sheet-toc .ch-row").last().getAttribute("href"), `/${alias}/70`);
+
+      await page.goto(`${baseUrl}/books/${slug}/chapters`);
+      assert.equal(await page.locator(`.toc-list a.ch-row[href="/${alias}/61"]`).count(), 1);
+      for (const route of [`/${alias}/71`, `/${alias}/061`, `/${alias}/oops`, `/books/${slug}/read/ch071`]) {
+        assert.equal((await page.request.get(`${baseUrl}${route}`, { maxRedirects: 0 })).status(), 404, route);
+      }
+    }
+    assert.equal((await page.request.get(`${baseUrl}/unknown-book/1`)).status(), 404);
+  });
+});

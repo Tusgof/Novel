@@ -207,6 +207,21 @@ export default function ReaderShell({ chapter, neighbors, chapters, blocks, book
         </div>
       </section>
 
+      {(neighbors.previous || neighbors.next) && (
+        <nav className="reader-top-nav" aria-label="เปลี่ยนตอนด้านบน">
+          {neighbors.previous && (
+            <Link className="pill-btn ghost previous" href={neighbors.previous.href} rel="prev">
+              <ChevronLeft size={17} aria-hidden="true" /> ตอนก่อนหน้า
+            </Link>
+          )}
+          {neighbors.next && (
+            <Link className="pill-btn ghost next" href={neighbors.next.href} rel="next">
+              ตอนถัดไป <ChevronRight size={17} aria-hidden="true" />
+            </Link>
+          )}
+        </nav>
+      )}
+
       <article className="reader-article">
         {blocks.map((block, i) => {
           if (block.type === "title") return block.text === chapter.title ? null : <h2 className={blockClass(block)} key={i}>{block.text}</h2>;
