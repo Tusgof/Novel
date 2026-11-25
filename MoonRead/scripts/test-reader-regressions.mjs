@@ -232,7 +232,7 @@ test("toc search matches padded and unpadded episode numbers exactly", async () 
     const sheet = page.locator(".scrim .sheet");
     await sheet.waitFor({ state: "visible" });
     const input = sheet.locator('input[aria-label="ค้นหาตอน"]');
-    for (const query of ["005", "0005", "5"]) {
+    for (const query of ["005", "0005", "5", "ตอนที่ ๕"]) {
       await input.fill(query);
       await page.waitForTimeout(150);
       assert.equal(await sheet.locator(".ch-row").count(), 1, `query ${query} must match exactly episode 5`);
@@ -302,12 +302,270 @@ test("reader sheets trap focus, close on Escape and restore the opener", async (
 
   await withPage({ width: 390, height: 844 }, async (page) => {
     await page.goto(`${baseUrl}/read/ch001`, { waitUntil: "networkidle" });
-    const fab = '.reader-fabs button[aria-label="ตั้งค่าการอ่าน"]';
-    await page.locator(fab).click();
+    const button = '.reader-topbar button[aria-label="ตั้งค่าการอ่าน"]';
+    await page.locator(button).click();
     await page.locator(".scrim .sheet").waitFor({ state: "visible" });
     await page.keyboard.press("Escape");
     await page.waitForTimeout(150);
-    assert.ok(await activeIn(page, fab), "mobile FAB must regain focus after Escape");
+    assert.ok(await activeIn(page, button), "mobile settings button must regain focus after Escape");
+  });
+});
+
+const horrorBook = "/books/horror-game-developer";
+
+test("continue reading restores the passage after reload and viewport change", async () => {
+  await withPage({ width: 390, height: 800 }, async (page) => {
+    const href = `${horrorBook}/read/ch003`;
+    await page.goto(`${baseUrl}${href}`, { waitUntil: "networkidle" });
+    const block = 35;
+    await page.evaluate((index) => {
+      const rect = document.querySelector(".reader-article").children[index].getBoundingClientRect();
+      window.scrollTo({ top: scrollY + rect.top - document.querySelector(".reader-topbar").offsetHeight, behavior: "instant" });
+    }, block);
+    const saved = () => page.waitForFunction(([key, index]) => JSON.parse(localStorage.getItem(key) || "{}").progress?.["horror-game-developer"]?.position?.block === index, [stateKey, block]);
+    await saved();
+    await page.goto(`${baseUrl}/history`);
+    await page.locator(`.resume[href="${href}"]`).click();
+    await page.waitForURL(`**${href}`);
+    await page.setViewportSize({ width: 820, height: 900 });
+    await page.reload({ waitUntil: "networkidle" });
+    await page.waitForFunction((index) => {
+      const bar = document.querySelector(".reader-topbar").offsetHeight;
+      const rect = document.querySelector(".reader-article").children[index].getBoundingClientRect();
+      return rect.top <= bar + 10 && rect.bottom > bar;
+    }, block);
+    await page.goto(`${baseUrl}${horrorBook}`, { waitUntil: "networkidle" });
+    await page.getByRole("link", { name: "เริ่มใหม่จากตอนแรก" }).click();
+    await page.waitForURL(`**${horrorBook}/read/ch001`);
+    assert.equal(await page.evaluate(() => scrollY), 0);
+  }, { seeded: false });
+});
+
+test("returning to the TOC preserves the passage for Back and book resume", async () => {
+  await withPage({ width: 390, height: 800 }, async (page) => {
+    const href = `${horrorBook}/read/ch003`;
+    await page.goto(`${baseUrl}${href}`, { waitUntil: "networkidle" });
+    const block = 35;
+    await page.evaluate((index) => {
+      const rect = document.querySelector(".reader-article").children[index].getBoundingClientRect();
+      scrollTo({ top: scrollY + rect.top - document.querySelector(".reader-topbar").offsetHeight, behavior: "instant" });
+    }, block);
+    const leave = async () => {
+      await page.getByRole("link", { name: "กลับไปสารบัญ" }).click();
+      await page.waitForURL(`**${horrorBook}/chapters`);
+      await page.locator(".toc-list").waitFor();
+      assert.equal((await storedState(page)).progress["horror-game-developer"].position.block, block);
+    };
+    const restored = () => page.waitForFunction((index) => {
+      const bar = document.querySelector(".reader-topbar");
+      const rect = document.querySelector(".reader-article")?.children[index]?.getBoundingClientRect();
+      return rect && rect.top <= bar.offsetHeight + 10 && rect.bottom > bar.offsetHeight;
+    }, block);
+    await leave();
+    await page.goBack();
+    await page.waitForURL(`**${href}`);
+    await restored();
+    await leave();
+    await page.goto(`${baseUrl}${horrorBook}`, { waitUntil: "networkidle" });
+    await page.getByRole("link", { name: /อ่านต่อ ตอน 003/ }).click();
+    await page.waitForURL(`**${href}`);
+    await restored();
+  }, { seeded: false });
+});
+
+test("Back after leaving via TOC restores the visible chapter, including a skip-link fragment", async () => {
+  await withPage({ width: 390, height: 800 }, async (page) => {
+    const chapter = `${horrorBook}/read/ch260`;
+    await page.goto(`${baseUrl}${horrorBook}/read/ch259`, { waitUntil: "networkidle" });
+    const contents = page.getByRole("button", { name: "เปิดสารบัญ" });
+    await contents.click();
+    await page.getByRole("dialog").locator(`a[href="${chapter}"]`).click();
+    await page.waitForURL(`**${chapter}`);
+    const title = await page.locator(".reader-head h1").textContent();
+    await page.locator(".skip-content").focus();
+    await page.keyboard.press("Enter");
+    await page.waitForURL(`**${chapter}#main-content`);
+    await page.evaluate(() => scrollTo({ top: 2200, behavior: "instant" }));
+    await page.getByRole("link", { name: "กลับไปสารบัญ" }).click();
+    await page.waitForURL(`**${horrorBook}/chapters`);
+    await page.goBack();
+    await page.waitForURL(`**${chapter}#main-content`);
+    await page.waitForFunction((expectedTitle) => document.querySelector(".reader-head h1")?.textContent === expectedTitle && scrollY > 2100, title);
+    assert.match(await page.locator(".reader-kicker").textContent(), /260/);
+  }, { seeded: false });
+});
+
+test("auto advance is opt-in and opening settings cancels the countdown", async () => {
+  await withPage({ width: 390, height: 840 }, async (page) => {
+    await page.goto(`${baseUrl}/read/ch001`, { waitUntil: "networkidle" });
+    const settings = page.getByRole("button", { name: "ตั้งค่าการอ่าน" });
+    await settings.click();
+    const toggle = page.getByRole("button", { name: "เลื่อนตอนถัดไปอัตโนมัติ" });
+    assert.equal(await toggle.getAttribute("aria-pressed"), "false");
+    assert.equal(await page.getByRole("slider", { name: "ขนาดตัวอักษร" }).count(), 1);
+    await toggle.click();
+    await page.keyboard.press("Escape");
+    await page.evaluate(() => scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" }));
+    await page.getByRole("button", { name: "ยกเลิก" }).waitFor();
+    await settings.click();
+    await page.waitForTimeout(5300);
+    assert.ok(page.url().endsWith("/read/ch001"), "settings must not be dismissed by auto advance");
+    assert.equal(await page.getByRole("dialog").isVisible(), true);
+    await page.keyboard.press("Escape");
+    await page.locator(".reader-end").getByRole("link", { name: "อ่านต่อ" }).click();
+    await page.waitForURL("**/read/ch002");
+  }, { seeded: false });
+});
+
+test("a failed chapter request keeps the current passage and can be retried", async () => {
+  await withPage({ width: 320, height: 800 }, async (page) => {
+    const next = `${horrorBook}/read/ch290`;
+    await page.goto(`${baseUrl}${horrorBook}/read/ch289`, { waitUntil: "networkidle" });
+    await page.evaluate(() => scrollTo({ top: 1200, behavior: "instant" }));
+    const y = await page.evaluate(() => scrollY);
+    await page.getByRole("button", { name: "เปิดสารบัญ" }).click();
+    const panel = page.getByRole("dialog");
+    const current = panel.locator('[aria-current="page"]');
+    assert.equal(await current.evaluate((row) => {
+      const viewport = row.parentElement.getBoundingClientRect();
+      const rect = row.getBoundingClientRect();
+      return rect.top >= viewport.top && rect.bottom <= viewport.bottom;
+    }), true);
+    await page.mouse.move(3, 200);
+    await page.mouse.wheel(0, 500);
+    await panel.getByRole("textbox", { name: "ค้นหาตอน" }).fill("๒๙๐");
+    const data = "**/reader-data/horror-game-developer/ch290";
+    await page.route(data, async (route) => route.fulfill({ status: 503, body: "Unavailable" }));
+    // An expected network failure is not a page runtime exception.
+    const beforeErrors = unexpected.length;
+    await panel.locator(`a[href="${next}"]`).click();
+    const retry = page.getByRole("button", { name: "ลองอีกครั้ง" });
+    await retry.waitFor();
+    const errors = unexpected.splice(beforeErrors);
+    assert.ok(errors.every((error) => error.kind === "console" && /503/.test(error.text)));
+    assert.ok(page.url().endsWith("/ch289"));
+    assert.equal(await page.evaluate(() => scrollY), y);
+    await page.unroute(data);
+    await retry.click();
+    await page.waitForURL(`**${next}`);
+    await page.waitForFunction(() => document.activeElement === document.querySelector("h1"));
+    await page.goBack();
+    await page.waitForURL("**/read/ch289");
+    await page.waitForFunction(() => document.querySelector(".reader-kicker").textContent.includes("289") && scrollY > 1000);
+    await page.goForward();
+    await page.waitForFunction(() => document.querySelector(".reader-kicker").textContent.includes("290"));
+  }, { seeded: false });
+});
+
+test("printed Deep Sea Embers numbers agree with search without changing stable links", async () => {
+  await withPage({ width: 390, height: 800 }, async (page) => {
+    await page.goto(`${baseUrl}/chapters`, { waitUntil: "networkidle" });
+    await page.getByRole("searchbox", { name: "ค้นหาตอน" }).fill("บทที่ ๑๔๖");
+    const chapter = page.locator(".toc-list .ch-row");
+    assert.equal(await chapter.getAttribute("href"), "/read/ch145");
+    assert.equal(await chapter.locator(".num").textContent(), "146");
+    await chapter.click();
+    await page.waitForURL("**/read/ch145");
+    assert.match(await page.locator(".reader-kicker").textContent(), /146/);
+    await page.getByRole("button", { name: "เปิดสารบัญ" }).click();
+    await page.getByRole("textbox", { name: "ค้นหาตอน" }).fill("146");
+    assert.equal(await page.locator('.sheet-toc .ch-row[aria-current="page"]').getAttribute("href"), "/read/ch145");
+  }, { seeded: false });
+});
+
+test("home search follows the URL, Back, and narrow history does not overflow", async () => {
+  await withPage({ width: 1280, height: 900 }, async (page) => {
+    await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+    const header = page.locator(".appbar-search input");
+    for (const [query, href] of [["horror game developer", horrorBook], ["deep sea embers", "/book"]]) {
+      await header.fill(query);
+      await header.press("Enter");
+      await page.waitForURL((url) => url.searchParams.get("q") === query);
+      await page.locator(`.book-card a[href="${href}"]`).waitFor();
+      assert.equal(await page.locator(".book-card").count(), 1);
+    }
+    await page.goBack();
+    await page.locator('.book-card a[href*="horror-game-developer"]').waitFor();
+    const local = page.locator(".hero-search input");
+    await local.fill("คำค้นไม่อยู่ในคลัง123");
+    await page.getByRole("heading", { name: "ไม่พบนิยายที่ค้นหา" }).waitFor();
+    await page.reload();
+    await page.getByRole("heading", { name: "ไม่พบนิยายที่ค้นหา" }).waitFor();
+    await page.setViewportSize({ width: 320, height: 800 });
+    await page.goto(`${baseUrl}/history`, { waitUntil: "networkidle" });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), 320);
+  });
+});
+
+test("the catalog and query results are available without JavaScript", async () => {
+  const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
+  try {
+    const page = await context.newPage();
+    await page.goto(`${baseUrl}/`);
+    assert.ok(await page.locator(".book-card a").count() > 1);
+    await page.locator(".hero-search input").fill("horror game developer");
+    await page.getByRole("button", { name: "ไปยังผลการค้นหา" }).click();
+    await page.waitForURL("**/?q=*#catalog");
+    assert.equal(await page.locator(".book-card a").count(), 1);
+    assert.equal(await page.locator(".book-card a").getAttribute("href"), horrorBook);
+  } finally { await context.close(); }
+});
+
+test("mobile search exposes the story, detail supports favorites, and bookmark review keeps resume", async () => {
+  await withPage({ width: 360, height: 732 }, async (page) => {
+    const book = "/books/ten-day-ultimatum";
+    await page.goto(`${baseUrl}/`);
+    await page.locator(".hero-search input").fill("คำขาด");
+    await page.getByRole("button", { name: "ไปยังผลการค้นหา" }).click();
+    await page.waitForURL("**/?q=*#catalog");
+    const item = page.locator(`#catalog a[href="${book}"]`);
+    await page.waitForFunction(() => {
+      const title = document.querySelector("#catalog .book-card .t")?.getBoundingClientRect();
+      const nav = document.querySelector(".botnav")?.getBoundingClientRect();
+      return title && nav && title.top >= 65 && title.bottom < nav.top;
+    });
+    await item.click();
+    await page.getByRole("button", { name: "เรื่องย่อ" }).click();
+    assert.match(await page.locator(".section.about").textContent(), /คนแปลกหน้าสิบคน/);
+    await page.getByRole("button", { name: "บันทึกเรื่องโปรด" }).click();
+    assert.equal(await page.getByRole("button", { name: "บันทึกแล้ว" }).getAttribute("aria-pressed"), "true");
+
+    await page.goto(`${baseUrl}${book}/read/ch002`, { waitUntil: "networkidle" });
+    await page.getByRole("button", { name: "คั่นหน้า" }).click();
+    await page.goto(`${baseUrl}${book}/read/ch003`, { waitUntil: "networkidle" });
+    await page.evaluate(() => scrollTo({ top: 1000, behavior: "instant" }));
+    await page.getByRole("button", { name: "เปิดสารบัญ" }).click();
+    await page.getByRole("dialog").locator(`a[href="${book}/read/ch002?review=1"]`).click();
+    await page.locator(".reader-review").waitFor();
+    assert.equal(await page.evaluate(() => scrollY), 0);
+    await page.getByRole("link", { name: "กลับไปอ่านต่อ ตอน 003" }).click();
+    await page.waitForFunction(() => document.querySelector(".reader-kicker")?.textContent.includes("003") && scrollY > 950);
+    await page.goto(`${baseUrl}/shelf`);
+    await page.locator(`a[href="${book}/read/ch002?review=1"]`).click();
+    await page.locator(".reader-review").waitFor();
+    assert.equal(await page.evaluate(() => scrollY), 0);
+    await page.evaluate(() => scrollTo({ top: 900, behavior: "instant" }));
+    await page.goto(`${baseUrl}${book}`, { waitUntil: "networkidle" });
+    await page.getByRole("link", { name: /อ่านต่อ ตอน 003/ }).click();
+    await page.waitForFunction(() => document.querySelector(".reader-kicker")?.textContent.includes("003") && scrollY > 950);
+  }, { seeded: false });
+});
+
+test("malformed favorites do not discard valid progress, and separate tabs merge edits", async () => {
+  await withPage({ width: 1200, height: 840 }, async (page) => {
+    await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+    await page.evaluate((key) => {
+      const state = JSON.parse(localStorage.getItem(key));
+      localStorage.setItem(key, JSON.stringify({ ...state, favorites: {} }));
+    }, stateKey);
+    await page.reload({ waitUntil: "networkidle" });
+    assert.equal(await page.locator('.resume[href$="/read/ch003"]').count(), 1);
+    const second = await page.context().newPage();
+    await second.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+    await page.locator(".book-card .fav").nth(0).click();
+    await second.locator(".book-card .fav").nth(1).click();
+    assert.equal((await storedState(page)).favorites.length, 2);
+    await page.waitForFunction(() => document.querySelectorAll('.fav[aria-pressed="true"]').length === 2);
   });
 });
 

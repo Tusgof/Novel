@@ -5,8 +5,7 @@ import { Heart, Bookmark, BookOpen, History as HistoryIcon, BookmarkX } from "lu
 import { useReaderStore } from "../lib/reader-store";
 import { getBookTitlePair } from "../lib/book-titles";
 import { BookCard, ResumeCard, EmptyState } from "./BookGrid";
-
-function chLabel(n) { return `ตอน ${String(n).padStart(3, "0")}`; }
+import { chapterNumber, episodeLabel } from "../lib/chapter-number";
 
 export function ShelfView({ books }) {
   const store = useReaderStore();
@@ -18,9 +17,9 @@ export function ShelfView({ books }) {
   const nothing = !favBooks.length && !marked.length;
 
   return (
-    <div className="page shell">
+    <main className="page shell" id="main-content" tabIndex={-1}>
       <section className="section" style={{ marginTop: 24 }}>
-        <div className="section-head"><h2><Heart size={20} /> รายการโปรด</h2></div>
+        <div className="section-head"><h1><Heart size={20} /> รายการโปรด</h1></div>
         {favBooks.length ? (
           <div className="book-grid">{favBooks.map((b) => <BookCard key={b.slug} book={b} />)}</div>
         ) : (
@@ -38,15 +37,17 @@ export function ShelfView({ books }) {
               <div className="mark-group-head"><BookOpen size={16} /> {title}</div>
               <div className="toc-list">
                 {marks.map((m) => (
-                  <Link key={m.id} className="ch-row" href={m.href}>
-                    <span className="num">{String(m.number).padStart(3, "0")}</span>
-                    <span className="ct"><small>{chLabel(m.number)}</small><strong>{m.title}</strong></span>
+                  <div key={m.id} className="ch-row">
+                    <Link className="chapter-link" href={`${m.href}?review=1`} prefetch={false}>
+                    <span className="num">{String(chapterNumber(m)).padStart(3, "0")}</span>
+                    <span className="ct"><small>{episodeLabel(m)}</small><strong>{m.title}</strong></span>
                     <span className="cm" />
-                    <button className="ch-star on" type="button" aria-label="นำที่คั่นออก"
-                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); store.toggleBookmark(book.slug, m); }}>
+                    </Link>
+                    <button className="ch-star on" type="button" aria-label={`นำที่คั่น ${episodeLabel(m)} ออก`}
+                      onClick={() => store.toggleBookmark(book.slug, m)}>
                       <BookmarkX size={16} />
                     </button>
-                  </Link>
+                  </div>
                 ))}
               </div>
             </div>
@@ -57,7 +58,7 @@ export function ShelfView({ books }) {
       {nothing ? (
         <EmptyState art="cat-sleeping" title="ชั้นหนังสือยังว่างอยู่">บันทึกเรื่องโปรดและคั่นตอนที่ชอบ แล้วทุกอย่างจะมารวมกันที่นี่</EmptyState>
       ) : null}
-    </div>
+    </main>
   );
 }
 
@@ -68,9 +69,9 @@ export function HistoryView({ books }) {
     .filter((x) => x.book);
 
   return (
-    <div className="page shell">
+    <main className="page shell" id="main-content" tabIndex={-1}>
       <section className="section" style={{ marginTop: 24 }}>
-        <div className="section-head"><h2><HistoryIcon size={20} /> ประวัติการอ่าน</h2></div>
+        <div className="section-head"><h1><HistoryIcon size={20} /> ประวัติการอ่าน</h1></div>
         {items.length ? (
           <div className="history-grid">
             {items.map(({ h, book }) => <ResumeCard key={h.slug} book={book} entry={h} />)}
@@ -79,6 +80,6 @@ export function HistoryView({ books }) {
           <EmptyState art="cat-sleeping" title="ยังไม่มีประวัติการอ่าน">เริ่มอ่านสักเรื่อง แล้ว MoonRead จะจำไว้ให้ว่าคุณอ่านถึงไหน</EmptyState>
         )}
       </section>
-    </div>
+    </main>
   );
 }

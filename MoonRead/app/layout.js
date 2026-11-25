@@ -46,7 +46,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="th" data-site-theme="light" data-scroll-behavior="smooth">
-      <body>{children}</body>
+      <body><a className="skip-content" href="#main-content">ข้ามไปยังเนื้อหา</a>{children}</body>
     </html>
   );
 }

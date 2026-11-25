@@ -1,55 +1,26 @@
+"use client";
+
 import Link from "next/link";
 import { CheckCircle2, Clock3, Lock, XCircle } from "lucide-react";
+import ChapterFinder from "./ChapterFinder";
+import { chapterNumber } from "../lib/chapter-number";
 
-function statusIcon(status) {
-  if (status === "available") return <CheckCircle2 size={18} />;
-  if (status === "rejected") return <XCircle size={18} />;
-  return <Lock size={18} />;
-}
-
-function statusLabel(chapter) {
-  if (chapter.status === "available") return `${chapter.readingMinutes} นาที`;
-  if (chapter.status === "rejected") return "รอตรวจไฟล์";
-  return "ยังไม่มีตอน";
-}
-
-function chapterLabel(chapter) {
-  return `ตอน ${String(chapter.number).padStart(3, "0")}`;
-}
-
-export default function ChapterList({ chapters, compact = false }) {
-  return (
-    <div className={compact ? "chapter-list compact" : "chapter-list"}>
-      {chapters.map((chapter) => {
-        const displayTitle = chapter.status === "available" ? chapter.title : `${chapterLabel(chapter)} ยังไม่พร้อมอ่าน`;
-        const row = (
-          <>
-            <span className={`chapter-state ${chapter.status}`}>{statusIcon(chapter.status)}</span>
-            <span className="chapter-main">
-              <small>{chapterLabel(chapter)}{chapter.status === "available" ? <> · ผู้แปล <span className="translator">{chapter.translator}</span></> : null}</small>
-              <strong>{displayTitle}</strong>
-            </span>
-            <span className="chapter-meta">
-              <Clock3 size={15} />
-              {statusLabel(chapter)}
-            </span>
-          </>
-        );
-
-        if (chapter.status !== "available") {
-          return (
-            <div className="chapter-row disabled" key={chapter.id} aria-disabled="true">
-              {row}
-            </div>
-          );
-        }
-
-        return (
-          <Link className="chapter-row" href={chapter.href} key={chapter.id}>
-            {row}
-          </Link>
-        );
+export default function ChapterList({ chapters }) {
+  return <ChapterFinder chapters={chapters} renderRows={(filtered) => (
+    <div className="toc-list">
+      {filtered.map((chapter) => {
+        const available = chapter.status === "available";
+        const number = String(chapterNumber(chapter)).padStart(3, "0");
+        const Icon = available ? CheckCircle2 : chapter.status === "rejected" ? XCircle : Lock;
+        const inner = <>
+          <span className="num">{number}</span>
+          <span className="ct"><small>ตอน {number}{available ? <> · ผู้แปล <span className="translator">{chapter.translator}</span></> : null}</small><strong>{available ? chapter.title : `ตอน ${number} ยังไม่พร้อมอ่าน`}</strong></span>
+          <span className="cm"><Clock3 size={13} /> {available ? `${chapter.readingMinutes} น.` : chapter.status === "rejected" ? "รอตรวจไฟล์" : "ยังไม่พร้อม"}</span>
+          <span className={`ch-state ${chapter.status}`}><Icon size={18} /></span>
+        </>;
+        return available ? <Link className="ch-row" href={chapter.href} key={chapter.id} prefetch={false}>{inner}</Link>
+          : <div className="ch-row disabled" key={chapter.id} aria-disabled="true">{inner}</div>;
       })}
     </div>
-  );
+  )} />;
 }

@@ -28,11 +28,12 @@ export default async function ReadChapterPage({ params }) {
 
   return (
     <ReaderShell
+      key={chapter.id}
       chapter={chapter}
       neighbors={getChapterNeighbors(chapterId)}
-      chapters={getAvailableChapters()}
+      chapters={getAvailableChapters().map(({ id, number, title, href }) => ({ id, number, title, href }))}
       blocks={markdownToBlocks(markdown)}
-      book={{ ...getManifest().novel, chaptersHref: "/chapters" }}
+      book={{ slug: getManifest().novel.slug, title: getManifest().novel.title, chaptersHref: "/chapters" }}
     />
   );
 }
