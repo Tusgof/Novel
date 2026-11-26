@@ -5,7 +5,6 @@ thai_term: เวิร์กช็อปทาส
 status: approved
 aliases:
   - Slave Workshop Unreported Status
-  - Slave Tax
 source_language: en
 category: organization
 novel: infinite-regressor-stories
@@ -25,4 +24,4 @@ Tax arc organization/workshop term.
 
 ## Translation Notes
 
-Use `เวิร์กช็อปทาส`.
+Use `เวิร์กช็อปทาส` for the organization. `Slave Tax` is a separate tax in ch035.

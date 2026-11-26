@@ -5,7 +5,6 @@ thai_term: ภาษีศพเพิ่มเติม
 status: approved
 aliases:
   - Additional Corpse Tax Report
-  - Body Tax
 source_language: en
 category: tax
 novel: infinite-regressor-stories
@@ -26,4 +25,4 @@ Tax arc dark-comedy term.
 
 ## Translation Notes
 
-Use `ภาษีศพเพิ่มเติม`.
+Use `ภาษีศพเพิ่มเติม`. `Body Tax` is a separate tax in ch035; see its own entry.

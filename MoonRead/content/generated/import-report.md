@@ -1,11 +1,11 @@
 # Reader Import Report
 
-Generated at: 2026-11-26T03:59:54.868Z
+Generated at: 2026-11-26T09:58:54.636Z
 
 ## Summary
 
 - books: 8
-- available chapters: 267
+- available chapters: 277
 - missing chapters: 0
 - rejected chapters: 0
 
@@ -16,7 +16,7 @@ Generated at: 2026-11-26T03:59:54.868Z
 - available: 20
 - missing: 0
 - rejected: 0
-- processing: generated and validated
+- processing: retained historical snapshot, not revalidated
 
 ### Rejected
 
@@ -33,7 +33,7 @@ Generated at: 2026-11-26T03:59:54.868Z
 - available: 20
 - missing: 0
 - rejected: 0
-- processing: generated and validated
+- processing: retained historical snapshot, not revalidated
 
 ### Rejected
 
@@ -46,8 +46,8 @@ Generated at: 2026-11-26T03:59:54.868Z
 ## I'm an Infinite Regressor, But I've Got Stories to Tell
 
 - source root: ../Infinite Regressor Stories/05_Output
-- target range: ch001-ch030
-- available: 30
+- target range: ch001-ch040
+- available: 40
 - missing: 0
 - rejected: 0
 - processing: generated and validated
@@ -67,7 +67,7 @@ Generated at: 2026-11-26T03:59:54.868Z
 - available: 2
 - missing: 0
 - rejected: 0
-- processing: generated and validated
+- processing: retained historical snapshot, not revalidated
 
 ### Rejected
 
