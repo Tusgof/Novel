@@ -416,7 +416,15 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
       }
       ready = true;
       measure();
-      if (window.history.state?.moonreadChapter) heading.current?.focus({ preventScroll: true });
+      if (window.history.state?.moonreadChapter && document.activeElement === document.body) {
+        const title = heading.current;
+        const bounds = title?.getBoundingClientRect();
+        // On a resumed chapter, don't send the keyboard to a hidden heading.
+        const target = bounds && bounds.top >= (topbar.current?.getBoundingClientRect().bottom ?? 0) && bounds.bottom <= window.innerHeight
+          ? title
+          : topbar.current?.querySelector("#reader-tools");
+        target?.focus({ preventScroll: true });
+      }
       window.addEventListener("scroll", onScroll, { passive: true });
       window.addEventListener("resize", onResize);
       window.addEventListener("pagehide", onPageExit);

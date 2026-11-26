@@ -854,9 +854,36 @@ test("the first Page Down on the new chapter survives delayed font readiness", a
     const firstScroll = await page.evaluate(() => scrollY);
     assert.ok(firstScroll > 400);
     await page.evaluate(() => window.releaseTestReaderFonts());
-    await page.waitForFunction(() => document.activeElement?.id === "reader-heading");
+    await page.waitForFunction(() => document.activeElement?.id === "reader-tools");
     assert.ok(await page.evaluate(() => scrollY) >= firstScroll - 2);
     await page.waitForFunction(() => parseInt(document.querySelector(".reader-progress-value").textContent, 10) > 0);
+  }, { seeded: false });
+});
+
+test("returning by keyboard to an earlier chapter keeps the passage and visible focus", async () => {
+  await withPage({ width: 1440, height: 900 }, async (page) => {
+    await page.goto(`${baseUrl}/read/ch002`, { waitUntil: "networkidle" });
+    await page.keyboard.press("PageDown");
+    await page.keyboard.press("PageDown");
+    const savedY = await page.evaluate(() => scrollY);
+    assert.ok(savedY > 900);
+    await page.locator(".reader-quick-next").press("Enter");
+    await page.waitForFunction(() => document.activeElement?.id === "reader-heading");
+    assert.equal(await page.evaluate(() => scrollY), 0);
+    await page.locator('.reader-stepper a[href="/read/ch002"]').press("Enter");
+    await page.waitForURL("**/read/ch002");
+    await page.waitForFunction(() => document.activeElement?.id === "reader-tools");
+    const location = await page.evaluate(() => {
+      const focused = document.activeElement.getBoundingClientRect();
+      const title = document.getElementById("reader-heading").getBoundingClientRect();
+      return { y: scrollY, visible: focused.top >= 0 && focused.bottom <= innerHeight, titleOffscreen: title.bottom < 0 };
+    });
+    assert.ok(Math.abs(location.y - savedY) <= 2);
+    assert.equal(location.visible, true);
+    assert.equal(location.titleOffscreen, true);
+    await page.keyboard.press("Tab");
+    assert.equal(await activeIn(page, ".reader-bookmark"), true);
+    assert.equal(await page.evaluate(() => scrollY), location.y);
   }, { seeded: false });
 });
 
