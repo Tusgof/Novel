@@ -31,7 +31,7 @@ export function ProgressBar({ percent }) {
   return <div className="progress"><i style={{ width: `${Math.max(3, percent)}%` }} /></div>;
 }
 
-export function BookCard({ book, fromSearch = false }) {
+export function BookCard({ book }) {
   const store = useReaderStore();
   const fav = store.isFavorite(book.slug);
   const prog = store.getProgress(book.slug);
@@ -40,12 +40,9 @@ export function BookCard({ book, fromSearch = false }) {
   const synopsis = bookSynopsis(book);
   const headingId = useId();
 
-  // Keep search results in their own browser history document. A Next router
-  // snapshot can predate the query typed into this page's native search form.
-  const StoryLink = fromSearch ? "a" : Link;
   return (
     <article className="book-card">
-      <StoryLink href={book.href} aria-labelledby={headingId}>
+      <a href={book.href} aria-labelledby={headingId}>
       <div className="cover">
         <Cover book={book} />
       </div>
@@ -59,7 +56,7 @@ export function BookCard({ book, fromSearch = false }) {
         {synopsis ? <p className="synopsis-preview">{synopsis}</p> : null}
         {prog ? <div style={{ marginTop: 8 }}><ProgressBar percent={prog.percent} /></div> : null}
       </div>
-      </StoryLink>
+      </a>
       <button className={`fav${fav ? " on" : ""}`} type="button" aria-label={`รายการโปรด: ${title}`} aria-pressed={fav} onClick={() => store.toggleFavorite(book.slug)}>
         <Heart size={19} fill={fav ? "currentColor" : "none"} />
       </button>

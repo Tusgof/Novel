@@ -132,7 +132,7 @@ export default function Discover({ books, genres, initialQuery }) {
         {!q ? filters : null}
 
         {list.length ? (
-          <div className="book-grid">{list.map((b) => <BookCard key={b.slug} book={b} fromSearch={Boolean(q)} />)}</div>
+          <div className="book-grid">{list.map((b) => <BookCard key={b.slug} book={b} />)}</div>
         ) : (
           <EmptyState art="cat-sleeping" title="ไม่พบนิยายที่ค้นหา">
             ลองเปลี่ยนคำค้น หรือ <button className="text-button" type="button" onClick={() => { setQuery(""); setActive([]); }}>ล้างคำค้นและตัวกรอง</button>
