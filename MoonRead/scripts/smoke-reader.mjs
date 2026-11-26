@@ -89,23 +89,19 @@ async function main() {
   const horrorBook = library.books.find((book) => book.slug === "horror-game-developer");
   const infiniteBook = library.books.find((book) => book.slug === "infinite-regressor-stories");
   const horrorBookTitle = "นักพัฒนาเกมสยองขวัญ";
-  let strongChapter = first;
-  let emChapter = first;
-  for (const chapter of available) {
-    const chapterMarkdown = await fs.readFile(
-      path.join(root, "content", "generated", "chapters", `${chapter.id}.md`),
-      "utf8"
-    );
-    if (strongChapter === first && /\*\*[^*]+\*\*/.test(chapterMarkdown)) {
-      strongChapter = chapter;
+  let strongChapter;
+  let emChapter;
+  for (const book of library.books) {
+    const snapshot = JSON.parse(await fs.readFile(path.join(root, "content", "generated", "books", book.slug, "manifest.json"), "utf8"));
+    for (const chapter of snapshot.chapters.filter((item) => item.status === "available")) {
+      const markdown = await fs.readFile(path.join(root, chapter.generatedPath), "utf8");
+      if (!strongChapter && /\*\*[^*\n]+\*\*/.test(markdown)) strongChapter = chapter;
+      if (!emChapter && /(?<!\*)\*[^*\n]+\*(?!\*)/.test(markdown)) emChapter = chapter;
+      if (strongChapter && emChapter) break;
     }
-    if (emChapter === first && /(^|[^*])\*[^*]+\*/.test(chapterMarkdown)) {
-      emChapter = chapter;
-    }
-    if (strongChapter !== first && emChapter !== first) {
-      break;
-    }
+    if (strongChapter && emChapter) break;
   }
+  if (!strongChapter || !emChapter) throw new Error("Reader smoke requires published bold and italic fixtures");
   const firstBlocked = manifest.chapters.find((chapter) => chapter.status !== "available");
   const logoSvg = await fs.readFile(path.join(root, "public", "images", "moonread-logo.svg"), "utf8");
   const port = Number(process.env.MOONREAD_SMOKE_PORT || (await getFreePort()));
@@ -162,9 +158,9 @@ async function main() {
       readerThemePersisted: localStorage.getItem("moonread-state-v1")?.includes('"theme":"night"') || false,
     }), { chapterTitle: first.title });
 
-    await page.goto(`${baseUrl}/read/${strongChapter.id}`, { waitUntil: "networkidle" });
+    await page.goto(`${baseUrl}${strongChapter.href}`, { waitUntil: "networkidle" });
     const strongCount = await page.evaluate(() => document.querySelectorAll(".reader-paragraph strong").length);
-    await page.goto(`${baseUrl}/read/${emChapter.id}`, { waitUntil: "networkidle" });
+    await page.goto(`${baseUrl}${emChapter.href}`, { waitUntil: "networkidle" });
     const emCount = await page.evaluate(() => document.querySelectorAll(".reader-paragraph em").length);
     const emphasisEvidence = { strongCount, emCount };
 
