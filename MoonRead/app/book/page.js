@@ -3,8 +3,9 @@ import BottomNav from "../../components/BottomNav";
 import SiteFooter from "../../components/SiteFooter";
 import BookDetail from "../../components/BookDetail";
 import { getManifest } from "../../lib/chapters";
+import { chapterSearchParams } from "../../lib/chapter-search";
 
-export default function BookPage() {
+export default async function BookPage({ searchParams }) {
   const manifest = getManifest();
   const { novel, summary, chapters } = manifest;
   const book = {
@@ -22,7 +23,7 @@ export default function BookPage() {
   return (
     <>
       <AppHeader />
-      <BookDetail book={book} chapters={chapters} />
+      <BookDetail book={book} chapters={chapters} initialSearch={chapterSearchParams(await searchParams)} />
       <SiteFooter />
       <BottomNav />
     </>

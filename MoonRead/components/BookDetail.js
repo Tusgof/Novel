@@ -38,7 +38,7 @@ function ChapterRow({ slug, chapter, reading, store, ready, review = false }) {
   );
 }
 
-export default function BookDetail({ book, chapters }) {
+export default function BookDetail({ book, chapters, initialSearch }) {
   const store = useReaderStore();
   const ready = useSyncExternalStore(subscribeReady, clientReady, serverReady);
   const [tab, setTab] = useState("toc");
@@ -109,7 +109,7 @@ export default function BookDetail({ book, chapters }) {
 
           {tab === "toc" && (
             <div className="section" style={{ marginTop: 20 }}>
-              <ChapterFinder chapters={chapters} renderRows={(filtered) => (
+              <ChapterFinder chapters={chapters} initialSearch={initialSearch} renderRows={(filtered) => (
                 <div className="toc-list">{filtered.map((c) => (
                   <ChapterRow key={c.id} slug={book.slug} chapter={c} store={store} ready={ready} reading={prog?.chapterId === c.id} />
                 ))}</div>

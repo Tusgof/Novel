@@ -4,6 +4,7 @@ import BottomNav from "../../../components/BottomNav";
 import SiteFooter from "../../../components/SiteFooter";
 import BookDetail from "../../../components/BookDetail";
 import { defaultBookSlug, getBookManifest, getBooks, readerChapter } from "../../../lib/chapters";
+import { chapterSearchParams } from "../../../lib/chapter-search";
 
 export function generateStaticParams() {
   return getBooks()
@@ -17,7 +18,7 @@ export async function generateMetadata({ params }) {
   return { title: manifest ? `${manifest.novel.title} | MoonRead` : "MoonRead" };
 }
 
-export default async function MultiBookPage({ params }) {
+export default async function MultiBookPage({ params, searchParams }) {
   const { bookSlug } = await params;
   const manifest = getBookManifest(bookSlug);
   if (!manifest) notFound();
@@ -38,7 +39,7 @@ export default async function MultiBookPage({ params }) {
   return (
     <>
       <AppHeader />
-      <BookDetail book={book} chapters={chapters.map(readerChapter)} />
+      <BookDetail book={book} chapters={chapters.map(readerChapter)} initialSearch={chapterSearchParams(await searchParams)} />
       <SiteFooter />
       <BottomNav />
     </>

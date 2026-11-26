@@ -7,7 +7,6 @@ import { chapterNumber, withNumberGaps } from "../lib/chapter-number";
 
 const stateEvent = "moonread:toc-state";
 const getSearch = () => window.location.search;
-const emptySearch = () => "";
 const clientReady = () => true;
 const serverReady = () => false;
 function subscribe(listener) {
@@ -25,8 +24,8 @@ function update(patch) {
   window.dispatchEvent(new Event(stateEvent));
 }
 
-export default function ChapterFinder({ chapters: entries, renderRows }) {
-  const search = useSyncExternalStore(subscribe, getSearch, emptySearch);
+export default function ChapterFinder({ chapters: entries, initialSearch, renderRows }) {
+  const search = useSyncExternalStore(subscribe, getSearch, () => initialSearch);
   const ready = useSyncExternalStore(subscribe, clientReady, serverReady);
   const params = new URLSearchParams(search);
   const query = params.get("chapter") || "";
@@ -34,12 +33,21 @@ export default function ChapterFinder({ chapters: entries, renderRows }) {
   const range = params.get("range");
   const chapters = withNumberGaps(entries);
   const inputId = useId();
+  const field = useRef(null);
+  const previousQuery = useRef(new URLSearchParams(initialSearch).get("chapter") || "");
   const centered = useRef(false);
   const ranges = [...new Set(chapters.map((chapter) => Math.floor((chapterNumber(chapter) - 1) / 50) * 50 + 1))];
-  const selectedRange = ranges.length > 1 ? range ?? String(recent ? ranges.at(-1) : ranges[0]) : "";
+  const selectedRange = ranges.length > 1 ? (range === "" || ranges.includes(Number(range)) ? range : String(recent ? ranges.at(-1) : ranges[0])) : "";
   const visible = selectedRange && !query.trim() ? chapters.filter((chapter) => chapterNumber(chapter) >= +selectedRange && chapterNumber(chapter) < +selectedRange + 50) : chapters;
   const matches = filterChapters(visible, query);
   const filtered = recent ? [...matches].reverse() : matches;
+
+  useEffect(() => {
+    if (!ready) return;
+    if (previousQuery.current !== query && field.current.value !== query) field.current.value = query;
+    else if (previousQuery.current === query && field.current.value !== query) update({ chapter: field.current.value });
+    previousQuery.current = query;
+  }, [query, ready]);
 
   useEffect(() => {
     const href = window.history.state?.moonreadTocFocus;
@@ -72,12 +80,18 @@ export default function ChapterFinder({ chapters: entries, renderRows }) {
       const href = event.target.closest?.(".toc-list a[href]")?.getAttribute("href");
       if (href) window.history.replaceState({ ...window.history.state, moonreadTocFocus: href }, "");
     }}>
-      <div className="toc-tools">
-        <div className="searchbox toc-search">
-          <span className="ic"><Search size={17} /></span>
-          <input id={inputId} type="search" disabled={!ready} value={query} onChange={(e) => update({ chapter: e.target.value })} onKeyDown={(e) => { if (e.key === "Enter" && !e.nativeEvent.isComposing && query.trim() && filtered.length === 1 && filtered[0].status === "available") e.target.closest("[data-chapter-finder]").querySelector(".toc-list a[href]")?.click(); }} placeholder={ready ? "เลขตอนหรือชื่อตอน" : "กำลังเปิดการค้นหาตอน…"} aria-label="ค้นหาตอน" />
-          {query ? <button type="button" className="ic clear" aria-label="ล้างคำค้นตอน" onClick={() => { update({ chapter: "" }); document.getElementById(inputId)?.focus(); }}><X size={16} /></button> : null}
-        </div>
+      <div className="toc-tools" id="chapter-results">
+        <form className="searchbox toc-search" action="#chapter-results" method="get" role="search" aria-label="ค้นหาในสารบัญ" onSubmit={(event) => {
+          if (!ready || field.current.value !== query) return;
+          event.preventDefault();
+          if (query.trim() && filtered.length === 1 && filtered[0].status === "available") event.currentTarget.closest("[data-chapter-finder]").querySelector(".toc-list a[href]")?.click();
+        }}>
+          {recent ? <input type="hidden" name="order" value="recent" /> : null}
+          {range !== null ? <input type="hidden" name="range" value={range} /> : null}
+          <input ref={field} id={inputId} type="search" name="chapter" defaultValue={new URLSearchParams(initialSearch).get("chapter") || ""} onChange={(e) => update({ chapter: e.target.value })} placeholder="เลขตอนหรือชื่อตอน" aria-label="ค้นหาตอน" />
+          <button type="submit" className="ic clear" aria-label="แสดงผลการค้นหาตอน"><Search size={17} /></button>
+          {ready && query ? <button type="button" className="ic clear" aria-label="ล้างคำค้นตอน" onClick={() => { field.current.value = ""; update({ chapter: "" }); field.current.focus(); }}><X size={16} /></button> : null}
+        </form>
         <select aria-label="เรียงตอน" className="toc-select" disabled={!ready} value={recent ? "recent" : "first"} onChange={(e) => update({ order: e.target.value === "recent" ? "recent" : null })}>
           <option value="first">ตอนแรกก่อน</option>
           <option value="recent">ตอนล่าสุดก่อน</option>
@@ -87,7 +101,7 @@ export default function ChapterFinder({ chapters: entries, renderRows }) {
           {ranges.map((first) => <option key={first} value={first}>{first}–{Math.min(first + 49, chapterNumber(chapters.at(-1)))}</option>)}
         </select> : null}
       </div>
-      <p role="status" className="muted-line">{!ready ? "เปิดตอนที่แสดงได้เลย เครื่องมือค้นหากำลังโหลด…" : filtered.length ? `แสดง ${filtered.length} จาก ${chapters.length} ตอน` : "ไม่พบตอนที่ค้นหา ลองพิมพ์เลขตอนหรือคำในชื่อตอน"}</p>
+      <p role="status" className="muted-line">{filtered.length ? `แสดง ${filtered.length} จาก ${chapters.length} ตอน` : "ไม่พบตอนที่ค้นหา ลองพิมพ์เลขตอนหรือคำในชื่อตอน"}</p>
       {renderRows(filtered)}
     </div>
   );

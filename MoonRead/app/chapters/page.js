@@ -3,10 +3,11 @@ import ChapterList from "../../components/ChapterList";
 import BottomNav from "../../components/BottomNav";
 import SiteFooter from "../../components/SiteFooter";
 import { getManifest, readerChapter } from "../../lib/chapters";
+import { chapterSearchParams } from "../../lib/chapter-search";
 
 export const metadata = { title: "สารบัญ | MoonRead" };
 
-export default function ChaptersPage() {
+export default async function ChaptersPage({ searchParams }) {
   const manifest = getManifest();
   const { novel, summary, chapters } = manifest;
 
@@ -20,7 +21,7 @@ export default function ChaptersPage() {
           <p>รวม {summary.available} ตอนที่พร้อมอ่าน — ตอนที่ยังไม่พร้อมจะแสดงเป็นรายการปิดไว้จนกว่าจะเข้าคลัง</p>
         </section>
 
-        <ChapterList chapters={chapters.map(readerChapter)} slug={novel.slug} />
+        <ChapterList chapters={chapters.map(readerChapter)} slug={novel.slug} initialSearch={chapterSearchParams(await searchParams)} />
       </main>
       <SiteFooter />
       <BottomNav />

@@ -19,3 +19,6 @@ export function filterChapters(chapters, query) {
     return title.includes(needle);
   });
 }
+export function chapterSearchParams(params) {
+  return new URLSearchParams(Object.entries(params).filter(([key, value]) => ["chapter", "order", "range"].includes(key) && typeof value === "string")).toString();
+}

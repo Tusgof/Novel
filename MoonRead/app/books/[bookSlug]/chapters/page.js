@@ -4,6 +4,7 @@ import ChapterList from "../../../../components/ChapterList";
 import BottomNav from "../../../../components/BottomNav";
 import SiteFooter from "../../../../components/SiteFooter";
 import { defaultBookSlug, getBookManifest, getBooks, readerChapter } from "../../../../lib/chapters";
+import { chapterSearchParams } from "../../../../lib/chapter-search";
 
 export function generateStaticParams() {
   return getBooks()
@@ -19,7 +20,7 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function BookChaptersPage({ params }) {
+export default async function BookChaptersPage({ params, searchParams }) {
   const { bookSlug } = await params;
   const manifest = getBookManifest(bookSlug);
 
@@ -50,7 +51,7 @@ export default async function BookChaptersPage({ params }) {
           <div className="stat-card"><b>{manifest.summary.total}</b><span>จำนวนตอนทั้งหมด</span></div>
         </section>
 
-        <ChapterList chapters={manifest.chapters.map(readerChapter)} slug={bookSlug} />
+        <ChapterList chapters={manifest.chapters.map(readerChapter)} slug={bookSlug} initialSearch={chapterSearchParams(await searchParams)} />
       </main>
 
       <SiteFooter />

@@ -121,14 +121,15 @@ export const ReaderStore = {
   },
 
   bookmarksFor(slug) { return getSnapshot().bookmarks[slug] || []; },
+  getBookmark(slug, id) { return ReaderStore.bookmarksFor(slug).find((b) => b.id === id); },
   isBookmarked(slug, id) { return (getSnapshot().bookmarks[slug] || []).some((b) => b.id === id); },
-  toggleBookmark(slug, chapter) {
+  toggleBookmark(slug, chapter, position) {
     const s = latest();
     const list = s.bookmarks[slug] || [];
     const exists = list.some((b) => b.id === chapter.id);
     const next = exists
       ? list.filter((b) => b.id !== chapter.id)
-      : [...list, { id: chapter.id, number: chapter.number, title: chapter.title, href: chapter.href }]
+      : [...list, { id: chapter.id, number: chapter.number, title: chapter.title, href: chapter.href, position }]
           .sort((a, b) => a.number - b.number);
     commit({ ...s, bookmarks: { ...s.bookmarks, [slug]: next } });
   },

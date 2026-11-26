@@ -5,9 +5,9 @@ import ChapterFinder from "./ChapterFinder";
 import { chapterNumber } from "../lib/chapter-number";
 import { useReaderStore } from "../lib/reader-store";
 
-export default function ChapterList({ chapters, slug }) {
+export default function ChapterList({ chapters, slug, initialSearch }) {
   const store = useReaderStore();
-  return <ChapterFinder chapters={chapters} renderRows={(filtered) => (
+  return <ChapterFinder chapters={chapters} initialSearch={initialSearch} renderRows={(filtered) => (
     <div className="toc-list">
       {filtered.map((chapter) => {
         const available = chapter.status === "available";

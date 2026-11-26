@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
@@ -64,18 +63,20 @@ export default function AppHeader() {
   return (
     <header className="appbar">
       <div className="appbar-inner">
-        <Link prefetch={false} className="brand" href="/" aria-label="หน้าแรก MoonRead">
+        {/* Use document navigation so the sticky bar cannot obscure the new page heading. */}
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+        <a className="brand" href="/" aria-label="หน้าแรก MoonRead">
           <Image src="/images/moonread-logo.svg" alt="MoonRead" width={168} height={44} priority />
-        </Link>
+        </a>
 
         <nav className="appbar-nav" aria-label="เมนูหลัก">
           {NAV.map((n) => {
             const Icon = n.icon;
             const active = n.match(pathname);
             return (
-              <Link prefetch={false} key={n.href} href={n.href} className={active ? "active" : undefined} aria-current={active ? "page" : undefined}>
+              <a key={n.href} href={n.href} className={active ? "active" : undefined} aria-current={active ? "page" : undefined}>
                 <Icon size={16} /> {n.label}
-              </Link>
+              </a>
             );
           })}
         </nav>

@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { Compass, Heart, History } from "lucide-react";
@@ -38,9 +37,9 @@ export default function BottomNav() {
         const Icon = n.icon;
         const active = n.match(pathname);
         return (
-          <Link prefetch={false} key={n.href} href={n.href} className={active ? "active" : undefined} aria-current={active ? "page" : undefined}>
+          <a key={n.href} href={n.href} className={active ? "active" : undefined} aria-current={active ? "page" : undefined}>
             <Icon size={20} /> {n.label}
-          </Link>
+          </a>
         );
       })}
     </nav>
