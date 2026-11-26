@@ -19,6 +19,8 @@ npm.cmd run dev -- --hostname 127.0.0.1
 
 The versioned `content/generated/` snapshot is enough to develop and verify the UI. Do not regenerate it for UI-only changes. `generate:chapters` reads the local translated output configured in `../00_Config/novel_registry.json` when preparing a separately approved content update.
 
+Current catalog covers and decorative search images use pre-sized WebP assets. When replacing a PNG source used by the catalog, update its counterpart in `public/images/reader/` so browsing stays independent of on-demand image conversion.
+
 The reader supports configured chapter ranges per book. Missing chapters are shown as unavailable until the source Markdown exists and passes validation.
 
 Reading position, chapter bookmarks, favorites, and reading settings are saved in the current browser, not an account. A bookmark added from the reader remembers the passage; older and chapter-list bookmarks open at the chapter start. A bookmark on the current chapter or an unread book opens for normal reading. If a different chapter already has saved progress, the bookmark opens in labeled review mode until you choose to save your place there. Clearing website data removes saved state.

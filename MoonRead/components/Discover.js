@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { LibraryBig, History, ChevronDown, ChevronRight, Search, ArrowDownWideNarrow, SlidersHorizontal, X } from "lucide-react";
 import Link from "next/link";
@@ -37,6 +37,12 @@ function Hero({ query, setQuery }) {
   const field = useRef(null);
   const previousQuery = useRef(query);
   const [initialValue] = useState(query);
+  const reconcileSearch = useEffectEvent(() => {
+    // Text entered in the native field while React loads still drives results.
+    if (field.current.value !== query) setQuery(field.current.value);
+  });
+
+  useEffect(() => { reconcileSearch(); }, []);
 
   useEffect(() => {
     if (previousQuery.current !== query && field.current.value !== query) field.current.value = query;
@@ -45,12 +51,25 @@ function Hero({ query, setQuery }) {
 
   return (
     <section className="hero">
-      <Image className="hero-cat" src="/images/cat-walking.png" alt="" width={440} height={440} sizes="(max-width: 560px) 52vw, 440px" />
+      <Image className="hero-cat" src="/images/reader/cat-walking.webp" unoptimized alt="" width={440} height={440} />
       <div className="hero-body">
         <span className="eyebrow">MoonRead</span>
         <h1>คลังนิยายแปลไทย</h1>
         <p>หาเรื่องที่อยากอ่าน แล้วกลับมาต่อได้จากที่ค้างไว้</p>
-        <form className="hero-search" action="/#catalog" method="get" role="search" aria-label="ค้นหาในคลังนิยาย">
+        <form className="hero-search" action="/#catalog" method="get" role="search" aria-label="ค้นหาในคลังนิยาย" onSubmit={(event) => {
+          const params = new URLSearchParams(window.location.search);
+          const value = field.current.value;
+          // Live search can already have put this query in the URL. In that
+          // case a native GET may only change the fragment and skip hydration.
+          if (value !== query || params.get("q") !== value || params.size !== 1) return;
+          event.preventDefault();
+          if (window.location.hash !== "#catalog") {
+            window.history.pushState(null, "", `${window.location.pathname}${window.location.search}#catalog`);
+          }
+          const results = document.getElementById("catalog-title");
+          results.focus({ preventScroll: true });
+          results.scrollIntoView({ block: "start", behavior: "instant" });
+        }}>
           <div className="searchbox">
             <span className="ic"><Search size={20} /></span>
             <input ref={field} type="search" name="q" defaultValue={initialValue} onChange={(e) => setQuery(e.target.value)} placeholder="ชื่อเรื่อง ผู้แต่ง หรือหมวด" aria-label="ค้นหานิยาย" />

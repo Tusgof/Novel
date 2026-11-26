@@ -693,6 +693,42 @@ test("reading progress stays visible beside a long title on narrow screens", asy
   }
 });
 
+test("Enter opens a focused story from both search results and the unfiltered catalog", async () => {
+  await withPage({ width: 1440, height: 900 }, async (page) => {
+    const imageConversions = [];
+    page.on("request", (request) => {
+      if (new URL(request.url()).pathname === "/_next/image") imageConversions.push(request.url());
+    });
+    await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+    const forDisplay = page.locator('.book-card a[href="/book"] img');
+    await forDisplay.scrollIntoViewIfNeeded();
+    await forDisplay.evaluate((image) => image.decode());
+    assert.match(await forDisplay.getAttribute("src"), /^\/images\/reader\/.*\.webp$/);
+    const search = page.locator(".hero-search input");
+    await search.fill("คำขาด");
+    await search.press("Enter");
+    await page.waitForFunction(() => document.activeElement?.id === "catalog-title");
+    await page.keyboard.press("Tab");
+    assert.equal(await activeIn(page, '#catalog .book-card a[href="/books/ten-day-ultimatum"]'), true);
+    await page.keyboard.press("Enter");
+    await page.waitForURL("**/books/ten-day-ultimatum");
+    await page.getByRole("heading", { level: 1, name: "คำขาดสิบวัน" }).waitFor();
+    await page.evaluate(() => document.fonts.ready.then(() => true));
+
+    await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+    const first = page.locator("#catalog .book-card a").first();
+    assert.equal(await first.getAttribute("href"), "/book");
+    for (let i = 0; i < 25 && !(await activeIn(page, '#catalog .book-card a[href="/book"]')); i++) await page.keyboard.press("Tab");
+    assert.equal(await activeIn(page, '#catalog .book-card a[href="/book"]'), true);
+    await page.keyboard.press("Enter");
+    await page.waitForURL("**/book");
+    await page.getByRole("heading", { level: 1, name: "เถ้าถ่านแห่งทะเลลึก" }).waitFor();
+    await page.locator(".detail-cover img").evaluate((image) => image.decode());
+    await page.evaluate(() => document.fonts.ready.then(() => true));
+    assert.deepEqual(imageConversions, [], "catalog and book artwork must not depend on runtime resizing");
+  }, { seeded: false });
+});
+
 test("explicit search supports the displayed author and offers close title suggestions", async () => {
   await withPage({ width: 1366, height: 900 }, async (page) => {
     await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
@@ -959,6 +995,7 @@ test("a search typed before hydration survives and submits the visible value", a
       release();
       await page.waitForLoadState("networkidle");
       assert.equal(await field.inputValue(), "คำขาด");
+      await page.waitForFunction(() => document.querySelectorAll("#catalog .book-card").length === 1);
       await field.press("Enter");
       await page.waitForURL((url) => url.searchParams.get("q") === "คำขาด" && url.hash === "#catalog");
       assert.equal(await page.locator("#catalog .book-card a").getAttribute("href"), "/books/ten-day-ultimatum");

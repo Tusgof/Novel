@@ -11,6 +11,12 @@ import { bookSynopsis } from "../lib/book-synopsis";
 
 function isLogo(cover) { return !cover || cover.includes("logo"); }
 const coverMarks = { "one-hit-kill-swordmaster": Swords, "ten-day-ultimatum": Hourglass };
+const optimizedCovers = new Set([
+  "deep-sea-embers-cover.png",
+  "horror-game-developer-cover.png",
+  "infinite-regressor-stories-cover.png",
+  "re-zero-watching-him-die-again-and-again-cover.png",
+]);
 
 export function Cover({ book, sizes = "(max-width: 860px) 45vw, 220px", priority = false }) {
   const { title, thaiTitle } = getBookTitlePair(book);
@@ -24,7 +30,10 @@ export function Cover({ book, sizes = "(max-width: 860px) 45vw, 220px", priority
       </div>
     );
   }
-  return <Image src={book.cover} alt="" fill sizes={sizes} fetchPriority={priority ? "high" : undefined} loading={priority ? "eager" : "lazy"} />;
+  const file = book.cover.slice("/images/".length);
+  const optimized = book.cover.startsWith("/images/") && optimizedCovers.has(file);
+  const src = optimized ? `/images/reader/${file.replace(/\.png$/, ".webp")}` : book.cover;
+  return <Image src={src} unoptimized={optimized || /^\/images\/[^/]+\.webp$/.test(src)} alt="" fill sizes={sizes} fetchPriority={priority ? "high" : undefined} loading={priority ? "eager" : "lazy"} />;
 }
 
 export function ProgressBar({ percent }) {
@@ -93,7 +102,7 @@ export function ResumeCard({ book, entry }) {
 export function EmptyState({ art = "cat-sleeping", title, children }) {
   return (
     <div className="empty">
-      <Image src={`/images/${art}.png`} alt="" width={200} height={200} />
+      <Image src={art === "cat-sleeping" ? "/images/reader/cat-sleeping.webp" : `/images/${art}.png`} unoptimized={art === "cat-sleeping"} alt="" width={200} height={200} />
       <h3>{title}</h3>
       <p>{children}</p>
     </div>
