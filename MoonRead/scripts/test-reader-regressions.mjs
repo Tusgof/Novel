@@ -6,12 +6,14 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 import { after, before, test } from "node:test";
 import { fileURLToPath } from "node:url";
-import { chromium } from "playwright";
-import { chapterNumber } from "../lib/chapter-number.js";
+import { chromium, firefox, webkit } from "playwright";
+import { chapterNumber, withNumberGaps } from "../lib/chapter-number.js";
 
 const appRoot = fileURLToPath(new URL("..", import.meta.url));
 const stateKey = "moonread-state-v1";
 const dseManifest = JSON.parse(fs.readFileSync(path.join(appRoot, "content/generated/manifest.json"), "utf8"));
+const engine = { chromium, firefox, webkit }[process.env.MOONREAD_BROWSER || "chromium"];
+if (!engine) throw new Error("MOONREAD_BROWSER must be chromium, firefox, or webkit");
 
 const seed = {
   progress: {
@@ -94,7 +96,7 @@ before(async () => {
   server.stdout.on("data", (chunk) => { serverOutput += chunk.toString(); });
   server.stderr.on("data", (chunk) => { serverOutput += chunk.toString(); });
   await waitForHttp(`${baseUrl}/`);
-  browser = await chromium.launch({ executablePath: chromium.executablePath() });
+  browser = await engine.launch({ executablePath: engine.executablePath() });
 });
 
 after(async () => {
@@ -244,7 +246,7 @@ test("toc search matches padded and unpadded episode numbers exactly", async () 
     await page.waitForTimeout(150);
     assert.ok((await sheet.locator(".ch-row").count()) >= 1, "title substring must still match");
     await input.fill("");
-    assert.equal(await sheet.locator(".ch-row").count(), dseManifest.summary.available, "blank query must show every available chapter");
+    assert.equal(await sheet.locator(".ch-row:not([data-gap])").count(), dseManifest.summary.available, "blank query must show every available chapter");
 
     await page.goto(`${baseUrl}/books/horror-game-developer`, { waitUntil: "networkidle" });
     const detailInput = page.locator('.toc-tools input[aria-label="ค้นหาตอน"]');
@@ -354,7 +356,7 @@ test("returning to the TOC preserves the passage for Back and book resume", asyn
     }, block);
     const leave = async () => {
       await page.getByRole("link", { name: "กลับไปสารบัญ" }).click();
-      await page.waitForURL(`**${horrorBook}/chapters`);
+      await page.waitForURL((url) => url.pathname === `${horrorBook}/chapters` && url.hash === "#chapter-ch003");
       await page.locator(".toc-list").waitFor();
       assert.equal((await storedState(page)).progress["horror-game-developer"].position.block, block);
     };
@@ -389,7 +391,8 @@ test("Back after leaving via TOC restores the visible chapter, including a skip-
     await page.waitForURL(`**${chapter}#main-content`);
     await page.evaluate(() => scrollTo({ top: 2200, behavior: "instant" }));
     await page.getByRole("link", { name: "กลับไปสารบัญ" }).click();
-    await page.waitForURL(`**${horrorBook}/chapters`);
+    await page.waitForURL((url) => url.pathname === `${horrorBook}/chapters` && url.hash === "#chapter-ch020");
+    await page.waitForFunction(() => document.activeElement?.id === "chapter-ch020");
     await page.goBack();
     await page.waitForURL(`**${chapter}#main-content`);
     await page.waitForFunction((expectedTitle) => document.querySelector(".reader-head h1")?.textContent === expectedTitle && scrollY > 2100, title);
@@ -478,6 +481,91 @@ test("printed Deep Sea Embers numbers agree with search without changing stable 
   }, { seeded: false });
 });
 
+test("long contents show a manageable range but search all published chapters", async () => {
+  await withPage({ width: 390, height: 800 }, async (page) => {
+    const longBook = "/books/investing-in-my-crippled-wife";
+    const manifest = JSON.parse(fs.readFileSync(path.join(appRoot, `content/generated${longBook}/manifest.json`), "utf8"));
+    const last = manifest.chapters.filter((chapter) => chapter.status === "available").at(-1);
+    await page.goto(`${baseUrl}${longBook}/chapters`, { waitUntil: "networkidle" });
+    const rows = page.locator(".toc-list .ch-row");
+    assert.equal(await rows.count(), 50);
+    await page.getByRole("combobox", { name: "เรียงตอน" }).selectOption("recent");
+    assert.equal(await rows.first().getAttribute("href"), last.href);
+    assert.equal(await rows.count(), (chapterNumber(last) - 1) % 50 + 1);
+    await page.getByRole("searchbox", { name: "ค้นหาตอน" }).fill("๑๕");
+    assert.equal(await rows.count(), 1);
+    assert.equal(await rows.first().getAttribute("href"), `${longBook}/read/ch015`);
+  }, { seeded: false });
+});
+
+test("search and contents restore results and the visible page after Back", async () => {
+  for (const width of [390, 1366]) {
+    await withPage({ width, height: 844 }, async (page) => {
+      await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+      const search = page.locator(".hero-search input");
+      await search.fill("Horror");
+      await search.press("Enter");
+      await page.waitForURL((url) => url.searchParams.get("q") === "Horror" && url.hash === "#catalog");
+      await page.locator(`#catalog .book-card a[href="${horrorBook}"]`).click();
+      await page.waitForURL(`**${horrorBook}`);
+      await page.goBack();
+      assert.equal(await search.inputValue(), "Horror");
+      assert.equal(await page.locator("#catalog .book-card a").count(), 1);
+      // Verify restored results with their actual fonts before navigating away.
+      await page.evaluate(() => document.fonts.ready.then(() => true));
+      await page.goForward();
+      await page.locator(".detail-info h1").waitFor();
+      await page.goto(`${baseUrl}${horrorBook}/chapters`, { waitUntil: "networkidle" });
+      const toc = page.getByRole("searchbox", { name: "ค้นหาตอน" });
+      await page.getByRole("combobox", { name: "เรียงตอน" }).selectOption("recent");
+      await toc.fill("๒๐");
+      await toc.press("Enter");
+      await page.waitForURL("**/read/ch020");
+      await page.goBack();
+      await page.waitForFunction(() => document.activeElement?.getAttribute("href")?.endsWith("/read/ch020"));
+      assert.equal(await toc.inputValue(), "๒๐");
+      assert.equal(await page.getByRole("combobox", { name: "เรียงตอน" }).inputValue(), "recent");
+    }, { seeded: false });
+  }
+});
+
+test("reader keeps the visible paragraph when settings and viewport reflow", async () => {
+  await withPage({ width: 390, height: 844 }, async (page) => {
+    await page.goto(`${baseUrl}/read/ch002`, { waitUntil: "networkidle" });
+    const visible = () => page.evaluate(() => {
+      const inset = document.querySelector(".reader-topbar").offsetHeight + 8;
+      return [...document.querySelector(".reader-article").children].findIndex((el) => el.getBoundingClientRect().bottom > inset);
+    });
+    await page.evaluate(() => scrollTo({ top: 4200, behavior: "instant" }));
+    const before = await visible();
+    await page.getByRole("button", { name: "ตั้งค่าการอ่าน" }).click();
+    await page.getByRole("slider", { name: "ขนาดตัวอักษร" }).press("End");
+    await page.getByRole("slider", { name: "ระยะบรรทัด" }).press("End");
+    await page.keyboard.press("Escape");
+    assert.ok(Math.abs((await visible()) - before) <= 1);
+    await page.setViewportSize({ width: 520, height: 844 });
+    await page.waitForFunction((expected) => {
+      const inset = document.querySelector(".reader-topbar").offsetHeight + 8;
+      const idx = [...document.querySelector(".reader-article").children].findIndex((el) => el.getBoundingClientRect().bottom > inset);
+      return Math.abs(idx - expected) <= 1;
+    }, before);
+  }, { seeded: false });
+});
+
+test("printed chapter gaps stay non-navigable, and Enter jumps to an available chapter", async () => {
+  const catalog = [{ id: "ch099", number: 99, title: "บทที่ 99: ก่อน", href: "/read/ch099" }, { id: "ch100", number: 100, title: "บทที่ 101: หลัง", href: "/read/ch100" }];
+  assert.deepEqual(withNumberGaps(catalog), [catalog[0], { id: "gap-100", number: 100, title: "", status: "missing", inferredGap: true }, catalog[1]]);
+  await withPage({ width: 390, height: 800 }, async (page) => {
+    await page.goto(`${baseUrl}/read/ch019`, { waitUntil: "networkidle" });
+    await page.getByRole("button", { name: "เปิดสารบัญ" }).click();
+    const input = page.getByRole("dialog").getByRole("textbox", { name: "ค้นหาตอน" });
+    await input.fill("๒๐");
+    await input.press("Enter");
+    await page.waitForURL("**/read/ch020");
+    assert.match(await page.locator(".reader-kicker").textContent(), /020/);
+  }, { seeded: false });
+});
+
 test("home search follows the URL, Back, and narrow history does not overflow", async () => {
   await withPage({ width: 1280, height: 900 }, async (page) => {
     await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
@@ -516,6 +604,49 @@ test("the catalog and query results are available without JavaScript", async () 
   } finally { await context.close(); }
 });
 
+test("mobile discovery and book detail keep the first decision visible", async () => {
+  for (const viewport of [{ width: 320, height: 667 }, { width: 390, height: 844 }]) {
+    await withPage(viewport, async (page) => {
+      await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+      const firstTitle = await page.locator(".book-card .t").first().boundingBox();
+      const nav = await page.locator(".botnav").boundingBox();
+      assert.ok(firstTitle.y + firstTitle.height < nav.y, "at least the first book title must be visible above the mobile menu");
+      await page.locator(".catalog-filters summary").click();
+      const chips = page.locator(".catalog-filters button.chip");
+      const count = await chips.count();
+      await chips.first().focus();
+      for (let index = 0; index < count; index++) {
+        await page.waitForFunction(() => document.activeElement.getBoundingClientRect().bottom <= document.querySelector(".botnav").getBoundingClientRect().top);
+        await page.keyboard.press("Tab");
+      }
+      await page.goto(`${baseUrl}${horrorBook}`, { waitUntil: "networkidle" });
+      const read = await page.getByRole("link", { name: "เริ่มอ่าน" }).boundingBox();
+      const synopsis = await page.locator(".detail-preview").boundingBox();
+      assert.ok(synopsis.y < read.y && read.y + read.height < nav.y);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), viewport.width);
+    }, { seeded: false });
+  }
+});
+
+test("a search typed before hydration survives and submits the visible value", async () => {
+  await withPage({ width: 390, height: 800 }, async (page) => {
+    let release;
+    const held = new Promise((resolve) => { release = resolve; });
+    await page.route("**/_next/static/**/*.js", async (route) => { await held; await route.continue(); });
+    try {
+      await page.goto(`${baseUrl}/`, { waitUntil: "commit" });
+      const field = page.locator(".hero-search input");
+      await field.fill("คำขาด");
+      release();
+      await page.waitForLoadState("networkidle");
+      assert.equal(await field.inputValue(), "คำขาด");
+      await field.press("Enter");
+      await page.waitForURL((url) => url.searchParams.get("q") === "คำขาด" && url.hash === "#catalog");
+      assert.equal(await page.locator("#catalog .book-card a").getAttribute("href"), "/books/ten-day-ultimatum");
+    } finally { release(); }
+  }, { seeded: false });
+});
+
 test("mobile search exposes the story, detail supports favorites, and bookmark review keeps resume", async () => {
   await withPage({ width: 360, height: 732 }, async (page) => {
     const book = "/books/ten-day-ultimatum";
@@ -530,8 +661,10 @@ test("mobile search exposes the story, detail supports favorites, and bookmark r
       return title && nav && title.top >= 65 && title.bottom < nav.top;
     });
     await item.click();
-    await page.getByRole("button", { name: "เรื่องย่อ" }).click();
-    assert.match(await page.locator(".section.about").textContent(), /คนแปลกหน้าสิบคน/);
+    await page.getByText("เรื่องย่อฉบับเต็ม", { exact: true }).click();
+    const synopsis = page.locator(".section.about");
+    await synopsis.waitFor({ state: "visible" });
+    assert.match(await synopsis.textContent(), /คนแปลกหน้าสิบคน/);
     await page.getByRole("button", { name: "บันทึกเรื่องโปรด" }).click();
     assert.equal(await page.getByRole("button", { name: "บันทึกแล้ว" }).getAttribute("aria-pressed"), "true");
 
@@ -543,10 +676,13 @@ test("mobile search exposes the story, detail supports favorites, and bookmark r
     await page.getByRole("dialog").locator(`a[href="${book}/read/ch002?review=1"]`).click();
     await page.locator(".reader-review").waitFor();
     assert.equal(await page.evaluate(() => scrollY), 0);
+    await page.evaluate(() => scrollTo({ top: 1000, behavior: "instant" }));
+    const quickReturn = page.locator(".reader-topbar").getByRole("link", { name: "กลับไปอ่านต่อ ตอน 003" });
+    assert.ok((await quickReturn.boundingBox()).y < 140, "return must stay in the sticky toolbar after scrolling");
     await page.locator(".reader-end").getByRole("link", { name: "กลับไปอ่านต่อ" }).click();
     await page.waitForFunction(() => document.querySelector(".reader-kicker")?.textContent.includes("003") && scrollY > 950);
     await page.getByRole("link", { name: "กลับไปสารบัญ" }).click();
-    await page.waitForURL(`**${book}/chapters`);
+    await page.waitForURL((url) => url.pathname === `${book}/chapters`);
     const marked = page.locator(`.toc-list a[href="${book}/read/ch002?review=1"]`);
     await marked.getByRole("img", { name: "คั่นไว้" }).waitFor();
     await page.goto(`${baseUrl}/shelf`);

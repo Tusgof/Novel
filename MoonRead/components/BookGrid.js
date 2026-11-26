@@ -2,22 +2,25 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { BookOpen, Sparkles, Heart, Clock3 } from "lucide-react";
+import { useId } from "react";
+import { BookOpen, Sparkles, Heart, Clock3, Hourglass, Swords } from "lucide-react";
 import { useReaderStore } from "../lib/reader-store";
 import { getBookTitlePair } from "../lib/book-titles";
 import { episodeLabel } from "../lib/chapter-number";
 import { bookSynopsis } from "../lib/book-synopsis";
 
 function isLogo(cover) { return !cover || cover.includes("logo"); }
+const coverMarks = { "one-hit-kill-swordmaster": Swords, "ten-day-ultimatum": Hourglass };
 
 export function Cover({ book, sizes = "(max-width: 860px) 45vw, 220px", priority = false }) {
-  const { title } = getBookTitlePair(book);
+  const { title, thaiTitle } = getBookTitlePair(book);
 
   if (isLogo(book.cover)) {
+    const Icon = coverMarks[book.slug];
     return (
-      <div className="cover-fallback" style={{ background: `linear-gradient(155deg, ${book.accent || "#1d2740"}, #0d1320)` }}>
-        <Image src="/icon.svg" alt="" width={52} height={52} />
-        <span className="ft">{title}</span>
+      <div className="cover-fallback" aria-hidden="true" data-series={book.slug}>
+        {Icon ? <Icon size={44} strokeWidth={1.5} /> : <Image src="/icon.svg" alt="" width={52} height={52} />}
+        <span className="ft">{thaiTitle || title}</span>
       </div>
     );
   }
@@ -28,23 +31,27 @@ export function ProgressBar({ percent }) {
   return <div className="progress"><i style={{ width: `${Math.max(3, percent)}%` }} /></div>;
 }
 
-export function BookCard({ book }) {
+export function BookCard({ book, fromSearch = false }) {
   const store = useReaderStore();
   const fav = store.isFavorite(book.slug);
   const prog = store.getProgress(book.slug);
   const available = book.summary?.available ?? 0;
   const { title, thaiTitle } = getBookTitlePair(book);
   const synopsis = bookSynopsis(book);
+  const headingId = useId();
 
+  // Keep search results in their own browser history document. A Next router
+  // snapshot can predate the query typed into this page's native search form.
+  const StoryLink = fromSearch ? "a" : Link;
   return (
     <article className="book-card">
-      <Link href={book.href}>
+      <StoryLink href={book.href} aria-labelledby={headingId}>
       <div className="cover">
         <Cover book={book} />
       </div>
       <div className="info">
-        <div className="t">{title}</div>
-        {thaiTitle ? <div className="th">{thaiTitle}</div> : null}
+        <h3 className="t" id={headingId}>{thaiTitle || title}</h3>
+        {thaiTitle ? <div className="th" lang="en">{title}</div> : null}
         <div className="meta">
           <span><BookOpen size={13} /> {available} ตอน</span>
           {book.tags?.[0] ? <span><Sparkles size={13} /> {book.tags[0]}</span> : null}
@@ -52,7 +59,7 @@ export function BookCard({ book }) {
         {synopsis ? <p className="synopsis-preview">{synopsis}</p> : null}
         {prog ? <div style={{ marginTop: 8 }}><ProgressBar percent={prog.percent} /></div> : null}
       </div>
-      </Link>
+      </StoryLink>
       <button className={`fav${fav ? " on" : ""}`} type="button" aria-label={`รายการโปรด: ${title}`} aria-pressed={fav} onClick={() => store.toggleFavorite(book.slug)}>
         <Heart size={19} fill={fav ? "currentColor" : "none"} />
       </button>

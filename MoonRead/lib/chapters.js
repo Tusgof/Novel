@@ -9,6 +9,13 @@ const libraryPath = path.join(generatedRoot, "library.json");
 
 export const defaultBookSlug = "deep-sea-embers";
 
+// Keep importer paths and metrics on the server, not in the reader payload.
+export function readerChapter(chapter) {
+  if (!chapter) return null;
+  const { id, number, title, status, href, readingMinutes, translator } = chapter;
+  return { id, number, title, status, href, readingMinutes, translator };
+}
+
 export function getManifest() {
   if (!fs.existsSync(manifestPath)) {
     return {

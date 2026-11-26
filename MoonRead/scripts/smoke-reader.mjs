@@ -188,12 +188,14 @@ async function main() {
     };
     if (infiniteBook?.firstChapter) {
       await page.goto(`${baseUrl}${infiniteBook.chaptersHref}`, { waitUntil: "networkidle" });
+      const range = page.getByRole("combobox", { name: "ช่วงตอน" });
+      if (await range.count()) await range.selectOption("");
       infiniteChaptersEvidence = await page.evaluate(({ chapterTitle, available }) => ({
         hasToc: document.body.innerText.includes("สารบัญ I'm an Infinite Regressor"),
         hasFirstChapter: document.body.innerText.includes(chapterTitle),
         hasAvailableCount: document.body.innerText.includes(`${available} ตอนที่พร้อมอ่าน`),
         hasAppbar: Boolean(document.querySelector(".appbar")),
-        hasTocRows: document.querySelectorAll(".toc-list .ch-row").length === available,
+        hasTocRows: document.querySelectorAll(".toc-list .ch-row:not([data-gap])").length === available,
         hasLegacyHeader: Boolean(document.querySelector(".site-header")),
       }), { chapterTitle: infiniteBook.firstChapter.title, available: infiniteBook.summary.available });
     }
@@ -211,9 +213,11 @@ async function main() {
       for (const viewport of [{ width: 1440, height: 1000 }, { width: 390, height: 844 }]) {
         await page.setViewportSize(viewport);
         await page.goto(`${baseUrl}${book.chaptersHref}`, { waitUntil: "networkidle" });
+        const range = page.getByRole("combobox", { name: "ช่วงตอน" });
+        if (await range.count()) await range.selectOption("");
         evidence.toc.push(await page.evaluate(({ count, hasLean, hasCode, hasPipe }) => ({
           width: window.innerWidth,
-          rowCountMatches: document.querySelectorAll(".toc-list .ch-row").length === count,
+          rowCountMatches: document.querySelectorAll(".toc-list .ch-row:not([data-gap])").length === count,
           labelsMatch: (!hasLean || document.body.innerText.includes("[Lean]")) &&
             (!hasCode || document.body.innerText.includes("[Code]")) &&
             (!hasPipe || document.body.innerText.includes("[Pipe]")),

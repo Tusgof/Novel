@@ -3,7 +3,7 @@ import AppHeader from "../../../components/AppHeader";
 import BottomNav from "../../../components/BottomNav";
 import SiteFooter from "../../../components/SiteFooter";
 import BookDetail from "../../../components/BookDetail";
-import { defaultBookSlug, getBookManifest, getBooks } from "../../../lib/chapters";
+import { defaultBookSlug, getBookManifest, getBooks, readerChapter } from "../../../lib/chapters";
 
 export function generateStaticParams() {
   return getBooks()
@@ -38,7 +38,7 @@ export default async function MultiBookPage({ params }) {
   return (
     <>
       <AppHeader />
-      <BookDetail book={book} chapters={chapters} />
+      <BookDetail book={book} chapters={chapters.map(readerChapter)} />
       <SiteFooter />
       <BottomNav />
     </>

@@ -87,3 +87,5 @@ npm.cmd run smoke
 ```
 
 `test:reader` and `smoke` use temporary local Next.js servers and fresh Playwright Chromium contexts, with no signed-in browser profile. `smoke` writes screenshots and a JSON result; set `MOONREAD_SMOKE_OUTPUT_DIR` to a task-owned directory outside the checkout.
+
+For cross-engine checks install the Playwright engine (`npx.cmd playwright install firefox webkit`) and set `MOONREAD_BROWSER` to `firefox` or `webkit` for `test:reader`. These are engine checks, not physical-device tests.

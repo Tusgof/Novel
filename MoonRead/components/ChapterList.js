@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { Bookmark, CheckCircle2, Clock3, Lock, XCircle } from "lucide-react";
 import ChapterFinder from "./ChapterFinder";
 import { chapterNumber } from "../lib/chapter-number";
@@ -22,8 +21,8 @@ export default function ChapterList({ chapters, slug }) {
           <span className="cm"><Clock3 size={13} /> {available ? `${chapter.readingMinutes} น.` : chapter.status === "rejected" ? "รอตรวจไฟล์" : "ยังไม่พร้อม"}</span>
           <span className={`ch-state ${chapter.status}`}><Icon size={18} fill={marked ? "currentColor" : "none"} aria-label={marked ? "คั่นไว้" : undefined} role={marked ? "img" : undefined} /></span>
         </>;
-        return available ? <Link className="ch-row" href={review ? `${chapter.href}?review=1` : chapter.href} key={chapter.id} prefetch={false}>{inner}</Link>
-          : <div className="ch-row disabled" key={chapter.id} aria-disabled="true">{inner}</div>;
+        return available ? <a id={`chapter-${chapter.id}`} className="ch-row" href={review ? `${chapter.href}?review=1` : chapter.href} key={chapter.id}>{inner}</a>
+          : <div className="ch-row disabled" key={chapter.id} aria-disabled="true" data-gap={chapter.inferredGap || undefined}>{inner}</div>;
       })}
     </div>
   )} />;

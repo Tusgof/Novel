@@ -3,7 +3,7 @@ import AppHeader from "../../../../components/AppHeader";
 import ChapterList from "../../../../components/ChapterList";
 import BottomNav from "../../../../components/BottomNav";
 import SiteFooter from "../../../../components/SiteFooter";
-import { defaultBookSlug, getBookManifest, getBooks } from "../../../../lib/chapters";
+import { defaultBookSlug, getBookManifest, getBooks, readerChapter } from "../../../../lib/chapters";
 
 export function generateStaticParams() {
   return getBooks()
@@ -50,7 +50,7 @@ export default async function BookChaptersPage({ params }) {
           <div className="stat-card"><b>{manifest.summary.total}</b><span>จำนวนตอนทั้งหมด</span></div>
         </section>
 
-        <ChapterList chapters={manifest.chapters} slug={bookSlug} />
+        <ChapterList chapters={manifest.chapters.map(readerChapter)} slug={bookSlug} />
       </main>
 
       <SiteFooter />

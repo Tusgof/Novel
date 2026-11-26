@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import {
   AlignLeft, BookOpen, Bookmark, ChevronLeft, ChevronRight, List, Menu,
-  Moon, Search, Settings2, Sun, Type, X, ArrowRight,
+  Moon, Search, Sun, Type, X, ArrowRight,
 } from "lucide-react";
 import { ReaderStore, useReaderStore } from "../lib/reader-store";
 import { filterChapters } from "../lib/chapter-search";
-import { chapterNumber, episodeLabel as chapterLabel } from "../lib/chapter-number";
+import { chapterNumber, episodeLabel as chapterLabel, withNumberGaps } from "../lib/chapter-number";
 
 const readingFonts = [
   { id: "sarabun", label: "Sarabun", note: "สมดุล อ่านสบาย ใช้งานได้ยาว", var: "var(--reader-font-sarabun)" },
@@ -117,7 +117,15 @@ function readingPosition(article, inset) {
     else hi = mid;
   }
   const rect = blocks[lo]?.getBoundingClientRect();
-  return rect && rect.top <= inset ? { block: lo, fraction: (inset - rect.top) / Math.max(1, rect.height) } : null;
+  if (!rect || (lo === 0 && rect.top > inset)) return null;
+  return { block: lo, fraction: Math.max(0, inset - rect.top) / Math.max(1, rect.height) };
+}
+
+function restorePosition(article, bar, position) {
+  const rect = Number.isInteger(position?.block) ? article?.children[position.block]?.getBoundingClientRect() : null;
+  if (!rect || !Number.isFinite(position.fraction)) return false;
+  scrollToReadingPosition(window.scrollY + rect.top + rect.height * Math.min(1, Math.max(0, position.fraction)) - (bar?.offsetHeight || 0) - 8);
+  return true;
 }
 
 export default function ReaderShell({ chapter, neighbors, chapters, blocks, book }) {
@@ -147,6 +155,7 @@ export default function ReaderShell({ chapter, neighbors, chapters, blocks, book
     if (cached.current.size > 24) cached.current.delete(cached.current.keys().next().value);
     activeHref.current = href;
     window.history.pushState({ moonreadChapter: true }, "", review ? `${href}?review=1` : href);
+    scrollToReadingPosition(0);
     setCurrent(content);
   }, []);
 
@@ -179,6 +188,8 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
   const flushPosition = useRef(null);
   const leaving = useRef(false);
   const reviewing = useRef(false);
+  const layoutAnchor = useRef(null);
+  const settingsAnchor = useRef(null);
 
   useEffect(() => {
     if (!tocOpen || !activeChapter.current) return;
@@ -227,8 +238,31 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
   }
 
   function update(patch) {
+    if (["fontFamily", "fontSize", "lineHeight", "width", "paragraphSpacing"].some((key) => key in patch && patch[key] !== settings[key])) {
+      layoutAnchor.current = settingsAnchor.current || (article.current && window.scrollY > 0 ? readingPosition(article.current, (topbar.current?.offsetHeight || 0) + 8) : null);
+    }
     store.setReader(patch);
   }
+
+  useLayoutEffect(() => {
+    const anchor = layoutAnchor.current;
+    if (!anchor) return;
+    layoutAnchor.current = null;
+    restorePosition(article.current, topbar.current, anchor);
+    let active = true;
+    const alignedY = window.scrollY;
+    void document.fonts.ready.then(() => {
+      if (active && Math.abs(window.scrollY - alignedY) < 12) restorePosition(article.current, topbar.current, anchor);
+    });
+    return () => { active = false; };
+  }, [settings.fontFamily, settings.fontSize, settings.lineHeight, settings.width, settings.paragraphSpacing]);
+
+  useLayoutEffect(() => {
+    if (settingsOpen || !settingsAnchor.current) return;
+    const anchor = settingsAnchor.current;
+    settingsAnchor.current = null;
+    restorePosition(article.current, topbar.current, anchor);
+  }, [settingsOpen]);
 
   useEffect(() => {
     const saved = ReaderStore.getChapterPosition(slug, chapter.id);
@@ -237,7 +271,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
     reviewing.current = params.has("review");
     if (restart) window.history.replaceState(window.history.state, "", chapter.href);
     document.title = book?.title && slug !== "deep-sea-embers" ? `${chapter.title} | ${book.title} | MoonRead` : `${chapter.title} | MoonRead`;
-    let ready = false, disposed = false, saveTimer, frame, pending;
+    let ready = false, disposed = false, saveTimer, frame, pending, lastAnchor;
     const inset = () => (topbar.current?.offsetHeight || 0) + 8;
     const flush = () => {
       clearTimeout(saveTimer);
@@ -254,6 +288,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
       setAtEnd(end);
       if (!end) setCountdown(null);
       const position = window.scrollY > 0 && article.current ? readingPosition(article.current, inset()) : null;
+      lastAnchor = position;
       pending = { chapterId: chapter.id, number: chapter.number, title: chapter.title, href: chapter.href, percent: Math.round(pct), position };
       clearTimeout(saveTimer);
       saveTimer = setTimeout(flush, 250);
@@ -266,6 +301,9 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
     flushPosition.current = onPageExit;
     const onVisibility = () => { if (document.hidden) onPageExit(); };
     const onPageReturn = (event) => { if (event.persisted) leaving.current = false; };
+    const onResize = () => {
+      if (ready && !leaving.current) { restorePosition(article.current, topbar.current, lastAnchor); onScroll(); }
+    };
     // Wait for persisted reader styles and loaded web fonts before measuring.
     frame = requestAnimationFrame(async () => {
       await document.fonts.ready;
@@ -273,16 +311,16 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
       const position = saved?.position;
       setReview(reviewing.current);
       if (!restart && !reviewing.current && saved?.chapterId === chapter.id && (position || saved.percent > 0)) {
-        const rect = Number.isInteger(position?.block) ? article.current?.children[position.block]?.getBoundingClientRect() : null;
         const max = document.documentElement.scrollHeight - window.innerHeight;
-        scrollToReadingPosition(rect && Number.isFinite(position.fraction)
-          ? window.scrollY + rect.top + rect.height * Math.min(1, Math.max(0, position.fraction)) - inset()
-          : max * saved.percent / 100);
-      } else scrollToReadingPosition(0);
+        if (!restorePosition(article.current, topbar.current, position)) scrollToReadingPosition(max * saved.percent / 100);
+      } else if (restart || reviewing.current || window.history.state?.moonreadChapter) {
+        scrollToReadingPosition(0);
+      }
       ready = true;
       measure();
       if (window.history.state?.moonreadChapter) heading.current?.focus({ preventScroll: true });
       window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onResize);
       window.addEventListener("pagehide", onPageExit);
       window.addEventListener("pageshow", onPageReturn);
       document.addEventListener("visibilitychange", onVisibility);
@@ -292,6 +330,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
       flushPosition.current = null;
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
       window.removeEventListener("pagehide", onPageExit);
       window.removeEventListener("pageshow", onPageReturn);
       document.removeEventListener("visibilitychange", onVisibility);
@@ -327,7 +366,12 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
 
   function cancelCountdown() { setCountdown(null); setCountdownAllowed(false); }
   function openToc(event) { dialogOpener.current = event.currentTarget; if (atEnd) cancelCountdown(); setTocQuery(""); setTocOpen(true); }
-  function openSettings(event) { dialogOpener.current = event.currentTarget; if (atEnd) cancelCountdown(); setSettingsOpen(true); }
+  function openSettings(event) {
+    dialogOpener.current = event.currentTarget;
+    settingsAnchor.current = article.current && window.scrollY > 0 && !atEnd ? readingPosition(article.current, (topbar.current?.offsetHeight || 0) + 8) : null;
+    if (atEnd) cancelCountdown();
+    setSettingsOpen(true);
+  }
   const shownCountdown = atEnd && countdownAllowed ? countdown : null;
 
   const readerStyle = {
@@ -341,13 +385,20 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
   const bookmarked = store.isBookmarked(slug, chapter.id);
   const resume = store.getProgress(slug);
   const resumeHref = review && chapters.some((item) => item.href === resume?.href) ? resume.href : null;
-  const tocFiltered = filterChapters(chapters, tocQuery);
+  const tocFiltered = useMemo(() => filterChapters(withNumberGaps(chapters), tocQuery), [chapters, tocQuery]);
+  const nextNumber = neighbors.next && chapterNumber(neighbors.next);
+  const missingStart = chapterNumber(chapter) + 1;
+  const gap = nextNumber > missingStart && nextNumber - missingStart < 50;
+  const missingLabel = nextNumber === missingStart + 1 ? String(missingStart) : `${missingStart}–${nextNumber - 1}`;
+  const homeToc = book?.chaptersHref || "/chapters";
+  const rangeStart = Math.floor((chapterNumber(chapter) - 1) / 50) * 50 + 1;
+  const tocHref = `${homeToc}?range=${rangeStart}#chapter-${chapter.id}`;
 
   return (
     <main className={`reader-page theme-${settings.theme}`} style={readerStyle}>
       <div inert={tocOpen || settingsOpen}>
       <div ref={topbar} className="reader-topbar">
-        <Link href={book?.chaptersHref || "/chapters"} onNavigate={(e) => follow(e, book?.chaptersHref || "/chapters")} className="icon-button" aria-label="กลับไปสารบัญ"><ChevronLeft size={20} /></Link>
+        <Link prefetch={false} href={tocHref} onNavigate={(e) => follow(e, tocHref)} className="icon-button" aria-label="กลับไปสารบัญ"><ChevronLeft size={20} /></Link>
         <div className="reader-top-title">
           <strong>{chapter.title}</strong>
           <span>{`${book?.title || "MoonRead"} · ${Math.round(progress)}%`}</span>
@@ -355,9 +406,14 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
         <div className="reader-top-actions">
           <button className="icon-button" type="button" onClick={() => store.toggleBookmark(slug, chapter)} aria-label="คั่นหน้า" aria-pressed={bookmarked}><Bookmark size={19} fill={bookmarked ? "currentColor" : "none"} color={bookmarked ? "var(--gold)" : undefined} /></button>
           <button className="icon-button" type="button" onClick={openToc} aria-label="เปิดสารบัญ"><List size={20} /></button>
-          <button className="icon-button" type="button" onClick={openSettings} aria-label="ตั้งค่าการอ่าน"><Settings2 size={20} /></button>
+          <button className="icon-button settings-trigger" type="button" onClick={openSettings} aria-label="ตั้งค่าการอ่าน"><span aria-hidden="true">Aa</span></button>
         </div>
         <span className="progress-line" style={{ transform: `scaleX(${progress / 100})` }} />
+        {resumeHref ? <a className="review-toolbar-link" href={resumeHref}>กลับไปอ่านต่อ {chapterLabel(resume)} <ArrowRight size={16} /></a> : null}
+        <nav className="reader-stepper" aria-label="เปลี่ยนตอนระหว่างอ่าน">
+          {neighbors.previous ? <Link prefetch={false} href={neighbors.previous.href} onNavigate={(e) => follow(e, neighbors.previous.href)}><ChevronLeft size={16} /> ตอนก่อนหน้า</Link> : <span />}
+          {neighbors.next ? <Link prefetch={false} className="reader-quick-next" href={neighbors.next.href} onNavigate={(e) => follow(e, neighbors.next.href)}>ตอนถัดไป <ChevronRight size={16} /></Link> : <span />}
+        </nav>
         {loadingHref ? <div className="reader-retry" role="status">กำลังเปิดหน้า…</div> : null}
         {failure ? <div className="reader-retry"><span role="status">เปิดหน้าไม่ได้ คุณยังอ่านตอนนี้ต่อได้</span><button type="button" onClick={() => void navigate(failure.href, failure)}>ลองอีกครั้ง</button></div> : null}
       </div>
@@ -365,7 +421,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
       <section className="reader-head">
         <span className="reader-kicker">{chapterLabel(chapter)}</span>
         <h1 ref={heading} tabIndex={-1}>{chapter.title}</h1>
-        {review ? <div className="reader-review"><p>โหมดอ่านทวน · ไม่เปลี่ยนตำแหน่งอ่านค้างไว้</p>{resumeHref ? <a className="pill-btn ghost" href={resumeHref}>กลับไปอ่านต่อ {chapterLabel(resume)}</a> : null}</div> : null}
+        {review ? <p className="reader-review">โหมดอ่านทวน · ไม่เปลี่ยนตำแหน่งอ่านค้างไว้</p> : null}
         <div className="reader-meta">
           <span><BookOpen size={14} /> {book?.title || "MoonRead"}</span>
           <span><Type size={14} /> ~{chapter.readingMinutes} นาที</span>
@@ -396,10 +452,11 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
             <div className="nx">
               <small role="status">{shownCountdown !== null ? "กำลังไปตอนถัดไปอัตโนมัติ…" : "ตอนถัดไป"}</small>
               <strong>{chapterLabel(neighbors.next)} · {neighbors.next.title}</strong>
+              {gap ? <small>ตอน {missingLabel} ยังไม่พร้อมอ่านบน MoonRead</small> : null}
             </div>
             {shownCountdown !== null
               ? <button className="pill-btn ghost" type="button" onClick={cancelCountdown}>ยกเลิก</button>
-              : <Link className="pill-btn primary" href={neighbors.next.href} onNavigate={(e) => follow(e, neighbors.next.href)}>อ่านต่อ <ArrowRight size={17} /></Link>}
+              : <Link prefetch={false} className="pill-btn primary" href={neighbors.next.href} onNavigate={(e) => follow(e, neighbors.next.href)}>อ่านต่อ <ArrowRight size={17} /></Link>}
           </div>
         ) : (
           <div className="next-card"><div className="nx"><small>จบเท่าที่มีในตอนนี้</small><strong>ขอบคุณที่อ่านกับ MoonRead 🌙</strong></div></div>
@@ -408,10 +465,10 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
 
       <nav className="reader-bottom-nav" aria-label="ไปยังตอนก่อนหน้าหรือถัดไป">
         {neighbors.previous ? (
-          <Link href={neighbors.previous.href} onNavigate={(e) => follow(e, neighbors.previous.href)}><ChevronLeft size={20} /><span><small>{chapterLabel(neighbors.previous)}</small><strong>{neighbors.previous.title}</strong></span></Link>
+          <Link prefetch={false} href={neighbors.previous.href} onNavigate={(e) => follow(e, neighbors.previous.href)}><ChevronLeft size={20} /><span><small>{chapterLabel(neighbors.previous)}</small><strong>{neighbors.previous.title}</strong></span></Link>
         ) : <span className="nav-placeholder" />}
         {neighbors.next ? (
-          <Link className="next" href={neighbors.next.href} onNavigate={(e) => follow(e, neighbors.next.href)}><span><small>{chapterLabel(neighbors.next)}</small><strong>{neighbors.next.title}</strong></span><ChevronRight size={20} /></Link>
+          <Link prefetch={false} className="next" href={neighbors.next.href} onNavigate={(e) => follow(e, neighbors.next.href)}><span><small>{chapterLabel(neighbors.next)}</small><strong>{neighbors.next.title}</strong></span><ChevronRight size={20} /></Link>
         ) : <span className="nav-placeholder" />}
       </nav>
 
@@ -425,10 +482,11 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
               <button className="icon-button" type="button" onClick={() => setTocOpen(false)} aria-label="ปิดสารบัญ"><X size={20} /></button>
             </div>
             <div className="searchbox"><span className="ic"><Search size={17} /></span>
-              <input value={tocQuery} onChange={(e) => setTocQuery(e.target.value)} placeholder="กระโดดไปตอน…" aria-label="ค้นหาตอน" /></div>
+              <input value={tocQuery} onChange={(e) => setTocQuery(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter" && !e.nativeEvent.isComposing && tocQuery.trim() && tocFiltered.length === 1 && tocFiltered[0].href) tocRef.current?.querySelector(".sheet-toc a[href]")?.click(); }} placeholder="กระโดดไปตอน…" aria-label="ค้นหาตอน" /></div>
             <div className="toc-list sheet-toc">
               {!tocFiltered.length ? <p role="status" className="muted-line">ไม่พบตอนที่ค้นหา ลองพิมพ์เลขตอนหรือคำในชื่อตอน</p> : null}
               {tocFiltered.map((item) => {
+                if (!item.href) return <div key={item.id} className="ch-row disabled" aria-disabled="true" data-gap="true"><span className="num">{item.number}</span><span className="ct"><strong>{chapterLabel(item)} ยังไม่พร้อมอ่าน</strong></span></div>;
                 const isCurrent = item.id === chapter.id;
                 const marked = store.isBookmarked(slug, item.id);
                 const reviewTarget = review || (marked && !isCurrent && resume?.chapterId !== item.id);
@@ -465,7 +523,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
               <label htmlFor="reader-line"><span><AlignLeft size={16} /> ระยะบรรทัด</span><span className="v" aria-hidden="true">{Number(settings.lineHeight).toFixed(2)}</span></label>
               <input id="reader-line" type="range" min="1.6" max="2.4" step="0.05" value={settings.lineHeight} onChange={(e) => update({ lineHeight: Number(e.target.value) })} />
             </div>
-            <div className="field">
+            <div className="field reader-width-field">
               <label htmlFor="reader-width"><span><Menu size={16} /> ความกว้างหน้าอ่าน</span><span className="v" aria-hidden="true">{settings.width}px</span></label>
               <input id="reader-width" type="range" min="600" max="900" step="20" value={settings.width} onChange={(e) => update({ width: Number(e.target.value) })} />
             </div>

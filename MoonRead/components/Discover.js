@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { LibraryBig, History, ChevronRight, Search, ArrowDownWideNarrow, X } from "lucide-react";
+import { LibraryBig, History, ChevronDown, ChevronRight, Search, ArrowDownWideNarrow, SlidersHorizontal, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useReaderStore } from "../lib/reader-store";
@@ -16,19 +16,28 @@ const SORTS = [
 ];
 
 function Hero({ query, setQuery }) {
+  const field = useRef(null);
+  const previousQuery = useRef(query);
+  const [initialValue] = useState(query);
+
+  useEffect(() => {
+    if (previousQuery.current !== query && field.current.value !== query) field.current.value = query;
+    previousQuery.current = query;
+  }, [query]);
+
   return (
     <section className="hero">
       <Image className="hero-cat" src="/images/cat-walking.png" alt="" width={440} height={440} sizes="(max-width: 560px) 52vw, 440px" />
       <div className="hero-body">
-        <span className="eyebrow">MoonRead · ชั้นนิยายแปลไทย</span>
-        <h1>ค่ำคืนนี้<br />อ่านอะไรดี?</h1>
-        <p>รวมนิยายแปลไทยที่จัดหน้าให้อ่านยาวได้สบายตา เลือกเรื่องโปรด คั่นหน้าไว้ แล้วกลับมาอ่านต่อได้ทุกเมื่อ</p>
-        <form className="hero-search" action="/#catalog" role="search" aria-label="ค้นหาในคลังนิยาย">
+        <span className="eyebrow">MoonRead</span>
+        <h1>คลังนิยายแปลไทย</h1>
+        <p>หาเรื่องที่อยากอ่าน แล้วกลับมาต่อได้จากที่ค้างไว้</p>
+        <form className="hero-search" action="/#catalog" method="get" role="search" aria-label="ค้นหาในคลังนิยาย">
           <div className="searchbox">
             <span className="ic"><Search size={20} /></span>
-            <input type="search" name="q" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="ชื่อเรื่อง ผู้แต่ง หรือหมวด" aria-label="ค้นหานิยาย" />
+            <input ref={field} type="search" name="q" defaultValue={initialValue} onChange={(e) => setQuery(e.target.value)} placeholder="ชื่อเรื่อง ผู้แต่ง หรือหมวด" aria-label="ค้นหานิยาย" />
             <button type="submit" className="ic clear" aria-label="ไปยังผลการค้นหา"><ChevronRight size={19} /></button>
-            {query ? <button type="button" className="ic clear" onClick={() => setQuery("")} aria-label="ล้างคำค้น"><X size={16} /></button> : null}
+            {query ? <button type="button" className="ic clear" onClick={() => { field.current.value = ""; setQuery(""); field.current.focus(); }} aria-label="ล้างคำค้น"><X size={16} /></button> : null}
           </div>
         </form>
       </div>
@@ -73,7 +82,9 @@ export default function Discover({ books, genres, initialQuery }) {
     .map((h) => ({ h, book: books.find((b) => b.slug === h.slug) }))
     .filter((x) => x.book);
   const filters = (
-    <div className="filterbar">
+    <details className="catalog-filters">
+      <summary><SlidersHorizontal size={16} /> หมวดและการเรียง{active.length ? ` (${active.length} หมวด)` : ""}<ChevronDown size={15} /></summary>
+      <div className="filterbar">
       <div className="chips">
         <button className={`chip${!active.length ? " on" : ""}`} aria-pressed={!active.length} onClick={() => setActive([])}>ทั้งหมด</button>
         {genres.map((g) => (
@@ -86,7 +97,14 @@ export default function Discover({ books, genres, initialQuery }) {
           {SORTS.map((s) => <option key={s.id} value={s.id}>{s.label}</option>)}
         </select>
       </label>
-    </div>
+      <button className="pill-btn primary filter-apply" type="button" onClick={(event) => {
+        event.currentTarget.closest("details").open = false;
+        const results = document.getElementById("catalog-title");
+        results.focus({ preventScroll: true });
+        results.scrollIntoView({ block: "start" });
+      }}>แสดง {list.length} เรื่อง</button>
+      </div>
+    </details>
   );
 
   return (
@@ -107,13 +125,14 @@ export default function Discover({ books, genres, initialQuery }) {
 
       <section className={`section${q ? " query-results" : ""}`} id="catalog">
         <div className="section-head">
-          <h2 aria-live="polite"><LibraryBig size={20} /> {filtering ? `ผลการค้นหา (${list.length})` : "นิยายทั้งหมด"}</h2>
+          <h2 id="catalog-title" tabIndex={-1} aria-live="polite"><LibraryBig size={20} /> {filtering ? `ผลการค้นหา (${list.length})` : "นิยายทั้งหมด"}</h2>
+          {!filtering ? <span className="catalog-count">{list.length} เรื่อง</span> : null}
         </div>
 
         {!q ? filters : null}
 
         {list.length ? (
-          <div className="book-grid">{list.map((b) => <BookCard key={b.slug} book={b} />)}</div>
+          <div className="book-grid">{list.map((b) => <BookCard key={b.slug} book={b} fromSearch={Boolean(q)} />)}</div>
         ) : (
           <EmptyState art="cat-sleeping" title="ไม่พบนิยายที่ค้นหา">
             ลองเปลี่ยนคำค้น หรือ <button className="text-button" type="button" onClick={() => { setQuery(""); setActive([]); }}>ล้างคำค้นและตัวกรอง</button>

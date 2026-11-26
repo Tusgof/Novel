@@ -14,3 +14,14 @@ export function chapterNumber(chapter) {
 export function episodeLabel(chapter) {
   return `ตอน ${String(chapterNumber(chapter)).padStart(3, "0")}`;
 }
+
+export function withNumberGaps(chapters) {
+  const numbered = chapters.map(chapterNumber);
+  if (!numbered.every((n, i) => !i || (n > numbered[i - 1] && n - numbered[i - 1] <= 50))) return chapters;
+  return chapters.flatMap((chapter, i) => {
+    if (!i || numbered[i] === numbered[i - 1] + 1) return [chapter];
+    const gaps = [];
+    for (let n = numbered[i - 1] + 1; n < numbered[i]; n++) gaps.push({ id: `gap-${n}`, number: n, title: "", status: "missing", inferredGap: true });
+    return [...gaps, chapter];
+  });
+}

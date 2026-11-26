@@ -1,4 +1,4 @@
-import { getBookChapter, getBookChapterMarkdown, getBookChapterNeighbors, getBooks, markdownToBlocks } from "../../../../lib/chapters";
+import { getBookChapter, getBookChapterMarkdown, getBookChapterNeighbors, getBooks, markdownToBlocks, readerChapter } from "../../../../lib/chapters";
 
 export async function GET(_request, { params }) {
   const { bookSlug, chapterId } = await params;
@@ -6,5 +6,6 @@ export async function GET(_request, { params }) {
   const chapter = getBookChapter(bookSlug, chapterId);
   const markdown = chapter && getBookChapterMarkdown(bookSlug, chapterId);
   if (!markdown) return new Response(null, { status: 404 });
-  return Response.json({ chapter, neighbors: getBookChapterNeighbors(bookSlug, chapterId), blocks: markdownToBlocks(markdown) });
+  const { previous, next } = getBookChapterNeighbors(bookSlug, chapterId);
+  return Response.json({ chapter: readerChapter(chapter), neighbors: { previous: readerChapter(previous), next: readerChapter(next) }, blocks: markdownToBlocks(markdown) });
 }

@@ -18,8 +18,9 @@ export function ShelfView({ books }) {
 
   return (
     <main className="page shell" id="main-content" tabIndex={-1}>
+      <div className="section-head shelf-heading"><h1>ชั้นหนังสือ</h1><a className="more" href="#chapter-bookmarks">ไปที่ที่คั่นตอน</a></div>
       <section className="section" style={{ marginTop: 24 }}>
-        <div className="section-head"><h1><Heart size={20} /> รายการโปรด</h1></div>
+        <div className="section-head"><h2><Heart size={20} /> รายการโปรด</h2></div>
         {favBooks.length ? (
           <div className="book-grid">{favBooks.map((b) => <BookCard key={b.slug} book={b} />)}</div>
         ) : (
@@ -27,7 +28,7 @@ export function ShelfView({ books }) {
         )}
       </section>
 
-      <section className="section">
+      <section className="section" id="chapter-bookmarks">
         <div className="section-head"><h2><Bookmark size={20} /> ที่คั่นตอน</h2></div>
         {marked.length ? marked.map(({ book, marks }) => {
           const { title } = getBookTitlePair(book);

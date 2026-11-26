@@ -2,7 +2,7 @@ import AppHeader from "../../components/AppHeader";
 import ChapterList from "../../components/ChapterList";
 import BottomNav from "../../components/BottomNav";
 import SiteFooter from "../../components/SiteFooter";
-import { getManifest } from "../../lib/chapters";
+import { getManifest, readerChapter } from "../../lib/chapters";
 
 export const metadata = { title: "สารบัญ | MoonRead" };
 
@@ -20,7 +20,7 @@ export default function ChaptersPage() {
           <p>รวม {summary.available} ตอนที่พร้อมอ่าน — ตอนที่ยังไม่พร้อมจะแสดงเป็นรายการปิดไว้จนกว่าจะเข้าคลัง</p>
         </section>
 
-        <ChapterList chapters={chapters} slug={novel.slug} />
+        <ChapterList chapters={chapters.map(readerChapter)} slug={novel.slug} />
       </main>
       <SiteFooter />
       <BottomNav />
