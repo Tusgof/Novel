@@ -293,6 +293,8 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
         const bounds = action?.getBoundingClientRect();
         if (!bounds || bounds.top < inset || bounds.bottom > window.innerHeight) return;
         event.preventDefault();
+        // End followed immediately by Tab can arrive before the observer.
+        setEndInView(true);
         action.focus({ preventScroll: true });
       }
     }

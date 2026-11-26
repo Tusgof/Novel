@@ -1013,6 +1013,8 @@ test("book and full contents share touch bookmarks and show complete chapter tit
     await page.getByRole("link", { name: "กลับไปสารบัญ" }).tap();
     await page.waitForURL("**/chapters?range=1#chapter-ch002");
     await page.waitForFunction(() => document.activeElement?.id === "chapter-ch002");
+    // Native fragment focus can happen before the stored bookmark hydrates.
+    await page.locator('.toc-list button[aria-label="คั่นหน้า ตอน 003"]:enabled[aria-pressed="true"]').waitFor();
     assert.equal(await saved.getAttribute("aria-pressed"), "true");
     const another = page.getByRole("button", { name: "คั่นหน้า ตอน 004" });
     await another.tap();
