@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useSyncExternalStore } from "react";
+import { useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import {
   BookOpenText, Clock3, Bookmark, Heart,
 } from "lucide-react";
@@ -42,6 +42,17 @@ export default function BookDetail({ book, chapters, initialSearch }) {
   const store = useReaderStore();
   const ready = useSyncExternalStore(subscribeReady, clientReady, serverReady);
   const [tab, setTab] = useState("toc");
+  const contentsTabs = useRef(null);
+  const bookmarksPanel = useRef(null);
+
+  useLayoutEffect(() => {
+    if (tab !== "marks") return;
+    const bottomNav = document.querySelector(".botnav");
+    const row = bookmarksPanel.current?.querySelector(".ch-row");
+    if (bottomNav?.getClientRects().length && row && row.getBoundingClientRect().bottom > bottomNav.getBoundingClientRect().top - 8) {
+      contentsTabs.current?.scrollIntoView({ block: "start", behavior: "instant" });
+    }
+  }, [tab]);
 
   const available = chapters.filter((c) => c.status === "available");
   const soon = available.length === 0;
@@ -102,7 +113,7 @@ export default function BookDetail({ book, chapters, initialSearch }) {
         </EmptyState>
       ) : (
         <>
-          <div className="tabs" id="book-contents" tabIndex={-1}>
+          <div ref={contentsTabs} className="tabs" id="book-contents" tabIndex={-1}>
             <button className={`tab${tab === "toc" ? " on" : ""}`} aria-pressed={tab === "toc"} onClick={() => setTab("toc")}>สารบัญ</button>
             <button className={`tab${tab === "marks" ? " on" : ""}`} disabled={!ready} aria-pressed={tab === "marks"} onClick={() => setTab("marks")}>ที่คั่น{marks.length ? ` (${marks.length})` : ""}</button>
           </div>
@@ -118,7 +129,7 @@ export default function BookDetail({ book, chapters, initialSearch }) {
           )}
 
           {tab === "marks" && (
-            <div className="section" style={{ marginTop: 20 }}>
+            <div ref={bookmarksPanel} className="section" style={{ marginTop: 20 }}>
               {marks.length ? (
                 <div className="toc-list">
                   {marks.map((m) => {

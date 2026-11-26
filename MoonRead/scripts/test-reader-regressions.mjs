@@ -116,8 +116,8 @@ after(async () => {
   assert.deepEqual(unexpected, [], "every reader test must be free of unexpected browser errors or external requests");
 });
 
-async function withPage(viewport, fn, { seeded = true } = {}) {
-  const context = await browser.newContext({ viewport, locale: "th-TH" });
+async function withPage(viewport, fn, { seeded = true, hasTouch = false } = {}) {
+  const context = await browser.newContext({ viewport, locale: "th-TH", hasTouch });
   if (seeded) {
     await context.addInitScript(([key, payload]) => {
       try {
@@ -936,6 +936,29 @@ test("a search typed before hydration survives and submits the visible value", a
       assert.equal(await page.locator("#catalog .book-card a").getAttribute("href"), "/books/ten-day-ultimatum");
     } finally { release(); }
   }, { seeded: false });
+});
+
+test("opening book bookmarks on a short touch viewport clears the bottom navigation", async () => {
+  await withPage({ width: 390, height: 664 }, async (page) => {
+    await page.goto(`${baseUrl}${horrorBook}`, { waitUntil: "networkidle" });
+    const marks = page.getByRole("button", { name: "ที่คั่น (1)" });
+    await marks.scrollIntoViewIfNeeded();
+    await marks.evaluate((button) => {
+      const nav = document.querySelector(".botnav").getBoundingClientRect();
+      scrollBy({ top: button.getBoundingClientRect().bottom - nav.top + 8, behavior: "instant" });
+    });
+    await marks.tap();
+    const bookmark = page.locator(`.toc-list a[href="${horrorBook}/read/ch002?review=1"]`);
+    assert.equal(await bookmark.evaluate((link) => {
+      const row = link.getBoundingClientRect();
+      const toolbar = document.querySelector(".appbar").getBoundingClientRect();
+      const menu = document.querySelector(".botnav").getBoundingClientRect();
+      return row.top >= toolbar.bottom && row.bottom <= menu.top && link.contains(document.elementFromPoint(row.x + row.width / 2, row.y + row.height / 2));
+    }), true, "the saved chapter must be tappable before Playwright can scroll it into view");
+    await bookmark.tap();
+    await page.waitForURL(`**${horrorBook}/read/ch002?review=1`);
+    await page.locator(".reader-review").waitFor();
+  }, { hasTouch: true });
 });
 
 test("mobile search exposes the story, detail supports favorites, and bookmark review keeps resume", async () => {
