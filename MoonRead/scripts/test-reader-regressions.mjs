@@ -632,6 +632,39 @@ test("reader clearly shows controls loading and the first available tap opens se
   }, { seeded: false });
 });
 
+test("chapter search waits for JavaScript without blocking the visible chapter links", async () => {
+  await withPage({ width: 390, height: 844 }, async (page) => {
+    const book = "/books/a-gacha-addicts-fusionpunk-life";
+    let release;
+    const held = new Promise((resolve) => { release = resolve; });
+    await page.route("**/_next/static/**/*.js", async (route) => { await held; await route.continue(); });
+    try {
+      await page.goto(`${baseUrl}${book}`, { waitUntil: "commit" });
+      const field = page.getByRole("searchbox", { name: "ค้นหาตอน" });
+      await field.waitFor();
+      assert.equal(await field.isDisabled(), true);
+      await page.getByText("เปิดตอนที่แสดงได้เลย เครื่องมือค้นหากำลังโหลด…").waitFor();
+      assert.ok(await page.locator('.toc-list a[href]').count() > 0);
+      release();
+      await field.fill("075");
+      await field.press("Enter");
+      await page.waitForURL(`**${book}/read/ch075`);
+    } finally { release(); }
+  }, { seeded: false });
+});
+
+test("Tab after keyboard chapter navigation keeps the reader at the new chapter heading", async () => {
+  await withPage({ width: 1440, height: 900 }, async (page) => {
+    await page.goto(`${baseUrl}/read/ch002`, { waitUntil: "networkidle" });
+    await page.locator(".reader-quick-next").press("Enter");
+    await page.waitForURL("**/read/ch003");
+    await page.waitForFunction(() => document.activeElement === document.querySelector(".reader-head h1"));
+    await page.keyboard.press("Tab");
+    assert.ok(await page.evaluate(() => document.querySelector(".reader-topbar").contains(document.activeElement)));
+    assert.ok(await page.evaluate(() => scrollY < 100));
+  }, { seeded: false });
+});
+
 test("printed chapter gaps stay non-navigable, and Enter jumps to an available chapter", async () => {
   const catalog = [{ id: "ch099", number: 99, title: "บทที่ 99: ก่อน", href: "/read/ch099" }, { id: "ch100", number: 100, title: "บทที่ 101: หลัง", href: "/read/ch100" }];
   assert.deepEqual(withNumberGaps(catalog), [catalog[0], { id: "gap-100", number: 100, title: "", status: "missing", inferredGap: true }, catalog[1]]);

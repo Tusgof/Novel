@@ -437,7 +437,15 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
 
       <section className="reader-head">
         <span className="reader-kicker">{chapterLabel(chapter)}</span>
-        <h1 ref={heading} tabIndex={-1}>{chapter.title}</h1>
+        <h1 ref={heading} tabIndex={-1} onKeyDown={(event) => {
+          if (event.key !== "Tab" || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey) return;
+          const firstTool = topbar.current?.querySelector("a[href]");
+          if (!firstTool) return;
+          // A new chapter announces its heading first. Keep the next keyboard
+          // stop at the top instead of scrolling past the entire passage.
+          event.preventDefault();
+          firstTool.focus({ preventScroll: true });
+        }}>{chapter.title}</h1>
         {review ? <p className="reader-review">โหมดอ่านทวน · ไม่เปลี่ยนตำแหน่งอ่านค้างไว้</p> : null}
         <div className="reader-meta">
           <span><BookOpen size={14} /> {book?.title || "MoonRead"}</span>

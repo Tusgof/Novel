@@ -8,6 +8,8 @@ import { chapterNumber, withNumberGaps } from "../lib/chapter-number";
 const stateEvent = "moonread:toc-state";
 const getSearch = () => window.location.search;
 const emptySearch = () => "";
+const clientReady = () => true;
+const serverReady = () => false;
 function subscribe(listener) {
   window.addEventListener(stateEvent, listener);
   window.addEventListener("popstate", listener);
@@ -25,6 +27,7 @@ function update(patch) {
 
 export default function ChapterFinder({ chapters: entries, renderRows }) {
   const search = useSyncExternalStore(subscribe, getSearch, emptySearch);
+  const ready = useSyncExternalStore(subscribe, clientReady, serverReady);
   const params = new URLSearchParams(search);
   const query = params.get("chapter") || "";
   const recent = params.get("order") === "recent";
@@ -72,19 +75,19 @@ export default function ChapterFinder({ chapters: entries, renderRows }) {
       <div className="toc-tools">
         <div className="searchbox toc-search">
           <span className="ic"><Search size={17} /></span>
-          <input id={inputId} type="search" value={query} onChange={(e) => update({ chapter: e.target.value })} onKeyDown={(e) => { if (e.key === "Enter" && !e.nativeEvent.isComposing && query.trim() && filtered.length === 1 && filtered[0].status === "available") e.target.closest("[data-chapter-finder]").querySelector(".toc-list a[href]")?.click(); }} placeholder="เลขตอนหรือชื่อตอน" aria-label="ค้นหาตอน" />
+          <input id={inputId} type="search" disabled={!ready} value={query} onChange={(e) => update({ chapter: e.target.value })} onKeyDown={(e) => { if (e.key === "Enter" && !e.nativeEvent.isComposing && query.trim() && filtered.length === 1 && filtered[0].status === "available") e.target.closest("[data-chapter-finder]").querySelector(".toc-list a[href]")?.click(); }} placeholder={ready ? "เลขตอนหรือชื่อตอน" : "กำลังเปิดการค้นหาตอน…"} aria-label="ค้นหาตอน" />
           {query ? <button type="button" className="ic clear" aria-label="ล้างคำค้นตอน" onClick={() => { update({ chapter: "" }); document.getElementById(inputId)?.focus(); }}><X size={16} /></button> : null}
         </div>
-        <select aria-label="เรียงตอน" className="toc-select" value={recent ? "recent" : "first"} onChange={(e) => update({ order: e.target.value === "recent" ? "recent" : null })}>
+        <select aria-label="เรียงตอน" className="toc-select" disabled={!ready} value={recent ? "recent" : "first"} onChange={(e) => update({ order: e.target.value === "recent" ? "recent" : null })}>
           <option value="first">ตอนแรกก่อน</option>
           <option value="recent">ตอนล่าสุดก่อน</option>
         </select>
-        {ranges.length > 1 ? <select aria-label="ช่วงตอน" className="toc-select" value={query.trim() ? "" : selectedRange} onChange={(e) => update({ chapter: "", range: e.target.value })}>
+        {ranges.length > 1 ? <select aria-label="ช่วงตอน" className="toc-select" disabled={!ready} value={query.trim() ? "" : selectedRange} onChange={(e) => update({ chapter: "", range: e.target.value })}>
           <option value="">ทุกช่วงตอน</option>
           {ranges.map((first) => <option key={first} value={first}>{first}–{Math.min(first + 49, chapterNumber(chapters.at(-1)))}</option>)}
         </select> : null}
       </div>
-      <p role="status" className="muted-line">{filtered.length ? `แสดง ${filtered.length} จาก ${chapters.length} ตอน` : "ไม่พบตอนที่ค้นหา ลองพิมพ์เลขตอนหรือคำในชื่อตอน"}</p>
+      <p role="status" className="muted-line">{!ready ? "เปิดตอนที่แสดงได้เลย เครื่องมือค้นหากำลังโหลด…" : filtered.length ? `แสดง ${filtered.length} จาก ${chapters.length} ตอน` : "ไม่พบตอนที่ค้นหา ลองพิมพ์เลขตอนหรือคำในชื่อตอน"}</p>
       {renderRows(filtered)}
     </div>
   );
