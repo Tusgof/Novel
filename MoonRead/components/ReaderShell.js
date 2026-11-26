@@ -38,9 +38,8 @@ function useSheetFocus(open, onClose, openerRef) {
     if (!open) return undefined;
     const opener = openerRef.current;
     const sheet = sheetRef.current;
-    const focusables = () => (sheet ? [...sheet.querySelectorAll(FOCUSABLE)].filter((el) => el.offsetParent !== null) : []);
-    const first = focusables()[0];
-    if (first) first.focus();
+    const focusables = () => sheet ? [...sheet.querySelectorAll(FOCUSABLE)].filter((el) => el.tabIndex >= 0 && el.getClientRects().length && getComputedStyle(el).visibility === "visible") : [];
+    focusables()[0]?.focus();
 
     const onKeyDown = (event) => {
       if (event.key === "Escape") {
@@ -49,24 +48,16 @@ function useSheetFocus(open, onClose, openerRef) {
         closeRef.current();
         return;
       }
-      if (event.key !== "Tab") return;
+      if (event.key !== "Tab" || event.altKey || event.ctrlKey || event.metaKey) return;
       const items = focusables();
       if (!items.length) return;
-      const firstItem = items[0];
-      const lastItem = items[items.length - 1];
-      const active = document.activeElement;
-      if (!sheet.contains(active)) {
-        event.preventDefault();
-        (event.shiftKey ? lastItem : firstItem).focus();
-        return;
-      }
-      if (event.shiftKey && active === firstItem) {
-        event.preventDefault();
-        lastItem.focus();
-      } else if (!event.shiftKey && active === lastItem) {
-        event.preventDefault();
-        firstItem.focus();
-      }
+      const current = items.indexOf(document.activeElement);
+      const next = current < 0 ? (event.shiftKey ? items.length - 1 : 0)
+        : (current + (event.shiftKey ? -1 : 1) + items.length) % items.length;
+      // WebKit may skip links in its native tab order. Keep every dialog action
+      // reachable, including the chapter links, before wrapping to the close button.
+      event.preventDefault();
+      items[next].focus();
     };
 
     document.addEventListener("keydown", onKeyDown, true);

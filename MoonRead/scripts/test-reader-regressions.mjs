@@ -328,26 +328,24 @@ test("reader sheets trap focus, close on Escape and restore the opener", async (
     await page.locator(tocButton).click();
     const tocSheet = page.locator(".scrim .sheet");
     await tocSheet.waitFor({ state: "visible" });
+    const closeToc = '.reader-toc button[aria-label="ปิดสารบัญ"]';
+    const searchToc = '.reader-toc input[aria-label="ค้นหาตอน"]';
+    assert.ok(await activeIn(page, closeToc), "focus must start on the close control");
     for (let i = 0; i < 12; i += 1) {
       await page.keyboard.press("Tab");
+      if (i === 0) assert.ok(await activeIn(page, searchToc), "the first Tab must reach chapter search");
+      if (i === 1) assert.ok(await activeIn(page, '.sheet-toc .ch-row:first-child'), "the second Tab must reach the first chapter link");
       const inside = await page.evaluate(() => {
         const sheet = document.querySelector(".scrim .sheet");
         return Boolean(sheet && sheet.contains(document.activeElement));
       });
       assert.ok(inside, `Tab ${i + 1} must stay inside the sheet`);
     }
-    const firstFocusable = await tocSheet.evaluate((sheet) => {
-      const items = [...sheet.querySelectorAll('a[href],button:not([disabled]),input:not([disabled])')];
-      items[0]?.focus();
-      return items.length;
-    });
-    assert.ok(firstFocusable > 1);
+    await page.locator(closeToc).focus();
     await page.keyboard.press("Shift+Tab");
-    const wrapped = await page.evaluate(() => {
-      const sheet = document.querySelector(".scrim .sheet");
-      return Boolean(sheet && sheet.contains(document.activeElement));
-    });
-    assert.ok(wrapped, "Shift+Tab from the first control must wrap inside the sheet");
+    assert.ok(await activeIn(page, '.sheet-toc a[href]:last-child'), "Shift+Tab from the close control must reach the last chapter");
+    await page.keyboard.press("Tab");
+    assert.ok(await activeIn(page, closeToc), "Tab from the last chapter must wrap to the close control");
     await page.keyboard.press("Escape");
     assert.ok(await activeIn(page, tocButton), "focus must return to the TOC button");
   });
