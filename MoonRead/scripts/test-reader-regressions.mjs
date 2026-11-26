@@ -365,6 +365,30 @@ test("reader sheets trap focus, close on Escape and restore the opener", async (
 
 const horrorBook = "/books/horror-game-developer";
 
+test("reading settings can be closed after scrolling on a short touch screen", async () => {
+  await withPage({ width: 375, height: 600 }, async (page) => {
+    await page.goto(`${baseUrl}/read/ch002`, { waitUntil: "networkidle" });
+    await page.evaluate(() => scrollTo({ top: 1200, behavior: "instant" }));
+    const originalY = await page.evaluate(() => scrollY);
+    await page.getByRole("button", { name: "ตั้งค่าการอ่าน" }).tap();
+    const dialog = page.getByRole("dialog");
+    const close = dialog.getByRole("button", { name: "ปิดการตั้งค่า" });
+    const initial = await close.boundingBox();
+    await dialog.locator(".settings-body").evaluate((element) => { element.scrollTop = element.scrollHeight; });
+    assert.ok(await dialog.locator(".settings-body").evaluate((element) => element.scrollTop) > 100);
+    const bounds = await close.boundingBox();
+    assert.equal(bounds.y, initial.y);
+    assert.equal(await close.evaluate((element) => {
+      const box = element.getBoundingClientRect();
+      return box.top >= 0 && element.contains(document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2));
+    }), true, "the close button must be tappable without scrolling it into view");
+    await page.touchscreen.tap(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
+    await dialog.waitFor({ state: "detached" });
+    assert.equal(await activeIn(page, ".settings-trigger"), true);
+    assert.ok(Math.abs((await page.evaluate(() => scrollY)) - originalY) <= 2);
+  }, { seeded: false, hasTouch: true });
+});
+
 test("continue reading restores the passage after reload and viewport change", async () => {
   await withPage({ width: 390, height: 800 }, async (page) => {
     const href = `${horrorBook}/read/ch003`;

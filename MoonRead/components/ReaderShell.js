@@ -657,12 +657,13 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
 
       {settingsOpen ? (
         <div className="scrim" onClick={() => setSettingsOpen(false)}>
-          <aside ref={settingsRef} className={`sheet${sheetNight}`} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="reader-settings-title">
+          <aside ref={settingsRef} className={`sheet reader-settings${sheetNight}`} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="reader-settings-title">
             <div className="sheet-head">
               <div><strong id="reader-settings-title">ตั้งค่าการอ่าน</strong><span>ปรับให้สบายตาสำหรับการอ่านยาว</span></div>
               <button className="icon-button" type="button" onClick={() => setSettingsOpen(false)} aria-label="ปิดการตั้งค่า"><X size={20} /></button>
             </div>
 
+            <div className="settings-body">
             <div className="seg theme-seg">
               {readingThemes.map((t) => { const Ic = t.icon; return (
                 <button key={t.id} type="button" aria-pressed={settings.theme === t.id} className={settings.theme === t.id ? "on" : ""} onClick={() => update({ theme: t.id })}><Ic size={17} /> {t.label}</button>
@@ -699,6 +700,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
             <div className="toggle-row">
               <div><div className="tt">เลื่อนตอนถัดไปอัตโนมัติ</div><div className="td">เมื่ออ่านจบตอน จะนับถอยหลังไปต่อให้เอง</div></div>
               <button type="button" className={`switch${settings.autoAdvance ? " on" : ""}`} aria-pressed={settings.autoAdvance} aria-label="เลื่อนตอนถัดไปอัตโนมัติ" onClick={() => { setCountdownAllowed(!settings.autoAdvance); update({ autoAdvance: !settings.autoAdvance }); }}><i /></button>
+            </div>
             </div>
           </aside>
         </div>

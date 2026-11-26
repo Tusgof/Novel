@@ -369,6 +369,9 @@ html:has(.reader-page .scrim) { overflow: hidden; scrollbar-gutter: stable; }
 .sheet { position: absolute; top: 0; right: 0; bottom: 0; width: min(94vw, 420px); background: var(--paper-strong); color: var(--ink); box-shadow: var(--shadow-drawer); padding: 20px; overflow-y: auto; overscroll-behavior: contain; animation: mr-slide .22s ease; }
 .sheet.night { background: #151d2d; color: #f4efe6; }
 .sheet.reader-toc { display: flex; flex-direction: column; overflow: hidden; }
+.sheet.reader-settings { display: flex; flex-direction: column; overflow: hidden; padding: 0; }
+.reader-settings > .sheet-head { flex: none; margin: 0; padding: max(20px, env(safe-area-inset-top)) 20px 12px; }
+.settings-body { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 6px 20px max(20px, env(safe-area-inset-bottom)); }
 @keyframes mr-slide { from { transform: translateX(20px); opacity: .4; } }
 .sheet-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
 .sheet-head strong { font-size: 18px; }
