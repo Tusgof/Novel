@@ -469,7 +469,7 @@ test("Back after leaving via TOC restores the visible chapter, including a skip-
   }, { seeded: false });
 });
 
-test("the focused TOC return row gives keyboard readers one Tab to Discover", async () => {
+test("the focused TOC return row puts its bookmark and Discover next in keyboard order", async () => {
   await withPage({ width: 1440, height: 900 }, async (page) => {
     await page.goto(`${baseUrl}/read/ch002`, { waitUntil: "networkidle" });
     await page.getByRole("link", { name: "กลับไปสารบัญ" }).press("Enter");
@@ -477,6 +477,8 @@ test("the focused TOC return row gives keyboard readers one Tab to Discover", as
     const exit = page.getByRole("link", { name: "ค้นพบเรื่องอื่น" });
     await exit.waitFor();
     await page.waitForFunction(() => document.activeElement?.id === "chapter-ch002");
+    await page.keyboard.press("Tab");
+    assert.equal(await page.getByRole("button", { name: "คั่นหน้า ตอน 002" }).evaluate((button) => document.activeElement === button), true);
     await page.keyboard.press("Tab");
     assert.equal(await exit.evaluate((link) => document.activeElement === link), true);
     await page.keyboard.press("Enter");
@@ -557,7 +559,7 @@ test("printed Deep Sea Embers numbers agree with search without changing stable 
   await withPage({ width: 390, height: 800 }, async (page) => {
     await page.goto(`${baseUrl}/chapters`, { waitUntil: "networkidle" });
     await page.getByRole("searchbox", { name: "ค้นหาตอน" }).fill("บทที่ ๑๕");
-    const chapter = page.locator(".toc-list .ch-row");
+    const chapter = page.locator(".toc-list .chapter-link");
     assert.equal(await chapter.getAttribute("href"), "/read/ch015");
     assert.equal(await chapter.locator(".num").textContent(), "015");
     await chapter.click();
@@ -578,11 +580,11 @@ test("long contents show a manageable range but search all published chapters", 
     const rows = page.locator(".toc-list .ch-row");
     assert.equal(await rows.count(), 50);
     await page.getByRole("combobox", { name: "เรียงตอน" }).selectOption("recent");
-    assert.equal(await rows.first().getAttribute("href"), last.href);
+    assert.equal(await rows.first().locator(".chapter-link").getAttribute("href"), last.href);
     assert.equal(await rows.count(), (chapterNumber(last) - 1) % 50 + 1);
     await page.getByRole("searchbox", { name: "ค้นหาตอน" }).fill("๑๕");
     assert.equal(await rows.count(), 1);
-    assert.equal(await rows.first().getAttribute("href"), `${longBook}/read/ch015`);
+    assert.equal(await rows.first().locator(".chapter-link").getAttribute("href"), `${longBook}/read/ch015`);
   }, { seeded: false });
 });
 
@@ -965,6 +967,40 @@ test("opening book bookmarks on a short touch viewport clears the bottom navigat
   }, { hasTouch: true });
 });
 
+test("book and full contents share touch bookmarks and show complete chapter titles", async () => {
+  await withPage({ width: 375, height: 590 }, async (page) => {
+    await page.goto(`${baseUrl}/book#book-contents`, { waitUntil: "networkidle" });
+    const titles = await page.locator(".toc-list .ct strong").evaluateAll((elements) => elements.slice(1, 4).map((title) => {
+      const range = document.createRange();
+      range.selectNodeContents(title);
+      const box = title.getBoundingClientRect();
+      const row = title.closest(".ch-row").getBoundingClientRect();
+      const lines = [...range.getClientRects()];
+      // Thai font metrics can extend past a line box without clipping the text.
+      return { lines: lines.length, fits: getComputedStyle(title).overflow === "visible" && lines.every((line) => line.right <= box.right + 1 && line.top >= row.top && line.bottom <= row.bottom) };
+    }));
+    assert.equal(titles.length, 3);
+    assert.ok(titles.every(({ fits }) => fits));
+    assert.ok(titles.some(({ lines }) => lines > 1), "the mobile fixture must include a wrapped title");
+
+    const saved = page.getByRole("button", { name: "คั่นหน้า ตอน 003" });
+    await saved.tap();
+    assert.equal(await saved.getAttribute("aria-pressed"), "true");
+    await page.locator('.chapter-link[href="/read/ch002"]').tap();
+    await page.waitForURL("**/read/ch002");
+    await page.getByRole("link", { name: "กลับไปสารบัญ" }).tap();
+    await page.waitForURL("**/chapters?range=1#chapter-ch002");
+    await page.waitForFunction(() => document.activeElement?.id === "chapter-ch002");
+    assert.equal(await saved.getAttribute("aria-pressed"), "true");
+    const another = page.getByRole("button", { name: "คั่นหน้า ตอน 004" });
+    await another.tap();
+    assert.equal(await another.getAttribute("aria-pressed"), "true");
+    assert.ok(page.url().includes("/chapters?"), "bookmarking must not navigate to the chapter");
+    await page.locator('.botnav a[href="/shelf"]').tap();
+    await page.locator('.mark-group a[href="/read/ch004?review=1"]').waitFor();
+  }, { seeded: false, hasTouch: true });
+});
+
 test("the first touch on the sticky bookmark confirms the saved passage", async () => {
   await withPage({ width: 375, height: 590 }, async (page) => {
     await page.goto(`${baseUrl}/read/ch001`, { waitUntil: "networkidle" });
@@ -1000,8 +1036,12 @@ test("opening a bookmark without other progress starts a saved reading session",
     assert.equal(await page.locator(".reader-review").count(), 0);
     await page.locator(".reader-quick-next").tap();
     await page.waitForURL(`${baseUrl}/read/ch002`);
-    await page.waitForFunction(() => document.activeElement === document.querySelector(".reader-head h1"));
+    // A touch on a cold chapter can take the native link instead of the
+    // enhanced transition. Wait for the new chapter, not keyboard focus.
+    await page.locator(".reader-kicker").filter({ hasText: "002" }).waitFor();
+    await page.getByRole("button", { name: "คั่นหน้า" }).waitFor();
     await page.evaluate(() => scrollTo({ top: 1000, behavior: "instant" }));
+    await page.waitForFunction(() => parseInt(document.querySelector(".reader-progress-value")?.textContent, 10) > 0);
     await page.goto(`${baseUrl}/history`);
     await page.locator('.resume[href="/read/ch002"]').tap();
     await page.waitForFunction(() => scrollY > 950);
@@ -1085,7 +1125,8 @@ test("mobile search exposes the story, detail supports favorites, and bookmark r
     await page.getByRole("link", { name: "กลับไปสารบัญ" }).click();
     await page.waitForURL((url) => url.pathname === `${book}/chapters`);
     const marked = page.locator(`.toc-list a[href="${book}/read/ch002?review=1"]`);
-    await marked.getByRole("img", { name: "คั่นไว้" }).waitFor();
+    await marked.waitFor();
+    await page.locator('.toc-list .ch-row:has(a[href$="/read/ch002?review=1"]) button[aria-pressed="true"]').waitFor();
     await page.goto(`${baseUrl}/shelf`);
     await page.locator(`a[href="${book}/read/ch002?review=1"]`).click();
     await page.locator(".reader-review").waitFor();

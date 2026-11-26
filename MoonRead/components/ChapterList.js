@@ -1,36 +1,28 @@
 "use client";
 
 import { Fragment } from "react";
-import { Bookmark, CheckCircle2, Clock3, Compass, Lock, XCircle } from "lucide-react";
+import { Compass } from "lucide-react";
 import ChapterFinder from "./ChapterFinder";
-import { chapterNumber } from "../lib/chapter-number";
+import ChapterRow from "./ChapterRow";
+import { bookmarkDestination } from "../lib/bookmark-links";
 import { useReaderStore } from "../lib/reader-store";
 
 export default function ChapterList({ chapters, slug, initialSearch }) {
   const store = useReaderStore();
+  const progress = store.getProgress(slug);
   return <ChapterFinder chapters={chapters} initialSearch={initialSearch} renderRows={(filtered, returnChapterId) => (
     <div className="toc-list">
       {filtered.map((chapter) => {
-        const available = chapter.status === "available";
-        const number = String(chapterNumber(chapter)).padStart(3, "0");
-        const marked = available && store.isBookmarked(slug, chapter.id);
-        const review = marked && store.getProgress(slug)?.chapterId !== chapter.id;
-        const Icon = marked ? Bookmark : available ? CheckCircle2 : chapter.status === "rejected" ? XCircle : Lock;
-        const inner = <>
-          <span className="num">{number}</span>
-          <span className="ct"><small>ตอน {number}{available ? <> · ผู้แปล <span className="translator">{chapter.translator}</span></> : null}</small><strong>{available ? chapter.title : `ตอน ${number} ยังไม่พร้อมอ่าน`}</strong></span>
-          <span className="cm"><Clock3 size={13} /> {available ? `${chapter.readingMinutes} น.` : chapter.status === "rejected" ? "รอตรวจไฟล์" : "ยังไม่พร้อม"}</span>
-          <span className={`ch-state ${chapter.status}`}><Icon size={18} fill={marked ? "currentColor" : "none"} aria-label={marked ? "คั่นไว้" : undefined} role={marked ? "img" : undefined} /></span>
-        </>;
-        return available ? <Fragment key={chapter.id}>
-          <a id={`chapter-${chapter.id}`} className="ch-row" href={review ? `${chapter.href}?review=1` : chapter.href}>{inner}</a>
-          {chapter.id === returnChapterId ? (
+        const reading = progress?.chapterId === chapter.id;
+        const bookmark = progress && !reading && store.isBookmarked(slug, chapter.id) ? bookmarkDestination(chapter, progress) : undefined;
+        return <Fragment key={chapter.id}>
+          <ChapterRow slug={slug} chapter={chapter} store={store} reading={reading} bookmark={bookmark} linkId={`chapter-${chapter.id}`} />
+          {chapter.status === "available" && chapter.id === returnChapterId ? (
             // Use document navigation to start Discover at the top.
             // eslint-disable-next-line @next/next/no-html-link-for-pages
             <a className="toc-discover text-link" href="/" tabIndex={0}><Compass size={16} aria-hidden="true" /> ค้นพบเรื่องอื่น</a>
           ) : null}
-        </Fragment>
-          : <div className="ch-row disabled" key={chapter.id} aria-disabled="true" data-gap={chapter.inferredGap || undefined}>{inner}</div>;
+        </Fragment>;
       })}
     </div>
   )} />;

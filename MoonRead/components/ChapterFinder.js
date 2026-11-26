@@ -11,7 +11,7 @@ const getHash = () => window.location.hash;
 const emptyHash = () => "";
 const clientReady = () => true;
 const serverReady = () => false;
-const chapterLinks = ".toc-list a.ch-row[href], .toc-list .chapter-link[href]";
+const chapterLinks = ".toc-list .chapter-link[href]";
 function subscribe(listener) {
   window.addEventListener(stateEvent, listener);
   window.addEventListener("popstate", listener);
