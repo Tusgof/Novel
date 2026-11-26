@@ -167,13 +167,17 @@ test("saved library shows loading instead of an empty state before hydration", a
       await page.goto(`${baseUrl}/history`, { waitUntil: "commit" });
       await page.getByText("กำลังโหลดประวัติการอ่าน…", { exact: true }).waitFor();
       assert.equal(await page.locator(".empty").count(), 0);
+      // Settle the visible document's fonts before replacing it. JS stays held.
+      await page.evaluate(() => document.fonts.ready.then(() => true));
       await page.goto(`${baseUrl}/shelf`, { waitUntil: "commit" });
       await page.getByText("กำลังโหลดที่คั่นตอน…", { exact: true }).waitFor();
       assert.equal(await page.locator(".empty").count(), 0);
       release();
       await page.locator(".mark-group a[href$='ch002?review=1']").waitFor();
+      await page.evaluate(() => document.fonts.ready.then(() => true));
       await page.goto(`${baseUrl}/history`);
       await page.locator(".history-grid a[href$='ch003']").waitFor();
+      await page.evaluate(() => document.fonts.ready.then(() => true));
     } finally { release(); }
   });
 });
