@@ -520,11 +520,15 @@ test("search and contents restore results and the visible page after Back", asyn
       await page.goto(`${baseUrl}${horrorBook}/chapters`, { waitUntil: "networkidle" });
       const toc = page.getByRole("searchbox", { name: "ค้นหาตอน" });
       await page.getByRole("combobox", { name: "เรียงตอน" }).selectOption("recent");
+      await page.waitForURL((url) => url.searchParams.get("order") === "recent");
       await toc.fill("๒๐");
+      await page.waitForURL((url) => url.searchParams.get("order") === "recent" && url.searchParams.get("chapter") === "๒๐");
       await toc.press("Enter");
       await page.waitForURL("**/read/ch020");
       await page.goBack();
+      await page.waitForURL((url) => url.searchParams.get("order") === "recent" && url.searchParams.get("chapter") === "๒๐");
       await page.waitForFunction(() => document.activeElement?.getAttribute("href")?.endsWith("/read/ch020"));
+      await page.waitForFunction(() => document.querySelector(".toc-tools select")?.value === "recent");
       assert.equal(await toc.inputValue(), "๒๐");
       assert.equal(await page.getByRole("combobox", { name: "เรียงตอน" }).inputValue(), "recent");
     }, { seeded: false });

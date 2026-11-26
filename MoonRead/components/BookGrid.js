@@ -42,7 +42,7 @@ export function BookCard({ book }) {
 
   return (
     <article className="book-card">
-      <a href={book.href} aria-labelledby={headingId}>
+      <a href={book.href} aria-labelledby={headingId} tabIndex={0}>
       <div className="cover">
         <Cover book={book} />
       </div>
