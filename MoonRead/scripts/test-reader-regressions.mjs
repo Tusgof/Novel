@@ -859,6 +859,43 @@ test("tabbing past the sticky tools does not jump to the end or save unread prog
   }, { seeded: false });
 });
 
+test("mid-chapter Tab offers a visible route to the reading tools without trapping focus", async () => {
+  await withPage({ width: 1440, height: 900 }, async (page) => {
+    await page.goto(`${baseUrl}/read/ch002`, { waitUntil: "networkidle" });
+    const ready = () => page.waitForFunction(() => document.querySelector(".reader-end a.primary")?.tabIndex === -1);
+    await ready();
+    await page.locator(".reader-quick-next").focus();
+    await page.keyboard.press("Tab");
+    assert.equal(await activeIn(page, ".reader-article"), true);
+    await page.keyboard.press("PageDown");
+    await page.waitForFunction(() => parseInt(document.querySelector(".reader-progress-value").textContent, 10) > 0);
+    const y = await page.evaluate(() => scrollY);
+    const progress = await page.locator(".reader-progress-value").textContent();
+    assert.ok(y > 400);
+
+    const returnLink = ".reader-quick-tools";
+    await page.keyboard.press("Tab");
+    assert.equal(await activeIn(page, returnLink), true);
+    assert.equal(await page.locator(returnLink).evaluate((link) => {
+      const rect = link.getBoundingClientRect();
+      return rect.top >= 0 && rect.bottom <= innerHeight && link.contains(document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2));
+    }), true);
+    assert.equal(await page.evaluate(() => scrollY), y);
+    await page.keyboard.press("Tab");
+    assert.equal(await activeIn(page, `${returnLink}, .reader-article, .reader-topbar *`), false, "forward Tab can leave the reader without activating the shortcut");
+
+    // Re-enter from the sticky tools as before; this time activate the shortcut.
+    await page.locator(".reader-quick-next").focus();
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Enter");
+    assert.equal(await activeIn(page, "#reader-tools"), true);
+    assert.equal(await page.evaluate(() => scrollY), y);
+    assert.equal(await page.locator(".reader-progress-value").textContent(), progress);
+    assert.equal(new URL(page.url()).hash, "");
+  }, { seeded: false });
+});
+
 test("the first Page Down on the new chapter survives delayed font readiness", async () => {
   await withPage({ width: 1440, height: 900 }, async (page) => {
     await page.goto(`${baseUrl}/read/ch001`, { waitUntil: "networkidle" });

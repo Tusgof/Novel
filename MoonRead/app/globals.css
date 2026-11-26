@@ -355,6 +355,8 @@ html:has(.reader-page .scrim) .skip-content { visibility: hidden; }
 .reader-bottom-nav { max-width: var(--reader-width); margin: 0 auto; padding: 0 20px 12px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; overflow-wrap: anywhere; }
 .reader-tools-return { max-width: var(--reader-width); margin: 0 auto; padding: 0 20px 28px; text-align: center; }
 .reader-tools-return a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding-inline: 12px; }
+.reader-quick-tools { position: fixed; z-index: 29; inset-inline-end: 16px; bottom: max(16px, env(safe-area-inset-bottom)); max-width: calc(100% - 32px); display: flex; align-items: center; min-height: 44px; padding: 4px 12px; border: 1px solid var(--line-strong); border-radius: var(--r-sm); background: var(--surface-strong); color: var(--acc-ink); }
+.reader-quick-tools:not(:focus) { clip-path: inset(50%); pointer-events: none; }
 .reader-bottom-nav a { display: flex; align-items: center; gap: 10px; min-height: 64px; padding: 12px 14px; border: 1px solid currentColor; border-radius: var(--r-sm); opacity: .72; transition: opacity .14s; color: inherit; }
 .reader-bottom-nav a:hover { opacity: 1; }
 .reader-bottom-nav a.next { justify-content: flex-end; text-align: right; }

@@ -191,6 +191,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
   const topbar = useRef(null);
   const article = useRef(null);
   const heading = useRef(null);
+  const quickTools = useRef(null);
   const endAction = useRef(null);
   const endSection = useRef(null);
   const activeChapter = useRef(null);
@@ -284,16 +285,29 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
       } else if (event.key === "Tab" && (active === document.body || active === article.current || active === heading.current)) {
         const action = endAction.current;
         const bounds = action?.getBoundingClientRect();
-        if (!bounds || bounds.top < inset || bounds.bottom > window.innerHeight) return;
-        event.preventDefault();
-        // End followed immediately by Tab can arrive before the observer.
-        setEndInView(true);
-        action.focus({ preventScroll: true });
+        if (bounds && bounds.top >= inset && bounds.bottom <= window.innerHeight) {
+          event.preventDefault();
+          // End followed immediately by Tab can arrive before the observer.
+          setEndInView(true);
+          action.focus({ preventScroll: true });
+        } else if (active === article.current && !endInView && quickTools.current) {
+          // Offer a way back to the toolbar, but let the next Tab leave normally.
+          event.preventDefault();
+          quickTools.current.focus({ preventScroll: true });
+        }
       }
     }
     document.addEventListener("keydown", readingKeys);
     return () => document.removeEventListener("keydown", readingKeys);
-  }, [settingsOpen, tocOpen]);
+  }, [endInView, settingsOpen, tocOpen]);
+
+  function focusReadingTools(event) {
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+    const target = topbar.current?.querySelector("#reader-tools");
+    if (!target) return;
+    event.preventDefault();
+    target.focus({ preventScroll: true });
+  }
 
   function follow(event, href, reviewTarget = reviewing.current) {
     event.preventDefault();
@@ -572,6 +586,8 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
         })}
       </article>
 
+      {controlsReady ? <a ref={quickTools} className="reader-quick-tools" href="#reader-tools" tabIndex={endInView ? -1 : 0} onClick={focusReadingTools}>ไปที่เครื่องมือการอ่าน</a> : null}
+
       <div ref={endSection} className="reader-end">
         {resumeHref ? (
           <div className="next-card">
@@ -607,13 +623,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
       </nav>
 
       <div className="reader-tools-return">
-        <a className="text-link" href="#reader-tools" tabIndex={footerTabIndex} onClick={(event) => {
-          if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
-          const target = topbar.current?.querySelector("#reader-tools");
-          if (!target) return;
-          event.preventDefault();
-          target.focus({ preventScroll: true });
-        }}><ArrowUp size={16} aria-hidden="true" /> ไปที่เครื่องมือการอ่าน</a>
+        <a className="text-link" href="#reader-tools" tabIndex={footerTabIndex} onClick={focusReadingTools}><ArrowUp size={16} aria-hidden="true" /> ไปที่เครื่องมือการอ่าน</a>
       </div>
 
       </div>
