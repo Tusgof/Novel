@@ -380,22 +380,43 @@ test("returning to the TOC preserves the passage for Back and book resume", asyn
 test("Back after leaving via TOC restores the visible chapter, including a skip-link fragment", async () => {
   await withPage({ width: 390, height: 800 }, async (page) => {
     const chapter = `${horrorBook}/read/ch020`;
+    const manifest = JSON.parse(fs.readFileSync(path.join(appRoot, "content/generated/books/horror-game-developer/manifest.json"), "utf8"));
+    const title = manifest.chapters.find(({ href }) => href === chapter).title;
     await page.goto(`${baseUrl}${horrorBook}/read/ch019`, { waitUntil: "networkidle" });
     const contents = page.getByRole("button", { name: "เปิดสารบัญ" });
     await contents.click();
     await page.getByRole("dialog").locator(`a[href="${chapter}"]`).click();
     await page.waitForURL(`**${chapter}`);
-    const title = await page.locator(".reader-head h1").textContent();
+    // The history entry updates before React commits the fetched chapter.
+    await page.getByRole("heading", { level: 1, name: title, exact: true }).waitFor();
     await page.locator(".skip-content").focus();
     await page.keyboard.press("Enter");
     await page.waitForURL(`**${chapter}#main-content`);
+    await page.waitForFunction(() => {
+      const target = document.getElementById("main-content");
+      const bar = document.querySelector(".reader-topbar");
+      return document.activeElement === target && target.getBoundingClientRect().top >= bar.getBoundingClientRect().bottom;
+    });
     await page.evaluate(() => scrollTo({ top: 2200, behavior: "instant" }));
+    const block = await page.evaluate(() => {
+      const inset = document.querySelector(".reader-topbar").offsetHeight + 8;
+      return [...document.querySelector(".reader-article").children].findIndex((node) => node.getBoundingClientRect().bottom > inset);
+    });
+    assert.ok(block > 0, "the reader must be partway through the chapter before leaving");
     await page.getByRole("link", { name: "กลับไปสารบัญ" }).click();
     await page.waitForURL((url) => url.pathname === `${horrorBook}/chapters` && url.hash === "#chapter-ch020");
     await page.waitForFunction(() => document.activeElement?.id === "chapter-ch020");
+    const saved = (await storedState(page)).progress["horror-game-developer"];
+    assert.equal(saved?.chapterId, "ch020");
+    assert.equal(saved?.position?.block, block);
     await page.goBack();
     await page.waitForURL(`**${chapter}#main-content`);
-    await page.waitForFunction((expectedTitle) => document.querySelector(".reader-head h1")?.textContent === expectedTitle && scrollY > 2100, title);
+    await page.getByRole("heading", { level: 1, name: title, exact: true }).waitFor();
+    await page.waitForFunction((index) => {
+      const inset = (document.querySelector(".reader-topbar")?.offsetHeight ?? 0) + 8;
+      const rect = document.querySelector(".reader-article")?.children[index]?.getBoundingClientRect();
+      return scrollY > 2100 && rect?.top <= inset + 2 && rect.bottom > inset - 2;
+    }, block);
     assert.match(await page.locator(".reader-kicker").textContent(), /020/);
   }, { seeded: false });
 });

@@ -71,6 +71,8 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+/* A pending fragment animation must not fight reading-position restoration. */
+html:has(.reader-page) { scroll-behavior: auto; }
 body {
   margin: 0;
   font-family: var(--font-ui);
@@ -88,7 +90,8 @@ img { display: block; }
 .skip-content { position: fixed; z-index: 70; top: 8px; left: 12px; padding: 10px 16px; transform: translateY(-150%); background: var(--paper-strong); color: var(--ink); border-radius: 8px; }
 .skip-content:focus { transform: none; }
 html:has(.reader-page .scrim) .skip-content { visibility: hidden; }
-.reader-article { scroll-margin-top: 64px; }
+.reader-article { scroll-margin-top: 124px; }
+.reader-page:has(.review-toolbar-link) .reader-article { scroll-margin-top: 178px; }
 
 .shell { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 .page { padding: 28px 0 96px; }
