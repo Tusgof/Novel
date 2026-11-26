@@ -95,7 +95,11 @@ before(async () => {
   );
   server.stdout.on("data", (chunk) => { serverOutput += chunk.toString(); });
   server.stderr.on("data", (chunk) => { serverOutput += chunk.toString(); });
-  await waitForHttp(`${baseUrl}/`);
+  try {
+    await waitForHttp(`${baseUrl}/`);
+  } catch (cause) {
+    throw new Error(`MoonRead test server did not start (exit ${server.exitCode ?? "pending"}):\n${serverOutput.trim() || "No server output"}`, { cause });
+  }
   browser = await engine.launch({ executablePath: engine.executablePath() });
 });
 
