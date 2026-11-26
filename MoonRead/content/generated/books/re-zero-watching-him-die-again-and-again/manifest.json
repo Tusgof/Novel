@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-07T16:32:46.020Z",
+  "generatedAt": "2026-11-26T03:59:54.628Z",
   "sourceRoot": "../Re Zero Watching Him Die Again and Again/05_Output",
-  "targetRange": "ch001-ch008",
+  "targetRange": "ch001-ch002",
   "novel": {
     "slug": "re-zero-watching-him-die-again-and-again",
     "title": "Re:Zero - Watching Him Die Again and Again",
@@ -27,8 +27,8 @@
     }
   },
   "summary": {
-    "total": 8,
-    "available": 8,
+    "total": 2,
+    "available": 2,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -57,78 +57,6 @@
       "charCount": 260982,
       "readingMinutes": 58,
       "translator": "[Lean]"
-    },
-    {
-      "id": "ch003",
-      "number": 3,
-      "title": "บทที่ 3: ตอนที่ 2 ไดเรกเตอร์คัต",
-      "status": "available",
-      "sourcePath": "ch003/ch003.md",
-      "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch003.md",
-      "href": "/books/re-zero-watching-him-die-again-and-again/read/ch003",
-      "charCount": 174300,
-      "readingMinutes": 39,
-      "translator": "[Pipe]"
-    },
-    {
-      "id": "ch004",
-      "number": 4,
-      "title": "บทที่ 4: ตอนที่ 3 ฉบับผู้กำกับ",
-      "status": "available",
-      "sourcePath": "ch004/ch004.md",
-      "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch004.md",
-      "href": "/books/re-zero-watching-him-die-again-and-again/read/ch004",
-      "charCount": 154857,
-      "readingMinutes": 35,
-      "translator": "[Pipe]"
-    },
-    {
-      "id": "ch005",
-      "number": 5,
-      "title": "บทที่ 5: ตอนที่ 4 ฉบับผู้กำกับ",
-      "status": "available",
-      "sourcePath": "ch005/ch005.md",
-      "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch005.md",
-      "href": "/books/re-zero-watching-him-die-again-and-again/read/ch005",
-      "charCount": 218790,
-      "readingMinutes": 49,
-      "translator": "[Pipe]"
-    },
-    {
-      "id": "ch006",
-      "number": 6,
-      "title": "บทที่ 6: ตอนที่ 5 ฉบับผู้กำกับ",
-      "status": "available",
-      "sourcePath": "ch006/ch006.md",
-      "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch006.md",
-      "href": "/books/re-zero-watching-him-die-again-and-again/read/ch006",
-      "charCount": 151437,
-      "readingMinutes": 34,
-      "translator": "[Pipe]"
-    },
-    {
-      "id": "ch007",
-      "number": 7,
-      "title": "บทที่ 7: ตอนที่ 6 ฉบับผู้กำกับ",
-      "status": "available",
-      "sourcePath": "ch007/ch007.md",
-      "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch007.md",
-      "href": "/books/re-zero-watching-him-die-again-and-again/read/ch007",
-      "charCount": 129924,
-      "readingMinutes": 29,
-      "translator": "[Pipe]"
-    },
-    {
-      "id": "ch008",
-      "number": 8,
-      "title": "บทที่ 8: ตอนโอวีเอ 1 เมมโมรีสโนว์",
-      "status": "available",
-      "sourcePath": "ch008/ch008.md",
-      "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch008.md",
-      "href": "/books/re-zero-watching-him-die-again-and-again/read/ch008",
-      "charCount": 158637,
-      "readingMinutes": 36,
-      "translator": "[Pipe]"
     }
   ]
 }

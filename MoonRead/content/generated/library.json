@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T18:15:40.239Z",
+  "generatedAt": "2026-11-26T03:59:54.868Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,8 +11,8 @@
   },
   "summary": {
     "books": 8,
-    "chapters": 844,
-    "available": 844,
+    "chapters": 267,
+    "available": 267,
     "missing": 0,
     "rejected": 0
   },
@@ -33,25 +33,25 @@
       "cover": "/images/deep-sea-embers-cover.png",
       "href": "/book",
       "chaptersHref": "/chapters",
-      "targetRange": "ch001-ch281",
+      "targetRange": "ch001-ch020",
       "summary": {
-        "total": 281,
-        "available": 281,
+        "total": 20,
+        "available": 20,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch281",
-        "number": 281,
-        "title": "บทที่ 282: ว่าด้วยข้อห้ามในการอ่านหนังสือกลางทะเล",
+        "id": "ch020",
+        "number": 20,
+        "title": "บทที่ 20: การสังเวย",
         "status": "available",
-        "sourcePath": "ch281/ch281.md",
-        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch281.md",
-        "href": "/read/ch281",
-        "charCount": 8294,
-        "readingMinutes": 2,
-        "translator": "[Pipe]"
+        "sourcePath": "ch020/ch020.md",
+        "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch020.md",
+        "href": "/read/ch020",
+        "charCount": 9110,
+        "readingMinutes": 3,
+        "translator": "[Lean]"
       },
       "firstChapter": {
         "id": "ch001",
@@ -82,25 +82,25 @@
       "cover": "/images/horror-game-developer-cover.png",
       "href": "/books/horror-game-developer",
       "chaptersHref": "/books/horror-game-developer/chapters",
-      "targetRange": "ch001-ch290",
+      "targetRange": "ch001-ch020",
       "summary": {
-        "total": 290,
-        "available": 290,
+        "total": 20,
+        "available": 20,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch290",
-        "number": 290,
-        "title": "ตอนที่ 290 - อะนัมเนซิส [1]",
+        "id": "ch020",
+        "number": 20,
+        "title": "ตอนที่ 20 - พัฒนาเกม",
         "status": "available",
-        "sourcePath": "ch290/ch290.md",
-        "generatedPath": "content/generated/books/horror-game-developer/chapters/ch290.md",
-        "href": "/books/horror-game-developer/read/ch290",
-        "charCount": 5023,
+        "sourcePath": "ch020/ch020.md",
+        "generatedPath": "content/generated/books/horror-game-developer/chapters/ch020.md",
+        "href": "/books/horror-game-developer/read/ch020",
+        "charCount": 6170,
         "readingMinutes": 2,
-        "translator": "[Pipe]"
+        "translator": "[Lean]"
       },
       "firstChapter": {
         "id": "ch001",
@@ -132,25 +132,25 @@
       "cover": "/images/infinite-regressor-stories-cover.png",
       "href": "/books/infinite-regressor-stories",
       "chaptersHref": "/books/infinite-regressor-stories/chapters",
-      "targetRange": "ch001-ch070",
+      "targetRange": "ch001-ch030",
       "summary": {
-        "total": 70,
-        "available": 70,
+        "total": 30,
+        "available": 30,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch070",
-        "number": 70,
-        "title": "บทที่ 70: ผู้บันทึก II",
+        "id": "ch030",
+        "number": 30,
+        "title": "นักสำรวจ 2",
         "status": "available",
-        "sourcePath": "ch070/ch070.md",
-        "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch070.md",
-        "href": "/books/infinite-regressor-stories/read/ch070",
-        "charCount": 11940,
+        "sourcePath": "ch030/ch030.md",
+        "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch030.md",
+        "href": "/books/infinite-regressor-stories/read/ch030",
+        "charCount": 12606,
         "readingMinutes": 3,
-        "translator": "[Pipe]"
+        "translator": "[Lean]"
       },
       "firstChapter": {
         "id": "ch001",
@@ -178,25 +178,25 @@
       "cover": "/images/re-zero-watching-him-die-again-and-again-cover.png",
       "href": "/books/re-zero-watching-him-die-again-and-again",
       "chaptersHref": "/books/re-zero-watching-him-die-again-and-again/chapters",
-      "targetRange": "ch001-ch008",
+      "targetRange": "ch001-ch002",
       "summary": {
-        "total": 8,
-        "available": 8,
+        "total": 2,
+        "available": 2,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch008",
-        "number": 8,
-        "title": "บทที่ 8: ตอนโอวีเอ 1 เมมโมรีสโนว์",
+        "id": "ch002",
+        "number": 2,
+        "title": "บทที่ 2: ตอนที่ 1 ไดเรกเตอร์คัต",
         "status": "available",
-        "sourcePath": "ch008/ch008.md",
-        "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch008.md",
-        "href": "/books/re-zero-watching-him-die-again-and-again/read/ch008",
-        "charCount": 158637,
-        "readingMinutes": 36,
-        "translator": "[Pipe]"
+        "sourcePath": "ch002/ch002.md",
+        "generatedPath": "content/generated/books/re-zero-watching-him-die-again-and-again/chapters/ch002.md",
+        "href": "/books/re-zero-watching-him-die-again-and-again/read/ch002",
+        "charCount": 260982,
+        "readingMinutes": 58,
+        "translator": "[Lean]"
       },
       "firstChapter": {
         "id": "ch001",

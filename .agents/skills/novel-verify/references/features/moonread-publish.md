@@ -25,8 +25,10 @@ rebuilt. Other books retain their existing manifest/chapter bytes, are labeled
 - Publishing is outward-facing: it needs the owner's request for this scope.
 - The Sentinel gate refuses to run without `SENTINEL_NOVEL` and `SENTINEL_CHAPTERS` unless `SENTINEL_ALLOW_FULL=1` is set on purpose.
 - What MoonRead shows is controlled per novel in `00_Config/novel_registry.json`: `reader.enabled` and the `first_chapter` / `last_chapter` range. Check them before publishing a new title or range.
-- `reader.code_chapters` lists the exact episode IDs labeled `[Code]`; all others
-  retain their configured Lean/Pipe behavior. `npm run test:generate` tests label
+- `reader.code_chapters` lists the exact episode IDs labeled `[Code]`; other
+  published IDs must fall within `reader.lean_retranslated_through`. Pipe is
+  archive-only. Generation refuses unapproved ranges or retained Pipe entries
+  before changing snapshots. `npm run test:generate` tests label
   precedence, scoped preservation, bad selected content and invalid scope/range.
 - For persisted-state bugs, build first, then run `npm run test:reader`: it seeds
   saved progress/settings and checks hydration, restoration, TOC numbers and dialog
