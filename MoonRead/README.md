@@ -21,7 +21,7 @@ The versioned `content/generated/` snapshot is enough to develop and verify the 
 
 The reader supports configured chapter ranges per book. Missing chapters are shown as unavailable until the source Markdown exists and passes validation.
 
-Reading position, chapter bookmarks, favorites, and reading settings are saved in the current browser, not an account. A bookmark added from the reader remembers the passage; opening it from the shelf does not change your continue-reading position. Older and chapter-list bookmarks open at the chapter start. Clearing website data removes saved state.
+Reading position, chapter bookmarks, favorites, and reading settings are saved in the current browser, not an account. A bookmark added from the reader remembers the passage; older and chapter-list bookmarks open at the chapter start. A bookmark on the current chapter or an unread book opens for normal reading. If a different chapter already has saved progress, the bookmark opens in labeled review mode until you choose to save your place there. Clearing website data removes saved state.
 
 Chapter links keep their original route IDs even when the published title prints a different number. The displayed episode number and numeric search use the title's number where available. Catalog and chapter search can submit before JavaScript is ready. Navigation inside the reader fetches the next chapter's data before replacing the visible passage; a failed request leaves the current chapter and any open chapter search in place with a retry action.
 

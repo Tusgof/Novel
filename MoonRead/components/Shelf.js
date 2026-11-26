@@ -6,6 +6,7 @@ import { useReaderStore } from "../lib/reader-store";
 import { getBookTitlePair } from "../lib/book-titles";
 import { BookCard, ResumeCard, EmptyState } from "./BookGrid";
 import { chapterNumber, episodeLabel } from "../lib/chapter-number";
+import { bookmarkDestination } from "../lib/bookmark-links";
 
 export function ShelfView({ books }) {
   const store = useReaderStore();
@@ -31,17 +32,20 @@ export function ShelfView({ books }) {
       <section className="section" id="chapter-bookmarks">
         <div className="section-head"><h2><Bookmark size={20} /> ที่คั่นตอน</h2></div>
         {!store.ready ? <p className="muted-line" role="status">กำลังโหลดที่คั่นตอน…</p> : marked.length ? marked.map(({ book, marks }) => {
-          const { title } = getBookTitlePair(book);
+            const { title } = getBookTitlePair(book);
+            const progress = store.getProgress(book.slug);
 
           return (
             <div key={book.slug} className="mark-group">
               <div className="mark-group-head"><BookOpen size={16} /> {title}</div>
               <div className="toc-list">
-                {marks.map((m) => (
+                {marks.map((m) => {
+                  const bookmark = bookmarkDestination(m, progress);
+                  return (
                   <div key={m.id} className="ch-row">
-                    <Link className="chapter-link" href={`${m.href}?review=1`} prefetch={false}>
+                    <Link className="chapter-link" href={bookmark.href} prefetch={false}>
                     <span className="num">{String(chapterNumber(m)).padStart(3, "0")}</span>
-                    <span className="ct"><small>{episodeLabel(m)}</small><strong>{m.title}</strong></span>
+                     <span className="ct"><small>{episodeLabel(m)} · {bookmark.label}</small><strong>{m.title}</strong></span>
                     <span className="cm" />
                     </Link>
                     <button className="ch-star on" type="button" aria-label={`นำที่คั่น ${episodeLabel(m)} ออก`}
@@ -49,7 +53,8 @@ export function ShelfView({ books }) {
                       <BookmarkX size={16} />
                     </button>
                   </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           );

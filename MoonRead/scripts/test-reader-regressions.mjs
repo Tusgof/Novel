@@ -965,6 +965,56 @@ test("opening book bookmarks on a short touch viewport clears the bottom navigat
   }, { hasTouch: true });
 });
 
+test("opening a bookmark without other progress starts a saved reading session", async () => {
+  await withPage({ width: 375, height: 620 }, async (page) => {
+    await page.goto(`${baseUrl}/book#book-contents`, { waitUntil: "networkidle" });
+    await page.locator(".toc-list .ch-star").first().tap();
+    await page.getByRole("button", { name: "ที่คั่น (1)" }).tap();
+    const bookmark = page.locator('.toc-list a[href="/read/ch001?bookmark=1"]');
+    assert.match(await bookmark.textContent(), /อ่านจากที่คั่น/);
+    await bookmark.tap();
+    await page.waitForURL(`${baseUrl}/read/ch001`);
+    assert.equal(await page.locator(".reader-review").count(), 0);
+    await page.locator(".reader-quick-next").tap();
+    await page.waitForURL(`${baseUrl}/read/ch002`);
+    await page.waitForFunction(() => document.activeElement === document.querySelector(".reader-head h1"));
+    await page.evaluate(() => scrollTo({ top: 1000, behavior: "instant" }));
+    await page.goto(`${baseUrl}/history`);
+    await page.locator('.resume[href="/read/ch002"]').tap();
+    await page.waitForFunction(() => scrollY > 950);
+  }, { seeded: false, hasTouch: true });
+});
+
+test("reviewing another bookmarked chapter can deliberately move the saved position", async () => {
+  await withPage({ width: 320, height: 640 }, async (page) => {
+    await page.goto(`${baseUrl}/shelf`, { waitUntil: "networkidle" });
+    const href = `${horrorBook}/read/ch002`;
+    const bookmark = page.locator(`a[href="${href}?review=1"]`);
+    assert.match(await bookmark.textContent(), /อ่านทวน · เก็บจุดอ่านเดิม/);
+    await bookmark.click();
+    await page.locator(".reader-review").waitFor();
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), 320);
+    await page.evaluate(() => scrollTo({ top: 1400, behavior: "instant" }));
+    assert.equal((await storedState(page)).progress["horror-game-developer"].chapterId, "ch003");
+    const visibleBlock = () => page.evaluate(() => {
+      const inset = document.querySelector(".reader-topbar").offsetHeight + 8;
+      return [...document.querySelector(".reader-article").children].findIndex((node) => node.getBoundingClientRect().bottom > inset);
+    });
+    const block = await visibleBlock();
+    await page.getByRole("button", { name: "บันทึกจุดอ่านที่นี่" }).click();
+    await page.waitForURL(`${baseUrl}${href}`);
+    await page.locator(".reader-review").waitFor({ state: "detached" });
+    assert.equal((await storedState(page)).progress["horror-game-developer"].chapterId, "ch002");
+    assert.equal(await visibleBlock(), block);
+    await page.goto(`${baseUrl}/shelf`, { waitUntil: "networkidle" });
+    const current = page.locator(`a[href="${href}?bookmark=1"]`);
+    assert.match(await current.textContent(), /อ่านจากที่คั่น/);
+    await current.click();
+    await page.waitForURL(`${baseUrl}${href}`);
+    assert.equal(await page.locator(".reader-review").count(), 0);
+  });
+});
+
 test("mobile search exposes the story, detail supports favorites, and bookmark review keeps resume", async () => {
   await withPage({ width: 360, height: 732 }, async (page) => {
     const book = "/books/ten-day-ultimatum";

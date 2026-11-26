@@ -206,6 +206,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
   const reviewing = useRef(false);
   const layoutAnchor = useRef(null);
   const settingsAnchor = useRef(null);
+  const reviewExitAnchor = useRef(null);
   const visibleBlocks = useMemo(() => blocks.filter((block) => block.type !== "title" || block.text !== chapter.title), [blocks, chapter.title]);
   const contentOffsets = useMemo(() => {
     const offsets = [0];
@@ -317,7 +318,15 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
   }, [settingsOpen]);
 
   useLayoutEffect(() => {
-    if (!review) return;
+    if (!review) {
+      const position = reviewExitAnchor.current;
+      if (!position) return;
+      reviewExitAnchor.current = null;
+      restorePosition(article.current, topbar.current, position.anchor);
+      flushPosition.current?.();
+      topbar.current?.querySelector("#reader-tools")?.focus({ preventScroll: true });
+      return;
+    }
     const position = ReaderStore.getBookmark(slug, chapter.id)?.position;
     if (!restorePosition(article.current, topbar.current, position)) scrollToReadingPosition(0);
   }, [chapter.id, review, slug]);
@@ -326,6 +335,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
     const saved = ReaderStore.getChapterPosition(slug, chapter.id);
     const params = new URLSearchParams(window.location.search);
     const restart = params.has("start");
+    const fromBookmark = params.has("bookmark");
     reviewing.current = params.has("review");
     if (restart) window.history.replaceState(window.history.state, "", chapter.href);
     document.title = book?.title && slug !== "deep-sea-embers" ? `${chapter.title} | ${book.title} | MoonRead` : `${chapter.title} | MoonRead`;
@@ -368,7 +378,10 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
       if (disposed) return;
       const position = saved?.position;
       setReview(reviewing.current);
-      if (!reviewing.current && !restart && saved?.chapterId === chapter.id && (position || saved.percent > 0)) {
+      if (fromBookmark && !restart && !reviewing.current) {
+        if (!restorePosition(article.current, topbar.current, ReaderStore.getBookmark(slug, chapter.id)?.position)) scrollToReadingPosition(0);
+        window.history.replaceState(window.history.state, "", chapter.href + window.location.hash);
+      } else if (!reviewing.current && !restart && saved?.chapterId === chapter.id && (position || saved.percent > 0)) {
         const max = document.documentElement.scrollHeight - window.innerHeight;
         if (!restorePosition(article.current, topbar.current, position)) scrollToReadingPosition(max * saved.percent / 100);
       } else if (restart || reviewing.current || window.history.state?.moonreadChapter) {
@@ -395,6 +408,13 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
       flush();
     };
   }, [slug, chapter.id, chapter.number, chapter.title, chapter.href, book?.title, contentOffsets]);
+
+  function keepReadingHere() {
+    reviewExitAnchor.current = { anchor: window.scrollY > 0 ? readingPosition(article.current, (topbar.current?.offsetHeight || 0) + 8) : null };
+    window.history.replaceState(window.history.state, "", chapter.href + window.location.hash);
+    reviewing.current = false;
+    setReview(false);
+  }
 
   const nextHref = neighbors.next?.href;
   useEffect(() => {
@@ -478,7 +498,10 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
           </> : <span className="reader-controls-loading" role="status">กำลังโหลดเครื่องมืออ่าน…</span>}
         </div>
         <span className="progress-line" style={{ transform: `scaleX(${progress / 100})` }} />
-        {resumeHref ? <a className="review-toolbar-link" href={resumeHref}>กลับไปอ่านต่อ {chapterLabel(resume)} <ArrowRight size={16} /></a> : null}
+        {review ? <div className="review-toolbar">
+          {resumeHref ? <a className="review-toolbar-link" href={resumeHref}>กลับไปอ่านต่อ {chapterLabel(resume)} <ArrowRight size={16} /></a> : null}
+          <button className="text-button" type="button" onClick={keepReadingHere}>บันทึกจุดอ่านที่นี่</button>
+        </div> : null}
         <nav className="reader-stepper" aria-label="เปลี่ยนตอนระหว่างอ่าน">
           {neighbors.previous ? <Link prefetch={false} href={neighbors.previous.href} onNavigate={(e) => follow(e, neighbors.previous.href)}><ChevronLeft size={16} /> ตอนก่อนหน้า</Link> : <span />}
           {neighbors.next ? <Link prefetch={false} className="reader-quick-next" href={neighbors.next.href} onNavigate={(e) => follow(e, neighbors.next.href)}>ตอนถัดไป <ChevronRight size={16} /></Link> : <span />}
@@ -581,7 +604,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
                 const reviewTarget = review || (marked && !isCurrent && resume?.chapterId !== item.id);
                 return <Link key={item.id} ref={isCurrent ? activeChapter : null} aria-current={isCurrent ? "page" : undefined} prefetch={false} className={`ch-row${isCurrent ? " reading" : ""}`} href={reviewTarget ? `${item.href}?review=1` : item.href} onNavigate={(e) => { if (isCurrent) setTocOpen(false); follow(e, item.href, reviewTarget); }}>
                   <span className="num">{String(chapterNumber(item)).padStart(3, "0")}</span>
-                  <span className="ct"><strong>{item.title}</strong></span>
+                   <span className="ct"><strong>{item.title}</strong>{reviewTarget && !review ? <small>อ่านทวน · เก็บจุดอ่านเดิม</small> : null}</span>
                   <span className="cm">{marked ? <Bookmark size={14} role="img" aria-label="คั่นไว้" fill="currentColor" color="var(--gold)" /> : null}</span>
                 </Link>;
               })}

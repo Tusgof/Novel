@@ -10,19 +10,20 @@ import { Cover, EmptyState } from "./BookGrid";
 import ChapterFinder from "./ChapterFinder";
 import { chapterNumber, episodeLabel as chLabel } from "../lib/chapter-number";
 import { bookSynopsis } from "../lib/book-synopsis";
+import { bookmarkDestination } from "../lib/bookmark-links";
 
 const subscribeReady = () => () => {};
 const clientReady = () => true;
 const serverReady = () => false;
 
-function ChapterRow({ slug, chapter, reading, store, ready, review = false }) {
+function ChapterRow({ slug, chapter, reading, store, ready, bookmark }) {
   const starred = store.isBookmarked(slug, chapter.id);
   const disabled = chapter.status !== "available";
 
   const inner = (
     <>
       <span className="num">{String(chapterNumber(chapter)).padStart(3, "0")}</span>
-      <span className="ct"><small>{chLabel(chapter)}{!disabled ? <> · ผู้แปล <span className="translator">{chapter.translator}</span></> : null}</small><strong>{disabled ? `${chLabel(chapter)} ยังไม่พร้อมอ่าน` : chapter.title}</strong></span>
+      <span className="ct"><small>{chLabel(chapter)}{bookmark ? ` · ${bookmark.label}` : !disabled ? <> · ผู้แปล <span className="translator">{chapter.translator}</span></> : null}</small><strong>{disabled ? `${chLabel(chapter)} ยังไม่พร้อมอ่าน` : chapter.title}</strong></span>
       <span className="cm"><Clock3 size={13} /> {disabled ? "เร็วๆ นี้" : `${chapter.readingMinutes} น.`}</span>
     </>
   );
@@ -30,7 +31,7 @@ function ChapterRow({ slug, chapter, reading, store, ready, review = false }) {
   if (disabled) return <div className="ch-row disabled" aria-disabled="true" data-gap={chapter.inferredGap || undefined}>{inner}</div>;
   return (
     <div className={`ch-row${reading ? " reading" : ""}`}>
-      <a className="chapter-link" aria-current={reading ? "location" : undefined} href={review ? `${chapter.href}?review=1` : chapter.href}>{inner}</a>
+      <a className="chapter-link" aria-current={reading ? "location" : undefined} href={bookmark?.href || chapter.href}>{inner}</a>
       <button className={`ch-star${starred ? " on" : ""}`} type="button" disabled={!ready} aria-label={`คั่นหน้า ${chLabel(chapter)}`} aria-pressed={starred} onClick={() => store.toggleBookmark(slug, chapter)}>
         <Bookmark size={16} fill={starred ? "currentColor" : "none"} />
       </button>
@@ -134,7 +135,7 @@ export default function BookDetail({ book, chapters, initialSearch }) {
                 <div className="toc-list">
                   {marks.map((m) => {
                     const c = chapters.find((x) => x.id === m.id && x.status === "available");
-                    return c ? <ChapterRow key={m.id} slug={book.slug} chapter={c} store={store} ready={ready} reading={prog?.chapterId === m.id} review /> : null;
+                    return c ? <ChapterRow key={m.id} slug={book.slug} chapter={c} store={store} ready={ready} reading={prog?.chapterId === m.id} bookmark={bookmarkDestination(c, prog)} /> : null;
                   })}
                 </div>
               ) : (
