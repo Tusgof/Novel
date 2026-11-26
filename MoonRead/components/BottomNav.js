@@ -38,7 +38,7 @@ export default function BottomNav() {
         const Icon = n.icon;
         const active = n.match(pathname);
         return (
-          <Link key={n.href} href={n.href} className={active ? "active" : undefined} aria-current={active ? "page" : undefined}>
+          <Link prefetch={false} key={n.href} href={n.href} className={active ? "active" : undefined} aria-current={active ? "page" : undefined}>
             <Icon size={20} /> {n.label}
           </Link>
         );

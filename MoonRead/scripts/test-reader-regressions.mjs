@@ -569,6 +569,20 @@ test("reading progress stays visible beside a long title on narrow screens", asy
   }
 });
 
+test("explicit search supports the displayed author and offers close title suggestions", async () => {
+  await withPage({ width: 1366, height: 900 }, async (page) => {
+    await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+    const header = page.locator(".appbar-search input");
+    await header.fill("Yuan Tong");
+    await header.press("Enter");
+    await page.waitForFunction(() => document.activeElement?.id === "catalog-title");
+    assert.equal(await page.locator("#catalog .book-card a").getAttribute("href"), "/book");
+    const search = page.locator(".hero-search input");
+    await search.fill("Deep Sea Embres");
+    assert.equal(await page.getByRole("region", { name: "เรื่องที่ชื่อใกล้เคียง" }).locator(".book-card a").getAttribute("href"), "/book");
+  }, { seeded: false });
+});
+
 test("printed chapter gaps stay non-navigable, and Enter jumps to an available chapter", async () => {
   const catalog = [{ id: "ch099", number: 99, title: "บทที่ 99: ก่อน", href: "/read/ch099" }, { id: "ch100", number: 100, title: "บทที่ 101: หลัง", href: "/read/ch100" }];
   assert.deepEqual(withNumberGaps(catalog), [catalog[0], { id: "gap-100", number: 100, title: "", status: "missing", inferredGap: true }, catalog[1]]);

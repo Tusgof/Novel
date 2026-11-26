@@ -262,6 +262,13 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
     const anchor = settingsAnchor.current;
     settingsAnchor.current = null;
     restorePosition(article.current, topbar.current, anchor);
+    // A browser can adjust the viewport after the modal releases scroll lock.
+    // Align again after that layout, without waiting for an arbitrary timer.
+    const frame = requestAnimationFrame(() => {
+      restorePosition(article.current, topbar.current, anchor);
+      flushPosition.current?.();
+    });
+    return () => cancelAnimationFrame(frame);
   }, [settingsOpen]);
 
   useEffect(() => {

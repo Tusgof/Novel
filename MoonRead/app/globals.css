@@ -304,6 +304,7 @@ html:has(.reader-page .scrim) .skip-content { visibility: hidden; }
 .theme-sepia .reader-topbar { background: rgba(239,229,208,.82); }
 .theme-night .reader-topbar { background: rgba(15,22,36,.86); border-bottom-color: rgba(240,240,240,.08); }
 .reader-top-title { min-width: 0; }
+.reader-article { overflow-anchor: none; }
 .reader-top-title strong { display: block; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .reader-top-meta { display: flex; gap: 6px; align-items: baseline; color: var(--muted); font-size: 12px; white-space: nowrap; }
 .reader-series-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; }

@@ -15,6 +15,24 @@ const SORTS = [
   { id: "title", label: "ชื่อ ก-ฮ / A-Z" },
 ];
 
+function closeTitle(query, title) {
+  const words = (value) => value.toLowerCase().match(/[a-z0-9]+/g) || [];
+  const tokens = words(query);
+  const choices = words(title);
+  if (!tokens.length || !/^[a-z0-9\s-]+$/i.test(query)) return false;
+  let corrections = 0;
+  return tokens.every((token) => choices.some((word) => word.startsWith(token)) || (
+    token.length >= 4 && ++corrections === 1 && choices.some((word) => {
+      if (Math.abs(word.length - token.length) > 1) return false;
+      let i = 0;
+      while (i < token.length && word[i] === token[i]) i++;
+      const a = token.slice(i), b = word.slice(i);
+      if (a.length === b.length) return a.slice(1) === b.slice(1) || (a[0] === b[1] && a[1] === b[0] && a.slice(2) === b.slice(2));
+      return a.length > b.length ? a.slice(1) === b : b.slice(1) === a;
+    })
+  ));
+}
+
 function Hero({ query, setQuery }) {
   const field = useRef(null);
   const previousQuery = useRef(query);
@@ -49,6 +67,11 @@ export default function Discover({ books, genres, initialQuery }) {
   const store = useReaderStore();
   const params = useSearchParams();
   const urlQuery = params?.get("q") ?? (params ? "" : initialQuery);
+  useEffect(() => {
+    if (window.location.hash !== "#catalog" || !new URLSearchParams(window.location.search).has("q")) return;
+    const active = document.activeElement;
+    if (active === document.body || active?.closest(".appbar-search")) document.getElementById("catalog-title")?.focus({ preventScroll: true });
+  }, [initialQuery]);
   const [draft, setDraft] = useState(null);
   const query = draft?.base === urlQuery ? draft.text : urlQuery;
   function setQuery(text) {
@@ -75,6 +98,7 @@ export default function Discover({ books, genres, initialQuery }) {
     if (sort === "chapters") out = [...out].sort((a, b) => (b.summary?.available || 0) - (a.summary?.available || 0));
     return out;
   }, [books, q, active, sort]);
+  const suggestions = q && !list.length && !active.length ? books.filter((book) => closeTitle(q, book.title)).slice(0, 3) : [];
 
   const filtering = Boolean(q || active.length);
 
@@ -115,7 +139,7 @@ export default function Discover({ books, genres, initialQuery }) {
         <section className="section">
           <div className="section-head">
             <h2><History size={20} /> อ่านต่อจากที่ค้างไว้</h2>
-            <Link className="more" href="/history">ดูทั้งหมด <ChevronRight size={15} /></Link>
+            <Link prefetch={false} className="more" href="/history">ดูทั้งหมด <ChevronRight size={15} /></Link>
           </div>
           <div className="rail">
             {history.slice(0, 6).map(({ h, book }) => <ResumeCard key={h.slug} book={book} entry={h} />)}
@@ -138,6 +162,7 @@ export default function Discover({ books, genres, initialQuery }) {
             ลองเปลี่ยนคำค้น หรือ <button className="text-button" type="button" onClick={() => { setQuery(""); setActive([]); }}>ล้างคำค้นและตัวกรอง</button>
           </EmptyState>
         )}
+        {suggestions.length ? <section aria-label="เรื่องที่ชื่อใกล้เคียง"><h3>ลองดูเรื่องที่ชื่อใกล้เคียง</h3><div className="book-grid">{suggestions.map((b) => <BookCard key={b.slug} book={b} />)}</div></section> : null}
         {q ? filters : null}
       </section>
     </main>

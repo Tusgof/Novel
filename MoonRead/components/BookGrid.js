@@ -77,7 +77,7 @@ export function ResumeCard({ book, entry }) {
   const { title } = getBookTitlePair(book);
 
   return (
-    <Link className="resume" href={entry.href}>
+    <Link prefetch={false} className="resume" href={entry.href}>
       <div className="thumb"><Cover book={book} sizes="64px" /></div>
       <div className="meta">
         <div className="t">{title}</div>

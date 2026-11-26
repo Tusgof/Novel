@@ -49,7 +49,8 @@ export default function BookDetail({ book, chapters }) {
   const prog = saved && available.some((chapter) => chapter.id === saved.chapterId) ? saved : null;
 
   const firstHref = available[0]?.href;
-  const latestHref = available.at(-1)?.href;
+  const latest = available.at(-1);
+  const latestHref = latest?.href;
 
   const marks = store.bookmarksFor(book.slug);
   const { title, thaiTitle } = getBookTitlePair(book);
@@ -67,6 +68,7 @@ export default function BookDetail({ book, chapters }) {
             <div className="sub">{[thaiTitle ? title : "", book.author !== "—" ? book.author : ""].filter(Boolean).join(" · ")}</div>
             <div className="detail-stats">
               <div className="st"><b>{soon ? book.summary?.total ?? chapters.length : available.length}</b><span>{soon ? "ตอน (เร็วๆ นี้)" : "ตอนพร้อมอ่าน"}</span></div>
+              {latest ? <div className="st"><span>ฉบับไทยถึง</span><b>{chLabel(latest)}</b></div> : null}
               {prog ? <div className="st"><b>{prog.percent}%</b><span>อ่านถึง {chLabel(prog)}</span></div> : null}
             </div>
           </div>
