@@ -474,7 +474,7 @@ test("the focused TOC return row puts its bookmark and Discover next in keyboard
     await page.goto(`${baseUrl}/read/ch002`, { waitUntil: "networkidle" });
     await page.getByRole("link", { name: "กลับไปสารบัญ" }).press("Enter");
     await page.waitForURL("**/chapters?range=1#chapter-ch002");
-    const exit = page.getByRole("link", { name: "ค้นพบเรื่องอื่น" });
+    const exit = page.getByRole("link", { name: "กลับหน้าแรก · ค้นพบ" });
     await exit.waitFor();
     await page.waitForFunction(() => document.activeElement?.id === "chapter-ch002");
     await page.keyboard.press("Tab");
@@ -837,6 +837,29 @@ test("tabbing past the sticky tools does not jump to the end or save unread prog
   }, { seeded: false });
 });
 
+test("the first Page Down on the new chapter survives delayed font readiness", async () => {
+  await withPage({ width: 1440, height: 900 }, async (page) => {
+    await page.goto(`${baseUrl}/read/ch001`, { waitUntil: "networkidle" });
+    await page.evaluate(() => {
+      const fonts = document.fonts;
+      const ready = fonts.ready;
+      let release;
+      const held = new Promise((resolve) => { release = resolve; });
+      Object.defineProperty(fonts, "ready", { configurable: true, get: () => ready.then(() => held) });
+      window.releaseTestReaderFonts = () => { delete fonts.ready; release(); };
+    });
+    await page.locator(".reader-quick-next").press("Enter");
+    await page.locator(".reader-kicker").filter({ hasText: "002" }).waitFor();
+    await page.keyboard.press("PageDown");
+    const firstScroll = await page.evaluate(() => scrollY);
+    assert.ok(firstScroll > 400);
+    await page.evaluate(() => window.releaseTestReaderFonts());
+    await page.waitForFunction(() => document.activeElement?.id === "reader-heading");
+    assert.ok(await page.evaluate(() => scrollY) >= firstScroll - 2);
+    await page.waitForFunction(() => parseInt(document.querySelector(".reader-progress-value").textContent, 10) > 0);
+  }, { seeded: false });
+});
+
 test("keyboard page scrolling keeps a reading overlap and Tab finds the visible end action", async () => {
   await withPage({ width: 1440, height: 900 }, async (page) => {
     await page.goto(`${baseUrl}/books/ten-day-ultimatum/read/ch001`, { waitUntil: "networkidle" });
@@ -957,6 +980,21 @@ test("the catalog and query results are available without JavaScript", async () 
     assert.equal(await page.locator(".book-card a").count(), 1);
     assert.equal(await page.locator(".book-card a").getAttribute("href"), horrorBook);
   } finally { await context.close(); }
+});
+
+test("a short mobile home screen shows the first story title without scrolling", async () => {
+  await withPage({ width: 375, height: 600 }, async (page) => {
+    await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+    const first = page.locator("#catalog .book-card").first();
+    assert.equal(await first.locator(".t").evaluate((title) => {
+      const box = title.getBoundingClientRect();
+      const nav = document.querySelector(".botnav").getBoundingClientRect();
+      const touchTarget = document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2);
+      return scrollY === 0 && box.top >= 0 && box.bottom <= nav.top && touchTarget?.closest(".book-card > a")?.getAttribute("href") === "/book";
+    }), true, "the title must be visible and tappable above the fixed menu before scrolling");
+    await first.locator(".t").tap();
+    await page.waitForURL("**/book");
+  }, { seeded: false, hasTouch: true });
 });
 
 test("mobile discovery and book detail keep the first decision visible", async () => {

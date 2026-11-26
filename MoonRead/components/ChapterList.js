@@ -20,7 +20,7 @@ export default function ChapterList({ chapters, slug, initialSearch }) {
           {chapter.status === "available" && chapter.id === returnChapterId ? (
             // Use document navigation to start Discover at the top.
             // eslint-disable-next-line @next/next/no-html-link-for-pages
-            <a className="toc-discover text-link" href="/" tabIndex={0}><Compass size={16} aria-hidden="true" /> ค้นพบเรื่องอื่น</a>
+            <a className="toc-discover text-link" href="/" tabIndex={0}><Compass size={16} aria-hidden="true" /> กลับหน้าแรก · ค้นพบ</a>
           ) : null}
         </Fragment>;
       })}

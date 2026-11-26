@@ -447,19 +447,17 @@ html:has(.reader-page .scrim) { overflow: hidden; scrollbar-gutter: stable; }
   .detail-info .sub { font-size: 13px; }
   .detail-preview { font-size: 15px; }
   .detail-actions .pill-btn { padding-inline: 12px; font-size: 14px; }
-  .query-results .book-grid { grid-template-columns: 1fr; gap: 16px; }
-  .query-results .book-card > a { display: grid; grid-template-columns: 86px minmax(0, 1fr); gap: 12px; }
-  .query-results .book-card .info { padding: 0 2px; }
-  .query-results .book-card .fav { inset: 58px auto auto 36px; }
+  #catalog .book-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  #catalog .book-card > a { display: grid; grid-template-columns: 86px minmax(0, 1fr); gap: 12px; }
+  #catalog .book-card .info { padding: 0 2px; }
+  #catalog .book-card .fav { inset: 58px auto auto 36px; }
   .reader-bottom-nav { grid-template-columns: minmax(0, 1fr); }
   .reader-bottom-nav .nav-placeholder { display: none; }
   .next-card { flex-wrap: wrap; }
 }
 
 @media (max-width: 360px) {
-  #catalog .book-grid { grid-template-columns: minmax(0, 1fr); }
   #catalog .book-card > a { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 12px; }
-  #catalog .book-card .info { padding-top: 0; }
   #catalog .book-card .fav { inset: 53px auto auto 27px; }
   #catalog .cover-fallback .ft { display: none; }
 }

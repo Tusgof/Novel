@@ -210,6 +210,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
   const layoutAnchor = useRef(null);
   const settingsAnchor = useRef(null);
   const reviewExitAnchor = useRef(null);
+  const pageKeyUsed = useRef(false);
   const visibleBlocks = useMemo(() => blocks.filter((block) => block.type !== "title" || block.text !== chapter.title), [blocks, chapter.title]);
   const contentOffsets = useMemo(() => {
     const offsets = [0];
@@ -281,6 +282,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
         const line = parseFloat(getComputedStyle(article.current).lineHeight) || 40;
         const step = Math.max(line, window.innerHeight - inset - 2 * line);
         event.preventDefault();
+        pageKeyUsed.current = true;
         scrollToReadingPosition(window.scrollY + (event.key === "PageDown" ? step : -step));
       } else if (event.key === "Tab" && topbar.current?.contains(active)) {
         const tools = Array.from(topbar.current.querySelectorAll(FOCUSABLE)).filter((element) => element.tabIndex >= 0 && element.getClientRects().length);
@@ -406,10 +408,10 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
       if (fromBookmark && !restart && !reviewing.current) {
         if (!restorePosition(article.current, topbar.current, ReaderStore.getBookmark(slug, chapter.id)?.position)) scrollToReadingPosition(0);
         window.history.replaceState(window.history.state, "", chapter.href + window.location.hash);
-      } else if (!reviewing.current && !restart && saved?.chapterId === chapter.id && (position || saved.percent > 0)) {
+      } else if (!reviewing.current && !restart && !pageKeyUsed.current && saved?.chapterId === chapter.id && (position || saved.percent > 0)) {
         const max = document.documentElement.scrollHeight - window.innerHeight;
         if (!restorePosition(article.current, topbar.current, position)) scrollToReadingPosition(max * saved.percent / 100);
-      } else if (restart || reviewing.current || window.history.state?.moonreadChapter) {
+      } else if ((restart || reviewing.current) && !pageKeyUsed.current) {
         scrollToReadingPosition(0);
       }
       ready = true;
