@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import {
   AlignLeft, BookOpen, Bookmark, ChevronLeft, ChevronRight, List, Menu,
-  Moon, Search, Sun, Type, X, ArrowRight,
+  Moon, Search, Sun, Type, X, ArrowRight, ArrowUp,
 } from "lucide-react";
 import { ReaderStore, useReaderStore } from "../lib/reader-store";
 import { filterChapters } from "../lib/chapter-search";
@@ -128,6 +128,16 @@ function restorePosition(article, bar, position) {
   return true;
 }
 
+function passagePercent(offsets, position, endOfPassage, endOfPage) {
+  if (endOfPage) return 100;
+  if (endOfPassage) return 99;
+  if (!position || offsets.length < 2) return 0;
+  const start = offsets[position.block];
+  const end = offsets[position.block + 1];
+  const read = start + (end - start) * Math.min(1, position.fraction);
+  return Math.min(99, Math.round((read / offsets.at(-1)) * 100));
+}
+
 export default function ReaderShell({ chapter, neighbors, chapters, blocks, book }) {
   const [current, setCurrent] = useState({ chapter, neighbors, blocks });
   const cached = useRef(new Map([[chapter.href, { chapter, neighbors, blocks }]]));
@@ -196,6 +206,12 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
   const reviewing = useRef(false);
   const layoutAnchor = useRef(null);
   const settingsAnchor = useRef(null);
+  const visibleBlocks = useMemo(() => blocks.filter((block) => block.type !== "title" || block.text !== chapter.title), [blocks, chapter.title]);
+  const contentOffsets = useMemo(() => {
+    const offsets = [0];
+    for (const block of visibleBlocks) offsets.push(offsets.at(-1) + Math.max(1, block.text?.length || 0));
+    return offsets;
+  }, [visibleBlocks]);
 
   useEffect(() => {
     if (!tocOpen || !activeChapter.current) return;
@@ -324,14 +340,14 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
     const measure = () => {
       if (!ready || leaving.current) return;
       const max = document.documentElement.scrollHeight - window.innerHeight;
-      const pct = max > 0 ? Math.min(100, Math.max(0, (window.scrollY / max) * 100)) : 0;
-      setProgress(pct);
       const end = max > 0 && max - window.scrollY <= 8;
+      const position = window.scrollY > 0 && article.current ? readingPosition(article.current, inset()) : null;
+      const pct = passagePercent(contentOffsets, position, !position && article.current?.getBoundingClientRect().bottom <= inset(), end);
+      setProgress(pct);
       setAtEnd(end);
       if (!end) setCountdown(null);
-      const position = window.scrollY > 0 && article.current ? readingPosition(article.current, inset()) : null;
       lastAnchor = position;
-      pending = { chapterId: chapter.id, number: chapter.number, title: chapter.title, href: chapter.href, percent: Math.round(pct), position };
+      pending = { chapterId: chapter.id, number: chapter.number, title: chapter.title, href: chapter.href, percent: pct, position };
       clearTimeout(saveTimer);
       saveTimer = setTimeout(flush, 250);
     };
@@ -378,7 +394,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
       document.removeEventListener("visibilitychange", onVisibility);
       flush();
     };
-  }, [slug, chapter.id, chapter.number, chapter.title, chapter.href, book?.title]);
+  }, [slug, chapter.id, chapter.number, chapter.title, chapter.href, book?.title, contentOffsets]);
 
   const nextHref = neighbors.next?.href;
   useEffect(() => {
@@ -446,12 +462,12 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
     <main className={`reader-page theme-${settings.theme}`} data-reader-preparing={!store.ready || undefined} style={readerStyle}>
       <div inert={tocOpen || settingsOpen}>
       <div ref={topbar} className="reader-topbar">
-        <Link prefetch={false} href={tocHref} onNavigate={(e) => follow(e, tocHref)} className="icon-button" aria-label="กลับไปสารบัญ"><ChevronLeft size={20} /></Link>
+        <Link id="reader-tools" prefetch={false} href={tocHref} onNavigate={(e) => follow(e, tocHref)} className="icon-button" aria-label="กลับไปสารบัญ"><ChevronLeft size={20} /></Link>
         <div className="reader-top-title">
           <strong>{chapter.title}</strong>
           <div className="reader-top-meta">
             <span className="reader-series-name">{book?.title || "MoonRead"}</span>
-            <span className="reader-progress-value" aria-label={`อ่านแล้ว ${Math.round(progress)} เปอร์เซ็นต์`}>{Math.round(progress)}%</span>
+          <span className="reader-progress-value" aria-label={`อ่านแล้ว ${progress} เปอร์เซ็นต์`}>{progress}%</span>
           </div>
         </div>
         <div className="reader-top-actions">
@@ -492,8 +508,8 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
       </section>
 
       <article ref={article} className="reader-article" id="main-content" tabIndex={-1}>
-        {blocks.map((block, i) => {
-          if (block.type === "title") return block.text === chapter.title ? null : <h2 className={blockClass(block)} key={i}>{block.text}</h2>;
+        {visibleBlocks.map((block, i) => {
+          if (block.type === "title") return <h2 className={blockClass(block)} key={i}>{block.text}</h2>;
           if (block.type === "separator") return <hr key={i} />;
           if (block.type === "heading") return <h3 className={blockClass(block)} key={i}>{block.text}</h3>;
           return <p className={blockClass(block)} key={i}>{renderInline(block.text)}</p>;
@@ -533,6 +549,16 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
           <Link prefetch={false} className="next" href={neighbors.next.href} onNavigate={(e) => follow(e, neighbors.next.href)}><span><small>{chapterLabel(neighbors.next)}</small><strong>{neighbors.next.title}</strong></span><ChevronRight size={20} /></Link>
         ) : <span className="nav-placeholder" />}
       </nav>
+
+      <div className="reader-tools-return">
+        <a className="text-link" href="#reader-tools" tabIndex={0} onClick={(event) => {
+          if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+          const target = topbar.current?.querySelector("#reader-tools");
+          if (!target) return;
+          event.preventDefault();
+          target.focus({ preventScroll: true });
+        }}><ArrowUp size={16} aria-hidden="true" /> ไปที่เครื่องมือการอ่าน</a>
+      </div>
 
       </div>
 

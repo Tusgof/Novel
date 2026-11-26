@@ -350,7 +350,9 @@ html:has(.reader-page .scrim) .skip-content { visibility: hidden; }
 .next-card .ring { width: 46px; height: 46px; flex: 0 0 46px; border-radius: 999px; display: grid; place-items: center; background: conic-gradient(var(--acc) var(--deg,0deg), var(--line) 0); }
 .next-card .ring i { width: 36px; height: 36px; border-radius: 999px; background: var(--reader-ring); display: grid; place-items: center; font-style: normal; font-size: 15px; font-weight: 800; color: var(--acc-ink); }
 
-.reader-bottom-nav { max-width: var(--reader-width); margin: 0 auto; padding: 0 20px 40px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; overflow-wrap: anywhere; }
+.reader-bottom-nav { max-width: var(--reader-width); margin: 0 auto; padding: 0 20px 12px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; overflow-wrap: anywhere; }
+.reader-tools-return { max-width: var(--reader-width); margin: 0 auto; padding: 0 20px 28px; text-align: center; }
+.reader-tools-return a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding-inline: 12px; }
 .reader-bottom-nav a { display: flex; align-items: center; gap: 10px; min-height: 64px; padding: 12px 14px; border: 1px solid currentColor; border-radius: var(--r-sm); opacity: .72; transition: opacity .14s; color: inherit; }
 .reader-bottom-nav a:hover { opacity: 1; }
 .reader-bottom-nav a.next { justify-content: flex-end; text-align: right; }

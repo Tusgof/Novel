@@ -642,6 +642,34 @@ test("reader keeps the visible paragraph when settings and viewport reflow", asy
   }, { seeded: false });
 });
 
+test("reading progress and the Thai history title stay consistent after typography changes", async () => {
+  await withPage({ width: 390, height: 664 }, async (page) => {
+    await page.goto(`${baseUrl}/read/ch001`, { waitUntil: "networkidle" });
+    await page.evaluate(() => {
+      const paragraph = document.querySelectorAll(".reader-article .reader-paragraph")[3].getBoundingClientRect();
+      const inset = document.querySelector(".reader-topbar").offsetHeight + 8;
+      scrollTo({ top: scrollY + paragraph.top + paragraph.height / 3 - inset, behavior: "instant" });
+    });
+    await page.waitForFunction(() => parseInt(document.querySelector(".reader-progress-value").textContent, 10) > 0);
+    const before = await page.locator(".reader-progress-value").textContent();
+    await page.getByRole("button", { name: "ตั้งค่าการอ่าน" }).click();
+    await page.getByRole("button", { name: /Noto Serif Thai/ }).click();
+    const size = page.getByRole("slider", { name: "ขนาดตัวอักษร" });
+    await size.press("End");
+    for (let i = 0; i < 3; i++) await size.press("ArrowLeft");
+    await page.keyboard.press("Escape");
+    await page.evaluate(async () => { await document.fonts.ready; await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))); });
+    assert.equal(await page.locator(".reader-progress-value").textContent(), before);
+    await page.goto(`${baseUrl}/history`, { waitUntil: "networkidle" });
+    const entry = page.locator('.resume[href="/read/ch001"]');
+    assert.equal(await entry.locator(".t").textContent(), "เถ้าถ่านแห่งทะเลลึก");
+    assert.equal(await entry.locator(".progress-row > span").first().textContent(), before);
+    await entry.click();
+    await page.waitForURL("**/read/ch001");
+    await page.waitForFunction((expected) => document.querySelector(".reader-progress-value")?.textContent === expected, before);
+  }, { seeded: false });
+});
+
 test("reading progress stays visible beside a long title on narrow screens", async () => {
   for (const width of [320, 390]) {
     await withPage({ width, height: 800 }, async (page) => {
@@ -766,6 +794,26 @@ test("keyboard page scrolling keeps a reading overlap and Tab finds the visible 
     assert.equal(await action.evaluate((el) => el === document.activeElement), true);
     await page.keyboard.press("Enter");
     await page.waitForURL("**/read/ch002");
+  }, { seeded: false });
+});
+
+test("keyboard readers can return from the chapter footer to sticky tools without scrolling", async () => {
+  await withPage({ width: 1440, height: 900 }, async (page) => {
+    await page.goto(`${baseUrl}/read/ch001`, { waitUntil: "networkidle" });
+    await page.keyboard.press("End");
+    await page.waitForFunction(() => document.documentElement.scrollHeight - innerHeight - scrollY < 2);
+    await page.keyboard.press("Tab");
+    assert.equal(await activeIn(page, ".reader-end a.primary"), true);
+    await page.keyboard.press("Tab");
+    assert.equal(await activeIn(page, ".reader-bottom-nav a.next"), true);
+    await page.keyboard.press("Tab");
+    assert.equal(await activeIn(page, ".reader-tools-return a"), true);
+    const bottom = await page.evaluate(() => scrollY);
+    await page.keyboard.press("Enter");
+    assert.equal(await activeIn(page, "#reader-tools"), true);
+    assert.equal(await page.evaluate(() => scrollY), bottom);
+    await page.keyboard.press("Tab");
+    assert.equal(await activeIn(page, ".reader-top-actions button:first-child"), true);
   }, { seeded: false });
 });
 

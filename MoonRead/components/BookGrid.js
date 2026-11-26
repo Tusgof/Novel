@@ -74,13 +74,13 @@ function timeAgo(ts) {
 }
 
 export function ResumeCard({ book, entry }) {
-  const { title } = getBookTitlePair(book);
+  const { title, thaiTitle } = getBookTitlePair(book);
 
   return (
     <Link prefetch={false} className="resume" href={entry.href}>
       <div className="thumb"><Cover book={book} sizes="64px" /></div>
       <div className="meta">
-        <div className="t">{title}</div>
+        <div className="t">{thaiTitle || title}</div>
         <div className="c">{episodeLabel(entry)} · {entry.title}</div>
         <div className="spacer" />
         <ProgressBar percent={entry.percent} />
