@@ -188,6 +188,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
   const [progress, setProgress] = useState(0);
   const [countdown, setCountdown] = useState(null);
   const [atEnd, setAtEnd] = useState(false);
+  const [endInView, setEndInView] = useState(false);
   const [countdownAllowed, setCountdownAllowed] = useState(true);
   const [failure, setFailure] = useState(null);
   const [loadingHref, setLoadingHref] = useState(null);
@@ -200,6 +201,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
   const article = useRef(null);
   const heading = useRef(null);
   const endAction = useRef(null);
+  const endSection = useRef(null);
   const activeChapter = useRef(null);
   const pendingNavigation = useRef(null);
   const flushPosition = useRef(null);
@@ -256,6 +258,14 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
   useEffect(() => () => pendingNavigation.current?.abort(), []);
 
   useEffect(() => {
+    // The sticky toolbar already offers chapter navigation. Keep the duplicate
+    // footer stops out of sequential focus until the reader reaches them.
+    const observer = new IntersectionObserver(([entry]) => setEndInView(entry.isIntersecting));
+    observer.observe(endSection.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     if (!bookmarkNotice) return;
     const timer = setTimeout(() => setBookmarkNotice(null), 3200);
     return () => clearTimeout(timer);
@@ -272,6 +282,12 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
         const step = Math.max(line, window.innerHeight - inset - 2 * line);
         event.preventDefault();
         scrollToReadingPosition(window.scrollY + (event.key === "PageDown" ? step : -step));
+      } else if (event.key === "Tab" && topbar.current?.contains(active)) {
+        const tools = Array.from(topbar.current.querySelectorAll(FOCUSABLE)).filter((element) => element.tabIndex >= 0 && element.getClientRects().length);
+        if (active === tools.at(-1)) {
+          event.preventDefault();
+          article.current.focus({ preventScroll: true });
+        }
       } else if (event.key === "Tab" && (active === document.body || active === article.current || active === heading.current)) {
         const action = endAction.current;
         const bounds = action?.getBoundingClientRect();
@@ -489,6 +505,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
       <button type="button" onClick={() => void navigate(failure.href, failure)}>ลองอีกครั้ง</button>
     </div>
   ) : null;
+  const footerTabIndex = controlsReady && !endInView ? -1 : 0;
 
   return (
     <main className={`reader-page theme-${settings.theme}`} data-reader-preparing={!store.ready || undefined} style={readerStyle}>
@@ -524,7 +541,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
 
       <section className="reader-head">
         <span className="reader-kicker">{chapterLabel(chapter)}</span>
-        <h1 ref={heading} tabIndex={-1} onKeyDown={(event) => {
+        <h1 id="reader-heading" ref={heading} tabIndex={-1} onKeyDown={(event) => {
           if (event.key !== "Tab" || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey) return;
           const action = endAction.current?.getBoundingClientRect();
           if (action && action.top >= topbar.current?.getBoundingClientRect().bottom && action.bottom <= window.innerHeight) return;
@@ -543,7 +560,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
         </div>
       </section>
 
-      <article ref={article} className="reader-article" id="main-content" tabIndex={-1}>
+      <article ref={article} className="reader-article" id="main-content" tabIndex={0} aria-labelledby="reader-heading">
         {visibleBlocks.map((block, i) => {
           if (block.type === "title") return <h2 className={blockClass(block)} key={i}>{block.text}</h2>;
           if (block.type === "separator") return <hr key={i} />;
@@ -552,11 +569,11 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
         })}
       </article>
 
-      <div className="reader-end">
+      <div ref={endSection} className="reader-end">
         {resumeHref ? (
           <div className="next-card">
             <div className="nx"><small>ตำแหน่งอ่านค้างไว้</small><strong>{chapterLabel(resume)} · {resume.title}</strong></div>
-            <a ref={endAction} className="pill-btn primary" href={resumeHref}>กลับไปอ่านต่อ <ArrowRight size={17} /></a>
+            <a ref={endAction} tabIndex={footerTabIndex} className="pill-btn primary" href={resumeHref}>กลับไปอ่านต่อ <ArrowRight size={17} /></a>
           </div>
         ) : neighbors.next ? (
           <div className="next-card">
@@ -569,8 +586,8 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
               {gap ? <small>ตอน {missingLabel} ยังไม่พร้อมอ่านบน MoonRead</small> : null}
             </div>
             {shownCountdown !== null
-              ? <button ref={endAction} className="pill-btn ghost" type="button" onClick={cancelCountdown}>ยกเลิก</button>
-              : <Link ref={endAction} prefetch={false} className="pill-btn primary" href={neighbors.next.href} onNavigate={(e) => follow(e, neighbors.next.href)}>อ่านต่อ <ArrowRight size={17} /></Link>}
+              ? <button ref={endAction} tabIndex={footerTabIndex} className="pill-btn ghost" type="button" onClick={cancelCountdown}>ยกเลิก</button>
+              : <Link ref={endAction} tabIndex={footerTabIndex} prefetch={false} className="pill-btn primary" href={neighbors.next.href} onNavigate={(e) => follow(e, neighbors.next.href)}>อ่านต่อ <ArrowRight size={17} /></Link>}
           </div>
         ) : (
           <div className="next-card"><div className="nx"><small>จบเท่าที่มีในตอนนี้</small><strong>ขอบคุณที่อ่านกับ MoonRead 🌙</strong></div></div>
@@ -579,15 +596,15 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
 
       <nav className="reader-bottom-nav" aria-label="ไปยังตอนก่อนหน้าหรือถัดไป">
         {neighbors.previous ? (
-          <Link prefetch={false} href={neighbors.previous.href} onNavigate={(e) => follow(e, neighbors.previous.href)}><ChevronLeft size={20} /><span><small>{chapterLabel(neighbors.previous)}</small><strong>{neighbors.previous.title}</strong></span></Link>
+          <Link tabIndex={footerTabIndex} prefetch={false} href={neighbors.previous.href} onNavigate={(e) => follow(e, neighbors.previous.href)}><ChevronLeft size={20} /><span><small>{chapterLabel(neighbors.previous)}</small><strong>{neighbors.previous.title}</strong></span></Link>
         ) : <span className="nav-placeholder" />}
         {neighbors.next ? (
-          <Link prefetch={false} className="next" href={neighbors.next.href} onNavigate={(e) => follow(e, neighbors.next.href)}><span><small>{chapterLabel(neighbors.next)}</small><strong>{neighbors.next.title}</strong></span><ChevronRight size={20} /></Link>
+          <Link tabIndex={footerTabIndex} prefetch={false} className="next" href={neighbors.next.href} onNavigate={(e) => follow(e, neighbors.next.href)}><span><small>{chapterLabel(neighbors.next)}</small><strong>{neighbors.next.title}</strong></span><ChevronRight size={20} /></Link>
         ) : <span className="nav-placeholder" />}
       </nav>
 
       <div className="reader-tools-return">
-        <a className="text-link" href="#reader-tools" tabIndex={0} onClick={(event) => {
+        <a className="text-link" href="#reader-tools" tabIndex={footerTabIndex} onClick={(event) => {
           if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
           const target = topbar.current?.querySelector("#reader-tools");
           if (!target) return;

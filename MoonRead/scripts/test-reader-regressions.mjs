@@ -779,6 +779,28 @@ test("chapter search submits and shows server results before JavaScript is ready
   }, { seeded: false });
 });
 
+test("tabbing past the sticky tools does not jump to the end or save unread progress", async () => {
+  await withPage({ width: 1440, height: 900 }, async (page) => {
+    await page.goto(`${baseUrl}/read/ch002`, { waitUntil: "networkidle" });
+    await page.waitForFunction(() => document.querySelector(".reader-end a.primary")?.tabIndex === -1);
+    const next = page.locator(".reader-quick-next");
+    await next.focus();
+    await page.keyboard.press("Tab");
+    assert.equal(await activeIn(page, ".reader-article"), true);
+    assert.equal(await page.evaluate(() => scrollY), 0);
+    await page.keyboard.press("Tab");
+    assert.equal(await page.evaluate(() => scrollY), 0);
+    assert.equal(await page.locator(".reader-progress-value").textContent(), "0%");
+    await page.goto(`${baseUrl}/history`, { waitUntil: "networkidle" });
+    const resume = page.locator('.history-grid .resume[href="/read/ch002"]');
+    assert.equal(await resume.locator(".progress-row > span").first().textContent(), "0%");
+    await resume.click();
+    await page.waitForURL("**/read/ch002");
+    await page.getByRole("button", { name: "คั่นหน้า" }).waitFor();
+    assert.equal(await page.evaluate(() => scrollY), 0);
+  }, { seeded: false });
+});
+
 test("keyboard page scrolling keeps a reading overlap and Tab finds the visible end action", async () => {
   await withPage({ width: 1440, height: 900 }, async (page) => {
     await page.goto(`${baseUrl}/books/ten-day-ultimatum/read/ch001`, { waitUntil: "networkidle" });
