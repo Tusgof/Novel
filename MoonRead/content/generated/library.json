@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-26T03:59:54.868Z",
+  "generatedAt": "2026-11-26T09:58:54.636Z",
   "reader": {
     "name": "MoonRead",
     "theme": "Stardust",
@@ -11,8 +11,8 @@
   },
   "summary": {
     "books": 8,
-    "chapters": 267,
-    "available": 267,
+    "chapters": 277,
+    "available": 277,
     "missing": 0,
     "rejected": 0
   },
@@ -132,24 +132,24 @@
       "cover": "/images/infinite-regressor-stories-cover.png",
       "href": "/books/infinite-regressor-stories",
       "chaptersHref": "/books/infinite-regressor-stories/chapters",
-      "targetRange": "ch001-ch030",
+      "targetRange": "ch001-ch040",
       "summary": {
-        "total": 30,
-        "available": 30,
+        "total": 40,
+        "available": 40,
         "missing": 0,
         "rejected": 0,
         "skipped": 0
       },
       "latestChapter": {
-        "id": "ch030",
-        "number": 30,
-        "title": "นักสำรวจ 2",
+        "id": "ch040",
+        "number": 40,
+        "title": "ผู้สังเกตการณ์ 2",
         "status": "available",
-        "sourcePath": "ch030/ch030.md",
-        "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch030.md",
-        "href": "/books/infinite-regressor-stories/read/ch030",
-        "charCount": 12606,
-        "readingMinutes": 3,
+        "sourcePath": "ch040/ch040.md",
+        "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch040.md",
+        "href": "/books/infinite-regressor-stories/read/ch040",
+        "charCount": 13670,
+        "readingMinutes": 4,
         "translator": "[Lean]"
       },
       "firstChapter": {

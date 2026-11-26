@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-11-26T03:59:54.565Z",
+  "generatedAt": "2026-11-26T09:58:53.921Z",
   "sourceRoot": "../Infinite Regressor Stories/05_Output",
-  "targetRange": "ch001-ch030",
+  "targetRange": "ch001-ch040",
   "novel": {
     "slug": "infinite-regressor-stories",
     "title": "I'm an Infinite Regressor, But I've Got Stories to Tell",
@@ -31,8 +31,8 @@
     }
   },
   "summary": {
-    "total": 30,
-    "available": 30,
+    "total": 40,
+    "available": 40,
     "missing": 0,
     "rejected": 0,
     "skipped": 0
@@ -396,6 +396,126 @@
       "href": "/books/infinite-regressor-stories/read/ch030",
       "charCount": 12606,
       "readingMinutes": 3,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch031",
+      "number": 31,
+      "title": "ผู้สร้าง 1",
+      "status": "available",
+      "sourcePath": "ch031/ch031.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch031.md",
+      "href": "/books/infinite-regressor-stories/read/ch031",
+      "charCount": 9990,
+      "readingMinutes": 3,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch032",
+      "number": 32,
+      "title": "ผู้สร้าง 2",
+      "status": "available",
+      "sourcePath": "ch032/ch032.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch032.md",
+      "href": "/books/infinite-regressor-stories/read/ch032",
+      "charCount": 9148,
+      "readingMinutes": 3,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch033",
+      "number": 33,
+      "title": "บทที่ 33: ผู้สร้าง 3",
+      "status": "available",
+      "sourcePath": "ch033/ch033.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch033.md",
+      "href": "/books/infinite-regressor-stories/read/ch033",
+      "charCount": 12552,
+      "readingMinutes": 3,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch034",
+      "number": 34,
+      "title": "ผู้เสียภาษี 1",
+      "status": "available",
+      "sourcePath": "ch034/ch034.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch034.md",
+      "href": "/books/infinite-regressor-stories/read/ch034",
+      "charCount": 9465,
+      "readingMinutes": 3,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch035",
+      "number": 35,
+      "title": "บทที่ 35: ผู้เสียภาษี 2",
+      "status": "available",
+      "sourcePath": "ch035/ch035.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch035.md",
+      "href": "/books/infinite-regressor-stories/read/ch035",
+      "charCount": 10433,
+      "readingMinutes": 3,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch036",
+      "number": 36,
+      "title": "สายสัมพันธ์เศรษฐี 1",
+      "status": "available",
+      "sourcePath": "ch036/ch036.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch036.md",
+      "href": "/books/infinite-regressor-stories/read/ch036",
+      "charCount": 9627,
+      "readingMinutes": 3,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch037",
+      "number": 37,
+      "title": "สายสัมพันธ์เศรษฐี 2",
+      "status": "available",
+      "sourcePath": "ch037/ch037.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch037.md",
+      "href": "/books/infinite-regressor-stories/read/ch037",
+      "charCount": 12130,
+      "readingMinutes": 3,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch038",
+      "number": 38,
+      "title": "สายสัมพันธ์เศรษฐี 3",
+      "status": "available",
+      "sourcePath": "ch038/ch038.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch038.md",
+      "href": "/books/infinite-regressor-stories/read/ch038",
+      "charCount": 11701,
+      "readingMinutes": 3,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch039",
+      "number": 39,
+      "title": "ผู้สังเกตการณ์ 1",
+      "status": "available",
+      "sourcePath": "ch039/ch039.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch039.md",
+      "href": "/books/infinite-regressor-stories/read/ch039",
+      "charCount": 10343,
+      "readingMinutes": 3,
+      "translator": "[Lean]"
+    },
+    {
+      "id": "ch040",
+      "number": 40,
+      "title": "ผู้สังเกตการณ์ 2",
+      "status": "available",
+      "sourcePath": "ch040/ch040.md",
+      "generatedPath": "content/generated/books/infinite-regressor-stories/chapters/ch040.md",
+      "href": "/books/infinite-regressor-stories/read/ch040",
+      "charCount": 13670,
+      "readingMinutes": 4,
       "translator": "[Lean]"
     }
   ]
