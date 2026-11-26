@@ -1233,6 +1233,57 @@ test("opening a bookmark without other progress starts a saved reading session",
   }, { seeded: false, hasTouch: true });
 });
 
+test("an earlier bookmark in the same chapter does not replace a newer reading position", async () => {
+  await withPage({ width: 360, height: 600 }, async (page) => {
+    const slug = "deep-sea-embers";
+    const href = "/read/ch002";
+    const y = () => page.evaluate(() => scrollY);
+    const scroll = (top) => page.evaluate((value) => scrollTo({ top: value, behavior: "instant" }), top);
+    const saved = async () => (await storedState(page)).progress[slug];
+    await page.goto(`${baseUrl}${href}`, { waitUntil: "networkidle" });
+    await scroll(1200);
+    await page.getByRole("button", { name: "คั่นหน้า" }).tap();
+    await page.locator('.reader-bookmark[aria-pressed="true"]').waitFor();
+    const markedY = await y();
+    await scroll(2400);
+    const laterY = await y();
+    await page.goto(`${baseUrl}/shelf`, { waitUntil: "networkidle" });
+    const later = await saved();
+    const markedPosition = (await storedState(page)).bookmarks[slug][0].position;
+    assert.ok(later.position.block > markedPosition.block);
+    // Review adds a sticky row above the prose. Verify the saved point against
+    // the reading line, not the old page offset with a shorter toolbar.
+    const atMarkedPassage = () => page.waitForFunction(({ block, fraction }) => {
+      const bar = document.querySelector(".reader-topbar");
+      const text = document.querySelector(".reader-article")?.children[block]?.getBoundingClientRect();
+      return text && Math.abs(text.top + text.height * fraction - (bar.offsetHeight + 8)) <= 2;
+    }, markedPosition);
+    const bookmark = page.locator(`.mark-group a[href^="${href}?"]`);
+    const destination = await bookmark.getAttribute("href");
+    await bookmark.tap();
+    await atMarkedPassage();
+    await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+    assert.deepEqual(await saved(), later, "opening and immediately leaving the bookmark must not change saved progress");
+    assert.equal(destination, `${href}?review=1`);
+    await page.locator(`.rail .resume[href="${href}"]`).tap();
+    await page.waitForFunction((target) => Math.abs(scrollY - target) <= 2, laterY);
+
+    // A bookmark URL copied before the progress changed must also protect it.
+    await page.goto(`${baseUrl}${href}?bookmark=1`, { waitUntil: "networkidle" });
+    await page.waitForURL(`${baseUrl}${href}?review=1`);
+    await page.locator(".reader-review").waitFor();
+    await atMarkedPassage();
+    assert.deepEqual((await saved()).position, later.position);
+    await page.getByRole("button", { name: "บันทึกจุดอ่านที่นี่" }).tap();
+    await page.waitForURL(`${baseUrl}${href}`);
+    await page.locator(".reader-review").waitFor({ state: "detached" });
+    const optedIn = await saved();
+    assert.ok(optedIn.percent < later.percent);
+    assert.equal(optedIn.position.block, (await storedState(page)).bookmarks[slug][0].position.block);
+    assert.ok(Math.abs(await y() - markedY) <= 2);
+  }, { seeded: false, hasTouch: true });
+});
+
 test("reviewing another bookmarked chapter can deliberately move the saved position", async () => {
   await withPage({ width: 320, height: 640 }, async (page) => {
     await page.goto(`${baseUrl}/shelf`, { waitUntil: "networkidle" });
@@ -1255,11 +1306,17 @@ test("reviewing another bookmarked chapter can deliberately move the saved posit
     assert.equal((await storedState(page)).progress["horror-game-developer"].chapterId, "ch002");
     assert.equal(await visibleBlock(), block);
     await page.goto(`${baseUrl}/shelf`, { waitUntil: "networkidle" });
-    const current = page.locator(`a[href="${href}?bookmark=1"]`);
-    assert.match(await current.textContent(), /อ่านจากที่คั่น/);
+    const current = page.locator(`a[href="${href}?review=1"]`);
+    assert.match(await current.textContent(), /อ่านทวน · เก็บจุดอ่านเดิม/);
     await current.click();
+    await page.locator(".reader-review").waitFor();
+    await page.waitForFunction(() => scrollY === 0);
+    await page.getByRole("button", { name: "บันทึกจุดอ่านที่นี่" }).click();
     await page.waitForURL(`${baseUrl}${href}`);
-    assert.equal(await page.locator(".reader-review").count(), 0);
+    await page.locator(".reader-review").waitFor({ state: "detached" });
+    assert.equal((await storedState(page)).progress["horror-game-developer"].percent, 0);
+    await page.goto(`${baseUrl}/shelf`, { waitUntil: "networkidle" });
+    assert.match(await page.locator(`a[href="${href}?bookmark=1"]`).textContent(), /อ่านจากที่คั่น/);
   });
 });
 

@@ -7,6 +7,7 @@ import {
   Moon, Search, Sun, Type, X, ArrowRight, ArrowUp,
 } from "lucide-react";
 import { ReaderStore, useReaderStore } from "../lib/reader-store";
+import { shouldReviewBookmark } from "../lib/bookmark-links";
 import { filterChapters } from "../lib/chapter-search";
 import { chapterNumber, episodeLabel as chapterLabel, withNumberGaps } from "../lib/chapter-number";
 
@@ -367,7 +368,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
     const saved = ReaderStore.getChapterPosition(slug, chapter.id);
     const params = new URLSearchParams(window.location.search);
     const restart = params.has("start");
-    const fromBookmark = params.has("bookmark");
+    const fromBookmark = !restart && params.has("bookmark");
     reviewing.current = params.has("review");
     if (restart) window.history.replaceState(window.history.state, "", chapter.href);
     document.title = book?.title && slug !== "deep-sea-embers" ? `${chapter.title} | ${book.title} | MoonRead` : `${chapter.title} | MoonRead`;
@@ -409,10 +410,13 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
       await document.fonts.ready;
       if (disposed) return;
       const position = saved?.position;
+      const bookmark = fromBookmark ? ReaderStore.getBookmark(slug, chapter.id) : null;
+      // The URL may predate a change to the saved reading position.
+      if (bookmark && shouldReviewBookmark(bookmark, ReaderStore.getProgress(slug))) reviewing.current = true;
       setReview(reviewing.current);
-      if (fromBookmark && !restart && !reviewing.current) {
-        if (!restorePosition(article.current, topbar.current, ReaderStore.getBookmark(slug, chapter.id)?.position)) scrollToReadingPosition(0);
-        window.history.replaceState(window.history.state, "", chapter.href + window.location.hash);
+      if (fromBookmark) window.history.replaceState(window.history.state, "", chapter.href + (reviewing.current ? "?review=1" : "") + window.location.hash);
+      if (bookmark && !reviewing.current) {
+        if (!restorePosition(article.current, topbar.current, bookmark.position)) scrollToReadingPosition(0);
       } else if (!reviewing.current && !restart && !pageKeyUsed.current && saved?.chapterId === chapter.id && (position || saved.percent > 0)) {
         const max = document.documentElement.scrollHeight - window.innerHeight;
         if (!restorePosition(article.current, topbar.current, position)) scrollToReadingPosition(max * saved.percent / 100);

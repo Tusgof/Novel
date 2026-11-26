@@ -107,7 +107,7 @@ export default function BookDetail({ book, chapters, initialSearch }) {
                 <div className="toc-list">
                   {marks.map((m) => {
                     const c = chapters.find((x) => x.id === m.id && x.status === "available");
-                    return c ? <ChapterRow key={m.id} slug={book.slug} chapter={c} store={store} reading={prog?.chapterId === m.id} bookmark={bookmarkDestination(c, prog)} /> : null;
+                    return c ? <ChapterRow key={m.id} slug={book.slug} chapter={c} store={store} reading={prog?.chapterId === m.id} bookmark={bookmarkDestination({ ...m, href: c.href }, prog)} /> : null;
                   })}
                 </div>
               ) : (
