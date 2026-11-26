@@ -7,12 +7,16 @@ import { chapterNumber, withNumberGaps } from "../lib/chapter-number";
 
 const stateEvent = "moonread:toc-state";
 const getSearch = () => window.location.search;
+const getHash = () => window.location.hash;
+const emptyHash = () => "";
 const clientReady = () => true;
 const serverReady = () => false;
+const chapterLinks = ".toc-list a.ch-row[href], .toc-list .chapter-link[href]";
 function subscribe(listener) {
   window.addEventListener(stateEvent, listener);
   window.addEventListener("popstate", listener);
-  return () => { window.removeEventListener(stateEvent, listener); window.removeEventListener("popstate", listener); };
+  window.addEventListener("hashchange", listener);
+  return () => { window.removeEventListener(stateEvent, listener); window.removeEventListener("popstate", listener); window.removeEventListener("hashchange", listener); };
 }
 function update(patch) {
   const url = new URL(window.location.href);
@@ -26,6 +30,7 @@ function update(patch) {
 
 export default function ChapterFinder({ chapters: entries, initialSearch, renderRows }) {
   const search = useSyncExternalStore(subscribe, getSearch, () => initialSearch);
+  const hash = useSyncExternalStore(subscribe, getHash, emptyHash);
   const ready = useSyncExternalStore(subscribe, clientReady, serverReady);
   const params = new URLSearchParams(search);
   const query = params.get("chapter") || "";
@@ -53,7 +58,7 @@ export default function ChapterFinder({ chapters: entries, initialSearch, render
     const href = window.history.state?.moonreadTocFocus;
     if (!href) return;
     const focus = () => {
-      for (const link of document.querySelectorAll(".toc-list a[href]")) {
+      for (const link of document.querySelectorAll(chapterLinks)) {
         if (link.getAttribute("href") === href && window.history.state?.moonreadTocFocus === href) {
           link.focus({ preventScroll: true });
           window.history.replaceState({ ...window.history.state, moonreadTocFocus: null }, "");
@@ -67,24 +72,24 @@ export default function ChapterFinder({ chapters: entries, initialSearch, render
   }, [search]);
 
   useEffect(() => {
-    if (centered.current || !window.location.hash.startsWith("#chapter-") || search !== window.location.search) return;
-    const target = document.getElementById(window.location.hash.slice(1));
+    if (centered.current || !hash.startsWith("#chapter-") || search !== window.location.search) return;
+    const target = document.getElementById(hash.slice(1));
     if (!target) return;
     centered.current = true;
     target.focus({ preventScroll: true });
     target.scrollIntoView({ block: "center", behavior: "instant" });
-  }, [search]);
+  }, [hash, search]);
 
   return (
     <div data-chapter-finder onClickCapture={(event) => {
-      const href = event.target.closest?.(".toc-list a[href]")?.getAttribute("href");
+      const href = event.target.closest?.(chapterLinks)?.getAttribute("href");
       if (href) window.history.replaceState({ ...window.history.state, moonreadTocFocus: href }, "");
     }}>
       <div className="toc-tools" id="chapter-results">
         <form className="searchbox toc-search" action="#chapter-results" method="get" role="search" aria-label="ค้นหาในสารบัญ" onSubmit={(event) => {
           if (!ready || field.current.value !== query) return;
           event.preventDefault();
-          if (query.trim() && filtered.length === 1 && filtered[0].status === "available") event.currentTarget.closest("[data-chapter-finder]").querySelector(".toc-list a[href]")?.click();
+          if (query.trim() && filtered.length === 1 && filtered[0].status === "available") event.currentTarget.closest("[data-chapter-finder]").querySelector(chapterLinks)?.click();
         }}>
           {recent ? <input type="hidden" name="order" value="recent" /> : null}
           {range !== null ? <input type="hidden" name="range" value={range} /> : null}
@@ -102,7 +107,7 @@ export default function ChapterFinder({ chapters: entries, initialSearch, render
         </select> : null}
       </div>
       <p role="status" className="muted-line">{filtered.length ? `แสดง ${filtered.length} จาก ${chapters.length} ตอน` : "ไม่พบตอนที่ค้นหา ลองพิมพ์เลขตอนหรือคำในชื่อตอน"}</p>
-      {renderRows(filtered)}
+      {renderRows(filtered, hash.startsWith("#chapter-") ? hash.slice(9) : null)}
     </div>
   );
 }

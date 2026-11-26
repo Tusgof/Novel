@@ -465,6 +465,23 @@ test("Back after leaving via TOC restores the visible chapter, including a skip-
   }, { seeded: false });
 });
 
+test("the focused TOC return row gives keyboard readers one Tab to Discover", async () => {
+  await withPage({ width: 1440, height: 900 }, async (page) => {
+    await page.goto(`${baseUrl}/read/ch002`, { waitUntil: "networkidle" });
+    await page.getByRole("link", { name: "กลับไปสารบัญ" }).press("Enter");
+    await page.waitForURL("**/chapters?range=1#chapter-ch002");
+    const exit = page.getByRole("link", { name: "ค้นพบเรื่องอื่น" });
+    await exit.waitFor();
+    await page.waitForFunction(() => document.activeElement?.id === "chapter-ch002");
+    await page.keyboard.press("Tab");
+    assert.equal(await exit.evaluate((link) => document.activeElement === link), true);
+    await page.keyboard.press("Enter");
+    await page.waitForURL(`${baseUrl}/`);
+    await page.locator('.rail a[href="/read/ch002"]').waitFor();
+    assert.equal(await page.evaluate(() => scrollY), 0);
+  }, { seeded: false });
+});
+
 test("auto advance is opt-in and opening settings cancels the countdown", async () => {
   await withPage({ width: 390, height: 840 }, async (page) => {
     await page.goto(`${baseUrl}/read/ch001`, { waitUntil: "networkidle" });
