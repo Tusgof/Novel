@@ -7,9 +7,11 @@ import { spawn } from "node:child_process";
 import { after, before, test } from "node:test";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
+import { chapterNumber } from "../lib/chapter-number.js";
 
 const appRoot = fileURLToPath(new URL("..", import.meta.url));
 const stateKey = "moonread-state-v1";
+const dseManifest = JSON.parse(fs.readFileSync(path.join(appRoot, "content/generated/manifest.json"), "utf8"));
 
 const seed = {
   progress: {
@@ -242,7 +244,7 @@ test("toc search matches padded and unpadded episode numbers exactly", async () 
     await page.waitForTimeout(150);
     assert.ok((await sheet.locator(".ch-row").count()) >= 1, "title substring must still match");
     await input.fill("");
-    assert.equal(await sheet.locator(".ch-row").count(), 281, "blank query must show every chapter");
+    assert.equal(await sheet.locator(".ch-row").count(), dseManifest.summary.available, "blank query must show every available chapter");
 
     await page.goto(`${baseUrl}/books/horror-game-developer`, { waitUntil: "networkidle" });
     const detailInput = page.locator('.toc-tools input[aria-label="ค้นหาตอน"]');
@@ -375,8 +377,8 @@ test("returning to the TOC preserves the passage for Back and book resume", asyn
 
 test("Back after leaving via TOC restores the visible chapter, including a skip-link fragment", async () => {
   await withPage({ width: 390, height: 800 }, async (page) => {
-    const chapter = `${horrorBook}/read/ch260`;
-    await page.goto(`${baseUrl}${horrorBook}/read/ch259`, { waitUntil: "networkidle" });
+    const chapter = `${horrorBook}/read/ch020`;
+    await page.goto(`${baseUrl}${horrorBook}/read/ch019`, { waitUntil: "networkidle" });
     const contents = page.getByRole("button", { name: "เปิดสารบัญ" });
     await contents.click();
     await page.getByRole("dialog").locator(`a[href="${chapter}"]`).click();
@@ -391,7 +393,7 @@ test("Back after leaving via TOC restores the visible chapter, including a skip-
     await page.goBack();
     await page.waitForURL(`**${chapter}#main-content`);
     await page.waitForFunction((expectedTitle) => document.querySelector(".reader-head h1")?.textContent === expectedTitle && scrollY > 2100, title);
-    assert.match(await page.locator(".reader-kicker").textContent(), /260/);
+    assert.match(await page.locator(".reader-kicker").textContent(), /020/);
   }, { seeded: false });
 });
 
@@ -419,8 +421,8 @@ test("auto advance is opt-in and opening settings cancels the countdown", async 
 
 test("a failed chapter request keeps the current passage and can be retried", async () => {
   await withPage({ width: 320, height: 800 }, async (page) => {
-    const next = `${horrorBook}/read/ch290`;
-    await page.goto(`${baseUrl}${horrorBook}/read/ch289`, { waitUntil: "networkidle" });
+    const next = `${horrorBook}/read/ch020`;
+    await page.goto(`${baseUrl}${horrorBook}/read/ch019`, { waitUntil: "networkidle" });
     await page.evaluate(() => scrollTo({ top: 1200, behavior: "instant" }));
     const y = await page.evaluate(() => scrollY);
     await page.getByRole("button", { name: "เปิดสารบัญ" }).click();
@@ -433,8 +435,8 @@ test("a failed chapter request keeps the current passage and can be retried", as
     }), true);
     await page.mouse.move(3, 200);
     await page.mouse.wheel(0, 500);
-    await panel.getByRole("textbox", { name: "ค้นหาตอน" }).fill("๒๙๐");
-    const data = "**/reader-data/horror-game-developer/ch290";
+    await panel.getByRole("textbox", { name: "ค้นหาตอน" }).fill("๒๐");
+    const data = "**/reader-data/horror-game-developer/ch020";
     await page.route(data, async (route) => route.fulfill({ status: 503, body: "Unavailable" }));
     // An expected network failure is not a page runtime exception.
     const beforeErrors = unexpected.length;
@@ -443,33 +445,36 @@ test("a failed chapter request keeps the current passage and can be retried", as
     await retry.waitFor();
     const errors = unexpected.splice(beforeErrors);
     assert.ok(errors.every((error) => error.kind === "console" && /503/.test(error.text)));
-    assert.ok(page.url().endsWith("/ch289"));
+    assert.ok(page.url().endsWith("/ch019"));
     assert.equal(await page.evaluate(() => scrollY), y);
     await page.unroute(data);
     await retry.click();
     await page.waitForURL(`**${next}`);
     await page.waitForFunction(() => document.activeElement === document.querySelector("h1"));
     await page.goBack();
-    await page.waitForURL("**/read/ch289");
-    await page.waitForFunction(() => document.querySelector(".reader-kicker").textContent.includes("289") && scrollY > 1000);
+    await page.waitForURL("**/read/ch019");
+    await page.waitForFunction(() => document.querySelector(".reader-kicker").textContent.includes("019") && scrollY > 1000);
     await page.goForward();
-    await page.waitForFunction(() => document.querySelector(".reader-kicker").textContent.includes("290"));
+    await page.waitForFunction(() => document.querySelector(".reader-kicker").textContent.includes("020"));
   }, { seeded: false });
 });
 
 test("printed Deep Sea Embers numbers agree with search without changing stable links", async () => {
+  const synthetic = Object.freeze({ number: 145, title: "บทที่ ๑๔๖: ทดสอบ", href: "/read/ch145" });
+  assert.equal(chapterNumber(synthetic), 146, "the displayed number is independent of the stable path");
+  assert.equal(synthetic.href, "/read/ch145");
   await withPage({ width: 390, height: 800 }, async (page) => {
     await page.goto(`${baseUrl}/chapters`, { waitUntil: "networkidle" });
-    await page.getByRole("searchbox", { name: "ค้นหาตอน" }).fill("บทที่ ๑๔๖");
+    await page.getByRole("searchbox", { name: "ค้นหาตอน" }).fill("บทที่ ๑๕");
     const chapter = page.locator(".toc-list .ch-row");
-    assert.equal(await chapter.getAttribute("href"), "/read/ch145");
-    assert.equal(await chapter.locator(".num").textContent(), "146");
+    assert.equal(await chapter.getAttribute("href"), "/read/ch015");
+    assert.equal(await chapter.locator(".num").textContent(), "015");
     await chapter.click();
-    await page.waitForURL("**/read/ch145");
-    assert.match(await page.locator(".reader-kicker").textContent(), /146/);
+    await page.waitForURL("**/read/ch015");
+    assert.match(await page.locator(".reader-kicker").textContent(), /015/);
     await page.getByRole("button", { name: "เปิดสารบัญ" }).click();
-    await page.getByRole("textbox", { name: "ค้นหาตอน" }).fill("146");
-    assert.equal(await page.locator('.sheet-toc .ch-row[aria-current="page"]').getAttribute("href"), "/read/ch145");
+    await page.getByRole("textbox", { name: "ค้นหาตอน" }).fill("15");
+    assert.equal(await page.locator('.sheet-toc .ch-row[aria-current="page"]').getAttribute("href"), "/read/ch015");
   }, { seeded: false });
 });
 
