@@ -965,6 +965,29 @@ test("opening book bookmarks on a short touch viewport clears the bottom navigat
   }, { hasTouch: true });
 });
 
+test("the first touch on the sticky bookmark confirms the saved passage", async () => {
+  await withPage({ width: 375, height: 590 }, async (page) => {
+    await page.goto(`${baseUrl}/read/ch001`, { waitUntil: "networkidle" });
+    await page.evaluate(() => scrollTo({ top: 1400, behavior: "instant" }));
+    const bookmark = page.getByRole("button", { name: "คั่นหน้า" });
+    const bounds = await bookmark.boundingBox();
+    assert.ok(bounds && bounds.y >= 0 && bounds.y + bounds.height <= 590);
+    const { x, y } = { x: bounds.x + bounds.width / 2, y: bounds.y + bounds.height / 2 };
+    const before = await page.evaluate(() => scrollY);
+    await page.touchscreen.tap(x, y);
+    const notice = page.locator(".reader-bookmark-notice");
+    await notice.filter({ hasText: /^คั่นตอนแล้ว$/ }).waitFor();
+    assert.equal(await bookmark.getAttribute("aria-pressed"), "true");
+    assert.equal(await page.evaluate(() => scrollY), before);
+    const state = await storedState(page);
+    assert.ok(state.bookmarks["deep-sea-embers"][0].position.block > 0);
+    await page.touchscreen.tap(x, y);
+    await notice.filter({ hasText: /^นำที่คั่นออกแล้ว$/ }).waitFor();
+    assert.equal(await bookmark.getAttribute("aria-pressed"), "false");
+    assert.deepEqual((await storedState(page)).bookmarks["deep-sea-embers"], []);
+  }, { seeded: false, hasTouch: true });
+});
+
 test("opening a bookmark without other progress starts a saved reading session", async () => {
   await withPage({ width: 375, height: 620 }, async (page) => {
     await page.goto(`${baseUrl}/book#book-contents`, { waitUntil: "networkidle" });

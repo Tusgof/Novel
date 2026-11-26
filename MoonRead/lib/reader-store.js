@@ -130,6 +130,7 @@ export const ReaderStore = {
       : [...list, { id: chapter.id, number: chapter.number, title: chapter.title, href: chapter.href, position }]
           .sort((a, b) => a.number - b.number);
     commit({ ...s, bookmarks: { ...s.bookmarks, [slug]: next } });
+    return { bookmarked: !exists, persisted: !memoryOnly };
   },
 
   isFavorite(slug) { return getSnapshot().favorites.includes(slug); },

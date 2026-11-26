@@ -192,6 +192,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
   const [failure, setFailure] = useState(null);
   const [loadingHref, setLoadingHref] = useState(null);
   const [review, setReview] = useState(false);
+  const [bookmarkNotice, setBookmarkNotice] = useState(null);
   const dialogOpener = useRef(null);
   const tocRef = useSheetFocus(tocOpen, () => setTocOpen(false), dialogOpener);
   const settingsRef = useSheetFocus(settingsOpen, () => setSettingsOpen(false), dialogOpener);
@@ -253,6 +254,12 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
   }, [chapter.href, chapters, changeChapter, slug]);
 
   useEffect(() => () => pendingNavigation.current?.abort(), []);
+
+  useEffect(() => {
+    if (!bookmarkNotice) return;
+    const timer = setTimeout(() => setBookmarkNotice(null), 3200);
+    return () => clearTimeout(timer);
+  }, [bookmarkNotice]);
 
   useEffect(() => {
     function readingKeys(event) {
@@ -443,6 +450,11 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
   }, [atEnd, countdownAllowed, nextHref, navigate, review, settings.autoAdvance, settingsOpen, tocOpen]);
 
   function cancelCountdown() { setCountdown(null); setCountdownAllowed(false); }
+  function toggleChapterBookmark() {
+    const position = window.scrollY > 0 ? readingPosition(article.current, (topbar.current?.offsetHeight || 0) + 8) : null;
+    const { bookmarked, persisted } = store.toggleBookmark(slug, chapter, position);
+    setBookmarkNotice({ text: !persisted ? "บันทึกการเปลี่ยนแปลงลงเบราว์เซอร์ไม่ได้" : bookmarked ? "คั่นตอนแล้ว" : "นำที่คั่นออกแล้ว" });
+  }
   function openToc(event) { dialogOpener.current = event.currentTarget; if (atEnd) cancelCountdown(); setTocQuery(""); setTocOpen(true); }
   function openSettings(event) {
     dialogOpener.current = event.currentTarget;
@@ -492,7 +504,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
         </div>
         <div className="reader-top-actions">
           {controlsReady ? <>
-            <button className="icon-button" type="button" onClick={() => store.toggleBookmark(slug, chapter, window.scrollY > 0 ? readingPosition(article.current, (topbar.current?.offsetHeight || 0) + 8) : null)} aria-label="คั่นหน้า" aria-pressed={bookmarked}><Bookmark size={19} fill={bookmarked ? "currentColor" : "none"} color={bookmarked ? "var(--gold)" : undefined} /></button>
+            <button className="icon-button reader-bookmark" type="button" onClick={toggleChapterBookmark} aria-label="คั่นหน้า" aria-pressed={bookmarked}><Bookmark size={19} fill={bookmarked ? "currentColor" : "none"} color={bookmarked ? "var(--gold)" : undefined} /></button>
             <button className="icon-button" type="button" onClick={openToc} aria-label="เปิดสารบัญ"><List size={20} /></button>
             <button className="icon-button settings-trigger" type="button" onClick={openSettings} aria-label="ตั้งค่าการอ่าน"><span aria-hidden="true">Aa</span></button>
           </> : <span className="reader-controls-loading" role="status">กำลังโหลดเครื่องมืออ่าน…</span>}
@@ -507,6 +519,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
           {neighbors.next ? <Link prefetch={false} className="reader-quick-next" href={neighbors.next.href} onNavigate={(e) => follow(e, neighbors.next.href)}>ตอนถัดไป <ChevronRight size={16} /></Link> : <span />}
         </nav>
         {!tocOpen && navigationMessage ? <div className="reader-retry">{navigationMessage}</div> : null}
+        <div className="reader-bookmark-notice" role="status">{!navigationMessage && bookmarkNotice ? bookmarkNotice.text : ""}</div>
       </div>
 
       <section className="reader-head">
