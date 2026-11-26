@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import {
   AlignLeft, BookOpen, Bookmark, ChevronLeft, ChevronRight, List, Menu,
   Moon, Search, Sun, Type, X, ArrowRight,
@@ -162,8 +162,13 @@ export default function ReaderShell({ chapter, neighbors, chapters, blocks, book
   return <ChapterView key={current.chapter.id} {...current} chapters={chapters} book={book} changeChapter={changeChapter} />;
 }
 
+const subscribeReady = () => () => {};
+const clientReady = () => true;
+const serverReady = () => false;
+
 function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter }) {
   const store = useReaderStore();
+  const controlsReady = useSyncExternalStore(subscribeReady, clientReady, serverReady);
   const slug = book?.slug || "deep-sea-embers";
 
   const settings = store.getReader();
@@ -414,9 +419,11 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
           </div>
         </div>
         <div className="reader-top-actions">
-          <button className="icon-button" type="button" onClick={() => store.toggleBookmark(slug, chapter)} aria-label="คั่นหน้า" aria-pressed={bookmarked}><Bookmark size={19} fill={bookmarked ? "currentColor" : "none"} color={bookmarked ? "var(--gold)" : undefined} /></button>
-          <button className="icon-button" type="button" onClick={openToc} aria-label="เปิดสารบัญ"><List size={20} /></button>
-          <button className="icon-button settings-trigger" type="button" onClick={openSettings} aria-label="ตั้งค่าการอ่าน"><span aria-hidden="true">Aa</span></button>
+          {controlsReady ? <>
+            <button className="icon-button" type="button" onClick={() => store.toggleBookmark(slug, chapter)} aria-label="คั่นหน้า" aria-pressed={bookmarked}><Bookmark size={19} fill={bookmarked ? "currentColor" : "none"} color={bookmarked ? "var(--gold)" : undefined} /></button>
+            <button className="icon-button" type="button" onClick={openToc} aria-label="เปิดสารบัญ"><List size={20} /></button>
+            <button className="icon-button settings-trigger" type="button" onClick={openSettings} aria-label="ตั้งค่าการอ่าน"><span aria-hidden="true">Aa</span></button>
+          </> : <span className="reader-controls-loading" role="status">กำลังโหลดเครื่องมืออ่าน…</span>}
         </div>
         <span className="progress-line" style={{ transform: `scaleX(${progress / 100})` }} />
         {resumeHref ? <a className="review-toolbar-link" href={resumeHref}>กลับไปอ่านต่อ {chapterLabel(resume)} <ArrowRight size={16} /></a> : null}

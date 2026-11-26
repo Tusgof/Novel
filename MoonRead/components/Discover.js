@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { LibraryBig, History, ChevronDown, ChevronRight, Search, ArrowDownWideNarrow, SlidersHorizontal, X } from "lucide-react";
 import Link from "next/link";
@@ -69,8 +69,13 @@ export default function Discover({ books, genres, initialQuery }) {
   const urlQuery = params?.get("q") ?? (params ? "" : initialQuery);
   useEffect(() => {
     if (window.location.hash !== "#catalog" || !new URLSearchParams(window.location.search).has("q")) return;
-    const active = document.activeElement;
-    if (active === document.body || active?.closest(".appbar-search")) document.getElementById("catalog-title")?.focus({ preventScroll: true });
+    const focusResults = () => {
+      const active = document.activeElement;
+      if (active === document.body || active?.id === "catalog" || active?.closest(".appbar-search")) document.getElementById("catalog-title")?.focus({ preventScroll: true });
+    };
+    const frame = requestAnimationFrame(focusResults);
+    window.addEventListener("load", focusResults, { once: true });
+    return () => { cancelAnimationFrame(frame); window.removeEventListener("load", focusResults); };
   }, [initialQuery]);
   const [draft, setDraft] = useState(null);
   const query = draft?.base === urlQuery ? draft.text : urlQuery;
@@ -81,23 +86,28 @@ export default function Discover({ books, genres, initialQuery }) {
     else url.searchParams.delete("q");
     window.history.replaceState(null, "", url.pathname + url.search + url.hash);
   }
-  const [active, setActive] = useState([]);
-  const [sort, setSort] = useState("curated");
-
-  const toggleGenre = (g) => setActive((gs) => (gs.includes(g) ? gs.filter((x) => x !== g) : [...gs, g]));
+  const active = (params?.getAll("genre") || []).filter((g) => genres.includes(g));
+  const sort = SORTS.find((option) => option.id === params?.get("sort"))?.id || "curated";
+  function setFilters(nextGenres, nextSort) {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("genre");
+    nextGenres.forEach((genre) => url.searchParams.append("genre", genre));
+    if (nextSort === "curated") url.searchParams.delete("sort");
+    else url.searchParams.set("sort", nextSort);
+    window.history.replaceState(null, "", url);
+  }
+  const toggleGenre = (g) => setFilters(active.includes(g) ? active.filter((x) => x !== g) : [...active, g], sort);
 
   const q = query.normalize("NFKC").trim().toLowerCase();
-  const list = useMemo(() => {
-    let out = books.filter((b) => {
+  const terms = q.split(/\s+/);
+  const list = books.filter((b) => {
       const hay = `${b.title} ${b.thaiTitle || ""} ${b.author || ""} ${(b.tags || []).join(" ")} ${bookSynopsis(b)}`.normalize("NFKC").toLowerCase();
-      const matchQ = !q || q.split(/\s+/).every((term) => hay.includes(term));
+      const matchQ = !q || terms.every((term) => hay.includes(term));
       const matchG = !active.length || active.every((g) => (b.tags || []).includes(g));
       return matchQ && matchG;
-    });
-    if (sort === "title") out = [...out].sort((a, b) => a.title.localeCompare(b.title));
-    if (sort === "chapters") out = [...out].sort((a, b) => (b.summary?.available || 0) - (a.summary?.available || 0));
-    return out;
-  }, [books, q, active, sort]);
+  });
+  if (sort === "title") list.sort((a, b) => a.title.localeCompare(b.title));
+  if (sort === "chapters") list.sort((a, b) => (b.summary?.available || 0) - (a.summary?.available || 0));
   const suggestions = q && !list.length && !active.length ? books.filter((book) => closeTitle(q, book.title)).slice(0, 3) : [];
 
   const filtering = Boolean(q || active.length);
@@ -110,14 +120,14 @@ export default function Discover({ books, genres, initialQuery }) {
       <summary><SlidersHorizontal size={16} /> หมวดและการเรียง{active.length ? ` (${active.length} หมวด)` : ""}<ChevronDown size={15} /></summary>
       <div className="filterbar">
       <div className="chips">
-        <button className={`chip${!active.length ? " on" : ""}`} aria-pressed={!active.length} onClick={() => setActive([])}>ทั้งหมด</button>
+        <button className={`chip${!active.length ? " on" : ""}`} aria-pressed={!active.length} onClick={() => setFilters([], sort)}>ทั้งหมด</button>
         {genres.map((g) => (
           <button key={g} className={`chip${active.includes(g) ? " on" : ""}`} aria-pressed={active.includes(g)} onClick={() => toggleGenre(g)}>{g}</button>
         ))}
       </div>
       <label className="sortsel">
         <ArrowDownWideNarrow size={15} />
-        <select value={sort} onChange={(e) => setSort(e.target.value)} aria-label="เรียงลำดับ">
+        <select value={sort} onChange={(e) => setFilters(active, e.target.value)} aria-label="เรียงลำดับ">
           {SORTS.map((s) => <option key={s.id} value={s.id}>{s.label}</option>)}
         </select>
       </label>
@@ -147,7 +157,7 @@ export default function Discover({ books, genres, initialQuery }) {
         </section>
       ) : null}
 
-      <section className={`section${q ? " query-results" : ""}`} id="catalog">
+      <section className={`section${q ? " query-results" : ""}`} id="catalog" tabIndex={-1}>
         <div className="section-head">
           <h2 id="catalog-title" tabIndex={-1} aria-live="polite"><LibraryBig size={20} /> {filtering ? `ผลการค้นหา (${list.length})` : "นิยายทั้งหมด"}</h2>
           {!filtering ? <span className="catalog-count">{list.length} เรื่อง</span> : null}
@@ -159,7 +169,7 @@ export default function Discover({ books, genres, initialQuery }) {
           <div className="book-grid">{list.map((b) => <BookCard key={b.slug} book={b} />)}</div>
         ) : (
           <EmptyState art="cat-sleeping" title="ไม่พบนิยายที่ค้นหา">
-            ลองเปลี่ยนคำค้น หรือ <button className="text-button" type="button" onClick={() => { setQuery(""); setActive([]); }}>ล้างคำค้นและตัวกรอง</button>
+            ลองเปลี่ยนคำค้น หรือ <button className="text-button" type="button" onClick={() => { setQuery(""); setFilters([], "curated"); }}>ล้างคำค้นและตัวกรอง</button>
           </EmptyState>
         )}
         {suggestions.length ? <section aria-label="เรื่องที่ชื่อใกล้เคียง"><h3>ลองดูเรื่องที่ชื่อใกล้เคียง</h3><div className="book-grid">{suggestions.map((b) => <BookCard key={b.slug} book={b} />)}</div></section> : null}

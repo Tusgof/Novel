@@ -508,6 +508,7 @@ test("search and contents restore results and the visible page after Back", asyn
       await page.waitForURL((url) => url.searchParams.get("q") === "Horror" && url.hash === "#catalog");
       await page.locator(`#catalog .book-card a[href="${horrorBook}"]`).click();
       await page.waitForURL(`**${horrorBook}`);
+      await page.evaluate(() => document.fonts.ready.then(() => true));
       await page.goBack();
       assert.equal(await search.inputValue(), "Horror");
       assert.equal(await page.locator("#catalog .book-card a").count(), 1);
@@ -515,6 +516,7 @@ test("search and contents restore results and the visible page after Back", asyn
       await page.evaluate(() => document.fonts.ready.then(() => true));
       await page.goForward();
       await page.locator(".detail-info h1").waitFor();
+      await page.evaluate(() => document.fonts.ready.then(() => true));
       await page.goto(`${baseUrl}${horrorBook}/chapters`, { waitUntil: "networkidle" });
       const toc = page.getByRole("searchbox", { name: "ค้นหาตอน" });
       await page.getByRole("combobox", { name: "เรียงตอน" }).selectOption("recent");
@@ -577,9 +579,52 @@ test("explicit search supports the displayed author and offers close title sugge
     await header.press("Enter");
     await page.waitForFunction(() => document.activeElement?.id === "catalog-title");
     assert.equal(await page.locator("#catalog .book-card a").getAttribute("href"), "/book");
+    await page.keyboard.press("Tab");
+    assert.equal(await page.evaluate(() => document.activeElement?.getAttribute("href")), "/book");
     const search = page.locator(".hero-search input");
     await search.fill("Deep Sea Embres");
     assert.equal(await page.getByRole("region", { name: "เรื่องที่ชื่อใกล้เคียง" }).locator(".book-card a").getAttribute("href"), "/book");
+  }, { seeded: false });
+});
+
+test("catalog restores the selected genre and order when returning from a story", async () => {
+  await withPage({ width: 390, height: 844 }, async (page) => {
+    await page.goto(`${baseUrl}/`, { waitUntil: "networkidle" });
+    const filters = page.locator(".catalog-filters");
+    await filters.locator("summary").click();
+    await page.getByRole("combobox", { name: "เรียงลำดับ" }).selectOption("chapters");
+    await page.getByRole("button", { name: "แฟนตาซี", exact: true }).click();
+    await page.waitForURL((url) => url.searchParams.get("genre") === "แฟนตาซี" && url.searchParams.get("sort") === "chapters");
+    await page.getByRole("button", { name: /^แสดง \d+ เรื่อง$/ }).click();
+    const links = page.locator("#catalog .book-card a");
+    const before = await links.evaluateAll((items) => items.map((item) => item.getAttribute("href")));
+    assert.ok(before.length > 0 && before.length < 8);
+    await links.first().click();
+    await page.locator(".detail-info h1").waitFor();
+    await page.evaluate(() => document.fonts.ready.then(() => true));
+    await page.goBack({ waitUntil: "domcontentloaded" });
+    await page.waitForURL((url) => url.pathname === "/" && url.searchParams.get("genre") === "แฟนตาซี" && url.searchParams.get("sort") === "chapters");
+    await links.first().waitFor({ state: "visible" });
+    assert.deepEqual(await links.evaluateAll((items) => items.map((item) => item.getAttribute("href"))), before);
+    if (await filters.getAttribute("open") === null) await filters.locator("summary").click();
+    assert.equal(await page.getByRole("combobox", { name: "เรียงลำดับ" }).inputValue(), "chapters");
+    assert.equal(await page.getByRole("button", { name: "แฟนตาซี", exact: true }).getAttribute("aria-pressed"), "true");
+  }, { seeded: false });
+});
+
+test("reader clearly shows controls loading and the first available tap opens settings", async () => {
+  await withPage({ width: 390, height: 844 }, async (page) => {
+    let release;
+    const held = new Promise((resolve) => { release = resolve; });
+    await page.route("**/_next/static/**/*.js", async (route) => { await held; await route.continue(); });
+    try {
+      await page.goto(`${baseUrl}/read/ch003`, { waitUntil: "commit" });
+      await page.locator(".reader-controls-loading").waitFor();
+      assert.equal(await page.locator(".settings-trigger").count(), 0);
+      release();
+      await page.locator(".settings-trigger").click();
+      await page.getByRole("dialog").waitFor();
+    } finally { release(); }
   }, { seeded: false });
 });
 
