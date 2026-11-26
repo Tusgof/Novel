@@ -9,6 +9,7 @@ import "@fontsource/noto-serif-thai/700.css";
 import "@fontsource/maitree/400.css";
 import "@fontsource/maitree/700.css";
 import "./globals.css";
+import { initialReaderThemeScript } from "../lib/reader-preferences";
 
 export const metadata = {
   metadataBase: new URL("https://novel-pink-nu.vercel.app"),
@@ -36,7 +37,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="th" data-site-theme="light" data-scroll-behavior="smooth">
+    <html lang="th" data-site-theme="light" data-scroll-behavior="smooth" suppressHydrationWarning>
+      <head><script dangerouslySetInnerHTML={{ __html: initialReaderThemeScript }} /></head>
       <body><a className="skip-content" href="#main-content">ข้ามไปยังเนื้อหา</a>{children}</body>
     </html>
   );

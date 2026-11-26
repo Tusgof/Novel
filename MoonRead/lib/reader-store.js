@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useSyncExternalStore } from "react";
+import { READER_STORAGE_KEY as KEY, LEGACY_READER_SETTINGS as LEGACY_SETTINGS } from "./reader-preferences";
 
 // MoonRead client store — reading progress, bookmarks, favorites, history,
 // and reader settings. Persists to localStorage; simple pub/sub for React.
@@ -8,9 +9,6 @@ import { useMemo, useSyncExternalStore } from "react";
 // Server render and the first client (hydration) render both use the frozen
 // empty snapshot, so storage never leaks into SSR markup and hydration cannot
 // diverge. The persisted client snapshot only becomes visible after hydration.
-const KEY = "moonread-state-v1";
-const LEGACY_SETTINGS = ["moonread-reader-settings", "dse-reader-settings"];
-
 const defaultReader = {
   theme: "paper",
   fontSize: 20,
@@ -153,6 +151,7 @@ export const ReaderStore = {
 function readerFacade(snapshot) {
   return {
     snapshot,
+    ready: snapshot !== emptySnapshot,
     get: () => snapshot,
     getProgress: (slug) => snapshot.progress[slug] || null,
     history: () => Object.entries(snapshot.progress)

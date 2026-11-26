@@ -21,7 +21,7 @@ export function ShelfView({ books }) {
       <div className="section-head shelf-heading"><h1>ชั้นหนังสือ</h1><a className="more" href="#chapter-bookmarks">ไปที่ที่คั่นตอน</a></div>
       <section className="section" style={{ marginTop: 24 }}>
         <div className="section-head"><h2><Heart size={20} /> รายการโปรด</h2></div>
-        {favBooks.length ? (
+        {!store.ready ? <p className="muted-line" role="status">กำลังโหลดรายการโปรด…</p> : favBooks.length ? (
           <div className="book-grid">{favBooks.map((b) => <BookCard key={b.slug} book={b} />)}</div>
         ) : (
           <p className="muted-line">แตะรูปหัวใจบนปกนิยายเพื่อบันทึกเรื่องโปรดไว้ที่นี่</p>
@@ -30,7 +30,7 @@ export function ShelfView({ books }) {
 
       <section className="section" id="chapter-bookmarks">
         <div className="section-head"><h2><Bookmark size={20} /> ที่คั่นตอน</h2></div>
-        {marked.length ? marked.map(({ book, marks }) => {
+        {!store.ready ? <p className="muted-line" role="status">กำลังโหลดที่คั่นตอน…</p> : marked.length ? marked.map(({ book, marks }) => {
           const { title } = getBookTitlePair(book);
 
           return (
@@ -56,7 +56,7 @@ export function ShelfView({ books }) {
         }) : <p className="muted-line">ยังไม่มีตอนที่คั่นไว้</p>}
       </section>
 
-      {nothing ? (
+      {store.ready && nothing ? (
         <EmptyState art="cat-sleeping" title="ชั้นหนังสือยังว่างอยู่">บันทึกเรื่องโปรดและคั่นตอนที่ชอบ แล้วทุกอย่างจะมารวมกันที่นี่</EmptyState>
       ) : null}
     </main>
@@ -73,7 +73,7 @@ export function HistoryView({ books }) {
     <main className="page shell" id="main-content" tabIndex={-1}>
       <section className="section" style={{ marginTop: 24 }}>
         <div className="section-head"><h1><HistoryIcon size={20} /> ประวัติการอ่าน</h1></div>
-        {items.length ? (
+        {!store.ready ? <p className="muted-line" role="status">กำลังโหลดประวัติการอ่าน…</p> : items.length ? (
           <div className="history-grid">
             {items.map(({ h, book }) => <ResumeCard key={h.slug} book={book} entry={h} />)}
           </div>

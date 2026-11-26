@@ -443,7 +443,7 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
   ) : null;
 
   return (
-    <main className={`reader-page theme-${settings.theme}`} style={readerStyle}>
+    <main className={`reader-page theme-${settings.theme}`} data-reader-preparing={!store.ready || undefined} style={readerStyle}>
       <div inert={tocOpen || settingsOpen}>
       <div ref={topbar} className="reader-topbar">
         <Link prefetch={false} href={tocHref} onNavigate={(e) => follow(e, tocHref)} className="icon-button" aria-label="กลับไปสารบัญ"><ChevronLeft size={20} /></Link>

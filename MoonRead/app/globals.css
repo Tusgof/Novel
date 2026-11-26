@@ -296,19 +296,17 @@ html:has(.reader-page .scrim) .skip-content { visibility: hidden; }
 /* ============================================================
    READER
    ============================================================ */
-.reader-page { min-height: 100svh; transition: background .2s, color .2s; }
+.reader-page { min-height: 100svh; transition: background .2s, color .2s; --reader-bar: rgba(247,240,223,.82); --reader-ring: #f7f0df; }
 .theme-paper { background: radial-gradient(120% 50% at 50% 0, rgba(235,192,95,.1), transparent 60%), #f7f0df; color: #172034; }
-.theme-sepia { background: radial-gradient(120% 50% at 50% 0, rgba(201,154,87,.1), transparent 60%), #efe5d0; color: #2b2316; }
-.theme-night { background: radial-gradient(120% 50% at 50% 0, rgba(235,192,95,.07), transparent 55%), #0f1624; color: #f4efe6; --ink: #f4efe6; --muted: #bac4d3; --surface: #151d2d; --surface-strong: #182234; --line: #354157; --line-strong: #6b7892; --acc-ink: #f1cb7c; }
+.theme-sepia, html[data-initial-reader-theme="sepia"] .reader-page[data-reader-preparing] { background: radial-gradient(120% 50% at 50% 0, rgba(201,154,87,.1), transparent 60%), #efe5d0; color: #2b2316; --reader-bar: rgba(239,229,208,.82); --reader-ring: #efe5d0; }
+.theme-night, html[data-initial-reader-theme="night"] .reader-page[data-reader-preparing] { background: radial-gradient(120% 50% at 50% 0, rgba(235,192,95,.07), transparent 55%), #0f1624; color: #f4efe6; --ink: #f4efe6; --muted: #bac4d3; --surface: #151d2d; --surface-strong: #182234; --line: #354157; --line-strong: #6b7892; --acc-ink: #f1cb7c; --reader-bar: rgba(15,22,36,.86); --reader-ring: #151d2d; --reader-bar-line: rgba(240,240,240,.08); }
 
 .reader-topbar { position: sticky; top: 0; z-index: 30; display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 10px; padding: 10px max(16px, calc((100% - var(--reader-width)) / 2)); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(18,25,38,.08); transition: transform .26s ease, opacity .26s ease; }
 .reader-retry { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); width: max-content; max-width: calc(100% - 24px); display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 14px; padding: 8px 12px; color: var(--ink); background: var(--surface-strong); border: 1px solid var(--line-strong); border-radius: 10px; box-shadow: var(--sh-2); }
 .reader-nav-status { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 14px; }
 .sheet > .reader-nav-status { margin-top: 12px; }
 .reader-nav-status button { background: transparent; border: 1px solid currentColor; border-radius: 8px; min-height: 44px; color: inherit; padding: 0 10px; }
-.theme-paper .reader-topbar { background: rgba(247,240,223,.82); }
-.theme-sepia .reader-topbar { background: rgba(239,229,208,.82); }
-.theme-night .reader-topbar { background: rgba(15,22,36,.86); border-bottom-color: rgba(240,240,240,.08); }
+.reader-topbar { background: var(--reader-bar); border-bottom-color: var(--reader-bar-line, rgba(18,25,38,.08)); }
 .reader-top-title { min-width: 0; }
 .reader-article { overflow-anchor: none; }
 .reader-top-title strong { display: block; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -349,9 +347,7 @@ html:has(.reader-page .scrim) .skip-content { visibility: hidden; }
 .next-card .nx small { color: var(--muted); font-size: 12.5px; }
 .next-card .nx strong { display: block; font-size: 17px; margin-top: 2px; }
 .next-card .ring { width: 46px; height: 46px; flex: 0 0 46px; border-radius: 999px; display: grid; place-items: center; background: conic-gradient(var(--acc) var(--deg,0deg), var(--line) 0); }
-.next-card .ring i { width: 36px; height: 36px; border-radius: 999px; background: #f7f0df; display: grid; place-items: center; font-style: normal; font-size: 15px; font-weight: 800; color: var(--acc-ink); }
-.theme-sepia .next-card .ring i { background: #efe5d0; }
-.theme-night .next-card .ring i { background: #151d2d; }
+.next-card .ring i { width: 36px; height: 36px; border-radius: 999px; background: var(--reader-ring); display: grid; place-items: center; font-style: normal; font-size: 15px; font-weight: 800; color: var(--acc-ink); }
 
 .reader-bottom-nav { max-width: var(--reader-width); margin: 0 auto; padding: 0 20px 40px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; overflow-wrap: anywhere; }
 .reader-bottom-nav a { display: flex; align-items: center; gap: 10px; min-height: 64px; padding: 12px 14px; border: 1px solid currentColor; border-radius: var(--r-sm); opacity: .72; transition: opacity .14s; color: inherit; }

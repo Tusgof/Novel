@@ -158,6 +158,46 @@ function activeIn(page, selector) {
   }, selector);
 }
 
+test("saved library shows loading instead of an empty state before hydration", async () => {
+  await withPage({ width: 390, height: 844 }, async (page) => {
+    let release;
+    const held = new Promise((resolve) => { release = resolve; });
+    await page.route("**/_next/static/**/*.js", async (route) => { await held; await route.continue(); });
+    try {
+      await page.goto(`${baseUrl}/history`, { waitUntil: "commit" });
+      await page.getByText("กำลังโหลดประวัติการอ่าน…", { exact: true }).waitFor();
+      assert.equal(await page.locator(".empty").count(), 0);
+      await page.goto(`${baseUrl}/shelf`, { waitUntil: "commit" });
+      await page.getByText("กำลังโหลดที่คั่นตอน…", { exact: true }).waitFor();
+      assert.equal(await page.locator(".empty").count(), 0);
+      release();
+      await page.locator(".mark-group a[href$='ch002?review=1']").waitFor();
+      await page.goto(`${baseUrl}/history`);
+      await page.locator(".history-grid a[href$='ch003']").waitFor();
+    } finally { release(); }
+  });
+});
+
+test("saved night palette is visible before the reader JavaScript loads", async () => {
+  await withPage({ width: 390, height: 844 }, async (page) => {
+    let release;
+    const held = new Promise((resolve) => { release = resolve; });
+    await page.route("**/_next/static/**/*.js", async (route) => { await held; await route.continue(); });
+    try {
+      await page.goto(`${baseUrl}/read/ch002`, { waitUntil: "commit" });
+      await page.locator(".reader-page[data-reader-preparing]").waitFor();
+      await page.waitForFunction(() => getComputedStyle(document.querySelector(".reader-page")).backgroundColor === "rgb(15, 22, 36)");
+      assert.equal(await page.locator("html").getAttribute("data-initial-reader-theme"), "night");
+      assert.equal(await page.locator(".settings-trigger").count(), 0);
+      release();
+      await page.locator(".reader-page.theme-night:not([data-reader-preparing])").waitFor();
+      await page.getByRole("button", { name: "ตั้งค่าการอ่าน" }).click();
+      await page.getByRole("button", { name: "กระดาษ" }).click();
+      await page.waitForFunction(() => getComputedStyle(document.querySelector(".reader-page")).backgroundColor === "rgb(247, 240, 223)");
+    } finally { release(); }
+  });
+});
+
 test("seeded store hydrates without page errors", async () => {
   const before = unexpected.length;
   await withPage({ width: 1440, height: 1000 }, async (page) => {
