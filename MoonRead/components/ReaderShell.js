@@ -401,7 +401,10 @@ function ChapterView({ chapter, neighbors, chapters, blocks, book, changeChapter
         <Link prefetch={false} href={tocHref} onNavigate={(e) => follow(e, tocHref)} className="icon-button" aria-label="กลับไปสารบัญ"><ChevronLeft size={20} /></Link>
         <div className="reader-top-title">
           <strong>{chapter.title}</strong>
-          <span>{`${book?.title || "MoonRead"} · ${Math.round(progress)}%`}</span>
+          <div className="reader-top-meta">
+            <span className="reader-series-name">{book?.title || "MoonRead"}</span>
+            <span className="reader-progress-value" aria-label={`อ่านแล้ว ${Math.round(progress)} เปอร์เซ็นต์`}>{Math.round(progress)}%</span>
+          </div>
         </div>
         <div className="reader-top-actions">
           <button className="icon-button" type="button" onClick={() => store.toggleBookmark(slug, chapter)} aria-label="คั่นหน้า" aria-pressed={bookmarked}><Bookmark size={19} fill={bookmarked ? "currentColor" : "none"} color={bookmarked ? "var(--gold)" : undefined} /></button>

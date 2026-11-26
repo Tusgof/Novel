@@ -552,6 +552,23 @@ test("reader keeps the visible paragraph when settings and viewport reflow", asy
   }, { seeded: false });
 });
 
+test("reading progress stays visible beside a long title on narrow screens", async () => {
+  for (const width of [320, 390]) {
+    await withPage({ width, height: 800 }, async (page) => {
+      await page.goto(`${baseUrl}/books/a-gacha-addicts-fusionpunk-life/read/ch072`, { waitUntil: "networkidle" });
+      await page.evaluate(() => scrollTo({ top: 1800, behavior: "instant" }));
+      await page.waitForFunction(() => {
+        const value = document.querySelector(".reader-progress-value");
+        if (!value || parseInt(value.textContent, 10) <= 0) return false;
+        const bounds = value.getBoundingClientRect();
+        const panel = value.closest(".reader-top-title").getBoundingClientRect();
+        return bounds.left >= panel.left && bounds.right <= panel.right + 1 && value.scrollWidth <= value.clientWidth + 1;
+      });
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), width);
+    }, { seeded: false });
+  }
+});
+
 test("printed chapter gaps stay non-navigable, and Enter jumps to an available chapter", async () => {
   const catalog = [{ id: "ch099", number: 99, title: "บทที่ 99: ก่อน", href: "/read/ch099" }, { id: "ch100", number: 100, title: "บทที่ 101: หลัง", href: "/read/ch100" }];
   assert.deepEqual(withNumberGaps(catalog), [catalog[0], { id: "gap-100", number: 100, title: "", status: "missing", inferredGap: true }, catalog[1]]);

@@ -305,7 +305,9 @@ html:has(.reader-page .scrim) .skip-content { visibility: hidden; }
 .theme-night .reader-topbar { background: rgba(15,22,36,.86); border-bottom-color: rgba(240,240,240,.08); }
 .reader-top-title { min-width: 0; }
 .reader-top-title strong { display: block; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.reader-top-title span { display: block; font-size: 12px; opacity: .7; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.reader-top-meta { display: flex; gap: 6px; align-items: baseline; color: var(--muted); font-size: 12px; white-space: nowrap; }
+.reader-series-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.reader-progress-value { flex: none; color: inherit; font-weight: 700; font-variant-numeric: tabular-nums; }
 .reader-top-actions { display: inline-flex; gap: 4px; }
 .settings-trigger span { font-size: 17px; font-weight: 700; }
 .icon-button { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; border: 1px solid transparent; background: transparent; color: inherit; transition: background .14s, border-color .14s; }
@@ -366,6 +368,7 @@ html:has(.reader-page .scrim) { overflow: hidden; scrollbar-gutter: stable; }
 .sheet-toc { position: relative; margin-top: 12px; overflow-y: auto; overscroll-behavior: contain; }
 .sheet-toc .ch-row.reading { background: var(--acc-wash); }
 .sheet-toc .ch-row { min-height: 44px; }
+.sheet-toc .ct strong { display: -webkit-box; white-space: normal; overflow-wrap: anywhere; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 .sheet .ch-row { grid-template-columns: 28px minmax(0,1fr) auto; background: transparent; }
 .sheet .ch-row:hover { background: var(--acc-wash); }
 
