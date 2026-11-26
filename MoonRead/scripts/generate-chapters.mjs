@@ -82,6 +82,20 @@ function chapterId(number) {
   return `ch${String(number).padStart(3, "0")}`;
 }
 
+function publicationLabel(book, id, number) {
+  if (book.codeChapters.has(id)) return "[Code]";
+  if (number <= book.leanRetranslatedThrough) return "[Lean]";
+  throw new Error(`Not an approved Lean or Code chapter: ${book.slug}/${id}; Pipe is archive-only`);
+}
+
+// Reject an invalid range before touching any generated content, including
+// when an environment override or an unrelated retained book expands it.
+for (const book of books) {
+  for (let number = book.firstChapter; number <= book.lastChapter; number += 1) {
+    publicationLabel(book, chapterId(number), number);
+  }
+}
+
 function scoreThaiText(text) {
   const thaiCount = text.match(thaiPattern)?.length || 0;
   const mojibakeCount = text.match(mojibakeClusterPattern)?.length || 0;
@@ -295,7 +309,7 @@ function buildBookManifest(book) {
       href: chapterHref(book, id),
       charCount,
       readingMinutes,
-      translator: book.codeChapters.has(id) ? "[Code]" : number <= book.leanRetranslatedThrough ? "[Lean]" : "[Pipe]",
+      translator: publicationLabel(book, id, number),
     };
     chapters.push(entry);
     included.push(entry);
@@ -352,6 +366,10 @@ if (selectedSlugs.size > 0) {
     }
     const chapterBytes = manifest.chapters.filter((chapter) => chapter.status === "available").map((chapter) => {
       if (!/^ch\d+$/.test(chapter.id)) throw new Error(`Invalid retained chapter ID: ${chapter.id}`);
+      const number = Number(chapter.id.slice(2));
+      if (number < book.firstChapter || number > book.lastChapter || chapter.translator !== publicationLabel(book, chapter.id, number)) {
+        throw new Error(`Retained chapter is not approved for publication: ${book.slug}/${chapter.id}`);
+      }
       return [chapter.id, fs.readFileSync(path.join(bookRoot, "chapters", `${chapter.id}.md`))];
     });
     retainedBooks.set(book.slug, { manifest, manifestBytes, chapterBytes });

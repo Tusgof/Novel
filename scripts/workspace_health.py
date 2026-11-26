@@ -58,6 +58,8 @@ def reader_state(root: Path, novel: dict) -> dict:
         for item in items:
             if item.get("status") == "available":
                 cid = item["id"]
+                if item.get("translator") == "[Pipe]":
+                    errors.append(f"{slug}: archive-only Pipe chapter in reader snapshot: {cid}")
                 available.add(cid)
                 path = manifest.parent / "chapters" / f"{cid}.md"
                 if not re.fullmatch(r"ch\d+", cid) or not path.is_file():

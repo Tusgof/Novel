@@ -19,7 +19,7 @@ function fixture(t) {
   fs.symlinkSync(path.join(appRoot, "node_modules"), path.join(app, "node_modules"), process.platform === "win32" ? "junction" : "dir");
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));
   const book = (slug, legacyDefault = false) => ({ slug, folder: slug, output_dir: "05_Output",
-    reader: { enabled: true, legacy_default: legacyDefault, first_chapter: 1, last_chapter: 3,
+    reader: { enabled: true, legacy_default: legacyDefault, first_chapter: 1, last_chapter: 2,
       lean_retranslated_through: 2, code_chapters: ["ch002"], title: slug, tags: [] } });
   const registry = { novels: [book("old", true)] };
   const source = (slug, id, text = `# บทที่ ${Number(id.slice(2))}: ทดสอบ\n\n${Array(20).fill("นี่คือเนื้อเรื่องทดสอบสำหรับตรวจหน้าอ่านโดยไม่เรียกโมเดล").join("\n\n")}`) => {
@@ -45,9 +45,34 @@ function fixture(t) {
   return { run, registry, source, manifest, snapshot, writeSnapshot, addNewBook };
 }
 
-test("Code labels override only explicit IDs; historical Lean/Pipe labels survive", (t) => {
+test("Code labels override only explicit IDs; approved Lean remains readable", (t) => {
   const f = fixture(t);
-  assert.deepEqual(f.manifest("old").chapters.map((chapter) => chapter.translator), ["[Lean]", "[Code]", "[Pipe]"]);
+  assert.deepEqual(f.manifest("old").chapters.map((chapter) => chapter.translator), ["[Lean]", "[Code]"]);
+});
+
+test("Pipe files are not published and an unapproved expansion cannot enter the snapshot", (t) => {
+  const f = fixture(t);
+  const before = f.snapshot("books/old/manifest.json");
+  assert.throws(() => f.snapshot("books/old/chapters/ch003.md"), { code: "ENOENT" });
+  f.registry.novels[0].reader.last_chapter = 3;
+  const result = f.run("old");
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /Not an approved Lean or Code chapter: old\/ch003/);
+  assert.deepEqual(f.snapshot("books/old/manifest.json"), before);
+});
+
+test("a retained snapshot cannot carry a legacy Pipe label into a scoped release", (t) => {
+  const f = fixture(t);
+  f.addNewBook();
+  const path = "books/old/manifest.json";
+  const old = f.manifest("old");
+  old.chapters[0].translator = "[Pipe]";
+  const mutated = JSON.stringify(old);
+  f.writeSnapshot(path, mutated);
+  const result = f.run("new");
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /Retained chapter is not approved for publication: old\/ch001/);
+  assert.equal(f.snapshot(path).toString(), mutated);
 });
 
 test("scoped generation preserves an old snapshot even when unrelated local source is bad", (t) => {
@@ -58,7 +83,7 @@ test("scoped generation preserves an old snapshot even when unrelated local sour
   f.addNewBook();
   assert.equal(f.run("new").status, 0);
   for (const [index, name] of paths.entries()) assert.deepEqual(f.snapshot(name), before[index], name);
-  assert.equal(f.manifest("new").summary.available, 3);
+  assert.equal(f.manifest("new").summary.available, 2);
 });
 
 test("the selected novel is still validated; invalid new content is not grandfathered", (t) => {
@@ -86,6 +111,7 @@ test("unrelated registry range drift cannot masquerade as an unchanged snapshot"
   f.addNewBook();
   const before = f.snapshot("books/old/manifest.json");
   f.registry.novels[0].reader.last_chapter = 4;
+  f.registry.novels[0].reader.lean_retranslated_through = 4;
   assert.notEqual(f.run("new").status, 0);
   assert.deepEqual(f.snapshot("books/old/manifest.json"), before);
 });

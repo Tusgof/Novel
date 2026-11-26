@@ -1,22 +1,22 @@
 # Reader Import Report
 
-Generated at: 2026-11-25T18:15:40.239Z
+Generated at: 2026-11-26T03:59:54.868Z
 
 ## Summary
 
 - books: 8
-- available chapters: 844
+- available chapters: 267
 - missing chapters: 0
 - rejected chapters: 0
 
 ## Deep Sea Embers
 
 - source root: ../Deep Sea Embers/05_Output
-- target range: ch001-ch281
-- available: 281
+- target range: ch001-ch020
+- available: 20
 - missing: 0
 - rejected: 0
-- processing: retained historical snapshot, not revalidated
+- processing: generated and validated
 
 ### Rejected
 
@@ -29,11 +29,11 @@ Generated at: 2026-11-25T18:15:40.239Z
 ## Horror Game Developer: My Games Aren't That Scary!
 
 - source root: ../Horror Game Developers/05_Output
-- target range: ch001-ch290
-- available: 290
+- target range: ch001-ch020
+- available: 20
 - missing: 0
 - rejected: 0
-- processing: retained historical snapshot, not revalidated
+- processing: generated and validated
 
 ### Rejected
 
@@ -46,11 +46,11 @@ Generated at: 2026-11-25T18:15:40.239Z
 ## I'm an Infinite Regressor, But I've Got Stories to Tell
 
 - source root: ../Infinite Regressor Stories/05_Output
-- target range: ch001-ch070
-- available: 70
+- target range: ch001-ch030
+- available: 30
 - missing: 0
 - rejected: 0
-- processing: retained historical snapshot, not revalidated
+- processing: generated and validated
 
 ### Rejected
 
@@ -63,11 +63,11 @@ Generated at: 2026-11-25T18:15:40.239Z
 ## Re:Zero - Watching Him Die Again and Again
 
 - source root: ../Re Zero Watching Him Die Again and Again/05_Output
-- target range: ch001-ch008
-- available: 8
+- target range: ch001-ch002
+- available: 2
 - missing: 0
 - rejected: 0
-- processing: retained historical snapshot, not revalidated
+- processing: generated and validated
 
 ### Rejected
 
@@ -118,7 +118,7 @@ Generated at: 2026-11-25T18:15:40.239Z
 - available: 75
 - missing: 0
 - rejected: 0
-- processing: generated and validated
+- processing: retained historical snapshot, not revalidated
 
 ### Rejected
 
@@ -135,7 +135,7 @@ Generated at: 2026-11-25T18:15:40.239Z
 - available: 75
 - missing: 0
 - rejected: 0
-- processing: generated and validated
+- processing: retained historical snapshot, not revalidated
 
 ### Rejected
 
