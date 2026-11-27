@@ -33,6 +33,7 @@ from novel_pipeline.adapters.wetriedtls import WetriedtlsAdapter  # noqa: E402
 from novel_pipeline.adapters.fanfiction_jina import FanfictionJinaAdapter  # noqa: E402
 from novel_pipeline.adapters.wntl_markdown import WntlMarkdownAdapter  # noqa: E402
 from novel_pipeline.adapters.xszj import XszjAdapter  # noqa: E402
+from novel_pipeline.adapters.toonnovel import ToonnovelAdapter  # noqa: E402
 
 register_adapter("local_raw", LocalRawAdapter)
 register_adapter("piaotia", PiaotiaAdapter)
@@ -42,5 +43,6 @@ register_adapter("wetriedtls", WetriedtlsAdapter)
 register_adapter("fanfiction_jina", FanfictionJinaAdapter)
 register_adapter("wntl_markdown", WntlMarkdownAdapter)
 register_adapter("xszj", XszjAdapter)
+register_adapter("toonnovel", ToonnovelAdapter)
 
 __all__ = ["FetchAdapter", "get_adapter", "register_adapter"]
