@@ -1,6 +1,6 @@
 # English to Thai
 
-Use English source as supplied; this book's Webnovel listing is marked Original.
+Use English source as supplied.
 No Chinese relay/original is established. Preserve speaker attribution, negation,
 conditions, quantities, system-return grades, skill/rank distinctions and full
 story beats. Use natural Thai register grounded in the source and relationships,

@@ -1,0 +1,21 @@
+{
+  "created_at": "2026-10-08T08:21:40.718760+00:00",
+  "scope": "lean-DSE-LEAN-PROD-20261008-ch021-025-v1-ch025",
+  "chapters": "ch025",
+  "counts": {
+    "blocker": 1,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": false,
+  "findings": [
+    {
+      "severity": "blocker",
+      "category": "existing_guardrail",
+      "path": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\DSE-LEAN-PROD-20261008-ch021-025-v1\\_staged_output\\ch025\\ch025.md",
+      "message": "D:\\Fogust\\Workspace\\Novel\\Deep Sea Embers\\04_Work\\_lean_runs\\DSE-LEAN-PROD-20261008-ch021-025-v1\\_staged_output\\ch025\\ch025.md: paragraph 10 too dense (920 chars)",
+      "evidence": ""
+    }
+  ]
+}

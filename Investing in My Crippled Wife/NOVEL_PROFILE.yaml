@@ -8,19 +8,26 @@ languages:
 genre: progression-fantasy-romance
 style_profile: investment_fantasy
 source:
-  adapter: ''
-  toc_url: https://www.webnovel.com/book/investing-in-my-crippled-wife-every-return-makes-me-stronger_35147273900927805
+  adapter: toonnovel
+  toc_url: https://toonnovel.com/novel/investing-in-my-crippled-wife-every-return-makes-me-stronger/
 research:
-  status: pending
+  status: drafted
   profile_path: RESEARCH_PROFILE.yaml
   title: 'Investing in My Crippled Wife: Every Return Makes Me Stronger'
-  source_url: https://www.webnovel.com/book/investing-in-my-crippled-wife-every-return-makes-me-stronger_35147273900927805
+  source_url: https://toonnovel.com/novel/investing-in-my-crippled-wife-every-return-makes-me-stronger/
+source_plan:
+  input_language: en
+  access_requirement: public-without-login
+  body_acquisition: owner-authorized toonnovel fetch
+  chapter_range: ch001-ch249
+  numbering: site chapter number
+  provenance: third-party listing whose title and author match the publisher's listing; the publisher's own page is not used for access
+reader_plan:
+  visibility: local-only
 setup:
   created_at: '2026-11-14T18:07:43.054207+00:00'
   created_from_workspace: One Hit Kill Swordmaster
-  source_state: pending
-notes: Source-pending setup draft. Public metadata reviewed; chapter extraction, glossary approval and a bounded pilot remain pending. Not production-ready or authorized for publication.
+  source_state: fetched
+notes: Source fetched locally as ch001-ch249 from the owner-selected ToonNovel listing (ignored 03_Raw; local-only, not publication). Thai title sidecars, glossary approval and a bounded pilot remain pending. Not production-ready or authorized for publication.
 author: Peace_in_Chaos
-source_site: webnovel
-source_book_id: '35147273900927805'
 pipeline_label: Code

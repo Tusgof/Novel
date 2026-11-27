@@ -1,8 +1,7 @@
 # English relay to Thai
 
-The Webnovel synopsis says this is an English translation, even though the UI
-shows an Original badge. Record the English listing account separately from
-original authorship. Secondary catalog search attributes the Korean title to
+The English listing says this is a translation rather than an original. Record the
+English listing account separately from original authorship. Secondary catalog search attributes the Korean title to
 Kang Togong; the primary original-edition page is not verified in this setup.
 
 Use supplied English as the actual input. Preserve System versus Player roles,

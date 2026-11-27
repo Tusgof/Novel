@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-07T16:32:44.823Z",
+  "generatedAt": "2026-10-08T11:40:18.368Z",
   "sourceRoot": "../Deep Sea Embers/05_Output",
   "targetRange": "ch001-ch281",
   "novel": {
@@ -285,8 +285,8 @@
       "sourcePath": "ch021/ch021.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch021.md",
       "href": "/read/ch021",
-      "charCount": 8723,
-      "readingMinutes": 2,
+      "charCount": 9158,
+      "readingMinutes": 3,
       "translator": "[Pipe]"
     },
     {
@@ -297,7 +297,7 @@
       "sourcePath": "ch022/ch022.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch022.md",
       "href": "/read/ch022",
-      "charCount": 7719,
+      "charCount": 7810,
       "readingMinutes": 2,
       "translator": "[Pipe]"
     },
@@ -309,7 +309,7 @@
       "sourcePath": "ch023/ch023.md",
       "generatedPath": "content/generated/books/deep-sea-embers/chapters/ch023.md",
       "href": "/read/ch023",
-      "charCount": 7947,
+      "charCount": 8413,
       "readingMinutes": 2,
       "translator": "[Pipe]"
     },

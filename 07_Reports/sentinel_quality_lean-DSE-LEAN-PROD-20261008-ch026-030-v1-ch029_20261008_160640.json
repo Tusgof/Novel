@@ -1,0 +1,13 @@
+{
+  "created_at": "2026-10-08T16:06:40.459005+00:00",
+  "scope": "lean-DSE-LEAN-PROD-20261008-ch026-030-v1-ch029",
+  "chapters": "ch029",
+  "counts": {
+    "blocker": 0,
+    "major": 0,
+    "minor": 0,
+    "info": 0
+  },
+  "safe_to_publish": true,
+  "findings": []
+}

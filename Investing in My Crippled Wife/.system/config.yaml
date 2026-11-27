@@ -9,8 +9,8 @@ chunking:
   chinese_character_limit: 600
   non_chinese_word_limit: 5000
 source:
-  adapter: ''
-  toc_url: https://www.webnovel.com/book/investing-in-my-crippled-wife-every-return-makes-me-stronger_35147273900927805
+  adapter: toonnovel
+  toc_url: https://toonnovel.com/novel/investing-in-my-crippled-wife-every-return-makes-me-stronger/
   delay_seconds: 1.0
   encoding: utf-8
 execution:

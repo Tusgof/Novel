@@ -2,8 +2,7 @@
 
 **Source-pending setup draft — not production-ready.**
 
-- ID: `im-a-young-god-wont-you-raise-me`; Webnovel book: `36319132800427205`.
-- Owner reference: https://www.webnovel.com/book/36319132800427205
+- ID: `im-a-young-god-wont-you-raise-me`.
 - Input: English relay; target: Thai; selected pipeline label: `Code`.
 - The listing account is `Rein_lout`. The synopsis calls this an English
   translation, so that account is not presented as verified original authorship.
@@ -13,7 +12,7 @@
   routes are set. The reader entry is disabled; no generated reader content exists.
 - No chapter scope, imported source, approved glossary or accepted pilot exists.
 
-There is no tested Webnovel body adapter. Empty `source.adapter` prevents silent
+There is no tested body adapter for the intended platform. Empty `source.adapter` prevents silent
 template-site fetching; supplied source can later use `fetch --input-file` with
 this novel's explicit config. Body acquisition, quota/pilot approval and Inspector
 acceptance are separate gates. See `07_Reports/setup_20261115.md` for evidence.

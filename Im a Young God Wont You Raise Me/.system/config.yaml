@@ -10,7 +10,7 @@ chunking:
   non_chinese_word_limit: 5000
 source:
   adapter: ''
-  toc_url: https://www.webnovel.com/book/36319132800427205
+  toc_url: ''
   delay_seconds: 1.0
   encoding: utf-8
 execution:

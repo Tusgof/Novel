@@ -1,17 +1,87 @@
 schema_version: 1
 title: 'Investing in My Crippled Wife: Every Return Makes Me Stronger'
 aliases: []
-source_url: https://www.webnovel.com/book/investing-in-my-crippled-wife-every-return-makes-me-stronger_35147273900927805
-status: pending
-synopsis: Soren Valmere, repeatedly unable to awaken his power, enters an arranged marriage with Ethea Morvain, the injured Ice Empress. His newly awakened Investment Authority rewards care, sacrifice and risk. The public synopsis combines progression fantasy, recovery, relationship-building and hidden threats.
-tags: [fantasy, romance, system, cultivation, weak-to-strong, no-harem]
-style_notes: Source language is English. Preserve the distinction between system returns, combat/cultivation progress and emotional care. Avoid converting the romantic relationship into financial exposition or importing another novel's narrator/pronoun rules. Treat reviewers' claims and spoilers as non-canonical.
-reader_expectations: Clear Thai fantasy prose, gradual trust-building and readable status/ability text; no invented disdain toward disability, additional lore or automatic contemporary-finance analogies.
-review_summary: Public book/about metadata reviewed. Author and title verified; source chapter bodies, access boundaries, narrator voice and production readiness are unverified.
-last_reviewed_at: '2026-11-14'
-reviewed_by: Inspector; public metadata only
-terminology: [Soren Valmere, Ethea Morvain, Ice Empress, Investment Authority, Gate, Supreme Grade]
+source_url: https://toonnovel.com/novel/investing-in-my-crippled-wife-every-return-makes-me-stronger/
+status: drafted
+synopsis: >
+  Soren Valmere never awakened an Authority, so his family counts him as a dud and
+  marries him off as a discard. His bride is Ethea Morvain, the Ice Empress, left
+  paralysed by a Gate incident and pushed out by her own family. On their first
+  night the awakening he had given up on finally arrives: an Investment Authority
+  that reads people, risk and sacrifice, then pays out "returns" when he spends
+  himself on someone else's behalf.
+  What follows is a slow climb rather than a power fantasy. Soren earns a hunter
+  licence, joins a party, raids gates, registers with the awakening bureau, sits
+  promotion exams and starts building a name, while Ethea rebuilds her own strength
+  beside him. The pressure widens from family politics and a contested surname to a
+  gate where Ethea's survival is the stake, ownership of a monolith anomaly he has
+  to negotiate for, the Apocalypse Dawn syndicate, and finally a hidden organisation
+  called the Zero Circle. The last stretch of the book is a farewell: the couple
+  leaves the country they built their life in and sets out somewhere new.
+tags:
+- modern-fantasy
+- urban-hunter
+- gates-and-dungeons
+- progression
+- arranged-marriage
+- slow-romance
+- system
+- weak-to-strong
+style_notes: >
+  Third-person limited on Soren. Narration is carried by "he" (5,229 hits) against
+  "she" (1,896) and "I" (2,470); first person appears only inside speech or marked
+  thoughts, so a Thai draft must not drift into first-person narration.
+  Thoughts and dialogue are visually separate: inner monologue sits in '...' single
+  quotes (8.8% of paragraphs) and spoken lines in "..." (21.3%). Keep that
+  distinction instead of flattening both into plain prose.
+  Paragraphs are short - median 15 words, 90th percentile 45, maximum 133 - so do
+  not merge them into long Thai blocks.
+  System output is set apart as bracketed lines ([Investment detected.],
+  [Returns granted:], [Calculating returns...], [Ding!]) and as status screens made
+  of "Label: value" lines (Name, Status, Rank, Potential, Mental State, Investment
+  Value, Current Mana Level) separated by rows of '=' or box-drawing bars. Keep
+  those blocks out of narrative sentences and keep their labels stable.
+  Ranks are "Nth Circle" and the source mixes spelled and numeric forms (First and
+  1st, Eighth and 8th, 7th Circle); choose one Thai form and hold it.
+  Register is Western-modern: Mr./Miss/Sir are common (111/38/52 hits) and there is
+  no -ssi, hyung or oppa honourific system, so do not import Korean-style address.
+  Profanity is mild and sparse (damn 24, hell 15, shit 3, fuck 1); do not roughen it
+  into the coarser voice used by other titles in this workspace.
+reader_expectations: >
+  Clear Thai modern-fantasy prose, readable ability and status text, and a
+  relationship that grows through care rather than sudden devotion. Readers should
+  get the "investment" idea as a system metaphor, not as stock or finance jargon.
+  Do not pity Ethea's disability, invent extra lore, or change the narrator's
+  distance from the couple.
+review_summary: >
+  Written from the local fetched corpus ch001-ch249 (249 chapters, 14,093
+  paragraphs), not from the public synopsis alone: opening, three mid-book samples
+  and the final chapter were read, chapter titles were reviewed end to end, and the
+  narration, dialogue/thought formatting, paragraph rhythm, system-block shapes,
+  rank naming and term frequencies below were measured on that text. The publisher's
+  own page was not compared sentence by sentence, so content identity is established
+  by title, author and recurring names, not by a full diff.
+last_reviewed_at: '2026-11-15'
+reviewed_by: Inspector; local fetched corpus ch001-ch249 (no provider call)
+terminology:
+- Soren Valmere
+- Ethea Morvain
+- Ice Empress
+- Investment Authority
+- Zero Circle
+- Apocalypse Dawn
+- Gate
+- Bureau
+- mana
+- Grade
+- Nth Circle
 reference_links:
-- https://www.webnovel.com/book/investing-in-my-crippled-wife-every-return-makes-me-stronger_35147273900927805
-- https://www.webnovel.com/book/35147273900927805/catalog
-notes: Terminology here is a research seed, not approved glossary output. No chapter range or spend authority has been granted for a pilot. Login, coin unlocks, premium access and alternate mirrors are not used. Keep status pending until source and pilot gates pass.
+- https://toonnovel.com/novel/investing-in-my-crippled-wife-every-return-makes-me-stronger/
+notes: >
+  Terminology is an evidence-backed seed, not an approved glossary: counts come from
+  the local corpus (Soren 3,318 hits in 245/249 chapters, Ethea 1,215 in 181, mana
+  316 in 113, Gate 142 in 59, Bureau 107 in 46, Authority 80 in 37, cultivation 78
+  in 48, Investment Authority 22 in 17, Ice Empress 15 in 13). "Supreme Grade"
+  appeared once in 249 chapters, so it is not treated as a core term. Approved Thai
+  renderings, title sidecars and a bounded pilot remain pending; no provider call,
+  spend or publication is authorised by this file.

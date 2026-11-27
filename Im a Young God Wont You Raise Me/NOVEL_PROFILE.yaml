@@ -11,19 +11,17 @@ genre: action-system-fantasy
 style_profile: young_god
 source:
   adapter: ''
-  toc_url: https://www.webnovel.com/book/36319132800427205
+  toc_url: ''
 research:
   status: pending
   profile_path: RESEARCH_PROFILE.yaml
   title: I’m a young god, won’t you raise me?
-  source_url: https://www.webnovel.com/book/36319132800427205
+  source_url: ''
 setup:
   created_at: '2026-11-14T18:27:25.548895+00:00'
   created_from_workspace: Investing in My Crippled Wife
   source_state: pending
-notes: Source-pending setup draft. The Webnovel synopsis explicitly identifies an English translation despite the platform Original badge. Do not treat the listing account as verified original authorship. Original-edition provenance, chapter access, glossary and pilot remain pending.
-source_site: webnovel
-source_book_id: '36319132800427205'
+notes: Source-pending setup draft. The English listing identifies itself as a translation rather than an original, so the listing account is not verified authorship. Original-edition provenance, chapter access, glossary and pilot remain pending.
 english_listing_account: Rein_lout
 original_author_attribution:
   name: Kang Togong
