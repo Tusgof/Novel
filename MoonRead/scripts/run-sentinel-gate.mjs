@@ -45,6 +45,7 @@ const candidates = [];
 if (process.env.PYTHON) {
   candidates.push({ command: process.env.PYTHON, args });
 }
+candidates.push({ command: "python3", args });
 candidates.push({ command: "python", args });
 candidates.push({ command: "py", args: ["-3", ...args] });
 

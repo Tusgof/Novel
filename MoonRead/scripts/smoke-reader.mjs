@@ -58,8 +58,8 @@ function waitForHttp(url, timeoutMs = 45000) {
 
 function startServer(port) {
   const child = spawn(
-    "cmd.exe",
-    ["/c", "node", "node_modules\\next\\dist\\bin\\next", "start", "--hostname", "127.0.0.1", "--port", String(port)],
+    process.execPath,
+    [path.join(root, "node_modules", "next", "dist", "bin", "next"), "start", "--hostname", "127.0.0.1", "--port", String(port)],
     {
       cwd: root,
       windowsHide: true,

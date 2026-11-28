@@ -4,7 +4,7 @@ Fill this template before handing work to a worker model. Keep the scope narrow 
 
 ## Execution Level
 
-You are a bounded worker for one Deep Sea Embers batch. Execute only the assigned phase and only within the allowed write set.
+You are a bounded worker for one One Hit Kill Swordmaster batch. Execute only the assigned phase and only within the allowed write set.
 
 ## Run Scope
 
@@ -16,12 +16,12 @@ You are a bounded worker for one Deep Sea Embers batch. Execute only the assigne
 
 ## Exact Files To Read
 
-Read these files before doing any work:
+Read these paths relative to the Novel repository root before doing any work:
 
-- `D:\Fogust\Workspace\Novel\Deep Sea Embers\PROJECT_BRAIN.md`
-- `D:\Fogust\Workspace\Novel\AGENTS.md`
-- `D:\Fogust\Workspace\Novel\Deep Sea Embers\IMPLEMENT_PLAN.md`
-- `D:\Fogust\Workspace\Novel\Deep Sea Embers\07_Reports\v3_10_repeatable_rollout_protocol.md`
+- `PROJECT_BRAIN.md`
+- `AGENTS.md`
+- `IMPLEMENT_PLAN.md`
+- `HERDR_WORKER_PROTOCOL.md`
 - `<RUN_SPECIFIC_REPORT_FILES>`
 
 ## Allowed Files To Change
@@ -30,7 +30,7 @@ Only change the files listed in `<ALLOWED_WRITE_SET>`. Do not modify any other p
 
 ## Required Command Pattern
 
-Use exactly one of these patterns, matching the assigned phase:
+From the `One Hit Kill Swordmaster/` directory, use exactly one of these patterns, matching the assigned phase:
 
 - Scan-only:
   `novel-pipeline --config ".system/config.yaml" run --range <CHAPTER_RANGE> --run-id <RUN_ID> --stop-after glossary-scan`

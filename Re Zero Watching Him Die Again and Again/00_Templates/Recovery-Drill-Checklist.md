@@ -22,19 +22,19 @@ Those runtime directories stay outside git recovery and must not be restored fro
 
 ## Preconditions
 
-Run from project root:
+Run from the Novel repository root (the directory containing `AGENTS.md` and `00_Config/`):
 
-```powershell
-cd "D:\Fogust\Workspace\Novel"
-$env:PYTHONIOENCODING='utf-8'
+```sh
+export NOVEL_CONFIG="Re Zero Watching Him Die Again and Again/.system/config.yaml"
+export PYTHONIOENCODING=utf-8
 ```
 
 Confirm current repo state:
 
 ```powershell
 git status -sb
-novel-pipeline --config ".system/config.yaml" preflight
-novel-pipeline --config ".system/config.yaml" report recovery-drill
+novel-pipeline --config "$NOVEL_CONFIG" preflight
+novel-pipeline --config "$NOVEL_CONFIG" report recovery-drill
 ```
 
 Expected:
@@ -53,14 +53,14 @@ Capture current state:
 ```powershell
 git status --short
 git rev-parse --short HEAD
-novel-pipeline --config ".system/config.yaml" report preflight
-novel-pipeline --config ".system/config.yaml" report recovery-drill
+novel-pipeline --config "$NOVEL_CONFIG" report preflight
+novel-pipeline --config "$NOVEL_CONFIG" report recovery-drill
 ```
 
-If the incident includes translation/runtime state concerns, also capture:
+If the incident includes translation/runtime state concerns, set `RUN_ID` to the affected run and capture:
 
-```powershell
-novel-pipeline --config ".system/config.yaml" status --run-id <run_id>
+```sh
+novel-pipeline --config "$NOVEL_CONFIG" status --run-id "${RUN_ID:?Set the affected run ID}"
 ```
 
 ### B. Restore canonical docs only
@@ -91,11 +91,10 @@ If the docs are supposed to match the committed baseline exactly, the tree shoul
 
 If you intentionally re-applied current verified state after restore, verify content with:
 
-```powershell
-cd "D:\Fogust\Workspace\Novel\Deep Sea Embers"
-python -m compileall novel_pipeline
-python test_translation.py
-novel-pipeline --config "..\Re Zero Watching Him Die Again and Again\.system\config.yaml" preflight
+```sh
+python3 -m compileall novel_pipeline
+python3 -m unittest test_workspace_routing
+novel-pipeline --config "$NOVEL_CONFIG" preflight
 ```
 
 ### D. Reconstruct current state only from evidence

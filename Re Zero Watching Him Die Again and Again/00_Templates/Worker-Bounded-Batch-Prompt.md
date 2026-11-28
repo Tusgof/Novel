@@ -16,13 +16,13 @@ You are a bounded worker for one Re:Zero fanfiction batch. Execute only the assi
 
 ## Exact Files To Read
 
-Read these files before doing any work:
+Read these paths relative to the Novel repository root before doing any work:
 
-- `D:\Fogust\Workspace\Novel\PROJECT_BRAIN.md`
-- `D:\Fogust\Workspace\Novel\IMPLEMENT_PLAN.md`
-- `D:\Fogust\Workspace\Novel\AGENTS.md`
-- `D:\Fogust\Workspace\Novel\HERDR_WORKER_PROTOCOL.md`
-- `D:\Fogust\Workspace\Novel\Re Zero Watching Him Die Again and Again\01_Glossary\Re Zero Canon and Pronoun Policy.md`
+- `PROJECT_BRAIN.md`
+- `IMPLEMENT_PLAN.md`
+- `AGENTS.md`
+- `HERDR_WORKER_PROTOCOL.md`
+- `Re Zero Watching Him Die Again and Again/01_Glossary/Re Zero Canon and Pronoun Policy.md`
 - `<RUN_SPECIFIC_REPORT_FILES>`
 
 ## Allowed Files To Change
@@ -31,7 +31,7 @@ Only change the files listed in `<ALLOWED_WRITE_SET>`. Do not modify any other p
 
 ## Required Command Pattern
 
-Use exactly one of these patterns, matching the assigned phase:
+From the `Re Zero Watching Him Die Again and Again/` directory, use exactly one of these patterns, matching the assigned phase:
 
 - Scan-only:
   `novel-pipeline --config ".system/config.yaml" run --range <CHAPTER_RANGE> --run-id <RUN_ID> --stop-after glossary-scan`
